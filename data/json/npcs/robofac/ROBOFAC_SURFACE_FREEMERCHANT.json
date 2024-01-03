@@ -83,7 +83,7 @@
       { "prob": 20, "group": "antifungal_bottle_plastic_pill_prescription_5" },
       { "prob": 20, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
       { "group": "robofac_basic_trade", "count": [ 1, 5 ], "prob": 20 },
-      { "group": "robofac_all_armor_pieces", "count": [ 1, 2 ], "prob": 20 }
+      { "group": "robofac_armor_pieces", "count": [ 1, 2 ], "prob": 20 }
     ]
   },
   {

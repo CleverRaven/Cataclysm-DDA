@@ -118,7 +118,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_armor",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_all_armor_pieces", "count": [ 1, 2 ], "prob": 100 } ]
+    "entries": [ { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 } ]
   },
   {
     "type": "item_group",

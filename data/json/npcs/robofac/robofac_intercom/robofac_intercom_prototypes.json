@@ -144,7 +144,7 @@
         "text": "How is my ordered armor going?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -162,7 +162,7 @@
                 },
                 {
                   "u_has_var": "u_armor_type",
-                  "value": "robofac_armor_pieces_nomax",
+                  "value": "robofac_armor_pieces_nomex",
                   "type": "dialogue",
                   "context": "hub_rnd"
                 },
@@ -188,7 +188,7 @@
         "text": "How is my ordered armor going? It should be done by now.",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -206,7 +206,7 @@
                 },
                 {
                   "u_has_var": "u_armor_type",
-                  "value": "robofac_armor_pieces_nomax",
+                  "value": "robofac_armor_pieces_nomex",
                   "type": "dialogue",
                   "context": "hub_rnd"
                 },
@@ -536,7 +536,7 @@
     "id": [ "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST" ],
     "//": "buying armor",
     "type": "talk_topic",
-    "dynamic_line": "Understood. The parts will finish fabrication in 24 hours, once you hand over the stipulated HGC.",
+    "dynamic_line": "Understood. The parts will finish fabrication in 24 hours, once you hand over the stipulated HGC. Depending on our currently available selection, the price will range from 2 to 4 HGC for non-specialty equipment.",
     "responses": [
       {
         "//": "Armor Rig response.",
@@ -544,7 +544,12 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
-            { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" }
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_rig"
+            }
           ]
         },
         "effect": [
@@ -561,7 +566,12 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
-            { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_basic" }
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_basic"
+            }
           ]
         },
         "effect": [
@@ -578,7 +588,12 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_nomex" }
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_nomex"
+            }
           ]
         },
         "effect": [
@@ -599,7 +614,29 @@
               "u_has_var": "u_armor_type",
               "type": "dialogue",
               "context": "hub_rnd",
-              "value": "u_armor_pieces_kevlar"
+              "value": "robofac_armor_pieces_kevlar"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 4 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Kinetic Armor response.",
+        "text": "[4 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_rubber"
             }
           ]
         },
@@ -621,7 +658,7 @@
               "u_has_var": "u_armor_type",
               "type": "dialogue",
               "context": "hub_rnd",
-              "value": "u_armor_pieces_military"
+              "value": "robofac_armor_pieces_military"
             }
           ]
         },
@@ -651,7 +688,7 @@
       {
         "//": "Armor Rig response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rig" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
@@ -663,7 +700,7 @@
       {
         "//": "Prototype Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_basic" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
@@ -678,7 +715,7 @@
       {
         "//": "Turnout Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_nomex" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
@@ -693,7 +730,7 @@
       {
         "//": "Ballistic Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_kevlar" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
@@ -708,7 +745,7 @@
       {
         "//": "Kinetic Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rubber" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
@@ -723,7 +760,7 @@
       {
         "//": "Military Armor response.",
         "text": "Sweet, thanks.",
-        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "u_armor_pieces_rig" },
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_military" },
         "effect": [
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
