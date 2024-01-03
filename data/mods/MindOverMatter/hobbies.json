@@ -62,7 +62,8 @@
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
-    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "recipes": [ "practice_electrokinetic_see_electric", "practice_electrokinetic_shock_touch" ]
   },
   {
     "type": "profession",
