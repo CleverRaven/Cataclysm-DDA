@@ -106,5 +106,19 @@
     "effect": "revive_dormant",
     "effect_str": "ZOMBIE",
     "extra_effects": [ { "id": "cause_loud_moaning" } ]
+  },
+  {
+    "id": "mon_pseudo_dormant_zombie_fat",
+    "type": "MONSTER",
+    "name": { "str": "fat zombie" },
+    "copy-from": "mon_pseudo_dormant_zombie",
+    "looks_like": "corpse_mon_zombie_fat"
+  },
+  {
+    "id": "mon_pseudo_dormant_zombie_tough",
+    "type": "MONSTER",
+    "name": { "str": "tough zombie" },
+    "copy-from": "mon_pseudo_dormant_zombie",
+    "looks_like": "corpse_mon_zombie_tough"
   }
 ]
