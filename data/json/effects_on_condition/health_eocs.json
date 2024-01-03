@@ -1,42 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "health_low_hr",
-    "recurrence": "60 hours",
-    "condition": { "math": [ "u_val('heart_rate')", "<", "40" ] },
-    "deactivate_condition": { "math": [ "u_val('heart_rate')", ">", "40" ] },
-    "effect": [ { "u_message": "You feel sleepy and weak.  Your heart is beating very slowly.", "type": "info" } ],
-    "false_effect": [ { "u_message": "Your heart feels normal again.", "type": "info" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "health_high_hr",
-    "recurrence": "60 hours",
-    "condition": { "math": [ "u_val('heart_rate')", ">", "140" ] },
-    "deactivate_condition": { "math": [ "u_val('heart_rate')", "<", "140" ] },
-    "effect": [ { "u_message": "You can feel your heart thumping in your chest. It feels tight.", "type": "info" } ],
-    "false_effect": [ { "u_message": "Your heart feels normal again.", "type": "info" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "health_low_bp",
-    "recurrence": "60 hours",
-    "condition": { "math": [ "u_val('blood_pressure')", "<", "80" ] },
-    "deactivate_condition": { "math": [ "u_val('blood_pressure')", ">", "80" ] },
-    "effect": [ { "u_message": "You feel dizzy and weak.", "type": "info" } ],
-    "false_effect": [ { "u_message": "You feel normal again.", "type": "info" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "health_high_bp",
-    "recurrence": "60 hours",
-    "condition": { "math": [ "u_val('blood_pressure')", ">", "120" ] },
-    "deactivate_condition": { "math": [ "u_val('blood_pressure')", "<", "120" ] },
-    "effect": [ { "u_message": "Your head hurts, and everything looks blurry.", "type": "info" } ],
-    "false_effect": [ { "u_message": "You feel normal again.", "type": "info" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "on_antidepressants",
     "recurrence": "24 hours",
     "//": "Condition is: u_effect_intensity('snri_effect') > 2 OR u_effect_intensity('ssri_effect') > 2 OR u_effect_intensity('ndri_effect') > 2",

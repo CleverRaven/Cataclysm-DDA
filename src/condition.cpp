@@ -2305,7 +2305,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
                 if( you ) {
-                    return static_cast<int>(100*you->get_heartrate_index());
+                    return static_cast<int>( 100 * you->get_heartrate_index() );
                 } else {
                     return 0;
                 }
@@ -2314,7 +2314,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 Character const *you = static_cast<talker const *>( d.actor( is_npc ) )->get_character();
                 if( you ) {
-                    return static_cast<int>(100*you->get_circulation());
+                    return static_cast<int>( 100 * you->get_circulation() );
                 } else {
                     return 0;
                 }
