@@ -10911,6 +10911,7 @@ void Character::process_effects()
         const optional_vpart_position vp_there = here.veh_at( your_pos );
         if( !vp_there ) {
             remove_effect( effect_cramped_space );
+            return;
         }
         if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
