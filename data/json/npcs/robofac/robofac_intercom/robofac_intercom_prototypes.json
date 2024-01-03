@@ -185,7 +185,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_NO"
       },
       {
-        "text": "How is my ordered armor going? It should be done by now.",
+        "text": "How is my ordered armor going?  It should be done by now.",
         "condition": {
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
@@ -536,7 +536,7 @@
     "id": [ "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST" ],
     "//": "buying armor",
     "type": "talk_topic",
-    "dynamic_line": "Understood. The parts will finish fabrication in 24 hours, once you hand over the stipulated HGC. Depending on our currently available selection, the price will range from 2 to 4 HGC for non-specialty equipment.",
+    "dynamic_line": "Understood.  The parts will finish fabrication in 24 hours, once you hand over the stipulated HGC.  Depending on our currently available selection, the price will range from 2 to 4 HGC for non-specialty equipment.",
     "responses": [
       {
         "//": "Armor Rig response.",
@@ -677,13 +677,13 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_NO",
     "type": "talk_topic",
-    "dynamic_line": "The parts are still being printed. Please be patient.",
+    "dynamic_line": "The parts are still being printed.  Please be patient.",
     "responses": [ { "text": "Okay, I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_YES",
     "type": "talk_topic",
-    "dynamic_line": "Yes, we've finished printing the requested armor pieces. Transferring to you now.",
+    "dynamic_line": "Yes, we've finished printing the requested armor pieces.  Transferring to you now.",
     "responses": [
       {
         "//": "Armor Rig response.",
