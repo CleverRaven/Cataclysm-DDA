@@ -1450,8 +1450,8 @@ void Character::update_heartrate_index()
     // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 70%.
     // this means you cannot actually have serious tachycardia by just working out too much while in pain.
     float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
-    if( hr_activity_mods > 0.6f ) {
-        hr_activity_mods = 0.6f;
+    if( hr_activity_mods > 0.7f ) {
+        hr_activity_mods = 0.7f;
     }
 
     // TODO: implement support for HR increasing to compensate for low BP.
@@ -1562,38 +1562,4 @@ void Character::update_respiration_rate()
     const int effect_mod = get_respiration_effect_mod();
     constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
-}
-
-
-void Character::check_vitals() const
-{
-    // TODO FOR FUTURE PR.
-    //constexpr float max_hr = 2.0;
-    //constexpr float min_hr = 0.4;
-    //constexpr float max_bp = 1.2;
-    //constexpr float min_bp = 0.75;
-    //if( heart_rate_index > max_hr ) {
-    //    // cause high heart rate problems.
-    //    debugmsg( "High heart rate: " + std::to_string( heart_rate_index ) );
-    //    // this should be relatively minor (at least for reasonable hr).
-    //    // Start with negative messages.
-
-    //    // Then chest pain.
-
-    //    // Then dropped morale.
-
-    //    // Then reduced focus.
-    //    // If it gets extreme, arrythmia and *death*. NOT IN THIS PR.
-    //} else if( heart_rate_index < min_hr ) {
-    //    // cause low heart rate problems.
-    //    debugmsg( "Low heart rate: " + std::to_string( heart_rate_index ) );
-    //    // this does nothing except indirectly cause low bp problems.
-    //}
-    //if( circulation > max_bp ) {
-    //    // cause high blood pressure problems.
-    //    debugmsg( "High blood pressure: " + std::to_string( circulation ) );
-    //} else if( circulation < min_bp ) {
-    //    // cause low blood pressure problems.
-    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) );
-    //}
 }

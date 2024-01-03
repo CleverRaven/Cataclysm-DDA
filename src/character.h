@@ -3023,9 +3023,6 @@ class Character : public Creature, public visitable
         void update_circulation();
 
         float get_circulation() const;
-
-        void check_vitals() const;
-
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
