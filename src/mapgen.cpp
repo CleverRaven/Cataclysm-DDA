@@ -149,9 +149,6 @@ static const oter_str_id oter_lab_stairs( "lab_stairs" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_tower_lab( "tower_lab" );
-static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
-static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
@@ -5294,7 +5291,6 @@ void map::draw_lab( mapgendata &dat )
     // To distinguish between types of labs
     bool ice_lab = true;
     bool central_lab = false;
-    bool tower_lab = false;
 
     point p2;
 
@@ -5308,12 +5304,10 @@ void map::draw_lab( mapgendata &dat )
         || terrain_type == oter_ants_lab_stairs || terrain_type == oter_ice_lab
         || terrain_type == oter_ice_lab_stairs || terrain_type == oter_ice_lab_core
         || terrain_type == oter_central_lab || terrain_type == oter_central_lab_stairs
-        || terrain_type == oter_central_lab_core || terrain_type == oter_tower_lab
-        || terrain_type == oter_tower_lab_stairs ) {
+        || terrain_type == oter_central_lab_core ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
             units::temperature_delta temperature = units::from_fahrenheit_delta( -20 + 30 * dat.zlevel() );
@@ -5478,28 +5472,22 @@ void map::draw_lab( mapgendata &dat )
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
-                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
-                            ter_set( point( 23, i ), rw_type );
+                            ter_set( point( 23, i ), t_concrete_wall );
                             furn_set( point( 23, i ), f_null );
                             i_clear( tripoint( 23, i, get_abs_sub().z() ) );
 
-                            ter_set( point( i, 23 ), bw_type );
+                            ter_set( point( i, 23 ), t_concrete_wall );
                             furn_set( point( i, 23 ), f_null );
                             i_clear( tripoint( i, 23, get_abs_sub().z() ) );
 
                             if( lw == 2 ) {
-                                ter_set( point( 0, i ), lw_type );
+                                ter_set( point( 0, i ), t_concrete_wall );
                                 furn_set( point( 0, i ), f_null );
                                 i_clear( tripoint( 0, i, get_abs_sub().z() ) );
                             }
                             if( tw == 2 ) {
-                                ter_set( point( i, 0 ), tw_type );
+                                ter_set( point( i, 0 ), t_concrete_wall );
                                 furn_set( point( i, 0 ), f_null );
                                 i_clear( tripoint( i, 0, get_abs_sub().z() ) );
                             }
@@ -5792,11 +5780,6 @@ void map::draw_lab( mapgendata &dat )
             }
         }
 
-        if( tower_lab ) {
-            place_spawns( GROUP_LAB, 1, point_zero, point( EAST_EDGE, EAST_EDGE ),
-                          abs_sub.z() * 0.02f );
-        }
-
         // Lab special effects.
         if( one_in( 10 ) ) {
             switch( rng( 1, 7 ) ) {
@@ -5954,11 +5937,10 @@ void map::draw_lab( mapgendata &dat )
             }
         }
     } else if( terrain_type == oter_lab_finale || terrain_type == oter_ice_lab_finale ||
-               terrain_type == oter_central_lab_finale || terrain_type == oter_tower_lab_finale ) {
+               terrain_type == oter_central_lab_finale ) {
 
         ice_lab = is_ot_match( "ice_lab", terrain_type, ot_match_type::prefix );
         central_lab = is_ot_match( "central_lab", terrain_type, ot_match_type::prefix );
-        tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
             units::temperature_delta temperature_d = units::from_fahrenheit_delta( -20 + 30 * dat.zlevel() );
@@ -5988,26 +5970,22 @@ void map::draw_lab( mapgendata &dat )
             if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
                 !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
-                    ter_set( point( 23, i ), rw_type );
+                    ter_set( point( 23, i ), t_concrete_wall );
                     furn_set( point( 23, i ), f_null );
                     i_clear( tripoint( 23, i, get_abs_sub().z() ) );
 
-                    ter_set( point( i, 23 ), bw_type );
+                    ter_set( point( i, 23 ), t_concrete_wall );
                     furn_set( point( i, 23 ), f_null );
                     i_clear( tripoint( i, 23, get_abs_sub().z() ) );
 
                     if( lw == 2 ) {
-                        ter_set( point( 0, i ), lw_type );
+                        ter_set( point( 0, i ), t_concrete_wall );
                         furn_set( point( 0, i ), f_null );
                         i_clear( tripoint( 0, i, get_abs_sub().z() ) );
                     }
                     if( tw == 2 ) {
-                        ter_set( point( i, 0 ), tw_type );
+                        ter_set( point( i, 0 ), t_concrete_wall );
                         furn_set( point( i, 0 ), f_null );
                         i_clear( tripoint( i, 0, get_abs_sub().z() ) );
                     }
