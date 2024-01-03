@@ -549,12 +549,8 @@ bool is_lexically_valid( const fs::path& path ) {
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
     for( auto &it : rel ) {
         std::string item = it.generic_u8string();
-        for( auto ch = item.rbegin(); ch != item.rend(); ++ch) {
-            if( *ch == ' ' || *ch == '.' ) {
-                return false;
-            } else {
-                break;
-            }
+        if( !item.empty() && ( item.back() == ' ' || item.back() == '.' ) ) {
+            return false;
         }
         for( auto &it : item ) {
             if( invalid_chars.find( it ) != std::string::npos ) {
