@@ -2939,7 +2939,7 @@
       { "item": "toecaps", "prob": 30 },
       { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
-      { "item": "denim_coveralls", "prob": 15 },
+      { "item": "denim_overalls", "prob": 15 },
       { "item": "technician_coveralls", "prob": 15 },
       { "item": "technician_coveralls_h", "prob": 5 },
       { "item": "gloves_rubber", "prob": 20 },
