@@ -2415,7 +2415,8 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "is a psionic power" ) );
     }
-    if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) && temp_concentration_difficulty_multiplyer > 0 ) {
+    if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
+        temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
     }
     if( has_flag( spell_flag::VERBAL ) && temp_sound_multiplyer > 0 ) {
