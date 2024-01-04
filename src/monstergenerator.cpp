@@ -42,7 +42,7 @@ static const material_id material_flesh( "flesh" );
 
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
-static const spell_id spell_DORMANT_TRAP( "pseudo_dormant_trap_setup" );
+static const spell_id spell_pseudo_dormant_trap_setup( "pseudo_dormant_trap_setup" );
 
 namespace
 {
@@ -474,12 +474,13 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     fake_mon.id = mtype_id( "pseudo_dormant_" + mon.id.str() );
     // allowed (optional) flags: [ "FILTHY" ],
     // delete all others.
-    // then add [ "DORMANT", "QUIETDEATH", "REVIVES" ]
+    // then add [ "DORMANT", "QUIETDEATH", "REVIVES", "REVIVES_HEALTHY" ]
     bool has_filthy = fake_mon.has_flag( mon_flag_FILTHY );
     fake_mon.flags.clear();
     fake_mon.flags.emplace( mon_flag_DORMANT );
     fake_mon.flags.emplace( mon_flag_QUIETDEATH );
     fake_mon.flags.emplace( mon_flag_REVIVES );
+    fake_mon.flags.emplace( mon_flag_REVIVES_HEALTHY );
     if( has_filthy ) {
         fake_mon.flags.emplace( mon_flag_FILTHY );
     }
@@ -508,7 +509,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
-    new_actor->spell_data.id = spell_DORMANT_TRAP;
+    new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
     // create the special attack now using the actor
