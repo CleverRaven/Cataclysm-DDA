@@ -1794,7 +1794,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z );
+    set_pathfinding_cache_dirty( p );
 
     // Make sure the furniture falls if it needs to
     support_dirty( p );
@@ -2272,7 +2272,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z );
+    set_pathfinding_cache_dirty( p );
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -6515,7 +6515,7 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
     }
 
     if( fd_type.is_dangerous() ) {
-        set_pathfinding_cache_dirty( p.z );
+        set_pathfinding_cache_dirty( p );
     }
 
     // Ensure blood type fields don't hang in the air
@@ -10093,6 +10093,13 @@ void map::set_pathfinding_cache_dirty( const int zlev )
     }
 }
 
+void map::set_pathfinding_cache_dirty( const tripoint &p )
+{
+    if( inbounds( p ) ) {
+        get_pathfinding_cache( p.z ).dirty_points.insert( p.xy() );
+    }
+}
+
 void map::queue_main_cleanup()
 {
     if( this != &get_map() ) {
@@ -10124,85 +10131,82 @@ const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
     return cache;
 }
 
-void map::update_pathfinding_cache( int zlev ) const
+void map::update_pathfinding_cache( const tripoint &p ) const
 {
-    pathfinding_cache &cache = get_pathfinding_cache( zlev );
-    if( !cache.dirty ) {
+    if( !inbounds( p ) ) {
         return;
     }
+    pathfinding_cache &cache = get_pathfinding_cache( p.z );
+    pf_special cur_value = PF_NORMAL;
 
-    std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE_X * MAPSIZE_Y, PF_NORMAL );
+    const_maptile tile = maptile_at_internal( p );
 
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-            if( !cur_submap ) {
-                return;
-            }
+    const ter_t &terrain = tile.get_ter_t();
+    const furn_t &furniture = tile.get_furn_t();
+    const field &field = tile.get_field();
+    const map &here = get_map();
+    int part;
+    const vehicle *veh = veh_at_internal( p, part );
 
-            tripoint p( 0, 0, zlev );
+    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                p.x = sx + smx * SEEX;
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    p.y = sy + smy * SEEY;
-
-                    pf_special cur_value = PF_NORMAL;
-
-                    const_maptile tile( cur_submap, point( sx, sy ) );
-
-                    const ter_t &terrain = tile.get_ter_t();
-                    const furn_t &furniture = tile.get_furn_t();
-                    const field &field = tile.get_field();
-                    const map &here = get_map();
-                    int part;
-                    const vehicle *veh = veh_at_internal( p, part );
-
-                    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-
-                    if( cost > 2 ) {
-                        cur_value |= PF_SLOW;
-                    } else if( cost <= 0 ) {
-                        cur_value |= PF_WALL;
-                        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
-                            cur_value |= PF_CLIMBABLE;
-                        }
-                    }
-
-                    if( veh != nullptr ) {
-                        cur_value |= PF_VEHICLE;
-                    }
-
-                    for( const auto &fld : tile.get_field() ) {
-                        const field_entry &cur = fld.second;
-                        if( cur.is_dangerous() ) {
-                            cur_value |= PF_FIELD;
-                        }
-                    }
-
-                    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-                        !here.has_vehicle_floor( p ) ) {
-                        cur_value |= PF_TRAP;
-                    }
-
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
-                        cur_value |= PF_UPDOWN;
-                    }
-
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
-                        cur_value |= PF_SHARP;
-                    }
-
-                    cache.special[p.x][p.y] = cur_value;
-                }
-            }
+    if( cost > 2 ) {
+        cur_value |= PF_SLOW;
+    } else if( cost <= 0 ) {
+        cur_value |= PF_WALL;
+        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
+            cur_value |= PF_CLIMBABLE;
         }
     }
 
-    cache.dirty = false;
+    if( veh != nullptr ) {
+        cur_value |= PF_VEHICLE;
+    }
+
+    for( const auto &fld : tile.get_field() ) {
+        const field_entry &cur = fld.second;
+        if( cur.is_dangerous() ) {
+            cur_value |= PF_FIELD;
+        }
+    }
+
+    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
+        !here.has_vehicle_floor( p ) ) {
+        cur_value |= PF_TRAP;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
+        cur_value |= PF_UPDOWN;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
+        cur_value |= PF_SHARP;
+    }
+
+    cache.special[p.x][p.y] = cur_value;
+}
+
+void map::update_pathfinding_cache( int zlev ) const
+{
+    pathfinding_cache &cache = get_pathfinding_cache( zlev );
+
+    if( cache.dirty ) {
+        const int size = getmapsize();
+        for( int x = 0; x < size * SEEX; ++x ) {
+            for( int y = 0; y < size * SEEX; ++y ) {
+                update_pathfinding_cache( { x, y, zlev } );
+            }
+        }
+        cache.dirty = false;
+        cache.dirty_points.clear();
+    }
+
+    for( const point &p : cache.dirty_points ) {
+        update_pathfinding_cache( { p, zlev} );
+    }
 }
 
 void map::clip_to_bounds( tripoint &p ) const
