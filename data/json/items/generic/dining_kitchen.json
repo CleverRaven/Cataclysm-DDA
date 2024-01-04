@@ -203,151 +203,182 @@
       {
         "id": "mug1",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'World's Greatest Dad'."
       },
       {
         "id": "mug2",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'World's Greatest Mom'."
       },
       {
         "id": "mug3",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug has a picture of a happy-looking family."
       },
       {
         "id": "mug4",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
       },
       {
         "id": "mug5",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'I'd rather be playing open source games'."
       },
       {
         "id": "mug6",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'If you think I'm bad, look in a mirror'."
       },
       {
         "id": "mug7",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug has a diagram of a caffeine molecule."
       },
       {
         "id": "mug8",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug has a cute picture of a sleeping cat."
       },
-      { "id": "mug9", "append": true, "name": "coffee mug", "description": "The mug is printed in leopard spots." },
+      {
+        "id": "mug9",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The mug is printed in leopard spots."
+      },
       {
         "id": "mug10",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The mug is blue and looks like a TARDIS."
       },
       {
         "id": "mug11",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber."
       },
       {
         "id": "mug12",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'House Stark' and depicts a fictional crest."
       },
       {
         "id": "mug13",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'My fandom could beat up your fandom'. "
       },
       {
         "id": "mug14",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
       },
       {
         "id": "mug15",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'I wish this was wine!'"
       },
       {
         "id": "mug16",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "The side of the mug reads 'CasUaL aLcoHoLiSm'"
       },
       {
         "id": "mug17",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side."
       },
       {
         "id": "mug18",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
       },
       {
         "id": "mug19",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
       },
       {
         "id": "mug20",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
       },
       {
         "id": "mug21",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  On the side is a winking woman in lingerie."
       },
       {
         "id": "mug22",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
       },
       {
         "id": "mug23",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
       },
       {
         "id": "mug24",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
       },
       {
         "id": "mug25",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it."
       },
       {
         "id": "mug26",
         "append": true,
+        "expand_snippets": true,
         "name": "coffee mug",
         "description": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side."
       },
@@ -362,6 +393,7 @@
       {
         "id": "mean_mug2",
         "description": "The side of the mug reads \"Worlds Worst Dad\".",
+        "expand_snippets": true,
         "append": true,
         "name": "coffee mug",
         "weight": 0
