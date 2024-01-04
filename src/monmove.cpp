@@ -282,7 +282,7 @@ bool monster::know_danger_at( const tripoint &p ) const
             }
 
             // Some things are only avoided if we're not attacking
-            if( get_player_character().get_location() == get_dest() &&
+            if( get_player_character().get_location() != get_dest() ||
                 attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
                 if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
