@@ -220,14 +220,14 @@ static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SHEAR( "SHEAR" );
 
-static const species_id species_ZOMBIE( "ZOMBIE" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
@@ -1472,7 +1472,7 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
-    tripoint heading = tripoint_zero;
+    tripoint heading;
     if( jump_direction == 0 ) {
         heading = tripoint_south;
     }
@@ -1565,7 +1565,7 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
     : jump_direction( jump_direction ), glide_distance( glide_distance )
 {
     you->add_effect( effect_gliding, 1_turns, true );
-    tripoint heading = tripoint_zero;
+    tripoint heading;
     if( jump_direction == 0 ) {
         heading = tripoint_south;
     }
@@ -1628,7 +1628,6 @@ void glide_activity_actor::finish( player_activity &act, Character &you )
     you.remove_effect( effect_gliding );
     you.gravity_check();
     act.set_to_null();
-    return;
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,

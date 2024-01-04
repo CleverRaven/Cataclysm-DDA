@@ -342,9 +342,9 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
-static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 
 static const limb_score_id limb_score_balance( "balance" );
