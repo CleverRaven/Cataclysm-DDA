@@ -401,5 +401,70 @@
     "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
     "condition": { "math": [ "u_val('thirst')", ">=", "-50" ] },
     "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "effect": [
+      {
+        "npc_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "x_adjust": 0,
+        "y_adjust": 0,
+        "z_adjust": 0,
+        "monster": "",
+        "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS",
+    "effect": [
+      {
+        "u_transform_radius": 0,
+        "ter_furn_transform": "ter_arvore_tree_transform",
+        "target_var": { "global_val": "arvore_tree_transform_target" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_ROOT_TO_ROOT_TRANSLOCATE_CHECK",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_at_om_location": "forest_thick" },
+            { "u_at_om_location": "arvore_genius_loci_NW" },
+            { "u_at_om_location": "arvore_genius_loci_NE" },
+            { "u_at_om_location": "arvore_genius_loci_SW" },
+            { "u_at_om_location": "arvore_genius_loci_SE" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_real" } } ],
+    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_ROOT_TO_ROOT_ATTUNEMENT_CHECK",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_at_om_location": "forest_thick" },
+            { "u_at_om_location": "arvore_genius_loci_NW" },
+            { "u_at_om_location": "arvore_genius_loci_NE" },
+            { "u_at_om_location": "arvore_genius_loci_SW" },
+            { "u_at_om_location": "arvore_genius_loci_SE" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_attune_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   }
 ]
