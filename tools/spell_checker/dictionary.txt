@@ -1930,6 +1930,8 @@ monicked
 monocrystalline
 monomeric
 monomolecular
+monocle
+monocles
 moonflower
 moonflowers
 moorhen
