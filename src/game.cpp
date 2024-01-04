@@ -11780,7 +11780,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         // Climbing
         for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
-            adjacent_climb = true;
+                adjacent_climb = true;
             }
         }
         if( here.has_floor_or_support( stairs ) ) {
