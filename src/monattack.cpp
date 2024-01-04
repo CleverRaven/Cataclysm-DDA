@@ -67,7 +67,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "name.h"
 #include "npc.h"
 #include "output.h"
 #include "pathfinding.h"
@@ -3007,9 +3006,9 @@ bool mattack::nurse_assist( monster *z )
         if( target->is_wearing( itype_badge_doctor ) ||
             z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
-                               Name::generate( target->male ) ) );
+                           SNIPPET.expand( target->male
+                                           ? _( "a soft robotic voice say, \"Welcome doctor <male_full_name>.  I'll be your assistant today.\"" )
+                                           : _( "a soft robotic voice say, \"Welcome doctor <female_full_name>.  I'll be your assistant today.\"" ) ) );
             target->add_effect( effect_assisted, 20_turns, false, 12 );
             return true;
         }
@@ -3253,15 +3252,19 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "…database connection lost!" );
+    std::string msg;
     if( one_in( 6 ) ) {
-        cname = Name::generate( player_character.male );
+        if( player_character.male ) {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <male_full_name>!\"" ) );
+        } else {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <female_full_name>!\"" ) );
+        }
     } else if( one_in( 3 ) ) {
-        cname = player_character.name;
+        msg = string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), player_character.name );
+    } else {
+        msg = _( "a robotic voice boom, \"Citizen… database connection lost!\"" );
     }
-    sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                   string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
-                   z->type->id.str() );
+    sounds::sound( z->pos(), 15, sounds::sound_t::alert, msg, false, "speech", z->type->id.str() );
 
     if( player_character.is_armed() ) {
         std::string msg = string_format( _( "\"Drop your %s!  Now!\"" ),
