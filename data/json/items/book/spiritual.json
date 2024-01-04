@@ -334,6 +334,61 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_ofudekasi",
+    "type": "BOOK",
+    "name": { "str": "Ofudekasi", "str_pl": "copies of the Ofudekasi" },
+    "description": "A large English translation of the most significant of the three scriptures within the Tenrikyo religious tradition (the other two being the Mikagura-uta and Osashizu).  It serves as an essential text that provides a comprehensive understanding of the fundamental beliefs and doctrines of Tenrikyo.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_uta",
+    "type": "BOOK",
+    "name": { "str": "Mikagura-uta", "str_pl": "copies of the Mikagura-uta" },
+    "description": "A English translation of the Mikagura-uta, one of the most significant books within the Tenrikyo Religious Tradition.  It is a collection of hymns and prayers that serve as a guide for the followers of the Tenrikyo.",
+    "weight": "830 g",
+    "volume": "1050 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_osa",
+    "type": "BOOK",
+    "name": { "str": "Osashizu", "str_pl": "copies of the Osashizu" },
+    "description": "A English translation of the Osashizu, one of the most significant books within the Tenrikyo Religious Tradition.  It serves as a guide for followers of the religion or people wishing to learn about it, providing spiritual teachings, ethical principles, and practical advice on various aspects of life.",
+    "weight": "400 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tenry",
+    "type": "BOOK",
+    "name": { "str": "Doctrines of Tenrikyo", "str_pl": "copies of the Doctrines of Tenrikyo" },
+    "description": "A paperback English translation of Tenrikyo's official doctrine.  This book explains the basic teachings of the Tenrikyo Religious Tradition.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_oyasama",
+    "type": "BOOK",
+    "name": { "str": "The Life of Oyasama, Foundress of Tenrikyo", "str_pl": "copies of The Life of Oyasama, Foundress of Tenrikyo" },
+    "description": "A paperback English translation of Tenrikyo's hagiography of Miki Nakayama, foundress of the Tenrikyo Religious Tradition.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_anecdotes",
+    "type": "BOOK",
+    "name": { "str": "", "str_pl": "copies of the" },
+    "description": " .",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+    I'm still working on it! don't merge!
+  },
+  {
     "id": "holybook_mormon",
     "type": "BOOK",
     "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
