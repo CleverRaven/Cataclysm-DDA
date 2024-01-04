@@ -69,8 +69,6 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
 
-static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
-static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
@@ -1202,7 +1200,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && ( m->flies() ) ) {
+    if( m != nullptr && m->flies() ) {
         return false;
     }
 

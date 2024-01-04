@@ -235,7 +235,6 @@ static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -320,7 +319,6 @@ static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INSECTBLOOD( "INSECTBLOOD" );
 static const json_character_flag json_flag_INVERTEBRATEBLOOD( "INVERTEBRATEBLOOD" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
-static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
@@ -10948,20 +10946,12 @@ void Character::process_effects()
                     ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                     ( size == creature_size::large && free_cargo < 125000_ml ) ||
                     ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if( !has_effect( effect_cramped_space ) ) {
-                        add_effect( effect_cramped_space, 2_turns, true );
-                    }
                     is_cramped_space = true;
-                    return;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
                 !vp.part_with_feature( "HUGE_OK", false ) ) {
-                if( !has_effect( effect_cramped_space ) ) {
-                    add_effect( effect_cramped_space, 2_turns, true );
-                }
                 is_cramped_space = true;
-                return;
             }
         }
         if( !is_cramped_space ) {
