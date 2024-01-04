@@ -55,7 +55,7 @@
     "id": "holybook_bible4",
     "type": "BOOK",
     "name": { "str": "New American Bible", "str_pl": "copies of the New American Bible" },
-    "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
+    "description": "An English translation of the Bibl, first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -475,7 +475,7 @@
     "id": "holybook_wicca",
     "type": "BOOK",
     "name": { "str": "The Book of Shadows", "str_pl": "copies of The Book of Shadows" },
-    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, there are also blank pages for you to write on.",
+    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, also has blank pages for you to write on.",
     "weight": "300 g",
     "volume": "1 L",
     "copy-from": "holybook_satanic"
@@ -538,7 +538,7 @@
     "id": "holybook_frog",
     "type": "BOOK",
     "name": { "str": "The Blue Book of the Blue Frog", "str_pl": "copies of the Blue Book of the Blue Frog" },
-    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult’s followers must adhere to and also the practices and the religious and political hierarchy of this cult.  Not much for a scavenger.",
+    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult’s followers must adhere to and also the practices, religious and political hierarchy of this cult.  Not much for a scavenger.",
     "weight": "320 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -691,7 +691,7 @@
     "id": "holybook_mithraic",
     "type": "BOOK",
     "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
-    "description": "A commercial-grade, paperback English edition of the The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
+    "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -703,7 +703,7 @@
       "str": "Tengriism: The Religion of Ancient Mongolia",
       "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia"
     },
-    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
+    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, shamanic rituals and folklore.",
     "weight": "600 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -749,7 +749,7 @@
     "id": "holybook_native",
     "type": "BOOK",
     "name": { "str": "The Native Religion of New England", "str_pl": "copies of The Native Religion of New England" },
-    "description": "A collection of written oral and recorded religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
+    "description": "A collection of written oral traditions and written records regarding the religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
     "weight": "700 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -776,7 +776,7 @@
     "id": "holybook_egypt1",
     "type": "BOOK",
     "name": { "str": "The Coffin Texts", "str_pl": "copies of The Coffin Texts" },
-    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
+    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts originally inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
     "weight": "600 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -794,7 +794,7 @@
     "id": "holybook_umbanda",
     "type": "BOOK",
     "name": { "str": "Orishas and Their Deities", "str_pl": "copies of Orishas and Their Deities" },
-    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Indigenous Brazilian, and European traditions.",
+    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Native Brazilian, and European traditions.",
     "weight": "350 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -821,7 +821,7 @@
     "id": "holybook_daime",
     "type": "BOOK",
     "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
-    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and indigenous Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
+    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and Native Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
     "weight": "350 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1302,7 +1302,7 @@
     "id": "holybook_babylon",
     "type": "BOOK",
     "name": { "str": "Enuma Elish", "str_pl": "copies of the Enuma Elish" },
-    "description": "A paperback English translation of the Enuma Elish, an ancient collection of seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
+    "description": "A paperback English translation of the Enuma Elish, an ancient collection originally written in seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
     "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
