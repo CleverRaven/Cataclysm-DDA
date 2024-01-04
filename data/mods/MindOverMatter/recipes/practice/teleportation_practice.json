@@ -36,7 +36,8 @@
     "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -64,7 +65,8 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -92,7 +94,8 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -171,7 +174,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -250,7 +254,8 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -329,7 +334,8 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -409,7 +415,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -489,7 +496,8 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -569,7 +577,8 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -654,7 +663,8 @@
     "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -740,7 +750,8 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_teleportation", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
