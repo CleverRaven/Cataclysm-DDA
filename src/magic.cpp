@@ -2427,7 +2427,7 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     }
     if( !no_hands() ) {
         spell_data.emplace_back( _( "impeded by gloves" ) );
-    } else if ( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
+    } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
