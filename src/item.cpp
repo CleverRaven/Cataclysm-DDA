@@ -101,6 +101,7 @@
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
 #include "units_fwd.h"
@@ -185,9 +186,6 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
-
-static const mon_flag_str_id mon_flag_POISON( "POISON" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
 static const morale_type morale_null( "morale_null" );
 
@@ -1278,12 +1276,20 @@ void item::update_modified_pockets()
     std::optional<const pocket_data *> mag_or_mag_well;
     std::vector<const pocket_data *> container_pockets;
 
+    // Prevent cleanup of pockets belonging to the item base type
     for( const pocket_data &pocket : type->pockets ) {
         if( pocket.type == pocket_type::CONTAINER ) {
             container_pockets.push_back( &pocket );
         } else if( pocket.type == pocket_type::MAGAZINE ||
                    pocket.type == pocket_type::MAGAZINE_WELL ) {
             mag_or_mag_well = &pocket;
+        }
+    }
+
+    // Prevent cleanup of added modular pockets
+    for( const item *it : contents.get_added_pockets() ) {
+        for( const pocket_data &pocket : it->type->pockets ) {
+            container_pockets.push_back( &pocket );
         }
     }
 
@@ -7005,7 +7011,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( amount || show_amt ) {
+    if( ( amount || show_amt ) && !has_flag( flag_PSEUDO ) ) {
         if( is_money() ) {
             amt = " " + format_money( amount );
         } else {
@@ -13027,6 +13033,19 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
         return false;
     }
 
+    if( corpse->has_flag( mon_flag_DORMANT ) ) {
+        //if dormant, ensure trap still exists.
+        const trap *trap_here = &here.tr_at( pos );
+        if( trap_here->is_null() ) {
+            // if there isn't a trap, we need to add one again.
+            here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
+        } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
+            // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
+            return g->revive_corpse( pos, *this, 3 );
+        }
+        return false;
+    }
+
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
         !mon_human->zombify_into.is_empty() ) {
@@ -13987,6 +14006,30 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
+}
+
+std::optional<furn_str_id> item::get_plant_seedling_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->seedling_form;
+}
+
+std::optional<furn_str_id> item::get_plant_mature_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->mature_form;
+}
+
+std::optional<furn_str_id> item::get_plant_harvestable_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const

@@ -32,6 +32,7 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+        void temp_hide();
 
         /**
          * Converts from screen relative location to game-space relative location

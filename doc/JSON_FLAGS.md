@@ -815,6 +815,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```PERFECT_LOCKPICK``` Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have `LOCKPICK` quality of at least 1.
 - ```PLANTABLE_SEED``` This item is a seed, and you can plant it
 - ```PRESERVE_SPAWN_OMT``` This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
+- ```PROVIDES_TECHNIQUES``` This item will provide martial arts techniques when worn/in the character's inventory, in addition to those provided by the weapon and martial art.
 - ```PSEUDO``` Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies `TRADER_AVOID`.
 - ```RABBIT``` Food, that only player with `RABBIT` threshold mutation can eat; see `INEDIBLE`
 - ```RADIOACTIVE``` Is radioactive (can be used with `LEAK_*`).
@@ -1136,6 +1137,7 @@ Other monster flags.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
+- ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the zombie_virus effect
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground. Will not travel through non-diggable terrain such as roads.

@@ -13,12 +13,8 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 1) + 3) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 4) + 7) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('zap_electrical_emission') * 1) + 3) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('zap_electrical_emission') * 4) + 7) * (scaling_factor(u_val('dexterity') ) )" ] },
     "min_range": 2,
     "max_range": 6,
     "range_increment": 0.25,
@@ -47,15 +43,9 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('sylph_call_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('sylph_call_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('sylph_call_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "difficulty": 6,
     "min_aoe": 1,
@@ -88,15 +78,9 @@
     "extra_effects": [ { "id": "crash", "hit_self": false, "max_level": 3 } ],
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "difficulty": 6,
     "min_aoe": 1,
@@ -126,9 +110,7 @@
     "shape": "line",
     "flags": [ "LOUD" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_range": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70
   },
   {
@@ -177,9 +159,7 @@
     "max_field_intensity": 4,
     "field_intensity_increment": 1,
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_range": { "math": [ "( (u_spell_level('electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "energy_source": "MANA",
     "base_energy_cost": 500,
@@ -215,7 +195,7 @@
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": { "math": [ "( (u_val('spell_level', 'spell: lightning_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('lightning_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "energy_source": "MANA",
     "base_energy_cost": 800,
@@ -239,7 +219,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SYLPH_GOBLIN_FRUIT",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
     "difficulty": 8,
     "base_casting_time": 180000,
@@ -271,7 +251,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP", "SPAWN_GROUP" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "SPAWN_GROUP" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -317,15 +297,15 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SYLPH",
-    "flags": [ "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
     "shape": "cone",
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "bashing",
-    "min_damage": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "min_range": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 40,
     "energy_source": "MANA",
     "base_energy_cost": 100,

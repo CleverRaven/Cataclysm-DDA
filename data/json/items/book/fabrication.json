@@ -267,7 +267,7 @@
     "name": { "str": "Rivtech design binder" },
     "description": "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.",
     "weight": "1409 g",
-    "volume": "500 ml",
+    "volume": "1700 ml",
     "price": 84000,
     "price_postapoc": 2500,
     "material": [ "paper", "plastic" ],

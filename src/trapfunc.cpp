@@ -59,6 +59,7 @@ static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );
@@ -1527,20 +1528,52 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
 bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
 {
     if( critter == nullptr ) {
-        return false;
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell();
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        if( tr.has_flag( json_flag_PROXIMITY ) ) {
+            // remove all traps in 3-3 area area
+            for( int x = p.x - 1; x <= p.x + 1; x++ ) {
+                for( int y = p.y - 1; y <= p.y + 1; y++ ) {
+                    tripoint pt( x, y, p.z );
+                    if( here.tr_at( pt ).loadid == tr.loadid ) {
+                        here.remove_trap( pt );
+                    }
+                }
+            }
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, p );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
+    } else {
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        if( tr.has_flag( json_flag_PROXIMITY ) ) {
+            // remove all traps in 3-3 area area
+            for( int x = p.x - 1; x <= p.x + 1; x++ ) {
+                for( int y = p.y - 1; y <= p.y + 1; y++ ) {
+                    tripoint pt( x, y, p.z );
+                    if( here.tr_at( pt ).loadid == tr.loadid ) {
+                        here.remove_trap( pt );
+                    }
+                }
+            }
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, critter->pos() );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
     }
-    map &here = get_map();
-    trap tr = here.tr_at( p );
-    const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
-    npc dummy;
-    if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
-        here.remove_trap( p );
-    }
-    // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-    trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, get_player_character() );
-
-    return true;
 }
 
 bool trapfunc::snake( const tripoint &p, Creature *, item * )

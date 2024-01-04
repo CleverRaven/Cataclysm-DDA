@@ -58,7 +58,6 @@
 #include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
-#include "name.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -1939,7 +1938,6 @@ class jmapgen_sign : public jmapgen_piece
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
-            replace_name_tags( signtext );
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1990,7 +1988,6 @@ class jmapgen_graffiti : public jmapgen_piece
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
-            replace_name_tags( graffiti );
             return graffiti;
         }
 };
@@ -2437,16 +2434,11 @@ class jmapgen_monster : public jmapgen_piece
             std::string chosen_name = name;
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
-                    chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
+                    chosen_name = SNIPPET.expand( "<female_given_name>" );
                 } else if( random_name_str == "male" ) {
-                    chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
+                    chosen_name = SNIPPET.expand( "<male_given_name>" );
                 } else if( random_name_str == "random" ) {
-                    // I want to use IsUnisexName, but that always gives "Tom"
-                    if( one_in( 2 ) ) {
-                        chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
-                    } else {
-                        chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
-                    }
+                    chosen_name = SNIPPET.expand( "<given_name>" );
                 } else if( random_name_str == "snippet" ) {
                     chosen_name = SNIPPET.expand( name );
                 }
@@ -5409,10 +5401,14 @@ void map::draw_lab( mapgendata &dat )
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-            rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-            bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-            lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+            tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+            rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+            bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+            lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
             int boarders = 0;
             if( tw == 0 ) {
@@ -5964,10 +5960,14 @@ void map::draw_lab( mapgendata &dat )
             set_temperature_mod( p2 + point( SEEX, SEEY ), temperature_d );
         }
 
-        tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-        rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-        bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-        lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+        tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+        rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+        bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+        lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
         // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.

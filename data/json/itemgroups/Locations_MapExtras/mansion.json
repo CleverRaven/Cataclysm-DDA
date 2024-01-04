@@ -317,6 +317,7 @@
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
       { "group": "exotic_books", "prob": 5 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       [ "necronomicon", 1 ]
     ]
   },
@@ -552,6 +553,7 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
+      { "group": "loose_chess_pieces", "prob": 10, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
@@ -896,6 +898,7 @@
       { "group": "tinware", "prob": 20 },
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 },
+      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 10 }
     ]
   },
@@ -1031,7 +1034,7 @@
       [ "gum", 12 ],
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
-      { "prob": 15, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
       { "group": "corpse_mansion", "prob": 1 },
       [ "fitness_band", 3 ]
     ]
@@ -1124,7 +1127,7 @@
       [ "bikini_bottom", 10 ],
       [ "bikini_bottom_short", 5 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_10" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "karate_gi", 10 ],
       [ "judo_gi", 5 ],
       [ "fitness_band", 5 ],

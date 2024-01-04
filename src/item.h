@@ -1983,8 +1983,19 @@ class item : public visitable
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
+         */
+        std::optional<furn_str_id> get_plant_seedling_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
+         */
+        std::optional<furn_str_id> get_plant_mature_form() const;
+        /**
+         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
+         */
+        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
-
         /**
          * @name Armor related functions.
          *
@@ -3170,6 +3181,14 @@ inline bool is_crafting_component( const item &component )
 {
     return ( component.allow_crafting_component() || component.count_by_charges() ) &&
            !component.is_filthy();
+}
+
+/**
+ * Filter for empty crafting components first pass searches
+ */
+inline bool is_empty_crafting_component( const item &component )
+{
+    return component.is_container_empty() && is_crafting_component( component );
 }
 
 #endif // CATA_SRC_ITEM_H

@@ -666,5 +666,33 @@
     "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
     "type": "json_flag",
     "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
+  },
+  {
+    "id": "CARGO_PASSABLE",
+    "type": "json_flag",
+    "info": "Items stored here won't get in the way of any passengers."
+  },
+  {
+    "id": "HUGE_OK",
+    "type": "json_flag",
+    "info": "Even when roofed, this part is roomy enough to comfortably admit very large creatures, like cows and horses."
+  },
+  {
+    "id": "IGNORE_LEG_REQUIREMENT",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEED_LEG",
+    "info": "Operating this part will require at least one working leg.",
+    "type": "json_flag"
+  },
+  {
+    "id": "INOPERABLE_SMALL",
+    "info": "People who are very short may be unable to make use of this part.",
+    "type": "json_flag"
+  },
+  {
+    "id": "IGNORE_HEIGHT_REQUIREMENT",
+    "type": "json_flag"
   }
 ]

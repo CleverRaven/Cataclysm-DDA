@@ -234,7 +234,17 @@
         [ "egg_burbot", 1 ],
         [ "egg_sturgeon_lake", 1 ],
         [ "egg_sturgeon_shortnose", 1 ],
-        [ "egg_fallfish", 1 ]
+        [ "egg_fallfish", 1 ],
+        [ "egg_cod", 1 ],
+        [ "egg_haddock", 1 ],
+        [ "egg_bluefin_tuna", 1 ],
+        [ "egg_halibut", 1 ],
+        [ "egg_pollock", 1 ],
+        [ "egg_flounder", 1 ],
+        [ "egg_mackerel", 1 ],
+        [ "egg_bluefish", 1 ],
+        [ "egg_blackfish", 1 ],
+        [ "egg_porgy", 1 ]
       ]
     ]
   },

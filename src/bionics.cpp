@@ -132,7 +132,9 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -606,7 +608,32 @@ static void force_comedown( effect &eff )
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
-void npc::discharge_cbm_weapon()
+void npc::discharge_cbm_weapon( bool fired, bool stow_real_weapon )
+{
+    if( !is_using_bionic_weapon() ) {
+        return;
+    }
+
+    item *pseudo_gun = get_wielded_item().get_item();
+    if( pseudo_gun != nullptr ) {
+        if( fired ) {
+            mod_power_level( -pseudo_gun->get_gun_bionic_drain() );
+        }
+    } else {
+        debugmsg( "NPC tried to use a non-existent bionic gun with UID %d", weapon_bionic_uid );
+    }
+
+    set_wielded_item( real_weapon );
+    real_weapon = item();
+    weapon_bionic_uid = 0;
+
+    item *real_weapon_ptr = get_wielded_item().get_item();
+    if( stow_real_weapon && real_weapon_ptr != nullptr ) {
+        stow_item( *real_weapon_ptr );
+    }
+}
+
+void npc::deactivate_or_discharge_bionic_weapon( bool stow_real_weapon )
 {
     if( !is_using_bionic_weapon() ) {
         return;
@@ -617,12 +644,16 @@ void npc::discharge_cbm_weapon()
         debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
         return;
     }
+
     bionic &bio = **bio_opt;
 
-    mod_power_level( -bio.info().power_activate );
-
-    set_wielded_item( real_weapon );
-    weapon_bionic_uid = 0;
+    if( bio.powered ) {
+        deactivate_bionic( bio );
+    } else {
+        if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
+            discharge_cbm_weapon( false, stow_real_weapon );
+        }
+    }
 }
 
 void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
@@ -652,7 +683,22 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     item_location weapon = get_wielded_item();
-    item weap = weapon ? *weapon : item();
+    const item &weap = weapon ? *weapon : null_item_reference();
+
+    int ammo_count = weap.ammo_remaining( this );
+    const units::energy ups_drain = weap.get_gun_ups_drain();
+    if( ups_drain > 0_kJ ) {
+        ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
+    }
+
+    // the weapon value from `weapon_value` may be different from `npc_attack_rating`
+    // to avoid NPC infinitely switch weapon,
+    // only use bionic weapon when the ammo of wielded gun has been used up
+    bool ammo_used_up = !weap.is_gun() || ( ammo_count <= 0 && !can_reload_current() );
+    if( !ammo_used_up ) {
+        return;
+    }
+
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -667,11 +713,6 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weap.ammo_remaining( this );
-        const units::energy ups_drain =  weap.get_gun_ups_drain();
-        if( ups_drain > 0_kJ ) {
-            ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
-        }
         const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
 
         if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
@@ -682,6 +723,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             set_wielded_item( cbm_weapon );
             weapon_bionic_uid = bio.get_uid();
         }
+
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weap.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
@@ -691,16 +733,20 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        if( is_armed() ) {
-            stow_item( *weapon );
-        }
-        add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
-                                disp_name(), bio.info().name );
+        const item cbm_weapon = bio.get_weapon();
 
-        set_wielded_item( bio.get_weapon() );
-        mod_power_level( -bio.info().power_activate );
-        bio.powered = true;
-        weapon_bionic_uid = bio.get_uid();
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
+            if( is_armed() ) {
+                stow_item( *weapon );
+            }
+            add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
+                                    disp_name(), bio.info().name );
+
+            set_wielded_item( cbm_weapon );
+            mod_power_level( -bio.info().power_activate );
+            bio.powered = true;
+            weapon_bionic_uid = bio.get_uid();
+        }
     }
 }
 
@@ -928,7 +974,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_tetanus, effect_poison, effect_badpoison,
-                effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
+                effect_pkill1_generic, effect_pkill1_acetaminophen, effect_pkill1_nsaid, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
@@ -1300,6 +1346,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             }
             set_wielded_item( item() );
             weapon_bionic_uid = 0;
+            cached_info.erase( "weapon_value" );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
