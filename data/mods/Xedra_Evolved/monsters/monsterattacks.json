@@ -84,7 +84,14 @@
     "move_cost": 97,
     "accuracy": 4,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 15 } ],
-    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } }, { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "maimed_arm" } },
+        { "not": { "u_has_effect": "disarmed" } },
+        { "u_has_flag": "GRAB_FILTER" },
+        { "npc_has_flag": "GRAB" }
+      ]
+    },
     "hit_dmg_u": "%1$s crushes your %2$s with a mace!",
     "hit_dmg_npc": "%1$s crushes <npcname>'s %2$s with a mace!",
     "miss_msg_u": "%1$s tries to hit you with a crushing blow, but you dodge!",
@@ -117,7 +124,7 @@
     "cooldown": 5,
     "move_cost": 100,
     "range": 5,
-    "damage_max_instance": [ { "damage_type": "biological", "amount": 10 }, { "damage_type": "cut", "amount": 10 }  ],
+    "damage_max_instance": [ { "damage_type": "biological", "amount": 10 }, { "damage_type": "cut", "amount": 10 } ],
     "hit_dmg_u": "%1$s speaks eldritch words at your %2$s!",
     "hit_dmg_npc": "%1$s speaks eldritch words at <npcname>!",
     "no_dmg_msg_u": "%1$s's curse radiates out at you without doing any damage.",
