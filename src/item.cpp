@@ -101,6 +101,7 @@
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
 #include "units_fwd.h"
@@ -185,9 +186,6 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
-
-static const mon_flag_str_id mon_flag_POISON( "POISON" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
 static const morale_type morale_null( "morale_null" );
 
@@ -13032,6 +13030,19 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr || damage() >= max_damage() ) {
+        return false;
+    }
+
+    if( corpse->has_flag( mon_flag_DORMANT ) ) {
+        //if dormant, ensure trap still exists.
+        const trap *trap_here = &here.tr_at( pos );
+        if( trap_here->is_null() ) {
+            // if there isn't a trap, we need to add one again.
+            here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
+        } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
+            // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
+            return g->revive_corpse( pos, *this, 3 );
+        }
         return false;
     }
 

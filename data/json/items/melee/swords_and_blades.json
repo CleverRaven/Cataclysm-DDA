@@ -2252,6 +2252,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "extend": { "flags": [ "CRUTCHES" ] },
+    "weapon_category": [ "BATONS" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "melee_damage": { "bash": 3 }
   },
@@ -2576,7 +2577,7 @@
     "price_postapoc": 6000,
     "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1766 g",
     "volume": "1500 ml",
@@ -2828,7 +2829,7 @@
   },
   {
     "type": "GENERIC",
-    "//": "Do these even exist?",
+    "//": "Do these even exist? Answer: yeah they did, at least there are two instances from ancient Egypt( although this one was more for ceremonies ) and by Shaolin(see Monk's spade')",
     "id": "lajatang",
     "symbol": "/",
     "color": "brown",
@@ -2839,6 +2840,7 @@
     "material": [ "wood", "iron" ],
     "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
+    "weapon_category": [ "POLEARMS" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",
     "volume": "6500 ml",

@@ -14,7 +14,7 @@
     "subtype": "hobby",
     "id": "chess_enthusiast",
     "name": "Chess Enthusiast",
-    "description": "You never made master, but you did very well in chess competitions before the Cataclysm.  All those hours of staring at the board, trying to keep all the pieces in your mind at once, have left you with an great ability to focus your attention on a single problem when you need to.",
+    "description": "You never made master, but you did very well in chess competitions before the Cataclysm.  All those hours of staring at the board, trying to keep all the pieces in your mind at once, have left you with a great ability to focus your attention on a single problem when you need to.",
     "points": 2,
     "proficiencies": [ "prof_concentration_basic" ]
   },
@@ -32,7 +32,7 @@
     "subtype": "hobby",
     "id": "chess_grandmaster",
     "name": "Chess Grandmaster",
-    "description": "You were one of the best of the best, awarded a grandmaster title in your early twenties.  Chess was your passion and your life, and you were good enough at it to make a living competing before the Catalcysm.  You have an almost-inhuman ability to focus on a task and ignore all distractions.",
+    "description": "You were one of the best of the best, awarded a grandmaster title in your early twenties.  Chess was your passion and your life, and you were good enough at it to make a living competing before the Cataclysm.  You have an almost-inhuman ability to focus on a task and ignore all distractions.",
     "points": 6,
     "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_concentration_master" ]
   },
@@ -62,14 +62,15 @@
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
-    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "recipes": [ "practice_electrokinetic_see_electric", "practice_electrokinetic_shock_touch" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "newly_photokinetic",
     "name": "Newly-Awakened Photokinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seems to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seemed to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
     "points": 4,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
   },
@@ -105,7 +106,7 @@
     "subtype": "hobby",
     "id": "newly_teleporter",
     "name": "Newly-Awakened Teleporter",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then…you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then… you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
     "points": 6,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ]
   },
@@ -114,7 +115,7 @@
     "subtype": "hobby",
     "id": "newly_vitakinetic",
     "name": "Newly-Awakened Vitakinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught in a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
   }

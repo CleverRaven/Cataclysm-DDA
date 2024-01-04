@@ -104,10 +104,8 @@
         "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
       },
       "place_nested": [
-        { "chunks": [ "transition_down" ], "joins": { "below": "-2_to_-3" }, "x": 11, "y": 12 },
-        { "chunks": [ "transition_up" ], "joins": { "above": "-2_to_-3" }, "x": 11, "y": 12 },
-        { "chunks": [ "transition_down" ], "joins": { "below": "-3_to_-4" }, "x": 11, "y": 12 },
-        { "chunks": [ "transition_up" ], "joins": { "above": "-3_to_-4" }, "x": 11, "y": 12 },
+        { "chunks": [ "transition_down" ], "joins": { "below": "tunnel_ramp" }, "x": 11, "y": 12 },
+        { "chunks": [ "transition_up" ], "joins": { "above": "tunnel_ramp" }, "x": 11, "y": 12 },
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 14 },

@@ -130,6 +130,7 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
@@ -139,8 +140,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
 static const material_id material_glass( "glass" );
-
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -241,7 +240,7 @@ void map::set_transparency_cache_dirty( const tripoint &p, bool field )
         if( !field ) {
             get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
             get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
-            set_visitable_zones_cache_dirty();
+            get_creature_tracker().invalidate_reachability_cache();
         }
     }
 }
@@ -1776,7 +1775,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_f.has_flag(
@@ -1792,7 +1791,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     }
 
     if( ( old_f.movecost < 0 ) != ( new_f.movecost < 0 ) ) {
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -2270,7 +2269,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     }
 
     if( ( old_t.movecost == 0 ) != ( new_t.movecost == 0 ) ) {
-        set_visitable_zones_cache_dirty();
+        get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -9705,7 +9704,62 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
     if( you != nullptr && you->in_vehicle ) {
         return;
     }
-    maybe_trigger_trap( c.pos(), c, may_avoid );
+
+    tripoint pos = c.pos();
+    // proximity traps
+    std::vector<tripoint> tr_proximity;
+    // find proximity traps in adjacent tiles
+    for( int x = pos.x - 1; x <= pos.x + 1; x++ ) {
+        for( int y = pos.y - 1; y <= pos.y + 1; y++ ) {
+            if( x == pos.x && y == pos.y ) {
+                continue;
+            }
+            const tripoint loc = tripoint( x, y, pos.z );
+            const trap *trap_here = &tr_at( loc );
+            if( trap_here->has_flag( json_flag_PROXIMITY ) ) {
+                tr_proximity.push_back( loc );
+            }
+        }
+    }
+    // first trigger proximity traps
+    for( auto &loc : tr_proximity ) {
+        maybe_trigger_prox_trap( loc, c, may_avoid );
+    }
+    // then traps we stepped on
+    maybe_trigger_trap( pos, c, may_avoid );
+}
+
+
+void map::maybe_trigger_prox_trap( const tripoint &pos, Creature &c, const bool may_avoid ) const
+{
+    const trap &tr = tr_at( pos );
+    if( tr.is_null() ) {
+        return;
+    }
+
+    //Don't trigger benign traps like cots and funnels
+    if( tr.is_benign() ) {
+        return;
+    }
+
+    if( tr.has_flag( json_flag_AVATAR_ONLY ) && !c.is_avatar() ) {
+        return;
+    }
+
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
+        Character *const pl = c.as_character();
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+            pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
+            pl->add_known_trap( pos, tr );
+        }
+        return;
+    }
+
+    if( !tr.is_always_invisible() && tr.has_trigger_msg() ) {
+        c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
+                                 tr.name() );
+    }
+    tr.trigger( pos, c );
 }
 
 void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_avoid ) const

@@ -612,6 +612,7 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
+      { "item": "santa_wristwatch", "prob": 1 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "fitness_band", "prob": 10 },
       { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
@@ -894,7 +895,7 @@
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
       { "item": "jacket_varsity", "prob": 10 },
-      { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "prob": 30, "group": "bottle_otc_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
       { "group": "used_1st_aid", "prob": 20 },
@@ -4516,11 +4517,15 @@
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
+    "id": "bottle_otc_painkiller_20",
+    "subtype": "distribution",
+    "//": "Includes aspirin and other similar low-grade painkillers.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": 20 } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": 20 },
+      { "item": "ibuprofen", "container-item": "null", "count": 20 },
+      { "item": "acetaminophen", "container-item": "null", "count": 20 }
+    ]
   },
   {
     "type": "item_group",
