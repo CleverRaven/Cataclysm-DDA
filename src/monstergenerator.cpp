@@ -327,13 +327,9 @@ void MonsterGenerator::finalize_mtypes()
                       mon.id.str(), mon.default_faction.str() );
         }
 
-        bool has_gen_dormant = false;
         mon.flags.clear();
         for( const mon_flag_str_id &mf : mon.pre_flags_ ) {
             mon.flags.emplace( mf );
-            if( mf.id() == mon_flag_GEN_DORMANT ) {
-                has_gen_dormant = true;
-            }
         }
 
         apply_species_attributes( mon );
@@ -429,7 +425,7 @@ void MonsterGenerator::finalize_mtypes()
         mon.weakpoints.finalize();
 
         // check lastly to make extra fake monsters.
-        if( has_gen_dormant ) {
+        if( mon.has_flag( mon_flag_GEN_DORMANT ) ) {
             extra_mtypes.push_back( generate_fake_pseudo_dormant_monster( mon ) );
         }
     }
