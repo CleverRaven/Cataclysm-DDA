@@ -10201,11 +10201,10 @@ void map::update_pathfinding_cache( int zlev ) const
             }
         }
         cache.dirty = false;
-        cache.dirty_points.clear();
-    }
-
-    for( const point &p : cache.dirty_points ) {
-        update_pathfinding_cache( { p, zlev} );
+    } else {
+        for( const point &p : cache.dirty_points ) {
+            update_pathfinding_cache( { p, zlev } );
+        }
     }
     cache.dirty_points.clear();
 }
