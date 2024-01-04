@@ -56,6 +56,32 @@
     "flags": [ "TOUGH_FEET" ]
   },
   {
+    "id": "ARVORE_MOSS",
+    "type": "mutation",
+    "name": { "str": "Patches of Moss" },
+    "points": 1,
+    "visibility": 5,
+    "ugliness": 3,
+    "bodytemp_modifiers": [ 250, 600 ],
+    "bodytemp_sleep": 250,
+    "wet_protection": [
+      { "part": "head", "neutral": 4, "good": 5 },
+      { "part": "leg_l", "neutral": 8, "good": 15 },
+      { "part": "leg_r", "neutral": 8, "good": 15 },
+      { "part": "foot_l", "neutral": 3, "good": 5 },
+      { "part": "foot_r", "neutral": 3, "good": 5 },
+      { "part": "arm_l", "neutral": 8, "good": 14 },
+      { "part": "arm_r", "neutral": 8, "good": 14 },
+      { "part": "hand_l", "neutral": 3, "good": 4 },
+      { "part": "hand_r", "neutral": 3, "good": 4 },
+      { "part": "torso", "neutral": 15, "good": 27 }
+    ],
+    "description": "A viridian moss has grown on your skin, forming whorls and eldrich patterns, providing some protection from the cold and the wet.  It also provides a small amount of armor against acid or fire.",
+    "armor": [ { "part_types": [ "ALL" ], "acid": 2, "heat": 4 } ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "category": [ "ARVORE" ]
+  },
+  {
     "type": "mutation",
     "id": "GREENSTRIDE",
     "name": { "str": "Greenstride" },
