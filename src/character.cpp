@@ -237,6 +237,7 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -12525,7 +12526,7 @@ int Character::impact( const int force, const tripoint &p )
 
 bool Character::can_fly()
 {
-    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ) {
+    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) || ( has_effect( effect_grabbed ) && !try_remove_grab() ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.

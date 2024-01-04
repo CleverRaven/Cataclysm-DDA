@@ -122,6 +122,7 @@ static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_gliding( "gliding" );
@@ -5192,6 +5193,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 }
                 you.as_avatar()->grab( object_type::NONE );
                 glide_activity_actor glide( &you, jump_direction, glide_distance );
+                you.remove_effect( effect_bouldering );
                 you.assign_activity( glide );
                 you.add_effect( effect_gliding, 1_turns, true );
                 you.setpos( examp );

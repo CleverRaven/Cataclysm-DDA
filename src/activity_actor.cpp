@@ -158,7 +158,9 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
@@ -1516,15 +1518,24 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
         return;
     }
+    if( !you.can_fly() ) {
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;        
+    }
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
-    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium ) {
+    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium && you.get_size() >= creature_size::medium ) {
         // Zombies are too stupid to avoid midair collision
-        if( !you.dodge_check( 25, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
-                                              !creature_ahead->dodge_check( 25, true ) ) ) {
+        if(  !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
+                                              !creature_ahead->dodge_check( 15, true ) ) ) {
             you.add_msg_player_or_npc( m_bad,
                                        _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                        _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
                                        creature_ahead->disp_name() );
+            if( creature_ahead->get_size() < creature_size::huge ) { 
+            creature_ahead->add_effect( effect_downed, 2_turns, false );
+            }
             you.remove_effect( effect_gliding );
             you.gravity_check();
             act.set_to_null();
