@@ -113,7 +113,7 @@ struct pathfinder {
     }
 };
 
-pathfinder pf;
+static pathfinder pf;
 
 // Modifies `t` to point to a tile with `flag` in a 1-submap radius of `t`'s original value,
 // searching nearest points first (starting with `t` itself).
@@ -175,7 +175,7 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
         clip_to_bounds( clipped );
         return straight_route( f, clipped );
     }
-    static const pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
+    constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     if( f.z == t.z ) {
         ret = line_to( f, t );
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
@@ -212,14 +212,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     if( f.z == t.z ) {
         auto line_path = straight_route( f, t );
         if( !line_path.empty() ) {
-            bool bad = false;
-            for( const tripoint &p : line_path ) {
-                if( pre_closed.count( p ) ) {
-                    bad = true;
-                    break;
-                }
-            }
-            if( !bad ) {
+            if( std::none_of( line_path.begin(), line_path.end(), [&pre_closed]( const tripoint & p ) {
+            return pre_closed.count( p );
+            } ) ) {
                 return line_path;
             }
         }
@@ -261,7 +256,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
     bool done = false;
 
-    static const pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
+    constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     do {
         tripoint cur = pf.get_next();
 
