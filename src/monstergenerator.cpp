@@ -327,13 +327,12 @@ void MonsterGenerator::finalize_mtypes()
                       mon.id.str(), mon.default_faction.str() );
         }
 
+        bool has_gen_dormant = false;
         mon.flags.clear();
         for( const mon_flag_str_id &mf : mon.pre_flags_ ) {
             mon.flags.emplace( mf );
-            // check if flag is "GEN_DORMANT"
             if( mf.id() == mon_flag_GEN_DORMANT ) {
-                // generate fake mon that is pseudo dormant
-                extra_mtypes.push_back( generate_fake_pseudo_dormant_monster( mon ) );
+                has_gen_dormant = true;
             }
         }
 
@@ -428,6 +427,11 @@ void MonsterGenerator::finalize_mtypes()
             }
         }
         mon.weakpoints.finalize();
+
+        // check lastly to make extra fake monsters.
+        if( has_gen_dormant ) {
+            extra_mtypes.push_back( generate_fake_pseudo_dormant_monster( mon ) );
+        }
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
@@ -446,12 +450,17 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
 {
     mtype fake_mon = mtype( mon );
     fake_mon.id = mtype_id( "pseudo_dormant_" + mon.id.str() );
-    // replace flags with [ "FILTHY", "REVIVES", "DORMANT", "QUIETDEATH" ],
+    // allowed (optional) flags: [ "FILTHY" ],
+    // delete all others.
+    // then add [ "DORMANT", "QUIETDEATH" ]
+    bool has_filthy = fake_mon.has_flag( mon_flag_FILTHY );
     fake_mon.flags.clear();
-    fake_mon.flags.emplace( mon_flag_FILTHY );
-    fake_mon.flags.emplace( mon_flag_REVIVES );
-    fake_mon.flags.emplace( mon_flag_DORMANT );
-    fake_mon.flags.emplace( mon_flag_QUIETDEATH );
+    fake_mon.flags.emplace( mon_flag_id( "DORMANT" ) );
+    fake_mon.flags.emplace( mon_flag_id( "QUIETDEATH" ) );
+    if( has_filthy ) {
+        fake_mon.flags.emplace( mon_flag_id( "FILTHY" ) );
+    }
+
     // zombify into the original mon
     fake_mon.zombify_into = mon.id;
     // looks like "corpse" + original mon
@@ -474,17 +483,16 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
 
     // add the special attack. first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
-    // make json object defined here
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_id( "pseudo_dormant_trap_setup" );
     new_actor->spell_data.self = true;
 
     // create the special attack now using the actor
+    std::unique_ptr<mattack_actor> base_actor = std::move( new_actor );
+
     // use this constructor
     // explicit mtype_special_attack( std::unique_ptr<mattack_actor> f ) : actor( std::move( f ) ) { }
-
-    std::unique_ptr<mattack_actor> base_actor = std::move( new_actor );
 
     mtype_special_attack new_attack( std::move( base_actor ) );
 
