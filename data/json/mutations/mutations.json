@@ -4670,7 +4670,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your legs and feet have become bird-like, with long toes arranged three ahead and one behind.  They probably won't fit in human shoes, but they're perfect for gripping onto precarious perches.",
+    "description": "Your legs and feet have become bird-like, with long talons arranged three ahead and one behind.  They probably won't fit in human shoes, but they're perfect for gripping onto precarious perches.",
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],
