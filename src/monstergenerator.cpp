@@ -455,11 +455,11 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
     // then add [ "DORMANT", "QUIETDEATH", "REVIVES" ]
     bool has_filthy = fake_mon.has_flag( mon_flag_FILTHY );
     fake_mon.flags.clear();
-    fake_mon.flags.emplace( mon_flag_id( "DORMANT" ) );
-    fake_mon.flags.emplace( mon_flag_id( "QUIETDEATH" ) );
-    fake_mon.flags.emplace( mon_flag_id( "REVIVES" ) );
+    fake_mon.flags.emplace( mon_flag_DORMANT );
+    fake_mon.flags.emplace( mon_flag_QUIETDEATH );
+    fake_mon.flags.emplace( mon_flag_REVIVES );
     if( has_filthy ) {
-        fake_mon.flags.emplace( mon_flag_id( "FILTHY" ) );
+        fake_mon.flags.emplace( mon_flag_FILTHY );
     }
 
     // zombify into the original mon
