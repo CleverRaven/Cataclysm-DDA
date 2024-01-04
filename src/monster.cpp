@@ -3542,9 +3542,8 @@ void monster::init_from_item( item &itm )
             hp = type->hp;
             set_speed_base( type->speed );
         }
-        const mtype *monster_type = itm.get_mtype();
-        if( hp > 0 && monster_type->has_flag( mon_flag_REVIVES_HEALTHY ) &&
-            monster_type->has_flag( mon_flag_DORMANT ) ) {
+        if( hp > 0 && type->has_flag( mon_flag_REVIVES_HEALTHY ) &&
+            type->has_flag( mon_flag_DORMANT ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
