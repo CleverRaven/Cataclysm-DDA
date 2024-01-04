@@ -173,7 +173,6 @@ static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 static const species_id species_nether_player_hate( "nether_player_hate" );
 
-
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
@@ -3866,7 +3865,7 @@ void monster::on_load()
     // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
-        if( has_flag( mon_flag_REVIVES ) ) {
+        if( has_flag( mon_flag_REVIVES ) && !has_flag( mon_flag_DORMANT ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
                    made_of( material_veggy ) ) {

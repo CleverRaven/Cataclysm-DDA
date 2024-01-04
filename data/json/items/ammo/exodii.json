@@ -147,7 +147,7 @@
     "recoil": 100,
     "price": 1800,
     "price_postapoc": 1500,
-    "drop": "handflare_lit",
+    "drop": "sigflare_lit",
     "damage": { "damage_type": "bullet", "amount": 16 },
     "effects": [ "NEVER_MISFIRES", "NO_EMBED" ]
   },

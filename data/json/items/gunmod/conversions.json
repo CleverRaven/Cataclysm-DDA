@@ -5,35 +5,6 @@
     "type": "GUNMOD",
     "name": { "str": "rifle .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "2408 g",
     "volume": "1860 ml",
     "longest_side": "584 mm",
@@ -130,35 +101,6 @@
     "type": "GUNMOD",
     "name": { "str": "carbine .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 14.5-inch barrel chambered for .223 Remington ammunition, commonly installed on standard-issue M4 carbines.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "2036 g",
     "volume": "1395 ml",
     "longest_side": "445 mm",
@@ -173,35 +115,6 @@
     "type": "GUNMOD",
     "name": { "str": "CQB .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 10.3-inch barrel chambered for .223 Remington ammunition, commonly installed on special-purpose carbines, including those used by US SOCOM forces.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "1819 g",
     "volume": "1295 ml",
     "longest_side": "337 mm",
@@ -300,35 +213,6 @@
     "type": "GUNMOD",
     "name": { "str": "CQB .300BLK upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 10.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "1814 g",
     "volume": "1295 ml",
     "longest_side": "342 mm",
@@ -343,35 +227,6 @@
     "type": "GUNMOD",
     "name": { "str": "SBR .300BLK upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a specialized 7.5-inch barrel chambered for .300 AAC Blackout ammunition.  Fortunately, standard STANAG magazines are still compatible.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "1590 g",
     "longest_side": "240 mm",
     "integral_weight": "1590 g",
@@ -428,12 +283,6 @@
     "type": "GUNMOD",
     "name": { "str": "mid-length 12.7x42mm upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 16-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "stanag20_beowulf", "stanag20ranger_beowulf", "stanag30_beowulf", "stanag30ranger_beowulf", "50beowulf_ar15mag" ]
-      }
-    ],
     "weight": "2341 g",
     "volume": "1550 ml",
     "longest_side": "480 mm",
@@ -449,12 +298,6 @@
     "type": "GUNMOD",
     "name": { "str": "SBR 12.7x42mm upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a big-bore 7.5-inch barrel chambered for .50 Beowulf rounds.  Specialized or modified STANAG-style magazines are required to properly feed the much larger cartridges.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "stanag20_beowulf", "stanag20ranger_beowulf", "stanag30_beowulf", "stanag30ranger_beowulf", "50beowulf_ar15mag" ]
-      }
-    ],
     "weight": "1615 g",
     "volume": "850 ml",
     "longest_side": "240 mm",
@@ -498,7 +341,6 @@
     "type": "GUNMOD",
     "name": { "str": "CQB .450 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 10.5-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
-    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "450_ar15mag" ] } ],
     "weight": "1900 g",
     "volume": "1295 ml",
     "longest_side": "342 mm",
@@ -514,7 +356,6 @@
     "type": "GUNMOD",
     "name": { "str": "SBR .450 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 7.5-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
-    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "450_ar15mag" ] } ],
     "weight": "1615 g",
     "volume": "850 ml",
     "longest_side": "240 mm",
@@ -640,31 +481,6 @@
     "type": "GUNMOD",
     "name": { "str": "MDRX .223 standard-assembly", "str_pl": "MDRX .223 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions, the assembly requires STANAG magazines for feeding.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "840 g",
     "volume": "420 ml",
     "longest_side": "406 mm",
@@ -680,31 +496,6 @@
     "type": "GUNMOD",
     "name": { "str": "MDRX .223 MICRON assembly", "str_pl": "MDRX .223 MICRON assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions and requiring STANAG magazines for feeding, the assembly renders the MDRX into a compact CQB carbine, with an 11.5-inch barrel recessed into the weapon’s bullpup layout.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
     "weight": "680 g",
     "volume": "340 ml",
     "longest_side": "292 mm",
@@ -832,12 +623,6 @@
     "type": "GUNMOD",
     "name": { "str": "MDRX .308 standard-assembly", "str_pl": "MDRX .308 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 16-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  Chambered for long-range .308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
-    "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "ar10mag_20rd", "ar10mag_10rd", "ar10mag_25rd", "ar10mag_50rd", "ar10_makeshiftmag" ]
-      }
-    ],
     "weight": "840 g",
     "volume": "420 ml",
     "longest_side": "406 mm",
