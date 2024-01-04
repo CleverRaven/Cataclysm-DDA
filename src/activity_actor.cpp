@@ -1528,7 +1528,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
     if( creature_ahead && creature_ahead->get_size() >= creature_size::medium &&
         you.get_size() >= creature_size::medium ) {
         // Zombies are too stupid to avoid midair collision
-        if(  !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
+        if( !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
                                               !creature_ahead->dodge_check( 15, true ) ) ) {
             you.add_msg_player_or_npc( m_bad,
                                        _( "You collide with %s, bringing an abrupt halt to your glide." ),
