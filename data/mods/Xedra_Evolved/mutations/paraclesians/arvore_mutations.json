@@ -794,13 +794,12 @@
     "points": 7,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air.  They are immune to losing any significant amount of blood and will not bleed.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds.  They will bleed more slowly than normal.",
     "prereqs": [ "ARVORE_BLOOD" ],
     "changes_to": "ARVORE_BLOOD_3",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
-    "flags": [ "BLEED_IMMUNE" ]
+    "flags": [ "BLEEDSLOW" ]
   },
   {
     "type": "mutation",
@@ -809,12 +808,12 @@
     "points": 10,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and has potent defensive properties.  They will bleed more slowly than normal and are immune to parasites and infection.",
     "prereqs": [ "ARVORE_BLOOD_2" ],
     "changes_to": "ARVORE_BLOOD_4",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+    "flags": [ "BLEEDSLOW", "PARAIMMUNE", "INFECTION_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -823,12 +822,12 @@
     "points": 13,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and aggressively fights back against invading organisms.  They will not bleed, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "description": "The Arvore's blood is a sticky sap that that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
     "prereqs": [ "ARVORE_BLOOD_3" ],
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
+    "flags": [ "BLEEDSLOW2", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
