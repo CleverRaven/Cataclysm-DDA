@@ -1534,8 +1534,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
                                        _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                        _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
                                        creature_ahead->disp_name() );
-            if( creature_ahead->get_size() < creature_size::huge ) { 
-            creature_ahead->add_effect( effect_downed, 2_turns, false );
+            if( creature_ahead->get_size() < creature_size::huge ) {
+                creature_ahead->add_effect( effect_downed, 2_turns, false );
             }
             you.remove_effect( effect_gliding );
             you.gravity_check();
