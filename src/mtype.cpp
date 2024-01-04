@@ -69,6 +69,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_DIGS,
             mon_flag_DOGFOOD,
             mon_flag_DORMANT,
+            mon_flag_GEN_DORMANT,
             mon_flag_DRIPS_GASOLINE,
             mon_flag_DRIPS_NAPALM,
             mon_flag_DROPS_AMMO,
@@ -186,6 +187,7 @@ void set_mon_flag_ids()
     mon_flag_DIGS = mon_flag_id( "DIGS" );
     mon_flag_DOGFOOD = mon_flag_id( "DOGFOOD" );
     mon_flag_DORMANT = mon_flag_id( "DORMANT" );
+    mon_flag_GEN_DORMANT = mon_flag_id( "GEN_DORMANT" );
     mon_flag_DRIPS_GASOLINE = mon_flag_id( "DRIPS_GASOLINE" );
     mon_flag_DRIPS_NAPALM = mon_flag_id( "DRIPS_NAPALM" );
     mon_flag_DROPS_AMMO = mon_flag_id( "DROPS_AMMO" );
