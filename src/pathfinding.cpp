@@ -27,12 +27,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-enum astar_state : char {
-    ASL_NONE,
-    ASL_OPEN,
-    ASL_CLOSED
-};
-
 // Turns two indexed to a 2D array into an index to equivalent 1D array
 static constexpr int flat_index( const point &p )
 {
@@ -41,7 +35,7 @@ static constexpr int flat_index( const point &p )
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
-    // State is accessed way more often than all other values here
+    // Closed/open is accessed way more often than all other values here
     std::bitset< MAPSIZE_X *MAPSIZE_Y > closed;
     std::bitset< MAPSIZE_X *MAPSIZE_Y > open;
     std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
