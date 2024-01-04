@@ -10207,6 +10207,7 @@ void map::update_pathfinding_cache( int zlev ) const
     for( const point &p : cache.dirty_points ) {
         update_pathfinding_cache( { p, zlev} );
     }
+    cache.dirty_points.clear();
 }
 
 void map::clip_to_bounds( tripoint &p ) const
