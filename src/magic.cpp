@@ -2433,7 +2433,8 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) && !has_flag( spell_flag::PSIONIC ) ) {
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
     if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) && has_flag( spell_flag::PSIONIC ) ) {
