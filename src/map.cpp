@@ -3685,8 +3685,8 @@ int map::collapse_check( const tripoint &p ) const
             }
         }
         if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-                num_supports = 0;
-            }
+            num_supports = 0;
+        }
     }
 
     return 1.7 * num_supports;
