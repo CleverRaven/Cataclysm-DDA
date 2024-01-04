@@ -1522,7 +1522,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
-        return;        
+        return;
     }
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
     if( creature_ahead && creature_ahead->get_size() >= creature_size::medium && you.get_size() >= creature_size::medium ) {
