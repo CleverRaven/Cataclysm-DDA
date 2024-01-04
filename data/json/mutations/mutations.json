@@ -7689,7 +7689,7 @@
     "id": "CARNIVORE",
     "name": { "str": "Carnivore" },
     "points": -4,
-    "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.  There are specific cuts of meat, often offal, that contain some vitamin C, if you fail to regularly consume those cuts you will need to find an alternative source of this nutrient roughly once a month to avoid scurvy.",
+    "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.  While your vitamin C needs are lowered, its still needed and can be found often in organ meat",
     "types": [ "DIET" ],
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
