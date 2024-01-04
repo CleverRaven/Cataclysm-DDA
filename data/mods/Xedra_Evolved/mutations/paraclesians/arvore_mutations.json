@@ -620,6 +620,28 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_SURVIVAL_BONUS",
+    "name": { "str": "Among the Wilds" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs2": [
+      "ARVORE_SUN_NUTRIENTS",
+      "ARVORE_SUN_NUTRIENTS_ON",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
+    ],
+    "description": "The wilderness welcomes you as one of its own, and you have an easier time surviving there and making things from its bounty. +1.5 Survival skill.",
+    "category": [ "ARVORE" ],
+    "craft_skill_bonus": [ [ "survival", 6 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_DEX_BONUS",
     "name": { "str": "Supple As a Reed" },
     "points": 2,

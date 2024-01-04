@@ -303,13 +303,13 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        if ( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
+        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
             u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
             u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
-        } else if ( u.has_flag( json_flag_BLEEDSLOW )) {
+        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
             u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
             u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
-        } else {
+        } else{
             u.vitamin_mod( vitamin_redcells, -intense );
             u.vitamin_mod( vitamin_blood, -intense );
         }
