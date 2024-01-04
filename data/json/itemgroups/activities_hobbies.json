@@ -8,7 +8,7 @@
       { "item": "liq_bandage_spray", "prob": 10, "charges-min": 1 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
       { "group": "cotton_ball_bag_full", "prob": 20 },
-      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       [ "bat", 60 ],
       [ "bat_nerf", 60 ],
       [ "pom_poms", 40 ],
@@ -740,11 +740,15 @@
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_1_20",
-    "subtype": "collection",
+    "id": "bottle_otc_painkiller_1_20",
+    "subtype": "distribution",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 20 ] } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": [ 1, 20 ] },
+      { "item": "ibuprofen", "container-item": "null", "count": [ 1, 20 ] },
+      { "item": "acetaminophen", "container-item": "null", "count": [ 1, 20 ] }
+    ]
   },
   {
     "type": "item_group",

@@ -3150,7 +3150,10 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
         }
     }
 
-    optional( jo, false, "pocket_mods", slot.add_pockets );
+    JsonArray pockets = jo.get_array( "pocket_mods" );
+    if( !pockets.empty() ) {
+        optional( jo, false, "pocket_mods", slot.add_pockets );
+    }
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )

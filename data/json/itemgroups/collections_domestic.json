@@ -264,7 +264,7 @@
       { "item": "pride_flag", "prob": 5 },
       { "item": "national_flag", "prob": 1 },
       { "prob": 20, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
-      { "prob": 20, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 20, "group": "bottle_otc_painkiller_1_20" },
       { "item": "nic_gum", "prob": 20, "count": [ 1, 10 ] },
       { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       { "prob": 20, "group": "cig_box_cigarette_1_20" },

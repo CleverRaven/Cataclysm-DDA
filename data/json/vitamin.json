@@ -48,6 +48,42 @@
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },
   {
+    "id": "vit_betablocker",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Beta-Blocker" },
+    "excess": "betablock",
+    "min": 0,
+    "max": 864,
+    "//": [ "Takes 30 min to kick in, lasts 24 hours (or more)." ],
+    "rate": "100 s",
+    "disease_excess": [ [ 10, 864 ], [ 865, 1728 ], [ 1729, 2592 ] ]
+  },
+  {
+    "id": "vit_bloodthinner",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Blood thinner" },
+    "excess": "anticoagulant",
+    "min": 0,
+    "max": 4320,
+    "rate": "100 s",
+    "//": "Takes 30 min to kick in, lasts 5 days",
+    "disease_excess": [ [ 10, 4320 ] ]
+  },
+  {
+    "id": "vit_ibuprofen",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Ibuprofen" },
+    "excess": "nsaid_eff",
+    "min": 0,
+    "max": 432,
+    "//": "Takes 30 min to kick in, lasts 6 hours",
+    "rate": "100 s",
+    "disease_excess": [ [ 10, 216 ] ]
+  },
+  {
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",

@@ -5444,6 +5444,11 @@ bool game::is_sheltered( const tripoint &p )
 
 bool game::revive_corpse( const tripoint &p, item &it )
 {
+    return revive_corpse( p, it, 1 );
+}
+
+bool game::revive_corpse( const tripoint &p, item &it, int radius )
+{
     if( !it.is_corpse() ) {
         debugmsg( "Tried to revive a non-corpse." );
         return false;
@@ -5481,7 +5486,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
         }
     }
 
-    return place_critter_at( newmon_ptr, p );
+    return place_critter_around( newmon_ptr, p, radius );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer )

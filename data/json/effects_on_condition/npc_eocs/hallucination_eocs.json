@@ -158,7 +158,7 @@
     "id": "numbness",
     "effect": [
       { "u_message": "You suddenly feel so numb…", "type": "mixed" },
-      { "u_add_effect": "pkill1", "duration": "15 minutes" }
+      { "u_add_effect": "pkill1_generic", "duration": "15 minutes" }
     ]
   },
   {
