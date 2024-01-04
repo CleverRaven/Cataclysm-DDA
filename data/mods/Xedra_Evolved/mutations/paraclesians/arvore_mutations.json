@@ -76,7 +76,7 @@
       { "part": "hand_r", "neutral": 3, "good": 4 },
       { "part": "torso", "neutral": 15, "good": 27 }
     ],
-    "description": "A viridian moss has grown on your skin, forming whorls and eldrich patterns, providing some protection from the cold and the wet.  It also provides a small amount of armor against acid or fire.",
+    "description": "A viridian moss has grown on your skin, forming whorls and eldritch patterns, providing some protection from the cold and the wet.  It also provides a small amount of armor against acid or fire.",
     "armor": [ { "part_types": [ "ALL" ], "acid": 2, "heat": 4 } ],
     "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ]
@@ -193,7 +193,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
-    "name": { "str": "Summon Wood Spirit" },
+    "name": { "str": "Summon the Children of the Boughs" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -306,6 +306,18 @@
     "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_CLIMBING_VINE_SPELL",
+    "name": { "str": "Creeper Ascends the Wall" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "leads_to": [ "ARVORE_NURTURING_THE_GREEN" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to summon a thick climbing vine from diggable ground.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_climbing_vine_spell", 1 ] ]
   },
   {
     "type": "mutation",
