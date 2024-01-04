@@ -1,0 +1,392 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "sword_wood",
+    "copy-from": "sword_wood",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "art_club",
+    "copy-from": "art_club",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "art_staff",
+    "copy-from": "art_staff",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "art_spear",
+    "copy-from": "art_spear",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bwirebat",
+    "copy-from": "bwirebat",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bat",
+    "copy-from": "bat",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bo",
+    "copy-from": "bo",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bokken",
+    "copy-from": "bokken",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bokken_fake",
+    "copy-from": "bokken_fake",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bokken_inferior",
+    "copy-from": "bokken_inferior",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "compositebow",
+    "copy-from": "compositebow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "reflexbow",
+    "copy-from": "reflexbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_steel_crude",
+    "copy-from": "spear_steel_crude",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cudgel",
+    "copy-from": "cudgel",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "digging_stick",
+    "copy-from": "digging_stick",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_dory",
+    "copy-from": "spear_dory",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_wood",
+    "copy-from": "spear_wood",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_forked",
+    "copy-from": "spear_forked",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "hockey_stick",
+    "copy-from": "hockey_stick",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_homemade_halfpike",
+    "copy-from": "spear_homemade_halfpike",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "i_staff",
+    "copy-from": "i_staff",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "ji",
+    "copy-from": "ji",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_knife_proper",
+    "copy-from": "spear_knife_proper",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "club_wooden_large",
+    "copy-from": "club_wooden_large",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "shillelagh_weighted",
+    "copy-from": "shillelagh_weighted",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pointy_stick_long",
+    "copy-from": "pointy_stick_long",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "longbow",
+    "copy-from": "longbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "greatbow_meteor",
+    "copy-from": "greatbow_meteor",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "lc_steel_staff",
+    "copy-from": "lc_steel_staff",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "naginata",
+    "copy-from": "naginata",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "naginata_inferior",
+    "copy-from": "naginata_inferior",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "naginata_fake",
+    "copy-from": "naginata_fake",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "nailbat",
+    "copy-from": "nailbat",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "notched_plank",
+    "copy-from": "notched_plank",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "hand_paddles",
+    "copy-from": "hand_paddles",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "2h_flail_wood",
+    "copy-from": "2h_flail_wood",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike",
+    "copy-from": "pike",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike_fake",
+    "copy-from": "pike_fake",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike_inferior",
+    "copy-from": "pike_inferior",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "2x4",
+    "copy-from": "2x4",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "qiang",
+    "copy-from": "qiang",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "2x4",
+    "copy-from": "2x4",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "q_staff",
+    "copy-from": "q_staff",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "rolling_pin",
+    "copy-from": "rolling_pin",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "shillelagh",
+    "copy-from": "shillelagh",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "shillelagh_fake",
+    "copy-from": "shillelagh_fake",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "shortbow",
+    "copy-from": "shortbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "plank_short",
+    "copy-from": "plank_short",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_knife",
+    "copy-from": "spear_knife",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "makeshift_halberd",
+    "copy-from": "makeshift_halberd",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_spike",
+    "copy-from": "spear_spike",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "2h_club_kanabo_spiked",
+    "copy-from": "2h_club_kanabo_spiked",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "staff_sling",
+    "copy-from": "staff_sling",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "stick",
+    "copy-from": "stick",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_stone",
+    "copy-from": "spear_stone",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "2h_club_kanabo_studded",
+    "copy-from": "2h_club_kanabo_studded",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "selfbow",
+    "copy-from": "selfbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "cane",
+    "copy-from": "cane",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "crossbow",
+    "copy-from": "crossbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "club_wooden",
+    "copy-from": "club_wooden",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GUN",
+    "id": "woodgreatbow",
+    "copy-from": "woodgreatbow",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "javelin",
+    "copy-from": "javelin",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pike_wood",
+    "copy-from": "pike_wood",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "tonfa_wood",
+    "copy-from": "tonfa_wood",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sword_wood_large",
+    "copy-from": "sword_wood_large",
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  }
+]

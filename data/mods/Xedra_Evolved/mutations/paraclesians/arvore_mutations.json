@@ -320,6 +320,24 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_WOOD_WEAPON_DAMAGE",
+    "name": { "str": "Bramble's Bite" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_NURTURING_THE_GREEN", "ARVORE_SUMMON_BRIARS" ],
+    "prereqs2": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "description": "Drawing out the power inherent in growing wood makes weapons composed of it more deadly in your hands.  You do increased damage when wielding a weapon primarily made of wood.",
+    "category": [ "ARVORE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "WOODEN_WEAPON" },
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 }, { "value": "RANGED_DAMAGE", "multiply": 0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_TOXIC_FLESH",
     "name": { "str": "Essence of Hemlock" },
     "points": 8,
