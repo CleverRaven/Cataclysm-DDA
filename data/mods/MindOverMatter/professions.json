@@ -310,13 +310,13 @@
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "pants" },
-          { "item": "dress_shirt" },
+          { "item": "itzcuauhtli_pants" },
+          { "item": "itzcuauhtli_tunic" },
           { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "officer_uniform" },
-          { "item": "beret" },
-          { "item": "holster" },
+          { "item": "itzcuauhtli_boots" },
+          { "item": "itzcuauhtli_cape" },
+          { "item": "itzcuauhtli_hat" },
+          { "item": "itzcuauhtli_holster" },
           {
             "item": "mom_fusion_pistol",
             "ammo-item": "mom_fusion_ammo",
