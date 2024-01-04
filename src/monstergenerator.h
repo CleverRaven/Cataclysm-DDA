@@ -70,7 +70,7 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-        mtype generate_fake_pseudo_dormant_monster( mtype mon );
+        mtype generate_fake_pseudo_dormant_monster( const mtype &mon );
 
         void check_monster_definitions() const;
 

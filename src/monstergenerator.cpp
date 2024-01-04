@@ -42,6 +42,8 @@ static const material_id material_flesh( "flesh" );
 
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
 
+static const spell_id spell_DORMANT_TRAP( "pseudo_dormant_trap_setup" );
+
 namespace
 {
 generic_factory<mon_flag> mon_flags( "monster flags" );
@@ -438,12 +440,36 @@ void MonsterGenerator::finalize_mtypes()
 
     // now add the fake monsters to the mon_templates
     for( mtype &mon : extra_mtypes ) {
-        mon_templates->insert( std::move( mon ) );
+        mon_templates->insert( mon );
     }
 }
 
-mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
+mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
 {
+
+    // this is what we are trying to build. Example for mon_zombie
+    //{
+    //    "id": "pseudo_dormant_mon_zombie",
+    //        "type" : "MONSTER",
+    //        "name" : { "str": "zombie" },
+    //        "description" : "Fake zombie used for spawning dormant zombies.  If you see this, open an issue on github.",
+    //        "copy-from" : "mon_zombie",
+    //        "looks_like" : "corpse_mon_zombie",
+    //        "hp" : 5,
+    //        "speed" : 1,
+    //        "flags" : ["FILTHY", "REVIVES", "DORMANT", "QUIETDEATH"] ,
+    //        "zombify_into" : "mon_zombie",
+    //        "special_attacks" : [
+    //    {
+    //        "id": "pseudo_dormant_trap_setup_attk",
+    //            "type" : "spell",
+    //            "spell_data" : { "id": "pseudo_dormant_trap_setup", "hit_self" : true },
+    //            "cooldown" : 1,
+    //            "allow_no_target" : true,
+    //            "monster_message" : ""
+    //    }
+    //        ]
+    //},
     mtype fake_mon = mtype( mon );
     fake_mon.id = mtype_id( "pseudo_dormant_" + mon.id.str() );
     // allowed (optional) flags: [ "FILTHY" ],
@@ -466,31 +492,30 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
     fake_mon.hp = 5;
     // set the speed to 1
     fake_mon.speed = 1;
+    // now ensure that monster will always die instantly. Nuke all resistances and dodges.
+    // before this monsters like zombie predators could periodically resist the killing effect for a while.
+    // clear dodge
+    fake_mon.sk_dodge = 0;
+    // clear regenerate
+    fake_mon.regenerates = 0;
+    fake_mon.regenerates_in_dark = false;
+    // clear armor
+    for( const auto &dam : fake_mon.armor.resist_vals ) {
+        fake_mon.armor.resist_vals[dam.first] = 0;
+    }
     // add the special attack.
-    //     "special_attacks": [
-    //{
-    //    "id": "pseudo_dormant_trap_setup_attk",
-    //        "type" : "spell",
-    //        "spell_data" : { "id": "pseudo_dormant_trap_setup", "hit_self" : true },
-    //        "cooldown" : 1,
-    //        "allow_no_target" : true,
-    //        "monster_message" : ""
-    //}
-    //]
-
-    // add the special attack. first make a new mon_spellcasting_actor actor
+    // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
-    new_actor->spell_data.id = spell_id( "pseudo_dormant_trap_setup" );
+    new_actor->spell_data.id = spell_DORMANT_TRAP;
     new_actor->spell_data.self = true;
 
     // create the special attack now using the actor
-    std::unique_ptr<mattack_actor> base_actor = std::move( new_actor );
-
     // use this constructor
     // explicit mtype_special_attack( std::unique_ptr<mattack_actor> f ) : actor( std::move( f ) ) { }
 
+    std::unique_ptr<mattack_actor> base_actor = std::move( new_actor );
     mtype_special_attack new_attack( std::move( base_actor ) );
 
     std::pair<const std::string, mtype_special_attack> new_pair{
@@ -498,7 +523,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( mtype mon )
         std::move( new_attack )
     };
     fake_mon.special_attacks.emplace( std::move( new_pair ) );
-    fake_mon.special_attacks_names.push_back( "pseudo_dormant_trap_setup_attk" );
+    fake_mon.special_attacks_names.emplace_back( "pseudo_dormant_trap_setup_attk" );
 
     return fake_mon;
 }
