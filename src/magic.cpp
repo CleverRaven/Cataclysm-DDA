@@ -2437,7 +2437,8 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
     }
-    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) && has_flag( spell_flag::PSIONIC ) ) {
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
     return enumerate_as_string( spell_data );
