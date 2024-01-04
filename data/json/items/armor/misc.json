@@ -342,6 +342,7 @@
         "id": "dog_tag_id",
         "name": { "str": "dog tag" },
         "description": "They have inscribed:\n<family_name>\n<given_name_army>\n<number><number><number><number><number><number><number><number><number><number>\n<blood_type_caps>\n<religion_caps>",
+        "expand_snippets": true,
         "append": true,
         "weight": 1
       }
