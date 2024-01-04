@@ -373,7 +373,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_denim_patchwork", 5 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 4 ], [ "fastener_small", 1 ] ],
     "byproducts": [ [ "scrap_denim", 8 ] ]
   },
   {

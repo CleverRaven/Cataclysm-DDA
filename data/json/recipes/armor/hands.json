@@ -519,7 +519,7 @@
     "time": "4 h 30 m",
     "autolearn": true,
     "using": [ [ "tailoring_denim_patchwork", 2 ] ],
-    "byproducts": [ [ "scrap_denim", 5 ] ],
+    "byproducts": [ [ "scrap_denim", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {

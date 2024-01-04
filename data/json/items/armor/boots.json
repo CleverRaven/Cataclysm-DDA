@@ -336,8 +336,9 @@
   {
     "id": "boots_denim",
     "type": "ARMOR",
-    "name": { "str": "pair of jean boots", "str_pl": "pairs of jean boots" },
+    "name": { "str": "pair of denim boots", "str_pl": "pairs of denim boots" },
     "description": "A pair of boots extending towards your lower leg, completely lined with denim.  Looks cool and has above average protection.",
+    "//": "Denim part is 12 oz.",
     "weight": "1120 g",
     "volume": "3 L",
     "price": 6000,
@@ -348,16 +349,6 @@
     "looks_like": "boots",
     "environmental_protection": 2,
     "armor": [
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "denim", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "encumbrance": 6,
-        "coverage": 50
-      },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [
@@ -372,7 +363,7 @@
         ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "denim", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "encumbrance": 12,
         "coverage": 100
@@ -2129,7 +2120,7 @@
   {
     "id": "shoes_denim",
     "type": "ARMOR",
-    "name": { "str": "pair of jean sneakers", "str_pl": "pairs of jean sneakers" },
+    "name": { "str": "pair of denim sneakers", "str_pl": "pairs of denim sneakers" },
     "description": "A pair of denim shoes.  They are cool and that's about it.",
     "//": "Denim part is 10 oz.",
     "weight": "340 g",
@@ -2165,7 +2156,7 @@
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "coverage": 100
       }

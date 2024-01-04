@@ -432,8 +432,8 @@
     "type": "ARMOR",
     "name": { "str": "denim backpack" },
     "description": "A denim backpack.  Solid storage for few encumbrance.  The texture feels nice.",
-    "//": "It's modeled as something between a normal backpack and leather backpack.",
-    "weight": "752 g",
+    "//": "It's modeled as our normal backpack but made of 16.5 oz denim.",
+    "weight": "560 g",
     "volume": "2 L",
     "price": 5000,
     "price_postapoc": 300,
@@ -476,8 +476,8 @@
         "transparent": true
       }
     ],
-    "warmth": 7,
-    "material_thickness": 2,
+    "warmth": 6,
+    "material_thickness": 1.1,
     "flags": [ "BELTED" ],
     "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },

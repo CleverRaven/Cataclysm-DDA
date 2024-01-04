@@ -557,14 +557,14 @@
     "name": { "str": "denim shirt" },
     "description": "A long sleeved button-down shirt made from denim.",
     "//": "This is for 12 oz denim shirt, which I found to be average",
-    "weight": "370 g",
-    "volume": "900 ml",
+    "weight": "680 g",
+    "volume": "1 L",
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "denim" ],
     "looks_like": "dress_shirt",
     "symbol": "[",
-    "color": "blue",
+    "color": "light_blue",
     "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 4, 5 ] },
@@ -575,12 +575,12 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "4 kg",
-        "max_item_length": "9 cm",
+        "max_item_length": "10 cm",
         "moves": 75
       }
     ],
-    "warmth": 12,
-    "material_thickness": 0.3
+    "warmth": 20,
+    "material_thickness": 0.8
   },
   {
     "id": "dress_shirt",

@@ -1656,7 +1656,7 @@
     "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_denim_patchwork", 14 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 24 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1714,7 +1714,7 @@
     "difficulty": 5,
     "time": "22 h",
     "autolearn": true,
-    "using": [ [ "tailoring_denim_patchwork", 20 ], [ "strap_large", 2 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 16 ], [ "strap_large", 2 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "byproducts": [ [ "scrap_denim", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]

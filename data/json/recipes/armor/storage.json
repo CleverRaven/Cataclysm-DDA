@@ -378,8 +378,7 @@
     "difficulty": 3,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_denim_patchwork", 9 ], [ "fastener_large", 2 ] ],
-    "byproducts": [ [ "denim_patch", 6 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 6 ], [ "fastener_large", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {

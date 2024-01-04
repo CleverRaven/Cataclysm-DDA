@@ -1063,18 +1063,18 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 20, 21 ],
+        "encumbrance": [ 24, 25 ],
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 20, 20 ],
+        "encumbrance": [ 25, 25 ],
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
       }
@@ -1082,20 +1082,20 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       }
     ],
-    "warmth": 20,
+    "warmth": 35,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1104,8 +1104,8 @@
     "type": "ARMOR",
     "name": { "str": "armored jean vest" },
     "description": "A denim vest reinforced with metal plates.  Adequately protective, but not very sturdy.",
-    "weight": "4000 g",
-    "volume": "3800 ml",
+    "weight": "4100 g",
+    "volume": "4100 ml",
     "price": 13000,
     "price_postapoc": 1800,
     "material": [ "denim", "lc_steel" ],
@@ -1116,7 +1116,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 20, 21 ],
+        "encumbrance": [ 24, 25 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
           { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
@@ -1126,16 +1126,16 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       }
     ],
@@ -1186,18 +1186,18 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 20, 21 ],
+        "encumbrance": [ 24, 25 ],
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 20, 20 ],
+        "encumbrance": [ 25, 25 ],
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
       }
@@ -1216,9 +1216,9 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 20, 21 ],
+        "encumbrance": [ 24, 25 ],
         "material": [
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
       }

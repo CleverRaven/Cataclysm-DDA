@@ -1016,7 +1016,7 @@
     "time": "5 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 1 ] ],
-    "using": [ [ "tailoring_denim_patchwork", 6 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 10 ], [ "fastener_large", 1 ] ],
     "byproducts": [ [ "denim_patch", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1031,7 +1031,7 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 1 ] ],
-    "using": [ [ "tailoring_denim_patchwork", 4 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "byproducts": [ [ "denim_patch", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
@@ -1287,7 +1287,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 30 ], [ "tailoring_cotton_patchwork", 4 ], [ "button", 5 ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_cotton_patchwork", 8 ], [ "button", 5 ] ]
   },
   {
     "result": "lsurvivor_armor",
