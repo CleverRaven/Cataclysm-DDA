@@ -157,7 +157,7 @@
       { "item": "boots", "prob": 25 },
       { "item": "boots_winter", "prob": 25 },
       { "item": "boots_steel", "prob": 15 },
-      { "item": "boots_denim", "prob": 10 },
+      { "item": "boots_denim", "prob": 5 },
       { "item": "sneakers_steel", "prob": 15 }
     ]
   },
@@ -518,8 +518,8 @@
       { "item": "boots_western", "prob": 15 },
       { "item": "knee_high_boots", "prob": 20 },
       { "item": "thigh_high_boots", "prob": 20 },
-      { "item": "boots_denim", "prob": 5 },
-      { "item": "shoes_denim", "prob": 5 }
+      { "item": "boots_denim", "prob": 2 },
+      { "item": "shoes_denim", "prob": 3 }
     ]
   },
   {
@@ -1756,7 +1756,7 @@
       [ "heels", 50 ],
       [ "golf_shoes", 20 ],
       [ "boots_combat", 10 ],
-      [ "boots_denim", 5 ],
+      [ "boots_denim", 1 ],
       [ "boots_hiking", 20 ],
       [ "boots_western", 10 ],
       [ "clogs", 1 ],
@@ -2052,10 +2052,10 @@
       [ "lowtops", 100 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 20 ],
-      [ "shoes_denim", 30 ],
+      [ "shoes_denim", 5 ],
       [ "heels", 100 ],
       [ "golf_shoes", 40 ],
-      [ "boots_denim", 30 ],
+      [ "boots_denim", 5 ],
       [ "boots_hiking", 40 ],
       [ "boots_western", 60 ],
       [ "clogs", 60 ],
@@ -2090,7 +2090,7 @@
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 20 },
-      { "item": "backpack_denim", "prob": 8 },
+      { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 },
       { "item": "leg_bag", "prob": 1 },
@@ -2123,7 +2123,7 @@
       { "item": "purse", "prob": 40 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
-      { "item": "backpack_denim", "prob": 8 },
+      { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 }
     ]
@@ -2241,7 +2241,7 @@
       { "item": "cowboy_hat", "prob": 10 },
       { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 1 },
       { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 70, "event": "independence_day" },
-      { "item": "boots_denim", "prob": 5 },
+      { "item": "boots_denim", "prob": 2 },
       { "item": "shoes_denim", "prob": 5 },
       { "item": "boots_western", "prob": 8 },
       { "item": "glasses_monocle", "prob": 2 },
@@ -2766,8 +2766,8 @@
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 40 ],
       [ "dress_shoes", 50 ],
-      [ "boots_denim", 5 ],
-      [ "shoes_denim", 5 ]
+      [ "boots_denim", 1 ],
+      [ "shoes_denim", 1 ]
     ]
   },
   {
@@ -3221,7 +3221,7 @@
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "sneakers_steel", 20 ],
-      [ "boots_denim", 5 ],
+      [ "boots_denim", 2 ],
       [ "boots_hiking", 24 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
@@ -3274,7 +3274,7 @@
       [ "runner_bag", 20 ],
       [ "molle_pack", 12 ],
       [ "backpack", 40 ],
-      [ "backpack_denim", 22 ],
+      [ "backpack_denim", 12 ],
       [ "backpack_leather", 32 ],
       [ "mbag", 26 ],
       [ "purse", 14 ],
@@ -4058,7 +4058,7 @@
           { "item": "daypack", "prob": 25 },
           { "item": "backpack_leather", "prob": 40 },
           { "item": "backpack", "prob": 85 },
-          { "item": "backpack_denim", "prob": 25 },
+          { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
           { "item": "travelpack", "prob": 25 },

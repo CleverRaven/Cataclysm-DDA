@@ -42,7 +42,7 @@
       {
         "distribution": [
           { "item": "backpack", "prob": 80 },
-          { "item": "backpack_denim", "prob": 20 },
+          { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_leather", "prob": 20 }
         ],
         "prob": 70
