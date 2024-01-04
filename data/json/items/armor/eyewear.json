@@ -229,7 +229,7 @@
   {
     "id": "glasses_monocle_polished_concave_loose",
     "type": "ARMOR",
-    "name": { "str": "hand-crafted reading monocle (loose)" },
+    "name": { "str": "hand-crafted reading monocle (loose)", "str_pl": "hand-crafted reading monocles (loose)" },
     "looks_like": "",
     "copy-from": "glasses_monocle_polished_concave",
     "use_action": {
@@ -262,7 +262,7 @@
   {
     "id": "glasses_monocle_polished_convex_loose",
     "type": "ARMOR",
-    "name": { "str": "hand-crafted monocle (loose)" },
+    "name": { "str": "hand-crafted monocle (loose)", "str_pl": "hand-crafted monocles (loose)" },
     "description": "While this is still clearly a hand-crafted monocle, the quality is actually rather decent, with noticeable effort put towards the comfort of the user.  It has a very fancy metal rim, alongside a chain that connects to your clothes.  Perfect for hunting the most dangerous game of all.",
     "copy-from": "glasses_monocle_polished_concave_loose",
     "use_action": {
