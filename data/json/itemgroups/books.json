@@ -176,6 +176,7 @@
       { "item": "holybook_bible9", "prob": 6 },
       { "item": "holybook_catechismbudda", "prob": 3 },
       { "item": "holybook_catechismmuslim", "prob": 3 },
+      { "item": "holybook_catechism", "prob": 5 },
       { "item": "holybook_catechism1", "prob": 5 },
       { "item": "holybook_catechism2", "prob": 5 },
       { "item": "holybook_catechism3", "prob": 5 },
