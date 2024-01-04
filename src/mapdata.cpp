@@ -266,6 +266,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
         case ter_furn_flag::TFLAG_MUTANT_TREE: return "MUTANT_TREE";
+        case ter_furn_flag::TFLAG_SINGLE_SUPPORT: return "SINGLE_SUPPORT";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

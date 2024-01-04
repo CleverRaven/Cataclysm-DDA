@@ -316,6 +316,7 @@ enum class ter_furn_flag : int {
     TFLAG_SMALL_HIDE,
     TFLAG_NO_FLOOR_WATER,
     TFLAG_MUTANT_TREE,
+    TFLAG_SINGLE_SUPPORT,
 
     NUM_TFLAG_FLAGS
 };

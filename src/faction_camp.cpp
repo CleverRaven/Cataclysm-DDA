@@ -4584,7 +4584,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() + 1 );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
@@ -4596,6 +4596,10 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             tripoint to = p + tripoint( dir, omt_tgt.z() );
             std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
             for( tripoint &elem : tree ) {
+                const tripoint &treetop = tripoint( elem.xy(), elem.z + 1 );
+                if( target_bay.ter( treetop ).obj().has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT ) ) {
+                    target_bay.ter_set( treetop, t_open_air );
+                }
                 target_bay.destroy( elem );
                 target_bay.ter_set( elem, t_trunk );
             }
