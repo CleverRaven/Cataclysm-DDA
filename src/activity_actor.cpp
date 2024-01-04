@@ -1525,7 +1525,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         return;
     }
     Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
-    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium && you.get_size() >= creature_size::medium ) {
+    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium &&
+        you.get_size() >= creature_size::medium ) {
         // Zombies are too stupid to avoid midair collision
         if(  !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
                                               !creature_ahead->dodge_check( 15, true ) ) ) {
