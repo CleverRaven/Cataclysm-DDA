@@ -300,7 +300,7 @@
       { "level": 2, "name": "pistol" },
       { "level": 7, "name": "metaphysics" }
     ],
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT", "FIFTH_SUN_PEOPLE" ],
     "spells": [
       { "id": "teleport_blink", "level": 7 },
       { "id": "teleport_slow", "level": 10 },
