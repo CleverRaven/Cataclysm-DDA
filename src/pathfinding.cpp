@@ -89,7 +89,7 @@ struct pathfinder {
         if( layer.closed[index] ) {
             return;
         }
-        if( layer.open[index] && gscore > layer.gscore[index] ) {
+        if( layer.open[index] && gscore >= layer.gscore[index] ) {
             return;
         }
 
