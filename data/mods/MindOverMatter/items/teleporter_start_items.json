@@ -69,7 +69,8 @@
     "copy-from": "cloak",
     "type": "ARMOR",
     "name": { "str": "Itzcuauhtli Corps tilmàtli" },
-    "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac."
+    "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
+    "delete": { "flags": [ "HOOD" ] }
   },
   {
     "id": "itzcuauhtli_hat",
