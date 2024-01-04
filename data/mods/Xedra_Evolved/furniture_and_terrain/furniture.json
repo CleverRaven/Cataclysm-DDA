@@ -220,9 +220,7 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "scrap_dreamdross", "count": [ 50, 80 ] }
-      ]
+      "items": [ { "item": "scrap_dreamdross", "count": [ 50, 80 ] } ]
     }
   }
 ]
