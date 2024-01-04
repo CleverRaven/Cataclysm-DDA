@@ -2371,10 +2371,5 @@
     "id": "TRANSPARENT",
     "type": "json_flag",
     "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
-  },
-  {
-    "id": "DISINFECTANT",
-    "type": "json_flag",
-    "//": "This item is disinfectant, used in EoC checks, doesn't have any effect on it's own."
   }
 ]

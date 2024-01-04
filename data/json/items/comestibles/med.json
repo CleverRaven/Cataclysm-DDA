@@ -151,7 +151,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
@@ -232,7 +232,7 @@
     "color": "white",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
@@ -453,7 +453,7 @@
     "freezing_point": -56,
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -463,7 +463,7 @@
     "price_postapoc": 250,
     "copy-from": "disinfectant",
     "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect wounds.",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -859,7 +859,7 @@
       "move_cost": 2500,
       "effects": [ { "id": "pkill_wintergreen_oil", "duration": "1 h" } ]
     },
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE", "DISINFECTANT" ]
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mugwort_oil",
@@ -1198,7 +1198,7 @@
     "color": "yellow",
     "phase": "liquid",
     "spoils_in": "28 days",
-    "flags": [ "NO_INGEST", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1564,7 +1564,7 @@
     "phase": "liquid",
     "symbol": "~",
     "color": "light_blue",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "DISINFECTANT" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 1,

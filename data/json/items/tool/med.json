@@ -27,7 +27,7 @@
     "price_postapoc": 6,
     "symbol": ",",
     "color": "white",
-    "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE", "DISINFECTANT" ],
+    "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
   {
@@ -127,7 +127,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "flags": [ "SINGLE_USE", "DISINFECTANT" ],
+    "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 2,
@@ -150,7 +150,7 @@
     "material": [ "cotton" ],
     "symbol": "*",
     "color": "white",
-    "flags": [ "SINGLE_USE", "DISINFECTANT" ],
+    "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 3,
@@ -215,7 +215,6 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "white",
-    "flags": [ "DISINFECTANT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -441,7 +440,7 @@
           {
             "id": "SALINE_INFUSION_250",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "3" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_250", "volume_of_saline": "250" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_250", "volume_of_saline": "250" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -469,7 +468,7 @@
           {
             "id": "SALINE_INFUSION_500",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_500", "volume_of_saline": "500" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_500", "volume_of_saline": "500" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -497,7 +496,7 @@
           {
             "id": "SALINE_INFUSION_1000",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_1000", "volume_of_saline": "1000" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_1000", "volume_of_saline": "1000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -525,7 +524,7 @@
           {
             "id": "SALINE_INFUSION_2000",
             "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION_init", "variables": { "bag_id": "saline_bag_2000", "volume_of_saline": "2000" } },
+            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "bag_id": "saline_bag_2000", "volume_of_saline": "2000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
