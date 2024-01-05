@@ -195,14 +195,17 @@ Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredi
             if( !faction_fn( faction ) ) {
                 continue;
             }
-            for( std::size_t i = 0; i < creatures.size(); ++i ) {
+            for( std::size_t i = 0; i < creatures.size(); ) {
                 Creature *other = creatures[i].get();
                 if( other->is_dead_state() ) {
                     using std::swap;
                     swap( creatures[i], creatures.back() );
                     creatures.pop_back();
-                } else if( creature_fn( other ) ) {
-                    return other;
+                } else {
+                    if( creature_fn( other ) ) {
+                        return other;
+                    }
+                    ++i;
                 }
             }
         }
