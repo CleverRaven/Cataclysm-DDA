@@ -1557,7 +1557,7 @@
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "nomex", 6 ], [ "nomex_hood", 1 ] ],
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
-     ]
+    ]
   },
   {
     "result": "mask_gas",
