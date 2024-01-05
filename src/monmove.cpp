@@ -168,8 +168,8 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
                     // I'm sorry but you can't let a kaiju ride shotgun.
                 }
-                if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                      has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                if( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                    has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) {
                     return true; // Return true if we're wiggly enough to be fine with cramped space.
                 }
                 critter.add_effect( effect_cramped_space, 2_turns, true );

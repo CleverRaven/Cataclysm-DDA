@@ -2412,7 +2412,11 @@ bool spell::energy_cost_encumbered( const Character &guy ) const
 std::string spell::enumerate_spell_data( const Character &guy ) const
 {
     std::vector<std::string> spell_data;
-    if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
+    if( has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "is a psionic power" ) );
+    }
+    if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
+        temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
     }
     if( has_flag( spell_flag::VERBAL ) && temp_sound_multiplyer > 0 ) {
@@ -2423,14 +2427,19 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     }
     if( !no_hands() ) {
         spell_data.emplace_back( _( "impeded by gloves" ) );
-    } else {
+    } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) ) {
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
+    }
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
     return enumerate_as_string( spell_data );
 }

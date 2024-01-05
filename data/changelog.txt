@@ -88,6 +88,8 @@ There's an ocean in the East (or wherever you set the json) now. NBD.  Feel free
 Make run_eocs/queue_eocs support variable objects
 Protein bars now give character a psychological trauma
 Adds sand to ocean beaches
+Toggle to highlight OMTs revealed by maps
+Adds extreme height chargen traits, adds tools for disabled drivers
 
 
 ## Content:
@@ -169,6 +171,10 @@ Vehicles spawn on bridges
 Added creatures to populate the new edge ocean.
 Major board game expansion
 Allow the Nunez family to move to Tacoma Commune if you help them set it up.
+Lockets can store photographs
+Add diet soda, because screw your free calories!
+Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
+Modularize Desert Eagle, add .50 AE
 
 
 ## Interface:
@@ -220,6 +226,8 @@ Shows the starting location for a scenario when there is only one possible optio
 Show language selection window in options menu
 Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
+High characters now see fancy smiley faces and exclamations in their message log.
+Can't accidentally select full deconstruction if simple deconstruction is available
 
 
 ## Mods:
@@ -307,6 +315,12 @@ Add Bombastic Perk compatibility to Defense Mode.
 [MoM] Change electrokinetic overload
 [Sky Island] Allow selection of room teleport behavior
 [MOM] Allow high nether attunement to induce hallucinations.
+[ Sky Island ] Warp Pulse UI
+Paraclesian Map extras
+[MoM] Power learning revamp: Biokinesis
+[Sky Island] Lots of updates
+[MoM] Change success formula for psionic powers
+[DinoMod] plesiosaurus
 
 
 ## Balance:
@@ -356,6 +370,7 @@ Fragile Clothing will degrade if its dealt damage larger than 15% its armor valu
 Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
+Visitors Passes and Freight Badges no longer reveal roads
 
 
 ## Bugfixes:
@@ -461,6 +476,8 @@ Show correct bodypart in grabs
 Vehicle parts check creature size, increases storage of dumpster and vehicle parts
 Prevent softlock when sleeping in cramped spaces
 Invalidate draw point cache if viewport size or position changes
+clarify repeater mod installation and add a vanilla quest for them
+Randomizing character description will produce a matching outfit
 
 
 ## Performance:
@@ -476,6 +493,8 @@ Precalculate visitable zones to optimize inter-monster aggression checks
 Reduced wait times in high traffic areas by ~15-20%
 Reduce time of selecting large amount of items in inventory menu
 Fix armor resistances hotspot exposed by NPC AI improvements
+Slightly fewer allocations in npc::process_turn
+Optimized creature iteration during monster planning and parrot_at_danger.
 
 
 ## Infrastructure:
@@ -530,6 +549,7 @@ Cross compile object creator from linux to Windows using Devcontainer
 add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
+Report game's RNG seed during testing
 
 
 ## I18N and A11Y:
