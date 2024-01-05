@@ -28,8 +28,8 @@
     "weapon_override": "REFUGEE_Vanessa_wield",
     "traits": [
       { "trait": "SKIN_TAN" },
-      { "trait": "hair_medium" },
-      { "trait": "hair_color_gray" },
+      { "trait": "hair_medium", "variant": "gray" },
+      { "trait": "natural_hair_color_gray" },
       { "group": "NPC_starting_traits" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
