@@ -1,0 +1,35 @@
+name: JSON Formatter in HTML
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: Build
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: mymindstorm/setup-emsdk@v13
+
+      - name: Prepare web data
+        run: ./build-scripts/prepare-web-data.sh
+
+      - name: Build with emcc (emscripten)
+        run: ./build-scripts/build-emscripten.sh
+
+      - name: Assemble web bundle
+        run: |
+          ./build-scripts/prepare-web.sh
+          (cd build && tar cvfz ../play-cdda.tar.gz .)
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: formatter
+          path: play-cdda.tar.gz
