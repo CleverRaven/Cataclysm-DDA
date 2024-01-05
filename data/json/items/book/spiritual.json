@@ -532,30 +532,6 @@
     ]
   },
   {
-    "id": "holybook_lost",
-    "type": "BOOK",
-    "name": { "str": "Lost Books of the Bible", "str_pl": "Lost Books of the Bible" },
-    "description": "A collection of texts that did not make it into the canonical Bible, which includes the Old Testament and the New Testament. These texts, also known as the apocrypha, were written between the 3rd century BCE and the 2nd century CE.  The reasons for their exclusion from the Bible are varied, ranging from theological disagreements to differences in language and cultural context.",
-    "weight": "281 g",
-    "volume": "1 L",
-    "copy-from": "holybook_abstract",
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "holybook_lost1",
-        "name": { "str": "Gospel of James", "str_pl": "copies of the Gospel of James" },
-        "description": "One of the Lost Books of the Bible.  It provides an account of the early life of Jesus Christ, focusing on his birth, infancy, and the events surrounding his mother, Mary.  It includes details about the selection and consecration of Mary as a virgin in the temple, the miraculous conception of Jesus, and the presentation of Jesus in the temple.  The Gospel of James also describes the circumstances surrounding the birth of John the Baptist, the circumcision of Jesus, and the finding of the young Jesus in the temple.",
-        "append": true
-      },
-      {
-        "id": "holybook_lost2",
-        "name": { "str": "Gospel Birth of Mary", "str_pl": "copies of the Gospel Birth of Mary" },
-        "description": "One of the Lost Books of the Bible.  This text provides details about the parentage of Virgin Mary, her betrothal to Joseph, and the circumstances surrounding the birth of Jesus.  Unfortunately, the original text has been lost, but this book provides various fragments and references to its content that been preserved in historical writings and translations.",
-        "append": true
-      }
-    ]
-  },
-  {
     "id": "holybook_pastafarian",
     "type": "BOOK",
     "name": {
