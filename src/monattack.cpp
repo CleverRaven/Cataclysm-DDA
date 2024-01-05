@@ -4593,8 +4593,7 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot](
-    Creature * creature ) __declspec( noinline ) {
+    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot]( Creature * creature ) {
         if( !creature->is_hallucination() && one_in( 20 ) ) {
             if( creature->is_avatar() || creature->is_npc() ) {
                 Character *character = creature->as_character();
