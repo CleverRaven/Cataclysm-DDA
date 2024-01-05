@@ -13,5 +13,10 @@
     "id": "WOODEN_WEAPON",
     "type": "json_flag",
     "info": "This weapon is primarily or mostly made of wood."
+  },
+  {
+    "id": "ARVORE_POLLEN_IMMUNE",
+    "type": "json_flag",
+    "info": "This character cannot be affected by Arvore pollens."
   }
 ]
