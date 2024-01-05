@@ -2026,7 +2026,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "survivor firemask" },
-    "description": "A custom-made leather gasmask faced with nomex.  It must be prepared before use.",
+    "description": "A custom-made leather gasmask faced with Nomex.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1250 ml",
     "price": 26000,
