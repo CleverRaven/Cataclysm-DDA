@@ -401,5 +401,24 @@
     "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
     "condition": { "math": [ "u_val('thirst')", ">=", "-50" ] },
     "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "monster": "",
+        "true_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS",
+        "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS",
+    "effect": [ { "u_message": "Variable saved successfully" } ]
   }
 ]
