@@ -634,7 +634,8 @@ ifeq ($(NATIVE), emscripten)
   
   ifneq ($(RELEASE), 1)
     EMCC_COMMON_FLAGS += -g
-    EMCC_COMMON_FLAGS += -sASSERTIONS
+  else
+    EMCC_COMMON_FLAGS += -gseparate_dwarf
   endif
   
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
