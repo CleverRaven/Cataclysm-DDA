@@ -377,12 +377,6 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    // Used with the Mind over Matter power Obscurity, to telepathically erase yourself from a target's perceptions
-    if( has_effect( effect_telepathic_ignorance ) &&
-        critter.has_effect( effect_telepathic_ignorance_self ) ) {
-        return false;
-    }
-
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
         here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
@@ -404,6 +398,12 @@ bool Creature::sees( const Creature &critter ) const
 
     // If we cannot see without any of the penalties below, bail now.
     if( !sees( critter.pos(), critter.is_avatar() ) ) {
+        return false;
+    }
+
+    // Used with the Mind over Matter power Obscurity, to telepathically erase yourself from a target's perceptions
+    if( has_effect( effect_telepathic_ignorance ) &&
+        critter.has_effect( effect_telepathic_ignorance_self ) ) {
         return false;
     }
 
