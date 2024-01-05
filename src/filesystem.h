@@ -110,7 +110,7 @@ bool is_lexically_valid( const fs::path & );
 constexpr bool is_lexically_valid( const fs::path & )
 {
     return true;
-};
+}
 #endif
 
 #endif // CATA_SRC_FILESYSTEM_H
