@@ -14,6 +14,20 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_jagged_claws_faster_attack",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "values": [ { "value": "ATTACK_SPEED", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_jagged_claws_when_bramble_bite",
+    "has": "WORN",
+    "condition": { "u_has_trait": "ARVORE_WOOD_WEAPON_DAMAGE" },
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "arvore_ignore_chill",
     "condition": "ALWAYS",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
