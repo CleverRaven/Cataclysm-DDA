@@ -1335,6 +1335,9 @@ tripoint_abs_ms monster::get_dest() const
 
 void monster::set_dest( const tripoint_abs_ms &p )
 {
+    if( !goal || rl_dist( p, *goal ) > 2 ) {
+        reset_pathfinding_cd();
+    }
     goal = p;
 }
 
@@ -2119,6 +2122,8 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     if( is_dead_state() ) {
         return;
     }
+    // Ensure we can try to get at what hit us.
+    reset_pathfinding_cd();
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
@@ -3912,9 +3917,9 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::unordered_set<tripoint> monster::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
 
     map &here = get_map();
     int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );

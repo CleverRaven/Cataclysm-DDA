@@ -4403,7 +4403,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-                static const std::set<tripoint> path_avoid = {};
+                static const std::unordered_set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
                     return critter;
@@ -7477,7 +7477,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
     };
     route_t shortest_route;
-    std::set<tripoint> path_avoid;
+    std::unordered_set<tripoint> path_avoid;
     for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
         if( is_dangerous_tile( p.raw() ) ) {
             path_avoid.insert( p.raw() );
