@@ -759,7 +759,7 @@
     "type": "effect_type",
     "id": "effect_arvore_poison_pollen",
     "name": [ "Night-Blooming Flower" ],
-    "desc": [ "You are emiting a pollen that will weaken and disorient your enemies." ],
+    "desc": [ "You are emitting a pollen that will weaken and disorient your enemies." ],
     "rating": "good",
     "removes_effects": [ "effect_pollen_arvore_weaken" ],
     "enchantments": [ { "emitter": "emit_arvore_poison_pollen" } ]

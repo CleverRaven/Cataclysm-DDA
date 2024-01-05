@@ -303,6 +303,20 @@
     "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_anti_plant_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ] }
   },
   {
+    "id": "arvore_vine_drag_spell",
+    "type": "SPELL",
+    "name": "Entangling Vines Spell",
+    "description": "Pull a target to you.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": { "math": [ "(u_val('dexterity') / 2) * -1" ] },
+    "min_range": { "math": [ "(u_val('dexterity') / 2)" ] }
+  },
+  {
     "id": "arvore_nurture_the_green",
     "type": "SPELL",
     "name": "Nurturing the Green",

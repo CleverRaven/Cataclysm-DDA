@@ -207,6 +207,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VINE_DRAG_activated",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "1",
+          "spell_to_cast": "arvore_vine_drag_spell",
+          "message_success": "Vines lash out and drag your target in!",
+          "message_fail": "You are too parched to lash out with any vines."
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK",
     "condition": { "not": { "u_has_effect": "arvore_perennial_rebirth_cooldown" } },
     "effect": {
