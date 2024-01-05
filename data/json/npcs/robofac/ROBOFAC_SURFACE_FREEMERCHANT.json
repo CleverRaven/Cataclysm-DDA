@@ -62,6 +62,7 @@
       { "item": "trenchcoat_fur", "prob": 10 },
       { "item": "jacket_leather", "prob": 25 },
       { "item": "jacket_jean", "prob": 15 },
+      { "item": "vest_jean", "prob": 5 },
       { "item": "jacket_flannel", "prob": 15 },
       { "item": "pants_cargo", "prob": 40 },
       { "item": "shorts_cargo", "prob": 25 },

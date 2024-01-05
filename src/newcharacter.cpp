@@ -44,7 +44,6 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
-#include "name.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -63,6 +62,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -373,7 +373,7 @@ void Character::pick_name( bool bUseDefault )
     if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
-        name = Name::generate( male );
+        name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     }
 }
 
@@ -453,7 +453,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
-    randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;
@@ -464,6 +463,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     per_max = rng( 6, HIGH_STAT - 2 );
 
     set_body();
+    randomize_hobbies();
 
     int num_gtraits = 0;
     int num_btraits = 0;

@@ -1404,6 +1404,112 @@
     ]
   },
   {
+    "id": "jeans_mod",
+    "type": "ARMOR",
+    "name": { "str": "armored jeans", "str_pl": "pairs of armored jeans" },
+    "description": "A pair of jeans reinforced with hard plastic knee pads and metal sheets.  The end product is not very sturdy and somewhat cumbersome, but protective.",
+    "weight": "3810 g",
+    "volume": "3500 ml",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "denim", "plastic", "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "motorbike_pants",
+    "color": "blue",
+    "warmth": 20,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": [ 18, 20 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "encumbrance": [ 2, 2 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 5 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "id": "jeans_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "hardened armored jeans", "str_pl": "pairs of hardened armored jeans" },
+    "copy-from": "jeans_mod",
+    "description": "A pair of jeans reinforced with hard plastic knee pads and hardened steel sheets.  Although its high protection outweighs its encumbrance, it's not really sturdy.",
+    "price": 15000,
+    "price_postapoc": 1250,
+    "material": [ "denim", "plastic", "ch_steel" ],
+    "symbol": "[",
+    "looks_like": "motorbike_pants",
+    "color": "blue",
+    "armor": [
+      {
+        "encumbrance": [ 18, 20 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "encumbrance": [ 2, 2 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 5 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "trousers_eod",
     "type": "ARMOR",
     "category": "armor",

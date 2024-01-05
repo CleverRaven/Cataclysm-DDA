@@ -23,13 +23,13 @@
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
-#include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -67,9 +67,7 @@ save_t save_t::from_base_path( const std::string &base_path )
 
 static std::string get_next_valid_worldname()
 {
-    std::string worldname = Name::get( nameFlags::IsWorldName );
-
-    return worldname;
+    return SNIPPET.expand( "<world_name>" );
 }
 
 WORLD::WORLD()

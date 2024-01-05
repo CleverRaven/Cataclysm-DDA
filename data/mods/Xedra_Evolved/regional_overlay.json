@@ -23,13 +23,20 @@
           "mx_mayhem": 500,
           "mx_casings": 1000,
           "mx_corpses": 300,
-          "mx_prison_bus": 150,
-          "mx_trees_arvore": 50,
-          "mx_trees_arvore_salamander": 50,
-          "mx_pond_forest_arvore": 25,
-          "mx_pond_forest_undine": 25,
-          "mx_pond_forest_arvore2": 25,
-          "mx_pond_forest_undine2": 25
+          "mx_prison_bus": 150
+        }
+      },
+      "field": {
+        "chance": 75,
+        "extras": {
+          "mx_trees_map_salamander": 75,
+          "mx_trees_map_sylph": 75,
+          "mx_trees_map_ierde": 75,
+          "mx_homelesscamp_homullus": 75,
+          "mx_forest_pond_avore": 75,
+          "mx_forest_pond_salamander_avore": 75,
+          "mx_pond_forest_undine": 75,
+          "mx_pond_forest_undine_ierde": 75
         }
       }
     }

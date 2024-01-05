@@ -386,7 +386,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
         return false;
     },
     [this]( const tripoint_bub_ms & loc ) {
-        Creature *creature = this->creature_at<Creature>( loc );
+        Creature *creature = this->creature_at<Creature>( loc, true );
         if( creature ) {
             const int n = zone_number_ * zone_tick_;
             creatures_by_zone_and_faction_[n][creature->get_monster_faction()].push_back( creature );

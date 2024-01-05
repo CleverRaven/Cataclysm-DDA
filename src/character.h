@@ -3184,7 +3184,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        std::unordered_set<tripoint> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */

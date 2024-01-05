@@ -84,7 +84,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "name.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
@@ -648,7 +647,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     if( tem.gender_override != npc_template::gender::random ) {
         male = tem.gender_override == npc_template::gender::male;
     }
-    name = Name::generate( male );
+    name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     if( !tem.name_unique.empty() ) {
         name = tem.name_unique.translated();
     }
@@ -3452,9 +3451,9 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     return *path_settings;
 }
 
-std::set<tripoint> npc::get_path_avoid() const
+std::unordered_set<tripoint> npc::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );

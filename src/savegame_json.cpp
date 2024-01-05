@@ -2545,7 +2545,7 @@ void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
         // will be wrong. Use the supplied argument to fix it.
         const tripoint_abs_ms old_loc = get_location();
         point_abs_sm wrong_submap;
-        tripoint_sm_ms local_pos;
+        tripoint_sm_ms_ib local_pos;
         std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( get_location() );
         set_location( project_combine( submap_loc.xy(), local_pos ) );
         // adjust other relative coordinates that would be subject to the same error

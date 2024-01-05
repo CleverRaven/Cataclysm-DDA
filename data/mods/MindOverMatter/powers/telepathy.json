@@ -426,27 +426,41 @@
     "id": "telepathic_invisibility",
     "type": "SPELL",
     "name": "[Ψ]Obscurity",
-    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.\n\nThis power is <color_red>canceled by engaging in combat</color>",
+    "description": "Use a light touch on others' minds to hide your presence.  You will be invisible to the target(s) while the power is in effect.\n\nThis power is <color_red>canceled by engaging in combat</color> with your target.",
     "message": "You hide your presence from your enemies.",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "effect_telepath_invisibility",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "effect_str": "telepathic_ignorance",
+    "extra_effects": [
+      { "id": "psionic_drained_difficulty_six", "hit_self": true },
+      { "id": "telepathic_invisibility_self", "hit_self": true }
+    ],
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 200) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 1200) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 200) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_invisibility') * 1.5) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_invisibility') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
       ]
     },
     "energy_source": "STAMINA",
@@ -455,7 +469,31 @@
     "energy_increment": -125,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5
+    "casting_time_increment": -7.5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
+  },
+  {
+    "id": "telepathic_invisibility_self",
+    "type": "SPELL",
+    "name": "[Ψ]Obscurity Self",
+    "description": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "telepathic_ignorance_self",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
   },
   {
     "id": "telepathic_blast_radius",
