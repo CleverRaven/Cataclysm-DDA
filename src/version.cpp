@@ -14,5 +14,5 @@
 
 const char *getVersionString()
 {
-    return "0.F-3-web-1";
+    return VERSION;
 }
