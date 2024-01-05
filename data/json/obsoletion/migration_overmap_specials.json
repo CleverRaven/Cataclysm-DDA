@@ -42,12 +42,12 @@
   {
     "type": "overmap_special_migration",
     "id": "railroad_city",
-    "//": "Removed in 0.G - no new id"
+    "//": "Moved to railroad mod in 0.G - no new id"
   },
   {
     "type": "overmap_special_migration",
     "id": "Railroad Station",
-    "//": "Removed in 0.G - no new id"
+    "//": "Removed to railroad mod 0.G - no new id"
   },
   {
     "type": "overmap_special_migration",

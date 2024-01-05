@@ -1,6 +1,6 @@
 [
   {
-    "id": "Railroad Station",
+    "id": "Railway Station",
     "type": "overmap_special",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "railroad_station_0_1_north" },
