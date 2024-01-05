@@ -76,7 +76,6 @@ static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
 static const std::string type_hair_style( "hair_style" );
-static const std::string type_hair_color( "hair_color" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
 static const std::string type_eye_color( "eye_color" );
