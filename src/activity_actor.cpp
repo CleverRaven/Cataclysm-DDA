@@ -194,7 +194,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_water_gray( "gray_water" );
+static const itype_id itype_gray_water( "gray_water" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -7393,7 +7393,7 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     p.add_msg_if_player( m_good, _( "You washed your items." ) );
 
     //Create gray_water byproduct after washing
-    item graywater( itype_water_gray, calendar::turn, requirements.water );
+    item graywater( itype_gray_water, calendar::turn, requirements.water );
     liquid_handler::handle_liquid( graywater, nullptr, 1, nullptr, nullptr, -1, nullptr );
 
     // Make sure newly washed components show up as available if player attempts to craft immediately
