@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "triffid_garden" ],
-    "weight": 100,
     "object": {
       "rows": [
         "     ..............     ",

@@ -97,24 +97,20 @@
     "autonote": true
   },
   {
-    "id": "mx_trees_arvore",
+    "id": "mx_trees_map_salamander",
     "type": "map_extra",
     "name": { "str": "Stand of trees" },
     "description": "A copse of trees.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_arvore" },
-    "min_max_zlevel": [ 0, 0 ]
-  },
-  {
-    "id": "mx_trees_arvore_salamander",
-    "type": "map_extra",
-    "copy-from": "mx_trees",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_arvore_salamander_fight" },
-    "min_max_zlevel": [ 0, 0 ]
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_salamander" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "green",
+    "autonote": true
   },
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_trees_map_arvore",
+    "update_mapgen_id": "mx_trees_map_salamander",
     "object": {
       "rows": [
         "        .........       ",
@@ -144,13 +140,24 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
-      "place_monsters": [ { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 } ]
+      "place_monsters": [ { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 } ]
     }
   },
   {
+    "id": "mx_trees_map_sylph",
+    "type": "map_extra",
+    "name": { "str": "Stand of trees" },
+    "description": "A copse of trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_sylph" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "green",
+    "autonote": true
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_trees_map_arvore_salamander_fight",
+    "update_mapgen_id": "mx_trees_map_sylph",
     "object": {
       "rows": [
         "        .........       ",
@@ -180,9 +187,266 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
+      "place_monsters": [ { "monster": "GROUP_GENIUS_SYLPH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 } ]
+    }
+  },
+  {
+    "id": "mx_trees_map_ierde",
+    "type": "map_extra",
+    "name": { "str": "Stand of trees" },
+    "description": "A copse of trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_ierde" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "green",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_trees_map_ierde",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "copse_trees_palette" ],
+      "place_monsters": [ { "monster": "GROUP_GENIUS_IERDE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 } ]
+    }
+  },
+  {
+    "id": "mx_homelesscamp_homullus",
+    "type": "map_extra",
+    "name": { "str": "Homeless camp" },
+    "description": "A camp of the homeless.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_homelesscamp_homullus" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "green",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_homelesscamp_homullus",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "    7                   ",
+        "                   w    ",
+        "                 iwww   ",
+        "     !!!!!!!!!!!! wwww  ",
+        "     !   ccccc  ! wWww  ",
+        "     !   cmdmc  ! wWWWw ",
+        "     !   cdddc  ! wWWww ",
+        "     !   cdddc  ! wwwww ",
+        "     !   cc+cc  !   wi  ",
+        "     !     _    !       ",
+        "     !!!!!!_!!!!!       ",
+        "        C ___ S         ",
+        "    cccc  _a_           ",
+        "    cmdc  ___ S         ",
+        "    cddb___             ",
+        "    cddc  C C           ",
+        "    cccc                ",
+        "                        ",
+        "                        ",
+        "             7          ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_region_groundcover",
+        "_": "t_region_soil",
+        "7": "t_region_tree",
+        "W": "t_water_dp",
+        "+": "t_dirtfloor",
+        "b": "t_dirtfloor",
+        "d": "t_dirtfloor",
+        "m": "t_dirtfloor",
+        "w": "t_water_sh",
+        "!": "t_trunk"
+      },
+      "furniture": {
+        "+": "f_canvas_door",
+        "C": "f_camp_chair",
+        "S": "f_straw_bed",
+        "a": "f_woodstove",
+        "b": "f_canvas_door_o",
+        "c": "f_canvas_wall",
+        "i": "f_cattails",
+        "m": "f_makeshift_bed"
+      },
+      "place_monsters": [ { "monster": "GROUP_GENIUS_HOMULLUS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 } ]
+    }
+  },
+  {
+    "id": "mx_forest_pond_avore",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_forest_pond_avore" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_forest_pond_avore",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "terrain": {
+        "*": "t_water_sh",
+        "?": [
+          [ "t_water_sh", 3 ],
+          [ "t_dirt", 5 ],
+          [ "t_grass", 6 ],
+          [ "t_shrub", 2 ],
+          "t_tree_young",
+          [ "t_tree", 2 ],
+          "t_tree_willow"
+        ],
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
+        "~": "t_water_dp"
+      },
       "place_monsters": [
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 },
-        { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "id": "mx_forest_pond_salamander_avore",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_forest_pond_salamander_avore" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_forest_pond_salamander_avore",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "terrain": {
+        "*": "t_water_sh",
+        "?": [
+          [ "t_water_sh", 3 ],
+          [ "t_dirt", 5 ],
+          [ "t_grass", 6 ],
+          [ "t_shrub", 2 ],
+          "t_tree_young",
+          [ "t_tree", 2 ],
+          "t_tree_willow"
+        ],
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
+        "~": "t_water_dp"
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.1 },
+        { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.1 }
       ]
     }
   },
@@ -192,30 +456,10 @@
     "name": { "str": "basin" },
     "description": "Small basin is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_undine" },
-    "min_max_zlevel": [ 0, 0 ]
-  },
-  {
-    "id": "mx_pond_forest_undine2",
-    "type": "map_extra",
-    "copy-from": "mx_pond_forest",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_undine2" },
-    "min_max_zlevel": [ 0, 0 ]
-  },
-  {
-    "id": "mx_pond_forest_arvore",
-    "type": "map_extra",
-    "name": { "str": "basin" },
-    "description": "Small basin is here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_arvore" },
-    "min_max_zlevel": [ 0, 0 ]
-  },
-  {
-    "id": "mx_pond_forest_arvore2",
-    "type": "map_extra",
-    "name": { "str": "basin" },
-    "description": "Small basin is here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_arvore2" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "blue",
+    "autonote": true
   },
   {
     "type": "mapgen",
@@ -224,27 +468,27 @@
     "object": {
       "rows": [
         "                        ",
+        "         ??             ",
+        "         ???            ",
+        "          ???? ?        ",
+        "          ?????         ",
+        "        ]]]**]]]]       ",
+        "        ]]*****]]]      ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]]   ",
+        "     ]**[[~~~~[****]]   ",
+        "    ]]***[~~~~[***]]]   ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "     ]]***[[***]]???    ",
+        "     ]]]]*****]]  ? ?   ",
+        "       ??]]****]        ",
+        "           **           ",
         "                        ",
-        "     ????????????????   ",
-        "   ???????????????????  ",
-        "   ?**]]]]]*]***]]]]??  ",
-        "  ???**************]??  ",
-        "  ???*************]]??  ",
-        "  ????***[[[*******]??  ",
-        "  ???***[[[[[[[[**]]??  ",
-        "  ???***[[[[[[[[**]]??  ",
-        "  ???***[[[~~~[[**]]??  ",
-        "  ??****[[[~~~[[***]??  ",
-        "  ??]***[[~~~~[[***]??  ",
-        "  ??]***[[~~~~[[**]]??  ",
-        "  ??]***[[~[[[[[**]]??  ",
-        "  ??]***[[[[[[[[**]]??  ",
-        "  ??]*****[[******]]??  ",
-        "  ??]**************]??  ",
-        "  ??]**************]??  ",
-        "  ????]??]]]]]]]]]]]??  ",
-        "  ????????]]]????????   ",
-        "  ?????????????????     ",
+        "                        ",
+        "                        ",
         "                        ",
         "                        "
       ],
@@ -255,6 +499,7 @@
         "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
         "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
       },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
       "terrain": {
         "*": "t_water_sh",
         "?": [
@@ -272,77 +517,27 @@
       },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.2 }
       ]
     }
   },
   {
-    "type": "mapgen",
-    "method": "json",
-    "update_mapgen_id": "mx_pond_forest_arvore",
-    "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "     ????????????????   ",
-        "   ???????????????????  ",
-        "   ?**]]]]]*]***]]]]??  ",
-        "  ???**************]??  ",
-        "  ???*************]]??  ",
-        "  ????***[[[*******]??  ",
-        "  ???***[[[[[[[[**]]??  ",
-        "  ???***[[[[[[[[**]]??  ",
-        "  ???***[[[~~~[[**]]??  ",
-        "  ??****[[[~~~[[***]??  ",
-        "  ??]***[[~~~~[[***]??  ",
-        "  ??]***[[~~~~[[**]]??  ",
-        "  ??]***[[~[[[[[**]]??  ",
-        "  ??]***[[[[[[[[**]]??  ",
-        "  ??]*****[[******]]??  ",
-        "  ??]**************]??  ",
-        "  ??]**************]??  ",
-        "  ????]??]]]]]]]]]]]??  ",
-        "  ????????]]]????????   ",
-        "  ?????????????????     ",
-        "                        ",
-        "                        "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": {
-        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
-      },
-      "terrain": {
-        "*": "t_water_sh",
-        "?": [
-          [ "t_water_sh", 3 ],
-          [ "t_dirt", 5 ],
-          [ "t_grass", 6 ],
-          [ "t_shrub", 2 ],
-          "t_tree_young",
-          [ "t_tree", 2 ],
-          "t_tree_willow"
-        ],
-        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
-        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
-        "~": "t_water_dp"
-      },
-      "place_monsters": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
-      ]
-    }
+    "id": "mx_pond_forest_undine_ierde",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_undine_ierde" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "E",
+    "color": "blue",
+    "autonote": true
   },
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_pond_forest_undine2",
+    "update_mapgen_id": "mx_pond_forest_undine_ierde",
     "object": {
       "rows": [
         "                        ",
@@ -395,71 +590,10 @@
       },
       "place_monsters": [
         { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "update_mapgen_id": "mx_pond_forest_arvore2",
-    "object": {
-      "rows": [
-        "                        ",
-        "         ??             ",
-        "         ???            ",
-        "          ???? ?        ",
-        "          ?????         ",
-        "        ]]]**]]]]       ",
-        "        ]]*****]]]      ",
-        "       ]***[******]     ",
-        "      ]]***[[[[****]    ",
-        "     ]]***[[[[*****]    ",
-        "     ?**[[~~~~[****]]   ",
-        "     ]**[[~~~~[****]]   ",
-        "    ]]***[~~~~[***]]]   ",
-        "    ]]***[~~~~[[]]]     ",
-        "    ]]****[[[[**]???    ",
-        "     ]]***[[***]]???    ",
-        "     ]]]]*****]]  ? ?   ",
-        "       ??]]****]        ",
-        "           **           ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": {
-        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
-        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
-      },
-      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear" },
-      "terrain": {
-        "*": "t_water_sh",
-        "?": [
-          [ "t_water_sh", 3 ],
-          [ "t_dirt", 5 ],
-          [ "t_grass", 6 ],
-          [ "t_shrub", 2 ],
-          "t_tree_young",
-          [ "t_tree", 2 ],
-          "t_tree_willow"
-        ],
-        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
-        "]": [ [ "t_water_sh", 8 ], "t_dirt", "t_grass" ],
-        "~": "t_water_dp"
-      },
-      "place_monsters": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ], "density": 0.5 },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25, "density": 0.2 }
+        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.1 },
+        { "monster": "GROUP_GENIUS_IERDE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.1 }
       ]
     }
   }

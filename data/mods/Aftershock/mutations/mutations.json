@@ -630,6 +630,12 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
     "extend": { "category": [ "MASTODON" ] }

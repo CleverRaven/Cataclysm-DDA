@@ -119,6 +119,12 @@ inline point divide_xy_round_to_minus_infinity( const point &p, int d )
                   divide_round_to_minus_infinity( p.y, d ) );
 }
 
+inline point divide_xy_round_to_minus_infinity_non_negative( const point &p, int d )
+{
+    // This results in code only being generated for the case where x/y are positive.
+    return point( static_cast<unsigned int>( p.x ) / d, static_cast<unsigned int>( p.y ) / d );
+}
+
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     static constexpr int dimension = 3;
@@ -234,6 +240,11 @@ inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
     return tripoint( divide_round_to_minus_infinity( p.x, d ),
                      divide_round_to_minus_infinity( p.y, d ),
                      p.z );
+}
+
+inline tripoint divide_xy_round_to_minus_infinity_non_negative( const tripoint &p, int d )
+{
+    return tripoint( divide_xy_round_to_minus_infinity_non_negative( p.xy(), d ), p.z );
 }
 
 inline constexpr tripoint tripoint_zero{};

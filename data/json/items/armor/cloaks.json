@@ -1664,6 +1664,26 @@
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "cloak_denim",
+    "type": "ARMOR",
+    "name": { "str": "denim cloak" },
+    "description": "A heavy denim cloak worn over your body.  Warmer, sturdier and heavier than a cotton cloak.",
+    "//": "16.5 oz.",
+    "weight": "1800 g",
+    "volume": "4 L",
+    "price": 20000,
+    "price_postapoc": 1500,
+    "material": [ "denim" ],
+    "to_hit": -3,
+    "looks_like": "coat_rain",
+    "symbol": "[",
+    "color": "light_blue",
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "warmth": 50,
+    "material_thickness": 1.1
+  },
+  {
     "id": "cloak_vampire",
     "type": "ARMOR",
     "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },

@@ -733,6 +733,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             {
                 _( "Monster types" ), []()
                 {
+                    set_mon_flag_ids();
                     MonsterGenerator::generator().finalize_mtypes();
                 }
             },

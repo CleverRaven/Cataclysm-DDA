@@ -666,7 +666,9 @@
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ],
-      [ "gas_forge", 2 ]
+      [ "gas_forge", 2 ],
+      [ "pedal_extenders", 1 ],
+      [ "hand_controls", 1 ]
     ]
   },
   {

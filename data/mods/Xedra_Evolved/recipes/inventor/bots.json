@@ -11,23 +11,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -65,23 +65,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -119,23 +119,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],

@@ -1646,6 +1646,20 @@
     "using": [ [ "tailoring_cotton_patchwork_simple", 34 ] ]
   },
   {
+    "result": "cloak_denim",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "4 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 24 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
     "result": "cloak_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1689,6 +1703,21 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_felt_patchwork_simple", 36 ] ]
+  },
+  {
+    "result": "denim_overalls",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "22 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 16 ], [ "strap_large", 2 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "byproducts": [ [ "scrap_denim", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "entry_suit",

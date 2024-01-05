@@ -6,7 +6,8 @@
     "entries": [
       { "item": "jeans", "prob": 60 },
       { "item": "pants", "prob": 5 },
-      { "item": "motorbike_pants", "prob": 15 },
+      { "item": "motorbike_pants", "prob": 10 },
+      { "item": "jeans_mod", "prob": 5 },
       { "item": "pants_leather", "prob": 10 },
       { "item": "pants_cargo", "prob": 10 }
     ]
@@ -21,7 +22,12 @@
     "type": "item_group",
     "id": "NC_MOTORHEAD_shirt",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 70 }, { "item": "polo_shirt", "prob": 20 }, { "item": "tank_top", "prob": 10 } ]
+    "entries": [
+      { "item": "tshirt", "prob": 50 },
+      { "item": "polo_shirt", "prob": 20 },
+      { "item": "tank_top", "prob": 10 },
+      { "item": "denim_shirt", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -45,7 +51,8 @@
       { "item": "jacket_leather", "prob": 15 },
       { "item": "jacket_leather_mod", "prob": 5 },
       { "item": "touring_suit", "prob": 20 },
-      { "item": "jacket_jean", "prob": 15 }
+      { "item": "jacket_jean", "prob": 15 },
+      { "item": "jacket_jean_mod", "prob": 5 }
     ]
   },
   {

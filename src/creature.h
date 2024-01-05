@@ -933,7 +933,7 @@ class Creature : public viewer
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::set<tripoint> get_path_avoid() const = 0;
+        virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
         int moves;
         bool underwater;

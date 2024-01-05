@@ -13,8 +13,6 @@
 #include "output.h"
 #include "veh_appliance.h"
 
-static const mon_flag_str_id mon_flag_ID_CARD_DESPAWN( "ID_CARD_DESPAWN" );
-
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 

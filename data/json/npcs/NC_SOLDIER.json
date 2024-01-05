@@ -143,6 +143,7 @@
       { "item": "UPS_OFF", "prob": 8 },
       { "item": "tacvest", "prob": 10 },
       { "item": "backpack", "prob": 8 },
+      { "item": "backpack_denim", "prob": 2 },
       { "item": "dump_pouch", "prob": 20 },
       { "item": "legrig", "prob": 10 },
       { "item": "under_armor", "prob": 20 },
