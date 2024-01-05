@@ -2228,9 +2228,7 @@
     "color": "brown",
     "armor": [
       {
-        "material": [
-          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 }
-        ],
+        "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 35
