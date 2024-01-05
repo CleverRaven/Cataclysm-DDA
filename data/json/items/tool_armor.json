@@ -2128,10 +2128,10 @@
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
-          "coverage": 100,
-         "encumbrance": 12
-         }
-]
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "mask_hsurvivor",
