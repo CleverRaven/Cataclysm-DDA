@@ -5171,9 +5171,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 you.has_trait_flag( json_flag_WING_GLIDE ) ) {
                 add_msg( m_warning, _( "You are carrying too much to glide." ) );
             } else if( !you.can_fly() ) {
-                add_msg( m_warning, _( "You are too weak to get airborne." ) );
+                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
             } else {
-                int glide_distance = 4;
+                int glide_distance = 5;
                 const weather_manager &weather = get_weather();
                 add_msg( m_info, _( "You soar away from the ledge." ) );
                 int angledifference = std::abs( weather.winddirection - jump_direction * 45 );

@@ -160,7 +160,6 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
@@ -1608,6 +1607,7 @@ std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &js
     glide_activity_actor actor;
 
     JsonObject data = jsin.get_object();
+    data.read( "moved_tiles", actor.moved_tiles );
     data.read( "jump_direction", actor.jump_direction );
     data.read( "glide_distance", actor.glide_distance );
 

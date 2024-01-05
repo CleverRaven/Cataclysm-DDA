@@ -12527,7 +12527,8 @@ int Character::impact( const int force, const tripoint &p )
 bool Character::can_fly()
 {
     if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ||
-        ( has_effect( effect_grabbed ) && !try_remove_grab() ) ) {
+        ( has_effect( effect_grabbed ) && !try_remove_grab() ) || movement_mode_is( move_mode_prone ) ||
+        has_effect( effect_downed ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
