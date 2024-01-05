@@ -55,7 +55,7 @@
     "id": "holybook_bible4",
     "type": "BOOK",
     "name": { "str": "New American Bible", "str_pl": "copies of the New American Bible" },
-    "description": "An English translation of the Bibl, first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
+    "description": "An English translation of the Bible, first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -381,12 +381,11 @@
   {
     "id": "holybook_anecdotes",
     "type": "BOOK",
-    "name": { "str": "", "str_pl": "copies of the" },
-    "description": " .",
-    "weight": "368 g",
+    "name": { "str": "The Anecdotes of Oyasama, Foundress of Tenrikyo", "str_pl": "copies of The Anecdotes of Oyasama, Foundress of Tenrikyo" },
+    "description": "A paperback English translation of an anthology of anecdotes about Oyasama that were passed down orally by her first followers and later written down and verified.",
+    "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
-    I'm still working on it! don't merge!
   },
   {
     "id": "holybook_mormon",
