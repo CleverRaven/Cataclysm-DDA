@@ -1,4 +1,4 @@
-name: JSON Formatter in HTML
+name: Build Emscripten
 
 on:
   workflow_dispatch:
@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     name: Build
-    if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
