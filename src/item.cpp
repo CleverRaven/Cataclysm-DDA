@@ -13549,7 +13549,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
             add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the solar pack." ),
                                     link_name() );
-            reset_link( carrier );
+            reset_link( true, carrier );
             return false;
         }
     }
@@ -13559,7 +13559,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( link().source == link_state::ups ) {
         if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
             add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the UPS." ), link_name() );
-            reset_link( carrier );
+            reset_link( true, carrier );
             return false;
         }
     }
@@ -13567,7 +13567,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( ( link().target == link_state::no_link && link().source != link_state::vehicle_tow ) ||
         link().target == link_state::bio_cable ) {
         if( carrier == nullptr ) {
-            return reset_link( nullptr, -1, true, pos );
+            return reset_link( true, nullptr, -1, true, pos );
         }
         return false;
     }
@@ -13608,7 +13608,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( !link().t_veh ) {
         vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
         if( !found_veh ) {
-            return reset_link( carrier, -2, true, pos );
+            return reset_link( true, carrier, -2, true, pos );
         }
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "Re-established link of %s to %s.", type_name(),
@@ -13629,7 +13629,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         link().length = rl_dist( here.getabs( pos ), link().t_abs_pos.raw() ) +
                         link().t_mount.abs().x + link().t_mount.abs().y;
         if( check_length() ) {
-            return reset_link( carrier );
+            return reset_link( true, carrier );
         }
         return false;
     }
@@ -13664,12 +13664,12 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     }
     if( link_vp_index == -1 ) {
         // The part with cable ports was lost, so disconnect the cable.
-        return reset_link( carrier, -2, true, pos );
+        return reset_link( true, carrier, -2, true, pos );
     }
 
     if( link().last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
         add_msg_if_player_sees( pos, m_warning, string_format( _( "You detached the %s." ), type_name() ) );
-        return reset_link( carrier, -2 );
+        return reset_link( true, carrier, -2 );
     }
     t_veh->part( link_vp_index ).set_flag( vp_flag::linked_flag );
 
@@ -13688,7 +13688,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( length_check_needed ) {
         link().length = rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
         if( check_length() ) {
-            return reset_link( carrier, link_vp_index );
+            return reset_link( true, carrier, link_vp_index );
         }
     }
 
@@ -13774,28 +13774,14 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     return link().charge_rate;
 }
 
-bool item::force_reset_link( Character *p, int vpart_index,
-                             const bool loose_message, const tripoint cable_position )
-{
-    if( !has_link_data() ) {
-        return has_flag( flag_NO_DROP );
-    }
-    link().length = 0;
-    if( link_has_state( link_state::needs_reeling ) ) {
-        link().source = link_state::no_link;
-        link().target = link_state::no_link;
-    }
-    return reset_link( p, vpart_index, loose_message, cable_position );
-}
-
-bool item::reset_link( Character *p, int vpart_index,
+bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
                        const bool loose_message, const tripoint cable_position )
 {
     if( !has_link_data() ) {
         return has_flag( flag_NO_DROP );
     }
-    // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
-    if( link_has_state( link_state::needs_reeling ) ) {
+    if( unspool_if_too_long && link_has_state( link_state::needs_reeling ) ) {
+        // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
         return false;
     }
 
@@ -13826,8 +13812,6 @@ bool item::reset_link( Character *p, int vpart_index,
         }
     }
 
-    const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
-
     if( loose_message ) {
         if( p != nullptr ) {
             p->add_msg_if_player( m_warning, _( "Your %s has come loose." ), link_name() );
@@ -13836,7 +13820,7 @@ bool item::reset_link( Character *p, int vpart_index,
         }
     }
 
-    if( link().length > LINK_RESPOOL_THRESHOLD ) {
+    if( unspool_if_too_long && link().length > LINK_RESPOOL_THRESHOLD ) {
         // Cables that are too long need to be manually rewound before reuse.
         link().source = link_state::needs_reeling;
         return false;

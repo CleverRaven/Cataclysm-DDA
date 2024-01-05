@@ -4639,7 +4639,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             t_veh->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
         }
 
-        it.reset_link( p );
+        it.reset_link( true, p );
         // Cables that are too long need to be manually rewound before reuse.
         if( it.link_length() == -1 ) {
             p->assign_activity( player_activity( reel_cable_activity_actor( respool_time_total, item_location{*p, &it} ) ) );
@@ -4849,7 +4849,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
 
         if( it.typeId() != itype_power_cord ) {
             // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
-            it.reset_link( p );
+            it.reset_link( true, p );
         }
         p->moves -= move_cost;
         return 1; // Let the cable be destroyed.
@@ -5066,7 +5066,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
         cable_main_copy.link() = it.link();
         cable_main_copy.update_link_traits();
         cable_main_copy.process( get_map(), p, p->pos() );
-        it.reset_link( p );
+        it.reset_link( true, p );
     }
 
     p->i_add_or_drop( cable_main_copy );
