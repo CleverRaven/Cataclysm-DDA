@@ -25,10 +25,9 @@ jobs:
       - name: Assemble web bundle
         run: |
           ./build-scripts/prepare-web.sh
-          (cd build && tar cvfz ../play-cdda.tar.gz .)
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: formatter
-          path: play-cdda.tar.gz
+          name: play-cdda
+          path: build/*
