@@ -185,6 +185,7 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_gray_water( "gray_water" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
@@ -194,7 +195,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_gray_water( "gray_water" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
