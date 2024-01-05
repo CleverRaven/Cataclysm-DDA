@@ -173,7 +173,6 @@ static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 static const species_id species_nether_player_hate( "nether_player_hate" );
 
-
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
@@ -597,7 +596,7 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
         if( calendar::turn - udder_timer > 1_days ) {
             // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
             ammo.begin()->second = type->starting_ammo.begin()->second;
@@ -3406,9 +3405,8 @@ bool monster::is_nether() const
 // The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
 bool monster::has_mind() const
 {
-    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
-             ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) &&
-               has_flag( mon_flag_HUMAN ) ) );
+    return ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
+           ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) && has_flag( mon_flag_HUMAN ) );
 }
 
 field_type_id monster::bloodType() const
@@ -3866,7 +3864,7 @@ void monster::on_load()
     // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
-        if( has_flag( mon_flag_REVIVES ) ) {
+        if( has_flag( mon_flag_REVIVES ) && !has_flag( mon_flag_DORMANT ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
                    made_of( material_veggy ) ) {

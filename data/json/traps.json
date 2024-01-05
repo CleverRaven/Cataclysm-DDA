@@ -1166,6 +1166,6 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "sound_detect",
-    "sound_threshold": 5
+    "sound_threshold": [ 15, 25 ]
   }
 ]

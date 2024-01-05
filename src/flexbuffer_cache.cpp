@@ -162,7 +162,7 @@ struct file_flexbuffer : parsed_flexbuffer {
 
         bool is_stale() const override {
             std::error_code ec;
-            fs::file_time_type mtime = fs::last_write_time( source_file_path_ );
+            fs::file_time_type mtime = fs::last_write_time( source_file_path_, ec );
             if( ec ) {
                 // Assume yes out of date.
                 return true;

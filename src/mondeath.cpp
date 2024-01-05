@@ -62,7 +62,7 @@ item_location mdeath::normal( monster &z )
         return {};
     }
 
-    if( !z.quiet_death ) {
+    if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
