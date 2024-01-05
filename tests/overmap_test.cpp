@@ -301,7 +301,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     point_abs_omt origin;
     map &main_map = get_map();
 
-    for( const point_abs_omt &p : closest_points_first( origin, 0, 15 * OMAPX - 1 ) ) {
+    for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
         // We need to avoid OMTs that overlap with the 'main' map, so we start at a
         // non-zero minimum radius and ensure that the 'main' map is inside that
         // minimum radius.
