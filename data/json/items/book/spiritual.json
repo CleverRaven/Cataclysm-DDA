@@ -388,6 +388,51 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_mo",
+    "type": "BOOK",
+    "name": { "str": "Buluotuo", "str_pl": "copies of the Buluotuo" },
+    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituais of Moism.",
+    "weight": "370 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_guodian",
+    "type": "BOOK",
+    "name": { "str": "Guodian Texts", "str_pl": "copies of the Guodian Texts" },
+    "description": "A rare and extensive study and translation of all the manuscripts of The Guodian Chu Slips by Scott Cook.  The original slip-texts include both Taoist and Confucian works that offered fresh information for scholars studying the history of philosophical thought in ancient China.",
+    "weight": "1500 g",
+    "volume": "2300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_navayana",
+    "type": "BOOK",
+    "name": { "str": "The Buddha and His Dhamma", "str_pl": "copies of The Buddha and His Dhamma" },
+    "description": "A English translation of The Buddha and His Dhamma by B. R. Ambedkar.  It is a interpretation of the Buddhist path and the scripture for those who follow Navayana Buddhism.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_pana",
+    "type": "BOOK",
+    "name": { "str": "Panaturan", "str_pl": "copies of the Panaturan" },
+    "description": "A extremely rare English translation of the Panaturan, the Holy Scripture of the Kaharingan religion.  It is a guide for its adherents and followers, providing them with spiritual teachings, moral lessons, and principles to live by",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_zhivo",
+    "type": "BOOK",
+    "name": { "str": "Zhivotnaya Kniga", "str_pl": "copies of the Zhivotnaya Kniga" },
+    "description": "A extremely rare English translation of the Zhivotnaya Kniga (Book of Life).  It is a collection of written and translated Doukhobor oral holy hymns, but this book also has the Russian version alongside the English translations.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_mormon",
     "type": "BOOK",
     "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
