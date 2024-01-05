@@ -2709,14 +2709,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "blanket", "prob": 50 },
-      { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
-      { "item": "left_leg_prosthetic", "prob": 20 },
-      { "item": "right_leg_prosthetic", "prob": 20 },
-      { "item": "left_arm_prosthetic", "prob": 20 },
-      { "item": "right_arm_prosthetic", "prob": 20 },
-      { "item": "left_arm_neuroprosthetic", "prob": 10 },
-      { "item": "right_arm_neuroprosthetic", "prob": 10 }
+      { "item": "blanket", "prob": 200 },
+      { "item": "cotton_patchwork", "prob": 400, "custom-flags": [ "FILTHY" ] },
+      { "item": "left_leg_prosthetic", "prob": 2 },
+      { "item": "right_leg_prosthetic", "prob": 2 },
+      { "item": "left_arm_prosthetic", "prob": 2 },
+      { "item": "right_arm_prosthetic", "prob": 2 },
+      { "item": "left_arm_neuroprosthetic", "prob": 1 },
+      { "item": "right_arm_neuroprosthetic", "prob": 1 }
     ]
   },
   {
@@ -2758,11 +2758,7 @@
     "id": "mil_base_iv",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "blood", "prob": 100 },
-      { "item": "saline", "prob": 80, "container-item": "bag_iv" },
-      { "item": "bag_iv", "prob": 50 }
-    ]
+    "entries": [ { "item": "blood", "prob": 100 }, { "group": "saline_bottle_random", "prob": 80 }, { "item": "bag_iv", "prob": 50 } ]
   },
   {
     "id": "mil_base_mess_hall",
