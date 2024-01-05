@@ -420,7 +420,7 @@
     "locations": [ "forest_center" ],
     "city_distance": [ 40, -1 ],
     "city_sizes": [ 0, 0 ],
-    "occurrences": [ 5, 100 ],
+    "occurrences": [ 66, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ],
     "spawns": { "group": "GROUP_GENIUS_ARVORE", "population": [ 150, 500 ], "radius": [ 5, 30 ] }
   }
