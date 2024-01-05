@@ -3657,6 +3657,9 @@ int map::collapse_check( const tripoint &p ) const
                 if( tbelow == pbelow ) {
                     num_supports += 2;
                 }
+                if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+                    num_supports = 0;
+                }
             }
         }
     }
@@ -3680,6 +3683,9 @@ int map::collapse_check( const tripoint &p ) const
                     num_supports += 3;
                 }
             }
+        }
+        if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+            num_supports = 0;
         }
     }
 
@@ -9722,7 +9728,7 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
         }
     }
     // first trigger proximity traps
-    for( auto &loc : tr_proximity ) {
+    for( tripoint &loc : tr_proximity ) {
         maybe_trigger_prox_trap( loc, c, may_avoid );
     }
     // then traps we stepped on
