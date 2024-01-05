@@ -1,0 +1,75 @@
+[
+  {
+    "type": "palette",
+    "id": "great_tree",
+    "terrain": {
+      " ": [ "t_region_groundcover" ],
+      "#": "t_triffid_bark_wall",
+      "~": "t_triffid_wood_wall",
+      ",": "t_triffid_leaves",
+      "+": [ "t_bramble_door_c", "t_bramble_door_o" ],
+      "*": "t_puddle",
+      "[": "t_water_dp",
+      "I": [
+        "t_tree",
+        "t_tree_apple",
+        "t_tree_apple",
+        "t_tree_pear",
+        "t_tree_pear",
+        "t_tree_cherry",
+        "t_tree_peach",
+        "t_tree_apricot",
+        "t_tree_plum",
+        "t_tree_pine",
+        "t_tree_birch",
+        "t_tree_maple",
+        "t_tree_willow",
+        "t_tree_hickory",
+        "t_tree_young",
+        "t_underbrush",
+        "t_shrub"
+      ]
+    },
+    "furniture": {
+      "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
+      "?": [ "f_dandelion", "f_flower_spurge", "f_burdock", "f_flower_tulip", "f_lily", "f_bluebell", "f_dahlia", "f_datura" ],
+      "@": "f_brambles"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "great_tree_roots",
+    "terrain": {
+      " ": [ "t_region_groundcover" ],
+      "#": "t_triffid_bark_wall",
+      "P": "t_root_wall",
+      "+": [ "t_bramble_door_c", "t_bramble_door_o" ],
+      "*": "t_puddle",
+      "[": "t_water_dp",
+      "I": [
+        "t_tree",
+        "t_tree_apple",
+        "t_tree_apple",
+        "t_tree_pear",
+        "t_tree_pear",
+        "t_tree_cherry",
+        "t_tree_peach",
+        "t_tree_apricot",
+        "t_tree_plum",
+        "t_tree_pine",
+        "t_tree_birch",
+        "t_tree_maple",
+        "t_tree_willow",
+        "t_tree_hickory",
+        "t_tree_young",
+        "t_underbrush",
+        "t_shrub"
+      ]
+    },
+    "furniture": {
+      "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
+      "?": [ "f_dandelion", "f_flower_spurge", "f_burdock", "f_flower_tulip", "f_lily", "f_bluebell", "f_dahlia", "f_datura" ],
+      "@": "f_brambles"
+    }
+  }
+]
