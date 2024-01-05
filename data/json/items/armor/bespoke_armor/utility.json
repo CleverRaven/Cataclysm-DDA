@@ -107,7 +107,10 @@
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [  { "type": "leather_treated", "covered_by_mat": 20, "thickness": 2 }, { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [
+          { "type": "leather_treated", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 4 }
+        ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 25
