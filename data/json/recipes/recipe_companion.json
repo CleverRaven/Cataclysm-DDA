@@ -11,7 +11,8 @@
     "time": "300 m",
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "log", 2 ], [ "stick", 16 ], [ "splinter", 80 ] ] ]
+    "components": [ [ [ "log", 2 ], [ "stick", 16 ], [ "splinter", 80 ] ] ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -59,7 +60,8 @@
     "never_learn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 } ],
     "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 5 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",

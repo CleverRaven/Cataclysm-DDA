@@ -35,10 +35,7 @@
     "id": "belt50_4ball_1tracer",
     "container-item": "belt50",
     "subtype": "collection",
-    "items": [
-      { "item": "50_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
-      { "item": "50bmg", "count": 1, "charges-min": 80, "charges-max": 80 }
-    ]
+    "items": [ { "item": "50_incendiary", "count-min": 20, "count-max": 20 }, { "item": "50bmg", "count-min": 80, "count-max": 80 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -57,7 +54,7 @@
     "type": "item_group",
     "id": "ammo_box_50bmg",
     "container-item": "ammo_box_army_10_50bmg",
-    "items": [ { "item": "50bmg", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+    "items": [ { "item": "50bmg", "count-min": 10, "count-max": 10 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -73,8 +70,8 @@
     "subtype": "collection",
     "//": "instead of 50_incendiary should be M20 API-T, but doesn't exist in the game yet",
     "items": [
-      { "item": "50_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
-      { "item": "50_mk211", "count": 1, "charges-min": 80, "charges-max": 80 }
+      { "item": "50_incendiary", "count-min": 20, "count-max": 20 },
+      { "item": "50_mk211", "count-min": 80, "count-max": 80 }
     ]
   }
 ]

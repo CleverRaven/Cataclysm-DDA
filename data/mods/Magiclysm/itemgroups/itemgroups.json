@@ -330,7 +330,7 @@
       { "group": "potions_rare", "prob": 5 },
       { "group": "alchemy_items", "prob": 30 },
       { "group": "magical_reagents", "prob": 20 },
-      { "item": "crystallized_mana", "prob": 55, "charges-min": 1, "charges-max": 10 },
+      { "item": "crystallized_mana", "prob": 55, "count-min": 1, "count-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
@@ -877,7 +877,7 @@
       { "group": "magic_CBM", "prob": 2 },
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
-      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
+      { "item": "crystallized_mana", "prob": 50, "count-min": 1, "count-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
       { "item": "magic_knife_bag", "prob": 25 }
     ]
@@ -1370,7 +1370,7 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
         "prob": 40
       },
-      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
+      { "item": "crystallized_mana", "prob": 50, "count-min": 1, "count-max": 10 },
       [ "copper_circlet", 10 ],
       [ "cauldron_orichalcum", 1 ],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }

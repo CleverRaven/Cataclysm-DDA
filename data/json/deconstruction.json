@@ -6,7 +6,7 @@
     "entries": [
       { "item": "rock", "count": [ 0, 4 ] },
       { "item": "wood_panel", "count": [ 0, 2 ] },
-      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "nail", "count": [ 8, 32 ] },
       { "item": "splinter", "count": [ 0, 4 ] }
     ]
   },
@@ -18,7 +18,7 @@
       { "item": "rock", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 8 ] },
       { "item": "rebar", "count": [ 0, 2 ] },
-      { "item": "material_sand", "charges": [ 50, 125 ] }
+      { "item": "material_sand", "count": [ 50, 125 ] }
     ]
   },
   {
@@ -28,7 +28,7 @@
     "entries": [
       { "item": "rock", "count": [ 10, 30 ] },
       { "item": "pebble", "count": [ 50, 200 ] },
-      { "item": "material_sand", "charges": [ 50, 400 ] }
+      { "item": "material_sand", "count": [ 50, 400 ] }
     ]
   },
   {

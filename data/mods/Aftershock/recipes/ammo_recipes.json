@@ -49,7 +49,8 @@
     "book_learn": [ [ "recipe_unusual_ammos", 3 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "NANO_FORGE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "using": [ [ "nanosmithing_standard", 5 ] ],
-    "components": [ [ [ "afs_material_2", 4 ] ], [ [ "afs_material_3", 3 ] ] ]
+    "components": [ [ [ "afs_material_2", 4 ] ], [ [ "afs_material_3", 3 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -62,7 +63,8 @@
     "time": "120 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "rebar", 2 ] ] ]
+    "components": [ [ [ "rebar", 2 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -74,7 +76,8 @@
     "difficulty": 2,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ]
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
+    "charges": 10
   },
   {
     "type": "recipe",

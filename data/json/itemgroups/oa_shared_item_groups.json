@@ -50,7 +50,7 @@
       [ "jar_3l_glass_sealed", 5 ],
       [ "flyer", 40 ],
       [ "talking_doll", 10 ],
-      { "item": "marble", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "marble", "prob": 20, "count": [ 1, 20 ] },
       [ "creepy_doll", 5 ],
       [ "straw_doll", 5 ],
       [ "razor_blade", 10 ],

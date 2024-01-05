@@ -60,7 +60,7 @@
       {
         "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
       },
-      { "item": "3006", "charges": [ 4, 8 ] },
+      { "item": "3006", "count": [ 4, 8 ] },
       { "distribution": [ { "item": "boxer_briefs" }, { "item": "boxer_shorts" }, { "item": "briefs" } ] },
       { "distribution": [ { "item": "tshirt" }, { "item": "undershirt" } ] },
       { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
@@ -90,7 +90,7 @@
       {
         "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
       },
-      { "item": "3006", "charges": [ 4, 8 ] },
+      { "item": "3006", "count": [ 4, 8 ] },
       {
         "distribution": [ { "item": "bra" }, { "item": "sports_bra" }, { "item": "camisole" }, { "item": "halter_top" } ]
       },

@@ -13,7 +13,7 @@
       [ "wax", 30 ],
       [ "wax_paraffin", 30 ],
       [ "straw_pile", 15 ],
-      { "item": "charcoal", "prob": 25, "charges": [ 200, 400 ] },
+      { "item": "charcoal", "prob": 25, "entry-wrapper": "box_small", "count": [ 200, 400 ] },
       [ "clay_lump", 100 ]
     ]
   },
@@ -36,7 +36,7 @@
       [ "gas_forge", 10 ],
       [ "sandpaper", 75 ],
       { "item": "ear_plugs", "prob": 25, "count": [ 1, 3 ] },
-      { "item": "charcoal", "prob": 25, "charges": [ 200, 400 ] },
+      { "item": "charcoal", "prob": 25, "entry-wrapper": "box_small", "count": [ 200, 400 ] },
       { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ] },
       { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ] },
       { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ] },
@@ -94,7 +94,7 @@
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 20 ],
       [ "glasses_safety", 25 ],
-      { "item": "charcoal", "prob": 50, "charges": [ 200, 400 ] },
+      { "item": "charcoal", "prob": 50, "entry-wrapper": "box_small", "count": [ 200, 400 ] },
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
       { "group": "sandbag", "prob": 5 },
       { "item": "chemistry_set", "prob": 5 },

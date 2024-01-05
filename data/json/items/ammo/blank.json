@@ -9,13 +9,12 @@
     "price": 100,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 100,
-    "stack_size": 150,
     "recoil": 39,
     "range": 0,
     "casing": "22_casing",
     "damage": { "damage_type": "bash", "amount": 1 },
     "extend": { "effects": [ "NOGIB" ] },
-    "ammo_type": "powder_blank"
+    "ammo_type": "powder_blank",
+    "volume": "1 ml"
   }
 ]

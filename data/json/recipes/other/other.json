@@ -24,7 +24,8 @@
         [ "macaroni_raw", 1 ],
         [ "spaghetti_raw", 1 ]
       ]
-    ]
+    ],
+    "charges": 20
   },
   {
     "result": "deck_of_cards_makeshift",

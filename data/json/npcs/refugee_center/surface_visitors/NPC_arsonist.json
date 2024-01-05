@@ -77,7 +77,7 @@
       { "item": "bra" },
       { "item": "tank_top" },
       { "item": "panties" },
-      { "item": "model_10_revolver", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
+      { "item": "model_10_revolver", "ammo-item": "38_special", "entry-wrapper": "holster", "count": 6 },
       { "item": "webbing_belt", "contents-group": "makayla_belt" },
       { "item": "gloves_fingerless_mod" }
     ]
@@ -87,9 +87,9 @@
     "id": "makayla_ammo",
     "subtype": "collection",
     "items": [
-      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
-      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
-      { "item": "38_speedloader6", "ammo-item": "38_special", "charges": 6 },
+      { "item": "38_speedloader6", "ammo-item": "38_special", "count": 6 },
+      { "item": "38_speedloader6", "ammo-item": "38_special", "count": 6 },
+      { "item": "38_speedloader6", "ammo-item": "38_special", "count": 6 },
       { "item": "38_special" }
     ]
   },

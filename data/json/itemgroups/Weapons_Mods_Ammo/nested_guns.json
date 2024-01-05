@@ -71,7 +71,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_22", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15 },
+      { "item": "glock_22", "ammo-item": "40sw", "count-min": 0, "count-max": 15 },
       { "item": "glock40mag" },
       { "item": "glock40mag", "prob": 50 },
       { "group": "on_hand_40" }

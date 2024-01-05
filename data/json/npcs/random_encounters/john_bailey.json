@@ -121,13 +121,13 @@
     "type": "item_group",
     "id": "john_bailey_pistol",
     "subtype": "collection",
-    "entries": [ { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7 } ]
+    "entries": [ { "item": "sw_619", "ammo-item": "357mag_fmj", "count": 7 } ]
   },
   {
     "type": "item_group",
     "id": "john_bailey_bandolier",
     "subtype": "collection",
-    "entries": [ { "item": "357mag_fmj", "charges": 18 } ]
+    "entries": [ { "item": "357mag_fmj", "count": 18 } ]
   },
   {
     "type": "item_group",

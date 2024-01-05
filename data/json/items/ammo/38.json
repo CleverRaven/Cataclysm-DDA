@@ -6,7 +6,7 @@
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  From its inception, the .38 Special round has been known for its accuracy and low recoil.  Because it was initially a black powder cartridge, .38 Special is very low pressure.",
     "ascii_picture": "38_special",
     "weight": "13 g",
-    "volume": "113 ml",
+    "volume": "2 ml",
     "longest_side": "40 mm",
     "price": 210,
     "price_postapoc": 800,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 40,
-    "stack_size": 40,
     "ammo_type": "38",
     "casing": "38_casing",
     "range": 14,
@@ -66,7 +64,6 @@
     "description": "Overpressure .38 Special ammunition with a jacketed 135gr hollowpoint bullet.  The round's increased velocity results in superior penetration and stopping power at the cost of higher recoil.",
     "price": 300,
     "price_postapoc": 1000,
-    "count": 25,
     "//": ".357in, 135gr, Speer HPSB GD 4014 7.2gr Hodgdon HS-6, emulating Speer GDHP.  KE+2 dam for the hollowpoint.",
     "damage": {
       "damage_type": "bullet",
@@ -95,7 +92,8 @@
         { "barrel_length": "1245 mm", "amount": 33 }
       ]
     },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.1 },
+    "volume": "2 ml"
   },
   {
     "id": "reloaded_38_fmj",

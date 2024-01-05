@@ -10,13 +10,11 @@
     "description": "A small paintball for recreational shooting.  Getting shot with one stings a little, but you'd be hard-pressed to kill anything with it.",
     "ascii_picture": "paintball",
     "material": [ "plastic" ],
-    "volume": "250 ml",
+    "volume": "2 ml",
     "weight": "1 g",
     "ammo_type": "paintball",
     "damage": { "damage_type": "bash", "amount": 2 },
     "dispersion": 100,
-    "count": 100,
-    "stack_size": 100,
     "loudness": 9,
     "effects": [ "NOGIB", "NEVER_MISFIRES" ]
   }

@@ -10,7 +10,7 @@
     "description": "A 66mm incendiary rocket, used in the M202 FLASH rocket launcher.  Its warhead is filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
     "ascii_picture": "m235tpa",
     "material": [ "steel", "powder" ],
-    "volume": "2 L",
+    "volume": "500 ml",
     "longest_side": "53 cm",
     "price_postapoc": 8000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -20,7 +20,6 @@
     "range": 70,
     "dispersion": 150,
     "recoil": 150,
-    "count": 4,
     "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ]
   },
   {

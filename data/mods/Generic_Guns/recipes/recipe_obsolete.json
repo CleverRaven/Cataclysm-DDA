@@ -497,12 +497,14 @@
   {
     "type": "recipe",
     "result": "36navy",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
     "result": "44army",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
@@ -1252,12 +1254,14 @@
   {
     "type": "recipe",
     "result": "36navy",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
     "result": "44army",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
@@ -1677,22 +1681,26 @@
   {
     "type": "recipe",
     "result": "36navy",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
     "result": "44army",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 25
   },
   {
     "type": "recipe",
     "result": "flintlock_ammo",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 30
   },
   {
     "type": "recipe",
     "result": "flintlock_shot",
-    "obsolete": true
+    "obsolete": true,
+    "charges": 30
   },
   {
     "type": "recipe",

@@ -422,7 +422,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "afs_seyfert_84K", "charges": [ 15, 19 ], "ammo-item": "afs_10mm_caseless_FMJ" },
+      { "item": "afs_seyfert_84K", "ammo-item": "afs_10mm_caseless_FMJ", "count": [ 15, 19 ] },
       { "item": "corpse" },
       { "group": "afs_plastic_armor_g", "prob": 33 },
       { "group": "afs_carbide_raider_armor_g", "prob": 10 },

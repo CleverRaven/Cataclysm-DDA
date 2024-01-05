@@ -46,8 +46,8 @@
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+      { "item": "stanag30", "ammo-item": "556", "count": 30 },
+      { "item": "glock17_22", "ammo-item": "9mmP", "count": [ 22, 44 ] },
       { "item": "9mmP", "count": [ 1, 2 ] },
       { "item": "556", "count": 2 },
       { "group": "any_MRE", "count": 2 }
@@ -62,8 +62,8 @@
         "item": "modular_m4_carbine",
         "variant": "modular_m4a1",
         "ammo-item": "556",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "suppressor" ]
+        "contents-item": [ "shoulder_strap", "suppressor" ],
+        "count": 30
       }
     ]
   }

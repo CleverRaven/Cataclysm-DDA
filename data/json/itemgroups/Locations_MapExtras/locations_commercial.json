@@ -1096,7 +1096,7 @@
       { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 10, "count": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 65 },
@@ -1195,7 +1195,7 @@
       { "item": "mask_dust", "prob": 15 },
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
-      { "item": "duct_tape", "prob": 70, "charges": [ 50, 200 ] },
+      { "item": "duct_tape", "prob": 70, "entry-wrapper": "cardboard_roll", "count": [ 50, 200 ] },
       { "item": "superglue", "prob": 25 },
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "group": "tools_toolbox", "prob": 2 }
@@ -1924,7 +1924,7 @@
       [ "scissors_medical", 50 ],
       [ "fungicide", 10 ],
       { "group": "insecticide_bag_plastic", "prob": 10 },
-      { "item": "soap", "prob": 20, "charges": [ 1, 10 ] },
+      { "item": "soap", "prob": 20, "count": [ 1, 10 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 10, "charges": [ 1, 10 ] },
       [ "canister_empty", 5 ],
       [ "stethoscope", 50 ],
@@ -1952,7 +1952,7 @@
       { "item": "catfood", "prob": 20, "container-item": "can_food" },
       [ "birdfood", 10 ],
       [ "towel", 20 ],
-      { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "soap", "prob": 10, "count": [ 1, 10 ] },
       [ "gloves_medical", 20 ],
       [ "cotton_patchwork", 15 ],
       { "item": "cotton_patchwork", "prob": 2, "custom-flags": [ "FILTHY" ] },
@@ -2030,7 +2030,7 @@
       { "item": "liq_bandage_spray", "prob": 2, "charges-min": 1 },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
-      { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "soap", "prob": 10, "count": [ 1, 10 ] },
       [ "rashguard", 20 ],
       [ "sports_bra", 30 ],
       [ "briefs", 30 ],
@@ -2105,9 +2105,9 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_sand", "prob": 50, "entry-wrapper": "bag_canvas", "count": 500 },
       { "group": "sandbag", "prob": 50 },
-      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
+      { "item": "material_soil", "prob": 50, "entry-wrapper": "bag_canvas", "count": 500 }
     ]
   },
   {
@@ -2132,7 +2132,10 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+    "items": [
+      [ "material_quicklime", 85 ],
+      { "item": "chem_saltpetre", "prob": 15, "entry-wrapper": "bag_canvas", "count-min": 10, "count-max": 50 }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",

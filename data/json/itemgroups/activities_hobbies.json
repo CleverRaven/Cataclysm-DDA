@@ -304,7 +304,7 @@
       [ "leg_bag", 3 ],
       [ "cowboy_hat", 4 ],
       [ "10gal_hat", 4 ],
-      { "item": "bb", "prob": 8, "charges": [ 1, 500 ] },
+      { "item": "bb", "prob": 8, "count": [ 1, 500 ] },
       { "group": "knife_rambo_cont", "prob": 20 },
       { "group": "crossbow_bolts", "prob": 5 },
       { "group": "crossbow_bolts_makeshift", "prob": 7 },

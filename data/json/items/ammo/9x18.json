@@ -6,7 +6,7 @@
     "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century, and remained in Russian military service into the 21st.",
     "ascii_picture": "9x18mm",
     "weight": "10 g",
-    "volume": "97 ml",
+    "volume": "1 ml",
     "longest_side": "25 mm",
     "price": 100,
     "price_postapoc": 1000,
@@ -14,8 +14,6 @@
     "material": [ "brass", "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 50,
-    "stack_size": 50,
     "ammo_type": "9x18",
     "casing": "9x18mm_casing",
     "range": 13,
@@ -33,9 +31,9 @@
     "price": 150,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 25,
     "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4 }, "dispersion": -10 },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.1 },
+    "volume": "1 ml"
   },
   {
     "id": "9x18mmfmj",

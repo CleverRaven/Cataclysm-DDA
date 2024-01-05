@@ -2418,7 +2418,8 @@
     "difficulty": 1,
     "time": "6 m",
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "cottonwood_tree_boll", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "cottonwood_tree_boll", 1 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -2461,7 +2462,8 @@
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "charges": 18
   },
   {
     "type": "recipe",
@@ -2477,7 +2479,8 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "drill_press_tool", 10 ], [ "cordless_drill", 20 ] ] ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "charges": 18
   },
   {
     "type": "recipe",
@@ -2526,7 +2529,8 @@
     "using": [ [ "carbon", 1 ] ],
     "components": [ [ [ "lamellae_lc", 18 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "charges": 18
   },
   {
     "type": "recipe",
@@ -2541,7 +2545,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -2556,7 +2561,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "lc_wire", 1 ] ] ]
+    "components": [ [ [ "lc_wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -2571,7 +2577,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "mc_wire", 1 ] ] ]
+    "components": [ [ [ "mc_wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -2586,7 +2593,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "hc_wire", 1 ] ] ]
+    "components": [ [ [ "hc_wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -2601,7 +2609,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "ch_wire", 1 ] ] ]
+    "components": [ [ [ "ch_wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -2616,7 +2625,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "qt_wire", 1 ] ] ]
+    "components": [ [ [ "qt_wire", 1 ] ] ],
+    "charges": 425
   },
   {
     "type": "recipe",
@@ -3028,7 +3038,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "splinter", 1 ] ] ]
+    "components": [ [ [ "splinter", 1 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",

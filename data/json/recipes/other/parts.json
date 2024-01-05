@@ -986,6 +986,7 @@
       { "id": "THREAD_CUT", "level": 2 },
       { "id": "THREAD_TAP", "level": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "charges": 100
   }
 ]

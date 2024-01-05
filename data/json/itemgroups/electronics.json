@@ -24,7 +24,7 @@
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "plut_cell", "prob": 10, "count": [ 1, 5 ] },
       [ "manual_electronics", 20 ],
       [ "textbook_electronics", 6 ],
       [ "radio_book", 16 ],

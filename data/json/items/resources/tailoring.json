@@ -610,12 +610,10 @@
     "description": "Very durable Kevlar thread that would be particularly useful for making ballistic armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would require some specialized machinery.",
     "material": [ "kevlar" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "200 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "//": "30 meters of thread per 1g, roughly 6 inches of thread per unit.",
-    "ammo_type": "thread",
-    "count": 50,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "AMMO",
@@ -630,12 +628,10 @@
     "description": "Heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too, in most cases.",
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "200 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "//": "30 meters of thread per 1g, roughly 6 inches of thread per unit.",
-    "ammo_type": "thread",
-    "count": 50,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "id": "sheet_denim",
@@ -723,12 +719,10 @@
     "description": "Some tough canvas-weight thread, sturdier than ordinary thread.  You could meticulously weave this into a sheet of canvas cloth.  It would also be useful for stitching such sheets together, though it's fine to use for normal tailoring projects too.",
     "material": [ "canvas" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "200 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "//": "30 meters of thread per 1g, roughly 6 inches of thread per unit.",
-    "ammo_type": "thread",
-    "count": 50,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "id": "scrap_canvas",

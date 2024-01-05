@@ -81,6 +81,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "pine_bough", 1 ] ] ]
+    "components": [ [ [ "pine_bough", 1 ] ] ],
+    "charges": 10
   }
 ]

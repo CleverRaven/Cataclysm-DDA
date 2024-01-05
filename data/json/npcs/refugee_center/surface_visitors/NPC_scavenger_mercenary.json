@@ -62,7 +62,7 @@
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "stanag30", "ammo-item": "556", "count": 30 },
       { "group": "any_MRE", "count": 2 }
     ]
   },
@@ -75,8 +75,8 @@
         "item": "modular_m4_carbine",
         "variant": "modular_m4a1",
         "ammo-item": "556",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ],
+        "count": 30
       }
     ]
   },

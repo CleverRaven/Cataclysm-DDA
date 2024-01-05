@@ -487,7 +487,7 @@
       { "item": "needle_steel" },
       { "item": "pur_tablets", "count": 3 },
       { "item": "survival_match", "count": 3 },
-      { "item": "thread_kevlar", "charges": 36 }
+      { "item": "thread_kevlar", "count": 36 }
     ]
   },
   {
@@ -500,7 +500,7 @@
       { "item": "needle_steel", "prob": 40 },
       { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
       { "item": "survival_match", "prob": 50, "count": [ 0, 3 ] },
-      { "item": "thread_kevlar", "charges": [ 0, 36 ] }
+      { "item": "thread_kevlar", "count": [ 0, 36 ] }
     ]
   },
   {
@@ -515,7 +515,7 @@
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
-      { "item": "medical_tape", "charges": 20 },
+      { "item": "medical_tape", "count": 20 },
       { "group": "bottle_otc_painkiller_10" },
       { "item": "disinfectant" },
       { "item": "saline" },
@@ -544,7 +544,7 @@
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
-      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "medical_tape", "count": [ 0, 20 ] },
       { "group": "bottle_otc_painkiller_0_10" },
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
@@ -575,7 +575,7 @@
     "subtype": "collection",
     "container-item": "ifak_pouch",
     "items": [
-      { "item": "medical_tape", "charges": 20 },
+      { "item": "medical_tape", "count": 20 },
       { "item": "tourniquet_upper" },
       { "group": "quikclot_bag_plastic_5" },
       { "item": "bandages", "count": 9 },
@@ -592,7 +592,7 @@
     "subtype": "collection",
     "container-item": "ifak_pouch",
     "items": [
-      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "medical_tape", "count": [ 0, 20 ] },
       { "item": "tourniquet_upper", "prob": 20 },
       { "group": "quikclot_bag_plastic_0_5" },
       { "item": "bandages", "count": [ 0, 9 ] },
@@ -831,7 +831,7 @@
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       { "item": "laptop", "prob": 4, "charges": [ 0, 500 ] },
-      { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
+      { "item": "plut_cell", "prob": 4, "count": [ 1, 5 ] },
       [ "superglue", 30 ],
       [ "pliers", 10 ],
       [ "tin_snips", 10 ],

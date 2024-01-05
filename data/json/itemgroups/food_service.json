@@ -230,7 +230,7 @@
       { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 10, "count": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "shot_glass", "prob": 60 },
       { "item": "bucket", "prob": 5 },
@@ -336,7 +336,7 @@
     "type": "item_group",
     "items": [
       { "prob": 15, "group": "cig_box_cigarette_1_20" },
-      { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 7, "count": [ 1, 30 ] },
       [ "wrapper", 35 ],
       [ "wrapper_foil", 2 ],
       [ "ceramic_plate", 40 ],
@@ -354,8 +354,8 @@
     "type": "item_group",
     "items": [
       [ "towel", 15 ],
-      { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
+      { "item": "soap", "prob": 15, "count": [ 1, 10 ] },
+      { "item": "detergent", "prob": 15, "entry-wrapper": "box_small", "count": [ 1, 20 ] },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
@@ -396,7 +396,7 @@
       [ "hairpin", 10 ],
       [ "flyer", 7 ],
       { "item": "glock_19", "prob": 5, "charges": [ 0, 15 ] },
-      { "item": "9mm", "prob": 3, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 3, "count": [ 1, 50 ] }
     ]
   },
   {
@@ -510,8 +510,8 @@
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
-      { "item": "soap", "prob": 8, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 8, "charges": [ 1, 20 ] },
+      { "item": "soap", "prob": 8, "count": [ 1, 10 ] },
+      { "item": "detergent", "prob": 8, "entry-wrapper": "box_small", "count": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "broom", "prob": 8 },
       { "item": "bleach", "prob": 8, "charges-min": 1 },
@@ -656,8 +656,8 @@
       { "item": "knife_steak", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 40, "charges": 10 },
       { "item": "towel", "prob": 40 },
-      { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "soap", "prob": 30, "count": [ 1, 10 ] },
+      { "item": "detergent", "prob": 30, "entry-wrapper": "box_small", "count": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 30 },
       { "item": "bleach", "prob": 30, "charges-min": 1 },
       { "item": "vinegar", "prob": 30 },

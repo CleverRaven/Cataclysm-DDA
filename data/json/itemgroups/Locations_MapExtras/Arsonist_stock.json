@@ -10,7 +10,7 @@
       { "item": "pipebomb", "count": 25 },
       { "item": "fuse", "count": 5 },
       { "item": "FMCNote", "count": 3 },
-      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
+      { "item": "nail", "count": [ 5, 500 ] },
       { "item": "rebar", "count": 5 },
       { "item": "textbook_anarch", "count": 1 },
       { "count": 1, "group": "fertilizer_commercial_bag_canvas_60" }

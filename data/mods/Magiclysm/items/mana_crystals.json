@@ -16,10 +16,9 @@
     "description": "Some crystallized mana.  This can be reloaded into rechargeable mana crystals, but can never be unloaded.",
     "flags": [ "TRADER_AVOID" ],
     "weight": "1 mg",
-    "volume": "100 ml",
+    "volume": "10 ml",
     "ammo_type": "crystallized_mana",
     "material": [ "crystallized_mana" ],
-    "count": 10,
     "looks_like": "battery"
   },
   {

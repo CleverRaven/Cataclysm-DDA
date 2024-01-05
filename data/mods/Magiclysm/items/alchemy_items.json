@@ -260,12 +260,10 @@
     "color": "light_blue",
     "description": "Alumentum is magically processed coal or charcoal.  It burns as hot as magnesium, and for a significantly longer period of time.  One of the very few magical materials that is still produced in any quantity today due to its usefulness.",
     "phase": "solid",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "weight": "11 g",
     "material": [ "alumentum" ],
-    "ammo_type": "alumentum",
-    "count": 50,
-    "stack_size": 10
+    "ammo_type": "alumentum"
   },
   {
     "id": "mana_dust",

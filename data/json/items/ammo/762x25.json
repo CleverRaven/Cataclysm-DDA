@@ -6,7 +6,7 @@
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "ascii_picture": "762_25",
     "weight": "10 g",
-    "volume": "107 ml",
+    "volume": "2 ml",
     "longest_side": "35 mm",
     "price": 100,
     "price_postapoc": 800,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "light_gray",
-    "count": 40,
-    "stack_size": 40,
     "ammo_type": "762x25",
     "casing": "762_25_casing",
     "range": 13,
@@ -41,13 +39,13 @@
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": "12 g",
-    "count": 50,
     "relative": {
       "price": 2000,
       "range": -1,
       "damage": { "damage_type": "bullet", "amount": -9, "armor_penetration": 2 },
       "recoil": -270
-    }
+    },
+    "volume": "2 ml"
   },
   {
     "id": "bp_762_25",

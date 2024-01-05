@@ -17,8 +17,6 @@
     "range": 120,
     "dispersion": 15,
     "recoil": 45,
-    "count": 4,
-    "stack_size": 1,
     "effects": [ "COOKOFF", "NEVER_MISFIRES", "LASER", "INCENDIARY", "DAZZLE_BEAM", "PUMP_LASER", "PLASMA_BUBBLE" ]
   }
 ]

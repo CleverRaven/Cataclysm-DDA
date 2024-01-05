@@ -3,36 +3,33 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_MEU",
-    "entries": [ { "item": "m1911", "variant": "m1911_MEU", "ammo-item": "45_acp", "charges": 7, "contents-item": [ "suppressor" ] } ]
+    "entries": [ { "item": "m1911", "variant": "m1911_MEU", "ammo-item": "45_acp", "contents-item": [ "suppressor" ], "count": 7 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_usp9",
-    "entries": [ { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "contents-item": [ "suppressor_compact" ] } ]
+    "entries": [ { "item": "usp_9mm", "ammo-item": "9mmfmj", "contents-item": [ "suppressor_compact" ], "count": 15 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_grenades_40x46",
-    "entries": [ { "item": "40x46mm_m433", "charges": 4 } ]
+    "entries": [ { "item": "40x46mm_m433", "count": 4 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_1911",
-    "entries": [
-      { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 },
-      { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 }
-    ]
+    "entries": [ { "item": "m1911mag", "ammo-item": "45_acp", "count": 7 }, { "item": "m1911mag", "ammo-item": "45_acp", "count": 7 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_m17",
     "entries": [
-      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "charges": 17 },
-      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "charges": 17 }
+      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "count": 17 },
+      { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "count": 17 }
     ]
   },
   {
@@ -40,56 +37,53 @@
     "subtype": "collection",
     "id": "army_mags_300blk",
     "entries": [
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }
+      { "item": "stanag30", "ammo-item": "300blk_ss", "count": 30 },
+      { "item": "stanag30", "ammo-item": "300blk_ss", "count": 30 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_mp7",
-    "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
+    "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "count": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_57",
-    "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20 } ]
+    "entries": [ { "item": "fn57", "ammo-item": "57mm", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_57",
-    "entries": [ { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 }, { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 } ]
+    "entries": [ { "item": "fn57mag", "ammo-item": "57mm", "count": 20 }, { "item": "fn57mag", "ammo-item": "57mm", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_m14",
-    "entries": [
-      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
-      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 }
-    ]
+    "entries": [ { "item": "m14mag", "ammo-item": "762_51", "count": 20 }, { "item": "m14mag", "ammo-item": "762_51", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_m4",
-    "entries": [ { "item": "stanag30", "ammo-item": "556", "charges": 30 }, { "item": "stanag30", "ammo-item": "556", "charges": 30 } ]
+    "entries": [ { "item": "stanag30", "ammo-item": "556", "count": 30 }, { "item": "stanag30", "ammo-item": "556", "count": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_mp5",
-    "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 } ]
+    "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "count": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "count": 30 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "ranger_mags",
     "entries": [
-      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
-      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 }
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "count": 13 },
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "count": 13 }
     ]
   },
   {
@@ -209,10 +203,10 @@
     "subtype": "collection",
     "id": "army_mags_m2010",
     "entries": [
-      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
-      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
-      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 },
-      { "item": "m2010mag", "ammo-item": "300_winmag", "charges": 5 }
+      { "item": "m2010mag", "ammo-item": "300_winmag", "count": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "count": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "count": 5 },
+      { "item": "m2010mag", "ammo-item": "300_winmag", "count": 5 }
     ]
   },
   {
@@ -220,9 +214,9 @@
     "subtype": "collection",
     "id": "army_mags_tac338",
     "entries": [
-      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
-      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 },
-      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "charges": 5 }
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "count": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "count": 5 },
+      { "item": "ai_338mag", "ammo-item": "338lapua_fmjbt", "count": 5 }
     ]
   },
   {
@@ -230,9 +224,9 @@
     "subtype": "collection",
     "id": "mags_50beowulf_ar15",
     "entries": [
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 }
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "count": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "count": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "count": 10 }
     ]
   },
   {
@@ -240,10 +234,10 @@
     "subtype": "collection",
     "id": "mags_ruger_arr",
     "entries": [
-      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
-      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
-      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 },
-      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "charges": 3 }
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "count": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "count": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "count": 3 },
+      { "item": "ruger_arr_mag", "ammo-item": "450_ftx", "count": 3 }
     ]
   },
   {
@@ -251,8 +245,8 @@
     "subtype": "collection",
     "id": "army_mags_m110",
     "entries": [
-      { "item": "hk417mag_20rd", "ammo-item": "762_51", "charges": 20 },
-      { "item": "hk417mag_20rd", "ammo-item": "762_51", "charges": 20 }
+      { "item": "hk417mag_20rd", "ammo-item": "762_51", "count": 20 },
+      { "item": "hk417mag_20rd", "ammo-item": "762_51", "count": 20 }
     ]
   },
   {
@@ -260,26 +254,23 @@
     "subtype": "collection",
     "id": "army_mags_usp45",
     "entries": [
-      { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-      { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 }
+      { "item": "usp45mag", "ammo-item": "45_acp", "count": 12 },
+      { "item": "usp45mag", "ammo-item": "45_acp", "count": 12 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_usp9",
-    "entries": [
-      { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 },
-      { "item": "usp9mag", "ammo-item": "9mmfmj", "charges": 15 }
-    ]
+    "entries": [ { "item": "usp9mag", "ammo-item": "9mmfmj", "count": 15 }, { "item": "usp9mag", "ammo-item": "9mmfmj", "count": 15 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "army_mags_glock17",
     "entries": [
-      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 },
-      { "item": "glock17_22", "ammo-item": "9mmfmj", "charges": 22 }
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "count": 22 },
+      { "item": "glock17_22", "ammo-item": "9mmfmj", "count": 22 }
     ]
   },
   {
@@ -287,10 +278,10 @@
     "subtype": "collection",
     "id": "speedloaders_s&w619_special",
     "entries": [
-      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
-      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
-      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
-      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 }
+      { "item": "38_speedloader", "ammo-item": "38_special", "count": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "count": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "count": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "count": 7 }
     ]
   },
   {
@@ -298,9 +289,9 @@
     "subtype": "collection",
     "id": "speedloaders_s&w619_magnum",
     "entries": [
-      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
-      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
-      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 }
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "count": 7 },
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "count": 7 },
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "count": 7 }
     ]
   },
   {
@@ -324,31 +315,31 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_crossbow_hunter",
-    "entries": [ { "item": "bolt_steel", "charges": 4 } ]
+    "entries": [ { "item": "bolt_steel", "count": 4 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_shotgun_hunter",
-    "entries": [ { "item": "shot_00", "charges": 18 } ]
+    "entries": [ { "item": "shot_00", "count": 18 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_rifle_hunter",
-    "entries": [ { "item": "270win_jsp", "charges": 16 } ]
+    "entries": [ { "item": "270win_jsp", "count": 16 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_swat_cqc1",
-    "entries": [ { "item": "shot_00", "charges": 12 } ]
+    "entries": [ { "item": "shot_00", "count": 12 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_swat_cqc2",
-    "entries": [ { "item": "shot_slug", "charges": 12 } ]
+    "entries": [ { "item": "shot_slug", "count": 12 } ]
   },
   {
     "type": "item_group",
@@ -360,19 +351,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "flintlock_pouch_reenactor",
-    "entries": [ { "item": "flintlock_ammo", "charges": 14 } ]
+    "entries": [ { "item": "flintlock_ammo", "count": 14 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
-    "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
+    "entries": [ { "item": "45colt_jhp", "count": 18 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_cowboy",
-    "entries": [ { "item": "357mag_jhp", "charges": 18 } ]
+    "entries": [ { "item": "357mag_jhp", "count": 18 } ]
   },
   {
     "type": "item_group",

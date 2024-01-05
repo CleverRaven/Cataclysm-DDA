@@ -104,14 +104,12 @@
     "type": "AMMO",
     "name": "base shotshell",
     "weight": "47 g",
-    "volume": "439 ml",
+    "volume": "21 ml",
     "longest_side": "88 mm",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "plastic", "lead", "powder" ],
     "symbol": "=",
     "color": "red",
-    "count": 20,
-    "stack_size": 20,
     "ammo_type": "shot",
     "casing": "shot_hull"
   },
@@ -144,11 +142,11 @@
     "price": 500,
     "price_postapoc": 200,
     "range": 10,
-    "count": 10,
     "damage": { "damage_type": "bullet", "amount": 5 },
     "recoil": 1000,
     "loudness": 100,
-    "effects": [ "BEANBAG", "COOKOFF", "NOGIB" ]
+    "effects": [ "BEANBAG", "COOKOFF", "NOGIB" ],
+    "volume": "21 ml"
   },
   {
     "id": "shot_bird",
@@ -190,8 +188,8 @@
     "price": 2000,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 10,
-    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3 }, "shot_spread": -150, "range": 12 }
+    "relative": { "shot_damage": { "damage_type": "bullet", "amount": -3 }, "shot_spread": -150, "range": 12 },
+    "volume": "21 ml"
   },
   {
     "id": "shot_he",
@@ -203,9 +201,9 @@
     "ascii_picture": "shot_he",
     "price": 3000,
     "price_postapoc": 1600,
-    "count": 5,
     "extend": { "effects": [ "EXPLOSIVE_HESHOT" ] },
-    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 }
+    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 },
+    "volume": "21 ml"
   },
   {
     "id": "shot_scrap",

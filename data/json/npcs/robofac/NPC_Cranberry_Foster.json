@@ -80,7 +80,7 @@
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-      { "item": "robofac40", "ammo-item": "556", "charges": 40 },
+      { "item": "robofac40", "ammo-item": "556", "count": 40 },
       { "item": "robofac_gun_kit" },
       { "item": "grenade_emp" },
       { "group": "mil_food_nodrugs" },
@@ -96,9 +96,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
-    "items": [
-      { "item": "robofac_gun", "ammo-item": "556", "charges": 40, "contents-item": [ "shoulder_strap", "robofac_gun_ar" ] }
-    ]
+    "items": [ { "item": "robofac_gun", "ammo-item": "556", "contents-item": [ "shoulder_strap", "robofac_gun_ar" ], "count": 40 } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1",

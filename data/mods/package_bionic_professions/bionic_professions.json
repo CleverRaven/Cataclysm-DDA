@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bionic_prepper",
-    "entries": [ { "item": "bolt_steel", "charges": 20 } ]
+    "entries": [ { "item": "bolt_steel", "count": 20 } ]
   },
   {
     "type": "profession",

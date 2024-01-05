@@ -31,7 +31,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small_wood",
-    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
+    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "count": [ 2, 2 ] } ]
   },
   {
     "id": "cigar_box_opened",
@@ -40,7 +40,7 @@
     "container-item": "box_small_wood",
     "entries": [
       { "item": "cigar", "count": [ 0, 25 ] },
-      { "item": "paper", "charges": [ 2, 2 ], "prob": 90 },
+      { "item": "paper", "prob": 90, "count": [ 2, 2 ] },
       {
         "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
         "prob": 50

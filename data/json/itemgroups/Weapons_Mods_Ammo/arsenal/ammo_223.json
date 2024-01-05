@@ -63,7 +63,7 @@
     "id": "clip223_10rd_556",
     "type": "item_group",
     "container-item": "clip223_10rd",
-    "items": [ { "item": "556_m855a1", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+    "items": [ { "item": "556_m855a1", "count-min": 10, "count-max": 10 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -91,8 +91,8 @@
     "container-item": "belt223",
     "subtype": "collection",
     "items": [
-      { "item": "556_incendiary", "count": 1, "charges-min": 40, "charges-max": 40 },
-      { "item": "556", "count": 1, "charges-min": 160, "charges-max": 160 }
+      { "item": "556_incendiary", "count-min": 40, "count-max": 40 },
+      { "item": "556", "count-min": 160, "count-max": 160 }
     ]
   },
   {
@@ -120,7 +120,7 @@
     "id": "belt223_ball",
     "container-item": "belt223",
     "subtype": "collection",
-    "items": [ { "item": "556", "count": 1, "charges-min": 200, "charges-max": 200 } ]
+    "items": [ { "item": "556", "count-min": 200, "count-max": 200 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -142,7 +142,7 @@
     "type": "item_group",
     "container-item": "ammo_box_army_20_223",
     "on_overflow": "discard",
-    "items": [ { "item": "556_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+    "items": [ { "item": "556_incendiary", "count-min": 20, "count-max": 20 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -170,8 +170,8 @@
     "container-item": "belt223",
     "subtype": "collection",
     "items": [
-      { "item": "556_incendiary", "count": 1, "charges-min": 40, "charges-max": 40 },
-      { "item": "556_m995", "count": 1, "charges-min": 160, "charges-max": 160 }
+      { "item": "556_incendiary", "count-min": 40, "count-max": 40 },
+      { "item": "556_m995", "count-min": 160, "count-max": 160 }
     ]
   },
   {
@@ -199,6 +199,6 @@
     "id": "belt223_5ap",
     "container-item": "belt223",
     "subtype": "collection",
-    "items": [ { "item": "556_m995", "count": 1, "charges-min": 200, "charges-max": 200 } ]
+    "items": [ { "item": "556_m995", "count-min": 200, "count-max": 200 } ]
   }
 ]

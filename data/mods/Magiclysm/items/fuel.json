@@ -16,7 +16,8 @@
     "ammo_type": "dragon_blood",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "count": 1
   },
   {
     "id": "blood_tainted",
@@ -26,7 +27,8 @@
     "symbol": "~",
     "material": "tainted_blood",
     "category": "fuel",
-    "ammo_type": "tainted_blood"
+    "ammo_type": "tainted_blood",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -36,7 +38,8 @@
     "color": "red",
     "symbol": "~",
     "category": "fuel",
-    "ammo_type": "blood"
+    "ammo_type": "blood",
+    "count": 1
   },
   {
     "id": "mana_infused_blood",

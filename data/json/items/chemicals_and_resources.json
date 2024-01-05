@@ -47,11 +47,10 @@
     "flags": [ "EDIBLE_FROZEN", "NO_INGEST" ],
     "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It also serves as a basis for many kinds of fungicide.",
     "material": [ "powder" ],
-    "volume": "16 ml",
+    "volume": "1 ml",
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -81,10 +80,9 @@
     "color": "dark_gray",
     "description": "Portland is most likely long gone, but its memory persists in cement.  This ubiquitous binder can be used for all kinds of advanced masonry.  Just add water.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "20 g",
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -100,7 +98,6 @@
     "volume": "5 ml",
     "weight": "5 g",
     "ammo_type": "components",
-    "count": 1,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -114,10 +111,9 @@
     "color": "dark_gray",
     "description": "A handful of shredded rubber, usable as a mulch now.",
     "material": [ "rubber" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "6 g",
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -130,10 +126,9 @@
     "color": "dark_gray",
     "description": "A handful of small chunks of limestone.  Useful for experiments at science fairs, but pretty useless as ammo.  Maybe something could be crafted from this stuff…",
     "material": [ "stone" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "14 g",
     "ammo_type": "components",
-    "count": 50,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -147,12 +142,11 @@
     "color": "dark_gray",
     "description": "The product of burning limestone, this white powder is a crucial ingredient in making cement.  That said, it is also extremely caustic and will cause severe burns to any tissue it comes in contact with.  This property could probably be exploited.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "15 g",
     "//1": "50 units × 15g / density 3.34g/cm³ = 224.55 ml; powder taking up more volume is reasonable",
     "//2": "15g @ 56.0774g/mol = 0.267487437 moles of CaO",
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -165,10 +159,9 @@
     "color": "white",
     "description": " A handful of slaked lime, a white odorless powder with many uses.  Also known as calcium hydroxide.",
     "material": [ "slaked_lime" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2211 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -183,8 +176,7 @@
     "material": [ "sand" ],
     "volume": "8 ml",
     "weight": "5 g",
-    "ammo_type": "components",
-    "count": 1
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -197,10 +189,9 @@
     "color": "brown",
     "description": "A pile of loosely-packed, slightly damp loamy soil.  This mixture of sand, silt and clay is ideal for growing plants.",
     "material": [ "soil" ],
-    "volume": "5L",
+    "volume": "5 L",
     "weight": "6500 g",
-    "ammo_type": "components",
-    "stack_size": 1
+    "ammo_type": "components"
   },
   {
     "type": "GENERIC",
@@ -303,7 +294,8 @@
     "phase": "liquid",
     "stack_size": 1,
     "category": "chems",
-    "ammo_type": "ammonia_liquid"
+    "ammo_type": "ammonia_liquid",
+    "count": 1
   },
   {
     "type": "COMESTIBLE",
@@ -490,11 +482,10 @@
     "color": "white",
     "description": "A handful of finely-ground aluminum powder.  This strong reducing agent was used in combination with various oxidants for chemical welding and explosives alike.  Just before the Cataclysm, however, it was the basis of virtually all commercial metallic-hued paints and anti-corrosive coatings.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "2 ml",
     "weight": "1760 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
-    "count": 100
+    "container": "bag_plastic"
   },
   {
     "type": "AMMO",
@@ -510,8 +501,7 @@
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
     "weight": "36 mg",
-    "ammo_type": "components",
-    "count": 1
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -524,13 +514,12 @@
     "color": "white",
     "description": "A handful of zinc powder.  While commercially used mostly in cosmetics and for paints, hobbyists used to mix it with sulfur to make basic rocket fuel or a smokescreen.  When treated with a strong acid, it will produce hydrogen.",
     "material": [ "powder" ],
-    "volume": "9 ml",
+    "volume": "1 ml",
     "weight": "654 mg",
     "//": "Atomic weight 65.39, 0.01mol -> 653.9mg",
     "//2": "Density 7.14g/cm³: 654mg/unit ~ 65.4g @ stack 100 -> 9.159ml",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -543,12 +532,11 @@
     "color": "white",
     "description": "A handful of zinc oxide.  It can be reduced into zinc, or used for some other reactions of its own.",
     "material": [ "powder_nonflam" ],
-    "volume": "15 ml",
+    "volume": "1 ml",
     "weight": "814 mg",
     "//": "Density: 5.606 g/cm3: 814 mg/unit ~ 81.4g @ stack 100 -> 14.521ml",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -561,12 +549,11 @@
     "color": "white",
     "description": "A handful of manganese dioxide powder.  Occurring naturally in the mineral pyrolusite, it is used commercially in the production of alkaline and zinc-carbon batteries.",
     "material": [ "powder_nonflam" ],
-    "volume": "17 ml",
+    "volume": "1 ml",
     "weight": "869 mg",
     "//": "density: 5.026 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -578,10 +565,9 @@
     "color": "dark_gray",
     "description": "A moisturized mixture of zinc chloride and manganese dioxide, slightly acidic.  It can be used in the production of zinc-carbon batteries.",
     "material": [ "powder_nonflam" ],
-    "volume": "151 ml",
+    "volume": "1 ml",
     "weight": "500 mg",
-    "ammo_type": "components",
-    "count": 1000
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -595,10 +581,9 @@
     "description": "A handful of dark green crystalline powder, with a weak pungent smell similar to that of hydrochloric acid.  Commonly used as a Lewis acid for catalyzing various chemical reactions.",
     "container": "bag_plastic",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2900 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -612,10 +597,9 @@
     "description": "A handful of soft, colorless powder with a sharp pungent odor, also known as butter of antimony.  It's a catalyst for polymerization, hydrocracking, and chlorination reactions, and has some other niche uses.",
     "container": "bag_plastic",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "3140 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -628,12 +612,11 @@
     "color": "white",
     "description": "A handful of potassium chloride.  Although it occurs naturally in the mineral sylvite, it can be produced as a byproduct of the reaction of saltpeter and hydrochloric acid.  It can be used for making fertilizer, or potassium hydroxide by way of electrolysis.",
     "material": [ "powder_nonflam" ],
-    "volume": "38 ml",
+    "volume": "1 ml",
     "weight": "746 mg",
     "//": "density: 1.984 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -646,12 +629,11 @@
     "color": "white",
     "description": "A handful of potassium hydroxide.  Commonly called caustic potash, it was mainly used industrially for its caustic nature.  It can be used as an electrolyte in alkaline batteries, among other applications.",
     "material": [ "powder_nonflam" ],
-    "volume": "26 ml",
+    "volume": "1 ml",
     "weight": "561 mg",
     "//": "density: 2.12 g/cm3 (25 °C)",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "COMESTIBLE",
@@ -709,7 +691,8 @@
     "material": [ "acetone" ],
     "ammo_type": "components",
     "phase": "liquid",
-    "container": "bottle_glass"
+    "container": "bottle_glass",
+    "count": 1
   },
   {
     "type": "COMESTIBLE",
@@ -743,12 +726,11 @@
     "color": "green",
     "description": "A handful of chromium oxide.  This substance, typically known as the only stable green pigment for paints, is also a mild oxidizer, which can be mixed with aluminum powder to make thermite for welding.  If one had access to a CVD machine and a laboratory worth of reagents, they might be able to produce very durable ceramic layers.",
     "material": [ "powder_nonflam" ],
-    "volume": "29 ml",
+    "volume": "1 ml",
     "weight": "1520 mg",
     "//": "density: 5.22 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -766,10 +748,9 @@
     "//2": "1 mole CaO equiv. of quicklime: 56.0774g, 16.78ml if solid chunk",
     "//3": "3 moles C equiv. of coal_lump (anthracite, 90% carbon): (3×12.011/0.9) = 40.03667g, 26.69ml if solid chunk",
     "//4": "56.0774 + 40.0367 = 96.1141g (100 units); 16.78 + 26.69 = 43.47ml, round to 50 due to powder form",
-    "volume": "50 ml",
+    "volume": "1 ml",
     "weight": "961 mg",
-    "ammo_type": "components",
-    "count": 100
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -782,12 +763,11 @@
     "color": "white",
     "description": "A handful of calcium carbide, giving off a faint, garlic-like smell.  Commercially, calcium carbide was used for on-the-spot manufacture of acetylene and historically to power acetylene lamps.  If mixed with water and sealed, it will explode with little strength, but with a relatively loud noise that might be useful as a distraction.",
     "material": [ "powder" ],
-    "volume": "29 ml",
+    "volume": "1 ml",
     "weight": "641 mg",
     "//": "density: 2.22 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -800,12 +780,11 @@
     "color": "white",
     "description": "A handful of calcium carbonate powder, typically derived from lime or shells.  Useful for a number of roles, such as sugar production, fracking, construction, paint additives and antacid medicine.",
     "material": [ "powder" ],
-    "volume": "29 ml",
+    "volume": "1 ml",
     "weight": "783 mg",
     "//": "density: 2.71 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -820,12 +799,10 @@
     "//": "base density of 1.33g/ml and energy of ~40kJ per unit",
     "//1": "hexamine tablets sold commercially for 13 usd per 216 grams (162u)",
     "material": [ "powder" ],
-    "volume": "200 ml",
+    "volume": "1 ml",
     "weight": "1330 mg",
     "ammo_type": "esbit",
-    "container": "box_small",
-    "count": 1620,
-    "stack_size": 200
+    "container": "box_small"
   },
   {
     "type": "AMMO",
@@ -841,7 +818,8 @@
     "weight": "325 g",
     "ammo_type": "components",
     "phase": "liquid",
-    "container": "bottle_glass"
+    "container": "bottle_glass",
+    "count": 1
   },
   {
     "type": "GENERIC",
@@ -886,11 +864,10 @@
     "color": "white",
     "description": "A handful of ammonium nitrate.  This white, crystalline powder is commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
     "material": [ "powder_nonflam" ],
-    "volume": "290 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 500
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -904,11 +881,10 @@
     "color": "white",
     "description": "A handful of ammonium nitrate pellets.  These pellets are commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
     "material": [ "powder_nonflam" ],
-    "volume": "625 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 500
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -921,11 +897,10 @@
     "color": "white",
     "description": "A handful of saltpeter.  Sometimes used as a fertilizer, this ubiquitous nitrate is the principal constituent of black gunpowder and simple rocket propellants, such as rocket candy.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "5275 mg",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 50
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -954,11 +929,10 @@
     "color": "white",
     "description": "Several crystals of aluminum sulfate.  Historically, an agent for purifying water and as molluscicide, due to the fact that it degenerates their slime.  Just before the Cataclysm, its main uses were for adjusting the acidity of soil and as an additive to baking powder.  If mixed with a strong acid, it could be used to saturate soil with aluminum, causing all but the most resistant of plants to wither and die.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "13350 mg",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 50
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -975,7 +949,8 @@
     "material": [ "acid" ],
     "ammo_type": "components",
     "phase": "liquid",
-    "container": "bottle_glass"
+    "container": "bottle_glass",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -991,7 +966,8 @@
     "weight": "300 g",
     "ammo_type": "components",
     "phase": "liquid",
-    "container": "bottle_glass"
+    "container": "bottle_glass",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1004,12 +980,11 @@
     "color": "white",
     "description": "A handful of silvery-greenish powder, produced by mixing aluminum and chromium oxide.  This mixture, burning at a constant pace and at extremely high temperature, was once used for on-the-spot welding.  Can be used as an incendiary material in a pinch.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "10 g",
     "//": "Weight might not be accurate.",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 50
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -1022,11 +997,10 @@
     "color": "red",
     "description": "A handful of brownish pellets, made by allowing ammonium nitrate to absorb an organic fuel.  This ammonium nitrate/fuel oil mixture, or ANFO, is a common industrial explosive due to its stability and low price.  Burns fast, but needs an explosive primer to detonate.",
     "material": [ "powder" ],
-    "volume": "294 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_canvas",
-    "count": 500
+    "container": "bag_canvas"
   },
   {
     "type": "AMMO",
@@ -1039,11 +1013,10 @@
     "color": "dark_gray",
     "description": "A handful of black gunpowder, a mix of saltpeter, charcoal, and sulfur.  Pretty useless for making modern cartridges, as the soot produced when it burns will quickly clog any firearm, but it could be used to make some vicious bombs.",
     "material": [ "powder" ],
-    "volume": "89 ml",
+    "volume": "1 ml",
     "weight": "151 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
-    "count": 1000
+    "container": "bag_plastic"
   },
   {
     "type": "AMMO",
@@ -1057,10 +1030,9 @@
     "description": "Several off-white crystals of RDX, or hexogen: a military-grade, shelf-stable high explosive.  Can be cast into shaped charges, or mixed with scrap to pepper the blast area with high-velocity shrapnel.",
     "material": [ "powder" ],
     "//": "Density of RDX is 1.858 g/cm3",
-    "volume": "270 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 500
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1074,10 +1046,9 @@
     "description": "Composition B is an explosive consisting of castable mixtures of RDX and TNT.  It is used as the main explosive filling in artillery projectiles, rockets, land mines, hand grenades, and various other munitions.",
     "material": [ "powder" ],
     "//": "Density of composition B is 1.65 g/cm3. Slightly rounded the volume from 303 to 300",
-    "volume": "300 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 500
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1091,11 +1062,10 @@
     "description": "Hexamine peroxide: this fine, yellowish powder is a powerful primary explosive, used to initiate detonation of more stable explosives, such as RDX.  Relatively stable, but best not store it for too long.",
     "material": [ "powder" ],
     "//": "Density of RDX is 1.57 g/cm3",
-    "volume": "140 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
-    "count": 200
+    "container": "bag_plastic"
   },
   {
     "type": "AMMO",
@@ -1109,11 +1079,10 @@
     "description": "Acetone peroxide: this fine, white crystalline powder is a powerful primary explosive, used to initiate detonation of more stable explosives, such as RDX.  Relatively stable, with a fruit-like smell when pure.",
     "material": [ "powder" ],
     "//": "Detonation velocity about 2500–3000 m/s near 0.5 g/cm3",
-    "volume": "140 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
-    "count": 200
+    "container": "bag_plastic"
   },
   {
     "type": "AMMO",
@@ -1126,11 +1095,10 @@
     "color": "white",
     "description": "A chunk of a zinc powder-and-sulfur mixture, bound together by superglue, that can be used as an impromptu rocket fuel.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "25 ml",
     "weight": "70 g",
     "ammo_type": "components",
     "container": "bag_plastic",
-    "count": 10,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1328,12 +1296,11 @@
     "color": "white",
     "description": "A popular pre-Cataclysm washing powder.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "12 ml",
     "weight": "1 g",
     "flags": [ "DETERGENT" ],
     "ammo_type": "components",
-    "container": "box_small",
-    "count": 20
+    "container": "box_small"
   },
   {
     "type": "AMMO",
@@ -1346,11 +1313,10 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of flakes shaved off a bar of soap, suitable for use in a washing machine.",
-    "volume": "250 ml",
+    "volume": "12 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "flags": [ "DETERGENT" ],
-    "count": 20
+    "flags": [ "DETERGENT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1406,10 +1372,9 @@
     "flags": [ "TRADER_AVOID" ],
     "description": "A steel canister containing carbon, iron, titanium, copper, and other elements in specifically engineered atomic-scale configurations.  A nanofabricator can assemble them into usable items.",
     "material": [ "steel" ],
-    "volume": "15 L",
+    "volume": "300 ml",
     "weight": "250 g",
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1423,10 +1388,9 @@
     "color": "light_gray",
     "description": "A handful of almost-weightless residue left after the burning of some substance.",
     "material": [ "powder_nonflam" ],
-    "volume": "164ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 100
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1440,10 +1404,9 @@
     "color": "light_gray",
     "description": "The burnt remains of a person or animal.",
     "material": [ "powder_nonflam" ],
-    "volume": "104ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 100
+    "ammo_type": "components"
   },
   {
     "type": "COMESTIBLE",
@@ -1689,15 +1652,13 @@
     "name": { "str": "wooden bead" },
     "description": "A wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
     "weight": "1 g",
-    "volume": "250 ml",
-    "count": 100,
+    "volume": "1 ml",
     "price": 1,
     "price_postapoc": 10,
     "material": [ "wood" ],
     "symbol": ".",
     "color": "brown",
     "ammo_type": "components",
-    "stack_size": 200,
     "looks_like": "bb"
   },
   {
@@ -1737,8 +1698,7 @@
     "name": { "str_sp": "rosin" },
     "description": "A chunk of yellowish rosin, usable as a flux for soldering.",
     "weight": "1 g",
-    "volume": "10 ml",
-    "count": 10,
+    "volume": "1 ml",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -1928,15 +1888,13 @@
     "name": { "str_sp": "red phosphorous" },
     "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
     "weight": "100 mg",
-    "volume": "5 ml",
+    "volume": "1 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8-2.0 g/cm3",
     "container": "bottle_plastic_small",
     "symbol": "=",
     "color": "red",
     "price": 50,
-    "price_postapoc": 2,
-    "count": 1000,
-    "stack_size": 25
+    "price_postapoc": 2
   },
   {
     "id": "acetic_anhydride",
@@ -1972,14 +1930,13 @@
     "name": { "str_sp": "iodine crystals" },
     "description": "A handful of resublimed crystals of the element iodine, they can be used as an antiseptic, but are also used in the making of methamphetamine.",
     "weight": "3500 mg",
-    "volume": "100 ml",
+    "volume": "1 ml",
     "container": "box_small",
     "//": "Density around 5.1g/cm3, but since it's in crystal form, it's lower, around 3.5 g/cm3",
     "symbol": "=",
     "color": "dark_gray",
     "price": 100,
-    "price_postapoc": 5,
-    "count": 100
+    "price_postapoc": 5
   },
   {
     "type": "COMESTIBLE",
@@ -2034,7 +1991,8 @@
     "sealed": true,
     "symbol": "s",
     "color": "light_gray",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "count": 1
   },
   {
     "type": "COMESTIBLE",

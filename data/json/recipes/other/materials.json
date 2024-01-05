@@ -14,7 +14,8 @@
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ]
+    "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -47,7 +48,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
+    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -73,7 +75,8 @@
     "time": "10m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ] ]
+    "components": [ [ [ "chunk_rubber", 2 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -237,7 +240,8 @@
       [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 40 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
-    ]
+    ],
+    "charges": 100
   },
   {
     "type": "recipe",
@@ -265,7 +269,8 @@
     "time": "15 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",
@@ -372,7 +377,8 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -387,7 +393,8 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -402,7 +409,8 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
     "tools": [ [ [ "electric_spinwheel", 2 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -431,7 +439,8 @@
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
+    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -446,7 +455,8 @@
     "autolearn": true,
     "tools": [ [ [ "electric_spinwheel", 11 ] ] ],
     "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
+    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ],
+    "charges": 50
   },
   {
     "result": "grass_yarn",
@@ -508,7 +518,8 @@
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ] ] ],
+    "charges": 10
   },
   {
     "result": "yarn",
@@ -524,7 +535,8 @@
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ] ] ],
+    "charges": 10
   },
   {
     "result": "yarn",
@@ -540,7 +552,8 @@
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "electric_spinwheel", 4 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -956,7 +969,8 @@
       [ [ "any_strong_acid", 1, "LIST" ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
-    ]
+    ],
+    "charges": 100
   },
   {
     "result": "tin",
@@ -970,7 +984,8 @@
     "time": "3 m",
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "chemistry_set", 50 ] ], [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ] ],
-    "components": [ [ [ "scrap_tin", 4 ] ] ]
+    "components": [ [ [ "scrap_tin", 4 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",
@@ -998,7 +1013,8 @@
     "batch_time_factors": [ 50, 2 ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "string_36", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_saltpetre", 7 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [ [ [ "string_36", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_saltpetre", 7 ] ], [ [ "sugar", 5 ] ] ],
+    "charges": 50
   },
   {
     "result": "fuse",

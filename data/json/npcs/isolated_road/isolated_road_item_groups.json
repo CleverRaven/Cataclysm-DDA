@@ -184,8 +184,8 @@
       {
         "item": "kord",
         "ammo-item": "545",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "rail_laser_sight" ]
+        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "rail_laser_sight" ],
+        "count": 30
       }
     ]
   },

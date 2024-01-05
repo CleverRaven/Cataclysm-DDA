@@ -6,7 +6,7 @@
     "entries": [
       { "item": "power_supply", "count": [ 0, 7 ], "prob": 25 },
       { "item": "element", "count": [ 0, 3 ], "prob": 40 },
-      { "item": "cable", "charges": [ 0, 12 ], "prob": 60 },
+      { "item": "cable", "prob": 60, "count": [ 0, 12 ] },
       { "item": "transponder", "count": [ 0, 1 ], "prob": 25 },
       { "item": "circuit", "count": [ 0, 8 ], "prob": 40 },
       { "item": "small_lcd_screen", "count": [ 0, 2 ], "prob": 25 },

@@ -57,7 +57,7 @@
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
       { "group": "insecticide_bag_plastic", "prob": 30 },
-      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
+      { "item": "chem_saltpetre", "prob": 15, "entry-wrapper": "bag_canvas", "count-min": 10, "count-max": 50 },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],

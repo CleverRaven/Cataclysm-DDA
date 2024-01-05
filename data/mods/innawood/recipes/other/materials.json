@@ -12,7 +12,8 @@
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ] ]
+    "components": [ [ [ "material_limestone", 50 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -27,7 +28,8 @@
     "autolearn": true,
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
+    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",

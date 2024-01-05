@@ -94,7 +94,7 @@
     "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
     "//3": "this group is for any shotgun since its just shells",
     "subtype": "collection",
-    "entries": [ { "item": "shot_00", "charges": [ 1, 6 ], "prob": 80 }, { "item": "shot_beanbag", "charges": [ 1, 4 ], "prob": 30 } ]
+    "entries": [ { "item": "shot_00", "prob": 80, "count": [ 1, 6 ] }, { "item": "shot_beanbag", "prob": 30, "count": [ 1, 4 ] } ]
   },
   {
     "id": "field_3006",
@@ -103,7 +103,7 @@
     "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
     "//3": "this group is for any sniper in 3006 since its just shells",
     "subtype": "collection",
-    "entries": [ { "item": "3006", "charges": [ 1, 6 ], "prob": 100 } ]
+    "entries": [ { "item": "3006", "prob": 100, "count": [ 1, 6 ] } ]
   },
   {
     "id": "field_fn57",

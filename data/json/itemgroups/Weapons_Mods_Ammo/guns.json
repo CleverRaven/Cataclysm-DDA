@@ -1227,7 +1227,7 @@
     "items": [
       { "item": "fn57", "prob": 20, "charges": [ 0, 20 ] },
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
-      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "count": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
@@ -1304,7 +1304,7 @@
     "id": "sidearms_operator",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
-      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "count": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },

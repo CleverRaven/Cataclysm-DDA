@@ -17,7 +17,8 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY" ],
+    "charges": 100
   },
   {
     "result": "warp_vortex_token",

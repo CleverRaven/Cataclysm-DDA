@@ -128,7 +128,7 @@
     "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
       { "item": "material_soil", "count": [ 8, 12 ] },
-      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "material_sand", "prob": 5, "count": [ 1, 10 ] },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
@@ -145,7 +145,7 @@
       { "item": "rock", "count": [ 17, 37 ] },
       { "item": "rock_large", "count": [ 1, 3 ] },
       { "item": "coal_lump", "charges": [ 2500, 5000 ], "prob": 10 },
-      { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+      { "item": "material_limestone", "prob": 80, "count": [ 10, 25 ] },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
       { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }

@@ -34,7 +34,7 @@
     "type": "item_group",
     "id": "ammo_box_shot",
     "container-item": "ammo_box_army_5_shot",
-    "items": [ { "item": "shot_00", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+    "items": [ { "item": "shot_00", "count-min": 5, "count-max": 5 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -53,7 +53,7 @@
     "type": "item_group",
     "id": "ammo_box_shot",
     "container-item": "ammo_box_army_5_shot",
-    "items": [ { "item": "shot_bird", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+    "items": [ { "item": "shot_bird", "count-min": 5, "count-max": 5 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -72,6 +72,6 @@
     "type": "item_group",
     "id": "ammo_box_slug",
     "container-item": "ammo_box_army_5_slug",
-    "items": [ { "item": "shot_slug", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+    "items": [ { "item": "shot_slug", "count-min": 5, "count-max": 5 } ]
   }
 ]

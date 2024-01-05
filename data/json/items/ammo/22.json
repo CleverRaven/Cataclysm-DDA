@@ -10,11 +10,10 @@
     "price": 100,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 100,
-    "stack_size": 150,
     "recoil": 39,
     "proportional": { "range": 0.6, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "NOGIB" ] }
+    "extend": { "effects": [ "NOGIB" ] },
+    "volume": "1 ml"
   },
   {
     "id": "22_fmj",
@@ -31,7 +30,7 @@
     "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.",
     "ascii_picture": "22_lr",
     "weight": "3 g",
-    "volume": "65 ml",
+    "volume": "1 ml",
     "longest_side": "26 mm",
     "price": 150,
     "price_postapoc": 800,
@@ -39,8 +38,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 80,
-    "stack_size": 100,
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
@@ -56,14 +53,14 @@
     "name": { "str_sp": ".22 rat-shot" },
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and poor penetration ability, but the spread of shot can hit targets with greater ease.",
     "ascii_picture": "22_ratshot",
-    "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
     "projectile_count": 20,
     "shot_damage": { "damage_type": "bullet", "amount": 0.1 },
     "damage": { "damage_type": "bullet", "amount": 10 },
     "proportional": { "range": 0.6, "recoil": 0.5 },
-    "extend": { "effects": [ "SHOT", "NOGIB" ] }
+    "extend": { "effects": [ "SHOT", "NOGIB" ] },
+    "volume": "1 ml"
   },
   {
     "id": "bp_22_fmj",

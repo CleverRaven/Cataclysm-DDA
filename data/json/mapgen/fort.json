@@ -230,7 +230,7 @@
     "id": "fort_powderbarrel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel" } ]
+    "entries": [ { "item": "chem_black_powder", "entry-wrapper": "wooden_barrel", "count": [ 100, 2500 ] } ]
   },
   {
     "type": "mapgen",

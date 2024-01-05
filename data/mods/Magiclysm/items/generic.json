@@ -27,11 +27,9 @@
     "looks_like": "thread",
     "description": "Parabolan wool yarn; could be used to knit iridescent wool clothing.",
     "material": [ "parabolan_wool" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "400 mg",
-    "ammo_type": "thread",
-    "count": 10,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "GENERIC",

@@ -117,7 +117,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
-    "components": [ [ [ "bone", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",

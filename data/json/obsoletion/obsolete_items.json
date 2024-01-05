@@ -564,13 +564,11 @@
     "name": { "str": "RA110 5x50mm flechette" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
     "weight": "8 g",
-    "volume": "144 ml",
+    "volume": "3 ml",
     "price": 1125,
     "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",
     "color": "green",
-    "count": 100,
-    "stack_size": 45,
     "ammo_type": "5x50",
     "casing": "5x50_hull",
     "range": 60,
@@ -1380,8 +1378,8 @@
     "description": "An 8x40mm caseless round, saboted high-velocity penetrator type.  Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette.",
     "price": 2500,
     "price_postapoc": 50000,
-    "count": 20,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 } },
+    "volume": "3 ml"
   },
   {
     "id": "8mm_inc",
@@ -1389,9 +1387,9 @@
     "type": "AMMO",
     "name": { "str_sp": "8x40mm tracer" },
     "description": "An 8x40mm caseless ammunition mixed with tracers to help keep the weapon they are fired from on target at the risk of igniting flammable substances.  Military grade ammunition for Rivtech firearms.",
-    "count": 20,
     "proportional": { "dispersion": 0.8 },
-    "extend": { "effects": [ "INCENDIARY" ] }
+    "extend": { "effects": [ "INCENDIARY" ] },
+    "volume": "3 ml"
   },
   {
     "id": "rm298",

@@ -19,7 +19,7 @@
       { "item": "ceramic_armor", "prob": 15 },
       { "item": "motor", "prob": 2 },
       { "group": "ammo_heavy_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] }
+      { "item": "plut_cell", "prob": 10, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -134,8 +134,8 @@
       { "item": "plastic_chunk", "count": [ 0, 2 ] },
       { "item": "wood_panel", "count": 1 },
       { "item": "2x4", "count": 4 },
-      { "item": "nail", "charges": [ 8, 10 ] },
-      { "item": "cable", "charges": [ 3, 4 ] }
+      { "item": "nail", "count": [ 8, 10 ] },
+      { "item": "cable", "count": [ 3, 4 ] }
     ]
   }
 ]

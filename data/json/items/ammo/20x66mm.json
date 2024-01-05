@@ -5,7 +5,7 @@
     "name": { "str_sp": "20x66 abstract" },
     "ascii_picture": "20x66_abstract",
     "weight": "66 g",
-    "volume": "415 ml",
+    "volume": "20 ml",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "plastic", "steel", "powder" ],
     "//": "0.747, 766gr BalProd rifled Slug+sabot, 313.6gr Vihtavuori 20N29 *C",
@@ -80,8 +80,6 @@
     },
     "symbol": "=",
     "color": "pink",
-    "count": 20,
-    "stack_size": 20,
     "ammo_type": "20x66mm",
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
@@ -96,11 +94,11 @@
     "price": 8000,
     "price_postapoc": 1000,
     "material": [ "plastic", "powder" ],
-    "count": 10,
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB", "CASELESS_ROUNDS" ] },
     "range": 12,
     "relative": { "damage": { "damage_type": "bullet", "amount": -33, "armor_penetration": -8 } },
-    "recoil": 1500
+    "recoil": 1500,
+    "volume": "20 ml"
   },
   {
     "id": "20x66_exp",
@@ -126,14 +124,14 @@
     "price": 5000,
     "price_postapoc": 4000,
     "material": [ "plastic", "powder" ],
-    "count": 10,
     "range": 20,
     "relative": { "damage": { "damage_type": "bullet", "amount": -23, "armor_penetration": -8 } },
     "dispersion": 200,
     "recoil": 100,
     "drop": "sigflare_lit",
     "effects": [ "NO_EMBED" ],
-    "extend": { "flags": [ "CASELESS_ROUNDS" ] }
+    "extend": { "flags": [ "CASELESS_ROUNDS" ] },
+    "volume": "20 ml"
   },
   {
     "id": "20x66_frag",
@@ -143,9 +141,9 @@
     "description": "A 20x66mm caseless shotgun round, explosive fragmentation type.  Proprietary ammunition for Rivtech shotguns.",
     "price": 7800,
     "price_postapoc": 5000,
-    "count": 5,
     "extend": { "effects": [ "FRAG_20x66" ], "flags": [ "CASELESS_ROUNDS" ] },
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.25, "armor_penetration": 0.25 } }
+    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.25, "armor_penetration": 0.25 } },
+    "volume": "20 ml"
   },
   {
     "id": "20x66_shot",

@@ -12,7 +12,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
+    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ],
+    "charges": 200
   },
   {
     "result": "gunpowder",
@@ -55,7 +56,8 @@
     "components": [
       [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
       [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -74,7 +76,8 @@
     "components": [
       [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
       [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -93,7 +96,8 @@
     "components": [
       [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
       [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -112,7 +116,8 @@
     "components": [
       [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
       [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -131,7 +136,8 @@
     "components": [
       [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
       [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
-    ]
+    ],
+    "charges": 200
   },
   {
     "type": "recipe",

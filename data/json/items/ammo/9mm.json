@@ -6,7 +6,7 @@
     "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds, but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
     "ascii_picture": "9mm",
     "weight": "12 g",
-    "volume": "115 ml",
+    "volume": "2 ml",
     "longest_side": "30 mm",
     "price": 150,
     "price_postapoc": 1000,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 50,
-    "stack_size": 50,
     "ammo_type": "9mm",
     "casing": "9mm_casing",
     "range": 14,
@@ -41,9 +39,9 @@
     "price": 300,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 25,
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.1 },
+    "volume": "2 ml"
   },
   {
     "id": "9mmP2",
@@ -54,9 +52,9 @@
     "price": 350,
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 4 }, "dispersion": -30 },
-    "proportional": { "recoil": 1.2 }
+    "proportional": { "recoil": 1.2 },
+    "volume": "2 ml"
   },
   {
     "id": "bp_9mm",

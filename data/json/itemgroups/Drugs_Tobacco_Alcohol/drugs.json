@@ -308,8 +308,8 @@
     "id": "meth_ingredients",
     "items": [
       { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
-      { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "red_phosphorous", "prob": 25, "entry-wrapper": "bottle_plastic_small", "count": [ 1, 20 ] },
+      { "item": "iodine_crystal", "prob": 10, "entry-wrapper": "box_small", "count": [ 1, 10 ] },
       [ "energy_drink", 2 ],
       { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" }
     ]

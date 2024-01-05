@@ -19,7 +19,7 @@
     "items": [
       [ "afs_v29", 40 ],
       [ "afs_av22", 60 ],
-      { "item": "afs_archeotech_laspistol", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+      { "item": "afs_archeotech_laspistol", "ammo-item": "afs_battery_plus", "prob": 1, "count": 15000 }
     ]
   },
   {
@@ -63,7 +63,7 @@
       [ "afs_cartridge", 10 ],
       [ "afs_bootleg_cartridge", 80 ],
       [ "afs_compact_cartridge", 10 ],
-      { "item": "afs_archeotech_cartridge", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+      { "item": "afs_archeotech_cartridge", "ammo-item": "afs_battery_plus", "prob": 1, "count": 15000 }
     ]
   },
   {

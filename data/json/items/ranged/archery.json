@@ -242,8 +242,6 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.9 },
     "dispersion": 285,
     "loudness": 0,
-    "count": 1,
-    "stack_size": 1,
     "critical_multiplier": 10,
     "effects": [ "RECOVER_35" ],
     "use_action": {

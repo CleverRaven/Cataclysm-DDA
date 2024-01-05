@@ -47,7 +47,7 @@
     "type": "item_group",
     "id": "ammo_box_308",
     "container-item": "ammo_box_army_20_308",
-    "items": [ { "item": "762_51", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+    "items": [ { "item": "762_51", "count-min": 20, "count-max": 20 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -75,8 +75,8 @@
     "subtype": "collection",
     "//": "should actually be M80A1 instead of M80 but we don't have one",
     "items": [
-      { "item": "762_51_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
-      { "item": "762_51", "count": 1, "charges-min": 80, "charges-max": 80 }
+      { "item": "762_51_incendiary", "count-min": 20, "count-max": 20 },
+      { "item": "762_51", "count-min": 80, "count-max": 80 }
     ]
   },
   {
@@ -104,8 +104,8 @@
     "container-item": "belt308",
     "subtype": "collection",
     "items": [
-      { "item": "762_51_incendiary", "count": 1, "charges-min": 20, "charges-max": 20 },
-      { "item": "762_51_m993", "count": 1, "charges-min": 80, "charges-max": 80 }
+      { "item": "762_51_incendiary", "count-min": 20, "count-max": 20 },
+      { "item": "762_51_m993", "count-min": 80, "count-max": 80 }
     ]
   },
   {
@@ -125,7 +125,7 @@
     "type": "item_group",
     "id": "ammo_box_ap_308",
     "container-item": "ammo_box_army_20_308",
-    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+    "items": [ { "item": "762_51_m993", "count-min": 20, "count-max": 20 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -152,7 +152,7 @@
     "container-item": "belt308",
     "subtype": "collection",
     "//": "should actually be M80A1 instead of M80 but we don't have one",
-    "items": [ { "item": "762_51", "count": 1, "charges-min": 100, "charges-max": 100 } ]
+    "items": [ { "item": "762_51", "count-min": 100, "count-max": 100 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -178,6 +178,6 @@
     "id": "belt308_5ap",
     "container-item": "belt308",
     "subtype": "collection",
-    "items": [ { "item": "762_51_m993", "count": 1, "charges-min": 100, "charges-max": 100 } ]
+    "items": [ { "item": "762_51_m993", "count-min": 100, "count-max": 100 } ]
   }
 ]

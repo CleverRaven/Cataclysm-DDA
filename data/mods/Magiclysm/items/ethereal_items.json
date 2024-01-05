@@ -446,8 +446,8 @@
     "looks_like": "arrow_heavy_fire_hardened_fletched",
     "description": "A magically conjured arrow made of twisted wood.",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
-    "count": 1,
-    "effects": [ "RECOVER_8" ]
+    "effects": [ "RECOVER_8" ],
+    "volume": "90 ml"
   },
   {
     "id": "arrow_druid",
@@ -457,8 +457,8 @@
     "looks_like": "arrow_heavy_fire_hardened_fletched",
     "description": "A arrow that looks more like it was grown than carved.  Despite that, it flies straight and true.  It explodes into a mass of entangling vegetation when it hits its target.",
     "damage": { "damage_type": "stab", "armor_penetration": 2 },
-    "count": 1,
-    "effects": [ "RECOVER_6", "TANGLE" ]
+    "effects": [ "RECOVER_6", "TANGLE" ],
+    "volume": "90 ml"
   },
   {
     "type": "TOOL",
@@ -1315,9 +1315,8 @@
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],
-    "volume": "0 ml",
-    "ammo_type": "elastic_potential_energy",
-    "count": 100
+    "volume": "1 ml",
+    "ammo_type": "elastic_potential_energy"
   },
   {
     "id": "druid_bandages",

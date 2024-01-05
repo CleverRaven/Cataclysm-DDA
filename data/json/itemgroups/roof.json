@@ -9,12 +9,12 @@
       { "group": "any_MRE", "count": [ 1, 5 ] },
       { "item": "ak47", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "akmag30", "prob": 20, "charges": [ 0, 30 ] },
-      { "item": "762_m87", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "762_m87", "prob": 20, "count": [ 1, 30 ] },
       { "prob": 10, "group": "cig_box_cigarette_1_20" },
       { "item": "joint_roach", "prob": 20 },
       { "item": "cig_butt", "prob": 20 },
       { "item": "joint", "prob": 10 },
-      { "item": "762_51_incendiary", "prob": 5, "charges": [ 1, 20 ] }
+      { "item": "762_51_incendiary", "prob": 5, "count": [ 1, 20 ] }
     ]
   },
   {
@@ -70,7 +70,7 @@
       [ "flyer", 10 ],
       [ "scorecard", 2 ],
       { "item": "talking_doll", "prob": 20, "charges": [ 0, 10 ] },
-      { "item": "marble", "prob": 15, "charges": [ 1, 20 ] },
+      { "item": "marble", "prob": 15, "count": [ 1, 20 ] },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 10 ] },
       [ "straw_doll", 1 ],
       [ "razor_blade", 10 ],

@@ -274,8 +274,8 @@
     "id": "vektor_pistol_cache",
     "//": "Foreign agent safehouse pistol group.",
     "entries": [
-      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
-      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "count": 18 },
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "count": 18 },
       { "item": "sr1vektor_9x21mm" }
     ]
   },

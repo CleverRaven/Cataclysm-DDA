@@ -144,8 +144,8 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] },
-      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 10 ] },
-      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 15 ] }
+      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "count": [ 0, 10 ] },
+      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "count": [ 0, 15 ] }
     ]
   },
   {
@@ -627,9 +627,9 @@
       { "group": "mil_food_nodrugs", "prob": 40 },
       { "group": "shelter", "prob": 30 },
       { "group": "used_survival_kit", "prob": 80, "damage": [ 1, 4 ] },
-      { "item": "stanag30", "prob": 25, "ammo-item": "223", "charges": [ 0, 10 ] },
-      { "item": "stanag30ranger", "prob": 33, "ammo-item": "556", "charges": [ 0, 30 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 25, "ammo-item": "223", "count": [ 0, 10 ] },
+      { "item": "stanag30ranger", "prob": 33, "ammo-item": "556", "count": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 50, "ammo-item": "556", "count": [ 0, 30 ] },
       { "item": "dog_tag", "prob": 20 }
     ]
   },
@@ -687,9 +687,9 @@
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "group": "infantry_knives", "prob": 100, "damage": [ 2, 4 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
-      { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "charges": [ 0, 30 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 50, "ammo-item": "556", "count": [ 0, 10 ] },
+      { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "count": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 50, "ammo-item": "556", "count": [ 0, 30 ] },
       { "item": "dog_tag", "prob": 40 }
     ]
   },
@@ -841,8 +841,8 @@
       { "group": "pocket_cigar", "prob": 5 },
       { "group": "misc_smoking_legal", "prob": 10 },
       { "item": "m18", "prob": 100, "damage": [ 0, 4 ] },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 14 ] },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 17 ] },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "count": [ 0, 14 ] },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "count": [ 0, 17 ] },
       { "item": "dog_tag", "prob": 20 }
     ]
   },

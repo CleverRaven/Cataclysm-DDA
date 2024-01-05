@@ -42,7 +42,7 @@
     "id": "BEM_DRUGRUNNER_stock",
     "subtype": "collection",
     "entries": [
-      { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+      { "item": "glock17_22", "ammo-item": "9mmP", "count": [ 22, 44 ] },
       { "prob": 30, "group": "coke_bag_zipper_1_8" },
       { "prob": 30, "group": "pure_meth_bag_zipper_1_6" },
       { "prob": 100, "group": "heroin_bag_zipper_1_4" },

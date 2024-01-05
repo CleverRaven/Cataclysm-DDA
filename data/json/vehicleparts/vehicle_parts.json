@@ -68,7 +68,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "plastic_chunk", "prob": 50 },
-      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 4 ] },
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ]

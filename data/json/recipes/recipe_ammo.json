@@ -10,7 +10,8 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "rock_flaking_any", 1, "LIST" ] ] ]
+    "components": [ [ [ "rock", 1 ], [ "rock_flaking_any", 1, "LIST" ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -23,7 +24,8 @@
     "time": "45 m",
     "autolearn": true,
     "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ],
+    "charges": 40
   },
   {
     "type": "recipe",
@@ -55,7 +57,8 @@
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
     "using": [ [ "forging_standard", 2 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
+    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -490,7 +493,8 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ], [ [ "scrap", 4 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -503,7 +507,8 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 8 ] ] ]
+    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 8 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -635,7 +640,8 @@
     "time": "180 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",
@@ -846,7 +852,8 @@
         [ "willowbark", 1 ],
         [ "straw_pile", 1 ]
       ]
-    ]
+    ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -860,7 +867,8 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "splinter", 2 ], [ "pinecone", 2 ], [ "withered", 2 ], [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "splinter", 2 ], [ "pinecone", 2 ], [ "withered", 2 ], [ "cattail_stalk", 1 ] ] ],
+    "charges": 50
   },
   {
     "type": "recipe",
@@ -883,6 +891,7 @@
         [ "wrapper", 5 ],
         [ "straw_pile", 1 ]
       ]
-    ]
+    ],
+    "charges": 50
   }
 ]

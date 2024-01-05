@@ -6,7 +6,7 @@
     "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity amongst competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
     "ascii_picture": "38super_fmj",
     "weight": "13 g",
-    "volume": "97 ml",
+    "volume": "2 ml",
     "longest_side": "33 mm",
     "price": 210,
     "price_postapoc": 1200,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 40,
-    "stack_size": 40,
     "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
@@ -58,9 +56,9 @@
     "price": 240,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 20,
     "ammo_type": "38super",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } },
+    "volume": "2 ml"
   },
   {
     "id": "reloaded_38_super",

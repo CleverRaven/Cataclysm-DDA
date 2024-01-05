@@ -11,7 +11,8 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",

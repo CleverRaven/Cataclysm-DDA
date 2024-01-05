@@ -10,8 +10,6 @@
     "material": [ "superalloy", "powder", "lead" ],
     "symbol": "=",
     "color": "pink",
-    "count": 25,
-    "stack_size": 1,
     "ammo_type": "afs_25mm",
     "casing": "afs_25_casing",
     "range": 24,
@@ -31,12 +29,12 @@
     "material": [ "steel", "powder", "ceramic" ],
     "symbol": "=",
     "color": "pink",
-    "count": 15,
     "ammo_type": "afs_25mm",
     "range": 110,
     "effects": [ "FRAG_25mm", "NEVER_MISFIRES" ],
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 7 },
-    "dispersion": 15
+    "dispersion": 15,
+    "volume": "230 ml"
   },
   {
     "id": "afs_25mm_apfsds",
@@ -49,11 +47,11 @@
     "material": [ "superalloy", "powder", "plastic" ],
     "symbol": "=",
     "color": "pink",
-    "count": 5,
     "ammo_type": "afs_25mm",
     "range": 110,
     "damage": { "damage_type": "bullet", "amount": 280, "armor_penetration": 70 },
-    "dispersion": 15
+    "dispersion": 15,
+    "volume": "230 ml"
   },
   {
     "id": "afs_25mm_smart",
@@ -67,10 +65,8 @@
     "material": [ "superalloy", "powder", "plastic" ],
     "symbol": "=",
     "color": "pink",
-    "count": 5,
     "ammo_type": "afs_25mm_smart",
     "range": 110,
-    "stack_size": 1,
     "recoil": 100,
     "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 5 },

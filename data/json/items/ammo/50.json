@@ -6,9 +6,9 @@
     "name": { "str_sp": ".50 BMG M17 tracer" },
     "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "ascii_picture": "50_incendiary",
-    "count": 10,
     "effects": [ "INCENDIARY" ],
-    "dispersion": 310
+    "dispersion": 310,
+    "volume": "45 ml"
   },
   {
     "id": "50bmg",
@@ -17,7 +17,7 @@
     "description": ".50 BMG ammunition with a mild steel cored 661gr FMJ bullet.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "ascii_picture": "50bmg",
     "weight": "114 g",
-    "volume": "451 ml",
+    "volume": "45 ml",
     "longest_side": "138 mm",
     "price": 2200,
     "price_postapoc": 2500,
@@ -25,8 +25,6 @@
     "material": [ "steel", "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
-    "count": 25,
-    "stack_size": 10,
     "ammo_type": "50",
     "casing": "50_casing",
     "range": 110,
@@ -42,9 +40,9 @@
     "name": { "str_sp": ".50 BMG Match" },
     "description": ".50 BMG FMJ lead core ammunition manufactured with tighter tolerances for long-range competition shooting or other precision rifle use.",
     "ascii_picture": "50match",
-    "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } },
-    "dispersion": 100
+    "dispersion": 100,
+    "volume": "45 ml"
   },
   {
     "id": "50ss",
@@ -53,9 +51,9 @@
     "name": { "str_sp": ".50 BMG M2 AP" },
     "description": "A variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
     "ascii_picture": "50ss",
-    "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } },
-    "dispersion": 600
+    "dispersion": 600,
+    "volume": "45 ml"
   },
   {
     "id": "50_mk211",

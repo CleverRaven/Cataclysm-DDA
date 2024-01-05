@@ -6,7 +6,7 @@
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point bullet.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
     "ascii_picture": "4570_sp",
     "weight": "35 g",
-    "volume": "167 ml",
+    "volume": "8 ml",
     "longest_side": "65 mm",
     "price": 125,
     "price_postapoc": 800,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "+",
     "color": "green",
-    "count": 20,
-    "stack_size": 20,
     "ammo_type": "4570",
     "casing": "4570_casing",
     "range": 48,
@@ -34,8 +32,8 @@
     "price": 175,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 10,
-    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 }
+    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 },
+    "volume": "8 ml"
   },
   {
     "id": "4570_low",

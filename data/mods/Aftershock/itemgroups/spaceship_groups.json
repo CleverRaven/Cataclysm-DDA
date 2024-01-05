@@ -20,7 +20,7 @@
       { "item": "emer_blanket", "count": 2 },
       { "item": "afs_radiobeacon" },
       { "item": "afs_landfall_gun", "container-item": "back_holster" },
-      { "item": "afs_7.50mm_rp", "charges": 18 },
+      { "item": "afs_7.50mm_rp", "count": 18 },
       { "item": "afs_landfall_kit_2_instructions" }
     ]
   },

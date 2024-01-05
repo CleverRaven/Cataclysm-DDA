@@ -15,7 +15,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "usp_45", "charges": 11, "ammo-item": "45_acp" },
+      { "item": "usp_45", "ammo-item": "45_acp", "count": 11 },
       { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
       { "item": "corpse" },
       { "group": "underwear" },

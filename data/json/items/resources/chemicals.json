@@ -7,13 +7,12 @@
     "description": "A handful of small, water-soluble white crystals with a watery metallic odor, historically used for many different purposes.  Also known as potash alum and potassium aluminum sulfate; often called simply alum, as it's the most important member of the generic class of compounds called alums.",
     "container": "bottle_plastic_small",
     "weight": "1725 mg",
-    "volume": "250 ml",
+    "volume": "1 ml",
     "price": 2500,
     "price_postapoc": 100,
     "material": [ "powder_nonflam" ],
     "symbol": "=",
     "color": "dark_gray",
-    "count": 250,
     "ammo_type": "components"
   },
   {
@@ -24,13 +23,12 @@
     "description": "A handful of powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
     "container": "bottle_plastic_small",
     "weight": "1540 mg",
-    "volume": "250 ml",
+    "volume": "1 ml",
     "price": 2500,
     "price_postapoc": 50,
     "material": [ "powder_nonflam" ],
     "symbol": "=",
     "color": "dark_gray",
-    "count": 250,
     "ammo_type": "components"
   },
   {
@@ -45,10 +43,9 @@
     "description": "A handful of white, odorless, strongly hygroscopic powder with an extremely salty taste.  Often used as a de-icing agent or as dessicant.",
     "container": "bag_canvas",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2150 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -62,10 +59,9 @@
     "description": "A handful of white, odorless, hygroscopic powder.  Often used as a cleansing agent and for glass manufacturing, among other things.  Also known as sodium carbonate or soda ash.",
     "container": "box_small",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2540 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -79,10 +75,9 @@
     "description": "A handful of white, odorless powder with a slightly salty alkaline taste.  Often used in baking as a leavening agent, and has many other niche uses.  Also known as sodium bicarbonate.",
     "container": "box_small",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2200 mg",
-    "ammo_type": "components",
-    "count": 250
+    "ammo_type": "components"
   },
   {
     "type": "COMESTIBLE",
@@ -114,12 +109,11 @@
     "color": "light_gray",
     "description": "A handful of gray powder that is highly sensitive to friction, heat, and shock.  Often used as a primary explosive, and historically in percussion caps and primers for self-contained firearm ammunition.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "442 mg",
     "//": "density: 4.42 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 2500
+    "container": "bottle_plastic_small"
   },
   {
     "type": "COMESTIBLE",
@@ -170,11 +164,10 @@
     "color": "white",
     "description": "A handful of white powder that is used in detonators to detonate secondary explosives.  It replaced mercury fulminate in modern ammunition primers.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "471 mg",
     "//": "density: 4.71 g/cm3",
     "ammo_type": "components",
-    "container": "bottle_plastic_small",
-    "count": 2500
+    "container": "bottle_plastic_small"
   }
 ]

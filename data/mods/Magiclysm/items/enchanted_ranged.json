@@ -215,13 +215,12 @@
     "color": "dark_gray",
     "description": "A sharp bone, you wonder why someone had the trouble to make this.",
     "flags": [ "TRADER_AVOID" ],
-    "volume": "250ml",
+    "volume": "25 ml",
     "weight": "37 g",
     "ammo_type": "barb",
     "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
     "dispersion": 120,
     "loudness": 0,
-    "count": 10,
     "show_stats": true,
     "melee_damage": { "bash": 6, "cut": 2 }
   }

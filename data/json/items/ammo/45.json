@@ -6,7 +6,7 @@
     "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.",
     "ascii_picture": "45_jhp",
     "weight": "21 g",
-    "volume": "112 ml",
+    "volume": "3 ml",
     "longest_side": "32 mm",
     "price": 180,
     "price_postapoc": 600,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 30,
-    "stack_size": 30,
     "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
@@ -65,8 +63,8 @@
     "price": 210,
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 10,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 },
+    "volume": "3 ml"
   },
   {
     "id": "bp_45_acp",

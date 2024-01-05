@@ -20,8 +20,6 @@
     "range": 120,
     "dispersion": 60,
     "recoil": 45,
-    "count": 4,
-    "stack_size": 1,
     "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_84x246HE", "NEVER_MISFIRES" ]
   },
   {

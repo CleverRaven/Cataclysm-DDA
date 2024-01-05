@@ -936,7 +936,7 @@
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "plut_cell", "prob": 10, "count": [ 1, 5 ] },
       { "item": "m249", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "m240", "prob": 1, "charges": [ 0, 200 ] },
       { "item": "rm614_lmg", "prob": 1, "charges": [ 0, 250 ] },

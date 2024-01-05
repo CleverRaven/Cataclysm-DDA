@@ -5,14 +5,14 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9mm", "prob": 75, "charges": [ 75, 100 ] },
-      { "item": "9mmfmj", "prob": 75, "charges": [ 75, 100 ] },
-      { "item": "9mm", "prob": 30, "charges": [ 120, 200 ] },
-      { "item": "9mmfmj", "prob": 30, "charges": [ 120, 200 ] },
-      { "item": "9mmP", "prob": 30, "charges": [ 1, 50 ] },
-      { "item": "9mmP2", "prob": 30, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9mm", "prob": 75, "count": [ 75, 100 ] },
+      { "item": "9mmfmj", "prob": 75, "count": [ 75, 100 ] },
+      { "item": "9mm", "prob": 30, "count": [ 120, 200 ] },
+      { "item": "9mmfmj", "prob": 30, "count": [ 120, 200 ] },
+      { "item": "9mmP", "prob": 30, "count": [ 1, 50 ] },
+      { "item": "9mmP2", "prob": 30, "count": [ 1, 50 ] }
     ]
   },
   {
@@ -21,9 +21,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "10mm_fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "10mm_fmj", "prob": 75, "charges": [ 50, 80 ] },
-      { "item": "10mm_fmj", "prob": 30, "charges": [ 100, 160 ] }
+      { "item": "10mm_fmj", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "10mm_fmj", "prob": 75, "count": [ 50, 80 ] },
+      { "item": "10mm_fmj", "prob": 30, "count": [ 100, 160 ] }
     ]
   },
   {
@@ -32,9 +32,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "32_acp", "prob": 100, "charges": [ 1, 80 ] },
-      { "item": "32_acp", "prob": 75, "charges": [ 88, 160 ] },
-      { "item": "32_acp", "prob": 30, "charges": [ 176, 320 ] }
+      { "item": "32_acp", "prob": 100, "count": [ 1, 80 ] },
+      { "item": "32_acp", "prob": 75, "count": [ 88, 160 ] },
+      { "item": "32_acp", "prob": 30, "count": [ 176, 320 ] }
     ]
   },
   {
@@ -43,9 +43,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "45colt_jhp", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "45colt_jhp", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "45colt_jhp", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "45colt_jhp", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "45colt_jhp", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "45colt_jhp", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -54,9 +54,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "38super_fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "38super_fmj", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "38super_fmj", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "38super_fmj", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "38super_fmj", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "38super_fmj", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -65,10 +65,10 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "57mm", "prob": 100, "charges": [ 1, 60 ] },
-      { "item": "57mm", "prob": 75, "charges": [ 66, 120 ] },
-      { "item": "57mm", "prob": 30, "charges": [ 132, 240 ] },
-      { "item": "57mm_ss", "prob": 15, "charges": [ 1, 60 ] }
+      { "item": "57mm", "prob": 100, "count": [ 1, 60 ] },
+      { "item": "57mm", "prob": 75, "count": [ 66, 120 ] },
+      { "item": "57mm", "prob": 30, "count": [ 132, 240 ] },
+      { "item": "57mm_ss", "prob": 15, "count": [ 1, 60 ] }
     ]
   },
   {
@@ -77,9 +77,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "500_Magnum", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "500_Magnum", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "500_Magnum", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "500_Magnum", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "500_Magnum", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "500_Magnum", "prob": 30, "count": [ 22, 40 ] }
     ]
   },
   {
@@ -88,9 +88,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "44army", "prob": 100, "charges": [ 1, 25 ] },
-      { "item": "44army", "prob": 75, "charges": [ 27, 50 ] },
-      { "item": "44army", "prob": 30, "charges": [ 54, 100 ] }
+      { "item": "44army", "prob": 100, "count": [ 1, 25 ] },
+      { "item": "44army", "prob": 75, "count": [ 27, 50 ] },
+      { "item": "44army", "prob": 30, "count": [ 54, 100 ] }
     ]
   },
   {
@@ -99,9 +99,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "flintlock_ammo", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "flintlock_ammo", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "flintlock_ammo", "prob": 30, "charges": [ 66, 120 ] }
+      { "item": "flintlock_ammo", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "flintlock_ammo", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "flintlock_ammo", "prob": 30, "count": [ 66, 120 ] }
     ]
   },
   {
@@ -110,9 +110,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "454_Casull", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "454_Casull", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "454_Casull", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "454_Casull", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "454_Casull", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "454_Casull", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -121,9 +121,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "46mm", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "46mm", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "46mm", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "46mm", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "46mm", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "46mm", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -132,15 +132,15 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "8mm_caseless", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "8mm_caseless", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_caseless", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "8mm_caseless", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "8mm_caseless", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_caseless", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "8mm_jhp", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "8mm_jhp", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "8mm_jhp", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "8mm_caseless", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "8mm_caseless", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "8mm_caseless", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "8mm_caseless", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "8mm_caseless", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "8mm_caseless", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "8mm_jhp", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "8mm_jhp", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "8mm_jhp", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -149,15 +149,15 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "9x18mm", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9x18mmP2", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9x18mm", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "9x18mmP2", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "9x18mm", "prob": 30, "charges": [ 110, 200 ] },
-      { "item": "9x18mmP2", "prob": 30, "charges": [ 110, 200 ] },
-      { "item": "9x18mmfmj", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9x18mmfmj", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "9x18mmfmj", "prob": 30, "charges": [ 110, 200 ] }
+      { "item": "9x18mm", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9x18mmP2", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9x18mm", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "9x18mmP2", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "9x18mm", "prob": 30, "count": [ 110, 200 ] },
+      { "item": "9x18mmP2", "prob": 30, "count": [ 110, 200 ] },
+      { "item": "9x18mmfmj", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9x18mmfmj", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "9x18mmfmj", "prob": 30, "count": [ 110, 200 ] }
     ]
   },
   {
@@ -166,13 +166,13 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "45_acp", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "45_jhp", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "45_acp", "prob": 75, "charges": [ 35, 60 ] },
-      { "item": "45_jhp", "prob": 75, "charges": [ 35, 60 ] },
-      { "item": "45_acp", "prob": 30, "charges": [ 70, 120 ] },
-      { "item": "45_jhp", "prob": 30, "charges": [ 70, 120 ] },
-      { "item": "45_super", "prob": 30, "charges": [ 1, 30 ] }
+      { "item": "45_acp", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "45_jhp", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "45_acp", "prob": 75, "count": [ 35, 60 ] },
+      { "item": "45_jhp", "prob": 75, "count": [ 35, 60 ] },
+      { "item": "45_acp", "prob": 30, "count": [ 70, 120 ] },
+      { "item": "45_jhp", "prob": 30, "count": [ 70, 120 ] },
+      { "item": "45_super", "prob": 30, "count": [ 1, 30 ] }
     ]
   },
   {
@@ -181,12 +181,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "762_jhp", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "762_m87", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "762_jhp", "prob": 75, "charges": [ 35, 60 ] },
-      { "item": "762_m87", "prob": 75, "charges": [ 35, 60 ] },
-      { "item": "762_jhp", "prob": 30, "charges": [ 70, 120 ] },
-      { "item": "762_m87", "prob": 30, "charges": [ 70, 120 ] }
+      { "item": "762_jhp", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "762_m87", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "762_jhp", "prob": 75, "count": [ 35, 60 ] },
+      { "item": "762_m87", "prob": 75, "count": [ 35, 60 ] },
+      { "item": "762_jhp", "prob": 30, "count": [ 70, 120 ] },
+      { "item": "762_m87", "prob": 30, "count": [ 70, 120 ] }
     ]
   },
   {
@@ -195,13 +195,13 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "762_25", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "762_25hot", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "762_25", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "762_25hot", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "762_25", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "762_25hot", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "762_25typeP", "prob": 30, "charges": [ 1, 40 ] }
+      { "item": "762_25", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "762_25hot", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "762_25", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "762_25hot", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "762_25", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "762_25hot", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "762_25typeP", "prob": 30, "count": [ 1, 40 ] }
     ]
   },
   {
@@ -210,12 +210,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "40fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "40sw", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "40fmj", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "40sw", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "40fmj", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "40sw", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "40fmj", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "40sw", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "40fmj", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "40sw", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "40fmj", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "40sw", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -224,12 +224,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "44fmj", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "44magnum", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "44fmj", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "44magnum", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "44fmj", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "44magnum", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "44fmj", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "44magnum", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "44fmj", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "44magnum", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "44fmj", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "44magnum", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -238,12 +238,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "460_fmj", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "460_rowland", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "460_fmj", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "460_rowland", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "460_fmj", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "460_rowland", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "460_fmj", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "460_rowland", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "460_fmj", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "460_rowland", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "460_fmj", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "460_rowland", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -252,12 +252,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "357sig_fmj", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "357sig_jhp", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "357sig_fmj", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "357sig_jhp", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "357sig_fmj", "prob": 30, "charges": [ 110, 200 ] },
-      { "item": "357sig_jhp", "prob": 30, "charges": [ 110, 200 ] }
+      { "item": "357sig_fmj", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "357sig_jhp", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "357sig_fmj", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "357sig_jhp", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "357sig_fmj", "prob": 30, "count": [ 110, 200 ] },
+      { "item": "357sig_jhp", "prob": 30, "count": [ 110, 200 ] }
     ]
   },
   {
@@ -266,13 +266,13 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "380_FMJ", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "380_JHP", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "380_FMJ", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "380_JHP", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "380_FMJ", "prob": 30, "charges": [ 110, 200 ] },
-      { "item": "380_JHP", "prob": 30, "charges": [ 110, 200 ] },
-      { "item": "380_p", "prob": 30, "charges": [ 1, 50 ] }
+      { "item": "380_FMJ", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "380_JHP", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "380_FMJ", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "380_JHP", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "380_FMJ", "prob": 30, "count": [ 110, 200 ] },
+      { "item": "380_JHP", "prob": 30, "count": [ 110, 200 ] },
+      { "item": "380_p", "prob": 30, "count": [ 1, 50 ] }
     ]
   },
   {
@@ -281,12 +281,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "38_fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "38_special", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "38_fmj", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "38_special", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "38_fmj", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "38_special", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "38_fmj", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "38_special", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "38_fmj", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "38_special", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "38_fmj", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "38_special", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -295,12 +295,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "357mag_fmj", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "357mag_jhp", "prob": 100, "charges": [ 1, 40 ] },
-      { "item": "357mag_fmj", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "357mag_jhp", "prob": 75, "charges": [ 44, 80 ] },
-      { "item": "357mag_fmj", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "357mag_jhp", "prob": 30, "charges": [ 88, 160 ] }
+      { "item": "357mag_fmj", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "357mag_jhp", "prob": 100, "count": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "357mag_jhp", "prob": 75, "count": [ 44, 80 ] },
+      { "item": "357mag_fmj", "prob": 30, "count": [ 88, 160 ] },
+      { "item": "357mag_jhp", "prob": 30, "count": [ 88, 160 ] }
     ]
   },
   {
@@ -336,12 +336,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "50ae_fmj", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "50ae_jhp", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "50ae_fmj", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "50ae_jhp", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "50ae_fmj", "prob": 30, "charges": [ 22, 40 ] },
-      { "item": "50ae_jhp", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "50ae_fmj", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "50ae_jhp", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "50ae_fmj", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "50ae_jhp", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "50ae_fmj", "prob": 30, "count": [ 22, 40 ] },
+      { "item": "50ae_jhp", "prob": 30, "count": [ 22, 40 ] }
     ]
   },
   {
@@ -350,18 +350,18 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_cb", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_fmj", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_cb", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_fmj", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_cb", "prob": 30, "charges": [ 330, 600 ] },
-      { "item": "22_fmj", "prob": 30, "charges": [ 330, 600 ] },
-      { "item": "22_lr", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_ratshot", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_lr", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_ratshot", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_lr", "prob": 30, "charges": [ 330, 600 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 330, 600 ] }
+      { "item": "22_cb", "prob": 100, "count": [ 1, 150 ] },
+      { "item": "22_fmj", "prob": 100, "count": [ 1, 150 ] },
+      { "item": "22_cb", "prob": 75, "count": [ 165, 300 ] },
+      { "item": "22_fmj", "prob": 75, "count": [ 165, 300 ] },
+      { "item": "22_cb", "prob": 30, "count": [ 330, 600 ] },
+      { "item": "22_fmj", "prob": 30, "count": [ 330, 600 ] },
+      { "item": "22_lr", "prob": 100, "count": [ 1, 150 ] },
+      { "item": "22_ratshot", "prob": 100, "count": [ 1, 150 ] },
+      { "item": "22_lr", "prob": 75, "count": [ 165, 300 ] },
+      { "item": "22_ratshot", "prob": 75, "count": [ 165, 300 ] },
+      { "item": "22_lr", "prob": 30, "count": [ 330, 600 ] },
+      { "item": "22_ratshot", "prob": 30, "count": [ 330, 600 ] }
     ]
   },
   {
@@ -370,15 +370,15 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "4570_sp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "4570_pen", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "4570_sp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "4570_pen", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "4570_sp", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "4570_pen", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "4570_low", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "4570_low", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "4570_low", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "4570_sp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "4570_pen", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "4570_sp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "4570_pen", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "4570_sp", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "4570_pen", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "4570_low", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "4570_low", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "4570_low", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -387,16 +387,16 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "308", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "762_51", "prob": 80, "charges": [ 1, 20 ] },
-      { "item": "308", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "762_51", "prob": 60, "charges": [ 22, 40 ] },
-      { "item": "308", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "762_51", "prob": 24, "charges": [ 44, 80 ] },
-      { "item": "308", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "762_51_incendiary", "prob": 80, "charges": [ 1, 20 ] },
-      { "item": "762_51_incendiary", "prob": 60, "charges": [ 22, 40 ] },
-      { "item": "762_51_incendiary", "prob": 24, "charges": [ 44, 80 ] }
+      { "item": "308", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "762_51", "prob": 80, "count": [ 1, 20 ] },
+      { "item": "308", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "762_51", "prob": 60, "count": [ 22, 40 ] },
+      { "item": "308", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "762_51", "prob": 24, "count": [ 44, 80 ] },
+      { "item": "308", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "762_51_incendiary", "prob": 80, "count": [ 1, 20 ] },
+      { "item": "762_51_incendiary", "prob": 60, "count": [ 22, 40 ] },
+      { "item": "762_51_incendiary", "prob": 24, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -405,21 +405,21 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 200, "charges": [ 1, 30 ] },
-      { "item": "223", "prob": 150, "charges": [ 33, 60 ] },
-      { "item": "223", "prob": 60, "charges": [ 66, 120 ] },
-      { "item": "556", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "556", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "556", "prob": 30, "charges": [ 66, 120 ] },
-      { "item": "556_m855a1", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "556_m855a1", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "556_m855a1", "prob": 30, "charges": [ 66, 120 ] },
-      { "item": "556_incendiary", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "556_incendiary", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] },
-      { "item": "556_m995", "prob": 50, "charges": [ 1, 30 ] },
-      { "item": "556_m995", "prob": 35, "charges": [ 33, 60 ] },
-      { "item": "556_m995", "prob": 20, "charges": [ 66, 120 ] }
+      { "item": "223", "prob": 200, "count": [ 1, 30 ] },
+      { "item": "223", "prob": 150, "count": [ 33, 60 ] },
+      { "item": "223", "prob": 60, "count": [ 66, 120 ] },
+      { "item": "556", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "556", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "556", "prob": 30, "count": [ 66, 120 ] },
+      { "item": "556_m855a1", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "556_m855a1", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "556_m855a1", "prob": 30, "count": [ 66, 120 ] },
+      { "item": "556_incendiary", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "556_incendiary", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "556_incendiary", "prob": 30, "count": [ 66, 120 ] },
+      { "item": "556_m995", "prob": 50, "count": [ 1, 30 ] },
+      { "item": "556_m995", "prob": 35, "count": [ 33, 60 ] },
+      { "item": "556_m995", "prob": 20, "count": [ 66, 120 ] }
     ]
   },
   {
@@ -428,12 +428,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "3006", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "3006", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "3006", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "3006_incendiary", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "3006_incendiary", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "3006_incendiary", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "3006", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "3006", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "3006", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "3006_incendiary", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "3006_incendiary", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "3006_incendiary", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -442,9 +442,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "762_54R", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "762_54R", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "762_54R", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "762_54R", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "762_54R", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "762_54R", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -453,9 +453,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "270win_jsp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "270win_jsp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "270win_jsp", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "270win_jsp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "270win_jsp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "270win_jsp", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -464,9 +464,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "300_winmag", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "300_winmag", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "300_winmag", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "300_winmag", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "300_winmag", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "300_winmag", "prob": 30, "count": [ 22, 40 ] }
     ]
   },
   {
@@ -475,9 +475,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "300blk", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "300blk", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "300blk", "prob": 30, "charges": [ 66, 120 ] }
+      { "item": "300blk", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "300blk", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "300blk", "prob": 30, "count": [ 66, 120 ] }
     ]
   },
   {
@@ -486,9 +486,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "30carbine", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "30carbine", "prob": 75, "charges": [ 55, 100 ] },
-      { "item": "30carbine", "prob": 30, "charges": [ 110, 200 ] }
+      { "item": "30carbine", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "30carbine", "prob": 75, "count": [ 55, 100 ] },
+      { "item": "30carbine", "prob": 30, "count": [ 110, 200 ] }
     ]
   },
   {
@@ -497,19 +497,19 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "50bmg", "prob": 100, "charges": [ 1, 25 ] },
-      { "item": "50bmg", "prob": 75, "charges": [ 27, 50 ] },
-      { "item": "50bmg", "prob": 30, "charges": [ 55, 100 ] },
-      { "item": "50_incendiary", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "50_incendiary", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "50_incendiary", "prob": 30, "charges": [ 22, 40 ] },
-      { "item": "50match", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "50match", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "50match", "prob": 30, "charges": [ 22, 40 ] },
-      { "item": "50ss", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "50ss", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "50ss", "prob": 30, "charges": [ 22, 40 ] },
-      { "item": "50_mk211", "prob": 30, "charges": [ 1, 10 ] }
+      { "item": "50bmg", "prob": 100, "count": [ 1, 25 ] },
+      { "item": "50bmg", "prob": 75, "count": [ 27, 50 ] },
+      { "item": "50bmg", "prob": 30, "count": [ 55, 100 ] },
+      { "item": "50_incendiary", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "50_incendiary", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "50_incendiary", "prob": 30, "count": [ 22, 40 ] },
+      { "item": "50match", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "50match", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "50match", "prob": 30, "count": [ 22, 40 ] },
+      { "item": "50ss", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "50ss", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "50ss", "prob": 30, "count": [ 22, 40 ] },
+      { "item": "50_mk211", "prob": 30, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -518,10 +518,10 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "545", "prob": 100, "charges": [ 1, 30 ] },
-      { "item": "545", "prob": 75, "charges": [ 33, 60 ] },
-      { "item": "545", "prob": 30, "charges": [ 66, 120 ] },
-      { "item": "545_ap", "prob": 30, "charges": [ 1, 30 ] }
+      { "item": "545", "prob": 100, "count": [ 1, 30 ] },
+      { "item": "545", "prob": 75, "count": [ 33, 60 ] },
+      { "item": "545", "prob": 30, "count": [ 66, 120 ] },
+      { "item": "545_ap", "prob": 30, "count": [ 1, 30 ] }
     ]
   },
   {
@@ -530,9 +530,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "458wm", "prob": 100, "charges": [ 1, 10 ] },
-      { "item": "458wm", "prob": 75, "charges": [ 11, 20 ] },
-      { "item": "458wm", "prob": 30, "charges": [ 22, 40 ] }
+      { "item": "458wm", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "458wm", "prob": 75, "count": [ 11, 20 ] },
+      { "item": "458wm", "prob": 30, "count": [ 22, 40 ] }
     ]
   },
   {
@@ -541,19 +541,19 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "shot_00", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "shot_00", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "shot_beanbag", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "shot_bird", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "shot_bird", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "shot_bird", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "shot_dragon", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "shot_he", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "shot_flechette", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "shot_slug", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "shot_slug", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "shot_slug", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "shot_00", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "shot_00", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "shot_00", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "shot_beanbag", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "shot_bird", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "shot_dragon", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "shot_he", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "shot_flechette", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "shot_slug", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -562,15 +562,15 @@
     "//": "a collection of ammo that would be found with a loaded gun.  29Slug:36Buck:184Bird.",
     "subtype": "distribution",
     "entries": [
-      { "item": "410shot_000", "prob": 720, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 540, "charges": [ 22, 40 ] },
-      { "item": "410shot_000", "prob": 216, "charges": [ 44, 80 ] },
-      { "item": "410shot_bird", "prob": 3680, "charges": [ 1, 20 ] },
-      { "item": "410shot_bird", "prob": 2760, "charges": [ 22, 40 ] },
-      { "item": "410shot_bird", "prob": 1104, "charges": [ 44, 80 ] },
-      { "item": "410shot_slug", "prob": 580, "charges": [ 1, 20 ] },
-      { "item": "410shot_slug", "prob": 435, "charges": [ 22, 40 ] },
-      { "item": "410shot_slug", "prob": 174, "charges": [ 44, 80 ] }
+      { "item": "410shot_000", "prob": 720, "count": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 540, "count": [ 22, 40 ] },
+      { "item": "410shot_000", "prob": 216, "count": [ 44, 80 ] },
+      { "item": "410shot_bird", "prob": 3680, "count": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 2760, "count": [ 22, 40 ] },
+      { "item": "410shot_bird", "prob": 1104, "count": [ 44, 80 ] },
+      { "item": "410shot_slug", "prob": 580, "count": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 435, "count": [ 22, 40 ] },
+      { "item": "410shot_slug", "prob": 174, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -579,21 +579,21 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "20x66_shot", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "20x66_shot", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "20x66_shot", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "20x66_beanbag", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "20x66_exp", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "20x66_shot", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "20x66_shot", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "20x66_shot", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "20x66_beanbag", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "20x66_exp", "prob": 30, "count": [ 1, 20 ] },
       { "item": "20x66_flechette", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "20x66_flechette", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "20x66_flechette", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "20x66_frag", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "20x66_frag", "prob": 30, "count": [ 1, 20 ] },
       { "item": "20x66_inc", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "20x66_inc", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "20x66_inc", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "20x66_slug", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "20x66_slug", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "20x66_slug", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "20x66_slug", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "20x66_slug", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "20x66_slug", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -602,12 +602,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "50beowulf_xtp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "50beowulf_penetrator", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "50beowulf_xtp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "50beowulf_penetrator", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "50beowulf_xtp", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "50beowulf_penetrator", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "50beowulf_xtp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "50beowulf_penetrator", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "50beowulf_xtp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "50beowulf_penetrator", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "50beowulf_xtp", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "50beowulf_penetrator", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -616,12 +616,12 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "450_ftx", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "450_penetrator", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "450_ftx", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "450_penetrator", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "450_ftx", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "450_penetrator", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "450_ftx", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "450_penetrator", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "450_ftx", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "450_penetrator", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "450_ftx", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "450_penetrator", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -630,9 +630,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "338lapua_hpbt", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "338lapua_hpbt", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "338lapua_hpbt", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "338lapua_hpbt", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "338lapua_hpbt", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "338lapua_hpbt", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -641,12 +641,12 @@
     "//": "a collection of ammo that would be found with a loaded military gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "338lapua_fmjbt", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "338lapua_api", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "338lapua_fmjbt", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "338lapua_api", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "338lapua_hpbt", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "338lapua_api", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "338lapua_fmjbt", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "338lapua_api", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "338lapua_fmjbt", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "338lapua_api", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "338lapua_hpbt", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "338lapua_api", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -655,15 +655,15 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "303_bthp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "303_bthp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "303_bthp", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "303_sp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "303_sp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "303_sp", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "303_fmjbt", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "303_fmjbt", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "303_fmjbt", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "303_bthp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "303_bthp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "303_bthp", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "303_sp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "303_sp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "303_sp", "prob": 30, "count": [ 44, 80 ] },
+      { "item": "303_fmjbt", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "303_fmjbt", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "303_fmjbt", "prob": 30, "count": [ 44, 80 ] }
     ]
   },
   {
@@ -672,9 +672,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "77mm_arisaka_jsp", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "77mm_arisaka_jsp", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "77mm_arisaka_jsp", "prob": 30, "charges": [ 44, 80 ] }
+      { "item": "77mm_arisaka_jsp", "prob": 100, "count": [ 1, 20 ] },
+      { "item": "77mm_arisaka_jsp", "prob": 75, "count": [ 22, 40 ] },
+      { "item": "77mm_arisaka_jsp", "prob": 30, "count": [ 44, 80 ] }
     ]
   }
 ]

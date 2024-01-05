@@ -53,7 +53,8 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_atomic_lab", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "canister_empty", 1 ] ], [ [ "plut_slurry", 10 ], [ "plut_slurry_dense", 5 ] ], [ [ "power_supply", 2 ] ] ]
+    "components": [ [ [ "canister_empty", 1 ] ], [ [ "plut_slurry", 10 ], [ "plut_slurry_dense", 5 ] ], [ [ "power_supply", 2 ] ] ],
+    "charges": 5
   },
   {
     "result": "light_battery_cell",
@@ -193,7 +194,8 @@
       [ [ "plastic_chunk", 5 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "can_drink", 5 ], [ "can_food", 5 ], [ "canister_empty", 5 ] ]
-    ]
+    ],
+    "charges": 5
   },
   {
     "type": "recipe",

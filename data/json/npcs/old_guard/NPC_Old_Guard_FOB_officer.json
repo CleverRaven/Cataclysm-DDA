@@ -50,7 +50,7 @@
       { "item": "dress_shoes" },
       { "item": "gloves_leather", "prob": 80 },
       { "item": "webbing_belt", "prob": 80 },
-      { "item": "m18", "ammo-item": "9mmP2", "container-item": "holster", "charges": 16 },
+      { "item": "m18", "ammo-item": "9mmP2", "entry-wrapper": "holster", "count": 16 },
       { "distribution": [ { "item": "gold_watch", "prob": 30 }, { "item": "sf_watch", "prob": 70 } ] },
       { "item": "collarpin" },
       { "item": "diamond_silver_cufflinks" }

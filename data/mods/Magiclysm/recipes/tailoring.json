@@ -25,7 +25,8 @@
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "parabolan_wool_staple", 1 ] ] ]
+    "components": [ [ [ "parabolan_wool_staple", 1 ] ] ],
+    "charges": 10
   },
   {
     "result": "parabolan_blouse",

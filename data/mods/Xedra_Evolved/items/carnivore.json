@@ -82,7 +82,8 @@
     "ammo_type": "fae_blood",
     "damage": { "damage_type": "stab", "amount": 0, "armor_penetration": 0 },
     "range": 4,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "count": 1
   },
   {
     "id": "fae_meat_cooked",

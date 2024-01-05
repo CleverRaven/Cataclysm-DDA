@@ -3,19 +3,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_bow_hunter",
-    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+    "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_crossbow_hunter",
-    "entries": [ { "item": "bolt_simple_wood", "charges": 20 } ]
+    "entries": [ { "item": "bolt_simple_wood", "count": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_arbalist",
-    "entries": [ { "item": "bolt_simple_wood", "charges": 60 } ]
+    "entries": [ { "item": "bolt_simple_wood", "count": 60 } ]
   },
   {
     "type": "item_group",

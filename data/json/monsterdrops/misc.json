@@ -15,7 +15,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "void_spider_spiderling_skewered_drops",
-    "entries": [ { "item": "arrow_meteor", "charges": 1, "prob": 90 } ]
+    "entries": [ { "item": "arrow_meteor", "prob": 90 } ]
   },
   {
     "type": "item_group",
@@ -24,7 +24,7 @@
     "entries": [
       { "item": "paper", "count": [ 100, 300 ] },
       { "item": "stick", "count": [ 5, 8 ] },
-      { "item": "cable", "charges-min": 20, "charges-max": 50 },
+      { "item": "cable", "count-min": 20, "count-max": 50 },
       { "item": "amplifier", "count": [ 0, 3 ] }
     ]
   },

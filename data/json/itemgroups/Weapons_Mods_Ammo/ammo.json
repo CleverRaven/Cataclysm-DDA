@@ -5,22 +5,22 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "32_acp", "prob": 20, "charges": [ 1, 80 ] },
-      { "item": "380_FMJ", "prob": 25, "charges": [ 1, 50 ] },
-      { "item": "380_JHP", "prob": 20, "charges": [ 1, 50 ] },
-      { "item": "38_fmj", "prob": 25, "charges": [ 1, 40 ] },
-      { "item": "38_special", "prob": 25, "charges": [ 1, 40 ] },
-      { "item": "38_special_p", "prob": 25, "charges": [ 1, 40 ] },
-      { "item": "357mag_fmj", "prob": 15, "charges": [ 1, 50 ] },
-      { "item": "357mag_jhp", "prob": 15, "charges": [ 1, 50 ] },
-      { "item": "357sig_jhp", "prob": 25, "charges": [ 1, 50 ] },
-      { "item": "357sig_fmj", "prob": 25, "charges": [ 1, 50 ] },
-      { "item": "40sw", "prob": 40, "charges": [ 1, 40 ] },
-      { "item": "40fmj", "prob": 40, "charges": [ 1, 40 ] },
-      { "item": "45_acp", "prob": 40, "charges": [ 1, 30 ] },
-      { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
-      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] }
+      { "item": "32_acp", "prob": 20, "count": [ 1, 80 ] },
+      { "item": "380_FMJ", "prob": 25, "count": [ 1, 50 ] },
+      { "item": "380_JHP", "prob": 20, "count": [ 1, 50 ] },
+      { "item": "38_fmj", "prob": 25, "count": [ 1, 40 ] },
+      { "item": "38_special", "prob": 25, "count": [ 1, 40 ] },
+      { "item": "38_special_p", "prob": 25, "count": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 15, "count": [ 1, 50 ] },
+      { "item": "357mag_jhp", "prob": 15, "count": [ 1, 50 ] },
+      { "item": "357sig_jhp", "prob": 25, "count": [ 1, 50 ] },
+      { "item": "357sig_fmj", "prob": 25, "count": [ 1, 50 ] },
+      { "item": "40sw", "prob": 40, "count": [ 1, 40 ] },
+      { "item": "40fmj", "prob": 40, "count": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 40, "count": [ 1, 30 ] },
+      { "item": "45_jhp", "prob": 40, "count": [ 1, 30 ] },
+      { "item": "9mm", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 100, "count": [ 1, 50 ] }
     ]
   },
   {
@@ -53,21 +53,21 @@
     "//": "Loose pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "32_acp", "prob": 5, "charges": [ 0, 7 ] },
-      { "item": "380_FMJ", "prob": 5, "charges": [ 0, 7 ] },
-      { "item": "380_JHP", "prob": 2, "charges": [ 0, 7 ] },
-      { "item": "38_fmj", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "38_special", "prob": 10, "charges": [ 0, 7 ] },
-      { "item": "357mag_fmj", "prob": 5, "charges": [ 0, 7 ] },
-      { "item": "357mag_jhp", "prob": 5, "charges": [ 0, 7 ] },
-      { "item": "357sig_jhp", "prob": 7, "charges": [ 0, 7 ] },
-      { "item": "357sig_fmj", "prob": 7, "charges": [ 0, 7 ] },
-      { "item": "40sw", "prob": 10, "charges": [ 0, 7 ] },
-      { "item": "40fmj", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "45_acp", "prob": 10, "charges": [ 0, 7 ] },
-      { "item": "45_jhp", "prob": 10, "charges": [ 0, 7 ] },
-      { "item": "9mm", "prob": 15, "charges": [ 0, 7 ] },
-      { "item": "9mmfmj", "prob": 8, "charges": [ 0, 7 ] }
+      { "item": "32_acp", "prob": 5, "count": [ 0, 7 ] },
+      { "item": "380_FMJ", "prob": 5, "count": [ 0, 7 ] },
+      { "item": "380_JHP", "prob": 2, "count": [ 0, 7 ] },
+      { "item": "38_fmj", "prob": 8, "count": [ 0, 7 ] },
+      { "item": "38_special", "prob": 10, "count": [ 0, 7 ] },
+      { "item": "357mag_fmj", "prob": 5, "count": [ 0, 7 ] },
+      { "item": "357mag_jhp", "prob": 5, "count": [ 0, 7 ] },
+      { "item": "357sig_jhp", "prob": 7, "count": [ 0, 7 ] },
+      { "item": "357sig_fmj", "prob": 7, "count": [ 0, 7 ] },
+      { "item": "40sw", "prob": 10, "count": [ 0, 7 ] },
+      { "item": "40fmj", "prob": 8, "count": [ 0, 7 ] },
+      { "item": "45_acp", "prob": 10, "count": [ 0, 7 ] },
+      { "item": "45_jhp", "prob": 10, "count": [ 0, 7 ] },
+      { "item": "9mm", "prob": 15, "count": [ 0, 7 ] },
+      { "item": "9mmfmj", "prob": 8, "count": [ 0, 7 ] }
     ]
   },
   {
@@ -120,8 +120,8 @@
     "//": "Ammo for high-caliber pistols found within hunting supply stores and related locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "357mag_fmj", "prob": 35, "charges": [ 1, 50 ] },
-      { "item": "357mag_jhp", "prob": 35, "charges": [ 1, 50 ] },
+      { "item": "357mag_fmj", "prob": 35, "count": [ 1, 50 ] },
+      { "item": "357mag_jhp", "prob": 35, "count": [ 1, 50 ] },
       { "item": "44fmj", "prob": 30 },
       { "item": "44magnum", "prob": 30 },
       { "item": "10mm_fmj", "prob": 30 },
@@ -260,20 +260,20 @@
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
-      { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "3006", "prob": 19, "charges": [ 1, 20 ] },
-      { "item": "3006_jsp", "prob": 6, "charges": [ 1, 20 ] },
-      { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "762_m87", "prob": 15, "charges": [ 1, 30 ] },
-      { "item": "762_jhp", "prob": 5, "charges": [ 1, 30 ] },
-      { "item": "30carbine_jsp", "prob": 7, "charges": [ 1, 20 ] },
-      { "item": "30carbine", "prob": 13, "charges": [ 1, 50 ] }
+      { "item": "223", "prob": 60, "count": [ 1, 30 ] },
+      { "item": "22_cb", "prob": 30, "count": [ 1, 100 ] },
+      { "item": "22_fmj", "prob": 50, "count": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 100, "count": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 30, "count": [ 1, 100 ] },
+      { "item": "270win_jsp", "prob": 25, "count": [ 1, 20 ] },
+      { "item": "3006", "prob": 19, "count": [ 1, 20 ] },
+      { "item": "3006_jsp", "prob": 6, "count": [ 1, 20 ] },
+      { "item": "308", "prob": 25, "count": [ 1, 20 ] },
+      { "item": "762_54R", "prob": 10, "count": [ 1, 20 ] },
+      { "item": "762_m87", "prob": 15, "count": [ 1, 30 ] },
+      { "item": "762_jhp", "prob": 5, "count": [ 1, 30 ] },
+      { "item": "30carbine_jsp", "prob": 7, "count": [ 1, 20 ] },
+      { "item": "30carbine", "prob": 13, "count": [ 1, 50 ] }
     ]
   },
   {
@@ -300,15 +300,15 @@
     "//": "Loose rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "223", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "22_cb", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_fmj", "prob": 15, "charges": [ 0, 6 ] },
-      { "item": "22_lr", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_ratshot", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "270win_jsp", "prob": 2, "charges": [ 0, 6 ] },
-      { "item": "3006", "prob": 9, "charges": [ 0, 6 ] },
-      { "item": "3006_jsp", "prob": 3, "charges": [ 0, 6 ] },
-      { "item": "308", "prob": 10, "charges": [ 0, 6 ] }
+      { "item": "223", "prob": 10, "count": [ 0, 6 ] },
+      { "item": "22_cb", "prob": 20, "count": [ 0, 6 ] },
+      { "item": "22_fmj", "prob": 15, "count": [ 0, 6 ] },
+      { "item": "22_lr", "prob": 20, "count": [ 0, 6 ] },
+      { "item": "22_ratshot", "prob": 10, "count": [ 0, 6 ] },
+      { "item": "270win_jsp", "prob": 2, "count": [ 0, 6 ] },
+      { "item": "3006", "prob": 9, "count": [ 0, 6 ] },
+      { "item": "3006_jsp", "prob": 3, "count": [ 0, 6 ] },
+      { "item": "308", "prob": 10, "count": [ 0, 6 ] }
     ]
   },
   {
@@ -385,13 +385,13 @@
     "//": "Ammo for hunting rifles found within hunting supply stores and related locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "270win_jsp", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "3006", "prob": 23, "charges": [ 1, 20 ] },
-      { "item": "3006_jsp", "prob": 7, "charges": [ 1, 20 ] },
-      { "item": "308", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "22_fmj", "prob": 50, "count": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 50, "count": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 30, "count": [ 1, 100 ] },
+      { "item": "270win_jsp", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "3006", "prob": 23, "count": [ 1, 20 ] },
+      { "item": "3006_jsp", "prob": 7, "count": [ 1, 20 ] },
+      { "item": "308", "prob": 30, "count": [ 1, 20 ] },
       { "item": "762_51", "prob": 25 },
       { "item": "300_winmag", "prob": 25 },
       { "item": "4570_sp", "prob": 25 },
@@ -487,12 +487,12 @@
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "shot_00", "prob": 200, "charges": [ 1, 20 ] },
-      { "item": "shot_bird", "prob": 140, "charges": [ 1, 20 ] },
-      { "item": "shot_slug", "prob": 140, "charges": [ 1, 20 ] },
-      { "item": "410shot_slug", "prob": 3, "charges": [ 1, 20 ] },
-      { "item": "410shot_000", "prob": 4, "charges": [ 1, 20 ] },
-      { "item": "410shot_bird", "prob": 19, "charges": [ 1, 20 ] }
+      { "item": "shot_00", "prob": 200, "count": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 140, "count": [ 1, 20 ] },
+      { "item": "shot_slug", "prob": 140, "count": [ 1, 20 ] },
+      { "item": "410shot_slug", "prob": 3, "count": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 4, "count": [ 1, 20 ] },
+      { "item": "410shot_bird", "prob": 19, "count": [ 1, 20 ] }
     ]
   },
   {
@@ -515,12 +515,12 @@
     "//": "Loose shotgun ammo commonly owned by citizens and found in many locations.",
     "subtype": "collection",
     "entries": [
-      { "item": "shot_00", "prob": 200, "charges": [ 0, 4 ] },
-      { "item": "shot_bird", "prob": 140, "charges": [ 0, 4 ] },
-      { "item": "shot_slug", "prob": 140, "charges": [ 0, 4 ] },
-      { "item": "410shot_slug", "prob": 3, "charges": [ 0, 4 ] },
-      { "item": "410shot_000", "prob": 4, "charges": [ 0, 4 ] },
-      { "item": "410shot_bird", "prob": 19, "charges": [ 0, 4 ] }
+      { "item": "shot_00", "prob": 200, "count": [ 0, 4 ] },
+      { "item": "shot_bird", "prob": 140, "count": [ 0, 4 ] },
+      { "item": "shot_slug", "prob": 140, "count": [ 0, 4 ] },
+      { "item": "410shot_slug", "prob": 3, "count": [ 0, 4 ] },
+      { "item": "410shot_000", "prob": 4, "count": [ 0, 4 ] },
+      { "item": "410shot_bird", "prob": 19, "count": [ 0, 4 ] }
     ]
   },
   {
@@ -727,15 +727,15 @@
     "//": "Ammo for police issue firearms.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 30, "charges": [ 1, 30 ] },
-      { "item": "3006", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
-      { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
-      { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
-      { "item": "57mm_ss", "prob": 25, "charges": [ 1, 40 ] },
-      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
-      { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }
+      { "item": "223", "prob": 30, "count": [ 1, 30 ] },
+      { "item": "3006", "prob": 10, "count": [ 1, 20 ] },
+      { "item": "40sw", "prob": 50, "count": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 20, "count": [ 1, 30 ] },
+      { "item": "57mm", "prob": 80, "count": [ 1, 40 ] },
+      { "item": "57mm_ss", "prob": 25, "count": [ 1, 40 ] },
+      { "item": "9mm", "prob": 100, "count": [ 1, 50 ] },
+      { "item": "shot_00", "prob": 40, "count": [ 1, 20 ] },
+      { "item": "shot_beanbag", "prob": 40, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -745,12 +745,12 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_cop", "prob": 100 },
-      { "item": "300_winmag", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "3006fmj", "prob": 2, "charges": [ 1, 20 ] },
-      { "item": "40x46mm_m433", "prob": 5, "charges": [ 1, 6 ] },
-      { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
-      { "item": "556", "prob": 10, "charges": [ 1, 30 ] },
-      { "item": "shot_slug", "prob": 20, "charges": [ 1, 20 ] }
+      { "item": "300_winmag", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "3006fmj", "prob": 2, "count": [ 1, 20 ] },
+      { "item": "40x46mm_m433", "prob": 5, "count": [ 1, 6 ] },
+      { "item": "40x46mm_m651", "prob": 20, "count": [ 1, 6 ] },
+      { "item": "556", "prob": 10, "count": [ 1, 30 ] },
+      { "item": "shot_slug", "prob": 20, "count": [ 1, 20 ] }
     ]
   },
   {

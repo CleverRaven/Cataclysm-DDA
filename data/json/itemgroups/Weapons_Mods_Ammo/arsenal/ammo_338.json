@@ -26,7 +26,7 @@
     "type": "item_group",
     "id": "ammo_box_338lapua",
     "container-item": "ammo_box_army_10_338",
-    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+    "items": [ { "item": "338lapua_fmjbt", "count-min": 10, "count-max": 10 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -45,6 +45,6 @@
     "type": "item_group",
     "id": "ammo_box_338lapua_20",
     "container-item": "ammo_box_army_20_338",
-    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+    "items": [ { "item": "338lapua_fmjbt", "count-min": 20, "count-max": 20 } ]
   }
 ]

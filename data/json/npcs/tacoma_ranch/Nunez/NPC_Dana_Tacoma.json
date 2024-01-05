@@ -63,7 +63,7 @@
       { "item": "apron_leather" },
       { "item": "boots" },
       { "item": "purse" },
-      { "item": "glock_17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+      { "item": "glock_17", "ammo-item": "9mm", "entry-wrapper": "holster", "count": 17 },
       { "item": "machete", "container-item": "scabbard" }
     ]
   },

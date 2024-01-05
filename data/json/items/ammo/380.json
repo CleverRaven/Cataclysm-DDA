@@ -6,7 +6,7 @@
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "ascii_picture": "380_FMJ",
     "weight": "10 g",
-    "volume": "89 ml",
+    "volume": "1 ml",
     "longest_side": "25 mm",
     "price": 140,
     "price_postapoc": 1000,
@@ -14,8 +14,6 @@
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "count": 50,
-    "stack_size": 50,
     "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
@@ -63,9 +61,9 @@
     "price": 190,
     "price_postapoc": 1500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 25,
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 2 }, "dispersion": -15 },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.1 },
+    "volume": "1 ml"
   },
   {
     "id": "bp_380_FMJ",

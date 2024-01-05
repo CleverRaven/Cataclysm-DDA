@@ -121,13 +121,7 @@
         "charges-max": 50,
         "prob": 20
       },
-      {
-        "item": "material_quicklime",
-        "container-item": "55gal_drum",
-        "charges-min": 2,
-        "charges-max": 50,
-        "prob": 20
-      },
+      { "item": "material_quicklime", "prob": 20, "entry-wrapper": "55gal_drum", "count-min": 2, "count-max": 50 },
       { "item": "55gal_drum", "prob": 50 }
     ]
   },

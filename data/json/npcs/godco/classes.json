@@ -596,7 +596,7 @@
       { "item": "pants_cargo" },
       { "item": "jacket_army" },
       { "item": "holy_symbol_wood" },
-      { "item": "quiver", "ammo-item": "bolt_wood_bodkin", "charges": 20 },
+      { "item": "quiver", "ammo-item": "bolt_wood_bodkin", "count": 20 },
       { "item": "hat_boonie" }
     ]
   },
@@ -1027,7 +1027,7 @@
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
       { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
       { "item": "bbgun", "prob": 15, "charges-min": 100 },
-      { "item": "bb", "prob": 10, "charges-min": 100 },
+      { "item": "bb", "prob": 10, "count-min": 100 },
       { "item": "tailors_kit", "prob": 15, "charges-min": 0 },
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
       { "item": "glowstick", "prob": 50, "charges": 1400 },
@@ -1176,7 +1176,7 @@
     "type": "item_group",
     "id": "GODCO_helena_wield",
     "subtype": "collection",
-    "entries": [ { "item": "compcrossbow", "ammo-item": "bolt_wood_bodkin", "charges": 1 } ]
+    "entries": [ { "item": "compcrossbow", "ammo-item": "bolt_wood_bodkin" } ]
   },
   {
     "type": "item_group",
@@ -1230,7 +1230,7 @@
     "type": "item_group",
     "id": "GODCO_russell_wield",
     "subtype": "collection",
-    "entries": [ { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" } ]
+    "entries": [ { "item": "remington700_270", "ammo-item": "270win_jsp", "contents-item": "shoulder_strap", "count": 4 } ]
   },
   {
     "type": "item_group",

@@ -43,7 +43,6 @@
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "symbol": "?",
     "color": "magenta",
-    "count": 1,
     "ammo_type": "mana",
     "melee_damage": { "bash": 1 }
   }

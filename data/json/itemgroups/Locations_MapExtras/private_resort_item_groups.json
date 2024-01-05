@@ -232,7 +232,7 @@
       { "group": "cigar_box_opened", "prob": 15, "count": [ 1, 2 ] },
       { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 50, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 50, "count": [ 1, 30 ] },
       { "item": "wrapper", "prob": 50 },
       { "item": "wrapper_foil", "prob": 5 },
       { "item": "news_regional", "prob": 50 },

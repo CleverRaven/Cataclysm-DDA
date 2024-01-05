@@ -31,7 +31,8 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "butane"
+    "ammo_type": "butane",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -57,7 +58,8 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "aerosol_paint"
+    "ammo_type": "aerosol_paint",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -70,7 +72,8 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "permanent_ink"
+    "ammo_type": "permanent_ink",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -121,7 +124,8 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "oxygen"
+    "ammo_type": "oxygen",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -134,7 +138,8 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "hydrogen"
+    "ammo_type": "hydrogen",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -147,7 +152,8 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "nitrogen"
+    "ammo_type": "nitrogen",
+    "count": 1
   },
   {
     "type": "TOOL",
@@ -189,11 +195,10 @@
     "color": "light_gray",
     "description": "A sheet of thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
-    "volume": "10 ml",
+    "volume": "1 ml",
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
-    "ammo_type": "components",
-    "count": 200
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -223,12 +228,10 @@
     "description": "A small quantity of thread that could be used for sewing.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
-    "ammo_type": "thread",
-    "count": 50,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "AMMO",
@@ -242,11 +245,9 @@
     "looks_like": "thread",
     "description": "A tough sinew cut from a corpse, usable as thread.",
     "material": [ "flesh" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "thread",
-    "count": 10,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "AMMO",
@@ -260,11 +261,9 @@
     "looks_like": "thread",
     "description": "Tough, thin fiber taken from a plant.  Can be used as thread.",
     "material": [ "veggy" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "thread",
-    "count": 10,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "AMMO",
@@ -278,11 +277,9 @@
     "looks_like": "thread",
     "description": "A length of wool yarn that could be used to knit wool clothing.",
     "material": [ "wool" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "thread",
-    "count": 10,
-    "stack_size": 200
+    "ammo_type": "thread"
   },
   {
     "type": "AMMO",
@@ -294,11 +291,9 @@
     "symbol": "=",
     "color": "white",
     "description": "A cleansing agent shaped into a bar.",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "weight": "10 g",
-    "ammo_type": "soap",
-    "count": 10,
-    "stack_size": 10
+    "ammo_type": "soap"
   },
   {
     "type": "AMMO",
@@ -391,10 +386,9 @@
     "color": "light_gray",
     "description": "A roll of incredibly strong tape.  Its uses are innumerable.",
     "material": [ "plastic" ],
-    "volume": "930 ml",
+    "volume": "4 ml",
     "weight": "3500 mg",
     "ammo_type": "tape",
-    "count": 200,
     "//1": "200 charges - one roll is 20 yards. One charge = 0.1 yard.",
     "flags": [ "UNRECOVERABLE" ],
     "container": "cardboard_roll",
@@ -412,10 +406,8 @@
     "price_postapoc": 25,
     "material": [ "paper" ],
     "weight": "1 g",
-    "volume": "100ml",
+    "volume": "1 ml",
     "ammo_type": "components",
-    "stack_size": 200,
-    "count": 30,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -430,10 +422,9 @@
     "description": "A length of plastic-jacketed copper cable, of the type used in small electronics.",
     "material": [ { "type": "copper", "portion": 85 }, { "type": "plastic", "portion": 15 } ],
     "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
-    "volume": "155 ml",
+    "volume": "1 ml",
     "weight": "5413 mg",
-    "ammo_type": "components",
-    "count": 200
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -447,10 +438,9 @@
     "description": "A length of copper wire ready to be covered with plastic.",
     "material": [ "copper" ],
     "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
-    "volume": "110 ml",
+    "volume": "1 ml",
     "weight": "4747 mg",
-    "ammo_type": "components",
-    "count": 200
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -464,10 +454,9 @@
     "description": "This is neither a fuel cell, nor nuclear, but the name stuck.  It uses plutonium-244 as a catalyst to stabilize a complicated nanocompound that can store enormous amounts of power.  Unfortunately, it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
     "material": [ "plut_cell" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "weight": "80 g",
     "ammo_type": "plutonium",
-    "count": 5,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -486,7 +475,6 @@
     "volume": "2 ml",
     "weight": "38 g",
     "ammo_type": "uranium",
-    "count": 1,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -575,7 +563,7 @@
     "color": "light_gray",
     "description": "A small rock, useful as ammunition for a slingshot.",
     "material": [ "stone" ],
-    "volume": "250 ml",
+    "volume": "25 ml",
     "weight": "66 g",
     "ammo_type": "pebble",
     "flags": [ "TRADER_AVOID" ],
@@ -583,7 +571,6 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "count": 10,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -597,14 +584,13 @@
     "looks_like": "pebble",
     "description": "A round projectile made of clay, useful as ammunition for a slingshot.",
     "material": [ "clay" ],
-    "volume": "250 ml",
+    "volume": "6 ml",
     "weight": "3 g",
     "ammo_type": "pebble",
     "damage": { "damage_type": "bullet", "amount": 1 },
     "range": 20,
     "dispersion": 12,
     "loudness": 0,
-    "count": 40,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -618,14 +604,13 @@
     "looks_like": "pebble",
     "description": "A glass marble, useful as ammunition for a slingshot.",
     "material": [ "glass" ],
-    "volume": "250 ml",
+    "volume": "12 ml",
     "weight": "3 g",
     "ammo_type": "pebble",
     "damage": { "damage_type": "bullet", "amount": 2 },
     "range": 18,
     "dispersion": 12,
     "loudness": 0,
-    "count": 20,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -639,14 +624,13 @@
     "looks_like": "pebble",
     "description": "A steel ball bearing, useful as ammunition for a slingshot.",
     "material": [ "steel" ],
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "10 g",
     "ammo_type": "pebble",
     "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 1 },
     "range": 15,
     "dispersion": 14,
     "loudness": 0,
-    "count": 50,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -660,13 +644,11 @@
     "looks_like": "pebble",
     "description": "A small steel ball that can be fired from a BB gun.  Deals virtually no damage.",
     "material": [ "steel" ],
-    "volume": "200ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "BB",
     "damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 100,
-    "count": 500,
-    "stack_size": 200,
     "loudness": 9,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
@@ -682,11 +664,9 @@
     "description": "A feather from a bird.  Useful for fletching arrows.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "2 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -700,11 +680,9 @@
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "2 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -735,12 +713,11 @@
     "color": "light_gray",
     "description": "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated into plasma.",
     "material": [ "hydrogen_cell" ],
-    "volume": "2500 ml",
+    "volume": "100 ml",
     "weight": "183 g",
     "ammo_type": "plasma",
     "damage": { "damage_type": "stab", "amount": 35, "armor_penetration": 14 },
     "range": 12,
-    "count": 25,
     "effects": [ "INCENDIARY" ],
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -758,10 +735,9 @@
     "sealed": false,
     "material": [ "powder" ],
     "flags": [ "TINDER" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "100 mg",
     "ammo_type": "components",
-    "count": 4540,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -830,10 +806,9 @@
     "description": "Volatile powdered chemical oxidizer.",
     "container": "bottle_plastic_small",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -848,10 +823,9 @@
     "description": "Powdered caustic soda, also known as sodium hydroxide.",
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "2662 mg",
-    "ammo_type": "components",
-    "count": 200
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -864,10 +838,9 @@
     "color": "dark_gray",
     "description": "A primer from a shotgun shell.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -881,10 +854,9 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -898,10 +870,9 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -915,10 +886,9 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -932,10 +902,9 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 200,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -949,10 +918,9 @@
     "color": "dark_gray",
     "description": "A rubber slug from a shotgun beanbag round.  You could use it to make a new beanbag round.",
     "material": [ "plastic", "rubber" ],
-    "volume": "250 ml",
+    "volume": "10 ml",
     "weight": "2 g",
-    "ammo_type": "components",
-    "count": 25
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -981,11 +949,10 @@
     "color": "yellow",
     "description": "Some scrap bits of copper.  Could be used to craft things, such as makeshift ammunition.",
     "material": [ "copper" ],
-    "volume": "128 ml",
+    "volume": "1 ml",
     "weight": "5 g",
     "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml.",
-    "ammo_type": "components",
-    "count": 200
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -998,10 +965,9 @@
     "color": "white",
     "description": "A roll of semi-opaque medical tape, intended to hold bandages in place.  Not as versatile as duct tape.",
     "material": [ "plastic" ],
-    "volume": "250 ml",
+    "volume": "7 ml",
     "weight": "3 g",
-    "ammo_type": "components",
-    "count": 35
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1018,11 +984,9 @@
     "//": "5 ml per chunk, .208 kg/liter for 1040mg per chunk to give it parity with coal, as 5mL charcoal is worth roughly 31kJ (1u of coal)",
     "material": [ "charcoal" ],
     "phase": "solid",
-    "volume": "200 ml",
+    "volume": "5 ml",
     "weight": "1040 mg",
-    "ammo_type": "charcoal",
-    "count": 200,
-    "stack_size": 40
+    "ammo_type": "charcoal"
   },
   {
     "type": "AMMO",
@@ -1073,7 +1037,8 @@
     "weight": "1 mg",
     "flags": [ "TRADER_AVOID" ],
     "phase": "gas",
-    "ammo_type": "albuterol"
+    "ammo_type": "albuterol",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1086,11 +1051,9 @@
     "color": "cyan",
     "description": "A tiny glass vial filled with advanced fast-healing chemicals which can only be activated by a Rivtech jet injector device.  The packaged instructions describe its efficacy in dealing with infections, wounds, intoxications, envenomations, and general tiredness in enthusiastic detail.  A short safety section at the end warns - in much smaller typeface - against using more than two doses per hour.",
     "material": [ "glass" ],
-    "volume": "250 ml",
+    "volume": "12 ml",
     "weight": "1 g",
-    "ammo_type": "ampoule",
-    "count": 2,
-    "stack_size": 20
+    "ammo_type": "ampoule"
   },
   {
     "type": "AMMO",
@@ -1103,11 +1066,9 @@
     "color": "cyan",
     "description": "A pressurized multi-chamber glass vial filled with powerful chemical stimulants which can only be activated by a Rivtech stimulant delivery system.",
     "material": [ "glass" ],
-    "volume": "250 ml",
+    "volume": "25 ml",
     "weight": "1 g",
-    "ammo_type": "stimpack_ammo",
-    "count": 5,
-    "stack_size": 10
+    "ammo_type": "stimpack_ammo"
   },
   {
     "type": "AMMO",
@@ -1140,8 +1101,7 @@
     "description": "Granulated mixture of slaked lime, potassium hydroxide and/or sodium hydroxide that is used as CO2 scrubbing agent in rebreathers.",
     "volume": "33 ml",
     "weight": "13 g",
-    "ammo_type": "rebreather_filter",
-    "count": 1
+    "ammo_type": "rebreather_filter"
   },
   {
     "type": "AMMO",
@@ -1158,8 +1118,7 @@
     "volume": "13 ml",
     "weight": "6 g",
     "//": "Density is 2.14 g/cm3, rounded down to account for it being powder, weight is given per 1 minute of scrubbing",
-    "ammo_type": "rebreather_o2_regenerator",
-    "count": 1
+    "ammo_type": "rebreather_o2_regenerator"
   },
   {
     "type": "AMMO",
@@ -1174,8 +1133,7 @@
     "description": "A small, replaceable filter cartridge for an air filtration mask.",
     "volume": "1 ml",
     "weight": "200 mg",
-    "ammo_type": "gasfilter_s",
-    "count": 1
+    "ammo_type": "gasfilter_s"
   },
   {
     "type": "AMMO",
@@ -1190,8 +1148,7 @@
     "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
     "volume": "1 ml",
     "weight": "200 mg",
-    "ammo_type": "gasfilter_m",
-    "count": 1
+    "ammo_type": "gasfilter_m"
   },
   {
     "type": "AMMO",
@@ -1217,11 +1174,9 @@
     "name": { "str_sp": "fish bait" },
     "description": "A handful of bait, used in traps to lure fish.",
     "weight": "1 g",
-    "volume": "250 ml",
+    "volume": "5 ml",
     "symbol": "=",
     "color": "light_red",
-    "count": 20,
-    "stack_size": 50,
     "ammo_type": "fish_bait"
   },
   {
@@ -1304,14 +1259,13 @@
     "description": "A pile of small 3cm by 6cm steel rectangles with a pattern of holes drilled into it.  For use in creating or repairing lamellar armor.",
     "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
     "weight": "14 g",
-    "volume": "100 ml",
+    "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "lc_steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -1322,14 +1276,13 @@
     "description": "A pile of small 3cm by 6cm steel rectangles with a pattern of holes drilled into it, then case hardened.  For use in creating or repairing hardened lamellar armor.",
     "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
     "weight": "14 g",
-    "volume": "100 ml",
+    "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 60,
     "material": [ "ch_steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -1343,10 +1296,9 @@
     "color": "light_gray",
     "description": "A set of small metal rings, suitable for constructing chainmail.",
     "material": [ "iron" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "320 mg",
-    "ammo_type": "components",
-    "count": 425
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1360,10 +1312,9 @@
     "color": "light_gray",
     "description": "A set of small metal rings, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "320 mg",
-    "ammo_type": "components",
-    "count": 425
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1408,7 +1359,8 @@
     "volume": "250 ml",
     "weight": "1 g",
     "phase": "gas",
-    "ammo_type": "nitrox"
+    "ammo_type": "nitrox",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1453,14 +1405,13 @@
     "name": { "str_sp": "tinder" },
     "description": "Flammable material, finely divided for easy combustion.",
     "weight": "10 g",
-    "volume": "250 ml",
+    "volume": "5 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "wood" ],
     "flags": [ "NO_SALVAGE", "TINDER" ],
     "symbol": "=",
     "color": "brown",
-    "count": 50,
     "ammo_type": "tinder",
     "effects": [ "NEVER_MISFIRES" ],
     "melee_damage": { "bash": 1 }
@@ -1476,14 +1427,13 @@
     "looks_like": "marble",
     "description": "A plastic die used to play various role-playing games.",
     "material": [ "plastic" ],
-    "volume": "250 ml",
+    "volume": "35 ml",
     "weight": "1 g",
     "ammo_type": "pebble",
     "damage": { "damage_type": "bullet", "amount": 1 },
     "range": 20,
     "dispersion": 15,
     "loudness": 0,
-    "count": 7,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1498,14 +1448,13 @@
     "looks_like": "marble",
     "description": "A metal die used to play various role-playing games.",
     "material": [ "zinc" ],
-    "volume": "250 ml",
+    "volume": "35 ml",
     "weight": "1 g",
     "ammo_type": "pebble",
     "damage": { "damage_type": "bullet", "amount": 3 },
     "range": 15,
     "dispersion": 10,
     "loudness": 0,
-    "count": 7,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1753,7 +1702,8 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "black_pen_ink"
+    "ammo_type": "black_pen_ink",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1767,7 +1717,8 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "blue_pen_ink"
+    "ammo_type": "blue_pen_ink",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1781,7 +1732,8 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "green_pen_ink"
+    "ammo_type": "green_pen_ink",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1795,7 +1747,8 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "red_pen_ink"
+    "ammo_type": "red_pen_ink",
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -1808,13 +1761,11 @@
     "looks_like": "pebble",
     "description": "A tin of small cone-shaped pellets meant to be used in an air rifle.  Suitable for plinking.",
     "material": [ "steel" ],
-    "volume": "200ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "airgun_pellet",
     "damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 100,
-    "count": 500,
-    "stack_size": 200,
     "loudness": 9,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
@@ -1829,13 +1780,11 @@
     "looks_like": "pebble",
     "description": "A tin of small cone-shaped pellets meant to be used in an air rifle.  Suitable for hunting small game.",
     "material": [ "steel" ],
-    "volume": "200ml",
+    "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "airgun_pellet",
     "damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 100,
-    "count": 500,
-    "stack_size": 200,
     "loudness": 9,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   }

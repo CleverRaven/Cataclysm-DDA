@@ -13,7 +13,8 @@
     "volume": "1 ml",
     "phase": "liquid",
     "category": "fuel",
-    "ammo_type": "tainted_blood"
+    "ammo_type": "tainted_blood",
+    "count": 1
   },
   {
     "id": "shotcestus",

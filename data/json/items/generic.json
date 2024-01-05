@@ -3064,7 +3064,6 @@
     "to_hit": -1,
     "material": [ "plastic", "paper" ],
     "symbol": "]",
-    "count": 25,
     "color": "light_gray"
   },
   {
@@ -3394,10 +3393,9 @@
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
-    "volume": "20 ml",
+    "volume": "1 ml",
     "price": 0,
     "price_postapoc": 0,
-    "stack_size": 50,
     "material": [ "steel" ],
     "symbol": ".",
     "flags": [ "HURT_WHEN_WIELDED" ],

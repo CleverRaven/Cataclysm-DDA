@@ -23,8 +23,6 @@
     "material": [ "superalloy", "steel" ],
     "symbol": "=",
     "color": "red",
-    "count": 1,
-    "stack_size": 1,
     "ammo_type": "mom_pulse_rifle_ammo",
     "range": 40,
     "dispersion": 0,
@@ -42,9 +40,8 @@
     "description": "Power charge for matrix technology.",
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "weight": "0 mg",
-    "volume": "0 ml",
+    "volume": "1 ml",
     "ammo_type": "psionic_charge_power",
-    "material": [ "nether_crystal" ],
-    "count": 100
+    "material": [ "nether_crystal" ]
   }
 ]

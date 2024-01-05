@@ -29,7 +29,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
-    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
+    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ],
+    "charges": 200
   },
   {
     "type": "recipe",
@@ -96,7 +97,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
-    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ],
+    "charges": 1000
   },
   {
     "type": "recipe",
@@ -131,7 +133,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
-    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
+    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ],
+    "charges": 200
   },
   {
     "type": "recipe",

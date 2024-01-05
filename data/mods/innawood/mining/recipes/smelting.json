@@ -50,7 +50,8 @@
     "result_mult": 20,
     "tools": [ [ [ "bloomery", 41 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "iron_ore", 17 ] ] ]
+    "components": [ [ [ "iron_ore", 17 ] ] ],
+    "charges": 2
   },
   {
     "result": "copper",
@@ -68,7 +69,8 @@
     "result_mult": 21,
     "byproducts": [ [ "platinum_small" ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
-    "components": [ [ [ "chunk_copper", 1 ] ] ]
+    "components": [ [ [ "chunk_copper", 1 ] ] ],
+    "charges": 200
   },
   {
     "result": "platinum_small",
@@ -85,7 +87,8 @@
     "//": "Reversed copper smelting recipe to make it easier to find the platinum recipe.",
     "byproducts": [ [ "copper", 21 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
-    "components": [ [ [ "chunk_copper", 1 ] ] ]
+    "components": [ [ [ "chunk_copper", 1 ] ] ],
+    "charges": 100
   },
   {
     "result": "silver_small",
@@ -102,7 +105,8 @@
     "//": "Yield is just over 97% by weight, each output of silver is 300 weight.  Volume of output is massively oversize however.",
     "result_mult": 34,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
-    "components": [ [ [ "chunk_silver", 1 ] ] ]
+    "components": [ [ [ "chunk_silver", 1 ] ] ],
+    "charges": 100
   },
   {
     "result": "gold_small",
@@ -119,7 +123,8 @@
     "//": "Yield is just over 98% by weight, each output of gold is 500 weight.  Volume of output is massively oversize however.",
     "result_mult": 38,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
-    "components": [ [ [ "chunk_gold", 1 ] ] ]
+    "components": [ [ [ "chunk_gold", 1 ] ] ],
+    "charges": 100
   },
   {
     "result": "material_aluminium_ingot",
@@ -155,7 +160,8 @@
     "result_mult": 8,
     "using": [ [ "forging_standard", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "chunk_cassiterite", 1 ] ] ]
+    "components": [ [ [ "chunk_cassiterite", 1 ] ] ],
+    "charges": 100
   },
   {
     "result": "lead",
@@ -175,7 +181,8 @@
     "byproducts": [ [ "silver_small" ] ],
     "using": [ [ "forging_standard", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "chunk_galena", 1 ] ] ]
+    "components": [ [ [ "chunk_galena", 1 ] ] ],
+    "charges": 100
   },
   {
     "result": "steel_lump",
@@ -245,7 +252,8 @@
       [ [ "chunk_hematite", 1 ] ],
       [ [ "material_shrd_limestone", 1 ], [ "material_limestone", 10 ] ],
       [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ]
-    ]
+    ],
+    "charges": 2
   },
   {
     "result": "mercury",

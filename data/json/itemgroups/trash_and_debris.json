@@ -31,7 +31,7 @@
       [ "wrapper", 40 ],
       [ "wrapper_foil", 2 ],
       { "item": "wrapper_foil_roll", "prob": 1 },
-      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
+      { "item": "nail", "count": [ 5, 500 ] },
       [ "splinter", 40 ],
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
@@ -230,7 +230,7 @@
       [ "flyer", 10 ],
       [ "scorecard", 10 ],
       { "item": "talking_doll", "prob": 60, "charges": [ 0, 10 ] },
-      { "item": "marble", "prob": 65, "charges": [ 1, 20 ] },
+      { "item": "marble", "prob": 65, "count": [ 1, 20 ] },
       [ "handflare_dead", 3 ],
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 10 ] },
       [ "straw_doll", 1 ],
@@ -329,9 +329,9 @@
       { "item": "rebar", "prob": 8, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
       { "item": "brick", "prob": 20, "count": [ 10, 20 ], "damage-min": 0, "damage-max": 3 },
       { "item": "pipe", "prob": 5, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
-      { "item": "nail", "prob": 2, "count": [ 0, 1 ], "charges-min": 3, "charges-max": 15 },
+      { "item": "nail", "prob": 2, "count-min": 0, "count-max": 15 },
       { "item": "wire", "prob": 3, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
-      { "item": "charcoal", "prob": 3, "charges": [ 3, 7 ] },
+      { "item": "charcoal", "prob": 3, "entry-wrapper": "box_small", "count": [ 3, 7 ] },
       { "item": "scrap_copper", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
       { "item": "sheet_metal", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
       { "item": "sheet_metal_small", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },
@@ -359,7 +359,7 @@
     "items": [
       { "item": "2x4", "count": [ 2, 4 ] },
       { "item": "wood_panel", "count": [ 0, 1 ] },
-      { "item": "nail", "charges": [ 4, 8 ] },
+      { "item": "nail", "count": [ 4, 8 ] },
       { "item": "splinter", "count": 1 }
     ]
   },
@@ -369,7 +369,7 @@
     "subtype": "collection",
     "items": [
       { "item": "2x4", "count": [ 1, 2 ] },
-      { "item": "nail", "charges": [ 1, 4 ] },
+      { "item": "nail", "count": [ 1, 4 ] },
       { "item": "splinter", "count": [ 1, 4 ] },
       { "item": "hinge", "count": [ 1, 2 ] },
       { "group": "door_damage" }
@@ -383,7 +383,7 @@
       { "item": "2x4", "prob": 25 },
       { "item": "wood_panel", "prob": 10 },
       { "item": "splinter", "count": [ 1, 2 ] },
-      { "item": "nail", "charges": [ 0, 2 ] }
+      { "item": "nail", "count": [ 0, 2 ] }
     ]
   }
 ]

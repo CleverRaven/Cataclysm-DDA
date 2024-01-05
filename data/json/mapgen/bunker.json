@@ -227,7 +227,7 @@
     "id": "bunker_basement_suicide",
     "subtype": "collection",
     "items": [
-      { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
+      { "item": "m1911", "ammo-item": "45_acp", "count": 6 },
       { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
       { "group": "underwear" },
       { "item": "corpse" }

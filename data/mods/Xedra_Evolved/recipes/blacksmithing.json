@@ -12,7 +12,8 @@
     "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "moon_tear_wire", 1 ] ] ]
+    "components": [ [ [ "moon_tear_wire", 1 ] ] ],
+    "charges": 150
   },
   {
     "type": "recipe",
@@ -27,7 +28,8 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "moon_tear_ingot", 1 ] ], [ [ "scrap_dreamdross", 1 ] ] ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "charges": 100
   },
   {
     "type": "recipe",
