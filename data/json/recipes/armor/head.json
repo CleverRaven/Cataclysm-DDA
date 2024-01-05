@@ -1518,17 +1518,19 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "sewing_aramids", 10 ], [ "tailoring_leather_patchwork", 2 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "nomex", 4 ], [ "nomex_hood", 1 ] ]
+      [ [ "nomex", 4 ], [ "nomex_hood", 1 ] ],
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_tanning_basic" },
+      { "proficiency": "prof_tanning" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_polymerworking" }
     ]
@@ -1539,11 +1541,10 @@
     "copy-from": "mask_fsurvivor",
     "using": [ [ "sewing_aramids", 7 ], [ "tailoring_leather_patchwork", 2 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 5 ] ],
-      [ [ "nomex", 4 ], [ "nomex_hood", 1 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "nomex", 3 ], [ "nomex_hood", 1 ] ],
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 2, "LIST" ] ]
      ]
   },
   {
@@ -1552,11 +1553,10 @@
     "copy-from": "mask_fsurvivor",
     "using": [ [ "sewing_aramids", 15 ], [ "tailoring_leather_patchwork", 2 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 5 ] ],
-      [ [ "nomex", 4 ], [ "nomex_hood", 1 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "nomex", 6 ], [ "nomex_hood", 1 ] ],
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
      ]
   },
   {
@@ -1722,19 +1722,18 @@
     "book_learn": [ [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "sewing_standard", 10 ], [ "tailoring_leather_patchwork", 2 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "OVEN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "sheet_neoprene", 7 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_elastics" },
       { "proficiency": "prof_tanning_basic" },
+      { "proficiency": "prof_tanning" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_metalworking" }
     ]
@@ -1747,11 +1746,10 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheetl", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "sheet_neoprene", 5 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 3, "LIST" ] ]
     ]
   },
   {
@@ -1762,11 +1760,10 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_patchwork", 3 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "sheet_neoprene", 10 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
     ]
   },
   {
@@ -1786,13 +1783,12 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 7 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_elastics" },
       { "proficiency": "prof_tanning_basic" },
+      { "proficiency": "prof_tanning" },
       { "proficiency": "prof_leatherworking_basic" }
     ]
   },
@@ -1805,8 +1801,7 @@
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 5 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 3, "LIST" ] ]
     ]
   },
   {
@@ -1818,8 +1813,7 @@
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_patchwork", 3 ] ],
     "components": [
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 10 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
     ]
   },
   {
@@ -1873,16 +1867,15 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 7 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_elastics" },
       { "proficiency": "prof_tanning_basic" },
+      { "proficiency": "prof_tanning" },
       { "proficiency": "prof_leatherworking_basic" }
     ]
   },
@@ -1894,7 +1887,7 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_neoprene", 5 ] ],
       [ [ "rubber_cement", 1 ] ]
@@ -1908,10 +1901,9 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_patchwork", 3 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 10 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
     ]
   },
   {

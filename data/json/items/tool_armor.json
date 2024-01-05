@@ -1882,7 +1882,7 @@
     "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 15, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_gas",
@@ -1900,8 +1900,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1934,8 +1934,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1969,8 +1969,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -2019,7 +2019,7 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_fsurvivor",
@@ -2043,27 +2043,27 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "nomex", "leather", "hard_plastic_transp" ],
+    "material": [ "nomex", "leather_treated", "hard_plastic_transp" ],
     "symbol": "[",
     "color": "brown",
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 35
+        "encumbrance": 25
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 15
       }
     ],
-    "warmth": 18,
+    "warmth": 25,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 15,
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED", "PADDED" ]
@@ -2143,7 +2143,7 @@
         ],
         "covers": [ "eyes" ],
           "coverage": 100,
-         "encumbrance": 7
+         "encumbrance": 15
          }
 ]
   },
@@ -2169,18 +2169,18 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "leather", "hard_plastic_transp", "lc_steel" ],
+    "material": [ "leather_treated", "hard_plastic_transp", "lc_steel" ],
     "symbol": "[",
     "color": "brown",
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 35
+        "encumbrance": 25
       },
       {
         "material": [
@@ -2189,10 +2189,10 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 14
+        "encumbrance": 25
       }
     ],
-    "warmth": 17,
+    "warmth": 28,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "OVERSIZE", "PADDED", "UNRESTRICTED" ]
@@ -2237,13 +2237,13 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "leather" ],
+    "material": [ "leather_treated" ],
     "symbol": "[",
     "color": "brown",
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
@@ -2295,17 +2295,17 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "leather", "hard_plastic_transp" ],
+    "material": [ "leather_treated", "hard_plastic_transp" ],
     "symbol": "[",
     "color": "brown",
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 30
+        "encumbrance": 25
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 3 } ],
@@ -2314,7 +2314,7 @@
         "encumbrance": 10
       }
     ],
-    "warmth": 15,
+    "warmth": 20,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 15,
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "OVERSIZE", "PADDED", "UNRESTRICTED" ]
