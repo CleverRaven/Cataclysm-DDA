@@ -1432,9 +1432,9 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         struct link_data {
-            /// State of the link's source, the end usually represented by the cable item. @ref link_state.
+            /// State of the link's source connection, the end usually represented by the device/cable item itself. @ref link_state.
             link_state source = link_state::no_link;
-            /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
+            /// State of the link's target connection, the end represented by t_abs_pos. @ref link_state.
             link_state target = link_state::no_link;
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
             safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
