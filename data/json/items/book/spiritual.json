@@ -532,6 +532,30 @@
     ]
   },
   {
+    "id": "holybook_lost",
+    "type": "BOOK",
+    "name": { "str": "Lost Books of the Bible", "str_pl": "Lost Books of the Bible" },
+    "description": "A collection of texts that did not make it into the canonical Bible, which includes the Old Testament and the New Testament. These texts, also known as the apocrypha, were written between the 3rd century BCE and the 2nd century CE.  The reasons for their exclusion from the Bible are varied, ranging from theological disagreements to differences in language and cultural context.",
+    "weight": "281 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "holybook_lost1",
+        "name": { "str": "Gospel of James", "str_pl": "copies of the Gospel of James" },
+        "description": "One of the Lost Books of the Bible.  It provides an account of the early life of Jesus Christ, focusing on his birth, infancy, and the events surrounding his mother, Mary.  It includes details about the selection and consecration of Mary as a virgin in the temple, the miraculous conception of Jesus, and the presentation of Jesus in the temple.  The Gospel of James also describes the circumstances surrounding the birth of John the Baptist, the circumcision of Jesus, and the finding of the young Jesus in the temple.",
+        "append": true
+      },
+      {
+        "id": "holybook_lost2",
+        "name": { "str": "Gospel Birth of Mary", "str_pl": "copies of the Gospel Birth of Mary" },
+        "description": "One of the Lost Books of the Bible.  This text provides details about the parentage of Virgin Mary, her betrothal to Joseph, and the circumstances surrounding the birth of Jesus.  Unfortunately, the original text has been lost, but this book provides various fragments and references to its content that been preserved in historical writings and translations.",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "holybook_pastafarian",
     "type": "BOOK",
     "name": {
@@ -1422,6 +1446,33 @@
     "description": "A commercial-grade, hardcover English translation of The Asatru Edda.  It serves as a modern guide to the religious and mythological beliefs of the followers of Asatru, a contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
     "weight": "672 g",
     "volume": "1368 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ginza",
+    "type": "BOOK",
+    "name": { "str": "Ginza Rabba", "str_pl": "copies of the Ginza Rabba" },
+    "description": "A large English translation of the Ginza Rabba, also known as The Book of Adam, a scripture Sacred for the Mandaeans.  It is a compilation of various oral teachings and written texts, including literature on a wide variety of topics such as liturgy, hymns, theological texts, didactic texts, as well as both religious and secular poetry.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ginza1",
+    "type": "BOOK",
+    "name": { "str": "Qolastā", "str_pl": "copies of the Qolastā" },
+    "description": "A English translation of the Qolastā, the canonical prayer book of the Mandaeans.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ginza2",
+    "type": "BOOK",
+    "name": { "str": "Drasa d-Yahya", "str_pl": "copies of the Drasa d-Yahya" },
+    "description": "A English translation of the Drasa d-Yahya, also known as the Mandaean Book of John.  It contains accounts of John's life and miracles, as well as a number of polemical conversations with Jesus and tractates where Anush Uthra (Enosh) performs miracles in the style of Jesus's deeds in Jerusalem.",
+    "weight": "368 g",
+    "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
   {
