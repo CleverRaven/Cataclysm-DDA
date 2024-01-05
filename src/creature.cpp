@@ -403,8 +403,7 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     // If we cannot see without any of the penalties below, bail now.
-    const bool sees_unadjusted = sees( critter.pos(), critter.is_avatar() );
-    if( !sees_unadjusted ) {
+    if( !sees( critter.pos(), critter.is_avatar() ) ) {
         return false;
     }
 
@@ -483,32 +482,34 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     if( !fov_3d && posz() != t.z ) {
         return false;
     }
-    const int target_range = rl_dist( pos(), t );
-    if( range_mod > 0 && target_range > range_mod ) {
-        return false;
-    }
 
     map &here = get_map();
-    int range = 0;
-    if( has_effect( effect_no_sight ) ) {
-        range = 1;
-    } else {
-        const float light_here = here.ambient_light_at( pos() );
-        const float light_there = here.ambient_light_at( t );
-        if( light_here > light_there ) {
-            // Looking at something from lighter area to darker area. Take the min.
-            range = std::min( sight_range( light_here ), sight_range( light_there ) );
+    const int range_cur = sight_range( here.ambient_light_at( t ) );
+    const int range_day = sight_range( default_daylight_level() );
+    const int range_night = sight_range( 0 );
+    const int range_max = std::max( range_day, range_night );
+    const int range_min = std::min( range_cur, range_max );
+    const int wanted_range = rl_dist( pos(), t );
+    if( wanted_range <= range_min ||
+        ( wanted_range <= range_max &&
+          here.ambient_light_at( t ) > here.get_cache_ref( t.z ).natural_light_level_cache ) ) {
+        int range = 0;
+        if( here.ambient_light_at( t ) > here.get_cache_ref( t.z ).natural_light_level_cache ) {
+            range = MAX_VIEW_DISTANCE;
         } else {
-            // Looking at something from darker area to lighter area. Take the max.
-            range = std::max( sight_range( light_here ), sight_range( light_there ) );
+            range = range_min;
         }
-    }
-    if( target_range <= range ) {
+        if( has_effect( effect_no_sight ) ) {
+            range = 1;
+        }
+        if( range_mod > 0 ) {
+            range = std::min( range, range_mod );
+        }
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = get_player_character().visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
-            return target_range <= adj_range &&
+            return adj_range >= wanted_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
             return here.sees( pos(), t, range );
