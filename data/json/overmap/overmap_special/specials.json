@@ -5,17 +5,14 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "motel_twd_2_north" },
+      { "point": [ 2, 0, 0 ], "locations": [ "forest" ] },
       { "point": [ 0, 0, 1 ], "overmap": "motel_twd_1_f1_north" },
       { "point": [ 1, 0, 1 ], "overmap": "motel_twd_2_f1_north" },
       { "point": [ 0, 0, 2 ], "overmap": "motel_twd_1_f2_north" }
     ],
-    "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ], "existing": true },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true }
-    ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 10, 20 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
   {
