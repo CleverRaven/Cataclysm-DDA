@@ -309,7 +309,7 @@ static void eff_fun_bleed( Character &u, effect &it )
         } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
             u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
             u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
-        } else{
+        } else {
             u.vitamin_mod( vitamin_redcells, -intense );
             u.vitamin_mod( vitamin_blood, -intense );
         }
