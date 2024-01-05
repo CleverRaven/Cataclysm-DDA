@@ -624,7 +624,7 @@ ifeq ($(NATIVE), cygwin)
   TARGETSYSTEM=CYGWIN
 endif
 
-# Cygwin
+# Emscripten
 ifeq ($(NATIVE), emscripten)
   CXX=emcc
   LD=emcc
@@ -634,6 +634,7 @@ ifeq ($(NATIVE), emscripten)
   
   ifneq ($(RELEASE), 1)
     EMCC_COMMON_FLAGS += -g
+    EMCC_COMMON_FLAGS += -sASSERTIONS
   endif
   
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
@@ -641,7 +642,10 @@ ifeq ($(NATIVE), emscripten)
 
   LDFLAGS += --preload-file web_bundle@/
   LDFLAGS += --bind -sALLOW_MEMORY_GROWTH -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
-  LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
+  LDFLAGS += -sASYNCIFY_STACK_SIZE=32768
+  LDFLAGS += -sSTACK_SIZE=262144
+  LDFLAGS += -sINITIAL_MEMORY=536870912
+  LDFLAGS += -sMAXIMUM_MEMORY=4GB
   LDFLAGS += -sENVIRONMENT=web
   LDFLAGS += -lidbfs.js
   LDFLAGS += --pre-js pre.js

@@ -31,7 +31,7 @@ rm -rf web_bundle/gfx/ChibiUltica
 rm -rf web_bundle/gfx/Cuteclysm
 rm -rf web_bundle/gfx/BrownLikeBears
 rm -rf web_bundle/gfx/HoderTileset
-rm -rf web_bundle/gfx/NeoDaysTileset
+#rm -rf web_bundle/gfx/NeoDaysTileset
 rm -rf web_bundle/gfx/RetroDaysTileset
 
 # Remove obsolete mods.
