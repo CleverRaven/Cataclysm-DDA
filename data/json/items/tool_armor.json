@@ -2122,17 +2122,11 @@
           { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "mouth" ],
-          "coverage": 100,
-         "encumbrance": 25
-         },
-         {
-        "material": [
-          {
-         "type": "plastic",
-         "covered_by_mat": 100,
-         "thickness": 3
-          }
-        ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
           "coverage": 100,
          "encumbrance": 12
