@@ -337,7 +337,7 @@
     "description": "The upper branches of a tree.  There's just enough room to perch here.",
     "symbol": "#",
     "color": [ "light_green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 6,
+    "move_cost": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "CLIMBABLE", "SINGLE_SUPPORT" ]
   },
   {
@@ -347,8 +347,8 @@
     "description": "The upper branches of a tree.  There's just enough room to perch here.",
     "symbol": "#",
     "color": [ "green" ],
-    "move_cost": 6,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "CLIMBABLE", "SINGLE_SUPPORT" ]
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
   },
   {
     "type": "terrain",
@@ -357,8 +357,8 @@
     "description": "The bare upper branches of a dead tree.  There's just enough room to perch here.",
     "symbol": "#",
     "color": "brown",
-    "move_cost": 6,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SINGLE_SUPPORT" ]
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
   },
   {
     "type": "terrain",
@@ -367,7 +367,7 @@
     "description": "The top of some unearthly gigantic fern.  There is enough room to perch up here, but only just.",
     "symbol": "#",
     "color": "red",
-    "move_cost": 6,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SINGLE_SUPPORT" ]
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
   }
 ]
