@@ -6336,6 +6336,14 @@
     "components": [ [ [ "faux_fur", 8 ] ] ]
   },
   {
+    "result": "sheet_leather",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ] ]
+  },
+  {
     "result": "sheet_felt",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
