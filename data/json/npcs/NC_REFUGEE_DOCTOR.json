@@ -19,7 +19,8 @@
       { "item": "pants", "prob": 80 },
       { "item": "pants_leather", "prob": 20 },
       { "item": "pants_cargo", "prob": 20 },
-      { "item": "skirt", "prob": 20 }
+      { "item": "skirt", "prob": 20 },
+      { "item": "skirt_denim", "prob": 5 }
     ]
   },
   {

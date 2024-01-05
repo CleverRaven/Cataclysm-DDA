@@ -19,14 +19,20 @@
       { "item": "pants", "prob": 20 },
       { "item": "pants_leather", "prob": 20 },
       { "item": "pants_cargo", "prob": 20 },
-      { "item": "skirt", "prob": 10 }
+      { "item": "skirt", "prob": 5 },
+      { "item": "skirt_denim", "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_COWBOY_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "sneakers", "prob": 20 }, { "item": "boots_western", "prob": 10 }, { "item": "boots", "prob": 60 } ]
+    "entries": [
+      { "item": "sneakers", "prob": 20 },
+      { "item": "boots_western", "prob": 10 },
+      { "item": "boots", "prob": 50 },
+      { "item": "boots_denim", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -36,6 +42,7 @@
       { "item": "tshirt", "prob": 60 },
       { "item": "polo_shirt", "prob": 20 },
       { "item": "dress_shirt", "prob": 20 },
+      { "item": "denim_shirt", "prob": 50 },
       { "item": "tank_top", "prob": 20 }
     ]
   },
@@ -76,8 +83,9 @@
     "id": "NC_COWBOY_storage",
     "subtype": "distribution",
     "entries": [
-      { "item": "null", "prob": 75 },
+      { "item": "null", "prob": 70 },
       { "item": "backpack", "prob": 10 },
+      { "item": "backpack_denim", "prob": 10 },
       { "item": "backpack_leather", "prob": 10 },
       { "item": "holster", "prob": 25 }
     ]

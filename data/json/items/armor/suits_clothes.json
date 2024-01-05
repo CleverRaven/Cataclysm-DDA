@@ -185,6 +185,72 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "denim_overalls",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
+    "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
+    "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
+    "weight": "1200 g",
+    "volume": "3300 ml",
+    "price": 6550,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 12 },
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 14, 20 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      }
+    ],
+    "warmth": 18,
+    "material_thickness": 1.1,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+  },
+  {
     "id": "dinosuit",
     "type": "ARMOR",
     "name": { "str": "dinosaur suit" },

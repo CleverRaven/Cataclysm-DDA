@@ -382,6 +382,54 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "id": "boots_denim",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim boots", "str_pl": "pairs of denim boots" },
+    "description": "A pair of boots extending towards your lower leg, completely lined with denim.  Looks cool and has above average protection.",
+    "//": "Denim part is 12 oz.",
+    "weight": "1120 g",
+    "volume": "3 L",
+    "price": 6000,
+    "price_postapoc": 650,
+    "to_hit": -1,
+    "symbol": "{",
+    "color": "light_blue",
+    "looks_like": "boots",
+    "environmental_protection": 2,
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "encumbrance": 12,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
     "id": "foot_protectors_eod",
     "type": "ARMOR",
     "category": "armor",
@@ -2116,6 +2164,53 @@
         "coverage": 100
       }
     ]
+  },
+  {
+    "id": "shoes_denim",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim sneakers", "str_pl": "pairs of denim sneakers" },
+    "description": "A pair of denim shoes.  They are cool and that's about it.",
+    "//": "Denim part is 10 oz.",
+    "weight": "340 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 350,
+    "material": [ "rubber", "cotton", "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "looks_like": "sneakers",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
+        ],
+        "coverage": 60
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 25,
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "slippers",
