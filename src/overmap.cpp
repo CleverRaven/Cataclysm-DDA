@@ -1426,9 +1426,7 @@ struct fixed_overmap_special_data : overmap_special_data {
             if( !( elem.terrain == oter_str_id::NULL_ID() ) ) {
                 result.omts_used.push_back( location );
                 const oter_id tid = elem.terrain->get_rotated( dir );
-
                 om.ter_set( location, tid );
-
                 if( blob ) {
                     for( int x = -2; x <= 2; x++ ) {
                         for( int y = -2; y <= 2; y++ ) {
