@@ -464,7 +464,7 @@
     "id": "gray_water",
     "name": { "str_sp": "graywater" },
     "material": [ "water" ],
-    "weight": "260 g",
+    "weight": "225 g",
     "color": "light_gray",
     "container": "bottle_plastic",
     "sealed": false,
