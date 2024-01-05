@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement_bionic" ],
-    "weight": 100,
+    "//": "Currently being migrated in vanilla so may not be spawning?",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

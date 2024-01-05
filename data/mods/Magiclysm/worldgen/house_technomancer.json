@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "house_technomancer_1", "house_technomancer_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -104,7 +103,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "house_technomancer_3", "house_technomancer_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -156,7 +154,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "house_technomancer_5", "house_technomancer_6" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -193,7 +190,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "house_technomancer_7", "house_technomancer_8" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_urban_aquaponicsw_n1" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [
@@ -61,7 +60,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_urban_aquaponicsw_n2" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

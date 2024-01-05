@@ -5,5 +5,12 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "effect": [ { "math": [ "vanilla_bridge_weight", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VANILLA_ROAD_WEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "vanilla_road_weight", "=", "0" ] } ]
   }
 ]

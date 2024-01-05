@@ -3,14 +3,12 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sandstone",
-    "weight": 100,
     "object": { "fill_ter": "t_sandstone" }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "mesa",
-    "weight": 100,
     "object": { "fill_ter": "t_sandstone" }
   },
   {
@@ -18,6 +16,7 @@
     "method": "json",
     "om_terrain": [ [ "mesa_edge_v1", "mesa_edge_v2" ] ],
     "//": "Z = 0",
+    "//1": "These would probably be better done as conditional nests of mesa though z-level testing would need adding",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -200,6 +199,7 @@
     "method": "json",
     "om_terrain": [ [ "mesa_2way_top_v1", "mesa_2way_top_v2" ] ],
     "//": "Z = 2",
+    "//1": "Why does this use predecessor when it replaces the whole map?",
     "object": {
       "predecessor_mapgen": "field",
       "rows": [

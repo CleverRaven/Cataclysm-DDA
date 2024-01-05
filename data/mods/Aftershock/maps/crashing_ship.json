@@ -20,7 +20,6 @@
       [ "crashing_ship_6", "crashing_ship_5", "crashing_ship_4" ],
       [ "crashing_ship_9", "crashing_ship_8", "crashing_ship_7" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
