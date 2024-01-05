@@ -650,6 +650,7 @@ ifeq ($(NATIVE), emscripten)
   LDFLAGS += -lidbfs.js
   LDFLAGS += --pre-js pre.js
   LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
+  LDFLAGS += -sMAX_WEBGL_VERSION=2
 
   ifeq ($(RELEASE), 1)
     # Release-mode Linker flags.
