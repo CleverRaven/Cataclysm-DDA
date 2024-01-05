@@ -1521,7 +1521,7 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "nomex", 4 ], [ "nomex_hood", 1 ] ],
       [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
@@ -1541,7 +1541,7 @@
     "copy-from": "mask_fsurvivor",
     "using": [ [ "sewing_aramids", 7 ], [ "tailoring_leather_patchwork", 2 ] ],
     "components": [
-      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "nomex", 3 ], [ "nomex_hood", 1 ] ],
       [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 2, "LIST" ] ]
@@ -1553,7 +1553,7 @@
     "copy-from": "mask_fsurvivor",
     "using": [ [ "sewing_aramids", 15 ], [ "tailoring_leather_patchwork", 2 ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "nomex", 6 ], [ "nomex_hood", 1 ] ],
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
@@ -1724,7 +1724,7 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "OVEN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
@@ -1746,7 +1746,7 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 3, "LIST" ] ]
@@ -1760,7 +1760,7 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_patchwork", 3 ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
@@ -1867,7 +1867,7 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ] ]
     ],
@@ -1887,10 +1887,9 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
-      [ [ "sheet_neoprene", 5 ] ],
-      [ [ "rubber_cement", 1 ] ]
+      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 3, "LIST" ] ]
     ]
   },
   {
@@ -1901,7 +1900,7 @@
     "subcategory": "CSC_*_NESTED",
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_patchwork", 3 ] ],
     "components": [
-      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ] ],
+      [ [ "glasses_bal", 2 ], [ "rigid_plastic_sheet", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "mask_gas", 1 ], [ "mask_bunker", 1 ], [ "mask_gas_half", 1 ], [ "mask_gas_xs", 1 ], [ "mask_gas_xl", 1 ] ],
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 6, "LIST" ] ]
     ]
@@ -2258,7 +2257,7 @@
         [ "fancy_sunglasses", 1 ],
         [ "fitover_sunglasses", 1 ]
       ],
-      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "polycarbonate_chunk", 4 ], [ "glasses_bal", 2 ] ],
       [ [ "leather", 3 ] ],
       [ [ "sheet_kevlar_layered", 2 ] ]
     ],

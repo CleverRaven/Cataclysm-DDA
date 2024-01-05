@@ -2919,25 +2919,6 @@
     "difficulty": 6
   },
   {
-    "id": "nested_mask_wsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "winter survivor masks",
-    "description": "Recipes related to constructing various sizes of survivor masks better suited for cold environments.",
-    "skill_used": "fabrication",
-    "nested_category_data": [
-      "mask_wsurvivor",
-      "mask_wsurvivorxs",
-      "mask_wsurvivorxl",
-      "mask_wsurvivor_nofur",
-      "mask_wsurvivor_nofur_xs",
-      "mask_wsurvivorxl_nofur"
-    ],
-    "difficulty": 7
-  },
-  {
     "id": "nested_mask_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -2970,7 +2951,7 @@
     "name": "heavy survivor masks",
     "description": "Recipes related to constructing various sizes of heavy survivor masks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "mask_hsurvivor" ],
+    "nested_category_data": [ "mask_hsurvivor", "mask_hsurvivorxl", "mask_hsurvivorxs" ],
     "difficulty": 7
   },
   {
@@ -2979,10 +2960,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "light survivor masks",
-    "description": "Recipes related to constructing various sizes of light survivor masks.",
+    "name": "half survivor masks",
+    "description": "Recipes related to constructing various sizes of half survivor masks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl" ],
+    "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl", "mask_lsurvivorxs" ],
     "difficulty": 6
   },
   {
@@ -2996,11 +2977,10 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_mask_survivor",
-      "nested_mask_wsurvivor",
       "nested_mask_fsurvivor",
-      "nested_mask_h20survivor",
       "nested_mask_hsurvivor",
-      "nested_mask_lsurvivor"
+      "nested_mask_lsurvivor",
+      "nested_mask_h20survivor"
     ],
     "difficulty": 6
   },
