@@ -2118,16 +2118,8 @@
     "armor": [
       {
         "material": [
-          {
-        "type": "nomex",
-        "covered_by_mat": 100,
-        "thickness": 3
-          },
-          {
-            "type": "plastic",
-            "covered_by_mat": 100,
-            "thickness": 3
-          }
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "mouth" ],
           "coverage": 100,
