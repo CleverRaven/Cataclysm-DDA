@@ -46,7 +46,9 @@ static const std::array invalid_names = {
     std::string_view( "LPT7" ),
     std::string_view( "LPT8" ),
     std::string_view( "LPT9" ),
-    std::string_view( "LPT" )
+    std::string_view( "LPT¹" ),
+    std::string_view( "LPT²" ),
+    std::string_view( "LPT³" )
 };
 #endif
 
