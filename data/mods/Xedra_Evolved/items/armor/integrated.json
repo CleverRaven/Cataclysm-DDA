@@ -257,9 +257,7 @@
       }
     ],
     "melee_damage": { "cut": 10 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -10 } ] } ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_jagged_claws_faster_attack" }, { "id": "ench_jagged_claws_when_bramble_bite" } ] }
   },
   {
     "id": "integrated_coal_skin",

@@ -202,5 +202,28 @@
     "id": "ter_arvore_fungicide",
     "terrain": [ { "result": "t_dirt_barren", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!" } ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_arvore_translocator_ground",
+        "valid_furniture": [ "f_null" ],
+        "message": "You meditate within the depths of the forest.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_climbing_vine",
+    "terrain": [
+      {
+        "result": "t_arvore_climbing_vine",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "A vine bursts out of the ground and grows in moments!"
+      }
+    ]
   }
 ]
