@@ -7349,7 +7349,6 @@
     "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, and your leg-equivalents flow comfortably - if a little slower than your old meat-legs.",
     "purifiable": false,
     "leads_to": [ "INT_SLIME", "PER_SLIME" ],
-    "restricts_gear": [ "leg_stub_r", "leg_stub_l", "arm_stub_r", "arm_stub_l" ],
     "prereqs": [ "VISCOUS" ],
     "prereqs2": [ "BENDY2", "SLIME_HANDS" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -7798,7 +7797,7 @@
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
-    "restricts_gear": [ "torso", "arm_stub_r", "arm_stub_l" ],
+    "restricts_gear": [ "torso" ],
     "passive_mods": { "dex_mod": -2 }
   },
   {
@@ -7832,7 +7831,7 @@
     "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
-    "restricts_gear": [ "torso", "arm_stub_r", "arm_stub_l" ],
+    "restricts_gear": [ "torso" ],
     "passive_mods": { "dex_mod": -4 }
   },
   {
@@ -7860,7 +7859,7 @@
     "mixed_effect": true,
     "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
-    "restricts_gear": [ "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_4" ],

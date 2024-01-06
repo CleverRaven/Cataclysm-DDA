@@ -243,8 +243,6 @@
       [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
-      [ "left_leg_prosthetic", 40 ],
-      [ "right_leg_prosthetic", 40 ],
       [ "crutches", 5 ]
     ]
   },
