@@ -1477,7 +1477,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "screwdriver", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ]
+    ]
   },
   {
     "result": "shovel_snow",
@@ -1587,7 +1591,11 @@
     "difficulty": 3,
     "time": "15 m",
     "autolearn": true,
-    "components": [ [ [ "material_sand", 5 ] ], [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ] ]
+    "components": [
+      [ [ "material_sand", 5 ] ],
+      [ [ "2x4", 8 ], [ "stick", 8 ] ],
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
