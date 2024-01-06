@@ -1043,7 +1043,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ], [ "nuts_bolts", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [
+      [ [ "spear_knife", 1 ] ],
+      [ [ "nail", 2 ], [ "bronze_nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1406,7 +1410,11 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
+    "tools": [
+      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
