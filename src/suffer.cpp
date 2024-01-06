@@ -1210,18 +1210,12 @@ void suffer::from_other_mutations( Character &you )
 
 void suffer::from_mutagen( Character &you )
 {
-                you.add_msg_if_player( m_warning,
-                                   _( "suffer from mutage" ) );
         bool mutation = true;
         if( one_in( 4 ) ) {
-                            you.add_msg_if_player( m_warning,
-                                   _( "failed accidentally" ) );
             // Random chance to skip mutating.
             mutation = false;
         }
         if( mutation == true ) {
-                            you.add_msg_if_player( m_warning,
-                                   _( "success" ) );
             you.mutate( 0, true );
         }
 }
