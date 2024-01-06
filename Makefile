@@ -649,7 +649,6 @@ ifeq ($(NATIVE), emscripten)
   LDFLAGS += -sMAXIMUM_MEMORY=4GB
   LDFLAGS += -sENVIRONMENT=web
   LDFLAGS += -lidbfs.js
-  LDFLAGS += --pre-js pre.js
   LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
   LDFLAGS += -sMAX_WEBGL_VERSION=2
 
