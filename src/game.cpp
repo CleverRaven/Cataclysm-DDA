@@ -33,6 +33,10 @@
 #include <utility>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -3430,6 +3434,11 @@ bool game::save()
         popup( _( "Failed to save game data" ) );
         return false;
     }
+#if defined(EMSCRIPTEN)
+    // This will allow the window to be closed without a prompt, until do_turn()
+    // is called.
+    EM_ASM(window.game_unsaved = false;)
+#endif
 }
 
 std::vector<std::string> game::list_active_saves()

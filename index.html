@@ -290,6 +290,10 @@
       window.onerror = function (event) {
         alert("Exception thrown, see JavaScript console.");
       };
+      window.onbeforeunload = (e) => {
+        if (window.game_unsaved)
+          e.preventDefault();
+      }
     </script>
     <script async type="text/javascript" src="cataclysm-tiles.js"></script>
   </body>
