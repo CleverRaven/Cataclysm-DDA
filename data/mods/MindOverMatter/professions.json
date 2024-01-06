@@ -142,6 +142,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "item": "water_clean" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "group": "charged_electrical_measuring" },
           { "group": "charged_laptop" },
@@ -290,22 +291,33 @@
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
     "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
-    "points": 6,
+    "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
       { "level": 2, "name": "gun" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "survival" },
       { "level": 2, "name": "pistol" },
-      { "level": 5, "name": "metaphysics" }
+      { "level": 7, "name": "metaphysics" }
     ],
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT", "FIFTH_SUN_PEOPLE" ],
     "spells": [
-      { "id": "teleport_blink", "level": 8 },
-      { "id": "teleport_slow", "level": 1 },
-      { "id": "teleport_transpose", "level": 4 },
-      { "id": "teleport_phase", "level": 5 },
-      { "id": "teleport_farstep", "level": 3 }
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
     ],
-    "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_teleport_blink",
+      "practice_teleport_slow",
+      "practice_teleport_displacement",
+      "practice_teleport_phase",
+      "practice_teleport_stride",
+      "practice_teleport_farstep"
+    ],
+    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
@@ -317,6 +329,7 @@
           { "item": "itzcuauhtli_cape" },
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
+          { "item": "matrix_crystal_teleportation" },
           {
             "item": "mom_fusion_pistol",
             "ammo-item": "mom_fusion_ammo",
