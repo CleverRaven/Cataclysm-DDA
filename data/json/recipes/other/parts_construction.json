@@ -21,7 +21,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-	"//": "Bronze is typically easier to work than steel/iron",
+    "//": "Bronze is typically easier to work than steel/iron",
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
