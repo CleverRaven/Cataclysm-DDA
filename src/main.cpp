@@ -587,13 +587,17 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
         } );
     } );
 
-    window.idb_is_syncing = false;
-    function syncIDB()
+    let fsNeedsSync = false;
+    function setFsNeedsSync() {
+        if (!fsNeedsSync) requestAnimationFrame( syncFs );
+        fsNeedsSync = true;
+    }
+
+    function syncFs()
     {
         console.log( "Persisting to IDBFS..." );
-        window.idb_is_syncing = true;
         FS.syncfs( false, function( err ) {
-            window.idb_is_syncing = false;
+            fsNeedsSync = false;
             if( err ) {
                 console.error( err );
             } else {
@@ -601,17 +605,6 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             }
         } );
     }
-
-    window.idb_needs_sync = false;
-    function checkIDB()
-    {
-        if( window.idb_needs_sync && !window.idb_is_syncing ) {
-            window.idb_needs_sync = false;
-            syncIDB();
-        }
-        window.requestAnimationFrame( checkIDB );
-    }
-    window.requestAnimationFrame( checkIDB );
 } );
 #endif
 

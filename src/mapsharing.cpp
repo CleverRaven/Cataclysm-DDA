@@ -163,6 +163,6 @@ void ofstream_wrapper::close()
     }
 
 #if defined(EMSCRIPTEN)
-    EM_ASM( window.idb_needs_sync = true; );
+    EM_ASM( window.setFsNeedsSync(); );
 #endif
 }
