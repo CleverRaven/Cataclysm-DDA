@@ -562,12 +562,66 @@
       {
         "id": "holybook_east1",
         "name": { "str": "Sacred Book of the East Vol. 1", "str_pl": "copies of the first volume of the Sacred Books of the East" },
-        "description": "It contains .",
+        "description": "It contains The Upanishads, part 1/2: Khândogya Upanishad, Talavakâra (or Kena-Upanishad), Aitareya-Âranyaka, Kaushîtaki-Brâhmana and Vâjasaneyi-Sâmhita Upanishad.",
         "append": true
       },
       {
         "id": "holybook_east2",
         "name": { "str": "Sacred Books of the East Vol. 2", "str_pl": "copies of the second volume of the Sacred Books of the East" },
+        "description": "It contains The Sacred Laws of the Aryas (Dharmasastra), part 1/2: Âpastamba, Gautama, Vâsishtha and Baudhâyana.",
+        "append": true
+      },
+      {
+        "id": "holybook_east3",
+        "name": { "str": "Sacred Books of the East Vol. 3", "str_pl": "copies of the third volume of the Sacred Books of the East" },
+        "description": "It contains The Sacred Books of China, part 1/6, the texts of Confucianism: The Shû King (Classic of History), Book of Thang, Books of Yu, Books of Hsiâ, Books of Shang, Books of Kâu, Shih King, the Book of Odes (Classic of Poetry, I. Odes of the Temple and the Altar, II. Minor Odes of the Kingdom, III. Major Odes of the Kingdom, IV. Lessons from the States) and The Hsiâo King (Classic of Filial Piety).",
+        "append": true
+      },
+      {
+        "id": "holybook_east4",
+        "name": { "str": "Sacred Books of the East Vol. 4", "str_pl": "copies of the fourth volume of the Sacred Books of the East" },
+        "description": "It contains The Zend-Avesta, part 1/3: Vendîdâd.",
+        "append": true
+      },
+      {
+        "id": "holybook_east5",
+        "name": { "str": "Sacred Books of the East Vol. 5", "str_pl": "copies of the fifth volume of the Sacred Books of the East" },
+        "description": "It contains the Pahlavi Texts, part 1/5: Bundahis, selections of Zâd-sparam, Bahman Yast, Shâyast lâ-Shâyast.",
+        "append": true
+      },
+      {
+        "id": "holybook_east6",
+        "name": { "str": "Sacred Books of the East Vol. 6", "str_pl": "copies of the sixth volume of the Sacred Books of the East" },
+        "description": "It contains The Holy Qur'an part 1/2, from chapters I to XVI.",
+        "append": true
+      },
+      {
+        "id": "holybook_east7",
+        "name": { "str": "Sacred Books of the East Vol. 7", "str_pl": "copies of the seventh volume of the Sacred Books of the East" },
+        "description": "It contains The Institutes of Visnu.",
+        "append": true
+      },
+      {
+        "id": "holybook_east8",
+        "name": { "str": "Sacred Books of the East Vol. 8", "str_pl": "copies of the eighth volume of the Sacred Books of the East" },
+        "description": "It contains The Bhagavadgitâ: Sanatsugâtîya and Anugitâ.",
+        "append": true
+      },
+      {
+        "id": "holybook_east9",
+        "name": { "str": "Sacred Books of the East Vol. 9", "str_pl": "copies of the ninth volume of the Sacred Books of the East" },
+        "description": "It contains The Holy Qur'an, part 2/2, from chapters XVII to CXIV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east10",
+        "name": { "str": "Sacred Books of the East Vol. 10", "str_pl": "copies of the tenth volume of the Sacred Books of the East" },
+        "description": "It contains the Dhammapada: a collection of verses, and the Sutta-Nipâta: a collection of discourses, being one of the canonical books of the Buddhists.",
+        "append": true
+      },
+      {
+        "id": "holybook_east11",
+        "name": { "str": "Sacred Books of the East Vol. 4", "str_pl": "copies of the Fourth Volume of the Sacred Books of the East" },
         "description": "It contains .",
         "append": true
       }
