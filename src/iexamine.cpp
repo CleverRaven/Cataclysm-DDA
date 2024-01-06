@@ -5032,25 +5032,24 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
-    int jdx = examp.x - you.posx();
-    int jdy = examp.y - you.posy();
+    point jd( examp.x - you.posx(), examp.y - you.posy() )
     int jump_direction = 0;
 
-    if( jdy > 0 && jdx == 0 ) {
+    if( jd.y > 0 && jd.x == 0 ) {
         jump_direction = 0; //south
-    } else if( jdy > 0 && jdx < 0 ) {
+    } else if( jd.y > 0 && jd.x < 0 ) {
         jump_direction = 1; //southwest
-    } else if( jdy == 0 && jdx < 0 ) {
+    } else if( jd.y == 0 && jd.x < 0 ) {
         jump_direction = 2; //west
-    } else if( jdy < 0 && jdx < 0 ) {
+    } else if( jd.y < 0 && jd.x < 0 ) {
         jump_direction = 3; //northwest
-    } else if( jdy < 0 && jdx == 0 ) {
+    } else if( jd.y < 0 && jd.x == 0 ) {
         jump_direction = 4; //north
-    } else if( jdy < 0 && jdx > 0 ) {
+    } else if( jd.y < 0 && jd.x > 0 ) {
         jump_direction = 5; //northeast
-    } else if( jdy == 0 && jdx > 0 ) {
+    } else if( jd.y == 0 && jd.x > 0 ) {
         jump_direction = 6; //east
-    } else if( jdy > 0 && jdx > 0 ) {
+    } else if( jd.y > 0 && jd.x > 0 ) {
         jump_direction = 7; //southeast
     }
 
