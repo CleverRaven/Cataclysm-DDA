@@ -1,5 +1,9 @@
 #include "do_turn.h"
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -717,7 +721,7 @@ bool do_turn()
 #if defined(EMSCRIPTEN)
     // This will cause a prompt to be shown if the window is closed, until the
     // game is saved.
-    EM_ASM(window.game_unsaved = true;)
+    EM_ASM( window.game_unsaved = true; );
 #endif
 
     return false;

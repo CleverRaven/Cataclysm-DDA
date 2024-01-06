@@ -3437,7 +3437,7 @@ bool game::save()
 #if defined(EMSCRIPTEN)
     // This will allow the window to be closed without a prompt, until do_turn()
     // is called.
-    EM_ASM(window.game_unsaved = false;)
+    EM_ASM( window.game_unsaved = false; );
 #endif
 }
 
