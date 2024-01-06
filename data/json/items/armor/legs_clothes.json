@@ -461,7 +461,7 @@
     "snippet_category": [
       { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with two pockets." },
       { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with two pockets." },
-      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." },
+      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." }
     ],
     "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
