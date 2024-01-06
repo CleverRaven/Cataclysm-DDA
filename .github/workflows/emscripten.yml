@@ -33,9 +33,6 @@ concurrency:
   group: emscripten-build-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 
-env:
-  BACKTRACE: 0
-
 jobs:
   build_catatclysm:
     name: Build
