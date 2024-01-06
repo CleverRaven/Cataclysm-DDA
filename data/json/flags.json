@@ -2377,6 +2377,7 @@
     "type": "json_flag",
     "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
     "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
+  },
   {
     "id": "BLEEDSLOW",
     "type": "json_flag",
