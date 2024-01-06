@@ -148,6 +148,9 @@ class creature_tracker
 
         void rebuild_cache();
 
+        // If the creature is in the tracker.
+        bool is_present( Creature *creature ) const;
+
         std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
         std::vector<shared_ptr_fast<monster>> monsters_list;
         // NOLINTNEXTLINE(cata-serialize)
@@ -196,16 +199,15 @@ Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredi
                 continue;
             }
             for( std::size_t i = 0; i < creatures.size(); ) {
-                Creature *other = creatures[i].get();
-                if( other->is_dead_state() ) {
-                    using std::swap;
-                    swap( creatures[i], creatures.back() );
-                    creatures.pop_back();
-                } else {
+                if( Creature *other = creatures[i].get(); is_present( other ) ) {
                     if( creature_fn( other ) ) {
                         return other;
                     }
                     ++i;
+                } else {
+                    using std::swap;
+                    swap( creatures[i], creatures.back() );
+                    creatures.pop_back();
                 }
             }
         }

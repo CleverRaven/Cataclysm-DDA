@@ -192,6 +192,25 @@ void creature_tracker::rebuild_cache()
     }
 }
 
+bool creature_tracker::is_present( Creature *creature ) const
+{
+    if( creature->is_monster() ) {
+        if( const auto iter = monsters_by_location.find( creature->get_location() );
+            iter != monsters_by_location.end() ) {
+            return !iter->second->is_dead();
+        }
+    } else if( creature->is_avatar() ) {
+        return true;
+    } else if( creature->is_npc() ) {
+        for( auto &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == creature ) {
+                return !cur_npc->is_dead();
+            }
+        }
+    }
+    return false;
+}
+
 void creature_tracker::swap_positions( monster &first, monster &second )
 {
     if( first.get_location() == second.get_location() ) {
