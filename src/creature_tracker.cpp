@@ -197,7 +197,9 @@ bool creature_tracker::is_present( Creature *creature ) const
     if( creature->is_monster() ) {
         if( const auto iter = monsters_by_location.find( creature->get_location() );
             iter != monsters_by_location.end() ) {
-            return !iter->second->is_dead();
+            if( static_cast<const Creature *>( iter->second.get() ) == creature ) {
+                return !iter->second->is_dead();
+            }
         }
     } else if( creature->is_avatar() ) {
         return true;
