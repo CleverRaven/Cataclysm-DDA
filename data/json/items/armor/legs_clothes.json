@@ -240,7 +240,7 @@
     "id": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "jeans" },
-    "description": "A pair of blue jeans with two deep pockets.",
+    "description": "A pair of jeans with two deep pockets.",
     "weight": "600 g",
     "volume": "2 L",
     "price": 5000,
@@ -249,7 +249,7 @@
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "pants",
-    "color": "blue",
+    "color": "light_blue",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -282,17 +282,13 @@
     ],
     "warmth": 10,
     "material_thickness": 0.65,
-    "//": "Lightweight 10 oz denim jeans.",
+    "//": "Mediumweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
-      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
-      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans1", "text": "A pair of blue jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black jeans with two deep pockets." },
       { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
-      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
-      {
-        "id": "jeans5",
-        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
-      }
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." }
     ],
     "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
@@ -309,7 +305,7 @@
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jeans",
-    "color": "blue",
+    "color": "light_blue",
     "armor": [
       {
         "encumbrance": [ 7, 11 ],
@@ -357,6 +353,129 @@
     "warmth": 10,
     "material_thickness": 0.65,
     "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "jeans_vintage",
+    "type": "ARMOR",
+    "name": { "str_sp": "vintage jeans" },
+    "description": "A pair of vintage jeans that has started to lose its color.  It appears to be slightly heavier and thicker; but hey, don't let that stop you from wearing the fashion of the olden days!",
+    "weight": "700 g",
+    "volume": "2 L",
+    "price": 11500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.8,
+    "//": "Mediumweight 12 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "snippet_category": [
+      {
+        "id": "vintage_jeans1",
+        "text": "A pair of vintage jeans that has been around for so long that very little remains of its once vibrant blue color.  Otherwise it's surprisingly well preserved though."
+      },
+      {
+        "id": "vintage_jeans2",
+        "text": "A very old pair of black vintage jeans.  From paint marks here and there you assume this belonged to a painter."
+      },
+      {
+        "id": "vintage_jeans3",
+        "text": "A groovy pair of stone washed denim jeans from the 80s.  It gets baggy around the ankles.  Perfect for pretending as if Cataclysm never happened and you are on your way to dance floor."
+      },
+      {
+        "id": "vintage_jeans4",
+        "text": "A pair of vintage blue jeans that has been preserved perfectly.  You can see the leather brand on its behind of company that hasn't been around for a long while, even before the Cataclysm.  This would have made a fortune if; well, you know, it wasn't apocalypse."
+      }
+    ]
+  },
+  {
+    "id": "jeans_skinny",
+    "type": "ARMOR",
+    "name": { "str_sp": "skinny jeans" },
+    "description": "A pair of skinny jeans with two pockets.",
+    "weight": "500 g",
+    "volume": "1300 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "to_hit": 2,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 0.52,
+    "//": "Lightweight 8 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with two pockets." },
+      { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with two pockets." },
+      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." }
+    ],
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -1855,13 +1974,13 @@
     "id": "skirt_denim",
     "type": "ARMOR",
     "name": { "str": "jean skirt" },
-    "description": "A skirt made from denim.",
+    "description": "A blue skirt made from denim.",
     "//": "supossed to be a 10 oz denim skirt",
     "weight": "300 g",
     "volume": "700 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "to_hit": 1,
+    "to_hit": 2,
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "skirt",

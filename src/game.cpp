@@ -7776,10 +7776,6 @@ look_around_result game::look_around(
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_transparency();
             }
-        } else if( action == "display_reachability_zones" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_reachability_zones();
-            }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
@@ -12805,51 +12801,6 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
-    }
-}
-
-// Debug menu: asks which reachability cache to display
-void game::display_reachability_zones()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
-        if( display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
-            const auto &menu_popup = [&]( int prev_value,
-            const std::vector<std::string> &items ) -> std::optional<int> {
-                uilist menu;
-                int count = 0;
-                for( const auto &menu_str : items )
-                {
-                    menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
-                }
-                menu.selected = prev_value;
-                menu.w_y_setup = 0;
-                menu.query();
-                if( menu.ret < 0 )
-                {
-                    return std::nullopt;
-                }
-                return menu.ret;
-            };
-            static_assert(
-                static_cast<int>( enum_traits<reachability_cache_quadrant >::last ) == 3,
-                "Debug menu expects at least 4 elements in the `quadrant` enum."
-            );
-            std::optional<int> cache =
-                menu_popup( debug_rz_display.r_cache_vertical, { "Horizontal", "Vertical (upward)" } );
-            std::optional<int> quadrant;
-            if( cache ) {
-                quadrant =
-                    menu_popup( static_cast<int>( debug_rz_display.quadrant ),
-                                /**/{ "NE", "SE", "SW", "NW" } );
-            }
-            if( cache && quadrant ) {
-                debug_rz_display.r_cache_vertical = *cache;
-                debug_rz_display.quadrant = static_cast<reachability_cache_quadrant>( *quadrant );
-            } else { // user cancelled selection, toggle overlay off
-                display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
-            }
-        }
     }
 }
 

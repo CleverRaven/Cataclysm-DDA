@@ -1154,7 +1154,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "fastener_large", 1 ], [ "carbon", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
+    "components": [ [ [ "jacket_jean", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1175,7 +1175,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "sewing_standard", 60 ], [ "fastener_large", 1 ], [ "carbon", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
+    "components": [ [ [ "vest_jean", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1287,7 +1287,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 30 ], [ "tailoring_cotton_patchwork", 8 ], [ "button", 5 ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_denim_patchwork", 8 ], [ "button", 5 ] ]
   },
   {
     "result": "lsurvivor_armor",
