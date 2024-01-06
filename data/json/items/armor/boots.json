@@ -1054,7 +1054,6 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
     ],
     "use_action": { "type": "holster" },
-    "extend": { "flags": [ "FANCY" ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

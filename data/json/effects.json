@@ -607,7 +607,7 @@
     "name": [ "Unstable Footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "resist_traits": [ "GASTROPOD_BALANCE", "BIRD_LEGS" ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
