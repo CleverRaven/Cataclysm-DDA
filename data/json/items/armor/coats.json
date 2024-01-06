@@ -1282,8 +1282,14 @@
     "material_thickness": 0.95,
     "snippet_category": [
       {
-        "id": "patched",
+        "id": "patchedjacket",
         "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackjacket", "text": "A jacket made from denim, dyed black." },
+      { "id": "patterned", "text": "A denim jacket ornamented with yellow filament patterns." },
+      {
+        "id": "old",
+        "text": "An old denim jacket.  It has wears in several places and has lost its blue color, but its overall integrity is preserved."
       }
     ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
@@ -1323,7 +1329,19 @@
     ],
     "warmth": 25,
     "material_thickness": 0.95,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "snippet_category": [
+      {
+        "id": "patchedvest",
+        "text": "A vest made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackvest", "text": "A vest made from denim, dyed black." },
+      { "id": "stonewashed", "text": "A stone washed blue vest made from denim." },
+      {
+        "id": "ripped",
+        "text": "A vest made from denim.  Its armholes have filament and torn fabric sticking out, as if someone just ripped the sleeves off."
+      }
+    ]
   },
   {
     "id": "jacket_ninja",

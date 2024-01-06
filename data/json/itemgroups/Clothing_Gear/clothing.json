@@ -482,6 +482,7 @@
             "distribution": [
               { "item": "jeans", "prob": 60 },
               { "item": "jeans_ripped", "prob": 5 },
+              { "item": "jeans_skinny", "prob": 10 },
               { "item": "pants", "prob": 100 },
               { "item": "pants_leather", "prob": 30 },
               { "item": "pants_tactical", "prob": 20 },
@@ -1453,6 +1454,7 @@
     "entries": [
       { "item": "jeans", "prob": 90 },
       { "item": "jeans_ripped", "prob": 10 },
+      { "item": "jeans_skinny", "prob": 20 },
       { "item": "jeans_red", "prob": 50 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
@@ -1510,6 +1512,7 @@
     "items": [
       [ "jeans", 90 ],
       [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 50 ],
@@ -1775,6 +1778,7 @@
     "items": [
       [ "jeans", 90 ],
       [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -2228,6 +2232,7 @@
     "entries": [
       { "item": "jeans", "prob": 90 },
       { "item": "jeans_ripped", "prob": 10 },
+      { "item": "jeans_skinny", "prob": 20 },
       { "item": "pants_checkered", "prob": 5 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
@@ -2802,6 +2807,7 @@
     "id": "lab_pants",
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_skinny", 10 ],
       [ "pants_checkered", 5 ],
       [ "pants", 75 ],
       [ "pants_cargo", 70 ],
@@ -3473,6 +3479,7 @@
       [ "basket_laundry", 30 ],
       [ "jeans", 90 ],
       [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -3932,6 +3939,7 @@
       },
       { "item": "jeans", "prob": 80 },
       { "item": "jeans_ripped", "prob": 7 },
+      { "item": "jeans_skinny", "prob": 15 },
       { "item": "jeans_red", "prob": 20 },
       { "item": "leg_warmers", "prob": 20 },
       { "item": "leggings", "prob": 30 },
