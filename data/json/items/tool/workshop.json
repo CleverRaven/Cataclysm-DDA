@@ -697,11 +697,11 @@
     "melee_damage": { "bash": 9 }
   },
   {
-	"id": "bronze_file",
-	"type": "TOOL",
-	"name": { "str": "bronze fileset" },
-	"copy-from": "metal_file",
-	"material": [ "bronze" ]
+    "id": "bronze_file",
+    "type": "TOOL",
+    "name": { "str": "bronze fileset" },
+    "copy-from": "metal_file",
+    "material": [ "bronze" ]
   },
   {
     "id": "metal_file",
