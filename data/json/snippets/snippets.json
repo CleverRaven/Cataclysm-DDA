@@ -924,5 +924,62 @@
       { "id": "dog_name_0212", "text": "Zoe" },
       { "id": "dog_name_0213", "text": "Zoey" }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<blood_type_caps>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Blood_type_distribution_by_country>, US part",
+    "text": [
+      { "id": "blood_type_opos", "text": "O POS", "weight": 374 },
+      { "id": "blood_type_oneg", "text": "O NEG", "weight": 66 },
+      { "id": "blood_type_apos", "text": "A POS", "weight": 357 },
+      { "id": "blood_type_aneg", "text": "A NEG", "weight": 63 },
+      { "id": "blood_type_bpos", "text": "B POS", "weight": 85 },
+      { "id": "blood_type_bneg", "text": "B NEG", "weight": 15 },
+      { "id": "blood_type_abpos", "text": "AB POS", "weight": 34 },
+      { "id": "blood_type_abneg", "text": "AB NEG", "weight": 6 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<religion_caps>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Religion_in_the_United_States>",
+    "text": [
+      { "id": "protestant", "text": "PROTESTANT", "weight": 34 },
+      { "id": "catholic", "text": "CATHOLIC", "weight": 23 },
+      { "id": "christian", "text": "CHRISTIAN", "weight": 11 },
+      { "id": "mormon", "text": "MORMON", "weight": 2 },
+      { "id": "jew", "text": "JEW", "weight": 2 },
+      { "id": "atheist", "text": "ATHEIST", "weight": 21 },
+      { "id": "norelpref", "text": "NORELPREF", "weight": 7 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<given_name_army>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Women_in_the_United_States_Army>",
+    "text": [ { "text": "<male_given_name>", "weight": 16 }, { "text": "<female_given_name>", "weight": 84 } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<color>",
+    "text": [
+      { "id": "black", "text": "black" },
+      { "id": "white", "text": "white" },
+      { "id": "red", "text": "red" },
+      { "id": "lime", "text": "lime" },
+      { "id": "blue", "text": "blue" },
+      { "id": "yellow", "text": "yellow" },
+      { "id": "cyan", "text": "cyan" },
+      { "id": "magenta", "text": "magenta" },
+      { "id": "silver", "text": "silver" },
+      { "id": "gray", "text": "gray" },
+      { "id": "maroon", "text": "maroon" },
+      { "id": "olive", "text": "olive" },
+      { "id": "green", "text": "green" },
+      { "id": "purple", "text": "purple" },
+      { "id": "teal", "text": "teal" },
+      { "id": "navy", "text": "navy" }
+    ]
   }
 ]

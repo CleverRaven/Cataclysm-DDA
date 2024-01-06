@@ -413,7 +413,7 @@ item::item( const itype_id &id, time_point turn, solitary_tag tag )
 
 safe_reference<item> item::get_safe_reference()
 {
-    return anchor.reference_to( this );
+    return anchor->reference_to( this );
 }
 
 static const item *get_most_rotten_component( const item &craft )
@@ -585,10 +585,10 @@ item::item( const recipe *rec, int qty, item &component )
 }
 
 item::item( const item & ) = default;
-item::item( item && ) noexcept( map_is_noexcept ) = default;
+item::item( item && ) noexcept = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
-item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
+item &item::operator=( item && ) noexcept = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -1487,7 +1487,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
     const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
-    if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
+    if( map_without_keys( *item_vars, ignore_keys ) != map_without_keys( *rhs.item_vars,
+            ignore_keys ) ) {
         return false;
     }
     const std::string omt_loc_var = "spawn_location_omt";
