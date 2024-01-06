@@ -114,6 +114,9 @@ WARNINGS = \
   -Wno-unknown-warning-option \
   -Wno-dangling-reference \
   -Wno-c++20-compat
+ifeq ($(NATIVE), emscripten)
+  WARNINGS += -Wno-gnu-zero-variadic-macro-arguments
+endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -473,9 +476,6 @@ else
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++17
-else ifeq ($(NATIVE), emscripten)
-  # The EM_ASM() macro requires gnu extensions
   OTHERS += -std=gnu++17
 else
   OTHERS += -std=c++17
