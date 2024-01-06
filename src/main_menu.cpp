@@ -642,7 +642,7 @@ bool main_menu::opening_screen()
     }
 
 #if defined(EMSCRIPTEN)
-    EM_ASM(window.dispatchEvent(new Event('menuready')););
+    EM_ASM( window.dispatchEvent( new Event( 'menuready' ) ); );
 #endif
 
     while( !start ) {

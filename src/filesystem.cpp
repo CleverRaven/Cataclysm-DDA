@@ -24,7 +24,7 @@
 
 void setFsNeedsSync()
 {
-    EM_ASM(window.idb_needs_sync = true;);
+    EM_ASM( window.idb_needs_sync = true; );
 }
 #else
 void setFsNeedsSync()

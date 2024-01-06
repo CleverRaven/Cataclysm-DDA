@@ -571,44 +571,48 @@ bool assure_essential_dirs_exist()
 }  // namespace
 
 #if defined(EMSCRIPTEN)
-EM_ASYNC_JS(void, mount_idbfs, (), {
-    console.log("Mounting IDBFS for persistence...");
-    FS.mkdir('/home/web_user/.cataclysm-dda');
-    FS.mount(IDBFS, {}, '/home/web_user/.cataclysm-dda');
-    await new Promise(function (resolve, reject) {
-        FS.syncfs(true, function (err) {
-            if (err) reject(err);
-            else {
-                console.log("Succesfully mounted IDBFS.");
+EM_ASYNC_JS( void, mount_idbfs, (), {
+    console.log( "Mounting IDBFS for persistence..." );
+    FS.mkdir( '/home/web_user/.cataclysm-dda' );
+    FS.mount( IDBFS, {}, '/home/web_user/.cataclysm-dda' );
+    await new Promise( function( resolve, reject )
+    {
+        FS.syncfs( true, function( err ) {
+            if( err ) {
+                reject( err );
+            } else {
+                console.log( "Succesfully mounted IDBFS." );
                 resolve();
             }
-        });
-    });
+        } );
+    } );
 
     window.idb_is_syncing = false;
-    function syncIDB() {
-        console.log("Persisting to IDBFS...");
+    function syncIDB()
+    {
+        console.log( "Persisting to IDBFS..." );
         window.idb_is_syncing = true;
-        FS.syncfs(false, function (err) {
+        FS.syncfs( false, function( err ) {
             window.idb_is_syncing = false;
-            if (err) {
-                console.error(err);
+            if( err ) {
+                console.error( err );
             } else {
-                console.log("Succesfully persisted to IDBFS...");
+                console.log( "Succesfully persisted to IDBFS..." );
             }
-        });
+        } );
     }
 
     window.idb_needs_sync = false;
-    function checkIDB() {
-        if (window.idb_needs_sync && !window.idb_is_syncing) {
+    function checkIDB()
+    {
+        if( window.idb_needs_sync && !window.idb_is_syncing ) {
             window.idb_needs_sync = false;
             syncIDB();
         }
-        window.requestAnimationFrame(checkIDB);
+        window.requestAnimationFrame( checkIDB );
     }
-    window.requestAnimationFrame(checkIDB);
-});
+    window.requestAnimationFrame( checkIDB );
+} );
 #endif
 
 #if defined(USE_WINMAIN)
@@ -629,7 +633,7 @@ int main( int argc, const char *argv[] )
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
 #endif
-    
+
 #if defined(EMSCRIPTEN)
     mount_idbfs();
 #endif
