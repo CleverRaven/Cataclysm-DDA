@@ -588,7 +588,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
     } );
 
     let fsNeedsSync = false;
-    function setFsNeedsSync()
+    window.setFsNeedsSync = function setFsNeedsSync()
     {
         if( !fsNeedsSync ) {
             requestAnimationFrame( syncFs );
