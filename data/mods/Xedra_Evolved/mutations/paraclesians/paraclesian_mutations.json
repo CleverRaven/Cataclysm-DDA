@@ -388,6 +388,7 @@
     "description": "The Dollkin that possesses this ability can force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",
     "category": [ "HOMULLUS" ],
     "active": true,
-    "activated_eocs": [ "EOC_DESIRE_CONVERSATION" ]
+    "starts_active": true,
+    "processed_eocs": [ "EOC_DESIRE_CONVERSATION" ]
   }
 ]
