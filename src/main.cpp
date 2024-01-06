@@ -588,8 +588,11 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
     } );
 
     let fsNeedsSync = false;
-    function setFsNeedsSync() {
-        if (!fsNeedsSync) requestAnimationFrame( syncFs );
+    function setFsNeedsSync()
+    {
+        if( !fsNeedsSync ) {
+            requestAnimationFrame( syncFs );
+        }
         fsNeedsSync = true;
     }
 
