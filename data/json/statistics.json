@@ -2711,5 +2711,19 @@
     "stat_type": "count",
     "event_transformation": "avatar_enters_trans_lab",
     "description": { "str": "Trans Coastal Lab entered", "str_pl": "Trans Coastal Labs entered" }
+  },
+  {
+    "id": "avatar_enters_carrier",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_overmap_special",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "special_id", [ "Lake Aircraft Carrier", "Aircraft Carrier" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_carrier",
+    "//": "Remove once lake version is yeeted",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_carrier",
+    "description": { "str": "Aircraft Carriers entered", "str_pl": "Aircraft Carriers entered" }
   }
 ]

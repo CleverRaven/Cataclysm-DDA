@@ -2029,6 +2029,13 @@
         "visible": "when_achievement_completed",
         "description": "Reach the Aircraft Carrier"
       }
+      {
+        "event_statistic": "num_avatar_enters_carrier",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach the Aircraft Carrier"
+      }
     ]
   },
   {

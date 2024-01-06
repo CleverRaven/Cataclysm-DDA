@@ -334,8 +334,6 @@
         "πππππππππππππππππππππππππππ5555555555πππππππππππππππππππππππππππππππππππ"
       ],
       "palettes": [ "aircraft_carrier_palette" ],
-      "gaspumps": {  },
-      "signs": {  },
       "place_loot": [
         { "item": "television", "chance": 100, "x": 14, "y": 58 },
         { "item": "television", "chance": 100, "x": 5, "y": 83 },

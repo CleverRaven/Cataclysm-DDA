@@ -3,12 +3,12 @@
     "type": "overmap_special",
     "id": "river_cave",
     "subtype": "mutable",
-    "locations": [ "subterranean_empty", "land", "lake_shore" ],
-    "occurrences": [ 0, 3 ],
-    "flags": [ "LAKE", "WILDERNESS" ],
+    "locations": [ "subterranean_empty", "land", "lake_shore", "ocean_shore" ],
+    "occurrences": [ 100, 300 ],
+    "flags": [ "OCEAN", "LAKE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "lake_shore" ] ],
+      [ [ 0, 0, 0 ], [ "lake_shore", "ocean_shore" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -17,11 +17,11 @@
     ],
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
-      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "lake_shore" ] },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "lake_shore", "ocean_shore" ] },
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "c_cave_entrance_north", "below": "surface_to_tunnel", "locations": [ "lake_shore" ] },
+      "surface": { "overmap": "c_cave_entrance_north", "below": "surface_to_tunnel", "locations": [ "lake_shore", "ocean_shore" ] },
       "below_entrance": {
         "overmap": "river_cave_nesw",
         "above": "tunnel_to_surface",

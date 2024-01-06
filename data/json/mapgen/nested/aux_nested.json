@@ -451,6 +451,12 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "1x1_water_dp",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "`" ], "terrain": { "`": "t_water_dp" } }
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "~" ], "terrain": { "~": "t_water_dp" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_water_cube",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "~" ], "terrain": { "~": "t_water_cube" } }
   }
 ]
