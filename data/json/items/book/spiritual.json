@@ -550,6 +550,30 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_east",
+    "type": "BOOK",
+    "name": { "str": "Holy Books of the East", "str_pl": "Holy Books of the East" },
+    "description": "It is a monumental 50-volume set of English translations of Asian religious texts.  It incorporates the essential sacred texts of Hinduism, Buddhism, Taoism, Confucianism, Zoroastrianism, Jainism, and Islam.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "holybook_east1",
+        "name": { "str": "Sacred Book of the East Vol. 1", "str_pl": "copies of the first volume of the Sacred Books of the East" },
+        "description": "It contains .",
+        "append": true
+      },
+      {
+        "id": "holybook_east2",
+        "name": { "str": "Sacred Books of the East Vol. 2", "str_pl": "copies of the second volume of the Sacred Books of the East" },
+        "description": "It contains .",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "holybook_nag_hammadi",
     "type": "BOOK",
     "name": { "str": "Nag Hammadi Codex", "str_pl": "Nag Hammadi Codices" },
