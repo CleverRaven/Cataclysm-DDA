@@ -474,6 +474,9 @@ endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
   OTHERS += -std=gnu++17
+else ifeq ($(NATIVE), emscripten)
+  # The EM_ASM() macro requires gnu extensions
+  OTHERS += -std=gnu++17
 else
   OTHERS += -std=c++17
 endif
