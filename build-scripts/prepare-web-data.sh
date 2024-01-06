@@ -1,4 +1,5 @@
-#!/bin/bash -eo pipefail -x
+#!/bin/bash
+set -exo pipefail
 
 rm -rf web_bundle
 

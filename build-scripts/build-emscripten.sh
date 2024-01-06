@@ -1,4 +1,5 @@
-#!/bin/bash -eo pipefail -x
+#!/bin/bash
+set -exo pipefail
 
 emsdk install 3.1.51
 emsdk activate 3.1.51

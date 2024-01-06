@@ -1,4 +1,5 @@
-#!/bin/bash -eo pipefail -x
+#!/bin/bash
+set -exo pipefail
 
 mkdir -p build/
 cp index.html build/
