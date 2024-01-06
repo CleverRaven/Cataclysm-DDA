@@ -1013,7 +1013,9 @@ $(TARGET): $(OBJS)
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
+      ifneq ($(NATIVE), emscripten)
 	$(STRIP) $(TARGET)
+      endif
     endif
   endif
 endif
