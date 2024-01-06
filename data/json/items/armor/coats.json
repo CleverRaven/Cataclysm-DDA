@@ -1337,7 +1337,10 @@
       },
       { "id": "black", "text": "A vest made from denim, dyed black." },
       { "id": "stonewashed", "text": "A stonewashed blue vest made from denim." },
-      { "id": "ripped", "text": "A vest made from denim.  Its armholes have filament and torn fabric sticking out, as if someone just ripped the sleeves off." }
+      {
+        "id": "ripped",
+        "text": "A vest made from denim.  Its armholes have filament and torn fabric sticking out, as if someone just ripped the sleeves off."
+      }
     ]
   },
   {
