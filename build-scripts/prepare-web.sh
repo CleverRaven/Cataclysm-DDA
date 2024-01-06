@@ -1,3 +1,5 @@
+#!/bin/bash -eo pipefail -x
+
 mkdir -p build/
 cp index.html build/
 cp cataclysm-tiles.data build/

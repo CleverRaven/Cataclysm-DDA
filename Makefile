@@ -115,7 +115,7 @@ WARNINGS = \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 # Uncomment below to disable warnings
-# WARNINGS = -w
+#WARNINGS = -w
 DEBUGSYMS = -g
 #PROFILE = -pg
 #OTHERS = -O3
@@ -142,7 +142,7 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.G
+VERSION = 0.F
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
@@ -630,16 +630,17 @@ ifeq ($(NATIVE), emscripten)
   LD=emcc
 
   # Flags that are common across compile and link phases.
-  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sASYNCIFY -sSDL2_IMAGE_FORMATS=['png']
-  
+  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png']
+
   EMCC_COMMON_FLAGS += -g
-  
+
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
   LDFLAGS += $(EMCC_COMMON_FLAGS)
 
   LDFLAGS += --preload-file web_bundle@/
   LDFLAGS += --bind -sALLOW_MEMORY_GROWTH -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
-  LDFLAGS += -sASYNCIFY_STACK_SIZE=32768
+  LDFLAGS += -sASYNCIFY
+  LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
   LDFLAGS += -sSTACK_SIZE=262144
   LDFLAGS += -sINITIAL_MEMORY=536870912
   LDFLAGS += -sMAXIMUM_MEMORY=4GB

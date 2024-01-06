@@ -1,3 +1,5 @@
+#!/bin/bash -eo pipefail -x
+
 rm -rf web_bundle
 
 DATA_DIR=web_bundle/data/
