@@ -1307,7 +1307,12 @@
       { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ]
+    "components": [
+      [ [ "2x4", 4 ], [ "stick", 8 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "cordage_superior", 1, "LIST" ] ],
+      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ]
+    ]
   },
   {
     "type": "recipe",
