@@ -229,7 +229,12 @@
         [ "soldering_iron_portable", 30 ]
       ]
     ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "bronze_nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
+    "components": [
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "nail", 200 ], [ "bronze_nail", 200 ], [ "scrap", 16 ] ],
+      [ [ "fuse", 1 ] ],
+      [ [ "dynamite", 1 ] ]
+    ]
   },
   {
     "result": "smokebomb",
