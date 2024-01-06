@@ -6170,6 +6170,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     here.ter_set( pos, t_stump );
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
+    here.collapse_at( pos, false, true, false );
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act.placement ) ) );
     get_event_bus().send<event_type::cuts_tree>( who.getID() );
