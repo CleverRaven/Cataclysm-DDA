@@ -4944,7 +4944,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         selected = game_menus::inv::titled_filter_menu( filter, *you, _( "Extend which cable?" ), -1,
                    _( "You don't have a compatible cable." ) );
     } else {
-        const auto filter = [&it]( const item & inv ) {
+        const auto filter = []( const item & inv ) {
             if( !inv.can_link_up() || inv.link_has_state( link_state::needs_reeling ) ||
                 !inv.has_flag( flag_CABLE_SPOOL ) ) {
                 return false;
