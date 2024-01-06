@@ -23,9 +23,6 @@ cp -R gfx web_bundle/
 # Remove .DS_Store files.
 find web_bundle -name ".DS_Store" -type f -exec rm {} \;
 
-# Remove old non-ttf font
-rm web_bundle/data/font/terminus.fon
-
 # Remove many non-default tilesets.
 echo "Removing non-default tilesets..."
 rm -rf web_bundle/gfx/MshockXotto+

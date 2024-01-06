@@ -2,10 +2,9 @@
 set -exo pipefail
 
 mkdir -p build/
-cp index.html build/
-cp cataclysm-tiles.data build/
-cp cataclysm-tiles.js build/
-cp cataclysm-tiles.wasm build/
-cp cataclysm-tiles.wasm.debug.wasm build/
+cp \
+  index.html \
+  cataclysm-tiles.{data,js,wasm,wasm.debug.wasm} \
+  data/font/Terminus.ttf \
+  build
 cp data/cataicon.ico build/favicon.ico
-cp data/font/Terminus.ttf build/Terminus.ttf
