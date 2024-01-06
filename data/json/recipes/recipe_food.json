@@ -5039,7 +5039,7 @@
     "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ] ],
     "charges": 2
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "seasoned_fried_eggs",
