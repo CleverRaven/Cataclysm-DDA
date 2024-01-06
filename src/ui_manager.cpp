@@ -431,7 +431,9 @@ void ui_adaptor::redraw_invalidated()
             }
         }
     } while( restart_redrawing );
+#if defined(EMSCRIPTEN)
     emscripten_sleep(1);
+#endif
 }
 
 void ui_adaptor::screen_resized()

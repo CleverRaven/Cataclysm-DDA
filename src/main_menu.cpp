@@ -13,7 +13,9 @@
 #include <optional>
 #include <string>
 
+#if defined(EMSCRIPTEN)
 #include <emscripten.h>
+#endif
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -639,7 +641,9 @@ bool main_menu::opening_screen()
         }
     }
 
+#if defined(EMSCRIPTEN)
     EM_ASM(window.dispatchEvent(new Event('menuready')););
+#endif
 
     while( !start ) {
         ui_manager::redraw();

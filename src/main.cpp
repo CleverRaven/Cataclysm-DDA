@@ -59,6 +59,10 @@
 #   include <unistd.h> // getpid()
 #endif
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #if defined(PREFIX)
 #   undef PREFIX
 #   include "prefix.h"
@@ -566,10 +570,9 @@ bool assure_essential_dirs_exist()
 
 }  // namespace
 
-#include <emscripten.h>
-
+#if defined(EMSCRIPTEN)
 EM_ASYNC_JS(void, mount_idbfs, (), {
-    console.log("Mounting IDBFS for persistance...");
+    console.log("Mounting IDBFS for persistence...");
     FS.mkdir('/home/web_user/.cataclysm-dda');
     FS.mount(IDBFS, {}, '/home/web_user/.cataclysm-dda');
     await new Promise(function (resolve, reject) {
@@ -606,6 +609,7 @@ EM_ASYNC_JS(void, mount_idbfs, (), {
     }
     window.requestAnimationFrame(checkIDB);
 });
+#endif
 
 #if defined(USE_WINMAIN)
 int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
@@ -626,7 +630,9 @@ int main( int argc, const char *argv[] )
     flatbuffers::ClassicLocale::Get();
 #endif
     
+#if defined(EMSCRIPTEN)
     mount_idbfs();
+#endif
 
     on_out_of_scope json_member_reporting_guard{ [] {
             // Disable reporting unvisited members if stack unwinding leaves main early.
@@ -691,7 +697,11 @@ int main( int argc, const char *argv[] )
         exit( 1 );
     }
 
+#if defined(EMSCRIPTEN)
     setupDebug( DebugOutput::std_err );
+#else
+    setupDebug( DebugOutput::file );
+#endif
     // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     json_error_output_colors = json_error_output_colors_t::color_tags;
 

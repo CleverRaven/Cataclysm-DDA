@@ -16,7 +16,9 @@
 #include "platform_win.h"
 #endif
 
+#if defined(EMSCRIPTEN)
 #include <emscripten.h>
+#endif
 
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
@@ -160,5 +162,7 @@ void ofstream_wrapper::close()
         throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );
     }
 
+#if defined(EMSCRIPTEN)
     EM_ASM(window.idb_needs_sync = true;);
+#endif
 }
