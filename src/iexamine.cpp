@@ -5037,7 +5037,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     int jump_direction = 0;
 
     if( jdy > 0 && jdx == 0 ) {
-        jump_direction = 0; //south //THESE ARE ALL BACKWARDS FIX COMMENTS LATER
+        jump_direction = 0; //south
     } else if( jdy > 0 && jdx < 0 ) {
         jump_direction = 1; //southwest
     } else if( jdy == 0 && jdx < 0 ) {
