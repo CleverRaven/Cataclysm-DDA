@@ -9722,7 +9722,7 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
         }
     }
     // first trigger proximity traps
-    for( auto &loc : tr_proximity ) {
+    for( tripoint &loc : tr_proximity ) {
         maybe_trigger_prox_trap( loc, c, may_avoid );
     }
     // then traps we stepped on
