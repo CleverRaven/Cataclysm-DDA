@@ -11770,9 +11770,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
+    bool adjacent_climb = false;
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
+        for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
+                adjacent_climb = true;
+            }
+        }
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
@@ -11787,7 +11793,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
-        if( !can_climb_here ) {
+        if( !can_climb_here && !adjacent_climb ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
         }
