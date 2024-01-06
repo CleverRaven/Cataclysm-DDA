@@ -433,6 +433,78 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_canaanites",
+    "type": "BOOK",
+    "name": { "str": "Ugaritic Texts", "str_pl": "copies of the Ugaritic Texts" },
+    "description": "A pretty rare English translation of the Ugaritic Texts, a collection of ancient mythological, religious and literature texts regarding the Canaanites.  It contains religious epics such as the Baal Cycle, which recounts the myths surrounding the storm god Baal, as well as hymns, prayers, and rituals that shed light on the religious worldview of the ancient Canaanites and their practices.",
+    "weight": "450 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_kells",
+    "type": "BOOK",
+    "name": { "str": "Book of Kells", "str_pl": "copies of the Book of Kells" },
+    "description": "A extremely rare English translation of the Book of Kells, a highly decorated and illuminated Celtic manuscript, primarily containing the four Gospels of the New Testament.  This translation mimics perfectly the art and style of the original manuscript, including its elaborate calligraphy, with each letter meticulously designed and adorned with various motifs, including animals, humans, and knotwork patterns.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_leinster",
+    "type": "BOOK",
+    "name": { "str": "Book of Leinster", "str_pl": "copies of the Book of Leister" },
+    "description": "A incredibly rare English translation of the Book of Leinster, a significant and ancient compilation of Irish literature and history, dating back to the 12th century.  It contains annals, genealogies, historical texts, legal tracts, secular and religious poetry and stories from Irish mythology, such as the epic tale “Táin Bó Cúailnge”, which tells the story of the legendary warrior Cú Chulainn and the cattle raid of Cooley.",
+    "weight": "1100 g",
+    "volume": "1650 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_welsh",
+    "type": "BOOK",
+    "name": { "str": "Mabinogion", "str_pl": "copies of the Mabinogion" },
+    "description": "A rare English translation of the Mabinogion, a collection of twelve medieval Welsh tales, dating back to the 11th and 12th centuries.  It provide a valuable insight into the mythology, history, religion and culture of medieval Wales.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_akkadia",
+    "type": "BOOK",
+    "name": { "str": "Atra-Hasis", "str_pl": "copies of the Atra-Hasis" },
+    "description": "A rare English translation of the Mesopotamian Epic Atra-Hasis.  Named for its protagonist, Atrahasis ('exceedingly wise'), the Atra-Hasis include both a creation myth and one of three surviving Babylonian flood myths.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sumeria",
+    "type": "BOOK",
+    "name": { "str": "Enki and Ninhursag Myth", "str_pl": "copies of the Enki and Ninhursag Myth" },
+    "description": "A pretty uncomom English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sumeria1",
+    "type": "BOOK",
+    "name": { "str": "The Descent of Inanna", "str_pl": "copies of The Descent of Inanna" },
+    "description": "A very rare English translation of the Descent of Inanna, an ancient Sumerian myth that recounts the journey of the goddess Inanna into the underworld, where she seeks to confront her sister Ereshkigal, the Queen of the Underworld.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sirach",
+    "type": "BOOK",
+    "name": { "str": "Alphabet of Sirach", "str_pl": "copies of the Alphabet of Sirach" },
+    "description": "A rare English translation of the Alphabet of Sirach, a compilation of two lists of proverbs, 22 in Jewish Babylonian Aramaic and 22 in Medieval Hebrew (all translated to English), both arranged as alphabetic acrostics, with each proverb followed by an aggadic commentary.",
+    "weight": "750 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_navayana",
     "type": "BOOK",
     "name": { "str": "The Buddha and His Dhamma", "str_pl": "copies of The Buddha and His Dhamma" },
