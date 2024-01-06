@@ -6240,6 +6240,36 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "jeans_ripped",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "jeans_vintage",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_steel", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "jeans_skinny",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "45 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_denim_patchwork", 1 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "jacket_jean",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -6280,22 +6310,12 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
-    "result": "jeans_ripped",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "skill_used": "tailor",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
     "result": "cloak_denim",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "5 m",
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_denim_patchwork", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -6315,8 +6335,8 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "zipper_long_plastic", 1 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "denim_patch", 6 ] ], [ [ "zipper_long_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6325,7 +6345,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "tailor",
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_denim_patchwork", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },

@@ -580,7 +580,12 @@
       }
     ],
     "warmth": 20,
-    "material_thickness": 0.8
+    "material_thickness": 0.8,
+    "snippet_category": [
+      { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
+      { "id": "denim_shirt2", "text": "A long sleeved button-down shirt made from denim, dyed black." },
+      { "id": "denim_shirt3", "text": "A long sleeved button-down cowboy wash shirt made from denim." }
+    ]
   },
   {
     "id": "dress_shirt",

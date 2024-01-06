@@ -248,17 +248,7 @@
     ],
     "warmth": 18,
     "material_thickness": 1.1,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ],
-    "snippet_category": [
-      {
-        "id": "paint",
-        "text": "A pair of denim overalls that has been stained with paint marks in some places." 
-      },
-      {
-        "id": "wornout",
-        "text": "A pair of denim overalls that has seen some stuff. There are some signs of wear and tear here and there but it's overall integrity hasn't been affected that much."
-      }
-    ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
     "id": "dinosuit",
