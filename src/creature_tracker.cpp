@@ -202,7 +202,7 @@ bool creature_tracker::is_present( Creature *creature ) const
     } else if( creature->is_avatar() ) {
         return true;
     } else if( creature->is_npc() ) {
-        for( auto &cur_npc : active_npc ) {
+        for( const shared_ptr_fast<npc> &cur_npc : active_npc ) {
             if( static_cast<const Creature *>( cur_npc.get() ) == creature ) {
                 return !cur_npc->is_dead();
             }
