@@ -39,7 +39,7 @@ time_point calendar_ui::select_time_point( time_point initial_value, std::string
     do {
         smenu.reset();
         smenu.title = title;
-        smenu.text += string_format( "Old date: %1$s\nNew date: %2$s",
+        smenu.text += string_format( _( "Old date: %1$s\nNew date: %2$s" ),
                                      colorize( to_string( initial_value ), c_light_red ),
                                      colorize( to_string( return_value ), c_light_cyan ) );
         smenu.desc_enabled = true;
