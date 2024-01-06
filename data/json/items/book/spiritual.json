@@ -621,9 +621,34 @@
       },
       {
         "id": "holybook_east11",
-        "name": { "str": "Sacred Books of the East Vol. 4", "str_pl": "copies of the Fourth Volume of the Sacred Books of the East" },
-        "description": "It contains .",
+        "name": { "str": "Sacred Books of the East Vol. 11", "str_pl": "copies of the eleventh volume of the Sacred Books of the East" },
+        "description": "It contains the Buddhist Suttas: Mahā-parinibbāna Suttanta, Dhamma-kakka-ppavattana Sutta, Tevigga Sutta'anta, Âkankheyya Sutta'a, Ketokhila Sutta'a, Mahâ-Sudassana Sutta'anta and Sabbâsava Sutta'a.",
         "append": true
+      },
+      {
+        "id": "holybook_east12",
+        "name": { "str": "Sacred Books of the East Vol. 12", "str_pl": "copies of the twelfth volume of the Sacred Books of the East" },
+        "description": "It contains the Satapatha Brahmana, part 1/5: Mâdhyandina Shakha from I to II.",
+        "append": true
+      },
+      {
+        "id": "holybook_east13",
+        "name": { "str": "Sacred Books of the East Vol. 13", "str_pl": "copies of the thirteenth volume of the Sacred Books of the East" },
+        "description": "It contains the Vinaya Texts, part 1/3: Pātimokkha and Mahâvagga, from I to IV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east14",
+        "name": { "str": "Sacred Books of the East Vol. 14", "str_pl": "copies of the fourteenth volume of the Sacred Books of the East" },
+        "description": "It contains The Sacred Laws of the Aryas, part 2/2: Vâsishtha, Baudhâyana and Parisishta.",
+        "append": true
+      },
+      {
+        "id": "holybook_east15",
+        "name": { "str": "Sacred Books of the East Vol. 15", "str_pl": "copies of the fifteenth volume of the Sacred Books of the East" },
+        "description": "It contains The Upanishads, part 2/2: Katha Upanishad, Mundaka Upanishad, Taittiriya Upanishad, Brhadaranyaka Upanishad, Svetasvatara Upanishad, Prasna Upanishad and Maitrayani Upanishad.",
+        "append": true
+
       }
     ]
   },
