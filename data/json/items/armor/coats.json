@@ -234,7 +234,7 @@
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 70
   },
   {
@@ -668,7 +668,7 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -1898,7 +1898,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "yukata",
@@ -1955,7 +1955,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 80, "encumbrance": 3 },
       {
@@ -2126,7 +2126,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
   {
     "id": "robe",
@@ -2769,7 +2769,7 @@
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -2957,7 +2957,7 @@
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -3155,7 +3155,7 @@
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -3473,7 +3473,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "plaguedoctor_robe",

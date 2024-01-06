@@ -1276,7 +1276,7 @@
     "id": "santa_dress_long",
     "type": "ARMOR",
     "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
-    "description": "A long red dress with full sleeves and white faux fur trim.  A very fancy dress for a queen of the north pole.",
+    "description": "A long red dress with full sleeves and white faux fur trim.  A dress for a queen of the north pole.",
     "weight": "1200 g",
     "volume": "3850 ml",
     "price": 25000,
@@ -1288,7 +1288,7 @@
     "color": "red",
     "warmth": 25,
     "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 6 },
@@ -1314,7 +1314,7 @@
     "color": "red",
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 75, "encumbrance": 4 },
       {
@@ -1405,7 +1405,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
+    "flags": [ "VARSIZE", "COLLAR" ],
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
@@ -1426,7 +1426,7 @@
     "color": "red",
     "warmth": 8,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 },
       {
@@ -1459,7 +1459,7 @@
     "color": "light_red",
     "warmth": 12,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
@@ -1993,7 +1993,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
@@ -2178,6 +2178,6 @@
     ],
     "warmth": 25,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   }
 ]
