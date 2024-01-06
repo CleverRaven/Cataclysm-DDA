@@ -11115,6 +11115,9 @@ void Character::stagger()
                 valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+            } else if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+                player_avatar.grab( object_type::NONE );
+            }
             } else {
                 valid_stumbles.push_back( dest );
             }
