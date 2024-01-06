@@ -734,9 +734,11 @@ bool main_menu::opening_screen()
 
         // also check special keys
         if( action == "QUIT" ) {
+#if !defined(EMSCRIPTEN)
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
+#endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
             sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
