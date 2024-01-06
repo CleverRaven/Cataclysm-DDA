@@ -454,7 +454,11 @@
     "charges": 1,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 10 ], [ "oxy_torch", 10 ] ]
+    ],
     "components": [ [ [ "copper_scrap_equivalent", 4, "LIST" ] ] ]
   },
   {
