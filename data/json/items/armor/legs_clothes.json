@@ -404,10 +404,22 @@
     "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
     "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
     "snippet_category": [
-      { "id": "vintage_jeans1", "text": "A pair of vintage jeans that has been around for so long that very little remains of its once vibrant blue color.  Otherwise it's surprisingly well preserved though." },
-      { "id": "vintage_jeans2", "text": "A very old pair of black vintage jeans.  From paint marks here and there you assume this belonged to a painter." },
-      { "id": "vintage_jeans3", "text": "A groovy pair of stonewashed denim jeans from the 80s.  It gets baggy around the ankles.  Perfect for pretending as if Cataclysm never happened and you are on your way to dance floor." },
-      { "id": "vintage_jeans4", "text": "A pair of vintage blue jeans that has been preserved perfectly.  You can see the leather brand on its behind of company that hasn't been around for a long while, even before the Cataclysm.  This would have made a fortune if; well, you know, it wasn't apocalypse." }
+      {
+        "id": "vintage_jeans1",
+        "text": "A pair of vintage jeans that has been around for so long that very little remains of its once vibrant blue color.  Otherwise it's surprisingly well preserved though."
+      },
+      {
+        "id": "vintage_jeans2",
+        "text": "A very old pair of black vintage jeans.  From paint marks here and there you assume this belonged to a painter."
+      },
+      {
+        "id": "vintage_jeans3",
+        "text": "A groovy pair of stonewashed denim jeans from the 80s.  It gets baggy around the ankles.  Perfect for pretending as if Cataclysm never happened and you are on your way to dance floor."
+      },
+      {
+        "id": "vintage_jeans4",
+        "text": "A pair of vintage blue jeans that has been preserved perfectly.  You can see the leather brand on its behind of company that hasn't been around for a long while, even before the Cataclysm.  This would have made a fortune if; well, you know, it wasn't apocalypse."
+      }
     ]
   },
   {
