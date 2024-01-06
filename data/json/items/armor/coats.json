@@ -1282,7 +1282,7 @@
     "material_thickness": 0.95,
     "snippet_category": [
       {
-        "id": "patched",
+        "id": "patchedjacket",
         "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
       },
       { "id": "blackjacket", "text": "A jacket made from denim, dyed black." },
@@ -1332,7 +1332,7 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "snippet_category": [
       {
-        "id": "patched",
+        "id": "patchedvest",
         "text": "A vest made from denim.  This one is haphazardly covered with patches featuring metal band logos."
       },
       { "id": "blackvest", "text": "A vest made from denim, dyed black." },
