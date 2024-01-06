@@ -798,6 +798,66 @@
         "name": { "str": "Sacred Books of the East Vol. 40", "str_pl": "copies of the fourtieth volume of the Sacred Books of the East" },
         "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to vols. 39 and 40.",
         "append": true
+      },
+      {
+        "id": "holybook_east41",
+        "name": { "str": "Sacred Books of the East Vol. 41", "str_pl": "copies of the forty-first volume of the Sacred Books of the East" },
+        "description": "It contains the Satapatha Brahmana, part 3/5: Mâdhyandina Shakha from V to VII.",
+        "append": true
+      },
+      {
+        "id": "holybook_east42",
+        "name": { "str": "Sacred Books of the East Vol. 42", "str_pl": "copies of the forty-second volume of the Sacred Books of the East" },
+        "description": "It contains the Hymns of the Atharvaveda, together With Extracts From the Ritual Books and the Commentaries.",
+        "append": true
+      },
+      {
+        "id": "holybook_east43",
+        "name": { "str": "Sacred Books of the East Vol. 43", "str_pl": "copies of the forty-third volume of the Sacred Books of the East" },
+        "description": "It contains the Satapatha Brahmana, part 4/5: the Mâdhyandina Shakha VII, IX and X.",
+        "append": true
+      },
+      {
+        "id": "holybook_east44",
+        "name": { "str": "Sacred Books of the East Vol. 44", "str_pl": "copies of the forty-fourth volume of the Sacred Books of the East" },
+        "description": "It contains the Satapatha Brahmana, part 5/5: the Mâdhyandina Shakha from XI to XIV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east45",
+        "name": { "str": "Sacred Books of the East Vol. 45", "str_pl": "copies of the forty-fifth volume of the Sacred Books of the East" },
+        "description": "It contains the Jaina Sutras, part 2 of 2: Uttaradhyayana Sutra and Sutrakritânga Sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east46",
+        "name": { "str": "Sacred Books of the East Vol. 46", "str_pl": "copies of the forty-sixth volume of the Sacred Books of the East" },
+        "description": "It contains the Vedic Hymns, part 2/2: Hymns to Agni (Mandalas I to V).",
+        "append": true
+      },
+      {
+        "id": "holybook_east47",
+        "name": { "str": "Sacred Books of the East Vol. 47", "str_pl": "copies of the forty-seventh volume of the Sacred Books of the East" },
+        "description": "It contains the Pahlavi Texts, part 5/5: The Marvels of Zoroastrianism.",
+        "append": true
+      },
+      {
+        "id": "holybook_east48",
+        "name": { "str": "Sacred Books of the East Vol. 48", "str_pl": "copies of the forty-eighth volume of the Sacred Books of the East" },
+        "description": "It contains the Vedanta-Sutras, part 3/3, with the commentary of Râmânuja.",
+        "append": true
+      },
+      {
+        "id": "holybook_east49",
+        "name": { "str": "Sacred Books of the East Vol. 49", "str_pl": "copies of the forty-ninth volume of the Sacred Books of the East" },
+        "description": "It contains the Buddhist Mahayana Texts, part 1/2: Buddha-karita of Aśvaghosa, the Buddhist Mahayana Texts, part 2/2: Longer Sukhâvati-vyuha and Shorter Sukhâvati-vyuha, Vagrakkhedika, the longer Pragnâ-pâramitâ-hridaya-sutra, the shorter Pragnâ-pâramitâ-hridaya-sutra and the Amitâyur dhyâna-sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east50",
+        "name": { "str": "Sacred Books of the East Vol. 50", "str_pl": "copies of the fiftieth volume of the Sacred Books of the East" },
+        "description": "It contains a nice general index to the names and subject-matter of the Sacred Books of the East.",
+        "append": true
       }
     ]
   },
