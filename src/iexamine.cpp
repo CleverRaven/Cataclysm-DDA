@@ -5032,7 +5032,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
-    point jd( examp.x - you.posx(), examp.y - you.posy() )
+    point jd( examp.x - you.posx(), examp.y - you.posy() );
     int jump_direction = 0;
 
     if( jd.y > 0 && jd.x == 0 ) {

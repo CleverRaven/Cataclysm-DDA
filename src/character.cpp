@@ -1589,7 +1589,6 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
-    avatar &player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
