@@ -6756,7 +6756,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // If this special has the LAKE or OCEAN flag and the overmap doesn't have any
         // appropriate terrain, then remove this special from the candidates for this
         // overmap.
-        if( ( iter->special_details->has_flag( "LAKE" ) && !overmap_has_lake ) || ( iter->special_details->has_flag( "OCEAN" ) && !overmap_has_ocean ) ) {
+        const bool iter_can_spawn_on_lake = iter->special_details->has_flag( "LAKE" );
+        const bool iter_can_spawn_on_ocean = iter->special_details->has_flag( "OCEAN" );
+        
+        if( ( iter_can_spawn_on_lake || iter_can_spawn_on_ocean ) && ( ( iter_can_spawn_on_lake && !overmap_has_lake ) || ( iter_can_spawn_on_ocean && !overmap_has_ocean ) ) ) {
             iter = enabled_specials.erase( iter );
             continue;
         }
