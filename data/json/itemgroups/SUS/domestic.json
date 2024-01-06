@@ -337,7 +337,7 @@
       { "item": "old_key", "prob": 20, "count": [ 1, 6 ] },
       { "item": "office_letter_opener", "prob": 15 },
       { "item": "razor_blade", "count": [ 1, 3 ], "prob": 15 },
-      { "prob": 15, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
       { "item": "reading_light", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "book_binder", "prob": 15 },
       { "item": "paint_brush", "prob": 10 },
@@ -374,7 +374,7 @@
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
-      { "prob": 50, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "prob": 50, "group": "bottle_otc_painkiller_20" },
       { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
       { "item": "ref_matches", "prob": 50, "charges": 32 },
@@ -405,7 +405,6 @@
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
-      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "item": "ceramic_plate", "count": [ 1, 6 ] },
       { "item": "ceramic_bowl", "count": [ 1, 6 ] },
       {
@@ -569,7 +568,6 @@
       },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
-      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "group": "teabag_box", "prob": 60 }
     ]
   },
@@ -780,7 +778,28 @@
         "distribution": [
           {
             "item": "aspirin",
-            "prob": 160,
+            "prob": 50,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "acetaminophen",
+            "prob": 70,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "ibuprofen",
+            "prob": 80,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "naproxen",
+            "prob": 20,
             "count": [ 1, 30 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_painkiller"

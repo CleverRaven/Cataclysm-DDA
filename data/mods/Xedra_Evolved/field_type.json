@@ -136,5 +136,63 @@
     "priority": -1,
     "half_life": "20 minutes",
     "phase": "gas"
+  },
+  {
+    "id": "fd_pollen_arvore_weaken",
+    "type": "field_type",
+    "legacy_enum_id": 51,
+    "intensity_levels": [
+      {
+        "name": "pollen cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "effect_pollen_arvore_weaken",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the pollen cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "pollen cloud",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "concentration": 2,
+        "effects": [
+          {
+            "effect_id": "effect_pollen_arvore_weaken",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the pollen cloud.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "flags": [ "ARVORE_POLLEN_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   }
 ]

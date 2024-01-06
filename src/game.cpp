@@ -287,13 +287,6 @@ static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
-static const mon_flag_str_id mon_flag_FISHABLE( "FISHABLE" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -4411,7 +4404,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-                static const std::set<tripoint> path_avoid = {};
+                static const std::unordered_set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
                     return critter;
@@ -5452,6 +5445,11 @@ bool game::is_sheltered( const tripoint &p )
 
 bool game::revive_corpse( const tripoint &p, item &it )
 {
+    return revive_corpse( p, it, 1 );
+}
+
+bool game::revive_corpse( const tripoint &p, item &it, int radius )
+{
     if( !it.is_corpse() ) {
         debugmsg( "Tried to revive a non-corpse." );
         return false;
@@ -5489,7 +5487,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
         }
     }
 
-    return place_critter_at( newmon_ptr, p );
+    return place_critter_around( newmon_ptr, p, radius );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer )
@@ -7480,7 +7478,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
     };
     route_t shortest_route;
-    std::set<tripoint> path_avoid;
+    std::unordered_set<tripoint> path_avoid;
     for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
         if( is_dangerous_tile( p.raw() ) ) {
             path_avoid.insert( p.raw() );

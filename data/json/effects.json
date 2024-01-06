@@ -2035,11 +2035,43 @@
   },
   {
     "type": "effect_type",
-    "id": "pkill1",
+    "id": "anticoagulant",
+    "max_intensity": 3,
+    "rating": "bad",
+    "blood_analysis_description": "Blood Thinner",
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "nsaid_eff",
+    "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 5% increase.",
+    "//2": "NSAIDs are the drug family that includes ibuprofen.",
+    "rating": "bad",
+    "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 2 ], "blood_pressure_max_val": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_generic",
     "max_duration": "4 m",
     "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
     "rating": "good",
     "blood_analysis_description": "Minor Painkiller"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_nsaid",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (NSAID-based)"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_acetaminophen",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (Acetaminophen)"
   },
   {
     "type": "effect_type",
@@ -3620,6 +3652,26 @@
     },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
+  },
+  {
+    "type": "effect_type",
+    "id": "betablock",
+    "name": [ "Beta blocker" ],
+    "desc": [
+      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces fatigue."
+    ],
+    "max_intensity": 3,
+    "base_mods": {
+      "blood_pressure_tick": [ 250 ],
+      "blood_pressure_min": [ -2 ],
+      "blood_pressure_min_val": [ -200 ],
+      "fatigue_min": [ 4 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_max_val": [ 200 ]
+    },
+    "scaling_mods": { "blood_pressure_min": [ -1 ], "blood_pressure_min_val": [ -100 ], "fatigue_max_val": [ 50 ], "fatigue_min": [ 2 ] },
+    "rating": "neutral",
+    "blood_analysis_description": "Beta Blocker"
   },
   {
     "type": "effect_type",

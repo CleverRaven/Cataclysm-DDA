@@ -369,13 +369,27 @@ bool trap::is_funnel() const
 
 bool trap::has_sound_trigger() const
 {
-    return !is_null() && sound_threshold > 0;
+    const bool has_sound_thresh = sound_threshold.first > 0 && sound_threshold.second > 0;
+    return !is_null() && has_sound_thresh;
 }
 
 bool trap::triggered_by_sound( int vol, int dist ) const
 {
     const int volume = vol - dist;
-    return !is_null() && volume >= sound_threshold;
+    // now determine sound threshold probabilities
+    // linear model: 0% below sound_min, 25% at sound_min, 100% at sound_max
+    const int sound_min = sound_threshold.first;
+    const int sound_max = sound_threshold.second;
+    const int sound_range = sound_max - sound_min;
+    if( volume < sound_min ) {
+        return false;
+    }
+    int sound_chance = 100;
+    if( sound_range > 0 ) {
+        sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
+    }
+    //debugmsg("Sound chance: %d%%", sound_chance);
+    return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const

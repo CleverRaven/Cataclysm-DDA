@@ -27,7 +27,6 @@
 #include "input.h"
 #include "item.h"
 #include "line.h"
-#include "name.h"
 #include "game.h"
 #include "options.h"
 #include "point.h"
@@ -2487,27 +2486,6 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 #endif
 }
 #endif
-
-void replace_name_tags( std::string &input )
-{
-    // these need to replace each tag with a new randomly generated name
-    while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
-                           false );
-    }
-    while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
-                           false );
-    }
-    while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
-                           false );
-    }
-    while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
-                           false );
-    }
-}
 
 void replace_city_tag( std::string &input, const std::string &name )
 {

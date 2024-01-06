@@ -19,8 +19,6 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
-static const mon_flag_str_id mon_flag_VERMIN( "VERMIN" );
-
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 creature_tracker::creature_tracker() = default;
@@ -388,7 +386,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
         return false;
     },
     [this]( const tripoint_bub_ms & loc ) {
-        Creature *creature = this->creature_at<Creature>( loc );
+        Creature *creature = this->creature_at<Creature>( loc, true );
         if( creature ) {
             const int n = zone_number_ * zone_tick_;
             creatures_by_zone_and_faction_[n][creature->get_monster_faction()].push_back( creature );

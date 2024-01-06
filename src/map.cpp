@@ -131,6 +131,7 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
@@ -140,8 +141,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
 static const material_id material_glass( "glass" );
-
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -1796,7 +1795,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z );
+    set_pathfinding_cache_dirty( p );
 
     // Make sure the furniture falls if it needs to
     support_dirty( p );
@@ -2274,7 +2273,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p.z );
+    set_pathfinding_cache_dirty( p );
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -6522,7 +6521,7 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
     }
 
     if( fd_type.is_dangerous() ) {
-        set_pathfinding_cache_dirty( p.z );
+        set_pathfinding_cache_dirty( p );
     }
 
     // Ensure blood type fields don't hang in the air
@@ -9711,7 +9710,62 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
     if( you != nullptr && ( you->in_vehicle || !you->has_effect( effect_gliding ) ) ) {
         return;
     }
-    maybe_trigger_trap( c.pos(), c, may_avoid );
+
+    tripoint pos = c.pos();
+    // proximity traps
+    std::vector<tripoint> tr_proximity;
+    // find proximity traps in adjacent tiles
+    for( int x = pos.x - 1; x <= pos.x + 1; x++ ) {
+        for( int y = pos.y - 1; y <= pos.y + 1; y++ ) {
+            if( x == pos.x && y == pos.y ) {
+                continue;
+            }
+            const tripoint loc = tripoint( x, y, pos.z );
+            const trap *trap_here = &tr_at( loc );
+            if( trap_here->has_flag( json_flag_PROXIMITY ) ) {
+                tr_proximity.push_back( loc );
+            }
+        }
+    }
+    // first trigger proximity traps
+    for( auto &loc : tr_proximity ) {
+        maybe_trigger_prox_trap( loc, c, may_avoid );
+    }
+    // then traps we stepped on
+    maybe_trigger_trap( pos, c, may_avoid );
+}
+
+
+void map::maybe_trigger_prox_trap( const tripoint &pos, Creature &c, const bool may_avoid ) const
+{
+    const trap &tr = tr_at( pos );
+    if( tr.is_null() ) {
+        return;
+    }
+
+    //Don't trigger benign traps like cots and funnels
+    if( tr.is_benign() ) {
+        return;
+    }
+
+    if( tr.has_flag( json_flag_AVATAR_ONLY ) && !c.is_avatar() ) {
+        return;
+    }
+
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
+        Character *const pl = c.as_character();
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+            pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
+            pl->add_known_trap( pos, tr );
+        }
+        return;
+    }
+
+    if( !tr.is_always_invisible() && tr.has_trigger_msg() ) {
+        c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
+                                 tr.name() );
+    }
+    tr.trigger( pos, c );
 }
 
 void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_avoid ) const
@@ -10045,6 +10099,13 @@ void map::set_pathfinding_cache_dirty( const int zlev )
     }
 }
 
+void map::set_pathfinding_cache_dirty( const tripoint &p )
+{
+    if( inbounds( p ) ) {
+        get_pathfinding_cache( p.z ).dirty_points.insert( p.xy() );
+    }
+}
+
 void map::queue_main_cleanup()
 {
     if( this != &get_map() ) {
@@ -10069,92 +10130,89 @@ const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
         return *pathfinding_caches[ OVERMAP_DEPTH ];
     }
     pathfinding_cache &cache = get_pathfinding_cache( zlev );
-    if( cache.dirty ) {
+    if( cache.dirty || !cache.dirty_points.empty() ) {
         update_pathfinding_cache( zlev );
     }
 
     return cache;
 }
 
-void map::update_pathfinding_cache( int zlev ) const
+void map::update_pathfinding_cache( const tripoint &p ) const
 {
-    pathfinding_cache &cache = get_pathfinding_cache( zlev );
-    if( !cache.dirty ) {
+    if( !inbounds( p ) ) {
         return;
     }
+    pathfinding_cache &cache = get_pathfinding_cache( p.z );
+    pf_special cur_value = PF_NORMAL;
 
-    std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE_X * MAPSIZE_Y, PF_NORMAL );
+    const_maptile tile = maptile_at_internal( p );
 
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-            if( !cur_submap ) {
-                return;
-            }
+    const ter_t &terrain = tile.get_ter_t();
+    const furn_t &furniture = tile.get_furn_t();
+    const field &field = tile.get_field();
+    const map &here = get_map();
+    int part;
+    const vehicle *veh = veh_at_internal( p, part );
 
-            tripoint p( 0, 0, zlev );
+    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                p.x = sx + smx * SEEX;
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    p.y = sy + smy * SEEY;
-
-                    pf_special cur_value = PF_NORMAL;
-
-                    const_maptile tile( cur_submap, point( sx, sy ) );
-
-                    const ter_t &terrain = tile.get_ter_t();
-                    const furn_t &furniture = tile.get_furn_t();
-                    const field &field = tile.get_field();
-                    const map &here = get_map();
-                    int part;
-                    const vehicle *veh = veh_at_internal( p, part );
-
-                    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-
-                    if( cost > 2 ) {
-                        cur_value |= PF_SLOW;
-                    } else if( cost <= 0 ) {
-                        cur_value |= PF_WALL;
-                        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
-                            cur_value |= PF_CLIMBABLE;
-                        }
-                    }
-
-                    if( veh != nullptr ) {
-                        cur_value |= PF_VEHICLE;
-                    }
-
-                    for( const auto &fld : tile.get_field() ) {
-                        const field_entry &cur = fld.second;
-                        if( cur.is_dangerous() ) {
-                            cur_value |= PF_FIELD;
-                        }
-                    }
-
-                    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-                        !here.has_vehicle_floor( p ) ) {
-                        cur_value |= PF_TRAP;
-                    }
-
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
-                        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
-                        cur_value |= PF_UPDOWN;
-                    }
-
-                    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
-                        cur_value |= PF_SHARP;
-                    }
-
-                    cache.special[p.x][p.y] = cur_value;
-                }
-            }
+    if( cost > 2 ) {
+        cur_value |= PF_SLOW;
+    } else if( cost <= 0 ) {
+        cur_value |= PF_WALL;
+        if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
+            cur_value |= PF_CLIMBABLE;
         }
     }
 
-    cache.dirty = false;
+    if( veh != nullptr ) {
+        cur_value |= PF_VEHICLE;
+    }
+
+    for( const auto &fld : tile.get_field() ) {
+        const field_entry &cur = fld.second;
+        if( cur.is_dangerous() ) {
+            cur_value |= PF_FIELD;
+        }
+    }
+
+    if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
+        !here.has_vehicle_floor( p ) ) {
+        cur_value |= PF_TRAP;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
+        cur_value |= PF_UPDOWN;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
+        cur_value |= PF_SHARP;
+    }
+
+    cache.special[p.x][p.y] = cur_value;
+}
+
+void map::update_pathfinding_cache( int zlev ) const
+{
+    pathfinding_cache &cache = get_pathfinding_cache( zlev );
+
+    if( cache.dirty ) {
+        const int size = getmapsize();
+        for( int x = 0; x < size * SEEX; ++x ) {
+            for( int y = 0; y < size * SEEX; ++y ) {
+                update_pathfinding_cache( { x, y, zlev } );
+            }
+        }
+        cache.dirty = false;
+    } else {
+        for( const point &p : cache.dirty_points ) {
+            update_pathfinding_cache( { p, zlev } );
+        }
+    }
+    cache.dirty_points.clear();
 }
 
 void map::clip_to_bounds( tripoint &p ) const

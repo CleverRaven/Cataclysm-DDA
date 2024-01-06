@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "magic_basement" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
