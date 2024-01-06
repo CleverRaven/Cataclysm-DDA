@@ -115,6 +115,7 @@ WARNINGS = \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 ifeq ($(NATIVE), emscripten)
+  # The EM_ASM macro triggers this warning.
   WARNINGS += -Wno-gnu-zero-variadic-macro-arguments
 endif
 # Uncomment below to disable warnings
@@ -149,6 +150,9 @@ VERSION = 0.F
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
+ifeq ($(NATIVE), emscripten)
+  TILES_TARGET_NAME = $(TARGET_NAME)-tiles.js
+endif
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
 TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME)
@@ -641,14 +645,16 @@ ifeq ($(NATIVE), emscripten)
   LDFLAGS += $(EMCC_COMMON_FLAGS)
 
   LDFLAGS += --preload-file web_bundle@/
-  LDFLAGS += --bind -sALLOW_MEMORY_GROWTH -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
+  LDFLAGS += -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
+  LDFLAGS += -sINITIAL_MEMORY=512MB
+  LDFLAGS += -sMAXIMUM_MEMORY=4GB
+  LDFLAGS += -sALLOW_MEMORY_GROWTH
+  LDFLAGS += -sSTACK_SIZE=262144
   LDFLAGS += -sASYNCIFY
   LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
-  LDFLAGS += -sSTACK_SIZE=262144
-  LDFLAGS += -sINITIAL_MEMORY=536870912
-  LDFLAGS += -sMAXIMUM_MEMORY=4GB
   LDFLAGS += -sENVIRONMENT=web
   LDFLAGS += -lidbfs.js
+  LDFLAGS += -lembind
   LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
   LDFLAGS += -sMAX_WEBGL_VERSION=2
 
@@ -1011,9 +1017,6 @@ ifeq ($(RELEASE), 1)
     endif
   endif
 endif
-
-cataclysm-tiles.js: $(OBJS)
-	+$(LD) $(W32FLAGS) -o cataclysm-tiles.html $(OBJS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)

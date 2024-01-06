@@ -108,7 +108,7 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.2.0/screenfull.min.js" integrity="sha512-GoG2/bE6QSPKSrjuoII6iPL2ODnwUJvFgysFYLTW2ltpx6G5nj+mYvhPq5rLPZby0rdMFU2fo4BMlWND7+QZ5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
+
     <link rel="shortcut icon" href="favicon.ico" />
     <meta property="og:image" content="preview-image.png" />
     <meta property="og:title" content="Cataclysm: Dark Days Ahead" />
@@ -125,14 +125,14 @@
           <div id="browse-code" class="menu-button"><i class="fa-brands fa-github"></i><span style="margin-left: 0.7em;">Browse Code</span></div></div>
         </a>
     </div>
-    
+
     <canvas id="canvas" style="width: 100%; height: 100%; min-width: 640px; min-height: 384px;" tabindex=-1></canvas>
     <div id="loading-message">Loading...</div>
 
     <script type='text/javascript'>
-      let canvas = document.getElementById('canvas');
-      let loadingMessage = document.getElementById("loading-message");
-      let settingsMenu = document.getElementById("settings-menu");
+      const canvas = document.getElementById('canvas');
+      const loadingMessage = document.getElementById("loading-message");
+      const settingsMenu = document.getElementById("settings-menu");
 
       window.addEventListener("menuready", () => {
         loadingMessage.style.display = "none";
@@ -156,19 +156,19 @@
       }
 
       document.getElementById("export-saves").onclick = async () => {
-        var zip = new JSZip();
+        const zip = new JSZip();
 
         function isRealDir(p) {
           return p !== '.' && p !== '..';
         };
-        
+
         function recurse(fs_path, zip_path) {
-          let entries = Module.FS.readdir(fs_path).filter(isRealDir);
-          for (let entry of entries) {
+          const entries = Module.FS.readdir(fs_path).filter(isRealDir);
+          for (const entry of entries) {
             const entry_fs_path = fs_path + "/" + entry;
             const entry_zip_path = zip_path + "/" + entry;
 
-            let stat = FS.stat(entry_fs_path);
+            const stat = FS.stat(entry_fs_path);
             if (FS.isDir(stat.mode)) {
               recurse(entry_fs_path, entry_zip_path);
             } else if (FS.isFile(stat.mode)) {
@@ -186,8 +186,6 @@
         preRun: [],
         postRun: [],
         canvas: (function() {
-          
-
           // As a default initial behavior, pop up an alert when webgl context is lost. To make your
           // application robust, you may want to override this behavior before shipping!
           // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
