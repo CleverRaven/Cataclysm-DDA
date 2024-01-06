@@ -894,7 +894,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "scrambled_eggs",
+    "id": "seasoned_scrambled_eggs",
     "name": { "str_sp": "seasoned scrambled eggs" },
     "copy-from": "scrambled_eggs",
     "fun": 5,
