@@ -2409,6 +2409,22 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "felt_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_felt", 4 ] ] ]
+  },
+  {
+    "result": "scrap_felt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "wool_staple", 1 ] ] ]
+  },
+  {
     "result": "sheet_faux_fur_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
