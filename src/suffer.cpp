@@ -204,6 +204,7 @@ static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
 static void from_nyctophobia( Character &you );
 static void from_artifact_resonance( Character &you, int amt );
+static void from_mutagen( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1207,6 +1208,24 @@ void suffer::from_other_mutations( Character &you )
     }
 }
 
+void suffer::from_mutagen( Character &you )
+{
+                you.add_msg_if_player( m_warning,
+                                   _( "suffer from mutage" ) );
+        bool mutation = true;
+        if( one_in( 4 ) ) {
+                            you.add_msg_if_player( m_warning,
+                                   _( "failed accidentally" ) );
+            // Random chance to skip mutating.
+            mutation = false;
+        }
+        if( mutation == true ) {
+                            you.add_msg_if_player( m_warning,
+                                   _( "success" ) );
+            you.mutate( 0, true );
+        }
+}
+
 void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
@@ -1789,6 +1808,10 @@ void Character::suffer()
 
     if( has_trait( trait_ASTHMA ) ) {
         suffer::from_asthma( *this, current_stim );
+    }
+
+    if( has_effect_with_flag( flag_MUTAGEN_EFFECT ) && calendar::once_every( rng( 1_hours, 6_hours ) ) ) {
+        suffer::from_mutagen( *this );
     }
 
     suffer::in_sunlight( *this, worn );

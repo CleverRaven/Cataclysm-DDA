@@ -190,6 +190,7 @@ const flag_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
 const flag_id flag_MOUSE( "MOUSE" );
 const flag_id flag_MUNDANE( "MUNDANE" );
 const flag_id flag_MUSHY( "MUSHY" );
+const flag_id flag_MUTAGEN_EFFECT( "MUTAGEN_EFFECT" );
 const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_MYCUS_OK( "MYCUS_OK" );
 const flag_id flag_NANOFAB_REPAIR( "NANOFAB_REPAIR" );
