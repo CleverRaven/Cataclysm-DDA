@@ -2440,7 +2440,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
-    {
+  {
     "result": "sheet_fur_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -2464,7 +2464,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "lycra_patch", 8 ] ] ]
   },
-    {
+  {
     "result": "sheet_nylon_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
