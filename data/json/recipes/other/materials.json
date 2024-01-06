@@ -1153,7 +1153,7 @@
     "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "nail", -1 ], [ "bronze_nail", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {

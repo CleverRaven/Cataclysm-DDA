@@ -229,7 +229,7 @@
         [ "soldering_iron_portable", 30 ]
       ]
     ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
+    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "bronze_nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
     "result": "smokebomb",
@@ -276,7 +276,7 @@
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "nail", 50 ], [ "scrap", 2 ] ]
+      [ [ "nail", 50 ], [ "bronze_nail", 50 ], [ "scrap", 2 ] ]
     ]
   },
   {
@@ -298,7 +298,7 @@
       [ [ "delay_fuze", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "can_medium", 1 ] ],
-      [ [ "nail", 100 ], [ "scrap", 4 ] ]
+      [ [ "nail", 100 ], [ "bronze_nail", 100 ], [ "scrap", 4 ] ]
     ]
   },
   {
@@ -336,7 +336,7 @@
       [ [ "delay_fuze", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
-      [ [ "nail", 750 ], [ "scrap", 30 ] ]
+      [ [ "nail", 750 ], [ "bronze_nail", 750 ], [ "scrap", 30 ] ]
     ]
   },
   {
@@ -396,7 +396,7 @@
       [ [ "stable_explosive", 15, "LIST" ], [ "volatile_explosive", 15, "LIST" ] ],
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "nail", 50 ], [ "scrap", 2 ] ]
+      [ [ "nail", 50 ], [ "bronze_nail", 50 ], [ "scrap", 2 ] ]
     ]
   },
   {
@@ -418,7 +418,7 @@
       [ [ "stable_explosive", 30, "LIST" ], [ "volatile_explosive", 30, "LIST" ] ],
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "nail", 100 ], [ "scrap", 4 ] ]
+      [ [ "nail", 100 ], [ "bronze_nail", 100 ], [ "scrap", 4 ] ]
     ]
   },
   {
@@ -484,7 +484,7 @@
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
-      [ [ "nail", 750 ], [ "scrap", 30 ] ]
+      [ [ "nail", 750 ], [ "bronze_nail", 750 ], [ "scrap", 30 ] ]
     ]
   },
   {
