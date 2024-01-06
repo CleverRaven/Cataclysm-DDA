@@ -67,7 +67,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DESIRE_CONVERSATION",
-    "condition": { "not": { "npc_has_trait": "FINAL_DISCUSSION" } },
-    "effect": [ { "npc_add_trait": "FINAL_DISCUSSION" }, { "npc_add_effect": "npc_wants_to_talk", "duration": "2 minutes" } ]
+    "condition": { "and": [ "u_is_npc", { "u_has_trait": "HOMULLUS_WISHES_TO_CONVERSE" }, { "not": { "u_has_trait": "FINAL_DISCUSSION" } } ] },
+    "eoc_type": "ACTIVATION",
+    "effect": [ "u_wants_to_talk" ]
   }
 ]
