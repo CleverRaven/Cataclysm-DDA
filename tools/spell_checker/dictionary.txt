@@ -2926,7 +2926,6 @@ stonelike
 stoneling
 stonelings
 stoneskin
-stonewashed
 stook
 stooking
 stopcock
