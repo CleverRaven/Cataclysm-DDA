@@ -406,6 +406,33 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_maya",
+    "type": "BOOK",
+    "name": { "str": "Popol Vuh", "str_pl": "copies of the Popol Vuh" },
+    "description": "A English edition of the Popol Vuh, a sacred book of the K’iche’ Maya people, a native group from the Guatemalan highlands.  It is a combination of creation myths, historical narratives, and heroic legends that revolve around the K’iche’ people’s origins, culture, and the deities that govern their universe.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_aztec",
+    "type": "BOOK",
+    "name": { "str": "Codex Borbonicus", "str_pl": "copies of the Codex Borbonicus" },
+    "description": "A extremely rare English edition of the Codex Borbonicus, an ancient pre-Columbian Mesoamerican manuscript that provides valuable insights into the religious and ritual practices of the Aztecs.  It contains original pictures, illustrations, detailed information about the tonalpohualli (the sacred 260-day calendar), the xiuhpohualli (the agricultural year), deities, rituals, and ceremonies.  This codex also includes depictions and information of various gods and goddesses, sacrificial rites, and astronomical phenomena.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_inca",
+    "type": "BOOK",
+    "name": { "str": "Huarochirí Manuscript", "str_pl": "copies of the Huarochirí Manuscript" },
+    "description": "A uncommon English edition of the Huarochirí Manuscript, a collection of Quechua narratives that provides valuable insights into the religious beliefs, rituals, and cosmology of the Inca people.",
+    "weight": "450 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_navayana",
     "type": "BOOK",
     "name": { "str": "The Buddha and His Dhamma", "str_pl": "copies of The Buddha and His Dhamma" },
