@@ -2128,8 +2128,7 @@
     "type": "keybinding",
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
-    "name": "Show/hide all contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+    "name": "Show/hide all contents"
   },
   {
     "type": "keybinding",
