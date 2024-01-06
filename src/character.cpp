@@ -11114,11 +11114,8 @@ void Character::stagger()
         if( dest != pos() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
-            } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
-            } else if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
-                player_avatar.grab( object_type::NONE );
-            }
             } else {
                 valid_stumbles.push_back( dest );
             }
@@ -11141,6 +11138,10 @@ void Character::stagger()
         }
         if( here.passable( dest ) && !blocked &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
+            avatar &player_avatar = get_avatar();
+            if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+                player_avatar.grab( object_type::NONE );
+            }
             add_msg_player_or_npc( m_warning,
                                    _( "You stumble!" ),
                                    _( "<npcname> stumbles!" ) );
