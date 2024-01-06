@@ -390,7 +390,10 @@
   {
     "id": "holybook_oyasama",
     "type": "BOOK",
-    "name": { "str": "The Life of Oyasama, Foundress of Tenrikyo", "str_pl": "copies of The Life of Oyasama, Foundress of Tenrikyo" },
+    "name": {
+      "str": "The Life of Oyasama, Foundress of Tenrikyo",
+      "str_pl": "copies of The Life of Oyasama, Foundress of Tenrikyo"
+    },
     "description": "A paperback English translation of Tenrikyo's hagiography of Miki Nakayama, foundress of the Tenrikyo Religious Tradition.",
     "weight": "600 g",
     "volume": "1 L",
@@ -399,7 +402,10 @@
   {
     "id": "holybook_anecdotes",
     "type": "BOOK",
-    "name": { "str": "The Anecdotes of Oyasama, Foundress of Tenrikyo", "str_pl": "copies of The Anecdotes of Oyasama, Foundress of Tenrikyo" },
+    "name": {
+      "str": "The Anecdotes of Oyasama, Foundress of Tenrikyo",
+      "str_pl": "copies of The Anecdotes of Oyasama, Foundress of Tenrikyo"
+    },
     "description": "A paperback English translation of an anthology of anecdotes about Oyasama that were passed down orally by her first followers and later written down and verified.",
     "weight": "500 g",
     "volume": "1 L",
@@ -651,43 +657,64 @@
       },
       {
         "id": "holybook_east13",
-        "name": { "str": "Sacred Books of the East Vol. 13", "str_pl": "copies of the thirteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 13",
+          "str_pl": "copies of the thirteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vinaya Texts, part 1/3: Pātimokkha and Mahâvagga, from I to IV.",
         "append": true
       },
       {
         "id": "holybook_east14",
-        "name": { "str": "Sacred Books of the East Vol. 14", "str_pl": "copies of the fourteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 14",
+          "str_pl": "copies of the fourteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Sacred Laws of the Aryas, part 2/2: Vâsishtha, Baudhâyana and Parisishta.",
         "append": true
       },
       {
         "id": "holybook_east15",
-        "name": { "str": "Sacred Books of the East Vol. 15", "str_pl": "copies of the fifteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 15",
+          "str_pl": "copies of the fifteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Upanishads, part 2/2: Katha Upanishad, Mundaka Upanishad, Taittiriya Upanishad, Brhadaranyaka Upanishad, Svetasvatara Upanishad, Prasna Upanishad and Maitrayani Upanishad.",
         "append": true
       },
       {
         "id": "holybook_east16",
-        "name": { "str": "Sacred Books of the East Vol. 16", "str_pl": "copies of the sixteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 16",
+          "str_pl": "copies of the sixteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Sacred Books of China, part 2/6, the texts of Confucianism: Yi King (I Ching).",
         "append": true
       },
       {
         "id": "holybook_east17",
-        "name": { "str": "Sacred Books of the East Vol. 17", "str_pl": "copies of the seventeenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 17",
+          "str_pl": "copies of the seventeenth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vinaya Texts, part 2/3: Mahavagga, from V to X, and Kullavagga, from I to II.",
         "append": true
       },
       {
         "id": "holybook_east18",
-        "name": { "str": "Sacred Books of the East Vol. 18", "str_pl": "copies of the eighteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 18",
+          "str_pl": "copies of the eighteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Pahlavi Texts, part 2/5: Dâdistân-i Dinik and the Epistles of Mânûskihar.",
         "append": true
       },
       {
         "id": "holybook_east19",
-        "name": { "str": "Sacred Books of the East Vol. 19", "str_pl": "copies of the nineteenth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 19",
+          "str_pl": "copies of the nineteenth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Fo-sho-hing-tsan-king: a life of Buddha, by Ashvaghosha, and the Bodhisattva.",
         "append": true
       },
@@ -699,175 +726,262 @@
       },
       {
         "id": "holybook_east21",
-        "name": { "str": "Sacred Books of the East Vol. 21", "str_pl": "copies of the twentieth-first volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 21",
+          "str_pl": "copies of the twentieth-first volume of the Sacred Books of the East"
+        },
         "description": "It contains The Saddharma-Pundarika (or The Lotus of the True Law).",
         "append": true
       },
       {
         "id": "holybook_east22",
-        "name": { "str": "Sacred Books of the East Vol. 22", "str_pl": "copies of the twenty-second volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 22",
+          "str_pl": "copies of the twenty-second volume of the Sacred Books of the East"
+        },
         "description": "It contains the Jaina Sutras, part 1/2: Âkârânga sutra and Kalpa sutra.",
         "append": true
       },
       {
         "id": "holybook_east23",
-        "name": { "str": "Sacred Books of the East Vol. 23", "str_pl": "copies of the twenty-third volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 23",
+          "str_pl": "copies of the twenty-third volume of the Sacred Books of the East"
+        },
         "description": "It contains The Zend-Avesta, part 2/3: Sîrôzahs, Yasts and Nyâyis.",
         "append": true
       },
       {
         "id": "holybook_east24",
-        "name": { "str": "Sacred Books of the East Vol. 24", "str_pl": "copies of the twenty-fourth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 24",
+          "str_pl": "copies of the twenty-fourth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Pahlavi Texts, part 3/5: Dinai Mainog-i khirad, Sikand-Gümanik Vigar and Sad Dar.",
         "append": true
       },
       {
         "id": "holybook_east25",
-        "name": { "str": "Sacred Books of the East Vol. 25", "str_pl": "copies of the twenty-fifth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 25",
+          "str_pl": "copies of the twenty-fifth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Laws of Manu, with extracts from seven commentaries.",
         "append": true
       },
       {
         "id": "holybook_east26",
-        "name": { "str": "Sacred Books of the East Vol. 26", "str_pl": "copies of the twenty-sixth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 26",
+          "str_pl": "copies of the twenty-sixth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Satapatha Brahmana, part 2/5: Mâdhyandina Shakha from III to IV.",
         "append": true
       },
       {
         "id": "holybook_east27",
-        "name": { "str": "Sacred Books of the East Vol. 27", "str_pl": "copies of the twenty-seventh volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 27",
+          "str_pl": "copies of the twenty-seventh volume of the Sacred Books of the East"
+        },
         "description": "It contains The Sacred Books of China, part 3/6, the texts of Confucianism: The Li Ki I (Book of Rites).",
         "append": true
       },
       {
         "id": "holybook_east28",
-        "name": { "str": "Sacred Books of the East Vol. 28", "str_pl": "copies of the twenty-eight volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 28",
+          "str_pl": "copies of the twenty-eight volume of the Sacred Books of the East"
+        },
         "description": "It contains The Sacred Books of China, part 4/6, the texts of Confucianism: The Li Ki II (Book of Rites).",
         "append": true
       },
       {
         "id": "holybook_east29",
-        "name": { "str": "Sacred Books of the East Vol. 29", "str_pl": "copies of the twenty-ninth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 29",
+          "str_pl": "copies of the twenty-ninth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Grihya-sutras, part 1/2, rules of Vedic domestic ceremonies: Sankhyayana-Grihya-sutra, Āsvalāyana-Grihya-sutra, Paraskara-Grihya-sutra and Khadia-Grihya-sutra.",
         "append": true
       },
       {
         "id": "holybook_east30",
-        "name": { "str": "Sacred Books of the East Vol. 30", "str_pl": "copies of the thirtieth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 30",
+          "str_pl": "copies of the thirtieth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Grihya-sutras, part 2/2, rules of Vedic domestic ceremonies: Gobhila, Hiranyakesin, Apastamba and Yajna Paribhashasutras.",
         "append": true
       },
       {
         "id": "holybook_east31",
-        "name": { "str": "Sacred Books of the East Vol. 31", "str_pl": "copies of the thirty-first volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 31",
+          "str_pl": "copies of the thirty-first volume of the Sacred Books of the East"
+        },
         "description": "It contains The Zend-Avesta, part 3/3: Yasna, Visparad, Afrinagân, Gâhs and miscellaneous fragments.",
         "append": true
       },
       {
         "id": "holybook_east32",
-        "name": { "str": "Sacred Books of the East Vol. 32", "str_pl": "copies of the thirty-second volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 32",
+          "str_pl": "copies of the thirty-second volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vedic Hymns, part 1/2: Hymns to the Maruts, Hymns to Rudra, Hymns to Vâyu, Hymns to Vâta and a bibliographical list of the more important publications on the Rigveda.",
         "append": true
       },
       {
         "id": "holybook_east33",
-        "name": { "str": "Sacred Books of the East Vol. 33", "str_pl": "copies of the thirty-third volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 33",
+          "str_pl": "copies of the thirty-third volume of the Sacred Books of the East"
+        },
         "description": "It contains The Minor Law-Books: Brihaspati.",
         "append": true
       },
       {
         "id": "holybook_east34",
-        "name": { "str": "Sacred Books of the East Vol. 34", "str_pl": "copies of the thirty-fourth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 34",
+          "str_pl": "copies of the thirty-fourth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vedanta-Sutras, part 1/3: Commentary by Sankaracharya, part 1 of 2, and the Adhyâya I–II (Pâda I–II).",
         "append": true
       },
       {
         "id": "holybook_east35",
-        "name": { "str": "Sacred Books of the East Vol. 35", "str_pl": "copies of the thirty-fifth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 35",
+          "str_pl": "copies of the thirty-fifth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Questions of King Milinda, part 1/2.",
         "append": true
       },
       {
         "id": "holybook_east36",
-        "name": { "str": "Sacred Books of the East Vol. 36", "str_pl": "copies of the thirty-sixth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 36",
+          "str_pl": "copies of the thirty-sixth volume of the Sacred Books of the East"
+        },
         "description": "It contains The Questions of King Milinda, part 2/2.",
         "append": true
       },
       {
         "id": "holybook_east37",
-        "name": { "str": "Sacred Books of the East Vol. 37", "str_pl": "copies of the thirty-seventh volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 37",
+          "str_pl": "copies of the thirty-seventh volume of the Sacred Books of the East"
+        },
         "description": "It contains the Pahlavi Texts, part 4/5: Contents of the Nasks.",
         "append": true
       },
       {
         "id": "holybook_east38",
-        "name": { "str": "Sacred Books of the East Vol. 38", "str_pl": "copies of the thirty-eight volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 38",
+          "str_pl": "copies of the thirty-eight volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vedanta-Sutras, part 2/3: Commentary by Sankaracharya, part 2 of 2, and Adhyâya II to IV (Pâda III to IV).",
         "append": true
       },
       {
         "id": "holybook_east39",
-        "name": { "str": "Sacred Books of the East Vol. 39", "str_pl": "copies of the thirty-ninth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 39",
+          "str_pl": "copies of the thirty-ninth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Kwang-tze (Chuang-tse), from I to XVII.",
         "append": true
       },
       {
         "id": "holybook_east40",
-        "name": { "str": "Sacred Books of the East Vol. 40", "str_pl": "copies of the fourtieth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 40",
+          "str_pl": "copies of the fourtieth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to vols. 39 and 40.",
         "append": true
       },
       {
         "id": "holybook_east41",
-        "name": { "str": "Sacred Books of the East Vol. 41", "str_pl": "copies of the forty-first volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 41",
+          "str_pl": "copies of the forty-first volume of the Sacred Books of the East"
+        },
         "description": "It contains the Satapatha Brahmana, part 3/5: Mâdhyandina Shakha from V to VII.",
         "append": true
       },
       {
         "id": "holybook_east42",
-        "name": { "str": "Sacred Books of the East Vol. 42", "str_pl": "copies of the forty-second volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 42",
+          "str_pl": "copies of the forty-second volume of the Sacred Books of the East"
+        },
         "description": "It contains the Hymns of the Atharvaveda, together With Extracts From the Ritual Books and the Commentaries.",
         "append": true
       },
       {
         "id": "holybook_east43",
-        "name": { "str": "Sacred Books of the East Vol. 43", "str_pl": "copies of the forty-third volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 43",
+          "str_pl": "copies of the forty-third volume of the Sacred Books of the East"
+        },
         "description": "It contains the Satapatha Brahmana, part 4/5: the Mâdhyandina Shakha VII, IX and X.",
         "append": true
       },
       {
         "id": "holybook_east44",
-        "name": { "str": "Sacred Books of the East Vol. 44", "str_pl": "copies of the forty-fourth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 44",
+          "str_pl": "copies of the forty-fourth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Satapatha Brahmana, part 5/5: the Mâdhyandina Shakha from XI to XIV.",
         "append": true
       },
       {
         "id": "holybook_east45",
-        "name": { "str": "Sacred Books of the East Vol. 45", "str_pl": "copies of the forty-fifth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 45",
+          "str_pl": "copies of the forty-fifth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Jaina Sutras, part 2 of 2: Uttaradhyayana Sutra and Sutrakritânga Sutra.",
         "append": true
       },
       {
         "id": "holybook_east46",
-        "name": { "str": "Sacred Books of the East Vol. 46", "str_pl": "copies of the forty-sixth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 46",
+          "str_pl": "copies of the forty-sixth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vedic Hymns, part 2/2: Hymns to Agni (Mandalas I to V).",
         "append": true
       },
       {
         "id": "holybook_east47",
-        "name": { "str": "Sacred Books of the East Vol. 47", "str_pl": "copies of the forty-seventh volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 47",
+          "str_pl": "copies of the forty-seventh volume of the Sacred Books of the East"
+        },
         "description": "It contains the Pahlavi Texts, part 5/5: The Marvels of Zoroastrianism.",
         "append": true
       },
       {
         "id": "holybook_east48",
-        "name": { "str": "Sacred Books of the East Vol. 48", "str_pl": "copies of the forty-eighth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 48",
+          "str_pl": "copies of the forty-eighth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Vedanta-Sutras, part 3/3, with the commentary of Râmânuja.",
         "append": true
       },
       {
         "id": "holybook_east49",
-        "name": { "str": "Sacred Books of the East Vol. 49", "str_pl": "copies of the forty-ninth volume of the Sacred Books of the East" },
+        "name": {
+          "str": "Sacred Books of the East Vol. 49",
+          "str_pl": "copies of the forty-ninth volume of the Sacred Books of the East"
+        },
         "description": "It contains the Buddhist Mahayana Texts, part 1/2: Buddha-karita of Aśvaghosa, the Buddhist Mahayana Texts, part 2/2: Longer Sukhâvati-vyuha and Shorter Sukhâvati-vyuha, Vagrakkhedika, the longer Pragnâ-pâramitâ-hridaya-sutra, the shorter Pragnâ-pâramitâ-hridaya-sutra and the Amitâyur dhyâna-sutra.",
         "append": true
       },
