@@ -12,6 +12,7 @@
     "nested_category_data": [
       "practice_telekinetic_pull",
       "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
       "practice_telekinetic_momentum",
       "practice_telekinetic_slowfall",
       "practice_telekinetic_wave",
@@ -121,6 +122,34 @@
             }
           ]
         }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: knockdown",
+    "id": "practice_telekinetic_slam_down",
+    "description": "Contemplate your powers and improve your ability to knock your targets over.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN",
+        "condition": { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "1" ] },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('telekinetic_slam_down')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
       }
     ]
   },

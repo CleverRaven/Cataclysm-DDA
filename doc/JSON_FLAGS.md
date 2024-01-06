@@ -365,6 +365,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story
 - ```BIO_IMMUNE``` You are immune to biological damage.
 - ```BLEED_IMMUNE``` Immune to bleeding.
+- ```BLEEDSLOW``` When bleeding, lose blood at 2/3rds of the normal rate.
+- ```BLEEDSLOW2``` When bleeding, lose blood at 1/3rd of the normal rate.
 - ```BLIND``` Makes you blind.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty

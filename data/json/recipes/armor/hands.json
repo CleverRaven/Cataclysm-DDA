@@ -495,6 +495,47 @@
     "using": [ [ "tailoring_leather_small", 3 ] ]
   },
   {
+    "result": "gloves_denim",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 3 ] ],
+    "byproducts": [ [ "scrap_denim", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "gloves_denim_fingerless",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "4 h 30 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 2 ] ],
+    "byproducts": [ [ "scrap_denim", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "gloves_denim_fingerless",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gloves_denim", 1 ] ] ],
+    "byproducts": [ [ "scrap_denim", 10 ] ]
+  },
+  {
     "result": "gloves_light",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

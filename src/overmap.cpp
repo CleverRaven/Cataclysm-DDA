@@ -1422,21 +1422,21 @@ struct fixed_overmap_special_data : overmap_special_data {
 
         for( const overmap_special_terrain &elem : terrains ) {
             const tripoint_om_omt location = origin + om_direction::rotate( elem.p, dir );
-            result.omts_used.push_back( location );
-            const oter_id tid = elem.terrain->get_rotated( dir );
-
-            om.ter_set( location, tid );
-
-            if( blob ) {
-                for( int x = -2; x <= 2; x++ ) {
-                    for( int y = -2; y <= 2; y++ ) {
-                        const tripoint_om_omt nearby_pos = location + point( x, y );
-                        if( !overmap::inbounds( nearby_pos ) ) {
-                            continue;
-                        }
-                        if( one_in( 1 + std::abs( x ) + std::abs( y ) ) &&
-                            elem.can_be_placed_on( om.ter( nearby_pos ) ) ) {
-                            om.ter_set( nearby_pos, tid );
+            if( !( elem.terrain == oter_str_id::NULL_ID() ) ) {
+                result.omts_used.push_back( location );
+                const oter_id tid = elem.terrain->get_rotated( dir );
+                om.ter_set( location, tid );
+                if( blob ) {
+                    for( int x = -2; x <= 2; x++ ) {
+                        for( int y = -2; y <= 2; y++ ) {
+                            const tripoint_om_omt nearby_pos = location + point( x, y );
+                            if( !overmap::inbounds( nearby_pos ) ) {
+                                continue;
+                            }
+                            if( one_in( 1 + std::abs( x ) + std::abs( y ) ) &&
+                                elem.can_be_placed_on( om.ter( nearby_pos ) ) ) {
+                                om.ter_set( nearby_pos, tid );
+                            }
                         }
                     }
                 }
@@ -2755,7 +2755,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
         case overmap_special_subtype::fixed: {
             shared_ptr_fast<fixed_overmap_special_data> fixed_data =
                 make_shared_fast<fixed_overmap_special_data>();
-            mandatory( jo, was_loaded, "overmaps", fixed_data->terrains );
+            optional( jo, was_loaded, "overmaps", fixed_data->terrains );
             if( is_special ) {
                 optional( jo, was_loaded, "connections", fixed_data->connections );
             }

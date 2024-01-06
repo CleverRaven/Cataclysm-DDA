@@ -333,7 +333,6 @@ struct connect_group {
         std::set<ter_furn_flag> connects_to_flags;
         std::set<ter_furn_flag> rotates_to_flags;
 
-        bool was_loaded;
         static void load( const JsonObject &jo );
         static void reset();
 };

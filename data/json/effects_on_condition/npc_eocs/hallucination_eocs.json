@@ -133,7 +133,7 @@
   {
     "type": "effect_on_condition",
     "id": "false_npc_talk",
-    "effect": { "u_message": "<random_anysex_first_name> <random_last_name> says \"<lets_talk>\"", "type": "info" }
+    "effect": { "u_message": "<full_name> says \"<lets_talk>\"", "type": "info" }
   },
   {
     "type": "effect_on_condition",

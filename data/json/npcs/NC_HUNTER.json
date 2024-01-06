@@ -26,6 +26,7 @@
       { "item": "jacket_leather", "prob": 20 },
       { "item": "trenchcoat", "prob": 20 },
       { "item": "jacket_jean", "prob": 20 },
+      { "item": "vest_jean", "prob": 10 },
       { "item": "jacket_flannel", "prob": 20 },
       { "item": "jacket_windbreaker", "prob": 10 }
     ]

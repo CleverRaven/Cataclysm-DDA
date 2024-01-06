@@ -156,7 +156,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_spawn_npc_test",
-    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3 } ]
+    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3, "traits": [ "GOODMEMORY" ] } ]
   },
   {
     "type": "effect_on_condition",

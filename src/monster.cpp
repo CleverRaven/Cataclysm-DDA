@@ -596,7 +596,7 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
         if( calendar::turn - udder_timer > 1_days ) {
             // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
             ammo.begin()->second = type->starting_ammo.begin()->second;
@@ -1335,6 +1335,9 @@ tripoint_abs_ms monster::get_dest() const
 
 void monster::set_dest( const tripoint_abs_ms &p )
 {
+    if( !goal || rl_dist( p, *goal ) > 2 ) {
+        reset_pathfinding_cd();
+    }
     goal = p;
 }
 
@@ -2119,6 +2122,8 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     if( is_dead_state() ) {
         return;
     }
+    // Ensure we can try to get at what hit us.
+    reset_pathfinding_cd();
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
@@ -3405,9 +3410,8 @@ bool monster::is_nether() const
 // The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
 bool monster::has_mind() const
 {
-    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
-             ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) &&
-               has_flag( mon_flag_HUMAN ) ) );
+    return ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
+           ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) && has_flag( mon_flag_HUMAN ) );
 }
 
 field_type_id monster::bloodType() const
@@ -3920,9 +3924,9 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::unordered_set<tripoint> monster::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
 
     map &here = get_map();
     int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );

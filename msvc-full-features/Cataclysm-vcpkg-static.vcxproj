@@ -219,7 +219,6 @@
     <ClInclude Include="..\src\messages.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\magic_spell_effect.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\messages.cpp" />
   </ItemGroup>
