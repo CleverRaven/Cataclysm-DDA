@@ -447,12 +447,6 @@
   },
   {
     "type": "mutation",
-    "id": "LIGHT_BONES",
-    "copy-from": "LIGHT_BONES",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "HOLLOW_BONES",
     "copy-from": "HOLLOW_BONES",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
