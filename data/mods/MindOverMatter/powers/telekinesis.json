@@ -288,15 +288,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [
-      "PSIONIC",
-      "CONCENTRATE",
-      "SILENT",
-      "NO_HANDS",
-      "NO_LEGS",
-      "NO_EXPLOSION_SFX",
-      "RANDOM_DURATION"
-    ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -318,11 +310,7 @@
         "u_effect_intensity('effect_telekinetic_strength') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_strength') * 150)), 2000)"
       ]
     },
-    "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_telekinetic_strength') > -1 ? 10 : 300"
-      ]
-    }
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_telekinetic_strength') > -1 ? 10 : 300" ] }
   },
   {
     "id": "telekinetic_hammer",
@@ -369,8 +357,7 @@
     "casting_time_increment": -2.5,
     "sound_type": "combat",
     "sound_description": "a heavy thud!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12, "telekinetic_earthshaker": 18 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "tele_mindhammer_bash",
@@ -514,7 +501,7 @@
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_explosion') * 7.5 + 99) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telekinetic_explosion') * 7.5) + 99) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -538,8 +525,7 @@
     "casting_time_increment": -7.5,
     "sound_type": "combat",
     "sound_description": "a loud crash!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telekinetic_earthshaker": 10 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "tele_explosion_damage",
@@ -678,7 +664,7 @@
     },
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+        "min( ( ( (u_spell_level('telekinetic_earthshaker') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
       ]
     },
     "max_aoe": 30,
@@ -713,7 +699,7 @@
     },
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+        "min( ( ( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
       ]
     },
     "max_aoe": 35
@@ -730,7 +716,7 @@
     "shape": "blast",
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+        "min( ( ( (u_spell_level('telekinetic_earthshaker') * 0.7) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
       ]
     },
     "max_aoe": 35

@@ -402,23 +402,23 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
 
-## Aegis (C)
+## Aegis
 *Difficulty*: 9<br />
 *Target*: Self<br />
-*Duration*: 1 second to 2 seconds, plus 1 second maximum possible duration per 5 power levels<br />
+*Duration*: 1 second to 2 seconds, plus 1 second maximum possible duration per 5 power levels (minimum does not change)<br />
 *Stamina Cost*: 9500, minus 225 per level to a minimum of 5500<br />
 *Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 55<br />
-*Effects*: Put up a nearly-impenetrable barrier of telekinetic force capable of withstanding the blast wave of a nuclear detonation (though not the heat or the radiation). Reduces all bashing, cutting, piercing, and ballistic damage by 100,000.<br />
-*Prerequisites*: Inertial Barrier 7, Wave of Force 8 *or Slowfall 9, Momentum Alteration 12 *or* Enhance Strength 8<br />
+*Effects*: Put up a nearly-impenetrable barrier of telekinetic force capable of withstanding the blast wave of a nuclear detonation (though not the heat or the radiation). Reduces all bashing, cutting, piercing, and ballistic damage by 100,000. The psion is unable to move while Aegis is in effect.<br />
+*Prerequisites*: Inertial Barrier 7, Wave of Force 8 *or* Slowfall 9, Momentum Alteration 12 *or* Enhance Strength 8<br />
 
-## Earthshaker (C)
+## Earthshaker
 *Difficulty*: 10<br />
-*Target*: An area of effect around the psion of 5 squares plus 0.8 squares per power level<br />
+*Target*: A radius around the psion of 5 squares plus 0.8 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 11500, minus 200 per level to a minimum of 7000<br />
 *Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 45<br />
 *Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
-*Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Knockdown 12 <br />
+*Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
 
 # Teleportation
 
