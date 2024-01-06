@@ -122,6 +122,8 @@ time_duration year_length();
 time_duration season_length();
 void set_season_length( int dur );
 
+void set_location( float latitude, float longitude );
+
 /// @returns relative length of game season to real life season.
 float season_ratio();
 

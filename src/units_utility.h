@@ -5,7 +5,6 @@
 #ifndef CATA_SRC_UNITS_UTILITY_H
 #define CATA_SRC_UNITS_UTILITY_H
 
-#include "options.h"
 #include "units.h"
 
 /** Divide @p num by @p den, rounding up
@@ -49,12 +48,6 @@ struct lat_long {
     units::angle latitude;
     units::angle longitude;
 };
-
-units::angle external_latitude = units::from_degrees( get_option<float>( "LATITUDE" ) );
-units::angle external_longitude = units::from_degrees( get_option<float>( "LONGITUDE" ) );
-
-
-lat_long location_boston = { external_latitude, external_longitude };
 
 /**
  * Create a units label for a weight value.
