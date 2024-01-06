@@ -109,6 +109,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_biblechild_c",
+    "type": "BOOK",
+    "name": { "str": "Children's Catholic Bible", "str_pl": "copies of a Children's Catholic Bible" },
+    "description": "A small, lightweight Catholic Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
+    "weight": "250 g",
+    "volume": "700 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_biblechild_p",
+    "type": "BOOK",
+    "name": { "str": "Children's Protestant Bible", "str_pl": "copies of a Children's Catholic Bible" },
+    "description": "A small, lightweight Protestant Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
+    "weight": "250 g",
+    "volume": "700 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_catechism",
     "type": "BOOK",
     "name": { "str": "The Common Catechism", "str_pl": "copies of The Common Catechism" },
