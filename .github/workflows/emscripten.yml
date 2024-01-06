@@ -1,0 +1,68 @@
+name: Emscripten build
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: emscripten-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  BACKTRACE: 0
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use GNU tar to enable zstd for actions/cache
+      run: |
+        echo "Adding GNU tar to PATH"
+        echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      shell: cmd
+
+    - uses: mymindstorm/setup-emsdk@v13
+
+    - name: Prepare web data
+      run: ./build-scripts/prepare-web-data.sh
+
+    - name: Build with emcc (emscripten)
+      run: ./build-scripts/build-emscripten.sh
+
+    - name: Assemble web bundle
+      run: ./build-scripts/prepare-web.sh
+
+    - name: Create artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: play-cdda
+        path: build/*
