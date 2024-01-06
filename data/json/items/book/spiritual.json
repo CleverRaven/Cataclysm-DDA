@@ -496,6 +496,15 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_helliand",
+    "type": "BOOK",
+    "name": { "str": "Helliand", "str_pl": "copies of the Helliand" },
+    "description": "A English translation of the Helliand, an Old Saxon epic poem that narrates the life and Passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus’s childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm..",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_sirach",
     "type": "BOOK",
     "name": { "str": "Alphabet of Sirach", "str_pl": "copies of the Alphabet of Sirach" },
