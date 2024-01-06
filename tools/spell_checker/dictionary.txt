@@ -164,6 +164,8 @@ armeniaca
 armet
 armguard
 armguards
+armhole
+armholes
 armorers
 armrests
 aromantic
@@ -2924,6 +2926,7 @@ stonelike
 stoneling
 stonelings
 stoneskin
+stonewashed
 stook
 stooking
 stopcock
