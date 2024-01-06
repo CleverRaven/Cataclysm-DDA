@@ -115,7 +115,7 @@ WARNINGS = \
   -Wno-dangling-reference \
   -Wno-c++20-compat
 # Uncomment below to disable warnings
-WARNINGS = -w
+# WARNINGS = -w
 DEBUGSYMS = -g
 #PROFILE = -pg
 #OTHERS = -O3
