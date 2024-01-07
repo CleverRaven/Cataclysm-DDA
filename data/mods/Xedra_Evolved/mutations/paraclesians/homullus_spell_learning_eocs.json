@@ -1,0 +1,41 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be in a city or a faction camp",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": { "u_has_trait": "HOMULLUS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "homullus_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_2",
+            "//": "This EoC is required because map_in_city cannot check talker location",
+            "condition": {
+              "or": [
+                { "u_at_om_location": "FACTION_CAMP_ANY" },
+                { "u_at_om_location": "homullus_genius_loci_NW" },
+                { "u_at_om_location": "homullus_genius_loci_NE" },
+                { "u_at_om_location": "homullus_genius_loci_SW" },
+                { "u_at_om_location": "homullus_genius_loci_SE" },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Homullus knows. Probability is [11-Difficulty]",
+    "effect": [  ]
+  }
+]

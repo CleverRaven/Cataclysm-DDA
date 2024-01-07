@@ -20,7 +20,11 @@
             { "u_is_on_terrain": "t_mud" },
             { "u_is_on_terrain": "t_rock_floor_no_roof" },
             { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" }
+            { "u_is_on_terrain": "t_rock_smooth" },
+            { "u_at_om_location": "ierde_genius_loci_NW" },
+            { "u_at_om_location": "ierde_genius_loci_NE" },
+            { "u_at_om_location": "ierde_genius_loci_SW" },
+            { "u_at_om_location": "ierde_genius_loci_SE" }
           ]
         }
       ]
