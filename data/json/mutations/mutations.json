@@ -6362,7 +6362,7 @@
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
     "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY", "WINGS_BAT" ],
-    "category": [ "INSECT", "BEAST" ]
+    "category": [ "INSECT", "BEAST", "BIRD" ]
   },
   {
     "type": "mutation",
