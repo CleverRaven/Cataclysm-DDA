@@ -179,6 +179,7 @@
     "points": 5,
     "description": "When underground or on natural earth, the Ierde recovers Stamina 50% faster.",
     "category": [ "IERDE" ],
+    "changes_to": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
     "prereqs": [ "IERDE_CARDIO2", "IERDE_CARDIO3" ],
     "enchantments": [
       {
@@ -343,7 +344,7 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "IERDE_STR_BONUS_2" ],
+    "prereqs": [ "IERDE_CARDIO2" ],
     "prereqs2": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "changes_to": [ "IERDE_STR_BONUS_4" ],
     "description": "Like the mountain, the Ierde is unmoved by calamity.  +7 Strength.",
@@ -358,7 +359,7 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "IERDE_STR_BONUS_3" ],
+    "prereqs": [ "IERDE_CARDIO3" ],
     "prereqs2": [ "IERDE_SKIN_3" ],
     "description": "Like the bedrock, the Ierde's might can support the entire world.  +9 Strength.",
     "category": [ "IERDE" ],
