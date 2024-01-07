@@ -206,7 +206,7 @@ struct CataListener : Catch::TestEventListenerBase {
         error_during_initialization = debug_has_error_been_observed();
 
         DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
-        start = std::chrono::system_clock::now();
+        end = start = std::chrono::system_clock::now();
     }
 
     void testRunEnded( Catch::TestRunStats const & ) override {
@@ -385,6 +385,11 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) <<
                                    "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
+    }
+
+    if( world_generator == nullptr ) {
+        // The session run may not have initialized game state because asked to list tests
+        return result;
     }
 
     std::string world_name = world_generator->active_world->world_name;
