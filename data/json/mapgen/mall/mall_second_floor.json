@@ -1509,7 +1509,7 @@
         "M": { "item": "fancyfurs", "chance": 20 },
         "V": { "item": "candy_shop", "chance": 20, "repeat": [ 3, 5 ] },
         "K": { "item": "candy_shop", "chance": 20, "repeat": [ 3, 5 ] },
-        "Ŧ": { "item": "vitamin_shop", "chance": 20, "repeat": [ 3, 5 ] },
+        "Ŧ": { "item": "otc_drugs", "chance": 20, "repeat": [ 3, 5 ] },
         "Q": { "item": "softdrugs", "chance": 20, "repeat": [ 3, 5 ] }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 13, 23 ], "repeat": [ 4, 8 ] } ]
@@ -1576,7 +1576,7 @@
         "!": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
       "items": {
-        "Ŧ": { "item": "vitamin_shop", "chance": 20, "repeat": [ 3, 5 ] },
+        "Ŧ": { "item": "otc_drugs", "chance": 20, "repeat": [ 3, 5 ] },
         "Q": { "item": "softdrugs", "chance": 30, "repeat": [ 2, 3 ] },
         "R": { "item": "book_survival", "chance": 30, "repeat": [ 2, 3 ] },
         "d": [
