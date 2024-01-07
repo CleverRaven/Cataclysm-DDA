@@ -766,6 +766,8 @@ void game::setup()
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
+    overmap::set_omt_outside_defined_omap( ::get_option<std::string>( "OUTSIDE_DEFINED_OMAP_OMT" ) );
+
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_game + 30_minutes;

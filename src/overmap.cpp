@@ -156,6 +156,7 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
+static oter_id omt_outside_defined_omap;
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -3356,6 +3357,11 @@ void overmap::set_scent( const tripoint_abs_omt &loc, const scent_trace &new_sce
     scents[loc] = new_scent;
 }
 
+void overmap::set_omt_outside_defined_omap( std::string sin )
+{
+    omt_outside_defined_omap( const sin );
+}
+
 void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
@@ -3379,11 +3385,10 @@ void overmap::generate( const overmap *north, const overmap *east,
         } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
-            const oter_id lake_surface( "lake_surface" );
             for( int j = 0; j < OMAPY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < OMAPX; i++ ) {
-                    layer[z + OVERMAP_DEPTH].terrain[i][j] = lake_surface;
+                    layer[z + OVERMAP_DEPTH].terrain[i][j] = omt_outside_defined_omap;
                 }
             }
         }
