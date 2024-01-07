@@ -187,7 +187,7 @@
       "terrain": { "=": "t_pavement" },
       "items": {
         "x": { "item": "beauty", "chance": 20, "repeat": [ 1, 2 ] },
-        "P": { "item": "vitamin_shop", "chance": 20, "repeat": [ 1, 2 ] },
+        "P": { "item": "otc_drugs", "chance": 20, "repeat": [ 1, 2 ] },
         "p": [
           { "item": "prepared_teas", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "vending_drink", "chance": 30 },
