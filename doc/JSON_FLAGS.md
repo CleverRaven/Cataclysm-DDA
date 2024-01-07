@@ -12,6 +12,7 @@
   - [Bodyparts](#bodyparts)
   - [Books](#books)
   - [Character](#character)
+    - [Mutation Categories](#mutation-categories)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
@@ -39,36 +40,33 @@
     - [Sizes](#sizes)
     - [Special attacks](#special-attacks)
   - [Mutations](#mutations)
-    - [Categories](#categories-1)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
     - [Overmap terrains](#overmap-terrains)
-      - [Flags](#flags-10)
   - [Recipes](#recipes)
     - [Crafting recipes](#crafting-recipes)
     - [Camp building recipes](#camp-building-recipes)
       - [Blueprint reorientation flags](#blueprint-reorientation-flags)
   - [Scenarios](#scenarios)
-      - [Profession Flags](#profession-flags)
-      - [Starting Location Flags](#starting-location-flags)
+    - [Profession](#profession)
+    - [Starting Location](#starting-location)
   - [Skills](#skills)
     - [Tags](#tags)
+  - [Technical flags](#technical-flags)
   - [Techniques](#techniques)
   - [Tools](#tools)
-    - [Flags that apply to items](#flags-that-apply-to-items)
-    - [Use actions](#use-actions)
+    - [`use_action`](#use_action)
   - [Traps](#traps)
-  - [Vehicle Parts](#vehicle-parts)
-    - [Vehicle parts requiring other vehicle parts](#vehicle-parts-requiring-other-vehicle-parts)
+  - [Vehicles](#vehicles)
     - [Fuel types](#fuel-types)
-    - [Faults](#faults)
-      - [Parameters](#parameters)
+    - [Parts](#parts)
+    - [Vehicle faults](#vehicle-faults)
 
 ## Notes
 
 - Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
-- Many of the flags intended for one category or item type, can be used in other categories or item types.  Experiment to see where else flags can be used.
+- Many of the flags intended for one category or item type can be used in other categories or item types.  Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
 
@@ -84,7 +82,7 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## Ammo
 
-These are handled through `ammo_types.json`.  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
+These are handled through [ammo types](#data/json/items/ammo_types.json).  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```120mm``` 120mm HEAT
 - ```12mm``` 12mm
@@ -329,7 +327,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Character
 
-Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/mutations/mutations.json.  For further information, also see [MUTATIONS.doc](#MUTATIONS.md#mutations).
+Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](#data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](#MUTATIONS.md#mutations).
 
 - ```ACIDBLOOD``` Drip acid from wounds instead of blood
 - ```ACID_IMMUNE``` You are immune to acid damage.
@@ -430,6 +428,29 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
 - ```mycus``` TBD
+
+
+### Mutation Categories
+
+These branches are the valid `dreams` from [dreams.json](#data/json/dreams.json).
+
+- ```MUTCAT_ALPHA``` "You feel... better.  Somehow."
+- ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
+- ```MUTCAT_BIRD``` "Your body lightens and you long for the sky."
+- ```MUTCAT_CATTLE``` "Your mind and body slow down.  You feel peaceful."
+- ```MUTCAT_CEPHALOPOD``` "Your mind is overcome by images of eldritch horrors... and then they pass."
+- ```MUTCAT_CHIMERA``` "You need to roar, bask, bite, and flap.  NOW."
+- ```MUTCAT_ELFA``` "Nature is becoming one with you..."
+- ```MUTCAT_FISH``` "You are overcome by an overwhelming longing for the ocean."
+- ```MUTCAT_INSECT``` "You hear buzzing, and feel your body harden."
+- ```MUTCAT_LIZARD``` "For a heartbeat, your body cools down."
+- ```MUTCAT_MEDICAL``` "Your can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
+- ```MUTCAT_PLANT``` "You feel much closer to nature."
+- ```MUTCAT_RAPTOR``` "Mmm...sweet bloody flavor... tastes like victory."
+- ```MUTCAT_RAT``` "You feel a momentary nausea."
+- ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
+- ```MUTCAT_SPIDER``` "You feel insidious."
+- ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
 
 
 ## Comestibles
@@ -545,7 +566,7 @@ These are checked by hardcode for monsters (introducing new flags will require C
 
 ## Furniture and Terrain
 
-List of known flags, used in both `terrain.json` and `furniture.json`.  Some work for both `furniture` and `terrain`, not all of them for both.
+List of known flags, used in both `furniture` and `terrain`.  Some work for both, others are limited to either.
 
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.
@@ -995,6 +1016,8 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 
 ## Melee
 
+Melee flags are fully compatible with [tool flags](#tools), and vice versa.
+
 - ```ALLOWS_BODY_BLOCK``` Allows body blocks (arms and legs blocks) to trigger even while wielding the item with the flag.  Used with small items like knives and pistols that do not interfere with the ability to block with your body.  Only works if your current martial art allows body blocks too.
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands.  Without this, the items volume and weight are used to calculate this.
 - ```BIONIC_WEAPON``` Cannot wield this item normally.  It has to be attached to a bionic and equipped through activation of the bionic.
@@ -1018,7 +1041,7 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 
 ## Monsters
 
-Flags used to describe monster characteristics and set their properties and abilities.
+Used to describe monster characteristics and set their properties and abilities.
 
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
@@ -1219,28 +1242,6 @@ Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_
 
 See [Character](#character)
 
-### Categories
-
-These branches are also the valid entries for the categories of `dreams` in `dreams.json`
-
-- ```MUTCAT_ALPHA``` "You feel...better.  Somehow."
-- ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
-- ```MUTCAT_BIRD``` "Your body lightens and you long for the sky."
-- ```MUTCAT_CATTLE``` "Your mind and body slow down.  You feel peaceful."
-- ```MUTCAT_CEPHALOPOD``` "Your mind is overcome by images of eldritch horrors... and then they pass."
-- ```MUTCAT_CHIMERA``` "You need to roar, bask, bite, and flap.  NOW."
-- ```MUTCAT_ELFA``` "Nature is becoming one with you..."
-- ```MUTCAT_FISH``` "You are overcome by an overwhelming longing for the ocean."
-- ```MUTCAT_INSECT``` "You hear buzzing, and feel your body harden."
-- ```MUTCAT_LIZARD``` "For a heartbeat, your body cools down."
-- ```MUTCAT_MEDICAL``` "Your can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
-- ```MUTCAT_PLANT``` "You feel much closer to nature."
-- ```MUTCAT_RAPTOR``` "Mmm...sweet bloody flavor... tastes like victory."
-- ```MUTCAT_RAT``` "You feel a momentary nausea."
-- ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
-- ```MUTCAT_SPIDER``` "You feel insidious."
-- ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
-
 
 ## Overmap
 
@@ -1330,8 +1331,6 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 - ```CC_WEAPON```
 
 
-#### Flags
-
 ### Camp building recipes
 
 These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
@@ -1363,12 +1362,12 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 - ```SUR_START``` Write `Zombies nearby` in the scenario info, doesn't spawn monsters by itself (put close to `LONE_START`)
 
 
-#### Profession Flags
+### Profession
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
 
-#### Starting Location Flags
+### Starting Location
 
 - ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
 - ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
@@ -1382,17 +1381,39 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 - ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied).  Neither player nor NPCs can possess it.
 
 
+## Technical flags
+
+These are added programatically when the game is running, not by JSON.  These are set to specific items (a single thingamabob, not *all* thingamabob) by the engine, depending on in-game action or environmental context.
+
+- ```COLD``` Item is cold (see `EATEN_COLD`).
+- ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
+- ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing.  Affects butcher results.
+- ```FIELD_DRESS``` Corpse was field dressed.  Affects butcher results.
+- ```FIT``` Reduces encumbrance by one.
+- ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
+- ```HOT``` Item is hot.  See also `EATEN_HOT`.
+- ```IRRADIATED``` Item has been irradiated and will spoil at a much reduced rate.
+- ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
+- ```MUSHY``` `FREEZERBURN` item was frozen and is now mushy and tasteless and will go bad after freezing again.
+- ```NO_PARASITES``` Invalidates parasites count set in food -> type -> comestible -> parasites
+- ```QUARTERED``` Corpse was quartered into parts.  Affects butcher results, weight, volume.
+- ```REVIVE_SPECIAL``` Corpses revives when the player is nearby.
+- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between `HOT` and `COLD`.
+- ```WET``` Item is wet and will slowly dry off (e.g. towel).
+
+
 ## Techniques
 
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-- See contents of `data/json/techniques.json`.
-- Techniques are also used with martial arts styles, see `data/json/martialarts.json`.
+- See contents of [techniques.json](#data/json/techniques.json).
+- Techniques are also used with martial arts styles, see [techniques.json](#data/json/martialarts.json).
 
 
 ## Tools
 
-Melee flags are fully compatible with tool flags, and vice versa.
+[Melee flags](#melee) are fully compatible with tool flags, and vice versa.
 
 - ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
 - ```ALLOWS_REMOTE_USE``` This item can be activated or reloaded from adjacent tile without picking it up.
@@ -1427,28 +1448,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WRITE_MESSAGE``` This item could be used to write messages on signs.
-
-
-### Technical flags
-
-These are added programatically when the game is running, not by JSON.  These are set to specific items (a single thingamabob, not *all* thingamabob) depending on the action or environmental context.
-
-- ```COLD``` Item is cold (see `EATEN_COLD`).
-- ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
-- ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing.  Affects butcher results.
-- ```FIELD_DRESS``` Corpse was field dressed.  Affects butcher results.
-- ```FIT``` Reduces encumbrance by one.
-- ```FROZEN``` Item is frozen solid (used by freezer).
-- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
-- ```HOT``` Item is hot.  See also `EATEN_HOT`.
-- ```IRRADIATED``` Item has been irradiated and will spoil at a much reduced rate.
-- ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
-- ```MUSHY``` `FREEZERBURN` item was frozen and is now mushy and tasteless and will go bad after freezing again.
-- ```NO_PARASITES``` Invalidates parasites count set in food -> type -> comestible -> parasites
-- ```QUARTERED``` Corpse was quartered into parts.  Affects butcher results, weight, volume.
-- ```REVIVE_SPECIAL``` Corpses revives when the player is nearby.
-- ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between `HOT` and `COLD`.
-- ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 
 ### `use_action`
@@ -1559,7 +1558,29 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
 
-## Vehicle Parts
+## Vehicles
+
+### Fuel types
+
+- ```animal``` Beast of burden.
+- ```avgas``` I believe I can fly!
+- ```battery``` Electrifying.
+- ```biodiesel``` Homemade power.
+- ```coal_lump``` Good ol' steampunk.
+- ```charcoal``` Good ol' steampunk.
+- ```diesel``` Refined dino.
+- ```gasoline``` Refined dino.
+- ```jp8``` Refined dino for military use.
+- ```lamp_oil``` Let there be light!
+- ```motor_oil``` Synthetic analogue of refined dino.
+- ```muscle``` I got the power!
+- ```plut_cell``` 1.21 Gigawatts!
+- ```wind``` Wind powered.
+
+
+### Parts
+
+Note: Vehicle parts requiring other parts is defined by setting a `requires_flag` field with the flag requirement (i.e. the `ON_ROOF` flag contains the field `"requires_flag": "ROOF"`).
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
 - ```AIRCRAFT_REPAIRABLE_NOPROF``` Allows the player to safely remove part from an aircraft without any proficiency.
@@ -1691,29 +1712,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench JSON entry.
 
 
-### Vehicle parts requiring other vehicle parts
-
-The requirement for other vehicle parts is defined for a json flag by setting `requires_flag` for the flag.  `requires_flag` is the other flag that a part with this flag requires.
-
-
-### Fuel types
-
-- ```animal``` Beast of burden.
-- ```avgas``` I believe I can fly!
-- ```battery``` Electrifying.
-- ```biodiesel``` Homemade power.
-- ```coal_lump``` Good ol' steampunk.
-- ```charcoal``` Good ol' steampunk.
-- ```diesel``` Refined dino.
-- ```gasoline``` Refined dino.
-- ```jp8``` Refined dino for military use.
-- ```lamp_oil``` Let there be light!
-- ```motor_oil``` Synthetic analogue of refined dino.
-- ```muscle``` I got the power!
-- ```plut_cell``` 1.21 Gigawatts!
-- ```wind``` Wind powered.
-
-### Vehicle fault flags:
+### Vehicle faults
 
 - ```BAD_COLD_START``` The engine starts as if the temperature was 20 F colder.  Does not stack with multiples of itself.
 - ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
