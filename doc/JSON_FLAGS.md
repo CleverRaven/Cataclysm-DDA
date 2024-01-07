@@ -1708,7 +1708,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```WINDOW``` Can see through this part and can install curtains over it.
 - ```WIND_POWERED``` This engine is powered by wind (e.g. sails).
 - ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
-- ```WIRING``` TBD, seems related to `check_no_wiring`
+- ```WIRING``` TBD, seems related to `check_no_wiring`.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench JSON entry.
 
 
