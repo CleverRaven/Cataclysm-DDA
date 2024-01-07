@@ -4867,7 +4867,7 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
 }
 
 
-Character *get_character_from_id( std::string id_str, game *g )
+static Character *get_character_from_id( const std::string &id_str, game *g )
 {
     // Return the character with character_id, return nullptr if counldn't find the character with character_id
     Character *temp_guy = nullptr;
