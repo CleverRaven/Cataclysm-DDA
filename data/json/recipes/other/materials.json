@@ -281,7 +281,7 @@
     "time": "15 m",
     "result_mult": 27,
     "autolearn": true,
-    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 4 ] ] ]
   },
   {
     "type": "recipe",

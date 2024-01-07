@@ -2409,6 +2409,70 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "felt_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_felt", 4 ] ] ]
+  },
+  {
+    "result": "scrap_felt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "wool_staple", 1 ] ] ]
+  },
+  {
+    "result": "sheet_faux_fur_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "faux_fur", 8 ] ] ]
+  },
+  {
+    "result": "sheet_felt_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "felt_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_fur_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fur", 8 ] ] ]
+  },
+  {
+    "result": "sheet_leather_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ] ]
+  },
+  {
+    "result": "sheet_lycra_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "lycra_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_nylon_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 8 ] ] ]
+  },
+  {
     "result": "sheet_neoprene_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -6444,6 +6508,14 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "faux_fur", 8 ] ] ]
+  },
+  {
+    "result": "sheet_leather",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ] ]
   },
   {
     "result": "sheet_felt",
