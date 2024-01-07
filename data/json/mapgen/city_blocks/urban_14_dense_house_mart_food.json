@@ -131,7 +131,7 @@
       "vendingmachines": { "[": { "item_group": "vending_drink", "lootable": true }, "(": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "1": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "2": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "2": [ { "item": "otc_drugs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "5": [ { "item": "cannedfood", "chance": 30, "repeat": [ 1, 2 ] } ],
         "6": [ { "item": "groce_ingredient", "chance": 30, "repeat": [ 0, 4 ] } ],
         "7": [ { "item": "alcohol", "chance": 30, "repeat": [ 0, 4 ] } ],
