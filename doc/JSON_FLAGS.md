@@ -83,23 +83,21 @@
 ## Notes
 
 - Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
-- Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
+- Many of the flags intended for one category or item type, can be used in other categories or item types.  Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
 
 ## Inheritance
 
-When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings. Flags specified there will be removed from the resultant item upon crafting. This will override flag inheritance, but will not delete flags that are part of the item type itself.
+When an item is crafted, it can inherit flags from the components that were used to craft it.  This requires that the flag to be inherited has the `"craft_inherit": true` entry.  If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings.  Flags specified there will be removed from the resultant item upon crafting.  This will override flag inheritance, but will not delete flags that are part of the item type itself.
 
 
 ## TODO
 
-- `Ammo type` table is very old and doesn't include many new ammo types. Consider updating it or removing altogether, as ammo types ain't no json flags at all.
+- `Ammo type` table is very old and doesn't include many new ammo types.  Consider updating it or removing altogether, as ammo types ain't no json flags at all.
 
 
 ## Ammo
-
-### Ammo type
 
 These are handled through `ammo_types.json`.  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
@@ -172,31 +170,126 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```water``` Water
 - ```paper``` Paper
 
+
 ## Traps
 
 - ```AVATAR_ONLY``` Only the player character will trigger this trap.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 - ```PIT``` This trap is a version of the pit terrain.
-- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating `SONAR`.
 - ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
+
 ## Armor
+
+Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
+
+- ```ABLATIVE_CHAINMAIL_ARMS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_ELBOWS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_KNEES``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_LEGS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_TORSO``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_HELMET``` item can be worn with Hub 01 headgear without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
+- ```ABLATIVE_MANTLE``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
+- ```ABLATIVE_SKIRT``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
+- ```ALARMCLOCK``` Has an alarm-clock feature.
+- ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
+- ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail.
+- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover arms.
+- ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
+- ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
+- ```BELTED``` Layer for backpacks and things worn over outerwear.
+- ```BLIND``` Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.
+- ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage.
+- ```CANT_WEAR``` This item can't be worn directly.
+- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm when it is mostly unencumbered.
+- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat.  Used by NPCs to determine if they will toggle it on during combat.  This only supports simple `transform` actions.
+- ```DEAF``` Makes the player deaf.
+- ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
+- ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
+- ```EXTRA_PLATING``` Item can be worn over some armors, as additional layer of protection (like armor above brigandine); specifically can be put in pocket for armor with this flag restriction.
+- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FIN``` This item is swim fins aka diving fins aka flippets, and provide speed boost when you swim.
+- ```FIX_FARSIGHT``` This gear corrects farsightedness.
+- ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
+- ```FLASH_PROTECTION``` This item grant a protection against different light-related dangers, including flashbangs and dazzling light.
+- ```FLOTATION``` Prevents the player from drowning in deep water.  Also prevents diving underwater.
+- ```FRAGILE``` This gear is less resistant to damage than normal.
+- ```GAS_PROOF``` This item will completely protect you from any dangerous gases.
+- ```GNV_EFFECT``` Being worn, this item will give a night vision.  Using enchantment, that applies effect, that modifies character's night vision score, may be better alternative, and more flexible.
+- ```HELMET_AVENTAIL``` Item can be worn with nasal helmet; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_BACK_POUCH``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_EAR_ATTACHMENT``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_FACE_SHIELD``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_MANDIBLE_GUARD_STRAPPED``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_MANDIBLE_GUARD``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_NAPE_PROTECTOR``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
+- ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
+- ```IR_EFFECT``` Being worn, this item will give an infrared vision.
+- ```MUTE``` Makes the player mute.
+- ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
+- ```NO_TAKEOFF``` Item with that flag can't be taken off.
+- ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
+- ```ONLY_ONE``` You can wear only one.
+- ```OUTER```  Outer garment layer.
+- ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
+- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
+- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
+- ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
+- ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
+- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
+- ```PSYSHIELD_PARTIAL``` 25% chance to protect against `fear_paralyze` monster attack when worn.
+- ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
+- ```RAD_RESIST``` This piece of clothing partially (75%) protects you from radiation.
+- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with.  If the player is hit while wearing, they have a chance to be downed.
+- ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
+- ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
+- ```ROLLER_ONE``` A less stable and slower version of `ROLLER_QUAD`, still allows the player to move faster than walking speed.
+- ```ROLLER_QUAD```The medium choice between `ROLLER_INLINE` and `ROLLER_ONE`, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty than `ROLLER_ONE`.
+- ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
+- ```SKINTIGHT``` Undergarment layer.
+- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
+- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
+- ```STAR_PLATE``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
+- ```STAR_SHOULDER``` Item can be worn with ryūsei battle kit armor ; specifically can be put in pocket for armor with this flag restriction.
+- ```STAR_SKIRT``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
+- ```STURDY``` This clothing is a lot more resistant to damage than normal.
+- ```SUN_GLASSES``` Prevents glaring when in sunlight.
+- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
+- ```SWIM_GOGGLES``` Allows you to see much further underwater.
+- ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
+- ```TOUGH_FEET``` This armor provide effect similar to wearing a proper boots (like scale on your legs), so you don't have a debuff from not wearing footwear.
+- ```UNDERSIZE``` This clothes can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else.
+- ```VARSIZE``` Can be made to fit via tailoring.
+- ```WAIST``` Layer for belts other things worn on the waist.
+- ```WATCH``` Acts as a watch and allows the player to see actual time.
+- ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
+- ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus reducing morale from being wet.
+
 
 ### Covers
 
-- ```ARMS``` ... same as ```ARM_L``` and ```ARM_R```
+- ```ARMS``` same as `ARM_L` and `ARM_R`.
 - ```ARM_L```
 - ```ARM_R```
 - ```EYES```
-- ```FEET``` ... same as ```FOOT_L``` and ```FOOT_R```
+- ```FEET``` same as `FOOT_L` and `FOOT_R`.
 - ```FOOT_L```
 - ```FOOT_R```
-- ```HANDS``` ... same as ```HAND_L``` and ```HAND_R```
+- ```HANDS``` same as `HAND_L` and `HAND_R`.
 - ```HAND_L```
 - ```HAND_R```
 - ```HEAD```
-- ```LEGS``` ... same as ```LEG_L``` and ```LEG_R```
+- ```LEGS``` same as `LEG_L` and `LEG_R`.
 - ```LEG_L```
 - ```LEG_R```
 - ```MOUTH```
@@ -227,101 +320,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```leg_lower_l```
 
 
-### Flags
-
-Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
-
-- ```ABLATIVE_CHAINMAIL_ARMS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_CHAINMAIL_ELBOWS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_CHAINMAIL_KNEES``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_CHAINMAIL_LEGS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_CHAINMAIL_TORSO``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_HELMET``` item can be worn with Hub 01 headgear without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
-- ```ABLATIVE_MANTLE``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
-- ```ABLATIVE_SKIRT``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction
-- ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
-- ```ALARMCLOCK``` Has an alarm-clock feature.
-- ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
-- ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
-- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover arms
-- ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
-- ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
-- ```BELTED``` Layer for backpacks and things worn over outerwear.
-- ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
-- ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
-- ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
-- ```CANT_WEAR``` This item can't be worn directly.
-- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm when it is mostly unencumbered.
-- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
-- ```DEAF``` Makes the player deaf.
-- ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
-- ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
-- ```EXTRA_PLATING``` Item can be worn over some armors, as additional layer of protection (like armor above brigandine); specifically can be put in pocket for armor with this flag restriction
-- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
-- ```FIN``` This item is swim fins aka diving fins aka flippets, and provide speed boost when you swim
-- ```FIX_FARSIGHT``` This gear corrects farsightedness.
-- ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
-- ```FLASH_PROTECTION``` This item grant a protection against different light-related dangers, including flashbangs and dazzling light
-- ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
-- ```FRAGILE``` This gear is less resistant to damage than normal.
-- ```GAS_PROOF``` This item will completely protect you from any dangerous gases
-- ```GNV_EFFECT``` Being worn, this item will give a night vision. Using enchantment, that applies effect, that modifies character's night vision score, may be better alternative, and more flexible
-- ```HELMET_AVENTAIL``` Item can be worn with nasal helmet; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_BACK_POUCH``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_EAR_ATTACHMENT``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_FACE_SHIELD``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_MANDIBLE_GUARD_STRAPPED``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_MANDIBLE_GUARD``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HELMET_NAPE_PROTECTOR``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction
-- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered
-- ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
-- ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
-- ```IR_EFFECT``` Being worn, this item will give an infrared vision
-- ```MUTE``` Makes the player mute.
-- ```NORMAL``` Items worn like normal clothing. This is assumed as default.
-- ```NO_TAKEOFF``` Item with that flag can't be taken off.
-- ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
-- ```ONLY_ONE``` You can wear only one.
-- ```OUTER```  Outer garment layer.
-- ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
-- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
-- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
-- ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
-- ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
-- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
-- ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
-- ```PSYSHIELD_PARTIAL``` 25% chance to protect against `fear_paralyze` monster attack when worn.
-- ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
-- ```RAD_RESIST``` This piece of clothing partially (75%) protects you from radiation.
-- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
-- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
-- ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
-- ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
-- ```ROLLER_ONE``` A less stable and slower version of `ROLLER_QUAD`, still allows the player to move faster than walking speed.
-- ```ROLLER_QUAD```The medium choice between `ROLLER_INLINE` and `ROLLER_ONE`, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty than `ROLLER_ONE`.
-- ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
-- ```SKINTIGHT``` Undergarment layer.
-- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
-- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
-- ```STAR_PLATE``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction
-- ```STAR_SHOULDER``` Item can be worn with ryūsei battle kit armor ; specifically can be put in pocket for armor with this flag restriction
-- ```STAR_SKIRT``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction
-- ```STURDY``` This clothing is a lot more resistant to damage than normal.
-- ```SUN_GLASSES``` Prevents glaring when in sunlight.
-- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
-- ```SWIM_GOGGLES``` Allows you to see much further underwater.
-- ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
-- ```TOUGH_FEET``` This armor provide effect similar to wearing a proper boots (like scale on your legs), so you don't have a debuff from not wearing footwear
-- ```UNDERSIZE``` This clothes can be worn comfortably by mutants with Tiny or Unassuming. Too small for anyone else
-- ```VARSIZE``` Can be made to fit via tailoring.
-- ```WAIST``` Layer for belts other things worn on the waist.
-- ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus reducing morale from being wet.
-
-
 ## Bionics
 
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
@@ -340,12 +338,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 - ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
-- ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step. Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
-- ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
+- ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
+- ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations.
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
-- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
+- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
-- ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`. Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
 
 
 ## Books
@@ -457,6 +455,41 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Comestibles
 
+- ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
+- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation. See `can_heal_with` in mutation.
+- ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```EATEN_COLD``` Morale bonus for eating cold.
+- ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
+- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`, `FELINE`, `LUPINE`, `MOUSE`, `RABBIT`, `RAT`.
+- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
+- ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
+- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
+- ```HIDDEN_HALLU``` Food causes hallucinations, visible only with a certain survival skill level.
+- ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
+- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
+- ```MILLABLE``` Can be placed inside a mill, to turn into flour.
+- ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
+- ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to Mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
+- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
+- ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from. The "NUTRIENT_OVERRIDE" flag will skip this step.
+- ```PKILL_1``` Minor painkiller.
+- ```PKILL_2``` Moderate painkiller.
+- ```PKILL_3``` Heavy painkiller.
+- ```PKILL_L``` Slow-release painkiller.
+- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
+- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
+- ```SMOKABLE``` Accepted by smoking rack.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
+- ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
+- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
+- ```ZOOM``` Zoom items can increase your overmap sight range.
+
+
 ### Comestible type
 
 - ```DRINK```
@@ -515,47 +548,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
 
-### Flags
-
-- ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
-- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation. See `can_heal_with` in mutation.
-- ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```EATEN_COLD``` Morale bonus for eating cold.
-- ```EATEN_HOT``` Morale bonus for eating hot.
-- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`, `FELINE`, `LUPINE`, `MOUSE`, `RABBIT`, `RAT`.
-- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
-- ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
-- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
-- ```HIDDEN_HALLU``` Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
-- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
-- ```MILLABLE``` Can be placed inside a mill, to turn into flour.
-- ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
-- ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
-- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to Mycus fruits by default.
-- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
-- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
-- ```NO_INGEST``` Administered by some means other than oral intake.
-- ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from. The "NUTRIENT_OVERRIDE" flag will skip this step.
-- ```PKILL_1``` Minor painkiller.
-- ```PKILL_2``` Moderate painkiller.
-- ```PKILL_3``` Heavy painkiller.
-- ```PKILL_L``` Slow-release painkiller.
-- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
-- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
-- ```SMOKABLE``` Accepted by smoking rack.
-- ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
-- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
-- ```ZOOM``` Zoom items can increase your overmap sight range.
-
 
 ## Effects
-Effect flags. These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see Character Flags.
 
-### Flags
+These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see Character Flags.
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
@@ -708,6 +704,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TREE``` This terrain is a tree.
 - ```YOUNG``` This terrain is a young tree.
 
+
 ### Furniture Only
 
 - ```ACTIVE_GENERATOR``` This furniture is considered to be an active power source for the purpose of certain monster special attacks (e.g. milspec searchlight's SEARCHLIGHT)
@@ -720,8 +717,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ## Generic
 
 These flags can be applied via JSON item definition to most items.  Not to be confused with the set of flags listed under Tools > Flags that apply to items, which cannot be assigned via JSON.
-
-### Flags
 
 - ```ACT_IN_FIRE``` This item would be activated if dropped on a tile with fire
 - ```ALLERGEN_MILK``` This item contain milk, which make it inedible for person with lactose intolerance
@@ -882,9 +877,9 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ## Guns
 
-- ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
-- ```BIPOD``` Handling bonus only applies on `MOUNTABLE` map/vehicle tiles. Does not include wield time penalty (see `SLOW_WIELD`).
-- ```BRASS_CATCHER``` This gunmod is brass catcher, and can store all casing you shoot
+- ```BACKBLAST``` Causes a small explosion behind the person firing the weapon.  Currently not implemented?
+- ```BIPOD``` Handling bonus only applies on `MOUNTABLE` map/vehicle tiles.  Does not include wield time penalty (see `SLOW_WIELD`).
+- ```BRASS_CATCHER``` This gunmod is brass catcher, and can store all casing you shoot.
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```CHOKE``` This gunmod is a choke, and it prevent you from shooting slugs
 - ```COLLAPSED_STOCK``` Decrease the length of the gun for 20 cm; same as `FOLDED_STOCK`; For some reason doesn't work right now
@@ -918,17 +913,27 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```WONT_TRAIN_MARKSMANSHIP``` Shooting this gun won't train your marksmanship 
 
+
 ### Firing modes
 
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod.
 - ```NPC_AVOID``` NPCs will not attempt to use this mode.
+
+### Gun faults
+
+- ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
+- ```BLACKPOWDER_FOULING_DAMAGE``` Causes the gun to take random acid damage over time.
+- ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
+- ```JAMMED_GUN``` Stops burst fire.  Adds delay on next shot.
+- ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
+
 
 
 ## Magazines
 
 - ```MAG_BULKY``` Can be stashed in an appropriate oversize ammo pouch (intended for bulky or awkwardly shaped magazines).
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines).
-- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts). Has precedence over `MAG_EJECT`.
+- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts).  Has precedence over `MAG_EJECT`.
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed.
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the emptied target gun or magazine instead of being inserted into it.
 - ```SPEEDLOADER_CLIP``` Acts like a ```SPEEDLOADER```, except the target gun or magazine don't have to be emptied to oocur the transferments.
@@ -941,59 +946,59 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 
 ## Map Specials
 
-- ```mx_bandits_block``` ...  Road block made by bandits from tree logs, caltrops, or nailboards.
-- ```mx_burned_ground``` ... Fire has ravaged this place.
-- ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
-- ```mx_casings``` ... Several types of spent casings (solitary, groups, entire overmap tile).
-- ```mx_city_trap``` ... A spinning blade trap with a loudspeaker to attract zombies.
-- ```mx_clay_deposit``` ... A small surface clay deposit.
-- ```mx_clearcut``` ... All trees become stumps.
-- ```mx_collegekids``` ... Corpses and items.
-- ```mx_corpses``` ... Up to 5 corpses with everyday loot.
-- ```mx_crater``` ... Crater formed using a bomb.
-- ```mx_drugdeal``` ... Corpses and some drugs.
-- ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
-- ```mx_exocrash_1``` ... Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
-- ```mx_exocrash_2``` ... Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
-- ```mx_point_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.) (partial application)
-- ```mx_fallen_shed``` ... A collapsed shed.
-- ```mx_grove``` ... All trees and shrubs become a single species of tree.
-- ```mx_grass``` ... A meadow with tall grass.
-- ```mx_grass_2``` ... A meadow with tall grass.
-- ```mx_grave``` ... A grave in the open field, with a corpse and some everyday loot.
-- ```mx_helicopter``` ... Metal wreckage and some items.
-- ```mx_house_spider``` ... A house with wasps, dermatiks, and walls converted to paper.
-- ```mx_house_wasp``` ... A house with spiders, webs, eggs and some rare loot.
-- ```mx_jabberwock``` ... A *chance* of a jabberwock.
-- ```mx_looters``` ... Up to 5 bandits spawn in the building.
+- ```mx_bandits_block```  Road block made by bandits from tree logs, caltrops, or nailboards.
+- ```mx_burned_ground``` Fire has ravaged this place.
+- ```mx_point_burned_ground``` Fire has ravaged this place. (partial application)
+- ```mx_casings``` Several types of spent casings (solitary, groups, entire overmap tile).
+- ```mx_city_trap``` A spinning blade trap with a loudspeaker to attract zombies.
+- ```mx_clay_deposit``` A small surface clay deposit.
+- ```mx_clearcut``` All trees become stumps.
+- ```mx_collegekids``` Corpses and items.
+- ```mx_corpses``` Up to 5 corpses with everyday loot.
+- ```mx_crater``` Crater formed using a bomb.
+- ```mx_drugdeal``` Corpses and some drugs.
+- ```mx_dead_vegetation``` Kills all plants. (aftermath of acid rain etc.)
+- ```mx_exocrash_1``` Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
+- ```mx_exocrash_2``` Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
+- ```mx_point_dead_vegetation``` Kills all plants. (aftermath of acid rain etc.) (partial application)
+- ```mx_fallen_shed``` A collapsed shed.
+- ```mx_grove``` All trees and shrubs become a single species of tree.
+- ```mx_grass``` A meadow with tall grass.
+- ```mx_grass_2``` A meadow with tall grass.
+- ```mx_grave``` A grave in the open field, with a corpse and some everyday loot.
+- ```mx_helicopter``` Metal wreckage and some items.
+- ```mx_house_spider``` A house with wasps, dermatiks, and walls converted to paper.
+- ```mx_house_wasp``` A house with spiders, webs, eggs and some rare loot.
+- ```mx_jabberwock``` A *chance* of a jabberwock.
+- ```mx_looters``` Up to 5 bandits spawn in the building.
 - ```mx_marloss_pilgrimage``` A sect of people worshiping fungaloids.
-- ```mx_mass_grave``` ... Mass grave with zombies and everyday loot.
-- ```mx_mayhem``` ... Several types of road mayhem (firefights, crashed cars etc).
-- ```mx_military``` ... Corpses and some military items.
-- ```mx_minefield``` ... A military roadblock at the entry of the bridges with landmines scattered in the front of it.
-- ```mx_nest_dermatik``` ... Dermatik nest.
-- ```mx_nest_wasp``` ... Wasp nest.
-- ```mx_null``` ... No special at all.
-- ```mx_pond``` ... A small pond.
-- ```mx_pond_forest``` ... A small basin.
-- ```mx_pond_forest_2``` ... A small basin.
-- ```mx_pond_swamp``` ... A small bog.
-- ```mx_pond_swamp_2``` ... A small bog.
-- ```mx_portal_in``` ... Another portal to neither space.
-- ```mx_portal``` ... Portal to neither space, with several types of surrounding environment.
-- ```mx_prison_bus``` ... Prison bus with zombie cops and zombie prisoners.
-- ```mx_prison_van``` ... Traces of a violent escape near a prison van.
-- ```mx_reed``` ... Extra water vegetation.
-- ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
-- ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
-- ```mx_science``` ... Corpses and some scientist items.
-- ```mx_shia``` ... A *chance* of Shia, if Crazy Cataclysm is enabled.
-- ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
-- ```mx_spider``` ... A big spider web, complete with spiders and eggs.
-- ```mx_supplydrop``` ... Crates with some military items in it.
-- ```mx_Trapdoor_spider_den``` ... A spider spawning out of nowhere.
-- ```mx_trees``` ... A small chunk of forest with puddles with fresh water.
-- ```mx_trees_2``` ... A small chunk of forest with puddles with fresh water.
+- ```mx_mass_grave``` Mass grave with zombies and everyday loot.
+- ```mx_mayhem``` Several types of road mayhem (firefights, crashed cars etc).
+- ```mx_military``` Corpses and some military items.
+- ```mx_minefield``` A military roadblock at the entry of the bridges with landmines scattered in the front of it.
+- ```mx_nest_dermatik``` Dermatik nest.
+- ```mx_nest_wasp``` Wasp nest.
+- ```mx_null``` No special at all.
+- ```mx_pond``` A small pond.
+- ```mx_pond_forest``` A small basin.
+- ```mx_pond_forest_2``` A small basin.
+- ```mx_pond_swamp``` A small bog.
+- ```mx_pond_swamp_2``` A small bog.
+- ```mx_portal_in``` Another portal to neither space.
+- ```mx_portal``` Portal to neither space, with several types of surrounding environment.
+- ```mx_prison_bus``` Prison bus with zombie cops and zombie prisoners.
+- ```mx_prison_van``` Traces of a violent escape near a prison van.
+- ```mx_reed``` Extra water vegetation.
+- ```mx_roadblock``` Roadblock furniture with turrets and some cars.
+- ```mx_roadworks``` Partially closed damaged road with chance of work equipment and utility vehicles.
+- ```mx_science``` Corpses and some scientist items.
+- ```mx_shia``` A *chance* of Shia, if Crazy Cataclysm is enabled.
+- ```mx_shrubbery``` All trees and shrubs become a single species of shrub.
+- ```mx_spider``` A big spider web, complete with spiders and eggs.
+- ```mx_supplydrop``` Crates with some military items in it.
+- ```mx_Trapdoor_spider_den``` A spider spawning out of nowhere.
+- ```mx_trees``` A small chunk of forest with puddles with fresh water.
+- ```mx_trees_2``` A small chunk of forest with puddles with fresh water.
 
 
 
@@ -1751,8 +1756,4 @@ Vehicle fault flags:
 - ```ENG_BACKFIRE``` Causes the engine to backfire as if it had zero hp.
 
 Gun fault flags:
-- ```BLACKPOWDER_FOULING_DAMAGE``` Causes the gun to take random acid damage over time.
-- ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
-- ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
-- ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
-- ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
+
