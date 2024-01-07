@@ -639,7 +639,9 @@ ifeq ($(NATIVE), emscripten)
   # Flags that are common across compile and link phases.
   EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png']
 
-  EMCC_COMMON_FLAGS += -g
+  ifneq ($(RELEASE), 1)
+    EMCC_COMMON_FLAGS += -g
+  endif
 
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
   LDFLAGS += $(EMCC_COMMON_FLAGS)
@@ -662,11 +664,11 @@ ifeq ($(NATIVE), emscripten)
     # Release-mode Linker flags.
     LDFLAGS += -Os
     LDFLAGS += -sLZ4
-    LDFLAGS += -gseparate-dwarf
   else
     # Debug mode linker flags.
     LDFLAGS += -O1 # Emscripten link time is slow, so use low optimization level.
     LDFLAGS += -sFS_DEBUG
+    LDFLAGS += -gseparate-dwarf
   endif
 endif
 
