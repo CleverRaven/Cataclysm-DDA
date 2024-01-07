@@ -1037,7 +1037,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "components": [ [ [ "leather_police_jacket", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
+    "components": [ [ [ "leather_police_jacket", 1 ], [ "jacket_leather", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_metalworking" },
