@@ -6756,7 +6756,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 12 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 5 ] ] ]
   },
   {
     "result": "keg",
