@@ -52,8 +52,8 @@
   },
   {
     "type": "item_group",
-    "id": "vitamin_shop",
-    "copy-from": "vitamin_shop",
+    "id": "otc_drugs",
+    "copy-from": "otc_drugs",
     "extend": { "items": [ [ "caff_gum", 50 ] ] }
   },
   {
