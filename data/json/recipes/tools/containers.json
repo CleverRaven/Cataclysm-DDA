@@ -276,7 +276,7 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "can_food_big",
