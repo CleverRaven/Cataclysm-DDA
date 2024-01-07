@@ -427,7 +427,7 @@
     "color": "brown",
     "looks_like": "t_chaingate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "open": "t_chickenwire_gate_o",
@@ -460,7 +460,7 @@
     "color": "brown",
     "looks_like": "t_chaingate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "close": "t_chickenwire_gate_c",
@@ -618,6 +618,55 @@
   },
   {
     "type": "terrain",
+    "id": "t_chainfence_roofed",
+    "name": "roofed chain link fence",
+    "description": "A tall cage made of woven wires.  There aren't any gaps big enough for you to fit through, so you'll have to cut it, or find a way around.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "looks_like": "t_chainfence",
+    "boltcut": {
+      "result": "t_chainfence_posts",
+      "duration": "5 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 20 } ]
+    },
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "UNSTABLE",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE",
+      "SUPPORTS_ROOF"
+    ],
+    "connect_groups": "CHAINFENCE",
+    "connects_to": "CHAINFENCE",
+    "examine_action": "chainfence",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 8, 16 ] } ]
+    },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 8, 16 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_chainfence_posts",
+      "items": [ { "item": "wire", "count": [ 7, 14 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_chainfence_posts",
     "name": "metal post",
     "description": "A set of metal posts that can hold more serious fences.",
@@ -655,13 +704,13 @@
     "color": "brown",
     "looks_like": "t_chainfence",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "CLIMBABLE", "SUPPORTS_ROOF" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
     "deconstruct": {
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [ { "item": "wire", "count": 20 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -669,7 +718,7 @@
       "sound": "metal rattling!",
       "sound_fail": "whack!",
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "wire", "count": [ 10, 20 ] } ]
     }
   },
   {
