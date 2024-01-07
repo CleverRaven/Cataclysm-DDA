@@ -229,6 +229,7 @@
       { "group": "acetaminophen_bottle_full", "prob": 45 },
       { "group": "caffeine_bottle_full", "prob": 50 },
       { "group": "melatonin_bottle_full", "prob": 30 },
+      { "group": "antihistamine_bottle_plastic_pill_supplement_1_30", "prob": 30 },
       [ "disinfectant", 15 ],
       { "group": "protein_bottle_full", "prob": 40 },
       { "item": "caff_gum", "prob": 30, "count": 5 },
