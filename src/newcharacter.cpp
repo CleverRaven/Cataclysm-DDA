@@ -44,7 +44,6 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
-#include "name.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -63,6 +62,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -373,7 +373,7 @@ void Character::pick_name( bool bUseDefault )
     if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
-        name = Name::generate( male );
+        name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     }
 }
 
@@ -453,7 +453,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
-    randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;
@@ -464,6 +463,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     per_max = rng( 6, HIGH_STAT - 2 );
 
     set_body();
+    randomize_hobbies();
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -3421,7 +3421,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
+                                             _( "Select cataclysm start date" ), calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -3429,7 +3429,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date", calendar_ui::granularity::hour ) );
+                                        _( "Select game start date" ), calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "RESET_CALENDAR" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -4302,11 +4302,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
+                                             _( "Select cataclysm start date" ), calendar_ui::granularity::hour ) );
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date", calendar_ui::granularity::hour ) );
+                                        _( "Select game start date" ), calendar_ui::granularity::hour ) );
         } else if( action == "RESET_CALENDAR" ) {
             get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {

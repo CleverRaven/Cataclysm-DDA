@@ -755,5 +755,47 @@
       "moves": 120
     },
     "flags": [ "BIPOD", "SLOW_WIELD" ]
+  },
+  {
+    "id": "scout_bipod",
+    "type": "GUNMOD",
+    "name": { "str": "integral polymer bipod" },
+    "description": "The Steyr Scout's integral bipod is effectively part of the rifle's housing, causing its added weight to practically be zero.  However, the polymer construction and awkward design prevent it from being as useful as a normal bipod.",
+    "volume": "0 ml",
+    "//": "The bipod is straight-up part of the rifle's housing, so it doesn't take up any space or weigh anything.",
+    "price": 0,
+    "price_postapoc": 0,
+    "install_time": "1 m",
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "blue",
+    "location": "underbarrel",
+    "mod_targets": [ "steyr_scout" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You flip the bipod out from the rifle housing and lock it into position.",
+      "menu_text": "Fold out",
+      "target": "scout_bipod_deployed",
+      "moves": 90
+    },
+    "flags": [ "IRREMOVABLE", "ZERO_WEIGHT" ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "scout_bipod_deployed",
+    "type": "GUNMOD",
+    "name": { "str": "integral polymer bipod, deployed", "str_pl": "integral polymer bipods, deployed" },
+    "//": "The bipod is straight-up part of the rifle's housing, so it doesn't take up any space or weigh anything.",
+    "copy-from": "scout_bipod",
+    "integral_volume": "250 ml",
+    "handling_modifier": 12,
+    "use_action": {
+      "type": "transform",
+      "msg": "With an ugly snap, you crack the bipod legs back into the rifle.",
+      "menu_text": "Fold",
+      "target": "scout_bipod",
+      "moves": 150
+    },
+    "flags": [ "BIPOD", "SLOW_WIELD", "ZERO_WEIGHT" ]
   }
 ]

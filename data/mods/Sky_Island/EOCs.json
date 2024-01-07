@@ -635,7 +635,7 @@
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_WARPED_SKYWARD_BEACON_CHECK",
     "condition": { "u_has_items": { "item": "warp_skyward_beacon", "count": 1 } },
-    "effect": [ { "u_consume_item": "warptoken", "count": 1 } ]
+    "effect": [ { "u_consume_item": "warp_skyward_beacon", "count": 1 } ]
   },
   {
     "id": "warp_home_real",

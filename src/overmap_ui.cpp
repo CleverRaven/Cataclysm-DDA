@@ -646,8 +646,7 @@ static void draw_ascii(
         size_t count = 0;
     };
     std::unordered_set<tripoint_abs_omt> npc_path_route;
-    std::unordered_set<tripoint_abs_omt> newly_revealed( player_character.map_revealed_omts.begin(),
-            player_character.map_revealed_omts.end() )  ;
+    std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     std::unordered_map<point_abs_omt, int> player_path_route;
     std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
     auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
@@ -786,8 +785,8 @@ static void draw_ascii(
                 ter_color = c_red;
                 ter_sym = "!";
             } else if( blink && show_map_revealed &&
-                       newly_revealed.find( omp ) != newly_revealed.end() ) {
-                // Revealed maps
+                       revealed_highlights.find( omp ) != revealed_highlights.end() ) {
+                // Revealed map tiles
                 ter_color = c_magenta;
                 ter_sym = "&";
             } else if( blink && showhordes &&

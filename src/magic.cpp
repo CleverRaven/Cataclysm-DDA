@@ -1226,6 +1226,8 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+    const bool is_psi = has_flag( spell_flag::PSIONIC );
+
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
@@ -1236,40 +1238,44 @@ float spell::spell_fail( const Character &guy ) const
                                   guy.get_skill_level( skill() );
 
     // skill for psi powers downplays power level and is much more based on level and intelligence
-    // Int 8, Metaphysics 2, level 1 , difficulty 1 is effective level 26.5
+    // and goes up to 40 max--effective skill of 10 is 50% failure, effective skill of 40 is 0%
+    // Int 8, Metaphysics 2, level 1, difficulty 1 is effective level 26.5
     // Int 10, Metaphysics 5, level 4, difficulty 5 is effective level 27
-    // Int 12, Metaphysics 8, level 7, difficulty 10 is clamped at effective level 33.5
+    // Int 12, Metaphysics 8, level 7, difficulty 10 is effective level 33.5
+    const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
+                                         static_cast<float>
+                                         ( 1.5 );
 
-    const float half_power_level = static_cast<float>( get_effective_level() ) / static_cast<float>
-                                   ( 2 );
-
-    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 )  - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + half_power_level;
+    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
+            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
-    if( effective_skill > 30.0f ) {
+    if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
-    } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
+    } else if( ( effective_skill < 0.0f && !is_psi ) || ( psi_effective_skill < 0.0f && is_psi ) ) {
         return 1.0f;
     }
 
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    float psi_fail_chance = std::pow( ( psi_effective_skill - 30.0f ) / 30.0f, 2 );
+    float psi_fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
 
-    if( has_flag( spell_flag::SOMATIC ) &&
-        !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0,
-                                          guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
-        // each encumbrance point beyond the "gray" color counts as half an additional fail %
-        fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+    if( !is_psi ) {
+        if( has_flag( spell_flag::SOMATIC ) &&
+            !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int arms_encumb = std::max( 0,
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+            // each encumbrance point beyond the "gray" color counts as half an additional fail %
+            fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+        }
+        if( has_flag( spell_flag::VERBAL ) &&
+            !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
+            // a little bit of mouth encumbrance is allowed, but not much
+            const int mouth_encumb = std::max( 0,
+                                               guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
+            fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
+        }
     }
-    if( has_flag( spell_flag::VERBAL ) &&
-        !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
-        // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0,
-                                           guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
-        fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
-    }
+
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
         if( guy.get_focus() <= 0 ) {
@@ -1281,11 +1287,7 @@ float spell::spell_fail( const Character &guy ) const
         psi_fail_chance /= 1.0f - concentration_loss;
     }
 
-    if( has_flag( spell_flag::PSIONIC ) ) {
-        return clamp( psi_fail_chance, 0.0f, 1.0f );
-    }
-
-    return clamp( fail_chance, 0.0f, 1.0f );
+    return clamp( is_psi ? psi_fail_chance : fail_chance, 0.0f, 1.0f );
 }
 
 std::string spell::colorized_fail_percent( const Character &guy ) const
@@ -2410,7 +2412,11 @@ bool spell::energy_cost_encumbered( const Character &guy ) const
 std::string spell::enumerate_spell_data( const Character &guy ) const
 {
     std::vector<std::string> spell_data;
-    if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
+    if( has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "is a psionic power" ) );
+    }
+    if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
+        temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
     }
     if( has_flag( spell_flag::VERBAL ) && temp_sound_multiplyer > 0 ) {
@@ -2421,14 +2427,19 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     }
     if( !no_hands() ) {
         spell_data.emplace_back( _( "impeded by gloves" ) );
-    } else {
+    } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) ) {
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
+    }
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
     return enumerate_as_string( spell_data );
 }
@@ -3010,6 +3021,13 @@ spell fake_spell::get_spell( const Creature &caster, int min_level_override ) co
     }
     sp.set_exp( sp.exp_for_level( level_of_spell ) );
 
+    return sp;
+}
+
+// intended for spells without casters
+spell fake_spell::get_spell() const
+{
+    spell sp( id );
     return sp;
 }
 

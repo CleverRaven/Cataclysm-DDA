@@ -41,7 +41,8 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "BRIDGE" ]
   },
   {
     "type": "overmap_terrain",

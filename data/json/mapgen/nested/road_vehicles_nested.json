@@ -134,16 +134,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_bridgehead_ramp_vehicles",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0 ],
-      "place_nested": [ { "chunks": [ [ "24x24_bridgehead_ramp_vehicles_country", 1 ], [ "null", 19 ] ], "x": 0, "y": 0 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_straight_vehicles_country",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -185,16 +175,6 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north" ], "x": 0, "y": 0 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_bridgehead_ramp_vehicles_country",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0 ],
-      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_south" ], "x": 0, "y": 0 } ]
     }
   },
   {

@@ -6,7 +6,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "group": "tobacco_products", "prob": 161 },
@@ -383,6 +383,7 @@
       [ "dance_shoes", 10 ],
       [ "heels", 50 ],
       [ "boots_western", 10 ],
+      [ "jeans_vintage", 40 ],
       [ "pants", 75 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 30 ],
@@ -392,12 +393,15 @@
       [ "winter_gloves_army", 10 ],
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "skirt", 75 ],
+      [ "skirt_long", 50 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "jumpsuit", 20 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "sweater", 75 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
@@ -886,6 +890,7 @@
       { "prob": 45, "group": "cookies_box_snack_4" },
       { "item": "bat", "prob": 15 },
       { "item": "backpack", "prob": 20 },
+      { "item": "backpack_denim", "prob": 10 },
       { "item": "hairpin", "prob": 10 },
       { "item": "fc_hairpin", "prob": 4 },
       { "item": "wristwatch", "prob": 15 },
@@ -1112,7 +1117,7 @@
     "entries": [
       { "item": "weed", "prob": 30, "count": [ 1, 5 ] },
       { "prob": 30, "group": "coke_bag_zipper_1_8" },
-      { "prob": 40, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 40, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "syringe", "prob": 20 },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
@@ -1391,6 +1396,7 @@
       [ "longshirt", 30 ],
       [ "polo_shirt", 30 ],
       [ "dress_shirt", 30 ],
+      [ "denim_shirt", 15 ],
       [ "tie_skinny", 10 ],
       [ "tie_necktie", 10 ],
       [ "tie_clipon", 10 ],
@@ -1430,6 +1436,7 @@
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
+      [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ]
     ]
@@ -1615,10 +1622,6 @@
     "id": "ss_merch_3",
     "//": "for cs_sex_shop, suits, dresses and large clothing",
     "items": [
-      [ "wolfsuit", 15 ],
-      [ "dinosuit", 15 ],
-      [ "felinesuit", 15 ],
-      [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],
@@ -1647,7 +1650,7 @@
       { "prob": 10, "group": "coke_bag_zipper_1_8" },
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_porn", "prob": 10 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 5 },
@@ -2038,7 +2041,7 @@
       [ "bikini_bottom", 5 ],
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "fitness_band", 10 ]
     ]
   },
@@ -2165,14 +2168,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_1_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

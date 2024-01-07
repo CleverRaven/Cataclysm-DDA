@@ -29,20 +29,7 @@
     "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_electrokinetic_see_electric" },
-      { "u_learn_recipe": "practice_electrokinetic_shock_touch" },
-      { "u_learn_recipe": "practice_electrokinetic_zap_enemies" },
-      { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
-      { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
-      { "u_learn_recipe": "practice_electrokinetic_paralysis" },
-      { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
-      { "u_learn_recipe": "practice_electrokinetic_recharge_vehicle" },
-      { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
-      { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
-      { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
-      { "u_learn_recipe": "practice_electrokinetic_revive" }
+      { "u_learn_recipe": "practice_electrokinetic_shock_touch" }
     ]
   },
   {
@@ -92,17 +79,6 @@
     "effect": [
       { "u_learn_recipe": "practice_telekinetic_pull" },
       { "u_learn_recipe": "practice_telekinetic_push" },
-      { "u_learn_recipe": "practice_telekinetic_momentum" },
-      { "u_learn_recipe": "practice_telekinetic_slowfall" },
-      { "u_learn_recipe": "practice_telekinetic_wave" },
-      { "u_learn_recipe": "practice_telekinetic_strength" },
-      { "u_learn_recipe": "practice_telekinetic_hammer" },
-      { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
-      { "u_learn_recipe": "practice_telekinetic_shield" },
-      { "u_learn_recipe": "practice_telekinetic_explosion" },
-      { "u_learn_recipe": "practice_telekinetic_levitation" },
-      { "u_learn_recipe": "practice_telekinetic_aegis" },
-      { "u_learn_recipe": "practice_telekinetic_earthshaker" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -128,19 +104,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_teleport_blink" },
-      { "u_learn_recipe": "practice_teleport_slow" },
-      { "u_learn_recipe": "practice_teleport_stride" },
-      { "u_learn_recipe": "practice_teleport_phase" },
-      { "u_learn_recipe": "practice_teleport_transpose" },
-      { "u_learn_recipe": "practice_teleport_displacement" },
-      { "u_learn_recipe": "practice_teleport_farstep" },
-      { "u_learn_recipe": "practice_teleport_collapse" },
-      { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" },
-      { "u_learn_recipe": "practice_teleport_breach" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_teleport_blink" }, { "u_learn_recipe": "practice_teleport_slow" } ]
   },
   {
     "type": "effect_on_condition",
@@ -166,6 +130,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_RECIPE_TEACHER",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "BIOKINETIC" },
+    "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
@@ -178,7 +150,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "ELECTROKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -202,7 +174,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -218,7 +190,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",

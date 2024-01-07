@@ -44,6 +44,7 @@ struct pathfinding_cache {
     pathfinding_cache();
 
     bool dirty = false;
+    std::unordered_set<point> dirty_points;
 
     cata::mdarray<pf_special, point_bub_ms> special;
 };

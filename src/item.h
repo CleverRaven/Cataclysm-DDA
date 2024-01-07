@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -192,9 +193,9 @@ class item : public visitable
 
         item();
 
-        item( item && ) noexcept( map_is_noexcept );
+        item( item && ) noexcept;
         item( const item & );
-        item &operator=( item && ) noexcept( list_is_noexcept );
+        item &operator=( item && ) noexcept;
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
@@ -352,6 +353,10 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+    private:
+        bool is_money( const std::set<ammotype> &ammo ) const;
+    public:
+
         bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
@@ -2375,6 +2380,10 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+    private:
+        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
+                            bool include_linked = false ) const;
+    public:
 
         /**
          * ammo capacity for a specific ammo
@@ -2995,7 +3004,7 @@ class item : public visitable
         const itype *type;
         item_components components;
         /** What faults (if any) currently apply to this item */
-        std::set<fault_id> faults;
+        cata::heap<std::set<fault_id>> faults;
 
     private:
         item_contents contents;
@@ -3003,13 +3012,13 @@ class item : public visitable
          * This flag is reset to `true` if item tags are changed.
          */
         bool requires_tags_processing = true;
-        FlagsSetType item_tags; // generic item specific flags
-        FlagsSetType inherited_tags_cache;
-        safe_reference_anchor anchor;
-        std::map<std::string, std::string> item_vars;
+        cata::heap<FlagsSetType> item_tags; // generic item specific flags
+        cata::heap<FlagsSetType> inherited_tags_cache;
+        lazy<safe_reference_anchor> anchor;
+        cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
-        std::set<matec_id> techniques; // item specific techniques
+        cata::heap<std::set<matec_id>> techniques; // item specific techniques
 
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
