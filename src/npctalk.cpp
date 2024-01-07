@@ -4982,7 +4982,7 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view
 
             Creature *alpha_guy = get_talker( alpha_var, is_alpha_loc, alpha_invalid );
             Creature *beta_guy = get_talker( beta_var, is_beta_loc, beta_invalid );
-            if( alpha_invalid || beta_invalid || ( alpha_guy == nullptr ) && ( beta_guy == nullptr ) ) {
+            if( alpha_invalid || beta_invalid || ( alpha_guy == nullptr && beta_guy == nullptr ) ) {
                 run_eoc_vector( false_eocs, d );
                 return;
             } else {
