@@ -239,6 +239,23 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "wicked_impale",
+    "cooldown": 15,
+    "move_cost": 400,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 18 } ],
+    "hitsize_min": 4,
+    "effects": [ { "id": "bleed", "intensity": 20, "duration": 30 } ],
+    "self_effects_always": [ { "id": "staggered" } ],
+    "hit_dmg_u": "%1$s buries its wickedly sharp beak into your %2$s!",
+    "hit_dmg_npc": "%1$s buries its wickedly sharp beak in <npcname>!",
+    "miss_msg_u": "%1$s tries to drive its beak into you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to drive its beak into <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s tries to drive its beak into your %2$s, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s tries to drive its beak into <npcname>, but fails to penetrate their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "tentacle",
     "cooldown": 5,
     "move_cost": 100,
