@@ -1592,6 +1592,7 @@ void glide_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moved_tiles", moved_tiles );
+    jsout.member( "moves_total", moves_total );
     jsout.member( "jump_direction", jump_direction );
     jsout.member( "glide_distance", glide_distance );
 
@@ -1601,12 +1602,11 @@ void glide_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &jsin )
 {
     glide_activity_actor actor;
-
     JsonObject data = jsin.get_object();
     data.read( "moved_tiles", actor.moved_tiles );
+    data.read( "moves_total", actor.moves_total );
     data.read( "jump_direction", actor.jump_direction );
     data.read( "glide_distance", actor.glide_distance );
-
     return actor.clone();
 }
 void glide_activity_actor::start( player_activity &act, Character & )
