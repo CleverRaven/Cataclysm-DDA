@@ -111,7 +111,7 @@
   {
     "id": "holybook_biblechild_c",
     "type": "BOOK",
-    "name": { "str": "Children's Catholic Bible", "str_pl": "copies of a Children's Catholic Bible" },
+    "name": { "str": "Children's Catholic Bible", "str_pl": "copies of a Children's Catholic Bibles" },
     "description": "A small, lightweight Catholic Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
     "weight": "250 g",
     "volume": "700 ml",
@@ -120,7 +120,7 @@
   {
     "id": "holybook_biblechild_p",
     "type": "BOOK",
-    "name": { "str": "Children's Protestant Bible", "str_pl": "copies of a Children's Catholic Bible" },
+    "name": { "str": "Children's Protestant Bible", "str_pl": "copies of a Children's Protestant Bibles" },
     "description": "A small, lightweight Protestant Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
     "weight": "250 g",
     "volume": "700 ml",
@@ -576,7 +576,7 @@
   {
     "id": "holybook_east",
     "type": "BOOK",
-    "name": { "str": "Holy Books of the East", "str_pl": "Holy Books of the East" },
+    "name": { "str": "Holy Books of the East", "str_pl": "copies of the Holy Books of the East" },
     "description": "It is a monumental 50-volume set of English translations of Asian religious texts.  It incorporates the essential sacred texts of Hinduism, Buddhism, Taoism, Confucianism, Zoroastrianism, Jainism, and Islam.",
     "weight": "1000 g",
     "volume": "1500 ml",
@@ -598,7 +598,7 @@
       {
         "id": "holybook_east3",
         "name": { "str": "Sacred Books of the East Vol. 3", "str_pl": "copies of the third volume of the Sacred Books of the East" },
-        "description": "It contains The Sacred Books of China, part 1/6, the texts of Confucianism: The Shû King (Classic of History), Book of Thang, Books of Yu, Books of Hsiâ, Books of Shang, Books of Kâu, Shih King, the Book of Odes (Classic of Poetry, I. Odes of the Temple and the Altar, II. Minor Odes of the Kingdom, III. Major Odes of the Kingdom, IV. Lessons from the States) and The Hsiâo King (Classic of Filial Piety).",
+        "description": "It contains The Sacred Books of China, part 1/6, the texts of Confucianism: The Shû King (Classic of History), Book of Thang, Books of Yu, Books of Hsiâ, Books of Shang, Books of Kâu, Shih King, the Book of Odes (Classic of Poetry, I - Odes of the Temple and the Altar, II - Minor Odes of the Kingdom, III - Major Odes of the Kingdom, IV - Lessons from the States) and The Hsiâo King (Classic of Filial Piety).",
         "append": true
       },
       {
@@ -901,7 +901,7 @@
           "str": "Sacred Books of the East Vol. 40",
           "str_pl": "copies of the fourtieth volume of the Sacred Books of the East"
         },
-        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to vols. 39 and 40.",
+        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
         "append": true
       },
       {
