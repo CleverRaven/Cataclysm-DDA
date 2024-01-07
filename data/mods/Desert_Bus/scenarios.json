@@ -1,0 +1,14 @@
+[
+  {
+    "type": "scenario",
+    "id": "scen_desert_bus",
+    "name": "Desert Bus",
+    "points": 0,
+    "description": "The middle of nowhere.",
+    "vehicle": "bus",
+    "allowed_locs": [ "sloc_road_desert_bus" ],
+    "start_name": "The middle of nowhere",
+    "reveal_locale": false,
+    "flags": [ "LONE_START" ]
+  }
+]
