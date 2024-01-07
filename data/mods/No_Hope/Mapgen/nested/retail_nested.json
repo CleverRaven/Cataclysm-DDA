@@ -172,11 +172,11 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "items": {
-        "H": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "H": [ { "item": "otc_drugs", "chance": 30, "repeat": [ 1, 2 ] } ],
         "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "L": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "L": [ { "item": "otc_drugs", "chance": 30, "repeat": [ 0, 4 ] } ],
         "M": [ { "item": "office", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "V": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
+        "V": [ { "item": "otc_drugs", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
   },
@@ -195,7 +195,7 @@
       ],
       "terrain": { "z": "t_floor" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
-      "items": { "z": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 6 ] } ] }
+      "items": { "z": [ { "item": "otc_drugs", "chance": 30, "repeat": [ 1, 6 ] } ] }
     }
   },
   {
