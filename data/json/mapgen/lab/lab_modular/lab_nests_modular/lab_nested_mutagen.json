@@ -174,7 +174,7 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mut_iv", "chance": 10, "repeat": [ 2, 5 ] } ] },
+      "items": { "m": [ { "item": "mutagenic_primer_box", "chance": 10 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
         { "group": "rare_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 }
@@ -288,7 +288,7 @@
           "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mut_iv", "chance": 70 } ] },
+      "items": { "m": [ { "item": "mutagenic_primer_box", "chance": 70 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 4 ], "y": 3, "chance": 70 },
         { "group": "rare_mutation_books", "x": [ 1, 3 ], "y": 4, "chance": 70 }

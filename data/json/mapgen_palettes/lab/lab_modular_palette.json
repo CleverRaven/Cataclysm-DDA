@@ -379,7 +379,7 @@
         { "item": "writing_utensils", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "office_supplies", "chance": 10 }
       ],
-      "k": { "item": "mut_iv", "chance": 5, "repeat": [ 1, 4 ] },
+      "k": { "item": "mutagenic_primer_box", "chance": 5 },
       "l": [
         { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
         { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }

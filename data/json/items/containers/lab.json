@@ -1,0 +1,28 @@
+[
+  {
+    "id": "box_small_plastic",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "secured plastic box", "str_pl": "secured plastic box" },
+    "description": "A small, black plastic box with thick walls, with few small latches to hold a cover.",
+    "weight": "715 g",
+    "volume": "8100 ml",
+    "longest_side": "22 cm",
+    "//": "30 x 20 x 13,5 cm external, 27 x 17 x 9,7 cm internal",
+    "//2": "max_item_length 100 mm because otherwise test tubes can't fit it.",
+    "price": 1300,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4450 ml",
+        "max_contains_weight": "11 kg",
+        "max_item_length": "100 mm"
+      }
+    ]
+  }
+]

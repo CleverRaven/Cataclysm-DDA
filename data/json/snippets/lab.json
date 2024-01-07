@@ -324,6 +324,32 @@
   },
   {
     "type": "snippet",
+    "category": "<mutation_testing>",
+    "text": [
+      {
+        "id": "mutation_testing_1",
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: subject's body rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Few were grown in different places, including few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+      },
+      {
+        "id": "mutation_testing_2",
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked about some food.\nLong term results: the size of object's stomach was increased at 50%."
+      },
+      {
+        "id": "mutation_testing_3",
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized in an attempt to pull the weapon from the security guard's holster."
+      },
+      {
+        "id": "mutation_testing_4",
+        "text": "Prepare subject with 500 U mutagen\nApply 2500 U primer compound\nObserve for 6 hours\nResults: Subject died shortly after injection\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_5",
+        "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
