@@ -594,7 +594,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             requestAnimationFrame( syncFs );
         }
         fsNeedsSync = true;
-    }
+    };
 
     function syncFs()
     {
