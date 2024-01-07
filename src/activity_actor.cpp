@@ -110,6 +110,7 @@ static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
@@ -157,6 +158,8 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
@@ -218,6 +221,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
@@ -1458,6 +1463,167 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
     data.read( "racks", actor.racks );
 
     return actor.clone();
+}
+
+void glide_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    tripoint heading;
+    if( jump_direction == 0 ) {
+        heading = tripoint_south;
+    }
+    if( jump_direction == 1 ) {
+        heading = tripoint_south_west;
+    }
+    if( jump_direction == 2 ) {
+        heading = tripoint_west;
+    }
+    if( jump_direction == 3 ) {
+        heading = tripoint_north_west;
+    }
+    if( jump_direction == 4 ) {
+        heading = tripoint_north;
+    }
+    if( jump_direction == 5 ) {
+        heading = tripoint_north_east;
+    }
+    if( jump_direction == 6 ) {
+        heading = tripoint_east;
+    }
+    if( jump_direction == 7 ) {
+        heading = tripoint_south_east;
+    }
+    const tripoint_abs_ms newpos = you.get_location() + heading;
+    const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
+    if( get_map().tr_at( you.pos() ) != tr_ledge || heading == tripoint_zero ) {
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You come to a gentle landing." ),
+                                   _( "<npcname> comes to a gentle landing." ) );
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }   // Have we crashed into a wall?
+    if( get_map().impassable( checknewpos ) ) {
+        you.add_msg_player_or_npc( m_bad,
+                                   _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                   _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                   get_map().tername( checknewpos.raw() ) );
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }
+    if( !you.can_fly() ) {
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }
+    Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
+    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium &&
+        you.get_size() >= creature_size::medium ) {
+        // Zombies are too stupid to avoid midair collision
+        if( !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
+                                              !creature_ahead->dodge_check( 15, true ) ) ) {
+            you.add_msg_player_or_npc( m_bad,
+                                       _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                       _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                       creature_ahead->disp_name() );
+            if( creature_ahead->get_size() < creature_size::huge ) {
+                creature_ahead->add_effect( effect_downed, 2_turns, false );
+            }
+            you.remove_effect( effect_gliding );
+            you.gravity_check();
+            act.set_to_null();
+            return;
+        }
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You deftly maneuver around %s." ),
+                                   _( "<npcname> deftly maneuvers around %s." ), creature_ahead->disp_name() );
+    }
+    you.move_to( newpos );
+    moved_tiles ++;
+    if( moved_tiles >= glide_distance ) {
+        g->vertical_move( -1, false, false );
+        moved_tiles = 0;
+    }
+    you.moves -= 50;
+    get_map().update_visibility_cache( you.pos().z );
+    get_map().update_visibility_cache( you.pos().x );
+    get_map().update_visibility_cache( you.pos().y );
+    if( you.is_avatar() ) {
+        g->update_map( you );
+    }
+}
+
+glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, int glide_distance )
+    : jump_direction( jump_direction ), glide_distance( glide_distance )
+{
+    you->add_effect( effect_gliding, 1_turns, true );
+    tripoint heading;
+    if( jump_direction == 0 ) {
+        heading = tripoint_south;
+    }
+    if( jump_direction == 1 ) {
+        heading = tripoint_south_west;
+    }
+    if( jump_direction == 2 ) {
+        heading = tripoint_west;
+    }
+    if( jump_direction == 3 ) {
+        heading = tripoint_north_west;
+    }
+    if( jump_direction == 4 ) {
+        heading = tripoint_north;
+    }
+    if( jump_direction == 5 ) {
+        heading = tripoint_north_east;
+    }
+    if( jump_direction == 6 ) {
+        heading = tripoint_east;
+    }
+    if( jump_direction == 7 ) {
+        heading = tripoint_south_west;
+    }
+}
+
+void glide_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moved_tiles", moved_tiles );
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "jump_direction", jump_direction );
+    jsout.member( "glide_distance", glide_distance );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &jsin )
+{
+    glide_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "moved_tiles", actor.moved_tiles );
+    data.read( "moves_total", actor.moves_total );
+    data.read( "jump_direction", actor.jump_direction );
+    data.read( "glide_distance", actor.glide_distance );
+    return actor.clone();
+}
+void glide_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void glide_activity_actor::finish( player_activity &act, Character &you )
+{
+    g->update_map( you );
+    you.add_msg_player_or_npc( m_good,
+                               _( "You come to a gentle landing." ),
+                               _( "<npcname> comes to a gentle landing." ) );
+    you.remove_effect( effect_gliding );
+    you.gravity_check();
+    act.set_to_null();
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
@@ -7447,6 +7613,7 @@ deserialize_functions = {
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GLIDE, &glide_activity_actor::deserialize },
     { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },

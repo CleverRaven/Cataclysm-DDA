@@ -447,6 +447,7 @@
     "allowed_items": [ "ARM_PROSTHETIC" ],
     "enchantments": [ "ENCH_NO_LEFT_ARM" ],
     "cancels": [
+      "ARM_FEATHERS",
       "BARBS",
       "NAILS",
       "CLAWS",
@@ -454,7 +455,6 @@
       "CLAWS_ST",
       "CLAWS_RETRACT",
       "CLAWS_TENTACLE",
-      "ARM_FEATHERS",
       "TALONS",
       "BENDY1",
       "PAWS",
@@ -480,6 +480,7 @@
     "allowed_items": [ "ARM_PROSTHETIC" ],
     "enchantments": [ "ENCH_NO_RIGHT_ARM" ],
     "cancels": [
+      "ARM_FEATHERS",
       "CRUSTACEAN_CLAW",
       "BARBS",
       "NAILS",
@@ -489,7 +490,6 @@
       "CLAWS_RETRACT",
       "CLAWS_TENTACLE",
       "TALONS",
-      "ARM_FEATHERS",
       "BENDY1",
       "PAWS",
       "PAWS_LARGE",
@@ -5583,12 +5583,15 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
+    "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few fingers, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges and will take less damage if you fall, provided you're healthy and unburdened.",
+    "types": [ "ARMS", "HANDS" ],
+    "enchantments": [ "ench_wings_bird" ],
+    "prereqs": [ "ARM_FEATHERS" ],
+    "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "flags": [ "WINGS_2" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
+    "flags": [ "WINGS_2", "WING_GLIDE" ]
   },
   {
     "type": "mutation",
@@ -5597,17 +5600,26 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 4,
-    "description": "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
+    "description": "A large pair of translucent wings grow from your back.  They are too small to lift you, but if you're not weighed down, they can help a bit if you fall.  You can flutter them quickly to improve your move speed, but this is noisy and tires you out.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
+    "restricts_gear": [ "torso" ],
+    "flags": [ "WINGS_1" ],
     "active": true,
-    "cost": 3,
-    "time": "1 s",
-    "fatigue": true,
-    "kcal": true,
-    "thirst": true,
-    "movecost_modifier": 0.75
+    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_INSECT_active",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
+    "copy-from": "WINGS_INSECT",
+    "valid": false,
+    "movecost_modifier": 0.75,
+    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
+    "enchantments": [ "ench_wings_insect_active" ],
+    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -6653,8 +6665,8 @@
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
-    "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "BIRD", "BEAST", "INSECT" ]
+    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY", "WINGS_BAT" ],
+    "category": [ "INSECT", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -8058,19 +8070,22 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "points": -2,
+    "points": 2,
     "visibility": 8,
     "ugliness": 2,
-    "description": "Your arms have grown vibrantly-colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
-    "category": [ "RAPTOR" ],
+    "mixed_effect": true,
+    "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "category": [ "RAPTOR", "BIRD" ],
+    "flags": [ "WINGS_1", "ARM_WINGS" ],
+    "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
       { "part": "arm_r", "neutral": 50 },
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
-    "encumbrance_always": [ [ "arm_l", 20 ], [ "arm_r", 20 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1 } ]
+    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
+    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ]
   },
   {
     "type": "mutation",

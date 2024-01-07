@@ -281,7 +281,7 @@
     "name": "Crustacean",
     "threshold_mut": "THRESH_CRUSTACEAN",
     "mutagen_message": "You suddenly want to burrow under some sand or find some nice rocky alcove to hide behind.",
-    "memorial_message": "Dreamed of walking along the sea floor",
+    "memorial_message": "Dreamed of walking along the sea floor.",
     "vitamin": "mutagen_crustacean",
     "base_removal_chance": 33,
     "base_removal_cost_mul": 2.5
