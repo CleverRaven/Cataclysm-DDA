@@ -278,6 +278,76 @@ TEST_CASE( "map_without_keys", "[map][filter]" )
     CHECK_FALSE( map_without_keys( map_dirt_2, dirt ) == map_without_keys( map_name_a_dirt_2, dirt ) );
 }
 
+TEST_CASE( "map_equal_ignoring_keys", "[map][filter]" )
+{
+    std::map<std::string, std::string> map_empty;
+    std::map<std::string, std::string> map_name_a = {
+        { "name", "a" }
+    };
+    std::map<std::string, std::string> map_name_b = {
+        { "name", "b" }
+    };
+    std::map<std::string, std::string> map_dirt_1 = {
+        { "dirt", "1" }
+    };
+    std::map<std::string, std::string> map_dirt_2 = {
+        { "dirt", "2" }
+    };
+    std::map<std::string, std::string> map_name_a_dirt_1 = {
+        { "name", "a" },
+        { "dirt", "1" }
+    };
+    std::map<std::string, std::string> map_name_a_dirt_2 = {
+        { "name", "a" },
+        { "dirt", "2" }
+    };
+    std::set<std::string> dirt = { "dirt" };
+
+    // Empty maps compare equal to maps with all keys filtered out
+    CHECK( map_equal_ignoring_keys( map_empty, map_dirt_1, dirt ) );
+    CHECK( map_equal_ignoring_keys( map_empty, map_dirt_2, dirt ) );
+
+    // Maps are equal when all differing keys are filtered out
+    // (same name, dirt filtered out)
+    CHECK( map_equal_ignoring_keys( map_name_a, map_name_a_dirt_1, dirt ) );
+    CHECK( map_equal_ignoring_keys( map_name_a, map_name_a_dirt_2, dirt ) );
+
+    // Maps are different if some different keys remain after filtering
+    // (different name, no dirt to filter out)
+    CHECK_FALSE( map_equal_ignoring_keys( map_name_a, map_name_b, dirt ) );
+    CHECK_FALSE( map_equal_ignoring_keys( map_name_b, map_name_a, dirt ) );
+    // (different name, dirt filtered out)
+    CHECK_FALSE( map_equal_ignoring_keys( map_dirt_1, map_name_a_dirt_1, dirt ) );
+    CHECK_FALSE( map_equal_ignoring_keys( map_dirt_2, map_name_a_dirt_2, dirt ) );
+
+    // Maps with different ignored keys are equal after filtering them out.
+    std::map<std::string, std::string> rock_and_beer = {
+        { "rock", "granite" },
+        { "beer", "stout" }
+    };
+    std::map<std::string, std::string> beer_and_stone = {
+        { "beer", "stout" },
+        { "stone", "boulder" }
+    };
+    std::map<std::string, std::string> lagers_are_best = {
+        { "beer", "lager" },
+        { "rock", "schist" },
+        { "stone", "pebble" }
+    };
+    std::map<std::string, std::string> major_lager = {
+        {"beer", "lager" }
+    };
+    std::set<std::string> rock_and_stone = { "rock", "stone" };
+    CHECK( map_equal_ignoring_keys( rock_and_beer, beer_and_stone, rock_and_stone ) );
+
+    // Tests still work when one map has more keys than the other, as long as all are ignored.
+    CHECK( map_equal_ignoring_keys( major_lager, lagers_are_best, rock_and_stone ) );
+    CHECK( map_equal_ignoring_keys( lagers_are_best, major_lager, rock_and_stone ) );
+
+    CHECK_FALSE( map_equal_ignoring_keys( rock_and_beer, lagers_are_best, rock_and_stone ) );
+    CHECK_FALSE( map_equal_ignoring_keys( lagers_are_best, beer_and_stone, rock_and_stone ) );
+}
+
 TEST_CASE( "check_debug_menu_string_methods", "[debug_menu]" )
 {
     std::map<std::string, std::vector<std::string>> split_expect = {

@@ -353,6 +353,10 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+    private:
+        bool is_money( const std::set<ammotype> &ammo ) const;
+    public:
+
         bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
@@ -2376,6 +2380,10 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+    private:
+        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
+                            bool include_linked = false ) const;
+    public:
 
         /**
          * ammo capacity for a specific ammo
