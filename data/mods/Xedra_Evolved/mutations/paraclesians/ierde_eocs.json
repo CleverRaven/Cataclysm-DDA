@@ -87,7 +87,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_FATIGUE",
-    "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
     "effect": [ { "math": [ "u_val('fatigue')", "-=", "1" ] } ]
   },
   {

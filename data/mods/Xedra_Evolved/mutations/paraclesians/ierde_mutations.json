@@ -125,7 +125,7 @@
     "description": "Upon gaining this ability the Ierde gains the ability to stomp on the ground and cause a minor local earthquake.",
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_NO_KNOCKBACK" ],
-    "spells_learned": [ [ "ierde_stomp_ground_smash", 1 ] ]
+    "spells_learned": [ [ "ierde_stomp_ground_smash_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -136,7 +136,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Ierde gains the ability to create pits on diggable ground, dumping their enemies into them.",
     "category": [ "IERDE" ],
-    "prereqs": [ "IERDE_CARDIO" ],
+    "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
   },
   {
@@ -227,6 +227,7 @@
     "description": "When underground or on natural earth, the Ierde recovers Stamina 50% faster and heals 33% faster.",
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "prereqs2": [ "IERDE_REGAIN_STAMINA_UNDERGROUND" ],
     "enchantments": [
       {
         "condition": {
@@ -298,6 +299,7 @@
     "description": "Though the earth shivers and shakes, the mountain stands tall.  The Ierde is immune to knockback.",
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "prereqs2": [ "IERDE_STR_BONUS_1", "IERDE_STR_BONUS_2", "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
   },
   {
@@ -344,8 +346,8 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "IERDE_CARDIO2" ],
-    "prereqs2": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "prereqs": [ "IERDE_STR_BONUS_2" ],
+    "prereqs2": [ "IERDE_CARDIO2" ],
     "changes_to": [ "IERDE_STR_BONUS_4" ],
     "description": "Like the mountain, the Ierde is unmoved by calamity.  +7 Strength.",
     "category": [ "IERDE" ],
@@ -359,7 +361,8 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "prereqs": [ "IERDE_STR_BONUS_3" ],
+    "prereqs2": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
     "description": "Like the bedrock, the Ierde's might can support the entire world.  +9 Strength.",
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
