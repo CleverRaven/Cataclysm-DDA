@@ -1385,7 +1385,7 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 
 These are added programatically when the game is running, not by JSON.  These are set to specific items (a single thingamabob, not *all* thingamabob) by the engine, depending on in-game action or environmental context.
 
-- ```COLD``` Item is cold (see `EATEN_COLD`).
+- ```COLD``` Item is cold.  See also `EATEN_COLD`.
 - ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
 - ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing.  Affects butcher results.
 - ```FIELD_DRESS``` Corpse was field dressed.  Affects butcher results.
@@ -1408,7 +1408,7 @@ These are added programatically when the game is running, not by JSON.  These ar
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
 - See contents of [techniques.json](../data/json/techniques.json).
-- Techniques are also used with martial arts styles, see [techniques.json](../data/json/martialarts.json).
+- Techniques are also used with martial arts styles, see [martialarts.json](../data/json/martialarts.json).
 
 
 ## Tools
