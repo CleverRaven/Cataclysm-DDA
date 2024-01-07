@@ -5863,7 +5863,6 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
-
   {
     "result": "can_food_big",
     "type": "uncraft",
