@@ -327,7 +327,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Character
 
-Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](#data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](#MUTATIONS.md#mutations).
+Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these are hardcored, others can be edited and created via JSON.  The current trait/mutation list is at [mutations.json](../data/json/mutations/mutations.json).  For further information, see also [MUTATIONS.doc](#MUTATIONS.md#mutations).
 
 - ```ACIDBLOOD``` Drip acid from wounds instead of blood
 - ```ACID_IMMUNE``` You are immune to acid damage.
@@ -432,7 +432,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 
 ### Mutation Categories
 
-These branches are the valid `dreams` from [dreams.json](#data/json/dreams.json).
+These branches are the valid `dreams` from [dreams.json](../data/json/dreams.json).
 
 - ```MUTCAT_ALPHA``` "You feel... better.  Somehow."
 - ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
@@ -1407,8 +1407,8 @@ These are added programatically when the game is running, not by JSON.  These ar
 
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-- See contents of [techniques.json](#data/json/techniques.json).
-- Techniques are also used with martial arts styles, see [techniques.json](#data/json/martialarts.json).
+- See contents of [techniques.json](../data/json/techniques.json).
+- Techniques are also used with martial arts styles, see [techniques.json](../data/json/martialarts.json).
 
 
 ## Tools
