@@ -4670,7 +4670,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your legs and feet have become bird-like.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "description": "Your legs and feet have become bird-like, with long talons arranged three ahead and one behind.  They probably won't fit in human shoes, but they're perfect for gripping onto precarious perches.",
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],

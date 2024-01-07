@@ -164,6 +164,8 @@ armeniaca
 armet
 armguard
 armguards
+armhole
+armholes
 armorers
 armrests
 aromantic
@@ -326,6 +328,7 @@ biosilicified
 biospheres
 biotracer
 bipod
+bipods
 birchbark
 birdhouses
 birdlike
@@ -1243,6 +1246,7 @@ geometries
 gesticulates
 getups
 ghast
+ghillie
 gibbous
 giganotosaurus
 github
@@ -2385,6 +2389,7 @@ proficiently
 profusive
 promptus
 propellants
+proprietary
 propyl
 prosaurolophus
 prosaurulophus
@@ -2489,6 +2494,7 @@ razorsharp
 razzin
 rd
 reachability
+reactively
 reactivity
 readme
 reagents
@@ -3127,6 +3133,8 @@ travelpack
 traversal
 travois
 treatin
+treefrog
+treefrogs
 treelines
 trenchcoat
 trenchcoats

@@ -29,20 +29,7 @@
     "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_electrokinetic_see_electric" },
-      { "u_learn_recipe": "practice_electrokinetic_shock_touch" },
-      { "u_learn_recipe": "practice_electrokinetic_zap_enemies" },
-      { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
-      { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
-      { "u_learn_recipe": "practice_electrokinetic_paralysis" },
-      { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
-      { "u_learn_recipe": "practice_electrokinetic_recharge_vehicle" },
-      { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
-      { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
-      { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
-      { "u_learn_recipe": "practice_electrokinetic_revive" }
+      { "u_learn_recipe": "practice_electrokinetic_shock_touch" }
     ]
   },
   {
@@ -128,19 +115,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_teleport_blink" },
-      { "u_learn_recipe": "practice_teleport_slow" },
-      { "u_learn_recipe": "practice_teleport_stride" },
-      { "u_learn_recipe": "practice_teleport_phase" },
-      { "u_learn_recipe": "practice_teleport_transpose" },
-      { "u_learn_recipe": "practice_teleport_displacement" },
-      { "u_learn_recipe": "practice_teleport_farstep" },
-      { "u_learn_recipe": "practice_teleport_collapse" },
-      { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" },
-      { "u_learn_recipe": "practice_teleport_breach" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_teleport_blink" }, { "u_learn_recipe": "practice_teleport_slow" } ]
   },
   {
     "type": "effect_on_condition",
@@ -226,7 +201,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",

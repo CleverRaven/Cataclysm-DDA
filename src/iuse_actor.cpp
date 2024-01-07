@@ -134,8 +134,6 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
-static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
-
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -1193,7 +1191,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     for( const tripoint_abs_omt &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
         // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace_back( place );
+        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 

@@ -234,7 +234,7 @@
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 70
   },
   {
@@ -668,7 +668,7 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -1248,45 +1248,100 @@
     "type": "ARMOR",
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
+    "//": "Mediumweight 14 oz denim jacket.",
     "weight": "800 g",
     "volume": "3250 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": 8000,
+    "price_postapoc": 750,
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 14, 16 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 14, 14 ] }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       }
     ],
-    "warmth": 10,
-    "material_thickness": 0.55,
-    "//": "Lightweight 8 oz denim jacket.",
+    "warmth": 25,
+    "material_thickness": 0.95,
     "snippet_category": [
       {
-        "id": "patched",
+        "id": "patchedjacket",
         "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackjacket", "text": "A jacket made from denim, dyed black." },
+      { "id": "patterned", "text": "A denim jacket ornamented with yellow filament patterns." },
+      {
+        "id": "old",
+        "text": "An old denim jacket.  It has wears in several places and has lost its blue color, but its overall integrity is preserved."
       }
     ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "vest_jean",
+    "type": "ARMOR",
+    "name": { "str": "jean vest" },
+    "description": "A vest made from denim.",
+    "weight": "600 g",
+    "volume": "2450 ml",
+    "price": 6500,
+    "price_postapoc": 500,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 0.95,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "snippet_category": [
+      {
+        "id": "patchedvest",
+        "text": "A vest made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackvest", "text": "A vest made from denim, dyed black." },
+      { "id": "stonewashed", "text": "A stone washed blue vest made from denim." },
+      {
+        "id": "ripped",
+        "text": "A vest made from denim.  Its armholes have filament and torn fabric sticking out, as if someone just ripped the sleeves off."
+      }
+    ]
   },
   {
     "id": "jacket_ninja",
@@ -1843,7 +1898,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "yukata",
@@ -1900,7 +1955,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 80, "encumbrance": 3 },
       {
@@ -2071,7 +2126,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
   {
     "id": "robe",
@@ -2714,7 +2769,7 @@
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -2902,7 +2957,7 @@
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -3100,7 +3155,7 @@
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -3418,7 +3473,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "plaguedoctor_robe",

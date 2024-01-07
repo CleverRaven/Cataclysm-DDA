@@ -86,6 +86,59 @@
     "learn_spells": { "telekinetic_wave": 7, "telekinetic_hammer": 10, "telekinetic_strength": 13, "telekinetic_explosion": 15 }
   },
   {
+    "id": "telekinetic_slam_down",
+    "type": "SPELL",
+    "name": "[Ψ]Knockdown",
+    "description": "Slam something to the ground with a burst of telekinetic force, doing a small amount of damage and downing them.",
+    "message": "Your target is knocked to the ground.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "psi_telekinetic_damage",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_slam_down') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_slam_down') * 1.2) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_slam_down') * 25) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_slam_down') * 95) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_slam_down') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 850,
+    "energy_increment": -65,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "telekinetic_momentum",
     "type": "SPELL",
     "name": "[Ψ]Momentum Alteration (C)",
@@ -305,13 +358,13 @@
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "extra_effects": [
       { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 },
       { "id": "psionic_drained_difficulty_five", "hit_self": true }
     ],
     "damage_type": "psi_telekinetic_damage",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
     "min_damage": {

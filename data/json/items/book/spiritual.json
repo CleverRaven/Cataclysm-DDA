@@ -526,6 +526,24 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_mozilla",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mozilla", "str_pl": "copies of The Book of Mozilla" },
+    "description": "A mysterious deep-red book with the title 'The Book of Mozilla' at the front.  The contents of this book are written in some sort of easy-to-understand computer language and are a collection of prophetic and apocryphal verses of unknown origin.",
+    "weight": "250 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_frog",
+    "type": "BOOK",
+    "name": { "str": "The Blue Book of the Blue Frog", "str_pl": "copies of the Blue Book of the Blue Frog" },
+    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult’s followers must adhere to and also the practices and the religious and political hierarchy of this cult.  Not much for a scavenger.",
+    "weight": "320 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_mahayana",
     "type": "BOOK",
     "name": { "str": "The Mahayana Sutras", "str_pl": "copies of The Mahayana Sutras" },
@@ -657,7 +675,7 @@
     "name": { "str": "Historia Augusta", "str_pl": "copies of the Historia Augusta" },
     "description": "A large, rare hardcover English translation of the Historia Augusta, a collection of biographies of Roman emperors.  It also contains information about the Imperial Roman Cult, including its rituals, symbols, and the role of such emperors in the cult.",
     "weight": "600 g",
-    "volume": "1300 L",
+    "volume": "1300 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -705,7 +723,7 @@
     "name": { "str": "Tripitaka Koreana", "str_pl": "copies of the Tripitaka Koreana" },
     "description": "An extremely large, huge English translation of the Tripitaka Koreana, a Korean collection of the Tripitaka that can be considered as the Korean Canon.",
     "weight": "15000 g",
-    "volume": "20000 L",
+    "volume": "20000 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -796,7 +814,7 @@
     "name": { "str": "The Four Books and Five Classics", "str_pl": "copies of The Four Books and Five Classics" },
     "description": "A large hardcover book containing the two collections of ancient Chinese texts that have played a significant role in shaping Chinese culture, education, and philosophy.  These texts are considered foundational works in Confucianism and have been studied by scholars and students for centuries.",
     "weight": "1000 g",
-    "volume": "1700 L",
+    "volume": "1700 ml",
     "copy-from": "holybook_abstract"
   },
   {

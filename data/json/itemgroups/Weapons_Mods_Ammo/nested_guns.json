@@ -72,8 +72,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock_22", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15 },
-      { "item": "glock40mag" },
-      { "item": "glock40mag", "prob": 50 },
+      { "item": "glock40mag", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15 },
+      { "item": "glock40mag", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15, "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -2594,6 +2594,19 @@
       { "item": "ruger_arr", "charges-min": 0, "charges-max": 3 },
       { "item": "ruger_arr_mag" },
       { "item": "ruger_arr_mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
+  },
+  {
+    "id": "nested_steyr_scout",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack. Extra magazine for the stock hold",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steyr_scout", "charges-min": 0, "charges-max": 3 },
+      { "item": "steyr_scout_mag" },
+      { "item": "steyr_scout_mag", "prob": 50 },
+      { "item": "steyr_scout_mag", "prob": 50 },
       { "group": "on_hand_450" }
     ]
   },

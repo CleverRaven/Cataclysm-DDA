@@ -365,6 +365,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story
 - ```BIO_IMMUNE``` You are immune to biological damage.
 - ```BLEED_IMMUNE``` Immune to bleeding.
+- ```BLEEDSLOW``` When bleeding, lose blood at 2/3rds of the normal rate.
+- ```BLEEDSLOW2``` When bleeding, lose blood at 1/3rd of the normal rate.
 - ```BLIND``` Makes you blind.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty
@@ -1137,6 +1139,7 @@ Other monster flags.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
+- ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the zombie_virus effect
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground. Will not travel through non-diggable terrain such as roads.

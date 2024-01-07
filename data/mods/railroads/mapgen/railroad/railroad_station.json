@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [
       [ "railroad_station_0_1", "railroad_station_1_1", "railroad_station_2_1" ],
       [ "railroad_station_0_2", "railroad_station_1_2", "railroad_station_2_2" ],
@@ -135,7 +134,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [
       [ "railroad_station_0_1_roof", "railroad_station_1_1_roof" ],
       [ "railroad_station_0_2_roof", "railroad_station_1_2_roof" ],
@@ -253,7 +251,6 @@
       [ "railroad_station_under_0_2", "railroad_station_under_1_2" ],
       [ "railroad_station_under_0_3", "railroad_station_under_1_3" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_soil",
       "rows": [

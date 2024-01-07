@@ -48,6 +48,7 @@
     },
     "toilets": { "t": {  } },
     "gaspumps": { "!": {  } },
+    "items": { "I": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
   }
 ]

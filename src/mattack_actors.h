@@ -83,9 +83,9 @@ struct grab {
     // Limited to one GRAB-flagged effect per bp
     efftype_id grab_effect;
     // If true will attempt to remove all other GRAB flagged effects from the target and cancel the attack on failure
-    bool exclusive_grab;
+    bool exclusive_grab = false;
     // If true drags/pulls fail when targeting a character in a seat with seatbelts
-    bool respect_seatbelts;
+    bool respect_seatbelts = true;
     // Distance the enemy drags you on successful drag attempt (also enable dragging in the first place)
     int drag_distance;
     // Deviation of each dragging step from a straight line away from the opponent

@@ -108,8 +108,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
-static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
@@ -5725,7 +5723,8 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, std::string_view me
         int hallucination_count = dov_hallucination_count.evaluate( d );
         string_id<npc_template> cur_npc_class( sov_npc_class.evaluate( d ) );
         std::string cur_unique_id = unique_id.evaluate( d );
-        std::vector<trait_id> cur_traits( traits.size() );
+        std::vector<trait_id> cur_traits;
+        cur_traits.reserve( traits.size() ); // Reserve space for all elements in traits
         for( const str_or_var &cur_trait : traits ) {
             cur_traits.emplace_back( cur_trait.evaluate( d ) );
         }
