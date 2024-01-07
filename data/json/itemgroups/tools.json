@@ -516,7 +516,7 @@
     "container-item": "1st_aid_box",
     "items": [
       { "item": "medical_tape", "charges": 20 },
-      { "group": "aspirin_bottle_plastic_pill_painkiller_10" },
+      { "group": "bottle_otc_painkiller_10" },
       { "item": "disinfectant" },
       { "item": "saline" },
       { "item": "adhesive_bandages", "count": 6 },
@@ -545,7 +545,7 @@
     "container-item": "1st_aid_box",
     "items": [
       { "item": "medical_tape", "charges": [ 0, 20 ] },
-      { "group": "aspirin_bottle_plastic_pill_painkiller_0_10" },
+      { "group": "bottle_otc_painkiller_0_10" },
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
       { "item": "adhesive_bandages", "count": [ 0, 6 ] },
@@ -977,19 +977,27 @@
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_10",
-    "subtype": "collection",
+    "id": "bottle_otc_painkiller_10",
+    "subtype": "distribution",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": 10 } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": 10 },
+      { "item": "acetaminophen", "container-item": "null", "count": 10 },
+      { "item": "ibuprofen", "container-item": "null", "count": 10 }
+    ]
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_0_10",
-    "subtype": "collection",
+    "id": "bottle_otc_painkiller_0_10",
+    "subtype": "distribution",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 0, 10 ] } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": [ 0, 10 ] },
+      { "item": "acetaminophen", "container-item": "null", "count": [ 0, 10 ] },
+      { "item": "ibuprofen", "container-item": "null", "count": [ 0, 10 ] }
+    ]
   },
   {
     "type": "item_group",

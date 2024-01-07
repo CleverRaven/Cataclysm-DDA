@@ -103,6 +103,7 @@
     "description": "A soft, wide seat with a high back, the kind often used in back seats or older cars.  It might be a decent place to sleep.",
     "floor_bedding_warmth": 500,
     "item": "seat_bench",
+    "size": "95 L",
     "name": { "str": "bench seat" },
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
@@ -181,7 +182,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "size": "62500 ml",
     "type": "vehicle_part"
   }
 ]

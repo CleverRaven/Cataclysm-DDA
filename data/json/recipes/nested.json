@@ -6887,7 +6887,7 @@
     "name": "cloaks",
     "description": "Recipes related to making cloaks out of varied materials.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cloak", "cloak_fur", "cloak_leather", "cloak_wool", "grass_cloak" ],
+    "nested_category_data": [ "cloak", "cloak_denim", "cloak_fur", "cloak_leather", "cloak_wool", "grass_cloak" ],
     "difficulty": 2
   },
   {

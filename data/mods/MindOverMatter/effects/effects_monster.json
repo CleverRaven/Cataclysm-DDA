@@ -190,6 +190,25 @@
   },
   {
     "type": "effect_type",
+    "id": "psi_vitakinetic_degeneration",
+    "name": [ "Deteriorating" ],
+    "desc": [ "Your skin seems to be slowly crumbling as you watch." ],
+    "rating": "bad",
+    "max_duration": "120 minutes",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "pain_chance": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 40 ],
+      "pain_tick": [ 60 ],
+      "hurt_chance": [ 50 ],
+      "hurt_min": [ 1 ],
+      "hurt_tick": [ 120 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "pigeon_aura",
     "name": [ "" ],
     "blood_analysis_description": "Blood sample contains noetic steroid particles and pigeon dander.",

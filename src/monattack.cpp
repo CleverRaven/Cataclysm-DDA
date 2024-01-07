@@ -67,7 +67,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "name.h"
 #include "npc.h"
 #include "output.h"
 #include "pathfinding.h"
@@ -180,13 +179,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
-
-static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
-static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
@@ -1245,6 +1237,10 @@ bool mattack::resurrect( monster *z )
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
+        // check to ensure that we destroy any dormant zombie traps in the same tile.
+        if( here.tr_at( raised.first ) == trap_id( "tr_dormant_corpse" ) ) {
+            here.remove_trap( raised.first );
+        }
         if( sees_necromancer ) {
             add_msg( m_info, _( "You feel a strange pulse of energy from the %s." ), z->name() );
         }
@@ -3010,9 +3006,9 @@ bool mattack::nurse_assist( monster *z )
         if( target->is_wearing( itype_badge_doctor ) ||
             z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
-                               Name::generate( target->male ) ) );
+                           SNIPPET.expand( target->male
+                                           ? _( "a soft robotic voice say, \"Welcome doctor <male_full_name>.  I'll be your assistant today.\"" )
+                                           : _( "a soft robotic voice say, \"Welcome doctor <female_full_name>.  I'll be your assistant today.\"" ) ) );
             target->add_effect( effect_assisted, 20_turns, false, 12 );
             return true;
         }
@@ -3256,15 +3252,19 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "…database connection lost!" );
+    std::string msg;
     if( one_in( 6 ) ) {
-        cname = Name::generate( player_character.male );
+        if( player_character.male ) {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <male_full_name>!\"" ) );
+        } else {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <female_full_name>!\"" ) );
+        }
     } else if( one_in( 3 ) ) {
-        cname = player_character.name;
+        msg = string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), player_character.name );
+    } else {
+        msg = _( "a robotic voice boom, \"Citizen… database connection lost!\"" );
     }
-    sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                   string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
-                   z->type->id.str() );
+    sounds::sound( z->pos(), 15, sounds::sound_t::alert, msg, false, "speech", z->type->id.str() );
 
     if( player_character.is_armed() ) {
         std::string msg = string_format( _( "\"Drop your %s!  Now!\"" ),

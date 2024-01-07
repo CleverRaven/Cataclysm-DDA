@@ -17,7 +17,43 @@
 
 #if defined(_WIN32)
 #   include "platform_win.h"
+
+static const std::array invalid_names = {
+    std::string_view( "CON" ),
+    std::string_view( "PRN" ),
+    std::string_view( "AUX" ),
+    std::string_view( "NUL" ),
+    std::string_view( "COM0" ),
+    std::string_view( "COM1" ),
+    std::string_view( "COM2" ),
+    std::string_view( "COM3" ),
+    std::string_view( "COM4" ),
+    std::string_view( "COM5" ),
+    std::string_view( "COM6" ),
+    std::string_view( "COM7" ),
+    std::string_view( "COM8" ),
+    std::string_view( "COM9" ),
+    std::string_view( "COM¹" ),
+    std::string_view( "COM²" ),
+    std::string_view( "COM³" ),
+    std::string_view( "LPT0" ),
+    std::string_view( "LPT1" ),
+    std::string_view( "LPT2" ),
+    std::string_view( "LPT3" ),
+    std::string_view( "LPT4" ),
+    std::string_view( "LPT5" ),
+    std::string_view( "LPT6" ),
+    std::string_view( "LPT7" ),
+    std::string_view( "LPT8" ),
+    std::string_view( "LPT9" ),
+    std::string_view( "LPT¹" ),
+    std::string_view( "LPT²" ),
+    std::string_view( "LPT³" )
+};
 #endif
+
+
+static const std::string invalid_chars = "\\/:?\"<>|";
 
 bool assure_dir_exist( const std::string &path )
 {
@@ -39,6 +75,9 @@ bool assure_dir_exist( const fs::path &path )
     if( !is_dir ) {
         exists = fs::exists( p, ec );
         if( !exists ) {
+            if( !is_lexically_valid( p ) ) {
+                return false;
+            }
             created = fs::create_directories( p, ec );
             if( !created ) {
                 // TEMPORARY until we drop VS2019 support
@@ -521,7 +560,6 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 std::string ensure_valid_file_name( const std::string &file_name )
 {
     const char replacement_char = ' ';
-    const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
     std::string new_file_name = file_name;
@@ -535,3 +573,36 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
+
+#if defined(_WIN32)
+bool is_lexically_valid( const fs::path &path )
+{
+    // Windows has strict rules for file naming
+    fs::path valid = path.root_path();
+    fs::path rel = path.relative_path();
+    // "Do not end a file or directory name with a space or a period."
+    // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
+    for( auto &it : rel ) {
+        std::string item = it.generic_u8string();
+        if( !item.empty() && ( item.back() == ' ' || item.back() == '.' ) ) {
+            return false;
+        }
+        for( auto &it : item ) {
+            if( invalid_chars.find( it ) != std::string::npos ) {
+                return false;
+            }
+        }
+        for( auto &inv : invalid_names ) {
+            if( item == inv ) {
+                return false;
+            }
+            if( item.rfind( inv, 0 ) == 0 &&
+                item[ inv.size() ] == '.'
+              ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+#endif

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n1" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -68,7 +67,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_augmentation_clinic_n2" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

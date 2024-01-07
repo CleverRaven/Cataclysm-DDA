@@ -103,6 +103,54 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "santa_boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of Santa boots", "str_pl": "pairs of Santa boots" },
+    "description": "A tough pair of black leather boots, trimmered with white faux fur.  For tough everyday work at the North Pole.",
+    "weight": "1100 g",
+    "volume": "2700 ml",
+    "price": 10000,
+    "price_postapoc": 750,
+    "to_hit": -2,
+    "symbol": "[",
+    "looks_like": "dress_shoes",
+    "color": "black",
+    "warmth": 20,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "faux_fur", "covered_by_mat": 10, "thickness": 0.5 }
+        ],
+        "encumbrance": 12,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -332,6 +380,54 @@
       }
     ],
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "boots_denim",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim boots", "str_pl": "pairs of denim boots" },
+    "description": "A pair of boots extending towards your lower leg, completely lined with denim.  Looks cool and has above average protection.",
+    "//": "Denim part is 12 oz.",
+    "weight": "1120 g",
+    "volume": "3 L",
+    "price": 6000,
+    "price_postapoc": 650,
+    "to_hit": -1,
+    "symbol": "{",
+    "color": "light_blue",
+    "looks_like": "boots",
+    "environmental_protection": 2,
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "encumbrance": 12,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "foot_protectors_eod",
@@ -958,7 +1054,6 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
     ],
     "use_action": { "type": "holster" },
-    "extend": { "flags": [ "FANCY" ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2070,6 +2165,53 @@
     ]
   },
   {
+    "id": "shoes_denim",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim sneakers", "str_pl": "pairs of denim sneakers" },
+    "description": "A pair of denim shoes.  They are cool and that's about it.",
+    "//": "Denim part is 10 oz.",
+    "weight": "340 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 350,
+    "material": [ "rubber", "cotton", "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "looks_like": "sneakers",
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
+        ],
+        "coverage": 60
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 25,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "slippers",
     "type": "ARMOR",
     "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
@@ -2122,6 +2264,47 @@
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
     "weight": "840 g",
+    "volume": "1500 ml",
+    "price": 10000,
+    "price_postapoc": 250,
+    "material": [ "cotton", "rubber" ],
+    "symbol": "[",
+    "looks_like": "shoes_bowling",
+    "color": "light_blue",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 4,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 60
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "santa_shoes",
+    "type": "ARMOR",
+    "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
+    "description": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs Claus or Santa style and comfort.",
+    "weight": "850 g",
     "volume": "1500 ml",
     "price": 10000,
     "price_postapoc": 250,
@@ -3143,6 +3326,17 @@
         "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
         "description": "This one has patterns akin to the polysexual flag.",
         "weight": 25,
+        "color": "green",
+        "append": true
+      },
+      {
+        "id": "santa_stockings",
+        "name": { "str": "pair of Christmas stockings", "str_pl": "pairs of Christmas stockings" },
+        "description": {
+          "str": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
+          "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
+        },
+        "weight": 1,
         "color": "green",
         "append": true
       }

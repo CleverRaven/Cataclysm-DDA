@@ -13,10 +13,13 @@
         "description": "A standard-capacity magazine for use with the FN Five-seveN."
       }
     ],
-    "weight": "120 g",
-    "volume": "250 ml",
-    "price": 3700,
-    "price_postapoc": 100,
+    "weight": "45 g",
+    "volume": "119 ml",
+    "//": "length 5 in, width 0.832 in, height 1.75 in, raw 119.3 ml, trim: 0%",
+    "//2": "calculating the weight of this magazine has proven to be extremely-difficult, in large part due to even the manufacturer of the magazine/firearm being vague and uncertain about the overall weight of the pistol; seemingly the same model of Five-seveN is being listed as either 21 oz or 23 oz on the same website (on page and in sell sheet, respectively); even independent calculations hardly make sense, with some of them suggesting the magazine weighs as little as 7 g; we use the more-precise weight stated in an owner's manual (without magazine, 1.36 lbs) and a French store (with empty magazine, 1.46 lbs) to calculate the weight",
+    "longest_side": "127 mm",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",

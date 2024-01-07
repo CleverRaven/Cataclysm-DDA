@@ -1416,7 +1416,10 @@
     "description": "A bitter tea made by boiling willow bark in water, used since ancient times as a mild painkiller.",
     "fun": -2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "use_action": { "type": "consume_drug", "effects": [ { "id": "pkill1", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ] }
+    "use_action": {
+      "type": "consume_drug",
+      "effects": [ { "id": "pkill1_nsaid", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ]
+    }
   },
   {
     "type": "COMESTIBLE",
