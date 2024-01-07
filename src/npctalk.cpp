@@ -4963,7 +4963,7 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view
                     if( guy == nullptr ) {
                         invalid = true;
                     }
-                } else if( str == "" ) {
+                } else if( str.empty() ) {
                     guy = nullptr;
                 } else if( str == "u" ) {
                     guy = d.has_alpha ? d.actor( false )->get_character() : nullptr;
