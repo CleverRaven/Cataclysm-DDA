@@ -28,7 +28,7 @@
         "VVV"
       ],
       "palettes": [ "lab_common_palette" ],
-      "items": { "V": [ { "item": "vitamin_shop", "chance": 70, "repeat": [ 1, 3 ] } ] }
+      "items": { "V": [ { "item": "otc_drugs", "chance": 70, "repeat": [ 1, 3 ] } ] }
     }
   },
   {
