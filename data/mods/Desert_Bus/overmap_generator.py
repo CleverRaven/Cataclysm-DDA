@@ -56,19 +56,13 @@ for om_y in range(-1 * round((overmaps - 1) / 2), round((overmaps - 1) / 2) + 1)
                         direction = 1
                     minmax = round(y / 2)
                     for sub_row in range(minmax): # Backfill the points with a "curve"
-                        sub_row_bits1 = all_oms_bits[row - y + sub_row]
-                        sub_row_bits2 = all_oms_bits[row - y + sub_row + 1 ]
-                        x1 = sub_row_bits1.find(True)
-                        x2 = sub_row_bits2.find(True)
-                        sub_row_bits1[x1:x2] = True
-                        all_oms_bits[row - y + sub_row] = sub_row_bits1
+                        x1 = all_oms_bits[row - y + sub_row].find(True)
+                        x2 = all_oms_bits[row - y + sub_row + 1 ].find(True)
+                        all_oms_bits[row - y + sub_row][x1:x2] = True
                     for sub_row in range(minmax + 1, y + 1):
-                        sub_row_bits1 = all_oms_bits[row - y + minmax + sub_row + 1]
-                        sub_row_bits2 = all_oms_bits[row - y + minmax + sub_row + 2]
-                        x1 = sub_row_bits1.find(True)
-                        x2 = sub_row_bits2.find(True)
-                        sub_row_bits2[x1:x2] = True
-                        all_oms_bits[row - y + minmax + sub_row + 2] = sub_row_bits2 # do x1 and x2 need to be in order?
+                        x1 = all_oms_bits[row - y + minmax + sub_row + 1].find(True)
+                        x2 = all_oms_bits[row - y + minmax + sub_row + 2].find(True)
+                        all_oms_bits[row - y + minmax + sub_row + 2][x1:x2] = True # do x1 and x2 need to be in order?
                     y = 0
                     period += max_period_difference * 2 * (random.random() - 0.5) # weight these so they go towards the mean of min max not get stuck at the edges
                     amplitude += max_amplitude_difference * 2 * (random.random() - 0.5)
