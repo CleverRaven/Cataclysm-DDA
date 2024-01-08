@@ -155,6 +155,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_EARS",
+    "name": { "str": "Sylph Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Sylph's ears are longer and pointed, like a wisp of cloud trailing across the sky.  They can hear better and no matter how loud the thunder, their ears will not ring from it.",
+    "category": [ "SYLPH" ],
+    "hearing_modifier": 1.5,
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAP_OF_THUNDER",
     "name": { "str": "Clap of Thunder" },
     "points": 1,

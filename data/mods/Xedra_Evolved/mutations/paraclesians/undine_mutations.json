@@ -237,6 +237,16 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_EARS",
+    "name": { "str": "Undine Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Undine's ears are longer and pointed, like a stream of water poured into a glass from on high.  This is purely cosmetic.",
+    "category": [ "UNDINE" ]
+  },
+  {
+    "type": "mutation",
     "id": "SUMMON_WATER_ELEMENTAL",
     "name": { "str": "Summon Water Elemental" },
     "points": 0,
