@@ -300,7 +300,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "description": "Upon gaining this ability the Salamander gains the ability to create light.",
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "create_light_salamander", 1 ] ]
   },

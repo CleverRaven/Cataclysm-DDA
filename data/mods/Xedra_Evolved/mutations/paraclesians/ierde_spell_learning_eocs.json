@@ -7,7 +7,9 @@
     "condition": {
       "and": [
         { "u_has_trait": "IERDE" },
-        { "u_has_any_trait": [ "IERDE_STOMP_GROUND_SMASH", "IERDE_CREATE_PITS", "PARACLESIAN_MAKE_GOSSAMER" ] },
+        {
+          "u_has_any_trait": [ "IERDE_STOMP_GROUND_SMASH", "IERDE_CREATE_PITS", "IERDE_CULTIVATE_GOBLIN_FRUIT", "PARACLESIAN_MAKE_GOSSAMER" ]
+        },
         {
           "or": [
             { "math": [ "u_val('pos_z')", "<=", "-1" ] },
@@ -40,13 +42,15 @@
       "or": [
         { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
     },
     "effect": {
       "weighted_list_eocs": [
         [ "EOC_LEVELER_IERDE_STOMP_GROUND_SMASH", 8 ],
         [ "EOC_LEVELER_IERDE_CREATE_PITS", 7 ],
+        [ "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_IERDE_MAKE_GOSSAMER", 4 ]
       ]
     }
@@ -84,6 +88,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('ierde_create_pits_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
