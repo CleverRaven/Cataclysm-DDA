@@ -1362,7 +1362,6 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
     "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
-    "time": 120,
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {
