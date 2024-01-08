@@ -1,4 +1,0 @@
-[{"type":"overmap","om_pos":[0,
-],"layers":[
-["field",89],["subway_ns",1],["field",90]
-]}]
