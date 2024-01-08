@@ -78,9 +78,9 @@
               "math": [
                 "1 + u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE')"
               ]
-            }
-          },
-          "y": 10
+            },
+            "y": 10
+          }
         },
         {
           "or": [
@@ -99,7 +99,7 @@
         "u_message": "As you awaken from the remnants of another's dreams, you find scraps of dreamdross next to you.",
         "type": "neutral"
       },
-      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rng(1,4" ] } }
+      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rng(1,4)" ] } }
     ]
   }
 ]
