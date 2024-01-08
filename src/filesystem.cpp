@@ -578,12 +578,14 @@ std::string ensure_valid_file_name( const std::string &file_name )
 bool is_lexically_valid( const fs::path &path )
 {
     // Windows has strict rules for file naming
-    fs::path valid = path.root_path();
     fs::path rel = path.relative_path();
     // "Do not end a file or directory name with a space or a period."
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
     for( auto &it : rel ) {
         std::string item = it.generic_u8string();
+        if( item == "." || item == ".." ) {
+            continue;
+        }
         if( !item.empty() && ( item.back() == ' ' || item.back() == '.' ) ) {
             return false;
         }
