@@ -1168,4 +1168,47 @@
     "action": "sound_detect",
     "sound_threshold": [ 15, 25 ]
   }
+
+  {
+    "type": "trap",
+    "id": "tr_weak_floor",
+    "trigger_weight": "86182 g",
+    "name": "weak spot",
+    "color": "red",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Fell through the floor." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Fell through the floor." },
+    "symbol": "^",
+    "visibility": 9,
+    "avoidance": 7,
+    "difficulty": 99,
+    "action": "spell",
+    "spell_data": { "id": "break_weak_floor" }
+   },
+   {
+    "id": "break_weak_floor",
+    "type": "SPELL",
+    "name": "break weak floor",
+    "description": "Spell for breaking through the floor.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "max_level": 1,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 0,
+    "base_casting_time": 75,
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "transform_break_weak_floor"
+   },
+  {
+    "type": "ter_furn_transform",
+    "id": "transform_break_weak_floor",
+    "terrain": [
+      {
+        "result": "t_hole",
+        "valid_flags": [ "FLAT" ],
+        "message": "A section of the floor collapses!",
+        "message_good": false
+      }
+    ]
+  }
 ]

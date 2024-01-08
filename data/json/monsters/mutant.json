@@ -324,5 +324,90 @@
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] },
     "armor": { "bash": 22, "cut": 45, "stab": 30, "heat": 50, "bullet": 70, "electric": 6 }
+  },
+  {
+    "id": "mon_mutant_isha",
+    "type": "MONSTER",
+    "name": { "str": "Dr. Isha" },
+    "description": "Through a series of intricate cuts and what must have been a great deal of effort, most of the skin has been removed from this man's face and upper body, revealing red viscera wet with a sizzling froth that has almost completely eaten through his lab coat.  His teeth are too perfect, chattering and gerning in a lipless mouth, and his exposed knuckles gleam white as he grips a blade.  An FN P90 hands by a strap from his shoulder.",
+    "default_faction": "lab_mutant",
+    "bodytype": "human",
+    "species": [ "MUTANT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 400,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "M",
+    "color": "brown",
+    "aggression": 30,
+    "morale": 95,
+    "aggro_character": false,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 20 } ],
+    "dodge": 7,
+    "bleed_rate": 50,
+    "vision_day": 25,
+    "vision_night": 5,
+    "weakpoint_sets": [
+    "wps_humanoid_body",
+    "wps_humanoid_body_armor"
+  ],
+    "harvest": "mutant_human",
+    "dissect": "dissect_human_sample_huge",
+    "starting_ammo": {
+      "57mm": 60
+    },
+    "special_attacks": [ 
+        [ "PARROT", 20 ],
+     {
+      "type": "gun",
+      "cooldown": 3,
+      "move_cost": 150,
+      "gun_type": "fn_p90",
+      "ammo_type": "57mm",
+      "no_ammo_sound": "",
+      "fake_skills": [
+        [
+          "marksmanship",
+          6
+        ]
+      ],
+      "fake_str": 10,
+      "fake_dex": 10,
+      "fake_per": 14,
+      "require_targeting_player": false,
+      "ranges": [
+        [
+          2,
+          14,
+          "DEFAULT"
+        ]
+      ],
+      "description": "Dr. Isha fires his P90!"
+    },
+    {
+      "id": "impale",
+      "damage_max_instance": [
+        {
+          "damage_type": "stab",
+          "amount": 26,
+          "armor_multiplier": 0.8
+        }
+      ]
+    }
+    ],
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "death_drops": "mon_mutant_experimental_death_drops",
+    "regenerates": 30,
+    "regen_morale": true,
+    "zombify_into": "mon_meat_cocoon_small",
+    "//": "Has the NOBREATHE flag because there's not a poison resistance flag.",
+    "flags": [ "SEES", "HEARS", "CAN_OPEN_DOORS", "NO_BREATHE", "RANGED_ATTACKER", "ACID_BLOOD", "WARM" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4 }
   }
 ]
