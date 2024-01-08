@@ -959,6 +959,25 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_VINES",
+    "name": { "str": "Writhing Vines" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "At will, the Arvore can grow long vines from their shoulders and back.  They can be used to climb or to lash at enemies, and can also be detached to serve as a rope if necessary.  Activate to toggle vines on and off.",
+    "prereqs": [ "ARVORE_VINE_DRAG" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "category": [ "ARVORE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "time": 60,
+    "thirst": true,
+    "cost": 1,
+    "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_FOREST_DETECT",
     "name": { "str": "The Forests' Warning" },
     "points": 2,
@@ -1343,7 +1362,6 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
     "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
-    "time": 120,
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {

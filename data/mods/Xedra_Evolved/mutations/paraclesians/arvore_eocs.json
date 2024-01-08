@@ -344,6 +344,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VINES_ON",
+    "effect": [ { "u_add_trait": "VINES3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VINES_OFF",
+    "effect": [ { "u_lose_trait": "VINES3" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
     "condition": { "math": [ "u_val('stored_kcal')", ">=", "118000" ] },
