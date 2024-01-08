@@ -1415,10 +1415,10 @@
     "material": [ "denim", "plastic", "lc_steel" ],
     "symbol": "[",
     "looks_like": "motorbike_pants",
-    "color": "blue",
+    "color": "light_blue",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [
       {
         "encumbrance": [ 18, 20 ],
