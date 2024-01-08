@@ -785,7 +785,7 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "TRANSPARENT" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -814,7 +814,8 @@
             "GOODCARDIO",
             "ANIMALDISCORD2",
             "MUTE",
-            "LARGE_OK"
+            "LARGE_OK",
+            "TRANSPARENT"
           ]
         }
       ]

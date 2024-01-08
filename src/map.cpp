@@ -124,7 +124,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
-static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -228,6 +227,8 @@ void map::set_transparency_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).transparency_cache_dirty.set();
+        get_cache( zlev ).r_hor_cache->invalidate();
+        get_cache( zlev ).r_up_cache->invalidate();
     }
 }
 
@@ -237,6 +238,8 @@ void map::set_transparency_cache_dirty( const tripoint &p, bool field )
         const tripoint smp = ms_to_sm_copy( p );
         get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
         if( !field ) {
+            get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
+            get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
             get_creature_tracker().invalidate_reachability_cache();
         }
     }
@@ -3654,9 +3657,6 @@ int map::collapse_check( const tripoint &p ) const
                 if( tbelow == pbelow ) {
                     num_supports += 2;
                 }
-                if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-                    num_supports = 0;
-                }
             }
         }
     }
@@ -3680,9 +3680,6 @@ int map::collapse_check( const tripoint &p ) const
                     num_supports += 3;
                 }
             }
-        }
-        if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-            num_supports = 0;
         }
     }
 
@@ -6097,11 +6094,6 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
-const trap &map::tr_at( const tripoint_abs_ms &p ) const
-{
-    return tr_at( p.raw() );
-}
-
 const trap &map::tr_at( const tripoint_bub_ms &p ) const
 {
     return tr_at( p.raw() );
@@ -7214,20 +7206,6 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
     return sees( F, T, range, dummy );
 }
 
-point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
-{
-
-    // Canonicalize the order of the tripoints so the cache is reflexive.
-    const tripoint &min = from < to ? from : to;
-    const tripoint &max = !( from < to ) ? from : to;
-
-    // A little gross, just pack the values into a point.
-    return point(
-               min.x << 16 | min.y << 8 | ( min.z + OVERMAP_DEPTH ),
-               max.x << 16 | max.y << 8 | ( max.z + OVERMAP_DEPTH )
-           );
-}
-
 /**
  * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
  **/
@@ -7239,7 +7217,14 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    const point key = sees_cache_key( F, T );
+    // Canonicalize the order of the tripoints so the cache is reflexive.
+    const tripoint &min = F < T ? F : T;
+    const tripoint &max = !( F < T ) ? F : T;
+    // A little gross, just pack the values into a point.
+    const point key(
+        min.x << 16 | min.y << 8 | ( min.z + OVERMAP_DEPTH ),
+        max.x << 16 | max.y << 8 | ( max.z + OVERMAP_DEPTH )
+    );
     char cached = skew_vision_cache.get( key, -1 );
     if( cached >= 0 ) {
         return cached > 0;
@@ -7388,14 +7373,12 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
         low_p = viewer_p;
     }
     tripoint ledge_p = high_p;
-    bresenham( tripoint( low_p.xy(), high_p.z ), high_p, 0, 0, [this,
-    &ledge_p]( const tripoint & new_point ) {
-        if( dont_draw_lower_floor( new_point ) ) {
-            ledge_p = new_point;
-            return false;
+    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
+        if( dont_draw_lower_floor( p ) ) {
+            ledge_p = p;
+            break;
         }
-        return true;
-    } );
+    }
 
     // Height of each z-level in grids
     const float zlevel_to_grid_ratio = 2.0f;
@@ -9380,6 +9363,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
         seen_cache_dirty |= floor_cache_was_dirty;
+        if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
+            get_cache( z - 1 ).r_up_cache->invalidate();
+        }
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
@@ -9712,10 +9698,10 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, const bool may_avoid ) const
 {
-    // gliding or boarded in a vehicle means the player is above the trap
-    // like a flying monster and can never trigger the trap.
+    // boarded in a vehicle means the player is above the trap, like a flying monster and can
+    // never trigger the trap.
     const Character *const you = c.as_character();
-    if( you != nullptr && ( you->in_vehicle || !you->has_effect( effect_gliding ) ) ) {
+    if( you != nullptr && you->in_vehicle ) {
         return;
     }
 
@@ -10328,14 +10314,43 @@ void map::invalidate_max_populated_zlev( int zlev )
     }
 }
 
-bool map::has_potential_los( const tripoint &from, const tripoint &to ) const
+bool map::has_potential_los( const tripoint &from, const tripoint &to,
+                             bool bounds_check ) const
 {
-    const point key = sees_cache_key( from, to );
-    char cached = skew_vision_cache.get( key, -1 );
-    if( cached >= 0 ) {
-        return cached > 0;
+    if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
+        return false;
     }
-    return true;
+    if( from.z == to.z ) {
+        level_cache &cache = get_cache( from.z );
+        return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+               cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+    }
+    tripoint upper;
+    tripoint lower;
+    std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
+    // z-bounds depend on the invariant that both points are inbounds and their z are different
+    return get_cache( lower.z ).r_up_cache->has_potential_los(
+               lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
+}
+
+// Get cache value for debug purposes
+int map::reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                   reachability_cache_quadrant quadrant ) const
+{
+    if( !inbounds( p ) ) {
+        return -2;
+    }
+
+    // rebuild caches, so valid values are shown
+    has_potential_los( p, p ); // rebuild horizontal cache;
+    has_potential_los( p, p + tripoint_above ); // rebuild "up" cache
+
+    const level_cache &lc = get_cache( p.z );
+    if( vertical_cache ) {
+        return lc.r_up_cache->get_value( quadrant, p.xy() );
+    } else {
+        return lc.r_hor_cache->get_value( quadrant, p.xy() );
+    }
 }
 
 static bool is_haulable( const item &it )
