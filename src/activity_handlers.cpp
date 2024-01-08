@@ -844,7 +844,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     std::vector<item> objs;
     while( count > 0 ) {
         item obj( drop, calendar::turn, 1 );
-        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        obj.charges = std::min( count, DEFAULT_TILE_VOLUME / obj.volume() );
         count -= obj.charges;
 
         if( obj.has_temperature() ) {
