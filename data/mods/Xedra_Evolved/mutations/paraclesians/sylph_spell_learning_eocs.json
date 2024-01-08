@@ -28,6 +28,20 @@
           "or": [
             { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, "u_is_outside" ] },
             { "and": [ { "math": [ "weather('windpower')", ">=", "15" ] }, "u_is_outside" ] },
+            {
+              "and": [
+                "u_is_outside",
+                {
+                  "or": [
+                    { "is_weather": "thunder" },
+                    { "is_weather": "lightning" },
+                    { "is_weather": "rain" },
+                    { "is_weather": "rainstorm" },
+                    { "is_weather": "drizzle" }
+                  ]
+                }
+              ]
+            },
             { "u_at_om_location": "sylph_genius_loci_NW" },
             { "u_at_om_location": "sylph_genius_loci_NE" },
             { "u_at_om_location": "sylph_genius_loci_SW" },
