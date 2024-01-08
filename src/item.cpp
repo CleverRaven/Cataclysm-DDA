@@ -13367,10 +13367,12 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         }
     }
 
-    if( has_no_links() ) {
+    bool bio_link = link_has_states( link_state::no_link, link_state::bio_cable );
+    if( bio_link || has_no_links() ) {
 
         // No link exists, so start a new link to a vehicle/appliance.
 
+        link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
         link().t_abs_pos = get_map().getglobal( link().t_veh->global_pos3() );

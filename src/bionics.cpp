@@ -1200,7 +1200,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
             for( const item *cable : cables ) {
-                if( !cable->has_no_links() ) {
+                if( cable->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
                     add_msg_if_player( m_info,
