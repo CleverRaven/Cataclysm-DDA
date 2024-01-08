@@ -43,7 +43,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_buzzcut" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -75,7 +75,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_crewcut" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -104,7 +104,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_short" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -135,7 +135,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_short_no_fringe" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -164,7 +164,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_short_over_eye" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -192,7 +192,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_medium" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -219,7 +219,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_mohawk" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -242,7 +242,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_long" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -265,7 +265,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_long_over_eye" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -288,7 +288,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_long_mohawk" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -311,7 +311,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_mullet" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -327,7 +327,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_very_long" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -343,7 +343,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "u_add_trait": "hair_extremely_long" }
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
         ],
         "topic": "TALK_DONE"
       },
