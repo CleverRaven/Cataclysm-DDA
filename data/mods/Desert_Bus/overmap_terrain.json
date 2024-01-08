@@ -1,0 +1,16 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "subway",
+    "name": "railroad",
+    "color": "brown",
+    "see_cost": 5,
+    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
+    "travel_cost_type": "dirt_road",
+    "flags": [ "LINEAR" ]
+  }
+]
