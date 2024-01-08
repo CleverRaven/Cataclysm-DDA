@@ -1258,9 +1258,9 @@
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 14, 16 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 12 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 14, 14 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
     ],
     "pocket_data": [
       {
@@ -1308,7 +1308,7 @@
     "looks_like": "vest_leather",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 12 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 }
     ],
     "pocket_data": [
