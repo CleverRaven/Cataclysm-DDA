@@ -1367,5 +1367,22 @@
     "requirement": "achievement_kill_10_monsters",
     "map_extra": "mx_laststand",
     "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "institutionalized_start",
+    "name": "Challenge - Institutionalized",
+    "points": -3,
+    "description": "It's difficult to remember whether you were a patient or one of the staff.  There's hardly any difference now, but you know one thing - you have got to get out of here.",
+    "allowed_locs": [ "lab_mental_hospital_2f" ],
+    "flags:" [ "LONE_START" ],
+    "professions": [
+      "patient",
+      "mutant_patient",
+      "mutant_amputee",
+      "labtech",
+      "security",
+      "medic"
+    ]
   }
 ]
