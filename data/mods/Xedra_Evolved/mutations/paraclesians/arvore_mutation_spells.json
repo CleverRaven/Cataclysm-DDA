@@ -119,7 +119,9 @@
     "final_casting_time": 100,
     "casting_time_increment": -6000,
     "energy_source": "MANA",
-    "base_energy_cost": 450
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
   },
   {
     "id": "arvore_verdant_infusion",
@@ -174,7 +176,11 @@
     "range_increment": 0.4,
     "energy_source": "MANA",
     "base_energy_cost": 450,
-    "base_casting_time": 150
+    "final_energy_cost": 250,
+    "energy_increment": -10,
+    "base_casting_time": 150,
+    "final_casting_time": 100,
+    "casting_time_increment": -4
   },
   {
     "id": "arvore_summon_wood_spirit",
@@ -214,14 +220,18 @@
     "teachable": false,
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_BRIARS_SELECTOR",
+    "max_level": { "math": [ "per_to_level(1)" ] },
     "shape": "blast",
     "flags": [ "SOMATIC", "VERBAL" ],
     "energy_source": "MANA",
     "spell_class": "ARVORE",
     "difficulty": 5,
     "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5,
     "base_energy_cost": 550,
-    "max_level": 15
+    "final_energy_cost": 250,
+    "energy_increment": -15
   },
   {
     "id": "arvore_summon_briars_arc",
@@ -340,7 +350,7 @@
     "skill": "deduction",
     "max_level": 20,
     "shape": "blast",
-    "difficulty": 4,
+    "difficulty": 2,
     "effect": "ter_transform",
     "effect_str": "ter_arvore_plant_growth",
     "min_range": 1,
@@ -462,8 +472,8 @@
     "min_range": 1,
     "teachable": false,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
-    "final_energy_cost": 250,
+    "base_energy_cost": 350,
+    "final_energy_cost": 200,
     "energy_increment": -25,
     "base_casting_time": 150,
     "final_casting_time": 75,
@@ -502,7 +512,9 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -4,
-    "base_energy_cost": 225
+    "base_energy_cost": 225,
+    "final_energy_cost": 125,
+    "energy_increment": -5
   },
   {
     "id": "arvore_perennial_rebirth_spell",
@@ -522,6 +534,50 @@
     "base_casting_time": 2160000,
     "energy_source": "MANA",
     "base_energy_cost": 2000
+  },
+  {
+    "id": "arvore_overgrowth_spell",
+    "type": "SPELL",
+    "name": "Overgrowth",
+    "description": "While outdoors and not underground, the Arvore can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "skill": "deduction",
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_OVERGROWTH",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 750,
+    "energy_increment": -35,
+    "base_casting_time": 500,
+    "final_casting_time": 250,
+    "casting_time_increment": -8
+  },
+  {
+    "id": "arvore_overgrowth_spell_real",
+    "type": "SPELL",
+    "name": "Overgrowth Real",
+    "description": "The actual spell that casts Overgrowth.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_overgrowth",
+    "min_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    }
   },
   {
     "id": "arvore_sun_foods_on_spell",

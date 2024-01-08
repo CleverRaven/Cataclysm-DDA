@@ -685,5 +685,17 @@
     "//": "will remove ink_gland_ink effect when the mutation is lost",
     "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
     "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_insect_wings_shutoff",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": {
+      "and": [ { "compare_num": [ { "u_val": "stamina" }, "<", { "const": 3000 } ] }, { "u_has_trait": "WINGS_INSECT_active" } ]
+    },
+    "effect": [
+      { "u_activate_trait": "WINGS_INSECT_active" },
+      { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
+    ]
   }
 ]
