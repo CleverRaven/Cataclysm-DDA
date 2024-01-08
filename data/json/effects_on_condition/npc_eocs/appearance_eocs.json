@@ -100,7 +100,7 @@
     "type": "effect_on_condition",
     "id": "EOC_beard_growth_tracking",
     "//": "Use the same notes as hair growth.  However, facial hair grows faster than head hair, averaging 1.25 inches per month.",
-    "recurrence": [ "4 days", "7 days" ],
+    "recurrence": { "math": [ "(43200000 - ((u_val('health') * 86400) ) )" ] },
     "global": false,
     "condition": { "not": { "u_has_trait": "no_hair_growth" } },
     "effect": [
