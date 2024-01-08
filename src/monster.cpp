@@ -3166,9 +3166,28 @@ void monster::process_effects()
 
     if( type->regenerates_in_dark ) {
         const float light = get_map().ambient_light_at( pos() );
-        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) ) ) {
-            add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
+        // Magic number 180 was chosen so that healing drops below 1
+        // HP at a light level of 30, the same level where PHOTOPHOBIA
+        // would start.
+        int ΔHP = ( light <= 3.5 ) ? 50 : static_cast<int>( 50.0 * std::exp( - std::pow( light - 3.5,
+                   2.0 ) / 180 ) );
+        if( ΔHP > 0 && one_in( 2 ) && heal( ΔHP ) ) {
+            // Low perception makes noticing change more
+            // difficult. Zero perception prevents all messages, no
+            // change at 10, large changes slightly easier to notice
+            // above 10.
+            auto perception = std::ceil( 50.0 / ( get_player_character().per_cur + 1 ) +
+                                         3.55 );
+            if( light <= 10 + perception ) { // healed ⩰ 40
+                add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
+            } else if( light <= 16 + perception ) { // healed ⩰ 20
+                add_msg_if_player_sees( *this, m_warning,
+                                        _( "Tendrils of shadow still cling to the %s, healing it." ),
+                                        name() );
+            } else if( light <= 23 + perception ) { // healed ⩰ 5
+                add_msg_if_player_sees( *this, m_warning,
+                                        _( "The %s is only dimly lit, but that doesn’t prevent its wounds from closing." ), name() );
+            }
         }
     }
 
