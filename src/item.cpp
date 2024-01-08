@@ -7855,6 +7855,10 @@ bool item::goes_bad() const
     }
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
+        // They also only rot if they are not dormant
+        if( corpse->has_flag( mon_flag_DORMANT ) ) {
+            return false;
+        }
         return made_of_any( materials::get_rotting() );
     }
     return is_comestible() && get_comestible()->spoils != 0_turns;
