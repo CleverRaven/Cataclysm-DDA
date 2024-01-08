@@ -280,7 +280,7 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "PARACLESIAN_STR_DEX_2" ],
+    "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
     "prereqs2": [ "ARVORE_SKIN_3", "IERDE_SKIN_3", "HOMULLUS_SKIN_3", "SALAMANDER_SKIN_3", "SYLPH_SKIN_3", "UNDINE_SKIN_3" ],
     "description": "You have gained the might of your fae ancestors.  +2 Strength and Dexterity.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
@@ -313,6 +313,18 @@
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
     "passive_mods": { "int_mod": 2, "per_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_DREAMWALKER",
+    "name": { "str": "Dreamwalker" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
+    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
   },
   {
     "type": "mutation",
