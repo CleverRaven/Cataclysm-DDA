@@ -12,6 +12,10 @@
 #include <type_traits>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -52,18 +56,12 @@ static const std::array invalid_names = {
 };
 #endif
 
+static void setFsNeedsSync()
+{
 #if defined(EMSCRIPTEN)
-#include <emscripten.h>
-
-void setFsNeedsSync()
-{
     EM_ASM( window.setFsNeedsSync(); );
-}
-#else
-void setFsNeedsSync()
-{
-}
 #endif
+}
 
 static const std::string invalid_chars = "\\/:?\"<>|";
 
