@@ -3,7 +3,7 @@
     "id": "box_small_plastic",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "secured plastic box", "str_pl": "secured plastic box" },
+    "name": { "str": "secured plastic box", "str_pl": "secured plastic boxes" },
     "description": "A small plastic box with a rugged exterior, the cover securely held by several small latches.",
     "weight": "715 g",
     "volume": "8100 ml",

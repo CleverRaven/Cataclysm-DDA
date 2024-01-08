@@ -155,7 +155,7 @@
     "variants": [
       {
         "id": "lab_file_mutation_testing_1",
-        "name": { "str": "production tests" },
+        "name": { "str_sp": "production tests" },
         "description": "\n\n<mutation_testing>",
         "append": true,
         "expand_snippets": true
