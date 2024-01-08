@@ -4240,12 +4240,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             }
         }
         if( popup_msg ) {
-            const auto new_win = [translated_message]() {
-                query_popup pop;
-                pop.message( "%s", translated_message );
-                return pop.get_window();
-            };
-            scrollable_text( new_win, "", replace_colors( translated_message ) );
+            popup( translated_message );
             g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
