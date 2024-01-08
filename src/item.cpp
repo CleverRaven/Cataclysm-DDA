@@ -1632,8 +1632,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
 
     bits.set( tname::segments::CATEGORY,
               !check_cat ||
-              get_category_of_contents().get_id() ==
-              rhs.get_category_of_contents().get_id() );
+              get_category_of_contents( depth, maxdepth ).get_id() ==
+              rhs.get_category_of_contents( depth, maxdepth ).get_id() );
 
     if( check_cat && bits.none() ) {
         return {};
@@ -6649,6 +6649,7 @@ void item::on_contents_changed()
     cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
     update_inherited_flags();
+    cached_category.timestamp = calendar::turn_max;
     if( empty_container() ) {
         clear_automatic_whitelist();
     }
@@ -12204,11 +12205,16 @@ const item_category &item::get_category_shallow() const
     return type->category_force.is_valid() ? type->category_force.obj() : null_category;
 }
 
-const item_category &item::get_category_of_contents() const
+const item_category &item::get_category_of_contents( int depth, int maxdepth ) const
 {
-    if( type->category_force == item_category_container ) {
-        if( item::aggregate_t const aggi = aggregated_contents(); aggi ) {
-            return aggi.header->get_category_of_contents();
+    if( depth++ < maxdepth && type->category_force == item_category_container ) {
+        if( cached_category.timestamp == calendar::turn ) {
+            return cached_category.id.obj();
+        }
+        if( item::aggregate_t const aggi = aggregated_contents( depth, maxdepth ); aggi ) {
+            item_category const &cat = aggi.header->get_category_of_contents( depth, maxdepth );
+            cached_category = { cat.get_id(), calendar::turn };
+            return cat;
         }
     }
     return this->get_category_shallow();
@@ -14839,7 +14845,7 @@ bool item::contents_only_one_type() const
     } ) );
 }
 
-item::aggregate_t item::aggregated_contents() const
+item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
 {
     constexpr double cutoff = 0.5;
 
@@ -14854,7 +14860,7 @@ item::aggregate_t item::aggregated_contents() const
     for( item_pocket const *pk : contents.get_pockets( cont_and_soft ) ) {
         for( item const *pkit : pk->all_items_top() ) {
             total++;
-            item_category_id const cat = pkit->get_category_of_contents().get_id();
+            item_category_id const cat = pkit->get_category_of_contents( depth, maxdepth ).get_id();
             bool const type_ok = pkit->type->category_force != item_category_container ||
                                  cat == item_category_container;
             if( type_ok ) {
@@ -14863,7 +14869,7 @@ item::aggregate_t item::aggregated_contents() const
                     max_type = running_max;
                 } else if( !rt.second ) {
                     rt.first->second.info.bits &=
-                        rt.first->second.header->stacks_with( *pkit, false, false, true ).bits;
+                        rt.first->second.header->stacks_with( *pkit, false, false, true, depth, maxdepth ).bits;
                     running_max = running_max->count < ++rt.first->second.count ? &rt.first->second : running_max;
                     max_type = max_type->count < rt.first->second.count ? &rt.first->second : max_type;
                 }
@@ -14873,7 +14879,7 @@ item::aggregate_t item::aggregated_contents() const
                 max_type = running_max;
             } else if( !rc.second ) {
                 rc.first->second.info.bits &=
-                    rc.first->second.header->stacks_with( *pkit, false, false, true ).bits;
+                    rc.first->second.header->stacks_with( *pkit, false, false, true, depth, maxdepth ).bits;
                 rc.first->second.info.bits.reset( tname::segments::TYPE );
                 running_max = running_max->count < ++rc.first->second.count ? &rc.first->second : running_max;
             }
@@ -14888,7 +14894,7 @@ item::aggregate_t item::aggregated_contents() const
 
     if( max_type->count > cutoff_check &&
         max_type->header->type->category_force != item_category_container &&
-        max_type->header->get_category_of_contents() == running_max->header->get_category_of_contents() ) {
+        max_type->header->cached_category.id == running_max->header->cached_category.id ) {
 
         max_type->info.bits.set( tname::segments::TYPE );
         return *max_type;

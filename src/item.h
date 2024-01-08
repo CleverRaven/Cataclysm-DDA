@@ -549,7 +549,7 @@ class item : public visitable
         const item_category &get_category_shallow() const;
         // Returns the dominant category of items inside this one.
         // "can of meat" would be food, instead of container.
-        const item_category &get_category_of_contents() const;
+        const item_category &get_category_of_contents( int depth = 0, int maxdepth = 2 ) const;
 
         class reload_option
         {
@@ -2935,7 +2935,7 @@ class item : public visitable
                 return header != nullptr;
             }
         };
-        aggregate_t aggregated_contents() const;
+        aggregate_t aggregated_contents( int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -3187,6 +3187,12 @@ class item : public visitable
         light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
         mutable cata::value_ptr<link_data> link_;
+
+        struct cat_cache {
+            item_category_id id;
+            time_point timestamp = calendar::turn_max;
+        };
+        mutable cat_cache cached_category;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
