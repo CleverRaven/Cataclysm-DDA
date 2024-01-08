@@ -13259,7 +13259,7 @@ item::link_data &item::link()
         return *link_;
     }
     if( !can_link_up() ) {
-        debugmsg( "%s is creating link_data even though it doesn't have a link_up action! can_link_up() should be checked before using link().",
+        debugmsg( "%s is creating link_data even though it doesn't have a link_up action!  can_link_up() should be checked before using link().",
                   tname() );
     }
     return *( link_ = cata::make_value<item::link_data>() );
@@ -13271,7 +13271,7 @@ const item::link_data &item::link() const
         return *link_;
     }
     if( !can_link_up() ) {
-        debugmsg( "%s is creating link_data even though it doesn't have a link_up action! can_link_up() should be checked before using link().",
+        debugmsg( "%s is creating link_data even though it doesn't have a link_up action!  can_link_up() should be checked before using link().",
                   tname() );
     }
     return *( link_ = cata::make_value<item::link_data>() );
@@ -13293,11 +13293,11 @@ bool item::link_has_state( link_state state ) const
            link_->source == state || link_->target == state;
 }
 
-bool item::link_has_states( link_state s_state_, link_state t_state_ ) const
+bool item::link_has_states( link_state source, link_state target ) const
 {
-    return !has_link_data() ? s_state_ == link_state::no_link && t_state_ == link_state::no_link :
-           ( link_->source == s_state_ || link_->source == link_state::automatic ) &&
-           ( link_->target == t_state_ || link_->target == link_state::automatic );
+    return !has_link_data() ? source == link_state::no_link && target == link_state::no_link :
+           ( link_->source == source || link_->source == link_state::automatic ) &&
+           ( link_->target == target || link_->target == link_state::automatic );
 }
 
 bool item::has_no_links() const

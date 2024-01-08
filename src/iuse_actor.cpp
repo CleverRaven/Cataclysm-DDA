@@ -4843,7 +4843,6 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             return 0;
         }
         if( p->has_item( it ) ) {
-            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
             p->add_msg_if_player( m_good, result.str() );
         }
 
@@ -4912,7 +4911,6 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             return 0;
         }
         if( p->has_item( it ) ) {
-            //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - tow cable name,
             p->add_msg_if_player( m_good, result.str() );
         }
 
