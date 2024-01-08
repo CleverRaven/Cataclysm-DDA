@@ -42,12 +42,16 @@
   {
     "id": "mean_mug",
     "type": "MIGRATION",
-    "replace": "ceramic_mug"
+    "replace": "ceramic_mug",
+    "variant": "mean_mug",
+    "reset_item_vars": true
   },
   {
     "id": "nice_mug",
     "type": "MIGRATION",
-    "replace": "ceramic_mug"
+    "replace": "ceramic_mug",
+    "variant": "mean_mug2",
+    "reset_item_vars": true
   },
   {
     "id": "ar15",

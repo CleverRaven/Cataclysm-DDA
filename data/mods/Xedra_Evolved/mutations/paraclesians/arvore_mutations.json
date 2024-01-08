@@ -186,6 +186,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to induce decay and dissolution in the surrounding area.",
     "prereqs": [ "ARVORE_VERDANT_INFUSION" ],
+    "prereqs2": [ "ARVORE_TURN_INTO_TREE" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "spells_learned": [ [ "arvore_cause_decay", 1 ] ]
@@ -230,16 +231,16 @@
   {
     "type": "mutation",
     "id": "ARVORE_TURN_INTO_TREE",
-    "name": { "str": "Verdant Imprisonment" },
+    "name": { "str": "Overgrowth" },
     "points": 9,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_CAUSE_DECAY" ],
+    "prereqs": [ "ARVORE_SUMMON_BRIARS" ],
     "prereqs2": [ "ARVORE_SUMMON_WOOD_WALL" ],
-    "description": "Upon gaining this ability, the Arvore gains the ability to transform a single target into a tree.  It works best against targets that have already been weakened, and will not work at all against non-organic targets.",
+    "description": "Upon gaining this ability, the Arvore gains the ability to cause rapid plant growth in a radius around themselves.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "spells_learned": [ [ "arvore_turn_into_tree", 1 ] ]
+    "spells_learned": [ [ "arvore_overgrowth_spell", 1 ] ]
   },
   {
     "type": "mutation",

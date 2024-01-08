@@ -151,6 +151,9 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 
 WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
+    if( !is_lexically_valid( fs::u8path( name ) ) ) {
+        return nullptr;
+    }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );

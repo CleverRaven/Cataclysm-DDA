@@ -2504,6 +2504,8 @@
       [ "socks_wool", 30 ],
       [ "jeans", 90 ],
       [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 30 ],
+      [ "jeans_vintage", 1 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -2920,6 +2922,7 @@
           { "item": "pants_checkered", "prob": 10 },
           { "item": "pants", "prob": 40 },
           { "item": "jeans", "prob": 20 },
+          { "item": "jeans_skinny", "prob": 5 },
           { "item": "pants", "variant": "pants_flag", "prob": 5 },
           { "item": "breeches", "prob": 25 }
         ]

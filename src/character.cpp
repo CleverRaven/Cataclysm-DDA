@@ -237,6 +237,7 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -309,6 +310,8 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -341,6 +344,10 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
+static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
+static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -1582,7 +1589,6 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
-    avatar &player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
@@ -1606,6 +1612,7 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
+    avatar &player_avatar = get_avatar();
     if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
         player_avatar.grab( object_type::NONE );
@@ -11091,9 +11098,56 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge ) {
+    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
         get_map().tr_at( pos() ).trigger( pos(), *this );
         get_map().update_visibility_cache( pos().z );
+    }
+}
+
+void Character::stagger()
+{
+    map &here = get_map();
+    std::vector<tripoint> valid_stumbles;
+    valid_stumbles.reserve( 11 );
+    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
+        if( dest != pos() ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
+                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+            } else {
+                valid_stumbles.push_back( dest );
+            }
+        }
+    }
+    const tripoint below( posx(), posy(), posz() - 1 );
+    if( here.valid_move( pos(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
+    }
+    creature_tracker &creatures = get_creature_tracker();
+    while( !valid_stumbles.empty() ) {
+        bool blocked = false;
+        const tripoint dest = random_entry_removed( valid_stumbles );
+        const optional_vpart_position vp_there = here.veh_at( dest );
+        if( vp_there ) {
+            vehicle &veh = vp_there->vehicle();
+            if( veh.enclosed_at( dest ) ) {
+                blocked = true;
+            }
+        }
+        if( here.passable( dest ) && !blocked &&
+            ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
+            avatar &player_avatar = get_avatar();
+            if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+                player_avatar.grab( object_type::NONE );
+            }
+            add_msg_player_or_npc( m_warning,
+                                   _( "You stumble!" ),
+                                   _( "<npcname> stumbles!" ) );
+            setpos( dest );
+            mod_moves( -100 );
+            break;
+        }
     }
 }
 
@@ -12540,6 +12594,29 @@ int Character::impact( const int force, const tripoint &p )
     }
 
     return total_dealt;
+}
+
+bool Character::can_fly()
+{
+    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ||
+        ( has_effect( effect_grabbed ) && !try_remove_grab() ) || movement_mode_is( move_mode_prone ) ||
+        has_effect( effect_downed ) ) {
+        return false;
+    }
+    // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
+    if( has_trait_flag( json_flag_GLIDE ) ) {
+        return true;
+    }
+    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ||
+          has_trait_flag( json_flag_WING_GLIDE ) ) &&
+        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 ||
+          has_effect( effect_winded ) ) ) {
+        return false;
+    }
+    if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
+        return false;
+    }
+    return true;
 }
 
 // FIXME: Relies on hardcoded bash damage type
