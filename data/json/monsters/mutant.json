@@ -328,7 +328,7 @@
   {
     "id": "mon_mutant_isha",
     "type": "MONSTER",
-    "name": { "str": "Dr. Isha" },
+    "name": { "str": "Dr. Isha", "str_pl": "Drs. Isha" },
     "description": "Through a series of intricate cuts and what must have been a great deal of effort, most of the skin has been removed from this man's face and upper body, revealing red viscera wet with a sizzling froth that has almost completely eaten through his lab coat.  His teeth are too perfect, chattering and gerning in a lipless mouth, and his exposed knuckles gleam white as he grips a blade.  An FN P90 hands by a strap from his shoulder.",
     "default_faction": "lab_mutant",
     "bodytype": "human",
