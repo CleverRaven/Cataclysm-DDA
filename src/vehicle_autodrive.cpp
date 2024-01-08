@@ -1222,8 +1222,10 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
                                         navigation_step();
     bool maintain_speed = false;
     // If vehicle did not move as far as planned and direction is the same
-    // then it is still accelerating.
-    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) >
+    // then it is still accelerating. If the vehicle moved more than expected
+    // then we likely underestimated the acceleration when planning the path.
+    // If either of these happen, we should maintain speed but compute a new path.
+    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) !=
         square_dist( first_step.pos.xy().raw(), veh_pos.xy().raw() ) &&
         first_step.steering_dir == second_step.steering_dir ) {
         data.path.pop_back();
