@@ -328,15 +328,15 @@
     "text": [
       {
         "id": "mutation_testing_1",
-        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: subject's body rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Few were grown in different places, including few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Some grew in unexpected places, including a few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
       },
       {
         "id": "mutation_testing_2",
-        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked about some food.\nLong term results: the size of object's stomach was increased at 50%."
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked for more food.\nLong term results: the size of subject's stomach was increased by 50%."
       },
       {
         "id": "mutation_testing_3",
-        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized in an attempt to pull the weapon from the security guard's holster."
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull the weapon from a security guard's holster."
       },
       {
         "id": "mutation_testing_4",

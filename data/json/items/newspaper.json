@@ -143,14 +143,14 @@
     "type": "GENERIC",
     "id": "lab_file_mutagen_guide",
     "name": { "str_sp": "production notes" },
-    "description": "Big pile of documents confirming the level of purity of all ingredients used in making this batch, small card with steps that was performed in making the batch, with signature of every person on each step, and, most importantly, a quality control protocol, that describes different tests, performed on this batch, to ensure quality of… something.  Series of checkmarks in table slowly appear and fade around <color_yellow>\"500 units of mutagen per 500 units of primer\"</color> ratio.",
+    "description": "A collection of documents confirming the purity level of all ingredients used in making this batch.  Includes a small card listing the steps performed, each line accompanied by a verification signature, and, most importantly, a quality control protocol, that describes the different tests performed on this batch, to ensure the success of… something.  On one distinctive page a series of checkmarks slowly appear and fade around <color_yellow>\"500 units of mutagen per 500 units of primer\"</color> ratio.",
     "copy-from": "file"
   },
   {
     "type": "GENERIC",
     "id": "lab_file_mutation_testing",
     "name": { "str_sp": "production tests" },
-    "description": "Side document, that descibe performed tests on different subjects.",
+    "description": "Accompanying document, that describes tests performed on different subjects.",
     "expand_snippets": true,
     "variants": [
       {

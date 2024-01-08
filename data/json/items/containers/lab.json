@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "secured plastic box", "str_pl": "secured plastic box" },
-    "description": "A small, black plastic box with thick walls, with few small latches to hold a cover.",
+    "description": "A small plastic box with a rugged exterior, the cover securely held by several small latches.",
     "weight": "715 g",
     "volume": "8100 ml",
     "longest_side": "22 cm",
