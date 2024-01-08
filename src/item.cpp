@@ -14849,6 +14849,64 @@ bool item::contents_only_one_type() const
     } ) );
 }
 
+item::aggregate_t item::aggregated_contents() const
+{
+    constexpr double cutoff = 0.5;
+
+    std::unordered_map<itype_id, aggregate_t> types;
+    std::unordered_map<item_category_id, aggregate_t> cats;
+    unsigned int total{};
+    aggregate_t *running_max{};
+    aggregate_t *max_type{};
+    auto const cont_and_soft = []( item_pocket const & pkt ) {
+        return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::SOFTWARE );
+    };
+    for( item_pocket const *pk : contents.get_pockets( cont_and_soft ) ) {
+        for( item const *pkit : pk->all_items_top() ) {
+            total++;
+            item_category_id const cat = pkit->get_category_of_contents().get_id();
+            bool const type_ok = pkit->type->category_force != item_category_container ||
+                                 cat == item_category_container;
+            if( type_ok ) {
+                if( auto const rt = types.emplace( pkit->typeId(), pkit ); rt.second && running_max == nullptr ) {
+                    running_max = &rt.first->second;
+                    max_type = running_max;
+                } else if( !rt.second ) {
+                    rt.first->second.info.bits &=
+                        rt.first->second.header->stacks_with( *pkit, false, false, true ).bits;
+                    running_max = running_max->count < ++rt.first->second.count ? &rt.first->second : running_max;
+                    max_type = max_type->count < rt.first->second.count ? &rt.first->second : max_type;
+                }
+            }
+            if( auto const rc = cats.emplace( cat, pkit ); rc.second && running_max == nullptr ) {
+                running_max = &rc.first->second;
+                max_type = running_max;
+            } else if( !rc.second ) {
+                rc.first->second.info.bits &=
+                    rc.first->second.header->stacks_with( *pkit, false, false, true ).bits;
+                rc.first->second.info.bits.reset( tname::segments::TYPE );
+                running_max = running_max->count < ++rc.first->second.count ? &rc.first->second : running_max;
+            }
+        }
+    }
+    if( running_max == nullptr ) {
+        return {};
+    }
+
+    unsigned int const cutoff_check =
+        total < 3 ? total - 1 : static_cast<int>( std::floor( total * cutoff ) );
+
+    if( max_type->count > cutoff_check &&
+        max_type->header->type->category_force != item_category_container &&
+        max_type->header->get_category_of_contents() == running_max->header->get_category_of_contents() ) {
+
+        max_type->info.bits.set( tname::segments::TYPE );
+        return *max_type;
+    }
+
+    return running_max->count > cutoff_check ? *running_max : aggregate_t{};
+}
+
 std::list<const item *> item::all_items_ptr() const
 {
     std::list<const item *> all_items_internal;

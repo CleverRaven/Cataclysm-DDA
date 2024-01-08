@@ -50,6 +50,11 @@ class enum_bitset
             return *this;
         }
 
+        enum_bitset &set() noexcept {
+            bits.set();
+            return *this;
+        }
+
         enum_bitset &reset( E e ) {
             bits.reset( get_pos( e ) );
             return *this;

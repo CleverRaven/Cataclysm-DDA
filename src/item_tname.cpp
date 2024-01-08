@@ -196,50 +196,48 @@ std::string tname::contents( item const &it, unsigned int /* quantity */,
                              segment_bitset const &segments )
 {
     item_contents const &contents = it.get_contents();
-    if( segments[tname::segments::CONTENTS_FULL] && !it.get_contents().empty() &&
-        it.contents_only_one_type() ) {
-        const item &contents_item = contents.first_item();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( phase_id::LIQUID ) ||
-                contents_item.is_food() || contents_item.count_by_charges() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : contents.num_item_stacks();
+    if( item::aggregate_t aggi = it.aggregated_contents();
+        segments[tname::segments::CONTENTS_FULL] && aggi ) {
 
-        if( !contents_item.is_null() ) {
-            std::string contents_suffix_text;
-            // with_contents=false for nested items to prevent excessively long names
-            segment_bitset abrev( default_tname );
-            abrev.set( tname::segments::CONTENTS_FULL, false );
-            abrev.set( tname::segments::CONTENTS_ABREV, contents_count == 1 );
-            const std::string contents_tname = contents_item.tname( contents_count, abrev );
-            std::string const ctnc = colorize( contents_tname, contents_item.color_in_inventory() );
-            if( contents_count == 1 || !it.ammo_types().empty() ) {
-                // Don't append an item count for single items, or items that are ammo-exclusive
-                // (eg: quivers), as they format their own counts.
-                contents_suffix_text = string_format( pgettext( "item name",
-                                                      //~ [container item name] " > [inner item name]
-                                                      " > %1$s" ), ctnc );
-            } else if( contents_count != 0 ) {
-                // Otherwise, add a contents count!
-                contents_suffix_text = string_format( pgettext( "item name",
-                                                      //~ [container item name] " > [inner item name] (qty)
-                                                      " > %1$s (%2$zd)" ), ctnc, contents_count );
+        const item &contents_item = *aggi.header;
+        const unsigned aggi_count = contents_item.count_by_charges() && contents_item.charges > 1
+                                    ? contents_item.charges
+                                    : aggi.count;
+        const unsigned total_count = contents_item.count_by_charges() && contents_item.charges > 1
+                                     ? contents_item.charges
+                                     : contents.num_item_stacks();
+
+        // without full contents for nested items to prevent excessively long names
+        segment_bitset abrev( aggi.info.bits );
+        abrev.set( tname::segments::CONTENTS_FULL, false );
+        abrev.set( tname::segments::CONTENTS_ABREV, aggi_count == 1 );
+        abrev.set( tname::segments::CATEGORY,
+                   abrev[tname::segments::CATEGORY] && !abrev[tname::segments::TYPE] );
+        std::string const contents_tname = contents_item.tname( aggi_count, abrev );
+        std::string const ctnc = abrev[tname::segments::CATEGORY]
+                                 ? contents_tname
+                                 : colorize( contents_tname, contents_item.color_in_inventory() );
+
+        // Don't append an item count for single items, or items that are ammo-exclusive
+        // (eg: quivers), as they format their own counts.
+        if( total_count > 1 && it.ammo_types().empty() ) {
+            if( total_count == aggi_count ) {
+                return string_format( " > %1$zd %2$s", total_count, ctnc );
             }
-            if( it.is_collapsed() ) {
-                contents_suffix_text += string_format( " %s", _( "hidden" ) );
-            }
-            return contents_suffix_text;
+            return string_format(
+                       //~ [container item name] " > [count] [type] / [total] items"
+                       npgettext( "item name", " > %1$zd %2$s / %3$zd item", " > %1$zd %2$s / %3$zd items", total_count ),
+                       aggi_count, ctnc, total_count );
         }
+        return string_format( " > %1$s", ctnc );
+
     } else if( segments[tname::segments::CONTENTS_ABREV] && !contents.empty_container() &&
                contents.num_item_stacks() != 0 ) {
         std::string const suffix =
             npgettext( "item name",
                        //~ [container item name] " > [count] item"
-                       " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
-        std::string const hidden =
-            it.is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
-        return string_format( suffix, contents.num_item_stacks(), hidden );
+                       " > %1$zd item", " > %1$zd items", contents.num_item_stacks() );
+        return string_format( suffix, contents.num_item_stacks() );
     }
     return {};
 }

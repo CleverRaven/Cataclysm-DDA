@@ -2921,6 +2921,22 @@ class item : public visitable
 
         item const *this_or_single_content() const;
         bool contents_only_one_type() const;
+        struct aggregate_t {
+            stacking_info info;
+            item const *header{};
+            unsigned int count{};
+
+            aggregate_t() = default;
+            explicit aggregate_t( item const *i )
+                : header( i ), count( 1 ) {
+                info.bits.set();
+            };
+
+            explicit operator bool() const noexcept {
+                return header != nullptr;
+            }
+        };
+        aggregate_t aggregated_contents() const;
 
         /**
          * returns a list of pointers to all items inside recursively
