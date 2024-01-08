@@ -15,7 +15,7 @@
         "run_eocs": [
           {
             "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_2",
-            "//": "This EoC is required because map_in_city cannot check talker location",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
             "condition": {
               "or": [
                 { "u_at_om_location": "FACTION_CAMP_ANY" },

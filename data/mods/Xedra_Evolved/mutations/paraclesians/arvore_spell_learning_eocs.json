@@ -142,7 +142,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_nurture_the_green')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_nurture_the_green')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -160,7 +160,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_growing_wood_walls')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_growing_wood_walls')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -178,7 +178,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_commune_with_nature')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_commune_with_nature')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -196,7 +196,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_summon_briars')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_summon_briars')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -214,7 +214,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_traverse_the_wilds')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_traverse_the_wilds')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -232,7 +232,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_cause_decay')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_cause_decay')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -250,7 +250,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_summon_wood_spirit')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_summon_wood_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -268,7 +268,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_roots_crack_the_foundation')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_roots_crack_the_foundation')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -286,7 +286,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_forest_translocate')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_forest_translocate')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -304,7 +304,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_overgrowth_spell')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_overgrowth_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -322,7 +322,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_verdant_infusion')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_verdant_infusion')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -340,7 +340,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_roots_spell')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_roots_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -358,7 +358,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_climbing_vine_spell')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_climbing_vine_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -376,7 +376,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_anti_plant_spell')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_anti_plant_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -394,7 +394,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('arvore_cultivate_goblin_fruit')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('arvore_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -412,7 +412,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -430,7 +430,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "u_skill('deduction') * 100" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }
