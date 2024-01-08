@@ -33,9 +33,7 @@ all_oms_bits = []
 for om_y in range(-1 * round((overmaps - 1) / 2), round((overmaps - 1) / 2) + 1):
     if windy:
         if om_y == (-1 * round((overmaps - 1) / 2)): # figure out all the windiness in advance
-            om_row_bits = 180 * bitarray('0')
-            for row in range((overmaps * 180) + 1):
-                all_oms_bits.append(om_row_bits)
+            empty_row_bits = 180 * bitarray('0')
             y = 0
             min_amplitude = 10
             max_amplitude = 30
@@ -48,7 +46,9 @@ for om_y in range(-1 * round((overmaps - 1) / 2), round((overmaps - 1) / 2) + 1)
             direction = 1 # only do half a sine curve then reset origin and do half a negative sine curve with new period and amplitude
             for row in range((overmaps * 180) + 1):
                 x = 89 + round(direction * amplitude * math.sin( ( math.pi * y ) / period ))
-                all_oms_bits[row][x] = bitarray('1')
+                row_bits = empty_row_bits
+                row_bits[x] = True
+                all_oms_bits.append(row_bits)
                 if x == 89: # probably need to check if it crossed too
                     if direction == 1:
                         direction = -1
@@ -56,13 +56,19 @@ for om_y in range(-1 * round((overmaps - 1) / 2), round((overmaps - 1) / 2) + 1)
                         direction = 1
                     minmax = round(y / 2)
                     for sub_row in range(minmax): # Backfill the points with a "curve"
-                        x1 = all_oms_bits[row - y + subrow].find('1')
-                        x2 = all_oms_bits[row - y + subrow + 1 ].find('1')
-                        all_oms_bits[row - y + subrow][x1:x2] = 1
+                        sub_row_bits1 = all_oms_bits[row - y + sub_row]
+                        sub_row_bits2 = all_oms_bits[row - y + sub_row + 1 ]
+                        x1 = sub_row_bits1.find(True)
+                        x2 = sub_row_bits2.find(True)
+                        sub_row_bits1[x1:x2] = True
+                        all_oms_bits[row - y + sub_row] = sub_row_bits1
                     for sub_row in range(minmax + 1, y + 1):
-                        x1 = all_oms_bits[row - y + minmax + subrow + 1].find('1')
-                        x2 = all_oms_bits[row - y + minmax + subrow + 2].find('1')
-                        all_oms_bits[row - y + minmax + subrow + 2][x1:x2] = 1 # do x1 and x2 need to be in order?
+                        sub_row_bits1 = all_oms_bits[row - y + minmax + sub_row + 1]
+                        sub_row_bits2 = all_oms_bits[row - y + minmax + sub_row + 2]
+                        x1 = sub_row_bits1.find(True)
+                        x2 = sub_row_bits2.find(True)
+                        sub_row_bits2[x1:x2] = True
+                        all_oms_bits[row - y + minmax + sub_row + 2] = sub_row_bits2 # do x1 and x2 need to be in order?
                     y = 0
                     period += max_period_difference * 2 * (random.random() - 0.5) # weight these so they go towards the mean of min max not get stuck at the edges
                     amplitude += max_amplitude_difference * 2 * (random.random() - 0.5)
@@ -72,8 +78,9 @@ for om_y in range(-1 * round((overmaps - 1) / 2), round((overmaps - 1) / 2) + 1)
         #if not vertical:
             #rotate the mess above?
         for om_row_n in range(om_y * 180,(om_y + 1) * 180):
-            filler_start_amount = all_oms_bits[om_row_n].find('1')
-            road_amount = all_oms_bits[om_row_n].count('1')
+            om_row_bits = all_oms_bits[om_row_n]
+            filler_start_amount = om_row_bits.find(True)
+            road_amount = om_row_bits.count(True)
             filler_end_amount = 180 - filler_start - road
             om_row = '["' + filler_type + '",' + str(filler_start_amount) + '],["' + road_type + '_ns",' + str(road_amount) + '],["' + filler_type + '",' + str(filler_end_amount) + ']' # need to make the road bend at the ends
             if om_row_n != ((om_y + 1) * 180):
