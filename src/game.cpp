@@ -232,6 +232,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -11844,7 +11845,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) ) {
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+        ( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) != tr_ledge ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
@@ -12107,7 +12109,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
-    if( !wall_cling )  {
+    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge &&
+                         !u.has_effect( effect_gliding ) ) )  {
         here.creature_on_trap( u, !force );
     }
 
@@ -12186,7 +12189,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         stairs.emplace( pos + tripoint_above );
     }
     // We did not find stairs directly above or below, so search the map for them
-    if( !stairs.has_value() ) {
+    // If there's empty space right below us, we can just go down that way.
+    if( !stairs.has_value() && get_map().tr_at( u.pos() ) != tr_ledge ) {
         for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
@@ -12249,6 +12253,10 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
 
+        return stairs;
+    }
+
+    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
         return stairs;
     }
 

@@ -124,6 +124,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -6096,6 +6097,11 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
+const trap &map::tr_at( const tripoint_abs_ms &p ) const
+{
+    return tr_at( p.raw() );
+}
+
 const trap &map::tr_at( const tripoint_bub_ms &p ) const
 {
     return tr_at( p.raw() );
@@ -9706,10 +9712,10 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, const bool may_avoid ) const
 {
-    // boarded in a vehicle means the player is above the trap, like a flying monster and can
-    // never trigger the trap.
+    // gliding or boarded in a vehicle means the player is above the trap
+    // like a flying monster and can never trigger the trap.
     const Character *const you = c.as_character();
-    if( you != nullptr && you->in_vehicle ) {
+    if( you != nullptr && ( you->in_vehicle || !you->has_effect( effect_gliding ) ) ) {
         return;
     }
 

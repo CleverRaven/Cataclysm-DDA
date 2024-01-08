@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
@@ -443,6 +444,11 @@ bool do_turn()
 
     // Make sure players cant defy gravity by standing still, Looney tunes style.
     u.gravity_check();
+
+    // If you're inside a wall or something and haven't been telefragged, let's get you out.
+    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
+        u.stagger();
+    }
 
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {

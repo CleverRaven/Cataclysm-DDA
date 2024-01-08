@@ -199,7 +199,7 @@ struct mutation_branch {
         bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
-        // IF any of the three are true, it drains that as the "cost"
+        // IF any of the four are true, it drains that as the "cost"
         bool fatigue       = false;
         bool hunger        = false;
         bool thirst        = false;

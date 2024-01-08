@@ -333,6 +333,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```ARM_WINGS``` You have wings instead of regular arms.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story.
@@ -364,6 +365,8 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```FEATHER_FALL``` You are immune to fall damage.
 - ```GILLS``` You can breathe underwater.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
+- ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.
+- ```GLIDING``` You are in the process of gliding.
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
@@ -378,6 +381,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```INVISIBLE``` You can't be seen.
 - ```LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```MEND_ALL``` You need no splint to heal broken bones.
+- ```MUSCLE_VEH_BOOST``` Something, such as buzzing insect wings, is speeding you up when you use a muscle-powered vehicle.
 - ```MYCUS_IMMUNE``` Critter is immune to fungal hase field (`fd_fungal_haze`)
 - ```MYOPIC``` You are nearsighted: vision range is severely reduced without glasses.
 - ```MYOPIC_IN_LIGHT``` You are nearsighted in light, but can see normally in low-light conditions.
@@ -427,6 +431,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
+- ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` TBD
 
 

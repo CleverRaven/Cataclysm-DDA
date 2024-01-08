@@ -122,14 +122,17 @@ static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -180,8 +183,11 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -5018,6 +5024,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_jump_across,
         ledge_fall_down,
         ledge_examine_furniture_below,
+        ledge_glide,
     };
 
     map &here = get_map();
@@ -5025,6 +5032,26 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    point jd( examp.xy() + point( -you.posx(), -you.posy() ) );
+    int jump_direction = 0;
+
+    if( jd.y > 0 && jd.x == 0 ) {
+        jump_direction = 0; //south
+    } else if( jd.y > 0 && jd.x < 0 ) {
+        jump_direction = 1; //southwest
+    } else if( jd.y == 0 && jd.x < 0 ) {
+        jump_direction = 2; //west
+    } else if( jd.y < 0 && jd.x < 0 ) {
+        jump_direction = 3; //northwest
+    } else if( jd.y < 0 && jd.x == 0 ) {
+        jump_direction = 4; //north
+    } else if( jd.y < 0 && jd.x > 0 ) {
+        jump_direction = 5; //northeast
+    } else if( jd.y == 0 && jd.x > 0 ) {
+        jump_direction = 6; //east
+    } else if( jd.y > 0 && jd.x > 0 ) {
+        jump_direction = 7; //southeast
+    }
 
     tripoint just_below = examp;
     just_below.z--;
@@ -5042,8 +5069,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-
+    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+    }
     cmenu.query();
+
 
     creature_tracker &creatures = get_creature_tracker();
     if( g->climb_down_menu_pick( examp, cmenu.ret ) ) {
@@ -5127,6 +5157,46 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }*/
+        case ledge_glide: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+            // The carried weight check here is redundant, but we do it anyway for better player feedback
+            if( 100 * you.weight_carried() / you.weight_capacity() > 50 &&
+                you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+                add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else if( !you.can_fly() ) {
+                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
+            } else {
+                int glide_distance = 5;
+                const weather_manager &weather = get_weather();
+                add_msg( m_info, _( "You soar away from the ledge." ) );
+                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+                // Handle cases where the difference wraps around due to compass directions
+                angledifference = std::min( angledifference, 360 - angledifference );
+                if( angledifference <= 45 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                    glide_distance += 1;
+                }
+                // Check if the directions are greater than 135 degrees apart
+                else if( angledifference >= 135 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                    glide_distance -= 1;
+                }
+                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                    glide_distance = std::round( 0.7 * glide_distance );
+                }
+                you.as_avatar()->grab( object_type::NONE );
+                glide_activity_actor glide( &you, jump_direction, glide_distance );
+                you.remove_effect( effect_bouldering );
+                you.assign_activity( glide );
+                you.add_effect( effect_gliding, 1_turns, true );
+                you.setpos( examp );
+            }
+            break;
+        }
         case ledge_fall_down: {
             if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
                 you.moves -= 100;
@@ -5135,6 +5205,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     return;
                 }
                 // Step into open air, then fall...
+                if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
+                    you.add_effect( effect_slow_descent, 1_seconds, false );
+                }
                 you.setpos( examp );
                 you.gravity_check();
             } else {
