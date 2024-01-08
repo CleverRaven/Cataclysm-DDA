@@ -4,7 +4,7 @@
     "name": "OVERMAP_PREGENERATED_PATH",
     "info": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
     "stype": "string_input",
-    "value": "Desert_Bus/overmaps"
+    "value": "Desert_Bus/overmaps/road"
   },
   {
     "type": "EXTERNAL_OPTION",

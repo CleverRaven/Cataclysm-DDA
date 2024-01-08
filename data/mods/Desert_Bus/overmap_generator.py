@@ -19,8 +19,8 @@ import math
 filler_type = 'field' # Designed to be field (which gets changed by desert_region)
 road_type = 'road' # Designed to be a road or subway, has to be a linear OMT
 vertical = True # Whether the road goes north-south or east-west
-windy = True # Whether the road gently winds back and forth, forces north-south
-overmaps = 3 # Number of overmaps to generate, must be odd
+windy = False # Whether the road gently winds back and forth, forces north-south
+overmaps = 41 # Number of overmaps to generate, must be odd
 
 dir_path = dirname(getsourcefile(lambda: 0))
 overmaps_path = os.path.join(dir_path + '/overmaps')
@@ -59,10 +59,10 @@ for om_y in range(most_negative_om_y, most_positive_om_y + 1):
             period = max(min_period, max_period * random.random())
             #x_axis = 89
             #max_x_axis_difference = 10
-            direction = 1 # only do half a sine curve then reset origin and do half a negative sine curve with new period and amplitude
+            direction = 1 # Only do half a sine curve then reset origin and do half a negative sine curve with new period and amplitude
             for row in range((overmaps * 180) + 1):
                 x = 89 + round(direction * amplitude * math.sin( ( math.pi * y ) / period ))
-                #print("Row: " + str(row) + " y: " + str(y) + " x: " + str(x))
+                #print("row: " + str(row) + " y: " + str(y) + " x: " + str(x))
                 row_bits = 180 * bitarray('0')
                 row_bits[x] = True
                 all_oms_bits.append(row_bits)
@@ -73,7 +73,8 @@ for om_y in range(most_negative_om_y, most_positive_om_y + 1):
                         direction = 1
                     current_origin = row - y
                     minima_maxima = current_origin + (y / 2)
-                    for sub_row in range(current_origin + 1, current_origin + y): # Backfill the points with a "curve"
+                    for sub_row in range(current_origin, current_origin + y): # Backfill the points with a "curve"
+                        #print("sub_row: " + str(sub_row) + ", range: " + str(current_origin) + ", " + str(current_origin + y))
                         if (sub_row != minima_maxima):
                             x1 = all_oms_bits[sub_row].find(True)
                             x2 = all_oms_bits[sub_row + 1].find(True)
@@ -87,10 +88,6 @@ for om_y in range(most_negative_om_y, most_positive_om_y + 1):
                                 x1 = x2
                                 x2 = temp
                             if x1 != x2:
-                                #if x2 > 89:
-                                #    x2 += 1
-                                #if x1 < 89:
-                                #    x1 -= 1
                                 if ( sub_row == (current_origin + 1) ) and ( sub_row != 0 ):
                                     all_oms_bits[sub_row][x1:x2] = True
                                 elif sub_row < minima_maxima:
@@ -108,11 +105,32 @@ for om_y in range(most_negative_om_y, most_positive_om_y + 1):
                     #x_axis = clamp(round(x_axis), min_x_axis, max_x_axis)
                 else:
                     y += 1
+            current_origin = (overmaps * 180) - y # Handling for the last partial curve
+            minima_maxima = current_origin + (y / 2) # Needs changing to derivative solution
+            for sub_row in range(current_origin, current_origin + y):
+                        if (sub_row != minima_maxima):
+                            x1 = all_oms_bits[sub_row].find(True)
+                            x2 = all_oms_bits[sub_row + 1].find(True)
+                            x1_alt = all_oms_bits[sub_row].find(True, right=True)
+                            x2_alt = all_oms_bits[sub_row + 1].find(True, right=True)
+                            if abs(x1_alt - x2_alt) < abs(x1 - x2):
+                                x1 = x1_alt
+                                x2 = x2_alt
+                            if x1 > x2:
+                                temp = x1
+                                x1 = x2
+                                x2 = temp
+                            if x1 != x2:
+                                if ( sub_row == (current_origin + 1) ) and ( sub_row != 0 ):
+                                    all_oms_bits[sub_row][x1:x2] = True
+                                elif sub_row < minima_maxima:
+                                    all_oms_bits[sub_row][x1:x2] = True
+                                else:
+                                    all_oms_bits[sub_row + 1][x1:x2] = True
             all_oms_bits_needs_populating = False
-                # need partial curve at end handling
         #if not vertical:
             #rotate the mess above?
-        for om_row_n in range( (om_y - most_negative_om_y) * 180,(om_y - most_negative_om_y + 1) * 180): #needs translating
+        for om_row_n in range( (om_y - most_negative_om_y) * 180,(om_y - most_negative_om_y + 1) * 180): # Do this during the curve handling instead so the type of bend needed is still apparent
             om_row_bits = all_oms_bits[om_row_n].copy()
             filler_start_amount = om_row_bits.find(True)
             road_amount = om_row_bits.count(True)
