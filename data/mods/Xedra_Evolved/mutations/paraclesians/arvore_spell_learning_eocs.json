@@ -41,9 +41,22 @@
         { "not": { "u_near_om_location": "road", "range": 2 } },
         {
           "or": [
-            { "and": [ "u_is_outside", { "u_near_om_location": "forest_thick", "range": 2 } ] },
-            { "and": [ "u_is_outside", { "u_near_om_location": "forest_thick", "range": 2 } ] },
-            { "not": { "u_at_om_location": "field" } },
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
             { "u_at_om_location": "arvore_genius_loci_NW" },
             { "u_at_om_location": "arvore_genius_loci_NE" },
             { "u_at_om_location": "arvore_genius_loci_SW" },
