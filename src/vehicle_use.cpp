@@ -561,8 +561,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     if( !sel_vp ) {
         return;
     }
-    vehicle *const sel_veh = &sel_vp->vehicle();
-    vehicle *const prev_veh = &prev_vp->vehicle();
     if( &sel_vp->vehicle() == &prev_vp->vehicle() ) {
         return ;
     }
