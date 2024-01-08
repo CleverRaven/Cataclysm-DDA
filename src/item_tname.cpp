@@ -508,13 +508,13 @@ std::string relic_charges( item const &it, unsigned int /* quantity */,
     return {};
 }
 
-std::string category( item const &it, unsigned int /* quantity */,
+std::string category( item const &it, unsigned int quantity,
                       segment_bitset const &segments )
 {
     nc_color const &color = segments[tname::segments::FOOD_PERISHABLE] && it.is_food()
                             ? it.color_in_inventory( &get_avatar() )
                             : c_magenta;
-    return colorize( it.get_category_of_contents().name(), color );
+    return colorize( it.get_category_of_contents().name_noun( quantity ), color );
 }
 
 // function type that prints an element of tname::segments

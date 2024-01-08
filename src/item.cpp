@@ -2407,7 +2407,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
-                           "<header>" + get_category_shallow().name() + "</header>" );
+                           "<header>" + get_category_shallow().name_header() + "</header>" );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
