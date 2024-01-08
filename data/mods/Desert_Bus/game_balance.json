@@ -1,13 +1,6 @@
 [
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SELECT_STARTING_CITY",
-    "info": "Allows to select starting city in new character menu.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PREGENERATED_PATH",
     "info": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
     "stype": "string_input",
@@ -75,19 +68,5 @@
     "info": "Allows to place procgen roads during overmap generation.",
     "stype": "bool",
     "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_SPECIALS",
-    "info": "Allows to place overmap specials during overmap generation.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
-    "info": "Allows to place procgen forest trailheads during overmap generation.",
-    "stype": "bool",
-    "value": true
   }
 ]
