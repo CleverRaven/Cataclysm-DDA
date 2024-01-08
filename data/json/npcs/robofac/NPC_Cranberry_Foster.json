@@ -29,8 +29,7 @@
       { "trait": "FORGETFUL" },
       { "trait": "PACIFIST" },
       { "trait": "TRUTHTELLER" },
-      { "trait": "hair_medium" },
-      { "trait": "hair_color_blond" },
+      { "trait": "hair_medium", "variant": "blond" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_PINK" }
     ],

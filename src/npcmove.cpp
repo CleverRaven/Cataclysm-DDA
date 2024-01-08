@@ -140,8 +140,6 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
@@ -418,6 +416,9 @@ bool npc::could_move_onto( const tripoint &p ) const
 {
     map &here = get_map();
     if( !here.passable( p ) ) {
+        return false;
+    }
+    if( !move_in_vehicle( const_cast<npc *>( this ), p ) ) {
         return false;
     }
 
@@ -1785,7 +1786,6 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_embarked: {
             const optional_vpart_position vp = here.veh_at( player_character.pos() );
-
             if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
@@ -1810,10 +1810,13 @@ void npc::execute_action( npc_action action )
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
-
-                // a seat is available if either unassigned or assigned to us
+                // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
+                    tripoint target = veh->global_part_pos3( pt );
                     if( !pt.is_seat() ) {
+                        return false;
+                    }
+                    if( !could_move_onto( target ) ) {
                         return false;
                     }
                     const npc *who = pt.crew();
@@ -2810,6 +2813,7 @@ bool npc::can_open_door( const tripoint &p, const bool inside ) const
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     map &here = get_map();
+
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 && here.has_floor_or_water( p ) && !g->is_dangerous_tile( p ) &&
@@ -2833,6 +2837,20 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
                 p = ot;
                 break;
+            }
+        }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
+        auto other_points = here.get_dir_circle( pos(), p );
+        for( const tripoint &ot : other_points ) {
+            if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                p = ot;
+                break;
+            } else {
+                path.clear();
+                move_pause();
+                return;
             }
         }
     }
@@ -3064,11 +3082,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             here.board_vehicle( p, this );
         }
-
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
     }
 }
+
 
 void npc::move_to_next()
 {

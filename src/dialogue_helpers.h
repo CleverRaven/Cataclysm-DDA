@@ -18,11 +18,37 @@ using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
+struct dbl_or_var;
+
+struct var_info {
+    var_info( var_type in_type, std::string in_name ): type( in_type ),
+        name( std::move( in_name ) ) {}
+    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+        name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
+    var_info() : type( var_type::global ) {}
+    var_type type;
+    std::string name;
+    std::string default_val;
+};
+
+template<class T>
+struct abstract_str_or_var {
+    std::optional<T> str_val;
+    std::optional<var_info> var_val;
+    std::optional<T> default_val;
+    std::optional<std::function<T( const dialogue & )>> function;
+    std::string evaluate( dialogue const & ) const;
+};
+
+using str_or_var = abstract_str_or_var<std::string>;
 
 struct talk_effect_fun_t {
+    public:
+        using likely_reward_t = std::pair<dbl_or_var, str_or_var>;
+        using likely_rewards_t = std::vector<likely_reward_t>;
     private:
         std::function<void( dialogue &d )> function;
-        std::vector<std::pair<int, itype_id>> likely_rewards;
+        likely_rewards_t likely_rewards;
 
     public:
         talk_effect_fun_t() = default;
@@ -107,7 +133,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const JsonObject &jo, std::string_view member );
-        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
+        const likely_rewards_t &get_likely_rewards() const;
         void set_u_buy_monster( const JsonObject &jo, std::string_view member );
         void set_learn_recipe( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_forget_recipe( const JsonObject &jo, std::string_view member, bool is_npc = false );
@@ -141,31 +167,10 @@ struct talk_effect_fun_t {
         }
 };
 
-struct var_info {
-    var_info( var_type in_type, std::string in_name ): type( in_type ),
-        name( std::move( in_name ) ) {}
-    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
-        name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
-    var_info() : type( var_type::global ) {}
-    var_type type;
-    std::string name;
-    std::string default_val;
-};
-
 std::string read_var_value( const var_info &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
 
-template<class T>
-struct abstract_str_or_var {
-    std::optional<T> str_val;
-    std::optional<var_info> var_val;
-    std::optional<T> default_val;
-    std::optional<std::function<T( const dialogue & )>> function;
-    std::string evaluate( dialogue const & ) const;
-};
-
-using str_or_var = abstract_str_or_var<std::string>;
 using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {

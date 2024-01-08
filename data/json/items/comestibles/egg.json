@@ -524,6 +524,76 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_cod",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_COD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_haddock",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_HADDOCK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluefin_tuna",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEFIN_TUNA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_halibut",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_HALIBUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pollock",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_POLLOCK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_flounder",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_FLOUNDER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mackerel",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_MACKEREL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluefish",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_blackfish",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLACKFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_porgy",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PORGY"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_kokanee_salmon",
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",

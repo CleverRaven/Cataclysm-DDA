@@ -41,6 +41,16 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "railroad_city",
+    "//": "Moved to railroad mod in 0.G - no new id"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Railroad Station",
+    "//": "Removed to railroad mod 0.G - no new id"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "farm_lot_2x4",
     "//": "Removed in 0.G - no new id"
   },

@@ -210,6 +210,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_swater_surf",
+    "name": "surf",
+    "description": "A broad area of fine sand, washed by waves coming in from the sea.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_swater_sh",
+    "move_cost": 4,
+    "connect_groups": [ "SAND", "WATER" ],
+    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DIGGABLE", "FLAT" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_water_pool",
     "name": "pool water",
     "description": "A deep pool full of water.  Never swim without a lifeguard present.  Even though monsters probably ate them.",

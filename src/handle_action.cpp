@@ -138,8 +138,6 @@ static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
@@ -263,6 +261,10 @@ input_context game::get_player_input( std::string &action )
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
+#if defined(TILES)
+    // Mark cata_tiles draw caches as dirty
+    tilecontext->set_draw_cache_dirty();
+#endif
 
     user_turn current_turn;
 
@@ -2889,13 +2891,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 break;    //don't do anything when sharing and not debugger
             }
             display_transparency();
-            break;
-
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_reachability_zones();
             break;
 
         case ACTION_TOGGLE_DEBUG_MODE:

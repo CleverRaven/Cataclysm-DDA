@@ -8,6 +8,7 @@ acceleratrons
 accessorized
 accessorizing
 acclimatization
+accommodations
 accoustrement
 accuracies
 accurized
@@ -107,6 +108,8 @@ androgynes
 androgyny
 anechoic
 angelfish
+angelologist
+angelologists
 anglerfish
 anglicized
 anhaltende
@@ -161,6 +164,8 @@ armeniaca
 armet
 armguard
 armguards
+armhole
+armholes
 armorers
 armrests
 aromantic
@@ -323,6 +328,7 @@ biosilicified
 biospheres
 biotracer
 bipod
+bipods
 birchbark
 birdhouses
 birdlike
@@ -480,12 +486,16 @@ cattail
 cattails
 causer
 caustically
+cavewoman
+cavewomen
 cavitation
 cbm
 cdc
 cdda
 cegamente
 centric
+centrigrade
+centrigrades
 centrosaurus
 centrum
 cepa
@@ -510,6 +520,8 @@ chasmosaurus
 chaturanga
 chausses
 cheapshot
+checkerboard
+checkerboards
 cheescutter
 chelator
 chested
@@ -648,6 +660,8 @@ craftwork
 crappie
 creasing
 creeply
+crenellation
+crenellations
 creped
 criniere
 cripplingly
@@ -746,6 +760,8 @@ demihuman
 demining
 demisexuality
 demoed
+demonologist
+demonologists
 denarius
 denatonium
 dentata
@@ -918,6 +934,8 @@ electrolyzer
 electromancy
 electrophoresis
 electroreceptors
+elementalist
+elementalists
 eles
 elete
 elongates
@@ -1001,6 +1019,7 @@ expansions
 explodin
 explosivity
 expounds
+extenders
 extensible
 extractors
 extradimensional
@@ -1227,6 +1246,7 @@ geometries
 gesticulates
 getups
 ghast
+ghillie
 gibbous
 giganotosaurus
 github
@@ -1363,6 +1383,8 @@ hemostatic
 hemostatics
 henge
 herbivorous
+herbologist
+herbologists
 hesperosaurus
 heterochromia
 hevel
@@ -1742,6 +1764,8 @@ ltd
 lucerne
 luddites
 lulo
+lumberjill
+lumberjills
 lumbermill
 lungfish
 lutefisk
@@ -1770,6 +1794,7 @@ manageably
 manball
 manca
 mancae
+mancala
 manfriendwich
 manhack
 manhacks
@@ -2279,6 +2304,7 @@ pleco
 plectrum
 pleistocene
 ples
+plesiosaurus
 plink
 plinker
 plinking
@@ -2343,6 +2369,8 @@ preminiscent
 premix
 preoptic
 prepper
+prequel
+prequels
 presaging
 prescriptures
 prev
@@ -2361,6 +2389,7 @@ proficiently
 profusive
 promptus
 propellants
+proprietary
 propyl
 prosaurolophus
 prosaurulophus
@@ -2465,6 +2494,7 @@ razorsharp
 razzin
 rd
 reachability
+reactively
 reactivity
 readme
 reagents
@@ -2545,6 +2575,7 @@ revulses
 rhabdomyolysis
 rhizomes
 rhodonite
+rhombus
 rhytidome
 rhytidomes
 ribbonlike
@@ -2805,7 +2836,9 @@ spasming
 spearcat
 spearfisher
 spearfishers
+spearguns
 spearhand
+spearman
 spearmen
 speciesism
 spectrographs
@@ -2989,6 +3022,8 @@ tambaqui
 tamina
 tamped
 tanbark
+tangram
+tangrams
 tankbot
 tannin
 tarket
@@ -3098,6 +3133,8 @@ travelpack
 traversal
 travois
 treatin
+treefrog
+treefrogs
 treelines
 trenchcoat
 trenchcoats
@@ -3393,6 +3430,8 @@ winglike
 wireframe
 wirey
 wirings
+witchdoctor
+witchdoctors
 wist
 wizardy
 wk
@@ -3406,6 +3445,7 @@ woodsmanship
 woom
 woosh
 workarounds
+workbenches
 workcycle
 workshifts
 worldgen
@@ -3453,6 +3493,8 @@ z
 zahir
 zaibatsu
 zandcrawler
+zangbeto
+zangbetos
 zapback
 zaptor
 zbrojovka

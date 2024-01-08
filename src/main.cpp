@@ -55,7 +55,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#if defined(MACOSX)
+#if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
 #endif
 

@@ -62,8 +62,7 @@
     "job_description": "I've been studying the mi-go for years…",
     "common": false,
     "traits": [
-      { "trait": "hair_long" },
-      { "trait": "hair_color_red" },
+      { "trait": "hair_long", "variant": "red" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "WARM_NATURED" },
       { "trait": "INT_UP_3" },

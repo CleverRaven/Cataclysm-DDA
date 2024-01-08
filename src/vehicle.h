@@ -1414,8 +1414,9 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
-                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &> );
-        int drain( int index, int amount );
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
+                   bool apply_loss = true );
+        int drain( int index, int amount, bool apply_loss = true );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel

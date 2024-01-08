@@ -852,7 +852,7 @@
     "category": "tools",
     "name": { "str": "set of spectrometry cuvettes", "str_pl": "sets of spectrometry cuvettes" },
     "description": "A small box filled with precisely-calibrated square plastic tubes for laboratory spectrometer use.",
-    "weight": "500 g",
+    "weight": "70 g",
     "volume": "250 ml",
     "price": 1200,
     "price_postapoc": 250,

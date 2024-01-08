@@ -174,8 +174,10 @@ enum class oter_flags : int {
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     should_not_spawn,
+    water,
     river_tile,
     has_sidewalk,
+    bridge,
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
@@ -415,6 +417,9 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
+        bool is_water() const {
+            return type->has_flag( oter_flags::water );
+        }
         bool is_lake() const {
             return type->has_flag( oter_flags::lake );
         }

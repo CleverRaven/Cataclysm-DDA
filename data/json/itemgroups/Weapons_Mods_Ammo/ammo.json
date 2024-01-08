@@ -126,7 +126,9 @@
       { "item": "44magnum", "prob": 30 },
       { "item": "10mm_fmj", "prob": 30 },
       { "item": "454_Casull", "prob": 20 },
-      { "item": "500_Magnum", "prob": 20 }
+      { "item": "500_Magnum", "prob": 20 },
+      { "item": "50ae_jhp", "prob": 20 },
+      { "item": "50ae_fmj", "prob": 10 }
     ]
   },
   {
@@ -146,6 +148,8 @@
       { "item": "45colt_jhp", "prob": 14 },
       { "item": "45colt_cowboy", "prob": 36 },
       { "item": "500_Magnum", "prob": 100 },
+      { "item": "50ae_jhp", "prob": 100 },
+      { "item": "50ae_fmj", "prob": 50 },
       { "item": "762_25", "prob": 50 },
       { "item": "762_25hot", "prob": 50 },
       { "item": "762_25typeP", "prob": 50 },
@@ -164,6 +168,8 @@
       { "item": "45colt_jhp", "prob": 14 },
       { "item": "45colt_cowboy", "prob": 36 },
       { "item": "500_Magnum", "prob": 75 },
+      { "item": "50ae_jhp", "prob": 75 },
+      { "item": "50ae_fmj", "prob": 50 },
       { "item": "762_25", "prob": 50 },
       { "item": "762_25hot", "prob": 25 },
       { "item": "762_25typeP", "prob": 35 },
@@ -207,6 +213,8 @@
       { "item": "reloaded_460_fmj", "prob": 5 },
       { "item": "reloaded_460_rowland", "prob": 5 },
       { "item": "reloaded_500_Magnum", "prob": 5 },
+      { "item": "reloaded_50ae_jhp", "prob": 5 },
+      { "item": "reloaded_50ae_fmj", "prob": 5 },
       { "item": "reloaded_57mm", "prob": 50 },
       { "item": "reloaded_9mm", "prob": 160 },
       { "item": "reloaded_9mmfmj", "prob": 80 },
@@ -773,6 +781,7 @@
       { "item": "460_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
       { "item": "500_casing", "prob": 60 },
+      { "item": "50ae_casing", "prob": 60 },
       { "item": "545_casing", "prob": 60 },
       { "item": "50beowulf_casing", "prob": 45 },
       { "item": "450_casing", "prob": 45 },
@@ -827,6 +836,7 @@
       [ "45_casing", 65 ],
       [ "454_casing", 10 ],
       [ "500_casing", 10 ],
+      [ "50ae_casing", 10 ],
       [ "57mm_casing", 10 ],
       [ "46mm_casing", 10 ],
       [ "762_casing", 85 ],

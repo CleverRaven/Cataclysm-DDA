@@ -45,15 +45,13 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SALAMANDER",
-    "flags": [ "CONCENTRATE", "IGNITE_FLAMMABLE", "VERBAL", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "IGNITE_FLAMMABLE", "VERBAL", "NO_HANDS", "NO_LEGS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
     "difficulty": 1,
-    "min_range": {
-      "math": [ "(1 + (u_val('spell_level', 'spell: salamander_make_fire') * 0.15) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
+    "min_range": { "math": [ "(1 + (u_spell_level('salamander_make_fire') * 0.15) * (scaling_factor(u_val('strength') ) ) )" ] },
     "max_range": 5,
     "energy_source": "MANA",
     "base_energy_cost": 200,
@@ -85,14 +83,8 @@
     "damage_type": "heat",
     "difficulty": 3,
     "max_level": { "math": [ "str_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "(6 + (u_val('spell_level', 'spell: salamander_flame_punch_spell') * 2) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
-    "max_damage": {
-      "math": [
-        "(15 + (u_val('spell_level', 'spell: salamander_flame_punch_spell') * 4.5) * (scaling_factor(u_val('strength') ) ) )"
-      ]
-    },
+    "min_damage": { "math": [ "(6 + (u_spell_level('salamander_flame_punch_spell') * 2) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "max_damage": { "math": [ "(15 + (u_spell_level('salamander_flame_punch_spell') * 4.5) * (scaling_factor(u_val('strength') ) ) )" ] },
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
@@ -111,7 +103,7 @@
     "name": "A Hundred Tongues of Flame",
     "description": "Summon a flaming whip to scourge your enemies.",
     "valid_targets": [ "none" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
     "skill": "deduction",
     "effect": "spawn_item",
     "effect_str": "salamander_flaming_summon_whip",
@@ -121,14 +113,10 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_duration": {
-      "math": [
-        "(24000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 20000) * (scaling_factor(u_val('dexterity') ) ) )"
-      ]
+      "math": [ "(24000 + (u_spell_level('salamander_flaming_whip_spell') * 20000) * (scaling_factor(u_val('dexterity') ) ) )" ]
     },
     "max_duration": {
-      "math": [
-        "(48000 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 35000) * (scaling_factor(u_val('dexterity') ) ) )"
-      ]
+      "math": [ "(48000 + (u_spell_level('salamander_flaming_whip_spell') * 35000) * (scaling_factor(u_val('dexterity') ) ) )" ]
     },
     "energy_source": "MANA",
     "base_energy_cost": 250,
@@ -219,7 +207,7 @@
     "effect_str": "effect_salamander_cure_conditions",
     "affected_body_parts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 6,
     "min_range": 1,
@@ -243,19 +231,15 @@
     "effect": "attack",
     "effect_str": "effect_salamander_increase_speed",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 6,
     "min_range": 1,
     "min_duration": {
-      "math": [
-        "(10000 + (u_val('spell_level', 'spell: salamander_increase_speed_spell') * 5000) * (scaling_factor(u_val('strength') ) ) )"
-      ]
+      "math": [ "(10000 + (u_spell_level('salamander_increase_speed_spell') * 5000) * (scaling_factor(u_val('strength') ) ) )" ]
     },
     "max_duration": {
-      "math": [
-        "(30000 + (u_val('spell_level', 'spell: salamander_increase_speed_spell') * 8000) * (scaling_factor(u_val('strength') ) ) )"
-      ]
+      "math": [ "(30000 + (u_spell_level('salamander_increase_speed_spell') * 8000) * (scaling_factor(u_val('strength') ) ) )" ]
     },
     "energy_source": "MANA",
     "base_energy_cost": 550,
@@ -275,15 +259,11 @@
     "effect": "attack",
     "effect_str": "effect_salamander_emit_heat",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "str_to_level(1)" ] },
     "difficulty": 6,
-    "min_duration": {
-      "math": [ "(15000 + (u_val('spell_level', 'spell: salamander_emit_heat') * 3000) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
-    "max_duration": {
-      "math": [ "(45000 + (u_val('spell_level', 'spell: salamander_emit_heat') * 9000) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
+    "min_duration": { "math": [ "(15000 + (u_spell_level('salamander_emit_heat') * 3000) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "max_duration": { "math": [ "(45000 + (u_spell_level('salamander_emit_heat') * 9000) * (scaling_factor(u_val('strength') ) ) )" ] },
     "energy_source": "MANA",
     "base_energy_cost": 700,
     "base_casting_time": 500
@@ -293,7 +273,7 @@
     "type": "SPELL",
     "name": "Calling the Children of the Inferno",
     "description": "A lesser fire spirit is summoned to support you.",
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "skill": "deduction",
     "teachable": false,
@@ -325,26 +305,18 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SALAMANDER",
-    "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
     "shape": "cone",
     "damage_type": "heat",
     "difficulty": 5,
     "max_level": { "math": [ "str_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_fire_breath') * 2) + 15) * (scaling_factor(u_val('strength') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_fire_breath') * 3) + 30) * (scaling_factor(u_val('strength') ) )" ]
-    },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_fire_breath') * 0.2) + 2) * (scaling_factor(u_val('strength') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 2) + 15) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 30) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('salamander_fire_breath') * 0.2) + 2) * (scaling_factor(u_val('strength') ) )" ] },
     "max_range": 8,
     "range_increment": 0.2,
-    "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: salamander_fire_breath') * 3) + 27) * (scaling_factor(u_val('strength') ) )" ]
-    },
+    "min_aoe": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 27) * (scaling_factor(u_val('strength') ) )" ] },
     "max_aoe": 180,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
@@ -377,12 +349,8 @@
     "shape": "cone",
     "min_damage": 0,
     "max_damage": 0,
-    "min_range": {
-      "math": [ "(3 + (u_val('spell_level', 'spell: salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "(3 + (u_val('spell_level', 'spell: salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
+    "min_range": { "math": [ "(3 + (u_spell_level('salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "max_range": { "math": [ "(3 + (u_spell_level('salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ] },
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "final_energy_cost": 200,
@@ -400,7 +368,7 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SALAMANDER",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SALAMANDER_GOBLIN_FRUIT",
     "shape": "blast",
@@ -445,12 +413,8 @@
     "extra_effects": [ { "id": "salamander_aoe_explosion", "hit_self": true, "max_level": 5 } ],
     "shape": "blast",
     "max_level": { "math": [ "str_to_level(1)" ] },
-    "min_range": {
-      "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "(2 + (u_val('spell_level', 'spell: salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ]
-    }
+    "min_range": { "math": [ "(2 + (u_spell_level('salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "max_range": { "math": [ "(2 + (u_spell_level('salamander_fire_fly') * 0.35) * (scaling_factor(u_val('strength') ) ) )" ] }
   },
   {
     "id": "salamander_ally_flame_immune_spell",
@@ -462,7 +426,7 @@
     "effect": "attack",
     "effect_str": "effect_flame_immunity",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 7,
     "min_range": 1,

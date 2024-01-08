@@ -3032,42 +3032,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "result": "sandbag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "result": "earthbag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "result": "gravelbag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "anvil_crude",
     "category": "CC_OTHER",

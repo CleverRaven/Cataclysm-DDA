@@ -48,24 +48,24 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "DEFENSE_MODE_WAVE_SPAWN_ZOMBIES", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SPECIAL_ZOMBIES", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_EXODII", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_AFTERSHOCK", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_ZOMBIES", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_SPECIAL_ZOMBIES", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MYTHOS", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_EXODII", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_XEDRA", 1 ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_AFTERSHOCK", 1 ]
         ]
       }
     ]

@@ -455,7 +455,7 @@
     "id": "surgery",
     "items": [
       [ "blood", 20 ],
-      { "item": "saline", "prob": 20, "container-item": "bag_iv" },
+      { "group": "saline_bottle_random", "prob": 20 },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "autoclave", 5 ],

@@ -23,6 +23,13 @@
           "layer": 90,
           "offset_x": 3,
           "offset_y": -10
+        },
+        {
+          "item": "national_flag",
+          "sprite": [ { "id": "national_flag", "weight": 1 } ],
+          "layer": 90,
+          "offset_x": 3,
+          "offset_y": -10
         }
       ]
     },
@@ -46,6 +53,13 @@
         {
           "item": "state_flag",
           "sprite": [ { "id": "state_flag", "weight": 1 } ],
+          "layer": 90,
+          "offset_x": 3,
+          "offset_y": -10
+        },
+        {
+          "item": "national_flag",
+          "sprite": [ { "id": "national_flag", "weight": 1 } ],
           "layer": 90,
           "offset_x": 3,
           "offset_y": -10

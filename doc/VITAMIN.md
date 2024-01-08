@@ -36,11 +36,11 @@ Only nutritional vitamins should have this type. **Vitamins are inputed in JSON 
 #### `toxin`
 This is some toxic chemical or component. This currently has no effect.
 
-#### `drug`
-This is a drug. This currently has no effect.
-
 #### `counter`
 This is a counter for something, that is neither a toxin, vitamin, or drug.
+
+#### `drug`
+This is a drug. This currently acts as a 'counter', except that it takes 30 minutes (1 stomach cycle) to effect the player character, in order to simulate slow digestion and metabolism of drugs. In order to properly make use of this delay effect, make sure to add it to the base drug item itself, and not it's use effect(s). Look at ibuprofen at med.json for an example.
 
 ### `name`
 What the vitamin shows up as where vitamins are displayed, such as the vitamins display in the item menu.

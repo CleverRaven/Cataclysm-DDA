@@ -254,7 +254,8 @@
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
         "lake",
-        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" }
+        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ocean", "om_terrain_match_type": "PREFIX" }
       ],
       "message": "You add terrain and roads to your map."
     }

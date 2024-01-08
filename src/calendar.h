@@ -364,27 +364,27 @@ bool x_in_y( const time_duration &a, const time_duration &b );
  * `time_duration::from_*` function.
  */
 /**@{*/
-constexpr time_duration operator"" _turns( const unsigned long long int v )
+constexpr time_duration operator""_turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
 }
-constexpr time_duration operator"" _seconds( const unsigned long long int v )
+constexpr time_duration operator""_seconds( const unsigned long long int v )
 {
     return time_duration::from_seconds( v );
 }
-constexpr time_duration operator"" _minutes( const unsigned long long int v )
+constexpr time_duration operator""_minutes( const unsigned long long int v )
 {
     return time_duration::from_minutes( v );
 }
-constexpr time_duration operator"" _hours( const unsigned long long int v )
+constexpr time_duration operator""_hours( const unsigned long long int v )
 {
     return time_duration::from_hours( v );
 }
-constexpr time_duration operator"" _days( const unsigned long long int v )
+constexpr time_duration operator""_days( const unsigned long long int v )
 {
     return time_duration::from_days( v );
 }
-constexpr time_duration operator"" _weeks( const unsigned long long int v )
+constexpr time_duration operator""_weeks( const unsigned long long int v )
 {
     return time_duration::from_weeks( v );
 }

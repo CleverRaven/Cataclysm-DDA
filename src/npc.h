@@ -56,6 +56,9 @@ class npc_class;
 class talker;
 class vehicle;
 
+constexpr int8_t NPC_PERSONALITY_MIN = -10;
+constexpr int8_t NPC_PERSONALITY_MAX = 10;
+
 namespace catacurses
 {
 class window;
@@ -1197,7 +1200,7 @@ class npc : public Character
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::set<tripoint> get_path_avoid() const override;
+        std::unordered_set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
 

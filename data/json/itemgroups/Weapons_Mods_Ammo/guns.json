@@ -167,7 +167,9 @@
       { "group": "nested_90two", "prob": 30 },
       { "group": "nested_90two40", "prob": 10 },
       { "group": "nested_bond_410", "prob": 15 },
-      { "group": "nested_deagle_44", "prob": 20 },
+      { "group": "nested_modular_deagle_357", "prob": 4 },
+      { "group": "nested_modular_deagle_44", "prob": 10 },
+      { "group": "nested_modular_deagle_50", "prob": 6 },
       { "group": "nested_m1911a1_38super", "prob": 20 },
       { "group": "nested_fn57", "prob": 60 },
       { "group": "nested_ruger_redhawk", "prob": 25 },
@@ -208,7 +210,11 @@
       { "item": "m9", "variant": "90two", "prob": 25 },
       { "item": "90two40", "prob": 10 },
       { "item": "bond_410", "prob": 10 },
-      { "item": "deagle_44", "prob": 20 },
+      { "group": "modular_deagle_357", "prob": 4 },
+      { "group": "modular_deagle_44", "prob": 10 },
+      { "group": "modular_deagle_50", "prob": 4 },
+      { "group": "nested_deagle_with_kits", "prob": 2 },
+      { "group": "modular_deagle_complete", "prob": 1 },
       { "item": "m1911a1_38super", "prob": 25 },
       { "item": "fn57", "prob": 15 },
       { "item": "ruger_redhawk", "prob": 25 },
@@ -249,6 +255,10 @@
       { "item": "raging_bull", "prob": 15 },
       { "item": "raging_judge", "prob": 15 },
       { "item": "sw_500", "prob": 10 },
+      { "group": "modular_deagle_357", "prob": 2 },
+      { "group": "modular_deagle_44", "prob": 5 },
+      { "group": "modular_deagle_50", "prob": 1 },
+      { "group": "nested_deagle_with_kits", "prob": 1 },
       { "item": "sw629", "prob": 15 },
       { "item": "ruger_redhawk", "prob": 15 }
     ]
@@ -282,6 +292,7 @@
       { "group": "nested_mauser_c96", "prob": 39 },
       { "group": "nested_moss_brownie", "prob": 100 },
       { "group": "nested_mr73", "prob": 5 },
+      { "group": "nested_modular_deagle_gold", "prob": 10 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_raging_judge", "prob": 20 },
@@ -616,6 +627,7 @@
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_zpap85", "prob": 1 },
       { "group": "nested_rfb_308", "prob": 5 },
+      { "group": "nested_steyr_scout", "prob": 5 },
       { "group": "nested_greasegun", "prob": 1 }
     ]
   },
@@ -667,7 +679,8 @@
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
       { "group": "nested_axmc_with_kits", "prob": 10 },
-      { "item": "rfb_308", "prob": 10 }
+      { "item": "rfb_308", "prob": 10 },
+      { "item": "steyr_scout", "prob": 10 }
     ]
   },
   {
@@ -686,6 +699,7 @@
       { "item": "weatherby_5", "prob": 8 },
       { "item": "savage_111f", "prob": 10 },
       { "item": "savage112", "prob": 5 },
+      { "item": "steyr_scout", "prob": 5 },
       { "item": "1895sbl", "prob": 10 },
       { "item": "browning_blr", "prob": 10 },
       { "item": "ar10", "prob": 10 },

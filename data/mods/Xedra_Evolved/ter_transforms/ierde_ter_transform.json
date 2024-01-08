@@ -1,0 +1,90 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ierde_stomp_ground_smash_transform",
+    "furniture": [ { "result": [ [ "f_null", 15 ], [ "f_rubble_rock", 1 ] ], "valid_furniture": [ "f_null" ], "message": "" } ],
+    "terrain": [
+      { "result": [ [ "t_grass", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_grass" ], "message": "" },
+      {
+        "result": [ [ "t_grass_long", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_grass_long" ],
+        "message": ""
+      },
+      { "result": [ [ "t_dirt", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_dirt" ], "message": "" },
+      {
+        "result": [ [ "t_dirtfloor", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_dirtfloor" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_dirtfloor_no_roof", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_dirtfloor_no_roof" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_dirtmoundfloor", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_dirtmoundfloor" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_dirtmound", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_dirtmound" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_grass_dead", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_grass_dead" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_grass_white", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_grass_white" ],
+        "message": ""
+      },
+      { "result": [ [ "t_sand", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sand" ], "message": "" },
+      { "result": [ [ "t_clay", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_clay" ], "message": "" },
+      {
+        "result": [ [ "t_sandmound", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_sandmound" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_forestfloor", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_forestfloor" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_grass_tall", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_grass_tall" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_fungus_floor_in", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_fungus_floor_in" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_fungus_floor_sup", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_fungus_floor_sup" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_fungus_floor_out", 10 ], [ "t_pit_shallow", 1 ] ],
+        "valid_terrain": [ "t_fungus_floor_out" ],
+        "message": ""
+      },
+      { "result": [ [ "t_sandbox", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sandbox" ], "message": "" },
+      {
+        "result": [ [ "t_null", 10 ], [ "t_dirt", 1 ], [ "t_pit", 1 ] ],
+        "valid_terrain": [ "t_pit_shallow" ],
+        "message": ""
+      },
+      { "result": [ [ "t_null", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_pit" ], "message": "" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ierde_create_pits_transform",
+    "terrain": [ { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" } ]
+  }
+]
