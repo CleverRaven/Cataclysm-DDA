@@ -547,9 +547,8 @@ class item : public visitable
 
         // Returns the category of this item, regardless of contents.
         const item_category &get_category_shallow() const;
-        // Returns the category of item inside this item.
+        // Returns the dominant category of items inside this one.
         // "can of meat" would be food, instead of container.
-        // If there are multiple items/stacks or none then it defaults to category of this item.
         const item_category &get_category_of_contents() const;
 
         class reload_option

@@ -12207,18 +12207,8 @@ const item_category &item::get_category_shallow() const
 const item_category &item::get_category_of_contents() const
 {
     if( type->category_force == item_category_container ) {
-        const std::list<const item *> items = contents.all_items_top( pocket_type::CONTAINER );
-        if( !items.empty() ) {
-            const item_category &category_of_first_item = items.front()->get_category_of_contents();
-            if( items.size() == 1 ) {
-                return category_of_first_item;
-            }
-            const auto has_same_category = [&category_of_first_item]( const item * i ) {
-                return i->get_category_of_contents() == category_of_first_item;
-            };
-            if( std::all_of( ++items.begin(), items.end(), has_same_category ) ) {
-                return category_of_first_item;
-            }
+        if( item::aggregate_t const aggi = aggregated_contents(); aggi ) {
+            return aggi.header->get_category_of_contents();
         }
     }
     return this->get_category_shallow();
