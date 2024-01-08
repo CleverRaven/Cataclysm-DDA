@@ -443,7 +443,7 @@ bool item_pocket::stacks_with( const item_pocket &rhs, int depth, int maxdepth )
             rhs.contents.begin(), rhs.contents.end(),
     [depth, maxdepth]( const item & a, const item & b ) {
         return depth < maxdepth && a.charges == b.charges &&
-               a.stacks_with( b, false, false, depth + 1, maxdepth );
+               a.stacks_with( b, false, false, false, depth + 1, maxdepth );
     } );
 }
 

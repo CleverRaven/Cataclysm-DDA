@@ -100,4 +100,20 @@ class enum_bitset
         std::bitset<enum_bitset<E>::size()> bits;
 };
 
+template <typename E>
+enum_bitset<E> operator&( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret &= rhs;
+    return ret;
+}
+
+template <typename E>
+enum_bitset<E> operator|( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret |= rhs;
+    return ret;
+}
+
 #endif // CATA_SRC_ENUM_BITSET_H

@@ -863,9 +863,9 @@ void item::rand_degradation()
     set_degradation( rng( 0, damage() ) * 50.0f / type->degrade_increments() );
 }
 
-int item::damage_level() const
+int item::damage_level( bool precise ) const
 {
-    return type->damage_level( damage_ );
+    return precise ? damage_ : type->damage_level( damage_ );
 }
 
 float item::damage_adjusted_melee_weapon_damage( float value ) const
@@ -1419,89 +1419,51 @@ bool item::same_for_rle( const item &rhs ) const
           itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
-    return stacks_with( rhs, true, false, 0, 9 );
+    return stacks_with( rhs, true, false, false, 0, 999, true );
 }
 
-bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid, int depth,
-                        int maxdepth ) const
+namespace
 {
-    if( type != rhs.type ) {
-        return false;
-    }
-    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
-        return false;
-    }
-    if( has_itype_variant() != rhs.has_itype_variant() ||
-        ( has_itype_variant() && rhs.has_itype_variant() &&
-          itype_variant().id != rhs.itype_variant().id ) ) {
-        return false;
-    }
-    const std::set<ammotype> ammo = ammo_types();
-    if( is_money( ammo ) && ammo_remaining( ammo ) != 0 && rhs.ammo_remaining() != 0 ) {
-        // Dealing with nonempty cash cards
-        // TODO: Fix cash cards not showing total value. Until that is fixed do not stack cash cards.
-        // When that is fixed just change this to true.
-        return false;
-    }
-    // This function is also used to test whether items counted by charges should be merged, for that
-    // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
-    if( !count_by_charges() && charges != rhs.charges ) {
-        return false;
-    }
-    if( is_favorite != rhs.is_favorite ) {
-        return false;
-    }
-    if( damage_ != rhs.damage_ ) {
-        return false;
-    }
-    if( degradation_ != rhs.degradation_ ) {
-        return false;
-    }
-    if( burnt != rhs.burnt ) {
-        return false;
-    }
-    if( active != rhs.active ) {
-        return false;
-    }
-    if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
 
-        // we can combine liquids of same type and different temperatures
-        if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
-        { flag_COLD, flag_FROZEN, flag_HOT, flag_NO_PARASITES, flag_FROM_FROZEN_LIQUID } ) ) {
-            return false;
+bool _stacks_whiteblacklist( item const &lhs, item const &rhs )
+{
+    bool wbl = false;
+    if( lhs.get_contents().size() == rhs.get_contents().size() ) {
+        std::vector<item_pocket const *> const lpkts = lhs.get_all_contained_pockets();
+        std::vector<item_pocket const *> const rpkts = rhs.get_all_contained_pockets();
+        if( lpkts.size() == rpkts.size() ) {
+            wbl = true;
+            for( std::size_t i = 0; i < lpkts.size(); i++ ) {
+                wbl &= lpkts[i]->settings.get_item_whitelist() == rpkts[i]->settings.get_item_whitelist() &&
+                       lpkts[i]->settings.get_item_blacklist() == rpkts[i]->settings.get_item_blacklist() &&
+                       lpkts[i]->settings.get_category_whitelist() == rpkts[i]->settings.get_category_whitelist() &&
+                       lpkts[i]->settings.get_category_blacklist() == rpkts[i]->settings.get_category_blacklist();
+                if( !wbl ) {
+                    break;
+                }
+            }
         }
-    } else if( item_tags != rhs.item_tags ) {
-        return false;
     }
-    // Items with different faults do not stack (such as new vs. used guns)
-    if( faults != rhs.faults ) {
-        return false;
-    }
-    if( techniques != rhs.techniques ) {
-        return false;
-    }
-    if( overheat_symbol() != rhs.overheat_symbol() ) {
-        return false;
-    }
-    // Guns with enough fouling to change the indicator symbol don't stack
-    if( dirt_symbol() != rhs.dirt_symbol() ) {
-        return false;
-    }
-    // Guns that differ only by dirt/shot_counter can still stack,
-    // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
-    if( !map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) ) {
-        return false;
-    }
+    return wbl;
+}
+
+bool _stacks_weapon_mods( item const &lhs, item const &rhs )
+{
+    item const *const lb = lhs.is_gun() ? lhs.gunmod_find( itype_barrel_small ) : nullptr;
+    item const *const rb = rhs.is_gun() ? rhs.gunmod_find( itype_barrel_small ) : nullptr;
+    return ( ( lb && rb ) || ( !lb && !rb ) ) &&
+           lhs.has_flag( flag_REMOVED_STOCK ) == rhs.has_flag( flag_REMOVED_STOCK ) &&
+           lhs.has_flag( flag_DIAMOND ) == rhs.has_flag( flag_DIAMOND );
+}
+
+bool _stacks_location_hint( item const &lhs, item const &rhs )
+{
     static const std::string omt_loc_var = "spawn_location_omt";
-    const bool this_has_location = has_var( omt_loc_var );
-    const bool that_has_location = has_var( omt_loc_var );
-    if( this_has_location != that_has_location ) {
-        return false;
-    }
-    if( this_has_location && that_has_location ) {
-        const tripoint_abs_omt this_loc( get_var( "spawn_location_omt", tripoint_zero ) );
-        const tripoint_abs_omt that_loc( rhs.get_var( "spawn_location_omt", tripoint_zero ) );
+    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_max ) );
+    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_max ) );
+    if( this_loc == that_loc ) {
+        return true;
+    } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
         const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs(
                                                get_player_character().pos() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
@@ -1517,55 +1479,103 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
                 return 3;
             }
         };
-        if( get_bucket( this_dist ) != get_bucket( that_dist ) ) {
-            return false;
-        }
+        return get_bucket( this_dist ) == get_bucket( that_dist );
     }
-    if( goes_bad() && rhs.goes_bad() ) {
-        // Stack items that fall into the same "bucket" of freshness.
-        // Distant buckets are larger than near ones.
-        std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( std::max( get_shelf_life() - rot, 0_seconds ) );
-        std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( std::max( rhs.get_shelf_life() - rhs.rot, 0_seconds ) );
-        if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
-            my_clipped_time_to_rot != other_clipped_time_to_rot ) {
-            return false;
-        }
-        if( rotten() != rhs.rotten() ) {
-            // just to be safe that rotten and unrotten food is *never* stacked.
-            return false;
-        }
-    }
-    if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
-        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
-        return false;
-    }
-    if( corpse != nullptr && rhs.corpse != nullptr &&
-        ( corpse->id != rhs.corpse->id || corpse_name != rhs.corpse_name ) ) {
-        return false;
-    }
-    if( craft_data_ || rhs.craft_data_ ) {
-        // In-progress crafts are always distinct items. Easier to handle for the player,
-        // and there shouldn't be that many items of this type around anyway.
-        return false;
-    }
-    if( check_components || is_comestible() || is_craft() ) {
-        //Only check if at least one item isn't using the default recipe or is comestible
-        if( !components.empty() || !rhs.components.empty() ) {
-            if( get_uncraft_components() != rhs.get_uncraft_components() ) {
-                return false;
-            }
-        }
-    }
-    if( link_length() != rhs.link_length() ) {
-        return false;
-    }
-    if( max_link_length() != rhs.max_link_length() ) {
-        return false;
-    }
-    const std::vector<const item *> this_mods = mods();
+    return false;
+}
+
+bool _stacks_rot( item const &lhs, item const &rhs, bool combine_liquid )
+{
+    // Stack items that fall into the same "bucket" of freshness.
+    // Distant buckets are larger than near ones.
+    std::pair<int, clipped_unit> my_clipped_time_to_rot =
+        clipped_time( std::max( lhs.get_shelf_life() - lhs.get_rot(), 0_seconds ) );
+    std::pair<int, clipped_unit> other_clipped_time_to_rot =
+        clipped_time( std::max( rhs.get_shelf_life() - rhs.get_rot(), 0_seconds ) );
+
+    return ( ( combine_liquid && lhs.made_of_from_type( phase_id::LIQUID ) &&
+               rhs.made_of_from_type( phase_id::LIQUID ) ) ||
+             my_clipped_time_to_rot == other_clipped_time_to_rot ) &&
+           lhs.rotten() == rhs.rotten();
+}
+
+bool _stacks_mushy_dirty( item const &lhs, item const &rhs )
+{
+    return lhs.has_flag( flag_MUSHY ) == rhs.has_flag( flag_MUSHY ) &&
+           lhs.has_own_flag( flag_DIRTY ) == rhs.has_own_flag( flag_DIRTY );
+}
+
+bool _stacks_food_status( item const &lhs, item const &rhs )
+{
+    return ( lhs.is_fresh() == rhs.is_fresh() || lhs.is_going_bad() == rhs.is_going_bad() ||
+             lhs.rotten() == rhs.rotten() ) &&
+           _stacks_mushy_dirty( lhs, rhs );
+}
+
+bool _stacks_food_traits( item const &lhs, item const &rhs )
+{
+    return ( !lhs.is_food() && !rhs.is_food() ) ||
+           ( lhs.is_food() && rhs.is_food() &&
+             lhs.has_flag( flag_HIDDEN_POISON ) == rhs.has_flag( flag_HIDDEN_POISON ) &&
+             lhs.has_flag( flag_HIDDEN_HALLU ) == rhs.has_flag( flag_HIDDEN_HALLU ) );
+}
+
+bool _stacks_food_irradiated( item const &lhs, item const &rhs )
+{
+    return lhs.has_flag( flag_IRRADIATED ) == rhs.has_flag( flag_IRRADIATED );
+}
+
+bool _stacks_food_perishable( item const &lhs, item const &rhs, bool check_cat )
+{
+    return !check_cat || ( !lhs.is_food() && !rhs.is_food() ) ||
+           ( lhs.is_food() && rhs.is_food() && lhs.goes_bad() == rhs.goes_bad() &&
+             lhs.has_flag( flag_INEDIBLE ) == rhs.has_flag( flag_INEDIBLE ) );
+}
+
+bool _stacks_clothing_size( item const &lhs, item const &rhs )
+{
+    avatar &u = get_avatar();
+    item::sizing const u_sizing = lhs.get_sizing( u );
+    return u_sizing == rhs.get_sizing( u ) &&
+           ( u_sizing == item::sizing::ignore ||
+             ( lhs.has_flag( flag_FIT ) == rhs.has_flag( flag_FIT ) &&
+               lhs.has_flag( flag_VARSIZE ) == rhs.has_flag( flag_VARSIZE ) ) );
+}
+
+bool _stacks_wetness( item const &lhs, item const &rhs, bool precise )
+{
+    return lhs.wetness == rhs.wetness || ( !precise && ( lhs.wetness > 0 ) == ( rhs.wetness > 0 ) );
+}
+
+bool _stacks_cbm_status( item const &lhs, item const &rhs )
+{
+    return ( !lhs.is_bionic() && !rhs.is_bionic() ) ||
+           ( lhs.is_bionic() && rhs.is_bionic() &&
+             lhs.has_flag( flag_NO_PACKED ) == rhs.has_flag( flag_NO_PACKED ) &&
+             lhs.has_flag( flag_NO_STERILE ) == rhs.has_flag( flag_NO_STERILE ) );
+}
+
+bool _stacks_ethereal( item const &lhs, item const &rhs )
+{
+    static const std::string varname( "ethereal" );
+    return ( !lhs.ethereal && !rhs.ethereal ) ||
+           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname ) == rhs.get_var( varname ) );
+}
+
+bool _stacks_ups( item const &lhs, item const &rhs )
+{
+    return ( !lhs.is_tool() && !rhs.is_tool() ) ||
+           ( lhs.is_tool() && rhs.is_tool() &&
+             lhs.has_flag( flag_USE_UPS ) == rhs.has_flag( flag_USE_UPS ) );
+}
+
+bool _stacks_mods( item const &lhs, item const &rhs )
+{
+    const std::vector<const item *> this_mods = lhs.mods();
     const std::vector<const item *> that_mods = rhs.mods();
+    if( lhs.is_armor() && rhs.is_armor() && lhs.has_clothing_mod() != rhs.has_clothing_mod() ) {
+        return false;
+    }
     if( this_mods.size() != that_mods.size() ) {
         return false;
     }
@@ -1585,7 +1595,135 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             return false;
         }
     }
-    return contents.stacks_with( rhs.contents, depth, maxdepth );
+    return true;
+}
+
+bool _stacks_variant( item const &lhs, item const &rhs )
+{
+    return ( !lhs.has_itype_variant() && !rhs.has_itype_variant() ) ||
+           ( lhs.has_itype_variant() && rhs.has_itype_variant() &&
+             lhs.itype_variant().id == rhs.itype_variant().id );
+}
+
+bool _stacks_components( item const &lhs, item const &rhs, bool check_components )
+{
+    return ( !check_components && !lhs.is_comestible() && !lhs.is_craft() ) ||
+           // Only check if at least one item isn't using the default recipe or is comestible
+           ( lhs.components.empty() && rhs.components.empty() ) ||
+           ( lhs.get_uncraft_components() == rhs.get_uncraft_components() );
+}
+
+} // namespace
+
+stacking_info item::stacks_with( const item &rhs, bool check_components, bool combine_liquid,
+                                 bool check_cat, int depth, int maxdepth, bool precise ) const
+{
+    tname::segment_bitset bits;
+    if( type == rhs.type ) {
+        bits.set( tname::segments::TYPE );
+        bits.set( tname::segments::ENGINE_DISPLACEMENT );
+        bits.set( tname::segments::WHEEL_DIAMETER );
+        bits.set( tname::segments::WHITEBLACKLIST, _stacks_whiteblacklist( *this, rhs ) );
+    }
+
+    if( !check_cat && bits.none() ) {
+        return {};
+    }
+
+    bits.set( tname::segments::CATEGORY,
+              !check_cat ||
+              get_category_of_contents().get_id() ==
+              rhs.get_category_of_contents().get_id() );
+
+    if( check_cat && bits.none() ) {
+        return {};
+    }
+
+    bits.set( tname::segments::VARIANT, _stacks_variant( *this, rhs ) );
+    bool const same_type = bits[tname::segments::TYPE] && bits[tname::segments::VARIANT];
+
+    bits.set( tname::segments::RELIC, is_same_relic( rhs ) );
+
+    // This function is also used to test whether items counted by charges should be merged, for that
+    // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
+    bits.set( tname::segments::CHARGES,
+              same_type && ( count_by_charges() || charges == rhs.charges ) );
+    bits.set( tname::segments::FAVORITE_PRE, is_favorite == rhs.is_favorite );
+    bits.set( tname::segments::FAVORITE_POST, is_favorite == rhs.is_favorite );
+    bits.set( tname::segments::DURABILITY,
+              damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
+    bits.set( tname::segments::BURN, burnt == rhs.burnt );
+    bits.set( tname::segments::ACTIVE, active == rhs.active );
+    bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
+    bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
+    bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
+
+    if( combine_liquid && same_type && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
+        // we can combine liquids of same type and different temperatures
+        bits.set( tname::segments::TAGS, equal_ignoring_elements( rhs.get_flags(), get_flags(),
+        { flag_COLD, flag_FROZEN, flag_HOT, flag_NO_PARASITES, flag_FROM_FROZEN_LIQUID } ) );
+        bits.set( tname::segments::TEMPERATURE );
+    } else {
+        bits.set( tname::segments::TEMPERATURE, is_same_temperature( rhs ) );
+        bits.set( tname::segments::TAGS, item_tags == rhs.item_tags );
+    }
+
+    bits.set( tname::segments::FAULTS, faults == rhs.faults );
+    bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
+    bits.set( tname::segments::OVERHEAT, overheat_symbol() == rhs.overheat_symbol() );
+    bits.set( tname::segments::DIRT, get_var( "dirt", 0 ) == rhs.get_var( "dirt", 0 ) );
+    bits.set( tname::segments::SEALED, all_pockets_sealed() == rhs.all_pockets_sealed() );
+    bits.set( tname::segments::CBM_STATUS, _stacks_cbm_status( *this, rhs ) );
+    bits.set( tname::segments::BROKEN, is_broken() == rhs.is_broken() );
+    bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
+    // Guns that differ only by dirt/shot_counter can still stack,
+    // but other item_vars such as label/note will prevent stacking
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal" };
+    bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
+    bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
+    bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
+
+    bool const this_goes_bad = goes_bad();
+    bool const that_goes_bad = rhs.goes_bad();
+    if( this_goes_bad && that_goes_bad ) {
+        if( same_type ) {
+            bits.set( tname::segments::FOOD_STATUS,
+                      _stacks_rot( *this, rhs, combine_liquid ) && _stacks_mushy_dirty( *this, rhs ) );
+
+        } else {
+            bits.set( tname::segments::FOOD_STATUS, _stacks_food_status( *this, rhs ) );
+        }
+        bits.set( tname::segments::FOOD_IRRADIATED, _stacks_food_irradiated( *this, rhs ) );
+    } else if( !this_goes_bad && !that_goes_bad ) {
+        bits.set( tname::segments::FOOD_STATUS );
+        bits.set( tname::segments::FOOD_IRRADIATED );
+    }
+
+    bits.set( tname::segments::FOOD_TRAITS, _stacks_food_traits( *this, rhs ) );
+    bits.set( tname::segments::CORPSE,
+              ( corpse == nullptr && rhs.corpse == nullptr ) ||
+              ( corpse != nullptr && rhs.corpse != nullptr && corpse->id == rhs.corpse->id &&
+                corpse_name == rhs.corpse_name ) );
+    bits.set( tname::segments::FOOD_PERISHABLE, _stacks_food_perishable( *this, rhs, check_cat ) );
+    bits.set( tname::segments::CLOTHING_SIZE, _stacks_clothing_size( *this, rhs ) );
+    bits.set( tname::segments::BROKEN, is_broken() == rhs.is_broken() );
+    // In-progress crafts are always distinct items. Easier to handle for the player,
+    // and there shouldn't be that many items of this type around anyway.
+    bits.set( tname::segments::CRAFT, !craft_data_ && !rhs.craft_data_ );
+    bits.set( tname::segments::COMPONENTS, same_type &&
+              _stacks_components( *this, rhs, check_components ) );
+    bits.set( tname::segments::LINK,
+              link_length() == rhs.link_length() && max_link_length() == rhs.max_link_length() );
+    bits.set( tname::segments::MODS, _stacks_mods( *this, rhs ) );
+    bits.set( tname::segments::last_segment );
+
+    // only check contents if everything else matches
+    bool const b_contents =
+        ( bits | tname::tname_contents ).all() && contents.stacks_with( rhs.contents, depth, maxdepth );
+    bits.set( tname::segments::CONTENTS, b_contents );
+    bits.set( tname::segments::CONTENTS_FULL, b_contents );
+    bits.set( tname::segments::CONTENTS_ABREV, b_contents );
+    return { bits };
 }
 
 bool item::same_contents( const item &rhs ) const
@@ -9707,7 +9845,18 @@ bool item::is_relic() const
 
 bool item::is_same_relic( item const &rhs ) const
 {
-    return ( !is_relic() && !rhs.is_relic() ) || *relic_data == *rhs.relic_data;
+    return ( !is_relic() && !rhs.is_relic() ) ||
+           ( is_relic() && rhs.is_relic() && *relic_data == *rhs.relic_data );
+}
+
+bool item::is_same_temperature( item const &rhs ) const
+{
+    return ( !has_temperature() && !rhs.has_temperature() ) ||
+           ( has_temperature() && rhs.has_temperature() &&
+             has_flag( flag_HOT ) == rhs.has_flag( flag_HOT ) &&
+             has_flag( flag_COLD ) == rhs.has_flag( flag_COLD ) &&
+             has_flag( flag_FROZEN ) == rhs.has_flag( flag_FROZEN ) &&
+             has_flag( flag_MELTS ) == rhs.has_flag( flag_MELTS ) );
 }
 
 bool item::has_relic_recharge() const

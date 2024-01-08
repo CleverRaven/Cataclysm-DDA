@@ -188,6 +188,14 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
 
 inline bool is_crafting_component( const item &component );
 
+struct stacking_info {
+    tname::segment_bitset bits;
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator bool() const {
+        return bits.all();
+    }
+};
+
 class item : public visitable
 {
     public:
@@ -613,8 +621,9 @@ class item : public visitable
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
+        stacking_info stacks_with( const item &rhs, bool check_components = false,
+                                   bool combine_liquid = false, bool check_cat = false,
+                                   int depth = 0, int maxdepth = 2, bool precise = false ) const;
 
         /**
          * Whether the two items have same contents.
@@ -1325,7 +1334,7 @@ class item : public visitable
         void rand_degradation();
 
         // @see itype::damage_level()
-        int damage_level() const;
+        int damage_level( bool precise = false ) const;
 
         // modifies melee weapon damage to account for item's damage
         float damage_adjusted_melee_weapon_damage( float value ) const;
@@ -1611,6 +1620,7 @@ class item : public visitable
         bool is_transformable() const;
         bool is_relic() const;
         bool is_same_relic( item const &rhs ) const;
+        bool is_same_temperature( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
