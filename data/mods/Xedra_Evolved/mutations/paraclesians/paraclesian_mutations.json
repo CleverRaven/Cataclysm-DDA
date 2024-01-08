@@ -316,18 +316,6 @@
   },
   {
     "type": "mutation",
-    "id": "PARACLESIAN_DREAMWALKER",
-    "name": { "str": "Dreamwalker" },
-    "points": 1,
-    "visibility": 0,
-    "ugliness": 0,
-    "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
-    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
-    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
-    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
-  },
-  {
-    "type": "mutation",
     "id": "CLOUD_OF_STEAM_SYLPH",
     "name": { "str": "Cloud of Steam" },
     "points": 3,

@@ -256,5 +256,24 @@
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Eventually add further spells in this area with more powerful elementals."
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_SLEEP_WATER",
+    "name": { "str": "Embrace of the Waters" },
+    "points": 1,
+    "description": "Surrounded by the waters, Undines find it easy to rest.  Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
+    "prereqs": [ "UNDINE_SKIN_2" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_ABSORB_WATER",
+    "name": { "str": "The Sea Sustains Me" },
+    "points": 4,
+    "description": "Undines are born of the flowing waters and the waters provide for their children. While submerged in fresh water, any thirst you have will be slaked.",
+    "prereqs": [ "UNDINE_SLEEP_WATER" ],
+    "category": [ "UNDINE" ]
   }
 ]

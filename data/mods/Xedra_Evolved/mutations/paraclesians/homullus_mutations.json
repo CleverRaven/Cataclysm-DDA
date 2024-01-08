@@ -68,6 +68,18 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_DREAMWALKER",
+    "name": { "str": "Dreamwalker" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
+    "category": [ "HOMULLUS" ],
+    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
