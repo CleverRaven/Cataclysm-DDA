@@ -345,6 +345,14 @@
       {
         "id": "mutation_testing_5",
         "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_6",
+        "text": "Prepare subject with 1500 U mutagen\nOmit primer compound\nObserve for 6 hours\nResults: Subject showed no visual changes whatsoever.  Subject reported a nausea and chest pain\nLong term results: No long-term changes."
+      },
+      {
+        "id": "mutation_testing_7",
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in it's own strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
       }
     ]
   },
