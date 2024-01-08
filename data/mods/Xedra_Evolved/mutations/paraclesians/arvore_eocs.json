@@ -371,6 +371,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_OVERGROWTH",
+    "condition": "u_is_outside",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_ARVORE_OVERGROWTH_2",
+          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "effect": [ { "u_cast_spell": { "id": "arvore_overgrowth_spell_real" } } ],
+          "false_effect": { "u_message": "You must be on the surface and not on a building's upper stories to cast Overgrowth!", "type": "bad" }
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "You must be outside to cast Overgrowth!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": {
       "and": [

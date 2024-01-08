@@ -164,6 +164,8 @@ armeniaca
 armet
 armguard
 armguards
+armhole
+armholes
 armorers
 armrests
 aromantic
