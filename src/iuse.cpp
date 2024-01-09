@@ -3060,24 +3060,6 @@ static int toolweapon_off( Character &p, item &it, const bool fast_startup,
     }
 }
 
-std::optional<int> iuse::combatsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the combat chainsaw screams to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-std::optional<int> iuse::e_combatsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 std::optional<int> iuse::chainsaw_off( Character *p, item *it, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3156,17 +3138,6 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tr
     p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
     it->convert( *it->type->revert_to, p ).active = false;
     return 0; // Don't consume charges when turning off.
-}
-
-std::optional<int> iuse::combatsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
-}
-
-std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 12, 18,
-                               _( "Your electric combat chainsaw growls." ) );
 }
 
 std::optional<int> iuse::chainsaw_on( Character *p, item *it, const tripoint &pos )

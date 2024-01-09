@@ -1505,8 +1505,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```CARVER_ON``` Turn the carver off.
 - ```CHAINSAW_OFF``` Turn the chainsaw on.
 - ```CHAINSAW_ON``` Turn the chainsaw off.
-- ```COMBATSAW_OFF``` Turn the combat-saw on.
-- ```COMBATSAW_ON``` Turn the combat-saw off
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.

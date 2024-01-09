@@ -372,26 +372,8 @@
   },
   {
     "type": "item_action",
-    "id": "COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_ON"
-  },
-  {
-    "type": "item_action",
     "id": "TOOLWEAPON_DEACTIVATE",
     "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_ON"
   },
   {
     "type": "item_action",

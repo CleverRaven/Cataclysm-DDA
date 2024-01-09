@@ -93,8 +93,6 @@ std::optional<int> circsaw_on( Character *, item *, const tripoint & );
 std::optional<int> e_circsaw_on( Character *, item *, const tripoint & );
 std::optional<int> clear_rubble( Character *, item *, const tripoint & );
 std::optional<int> coin_flip( Character *, item *, const tripoint & );
-std::optional<int> combatsaw_off( Character *, item *, const tripoint & );
-std::optional<int> combatsaw_on( Character *, item *, const tripoint & );
 std::optional<int> toolweapon_deactivate( Character *, item *, const tripoint & );
 std::optional<int> contacts( Character *, item *, const tripoint & );
 std::optional<int> crowbar( Character *, item *, const tripoint & );
@@ -106,8 +104,6 @@ std::optional<int> directional_hologram( Character *, item *, const tripoint & )
 std::optional<int> dive_tank_activate( Character *, item *, const tripoint & );
 std::optional<int> dive_tank( Character *, item *, const tripoint & );
 std::optional<int> dog_whistle( Character *, item *, const tripoint & );
-std::optional<int> e_combatsaw_off( Character *, item *, const tripoint & );
-std::optional<int> e_combatsaw_on( Character *, item *, const tripoint & );
 std::optional<int> ehandcuffs( Character *, item *, const tripoint & );
 std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint & );
 std::optional<int> epic_music( Character *, item *, const tripoint & );

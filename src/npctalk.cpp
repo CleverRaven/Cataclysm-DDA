@@ -3945,6 +3945,17 @@ void talk_effect_fun_t::set_forget_recipe( const JsonObject &jo, std::string_vie
     };
 }
 
+void talk_effect_fun_t::set_turn_cost( const JsonObject &jo, std::string_view member )
+{
+    duration_or_var cost = get_duration_or_var( jo, member, true );
+    function = [cost]( dialogue & d ) {
+        Character *target = d.actor( false )->get_character();
+        if( target ) {
+            target->moves -= to_moves<int>( cost.evaluate( d ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, std::string_view member )
 {
     str_or_var chat_topic = get_str_or_var( jo.get_member( member ), member, true );
@@ -4587,6 +4598,25 @@ void talk_effect_fun_t::set_activate( const JsonObject &jo, std::string_view mem
     };
 }
 
+void talk_effect_fun_t::set_transform_item( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target_id = get_str_or_var( jo.get_member( member ), member, true );
+    bool activate = jo.get_bool("active", false);
+
+    function = [target_id, activate]( dialogue & d ) {
+        item_location *it = d.actor(true)->get_item();
+
+        if( it && it->get_item() ) {
+            const std::string target_str = target_id.evaluate( d );
+            (*it)->convert( itype_id( target_str ), it->carrier() );
+            if (activate)
+                (*it)->active = true;
+        } else {
+            debugmsg( "beta talker must be Item." );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
@@ -4594,6 +4624,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
 
     int volume;
     mandatory( jo, false, "volume", volume );
+    bool ambient = jo.get_bool("ambient", false);
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
@@ -4629,7 +4660,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    function = [is_npc, message, volume, type, target_var, snippet,
+    function = [is_npc, message, volume, ambient, type, target_var, snippet,
             same_snippet]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         std::string translated_message;
@@ -4650,7 +4681,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
+        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message, ambient );
     };
 }
 
@@ -4909,12 +4940,6 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view
             context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
                                                   true );
         }
-    }
-
-    std::optional<var_info> target_var;
-
-    if( jo.has_object( "beta_loc" ) ) {
-        target_var = read_var_info( jo.get_object( "beta_loc" ) );
     }
 
     str_or_var alpha_var;
@@ -6169,6 +6194,8 @@ parsers = {
     { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
     { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker}
+    { "turn_cost", jarg::member, &talk_effect_fun_t::set_turn_cost },
+    { "transform_item", jarg::member, &talk_effect_fun_t::set_transform_item },
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )

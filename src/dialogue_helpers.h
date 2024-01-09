@@ -160,6 +160,8 @@ struct talk_effect_fun_t {
         void set_activate( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_map_run_item_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_set_talker( const JsonObject &jo, std::string_view member, bool is_npc );
+        void set_turn_cost( const JsonObject &jo, std::string_view member );
+        void set_transform_item( const JsonObject &jo, std::string_view member );
         void operator()( dialogue &d ) const {
             if( !function ) {
                 return;

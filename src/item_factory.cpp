@@ -1689,11 +1689,7 @@ void Item_factory::init()
     add_iuse( "ELECTRIC_CIRCSAW_ON", &iuse::e_circsaw_on );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
-    add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
-    add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
     add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );
-    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
-    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
