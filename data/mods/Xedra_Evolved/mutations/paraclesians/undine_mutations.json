@@ -274,7 +274,7 @@
     "id": "UNDINE_ABSORB_WATER",
     "name": { "str": "The Sea Sustains Me" },
     "points": 4,
-    "description": "Undines are born of the flowing waters and the waters provide for their children. While submerged in fresh water, any thirst you have will be slaked.",
+    "description": "Undines are born of the flowing waters and the waters provide for their children.  While submerged in fresh water, any thirst you have will be slaked.",
     "prereqs": [ "UNDINE_SLEEP_WATER" ],
     "category": [ "UNDINE" ]
   }
