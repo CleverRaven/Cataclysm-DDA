@@ -1,11 +1,10 @@
 [
   {
     "id": "ppshdrum",
-    "//": "Audited by previous PR, longest_side with ImageJ.",
+    "//": "Provisional. Audited by previous PR, longest_side with ImageJ.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "PPSh 71-round drum magazine" },
-    "//": "Provisional.",
     "description": "A high-capacity drum magazine for the PPSh-41.",
     "weight": "1760 g",
     "volume": "911 ml",
