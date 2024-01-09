@@ -147,6 +147,26 @@
   },
   {
     "type": "overmap_location",
+    "id": "waterbody_surface",
+    "terrains": [ "lake_surface", "ocean_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "waterbody_water_cube",
+    "terrains": [ "lake_water_cube", "ocean_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "waterbody_bed",
+    "terrains": [ "lake_bed", "ocean_bed" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "waterbody_shore",
+    "terrains": [ "lake_shore", "ocean_shore" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "potential_basement_lab_entrance",
     "terrains": [ "basement" ]
   },

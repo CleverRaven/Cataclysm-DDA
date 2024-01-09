@@ -68,7 +68,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_lake_ocean_shore",
+    "id": "special_waterbody_shore",
     "//": "For use over existing shore where it's unknown whether it's lake or ocean",
     "copy-from": "generic_water",
     "name": "shore",

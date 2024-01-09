@@ -44,7 +44,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "special_lake_ocean_shore",
+    "om_terrain": "special_waterbody_shore",
     "//": "For use over existing shore where it's unknown whether it's lake or ocean",
     "object": { "fallback_predecessor_mapgen": "ocean_shore" }
   }
