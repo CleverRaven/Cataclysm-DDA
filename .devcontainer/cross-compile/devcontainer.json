@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-    "name": "Standard",
+    "name": "Cross-Compile w32",
     "build": {
       "dockerfile": "Dockerfile"
     },
