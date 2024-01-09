@@ -246,5 +246,34 @@
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Eventually add further spells in this area with more powerful elementals."
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_ESCAPE_GRABS",
+    "name": { "str": "Flow Like Water" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With the Undine's more fluid skin has come more fluid motion.  Activate this trait to immediately escape a grab and suffer less damage from falls for a few seconds.",
+    "prereqs": [ "UNDINE_SKIN_2" ],
+    "category": [ "UNDINE" ],
+    "active": true,
+    "cost": 8,
+    "thirst": true,
+    "activated_eocs": [ "EOC_UNDINE_ESCAPE_GRABS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_RIVER_MAPPING",
+    "name": { "str": "All Rivers Flow to the Sea" },
+    "description": "Water falls as rain, flows into streams, and then into rivers to the sea, and rises as clouds to fall as rain once again.  While submerged in a river, lake, or the ocean, the Undine can exploit this connection to locate other sources of water.",
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "category": [ "UNDINE" ],
+    "prereqs": [ "UNDINE_EYES" ],
+    "prereqs2": [ "BREATH_UNDERWATER" ],
+    "active": true,
+    "activated_eocs": [ "EOC_UNDINE_RIVER_MAPPING" ]
   }
 ]

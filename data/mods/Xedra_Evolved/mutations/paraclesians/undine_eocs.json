@@ -95,5 +95,55 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ESCAPE_GRABS",
+    "effect": [
+      { "u_lose_effect": "effect_undine_escape_grabs" },
+      { "u_add_effect": "effect_undine_escape_grabs", "duration": { "math": [ "rng(2,8)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_RIVER_MAPPING",
+    "condition": {
+      "and": [
+        "u_is_underwater",
+        {
+          "or": [
+            { "u_at_om_location": "generic_river_bank" },
+            { "u_at_om_location": "generic_river" },
+            { "u_at_om_location": "river_center" },
+            { "u_at_om_location": "river" },
+            { "u_at_om_location": "river_c_not_ne" },
+            { "u_at_om_location": "river_c_not_nw" },
+            { "u_at_om_location": "river_c_not_se" },
+            { "u_at_om_location": "river_c_not_sw" },
+            { "u_at_om_location": "river_ne" },
+            { "u_at_om_location": "river_se" },
+            { "u_at_om_location": "river_sw" },
+            { "u_at_om_location": "river_nw" },
+            { "u_at_om_location": "lake_shore" },
+            { "u_at_om_location": "lake_surface" },
+            { "u_at_om_location": "ocean" },
+            { "u_at_om_location": "ocean_shore" },
+            { "u_at_om_location": "ocean_surface" },
+            { "u_at_om_location": "ocean_bed" },
+            { "u_at_om_location": "ocean_water_cube" },
+            { "u_at_om_location": "ocean_surface" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_spawn_item": "undine_waters_map" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "undine_waters_map" } ],
+        "true_eocs": [ { "id": "EOC_UNDINE_RIVER_MAPPING_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      },
+      { "u_remove_item_with": "undine_waters_map" }
+    ]
   }
 ]
