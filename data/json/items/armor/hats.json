@@ -1,5 +1,6 @@
 [
   {
+    not finished yet
     "id": "10gal_hat",
     "type": "ARMOR",
     "name": { "str": "ten-gallon hat" },
@@ -24,10 +25,26 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+  },
+  {
     "id": "trilby_hat",
     "type": "ARMOR",
     "name": { "str": "trilby hat" },
     "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "copy-from": "10gal_hat"
+  },
+  {
+    "id": "homburg_hat",
+    "type": "ARMOR",
+    "name": { "str": "homburg hat" },
+    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
+    "copy-from": "10gal_hat"
+  },
+  {
+    "id": "tyrolean_hat",
+    "type": "ARMOR",
+    "name": { "str": "Tyrolean hat" },
+    "description": "A hat with a tall crown and a brim that is turned up on all sides.  It is a traditional Alpine headwear that originated in the Tyrol region of Austria.",
     "copy-from": "10gal_hat"
   },
   {
@@ -333,6 +350,13 @@
     ]
   },
   {
+    "id": "fez",
+    "type": "ARMOR",
+    "name": { "str": "fez hat" },
+    "description": "A red, brimless, flat-topped headwear with a tassel on top.  Historically wore by various cultures and organizations thought history.",
+    "copy-from": "eboshi"
+  },
+  {
     "id": "hat_navy",
     "type": "ARMOR",
     "name": { "str": "eight point cap" },
@@ -430,6 +454,13 @@
     "type": "ARMOR",
     "name": { "str": "floppy hat" },
     "description": "A type of sun hat with a lightweight build and a wide brim that helps keep the sun out of your eyes, face, neck and shoulders.",
+    "copy-from": "hat_boonie"
+  },
+  {
+    "id": "hat_cart",
+    "type": "ARMOR",
+    "name": { "str": "cartwheel hat" },
+    "description": "A type of sun hat with a flat, circular crown and an oversized brim that extends outward from the head, creating a striking silhouette.",
     "copy-from": "hat_boonie"
   },
   {
@@ -999,8 +1030,14 @@
         "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 5
       }
-      not finished yet!!
     ]
+  },
+  {
+    "id": "propeller_hat",
+    "type": "ARMOR",
+    "name": { "str": "propeller hat" },
+    "description": "A colorful cap with a brim and a plastic propeller on top.  It shields your eyes from the sun and make you look goofy.",
+    "copy-from": "hat_ball"
   },
   {
     "id": "hat_chef",
@@ -1220,6 +1257,13 @@
     "copy-from": "hat_fur"
   },
   {
+    "id": "astrakhan",
+    "type": "ARMOR",
+    "name": { "str": "astrakhan hat" },
+    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia."
+    "copy-from": "hat_fur"
+  },
+  {
     "id": "hat_faux_fur",
     "type": "ARMOR",
     "copy-from": "hat_fur",
@@ -1246,6 +1290,16 @@
     "looks_like": "hat_fur",
     "name": { "str": "faux fur coonskin hat" },
     "description": "A coonskin hat made of faux fur.  Like real racoon fur, but without the suffering.  Very warm and has the tail hanging loose.",
+    "material": [ "faux_fur", "cotton" ],
+    "warmth": 50
+  },
+  {
+    "id": "fastrakhan",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "looks_like": "hat_fur",
+    "name": { "str": "faux fur astrakhan hat" },
+    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia, but made with fauxfur.  Like real fur, but without the suffering.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 50
   },
