@@ -9,7 +9,7 @@
     "//5": "1 inch is 2.54 centimeters.",
     "recurrence": { "math": [ "(648000000 - ((u_val('health') * 180000) ) )" ] },
     "global": false,
-    "condition": { "not": { "u_has_trait": "no_hair_growth" } },
+    "condition": { "u_has_trait": "natural_hair_growth" },
     "effect": [
       {
         "if": { "u_has_trait": "hair_buzzcut" },
@@ -102,7 +102,7 @@
     "//": "Use the same notes as hair growth.  However, facial hair grows faster than head hair, averaging 1.25 inches per month.",
     "recurrence": { "math": [ "(43200000 - ((u_val('health') * 86400) ) )" ] },
     "global": false,
-    "condition": { "not": { "u_has_trait": "no_hair_growth" } },
+    "condition": { "u_has_trait": "natural_hair_growth" },
     "effect": [
       {
         "if": { "u_has_trait": "FACIAL_HAIR_NONE" },
