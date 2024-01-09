@@ -82,11 +82,11 @@
       {
         "if": "has_ammo",
         "then": [
-          { "u_make_sound": { "context_val": "message_success" }, "type": "combat", "volume": { "context_val": "volume" } },
-          { "u_message": { "context_val": "message_success" }},
+          { "u_make_sound": { "context_val": "success_message" }, "type": "combat", "volume": { "context_val": "volume" } },
+          { "u_message": { "context_val": "success_message" }},
           { "transform_item": { "context_val": "transform_target" }, "active": true }
         ],
-        "else": { "u_message": { "context_val": "message_failure" }}
+        "else": { "u_message": { "context_val": "failure_message" }}
       }
     ],
     "false_effect": { "u_message": "The <npc_name> won't start underwater." }

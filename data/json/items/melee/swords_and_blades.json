@@ -2878,9 +2878,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "combatsaw_on",
-              "message_success": "With a snarl, the <npc_name> screams to life!",
+              "success_message": "With a snarl, the <npc_name> screams to life!",
               "volume": "30",
-              "message_failure": "You yank the cord, but nothing happens."
+              "failure_message": "You yank the cord, but nothing happens."
             }
           }
         }
@@ -2964,9 +2964,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "e_combatsaw_on",
-              "message_success": "With a snarl, the <npc_name> screams to life!",
+              "success_message": "With a snarl, the <npc_name> screams to life!",
               "volume": "30",
-              "message_failure": "You flip the switch, but nothing happens."
+              "failure_message": "You flip the switch, but nothing happens."
             }
           }
         }
