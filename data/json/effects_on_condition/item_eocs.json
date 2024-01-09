@@ -82,6 +82,7 @@
       {
         "if": "has_ammo",
         "then": [
+          { "turn_cost": { "context_val": "turn_cost" } },
           { "u_make_sound": { "context_val": "success_message" }, "type": "combat", "volume": { "context_val": "volume" } },
           { "u_message": { "context_val": "success_message" }},
           { "transform_item": { "context_val": "transform_target" }, "active": true }

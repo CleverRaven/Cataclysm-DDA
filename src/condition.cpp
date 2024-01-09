@@ -235,14 +235,15 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string(member) );
+        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
         ret_val.dur_val = default_val;
     }
     return ret_val;
 }
 
-duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member, bool required,
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member,
+                                     bool required,
                                      time_duration default_val )
 {
     duration_or_var ret_val;
@@ -1698,11 +1699,11 @@ void conditional_t::set_get_option( const JsonObject &jo, std::string_view membe
 void conditional_t::set_has_ammo()
 {
     condition = []( dialogue & d ) {
-        item_location* it = d.actor(true)->get_item();
-        if (it) {
-            return (*it)->ammo_sufficient(d.actor(false)->get_character());
+        item_location *it = d.actor( true )->get_item();
+        if( it ) {
+            return ( *it )->ammo_sufficient( d.actor( false )->get_character() );
         } else {
-            debugmsg( "beta talker must be Item");
+            debugmsg( "beta talker must be Item" );
             return false;
         }
     };

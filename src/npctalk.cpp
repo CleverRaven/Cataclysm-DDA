@@ -4601,16 +4601,17 @@ void talk_effect_fun_t::set_activate( const JsonObject &jo, std::string_view mem
 void talk_effect_fun_t::set_transform_item( const JsonObject &jo, std::string_view member )
 {
     str_or_var target_id = get_str_or_var( jo.get_member( member ), member, true );
-    bool activate = jo.get_bool("active", false);
+    bool activate = jo.get_bool( "active", false );
 
     function = [target_id, activate]( dialogue & d ) {
-        item_location *it = d.actor(true)->get_item();
+        item_location *it = d.actor( true )->get_item();
 
         if( it && it->get_item() ) {
             const std::string target_str = target_id.evaluate( d );
-            (*it)->convert( itype_id( target_str ), it->carrier() );
-            if (activate)
-                (*it)->active = true;
+            ( *it )->convert( itype_id( target_str ), it->carrier() );
+            if( activate ) {
+                ( *it )->active = true;
+            }
         } else {
             debugmsg( "beta talker must be Item." );
         }
@@ -4624,7 +4625,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
 
     int volume;
     mandatory( jo, false, "volume", volume );
-    bool ambient = jo.get_bool("ambient", false);
+    bool ambient = jo.get_bool( "ambient", false );
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
