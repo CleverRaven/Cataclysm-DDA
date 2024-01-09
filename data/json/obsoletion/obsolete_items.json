@@ -1430,5 +1430,119 @@
     "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ] } ],
     "melee_damage": { "bash": 18 }
+  },
+  {
+    "id": "mask_wsurvivor_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivor",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivor",
+    "color": "pink"
+  },
+  {
+    "id": "mask_wsurvivorxl_nofur",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "XL faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
+    "copy-from": "mask_wsurvivorxl",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "mask_wsurvivorxl",
+    "color": "pink"
+  },
+  {
+    "id": "mask_wsurvivor_nofur_xs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_wsurvivor_nofur",
+    "looks_like": "mask_wsurvivor_nofur",
+    "name": { "str": "XS faux fur winter survivor mask" },
+    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
+  },
+  {
+    "id": "mask_wsurvivor",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "winter survivor mask" },
+    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, it provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
+    "weight": "682 g",
+    "volume": "1250 ml",
+    "price": 24000,
+    "price_postapoc": 1750,
+    "to_hit": -3,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "material": [ "kevlar_layered", "fur" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+    ],
+    "warmth": 75,
+    "material_thickness": 3,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_wsurvivorxl",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "XL winter survivor mask" },
+    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Quite warm, it provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
+    "weight": "1062 g",
+    "volume": "1250 ml",
+    "price": 24000,
+    "price_postapoc": 1500,
+    "to_hit": -3,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "material": [ "kevlar_layered", "fur" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
+    ],
+    "warmth": 75,
+    "material_thickness": 3,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
+    "id": "mask_wsurvivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_wsurvivor",
+    "looks_like": "mask_wsurvivor",
+    "name": { "str": "XS winter survivor mask" },
+    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
   }
 ]
