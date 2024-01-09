@@ -2791,6 +2791,18 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return loc.describe( &player_character );
             }, _( "LOCATION" ) );
 
+            append_cell( [&you, target]( const item_location & loc ) {
+                for( const item_location &opt : get_possible_reload_targets( target ) ) {
+                    if( opt->can_reload_with( *loc, true ) ) {
+                        if( opt == target ) {
+                            return std::string();
+                        }
+                        return string_format( _( "%s, %s" ), opt->type_name(), opt.describe( &you ) );
+                    }
+                }
+                return std::string();
+            }, _( "DESTINATION" ) );
+
             append_cell( []( const inventory_entry & entry ) {
                 if( entry.any_item()->is_ammo() ) {
                     return std::to_string( entry.chosen_count );
@@ -2845,20 +2857,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            std::vector<item_location> opts;
-            opts.emplace_back( target );
-
-            if( target->magazine_current() ) {
-                opts.emplace_back( target, const_cast<item *>( target->magazine_current() ) );
-            }
-
-            for( const item *mod : target->gunmods() ) {
-                item_location mod_loc( target, const_cast<item *>( mod ) );
-                opts.emplace_back( mod_loc );
-                if( mod->magazine_current() ) {
-                    opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
-                }
-            }
+            std::vector<item_location> opts = get_possible_reload_targets( target );
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
@@ -2933,7 +2932,15 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
         return item::reload_option();
     }
 
-    item::reload_option opt( &you, loc, selected.first );
+    item_location target_loc;
+    for( const item_location &opt : get_possible_reload_targets( loc ) ) {
+        if( opt->can_reload_with( *selected.first, true ) ) {
+            target_loc = opt;
+            break;
+        }
+    }
+
+    item::reload_option opt( &you, target_loc, selected.first );
     opt.qty( selected.second );
 
     return opt;

@@ -3332,23 +3332,53 @@ ammo_inventory_selector::ammo_inventory_selector( Character &you,
     force_single_column = true;
 }
 
+std::vector<item_location> get_possible_reload_targets( const item_location &target )
+{
+    std::vector<item_location> opts;
+    opts.emplace_back( target );
+
+    if( target->magazine_current() ) {
+        opts.emplace_back( target, const_cast<item *>( target->magazine_current() ) );
+    }
+
+    for( const item *mod : target->gunmods() ) {
+        item_location mod_loc( target, const_cast<item *>( mod ) );
+        opts.emplace_back( mod_loc );
+        if( mod->magazine_current() ) {
+            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
+        }
+    }
+
+    return opts;
+}
+
 // todo: this should happen when the entries are created, but that's a different refactoring
 void ammo_inventory_selector::set_all_entries_chosen_count()
 {
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
-            item::reload_option tmp_opt( &u, reload_loc, entry->any_item() );
-            tmp_opt.qty( entry->get_available_count() );
-            entry->chosen_count = tmp_opt.qty();
+            for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+                if( loc->can_reload_with( *entry->any_item(), true ) ) {
+                    item::reload_option tmp_opt( &u, loc, entry->any_item() );
+                    tmp_opt.qty( entry->get_available_count() );
+                    entry->chosen_count = tmp_opt.qty();
+                    break;
+                }
+            }
         }
     }
 }
 
 void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
 {
-    item::reload_option tmp_opt( &u, reload_loc, entry.any_item() );
-    tmp_opt.qty( entry.chosen_count + value );
-    entry.chosen_count = tmp_opt.qty();
+    for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+            item::reload_option tmp_opt( &u, loc, entry.any_item() );
+            tmp_opt.qty( entry.chosen_count + value );
+            entry.chosen_count = tmp_opt.qty();
+            break;
+        }
+    }
 
     entry.make_entry_cell_cache( preset );
     on_change( entry );

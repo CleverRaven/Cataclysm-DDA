@@ -948,6 +948,7 @@ class container_inventory_selector : public inventory_pick_selector
         item_location loc;
 };
 
+std::vector<item_location> get_possible_reload_targets( const item_location &target );
 class ammo_inventory_selector : public inventory_selector
 {
     public:
