@@ -2907,12 +2907,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__combatsaw",
-          "effect": {
-            "run_eoc_with": "EOC_toolweapon_deactivate",
-            "variables": {
-              "transform_target": "combatsaw_off"
-            }
-          }
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "combatsaw_off" } }
         }
       ]
     },
@@ -2923,12 +2918,7 @@
           "id": "EOC_toolweapon_running__combatsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "12",
-              "sound_message": "Your combat chainsaw growls.",
-              "volume": "18",
-              "revert_to": "combatsaw_off"
-            }
+            "variables": { "sound_chance": "12", "sound_message": "Your combat chainsaw growls.", "volume": "18", "revert_to": "combatsaw_off" }
           }
         }
       ]
@@ -3001,12 +2991,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__e_combatsaw",
-          "effect": {
-            "run_eoc_with": "EOC_toolweapon_deactivate",
-            "variables": {
-              "transform_target": "e_combatsaw_off"
-            }
-          }
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "e_combatsaw_off" } }
         }
       ]
     },
