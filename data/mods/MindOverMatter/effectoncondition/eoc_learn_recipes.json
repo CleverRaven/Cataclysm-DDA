@@ -103,11 +103,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
-    "effect": [ { "u_learn_recipe": "practice_teleport_blink" }, { "u_learn_recipe": "practice_teleport_slow" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_vita_health_power" },
@@ -174,7 +169,103 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SHIELD",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EXPLOSION",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LEVITATION",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_AEGIS",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EARTHSHAKER"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_push')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_pull')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_momentum" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_slowfall" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_wave" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_strength')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_strength" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_hammer" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_vehicle_lift" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SHIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_shield')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_shield" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EXPLOSION",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_explosion" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LEVITATION",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_levitation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_AEGIS",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_aegis" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EARTHSHAKER",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_earthshaker" } ]
   },
   {
     "type": "effect_on_condition",
@@ -190,8 +281,89 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [ {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
+        ]
+      } 
+    ]
   },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_blink')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_blink" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_slow')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_slow" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_stride')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_stride" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_transpose')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_transpose" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_displacement')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_displacement" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_collapse')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_collapse" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_farstep')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_farstep" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_banish')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_banish" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_breach')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_breach" } ]
+  }
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_RECIPE_TEACHER",
