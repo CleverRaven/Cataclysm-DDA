@@ -315,7 +315,7 @@ void suffer::while_underwater( Character &you )
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
-    if( ( you.has_trait( trait_UNDINE_ABSORB_WATER ) ) && you.get_thirst() > -60 ) {
+    if( you.has_trait( trait_UNDINE_ABSORB_WATER ) && you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
 }
