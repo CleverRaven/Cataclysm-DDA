@@ -95,6 +95,49 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_telekinetic",
+    "name": "Arising Telekinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Moving things at a distance is child's play.  You can pick up zombies and fling them away from you, shatter doors with a thought, and jump from the fifth story and land with barely a bruise.  Nothing is going to get close to you now.",
+    "points": 8,
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_9" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telekinetic_push", "level": 8 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 7 },
+      { "id": "telekinetic_wave", "level": 8 },
+      { "id": "telekinetic_momentum", "level": 10 },
+      { "id": "telekinetic_hammer", "level": 6 },
+      { "id": "telekinetic_shield", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_telekinetic",
+    "name": "Ascended Telekinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  One ton cars lift off the ground with merely a thought, bullets bounce off the air before they hit you, and you can smash whole groups of zombies to paste in seconds.  You can even fly from rooftop to rooftop, preventing gravity from affecting you by sheer force of will.",
+    "points": 12,
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_10" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telekinetic_push", "level": 11 },
+      { "id": "telekinetic_pull", "level": 10 },
+      { "id": "telekinetic_slam_down", "level": 7 },
+      { "id": "telekinetic_momentum", "level": 10 },
+      { "id": "telekinetic_slowfall", "level": 8 },
+      { "id": "telekinetic_wave", "level": 10 },
+      { "id": "telekinetic_strength", "level": 5 },
+      { "id": "telekinetic_hammer", "level": 8 },
+      { "id": "telekinetic_vehicle_lift", "level": 6 },
+      { "id": "telekinetic_shield", "level": 7 },
+      { "id": "telekinetic_explosion", "level": 6 },
+      { "id": "telekinetic_levitation", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_telepath",
     "name": "Newly-Awakened Telepath",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  The crazies were bad enough during the riots, but once you were stopped by a police officer whose bloodshot eyes told you that he wasn't going to let you off with a warning.  But you could somehow hear his thoughts, a chaotic jumble of rage and hunger and fear, you just…nudged them a little bit, and he wandered off and left you alone.  It doesn't work the same way with the zombies, but you can't have everything.",
@@ -109,6 +152,46 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then… you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
     "points": 6,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_teleporter",
+    "name": "Arising Teleporter",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can step through walls, and once you were surrounded by a horde and looked up and a nearby rooftop and… there you were, safe and out of the zombies' line of sight.  The rule of the zombie apocalypse is \"keep moving\", and you're the best you've ever been at that.",
+    "points": 10,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_teleporter",
+    "name": "Ascended Teleporter",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  No wall or door is a barrier to you and sometimes when you close your eyes you can travel to places you've already been.  Once you were surprised by a bandit and when he leveled his gun at you, you wished he was somewhere else and he just...disappeared.  Nothing can keep you down now.",
+    "points": 13,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "teleport_blink", "level": 11 },
+      { "id": "teleport_slow", "level": 12 },
+      { "id": "teleport_displacement", "level": 10 },
+      { "id": "teleport_stride", "level": 12 },
+      { "id": "teleport_phase", "level": 12 },
+      { "id": "teleport_collapse", "level": 7 },
+      { "id": "teleport_farstep", "level": 10 },
+      { "id": "teleport_banish", "level": 6 },
+      { "id": "teleport_gateway", "level": 4 },
+      { "id": "teleport_area_attune", "level": 1 }
+    ]
   },
   {
     "type": "profession",
