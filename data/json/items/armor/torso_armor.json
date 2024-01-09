@@ -995,7 +995,7 @@
   {
     "id": "jacket_leather_mod",
     "type": "ARMOR",
-    "name": { "str": "armored leather jacket" },
+    "name": { "str": "armored thick leather jacket" },
     "description": "An armored jacket made from thick leather and metal plates.",
     "weight": "7500 g",
     "volume": "4500 ml",
@@ -1146,7 +1146,7 @@
   {
     "id": "jacket_leather_mod_ch",
     "type": "ARMOR",
-    "name": { "str": "hardened armored leather jacket" },
+    "name": { "str": "hardened armored thick leather jacket" },
     "description": "An armored jacket made from thick leather and metal plates which have been hardened for superb protection.",
     "copy-from": "jacket_leather_mod",
     "price_postapoc": 3500,
@@ -1259,7 +1259,7 @@
     "id": "jacket_leather_tire",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "tire leather jacket" },
+    "name": { "str_sp": "tire thick leather jacket" },
     "description": "A jacket reinforced with chunks of thick rubber tire.  Thick and highly resistant to blunt force.",
     "weight": "5800 g",
     "volume": "6 L",

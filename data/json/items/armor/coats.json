@@ -1999,7 +1999,7 @@
   {
     "id": "leather_police_jacket",
     "type": "ARMOR",
-    "name": { "str": "leather riding jacket" },
+    "name": { "str": "thick leather jacket" },
     "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.",
     "weight": "2700 g",
     "volume": "3500 ml",
@@ -2052,14 +2052,14 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "leather police jacket" },
+        "name": { "str": "thick leather police jacket" },
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true
       },
       {
         "id": "leather_biker_gang_jacket",
-        "name": { "str": "biker gang jacket" },
+        "name": { "str": "thick biker gang jacket" },
         "description": "It is emblazoned with the bad-to-the-bone symbol of a biker gang.",
         "color": "dark_gray",
         "weight": 20,
@@ -2067,7 +2067,7 @@
       },
       {
         "id": "leather_riding_jacket",
-        "name": { "str": "leather riding jacket" },
+        "name": { "str": "thick leather riding jacket" },
         "description": "This one is plain, lacking any particular decals.",
         "color": "brown",
         "weight": 80,
