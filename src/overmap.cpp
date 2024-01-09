@@ -156,7 +156,6 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
 static oter_id ot_null;
-static oter_id omt_outside_defined_omap;
 
 const oter_type_t oter_type_t::null_type{};
 
@@ -3357,17 +3356,12 @@ void overmap::set_scent( const tripoint_abs_omt &loc, const scent_trace &new_sce
     scents[loc] = new_scent;
 }
 
-void overmap::set_omt_outside_defined_omap( const std::string sin )
-{
-    omt_outside_defined_omap( sin );
-}
-
 void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
     dbg( D_INFO ) << "overmap::generate start…";
-
+    const oter_id omt_outside_defined_omap = static_cast<oter_id>(get_option<std::string>( "OUTSIDE_DEFINED_OMAP_OMT" ));
     const std::string overmap_pregenerated_path =
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
