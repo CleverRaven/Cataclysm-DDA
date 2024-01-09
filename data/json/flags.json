@@ -2373,13 +2373,19 @@
     "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
   },
   {
+    "id": "UNRESTRICTED",
+    "type": "json_flag",
+    "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
+    "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
+  },
+  {
     "id": "BLEEDSLOW",
     "type": "json_flag",
-    "info": "The character bleed slower than normal, losing blood at 2/3rds the normal rate."
+    "info": "The character bleeds slower than normal, losing blood at 2/3rds the normal rate."
   },
   {
     "id": "BLEEDSLOW2",
     "type": "json_flag",
-    "info": "The character bleed even slower than normal, losing blood at 1/3rd the normal rate."
+    "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
   }
 ]
