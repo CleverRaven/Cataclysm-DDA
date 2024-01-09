@@ -458,5 +458,64 @@
     "method": "json",
     "nested_mapgen_id": "1x1_water_cube",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "~" ], "terrain": { "~": "t_water_cube" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_saltify",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "saltify", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_saltify",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss"
+      ],
+      "nested": { "s": { "chunks": [ "1x1_saltify" ] } }
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "saltify",
+    "terrain": [
+      { "result": "t_swater_sh", "valid_terrain": [ "t_water_sh", "t_water_murky" ] },
+      { "result": "t_swater_dp", "valid_terrain": [ "t_water_dp" ] },
+      { "result": "t_saltwater_cube", "valid_terrain": [ "t_water_cube" ] },
+      {
+        "result": "t_swater_sh_underground",
+        "valid_terrain": [ "t_water_sh_underground", "t_water_sh_murky_underground" ]
+      },
+      {
+        "result": "t_swater_dp_underground",
+        "valid_terrain": [ "t_water_dp_underground", "t_water_dp_murky_underground" ]
+      },
+      { "result": "t_ocean_bed", "valid_terrain": [ "t_lake_bed" ] }
+    ]
   }
 ]
