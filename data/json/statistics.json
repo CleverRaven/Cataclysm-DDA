@@ -2714,13 +2714,61 @@
   },
   {
     "id": "avatar_enters_carrier",
+    "//": "Remove once the lake spawn for the aircraft carrier is removed",
     "type": "event_transformation",
-    "event_transformation": "avatar_enters_overmap_special",
-    "value_constraints": { "oter_type_id": { "equals_any": [ "special_id", [ "Lake Aircraft Carrier", "Aircraft Carrier" ] ] } }
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "aircraft_carrier_1a",
+            "aircraft_carrier_1b",
+            "aircraft_carrier_1c",
+            "aircraft_carrier_2a",
+            "aircraft_carrier_2b",
+            "aircraft_carrier_2c",
+            "aircraft_carrier_3a",
+            "aircraft_carrier_3b",
+            "aircraft_carrier_3c",
+            "aircraft_carrier_4a",
+            "aircraft_carrier_4b",
+            "aircraft_carrier_4c",
+            "aircraft_carrier_5a",
+            "aircraft_carrier_5b",
+            "aircraft_carrier_5c",
+            "aircraft_carrier_6a",
+            "aircraft_carrier_6b",
+            "aircraft_carrier_6c",
+            "aircraft_carrier_7a",
+            "aircraft_carrier_7b",
+            "aircraft_carrier_7c",
+            "aircraft_carrier_8a",
+            "aircraft_carrier_8b",
+            "aircraft_carrier_8c",
+            "aircraft_carrier_9a",
+            "aircraft_carrier_9b",
+            "aircraft_carrier_9c",
+            "aircraft_carrier_10a",
+            "aircraft_carrier_10b",
+            "aircraft_carrier_10c",
+            "aircraft_carrier_11a",
+            "aircraft_carrier_11b",
+            "aircraft_carrier_11c",
+            "aircraft_carrier_12a",
+            "aircraft_carrier_12b",
+            "aircraft_carrier_12c",
+            "aircraft_carrier_13a",
+            "aircraft_carrier_13b",
+            "aircraft_carrier_13c"
+          ]
+        ]
+      }
+    }
   },
   {
     "id": "num_avatar_enters_carrier",
-    "//": "Remove once lake version is yeeted",
+    "//": "Remove once the lake spawn for the aircraft carrier is removed",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_enters_carrier",

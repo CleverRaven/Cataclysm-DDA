@@ -76,7 +76,7 @@
     "color": "light_blue",
     "see_cost": 1,
     "travel_cost_type": "shore",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

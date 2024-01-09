@@ -2021,14 +2021,8 @@
     "id": "achievement_reach_aircraft_carrier",
     "type": "achievement",
     "name": "Top Gun",
+    "//": "Replace with previous requirements once the lake spawn for the aircraft carrier is removed",
     "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "aircraft_carrier" ],
-        "visible": "when_achievement_completed",
-        "description": "Reach the Aircraft Carrier"
-      }
       {
         "event_statistic": "num_avatar_enters_carrier",
         "is": ">=",
