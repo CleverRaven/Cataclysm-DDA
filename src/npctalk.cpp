@@ -6194,7 +6194,7 @@ parsers = {
     { "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
     { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
-    { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker}
+    { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker },
     { "turn_cost", jarg::member, &talk_effect_fun_t::set_turn_cost },
     { "transform_item", jarg::member, &talk_effect_fun_t::set_transform_item },
 };

@@ -84,7 +84,7 @@
         "then": [
           { "turn_cost": { "context_val": "turn_cost" } },
           { "u_make_sound": { "context_val": "success_message" }, "type": "combat", "volume": { "context_val": "volume" } },
-          { "u_message": { "context_val": "success_message" }},
+          { "u_message": { "context_val": "success_message" } },
           { "transform_item": { "context_val": "transform_target" }, "active": true }
         ],
         "else": { "u_message": { "context_val": "failure_message" }}
@@ -99,7 +99,7 @@
     "effect": {
       "if": { "one_in_chance": { "context_val": "sound_chance" } },
       "then": [
-        { "u_message": { "context_val": "sound_message" } },
+        { "u_message": { "context_val": "sound_message" }, "sound": true },
         { "u_make_sound": { "context_val": "sound_message" }, "type": "activity", "volume": { "context_val": "volume" }, "ambient": true }
       ]
     },
