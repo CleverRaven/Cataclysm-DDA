@@ -18,7 +18,7 @@
       [ "aircraft_carrier_13a", "aircraft_carrier_13b", "aircraft_carrier_13c" ]
     ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fallback_predecessor_mapgen": "lake_surface",
       "rows": [
         "                                                                        ",
         "                                                                        ",
@@ -334,7 +334,6 @@
         "                            5555555555                                  "
       ],
       "palettes": [ "aircraft_carrier_palette" ],
-      "gaspumps": {  },
       "place_loot": [
         { "item": "television", "chance": 100, "x": 48, "y": 14 },
         { "item": "television", "chance": 100, "x": 18, "y": 133 },

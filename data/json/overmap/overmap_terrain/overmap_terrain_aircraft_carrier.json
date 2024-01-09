@@ -1,4 +1,12 @@
-[
+[{
+    "type": "overmap_terrain",
+    "abstract": "generic_aircraft_carrier",
+    "name": "aircraft carrier",
+    "sym": "A",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
   {
     "type": "overmap_terrain",
     "id": [
@@ -40,7 +48,15 @@
       "aircraft_carrier_12c",
       "aircraft_carrier_13a",
       "aircraft_carrier_13b",
-      "aircraft_carrier_13c",
+      "aircraft_carrier_13c"
+    ],
+    "copy-from": "generic_aircraft_carrier",
+    "spawns": { "group": "GROUP_AIRCRAFT_CARRIER", "population": [ 20, 40 ], "chance": 100 },
+    "extend": { "flags": [ "OCEAN", "LAKE", "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "aircraft_carrier_1a_1",
       "aircraft_carrier_1b_1",
       "aircraft_carrier_1c_1",
@@ -122,12 +138,8 @@
       "aircraft_carrier_1a_3",
       "aircraft_carrier_2a_3"
     ],
-    "name": "aircraft carrier",
-    "sym": "A",
-    "color": "red",
-    "see_cost": 5,
-    "spawns": { "group": "GROUP_AIRCRAFT_CARRIER", "population": [ 20, 40 ], "chance": 100 },
-    "flags": [ "RISK_HIGH", "OCEAN", "LAKE" ]
+    "copy-from": "generic_aircraft_carrier",
+    "spawns": { "group": "GROUP_AIRCRAFT_CARRIER", "population": [ 20, 40 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -172,11 +184,8 @@
       "aircraft_carrier_13b_-1",
       "aircraft_carrier_13c_-1"
     ],
-    "name": "aircraft carrier",
-    "sym": "A",
-    "color": "red",
-    "see_cost": 5,
+    "copy-from": "generic_aircraft_carrier",
     "spawns": { "group": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS", "population": [ 20, 35 ], "chance": 100 },
-    "flags": [ "RISK_HIGH", "OCEAN", "LAKE" ]
+    "extend": { "flags": [ "OCEAN", "LAKE", "REQUIRES_PREDECESSOR" ] }
   }
 ]
