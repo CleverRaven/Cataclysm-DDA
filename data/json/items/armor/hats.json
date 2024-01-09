@@ -58,6 +58,38 @@
     ]
   },
   {
+    "id": "neckwarmer_head",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "head neckwarmer" },
+    "description": "A synthetic fabric neckwarmer, worn over the head.",
+    "weight": "42 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your mouth.",
+      "target": "neckwarmer",
+      "menu_text": "Cover mouth"
+    },
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "blue",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "environmental_protection": 2,
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ]
+      }
+    ]
+  },
+  {
     "id": "beret",
     "type": "ARMOR",
     "name": { "str": "beret" },
@@ -130,6 +162,32 @@
         "coverage": 100,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
+  },
+  {
+    "id": "deerstalker",
+    "type": "ARMOR",
+    "name": { "str": "deerstalker hat" },
+    "description": "A characteristic hat made of wool, with a checkered pattern and earflaps that can be tied on top of the hat or left hanging down.  The best hat, for the best of the post-apocalypse deer stalkers, or detectives.",
+    "weight": "205 g",
+    "volume": "1100 ml",
+    "price": 4500,
+    "price_postapoc": 50,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
       }
     ]
   },
@@ -1473,7 +1531,7 @@
     "warmth": 45,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1515,7 +1573,6 @@
     "name": { "str": "knit beanie hat" },
     "description": "A very comfortable, snug-fitting beanie hat knitted from wool.  Very warm.",
     "copy-from": "hat_knit"
-    
   },
   {
     "id": "hat_newsboy",
@@ -1533,7 +1590,7 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1789,6 +1846,22 @@
     ]
   },
   {
+    "id": "panama_hat",
+    "type": "ARMOR",
+    "name": { "str": "Panama hat" },
+    "description": "A typical hat woven out of straw with a unique weave and lightweight construction.  Its brim helps keep the sun out of your eyes.",
+    "weight": "35 g",
+    "copy-from": "straw_hat"
+  },
+  {
+    "id": "boater_hat",
+    "type": "ARMOR",
+    "name": { "str": "boater hat" },
+    "description": "A formal summer hat typically made of stiff sennit straw and featuring a flat crown and brim.  It is adorned with a ribbon around the crown.",
+    "flags": [ "VARSIZE", "FANCY" ],
+    "copy-from": "straw_hat"
+  },
+  {
     "id": "tinfoil_hat",
     "type": "ARMOR",
     "category": "armor",
@@ -1822,15 +1895,34 @@
     "copy-from": "tinfoil_hat"
   },
   {
+    "id": "tinfoil_hat1",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brimmed tinfoil hat" },
+    "description": "Some sheets of aluminum foil that had been molded into a form-fitting brimmed hat, just like those ones farmers wear.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, with some protection from the sun.",
+    "weight": "49 g",
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES" ],
+    "copy-from": "tinfoil_hat"
+  },
+  {
     "id": "tinfoil_fedora",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tinfoil fedora" },
     "description": "A couple sheets of aluminum foil that had been molded into a form-fitting fedora.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but with STYLE.",
     "weight": "32 g",
-    "volume": "250 ml",
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES", "FANCY" ],
     "copy-from": "tinfoil_hat"
-    
+  },
+  {
+    "id": "tinfoil_hatball",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tinfoil cap" },
+    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting cap that resembles a baseball cap, brim including.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but also with some protection against the sun.",
+    "weight": "32 g",
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES" ],
+    "copy-from": "tinfoil_hat"
   },
   {
     "id": "paper_boat",
@@ -1882,7 +1974,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "SUPER_FANCY" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1908,7 +2000,7 @@
     "warmth": 7,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "SUN_GLASSES" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1987,7 +2079,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -2012,7 +2104,7 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
