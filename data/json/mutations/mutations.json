@@ -774,8 +774,38 @@
     "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
     "starting_trait": true,
     "types": [ "HEARING" ],
-    "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT" ],
+    "changes_to": [ "BATEARS" ],
+    "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
     "hearing_modifier": 1.25
+  },
+  {
+    "type": "mutation",
+    "id": "BATEARS",
+    "name": { "str": "Bat Ears" },
+    "points": 1,
+    "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance.",
+    "types": [ "HEARING" ],
+    "prereqs": [ "GOODHEARING" ]
+    "category": [ "CHIROPTERAN" ],
+    "hearing_modifier": 2.0
+  },
+  {
+    "type": "mutation",
+    "id": "ECHOLOCATION",
+    "name": { "str": "Echolocation" },
+    "points": 3,
+    "description": "You've learned how to hunt without sight.  As long as you're awake and able to hear, you'll never suffer penalties for fighting enemies you can't see."
+    "prereqs": [ "BATEARS" ],
+    "category": [ "CHIROPTERAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEAFNOSE",
+    "name": { "str": "Leaf Nose" },
+    "points": 2,
+    "flags": [ "INFRARED" ],
+    "ugliness": 3,
+    "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as your face is uncovered."
   },
   {
     "type": "mutation",
@@ -851,7 +881,7 @@
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "CHIROPTERAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
   },
   {
@@ -2366,7 +2396,7 @@
     "description": "Your body hair is growing in thicker than it used to.  It's almost like you're going through a second puberty or something.",
     "types": [ "SKIN", "BODY_ARMOR", "ARMOR", "BODY_ARMOR_MOD" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE" ]
+    "category": [ "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "URSINE", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -3039,7 +3069,7 @@
     "ugliness": 2,
     "bodytemp_sleep": 75,
     "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
-    "category": [ "MOUSE", "BEAST", "RAT", "LUPINE", "URSINE", "FELINE", "RABBIT", "CATTLE" ],
+    "category": [ "MOUSE", "BEAST", "RAT", "LUPINE", "URSINE", "FELINE", "RABBIT", "CATTLE", "CHIROPTERAN" ],
     "types": [ "SKIN" ],
     "prereqs": [ "HIRSUTE" ],
     "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "RABBIT_FUR", "LUPINE_FUR_SUMMER" ],
@@ -4517,6 +4547,73 @@
     "prereqs": [ "PADDED_FEET" ],
     "movecost_modifier": 0.88,
     "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE", "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BAT_FEET",
+    "name": { "str": "Bat Legs" },
+    "points": -1,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your lower limbs have shortened and grown bow-legged, slowing your bipedal movement.  But as long as you're not holding anything in your fingers, you're able to crawl quickly and quietly.",
+    "types": [ "FEET" ],
+    "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
+    "category": [ "CHIROPTERAN" ],
+    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "run" },
+              { "not": "u_can_drop_weapon" },
+              { "u_has_trait": "WINGS_BAT" }
+            ]
+          },
+          "msg_on": { "text": "You hunch down, using your wings to crawl." },
+          "msg_off": { "text": "You rise up to walk on your hind feet." }
+        }
+      ]
+    ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "crouch" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_trait": "WINGS_BAT" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_move_mode": "run" },
+            { "not": "u_can_drop_weapon" },
+            { "u_has_trait": "WINGS_BAT" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
+      },
+      {
+        "condition": {
+          "or": [
+            "u_can_drop_weapon",
+            { "u_has_move_mode": "walk" },
+            {
+              "and": [
+                { "not": { "u_has_trait": "THRESH_CHIROPTERAN" } },
+              ]
+            },
+            { "not": { "u_has_trait": "WINGS_BAT" } }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6539,7 +6636,8 @@
     "ugliness": 4,
     "description": "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 10.",
     "encumbrance_always": [ [ "mouth", 10 ] ],
-    "category": [ "LIZARD", "CEPHALOPOD", "RAPTOR" ]
+    "changes_to": [ "LEAFNOSE" ],
+    "category": [ "LIZARD", "CEPHALOPOD", "RAPTOR", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -6665,22 +6763,21 @@
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
-    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY", "WINGS_BAT" ],
+    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY" ],
     "category": [ "INSECT", "BEAST" ]
   },
   {
     "type": "mutation",
     "id": "WINGS_BAT",
     "name": { "str": "Bat Wings" },
-    "points": -5,
+    "points": 4,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
-    "category": [ "BEAST" ],
-    "threshreq": [ "THRESH_BEAST" ],
-    "dodge_modifier": -2
+    "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
+    "types": [ "ARMS", "HANDS" ],
+    "prereqs": [ "WEBBED" ],
+    "category": [ "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -7337,8 +7434,9 @@
     "types": [ "HANDS" ],
     "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
     "leads_to": [ "WEBBED_FEET" ],
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN", "CHIROPTERAN" ],
     "flags": [ "WEBBED_HANDS" ],
+    "changes_to": [ "WINGS_BAT" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
     "passive_mods": { "dex_mod": -1 }
