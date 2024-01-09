@@ -14,7 +14,7 @@
     "shape": "blast",
     "effect": "attack"
   },
-    {
+  {
     "id": "potion_recover_mana_xe",
     "type": "SPELL",
     "name": "Recover Mana",
