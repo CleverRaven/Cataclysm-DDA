@@ -967,7 +967,7 @@
     "cancels": [ "MET_RAT" ],
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD" ],
-    "category": [ "FISH", "BIRD", "TROGLOBITE", "GASTROPOD", "CEPHALOPOD", "RAPTOR" ],
+    "category": [ "FISH", "BIRD", "TROGLOBITE", "CHIROPTERAN", "GASTROPOD", "CEPHALOPOD", "RAPTOR" ],
     "metabolism_modifier": -0.333
   },
   {
@@ -1357,7 +1357,7 @@
     "description": "It's very unlikely that you will catch ambient diseases like the cold or flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA" ]
+    "category": [ "CATTLE", "RAT", "MEDICAL", "PLANT", "SLIME", "TROGLOBITE", "CHIMERA", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -1971,7 +1971,7 @@
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
     "vitamins_absorb_multi": [ [ "junk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ]
+    "category": [ "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -1980,7 +1980,8 @@
     "points": -2,
     "description": "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat wheat-based products, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "starting_trait": true
+    "starting_trait": true,
+    "category: [ "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -2576,6 +2577,17 @@
   },
   {
     "type": "mutation",
+    "id": "MESOPIC",
+    "name": { "str": "Mesopic" },
+    "points": -1,
+    "description": "You can't see very well in bright light.",
+    "types": [ "EYES", "VISION" ],
+    "cancels": [ "MYOPIC" ],
+    "category": [ "CHIROPTERAN" ],
+    "flags": [ "MYOPIC_IN_LIGHT" ]
+  },
+  {
+    "type": "mutation",
     "id": "BIRD_EYE",
     "name": { "str": "Avian Eyes" },
     "points": 5,
@@ -3023,7 +3035,7 @@
     "mixed_effect": true,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "types": [ "BONES" ],
-    "category": [ "MOUSE", "RABBIT", "BIRD", "SLIME", "ELFA", "SPIDER" ],
+    "category": [ "MOUSE", "RABBIT", "BIRD", "SLIME", "ELFA", "SPIDER", "CHIROPTERAN" ],
     "changes_to": [ "HOLLOW_BONES" ],
     "movecost_modifier": 0.9,
     "attackcost_modifier": 0.9,
@@ -4331,7 +4343,7 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -6239,6 +6251,7 @@
     "changes_to": [ "DEX_UP_2" ],
     "category": [
       "INSECT",
+      "CHIROPTERAN",
       "ALPHA",
       "LIZARD",
       "SPIDER",
@@ -6263,7 +6276,7 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP" ],
     "changes_to": [ "DEX_UP_3", "DEX_ALPHA" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "ALPHA" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "ALPHA", "CHIROPTERAN" ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -6275,8 +6288,8 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
-    "category": [ "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH" ],
-    "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_CEPHALOPOD", "THRESH_FISH" ],
+    "category": [ "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_CHIROPTERAN" ],
     "passive_mods": { "dex_mod": 4 }
   },
   {
