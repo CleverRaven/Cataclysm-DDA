@@ -81,15 +81,6 @@ struct condition_parser {
     using f_t_simple = condition_func (*) ();
     using f_t_beta_simple = condition_func (*) ( bool );
 
-    bool has_beta = false;
-    std::string_view key_alpha;
-    std::string_view key_beta;
-    jarg arg;
-    f_t f;
-    f_t_beta f_beta;
-    f_t_simple f_simple;
-    f_t_beta_simple f_beta_simple;
-
     condition_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
         arg( arg_ ), f( f_ ) {}
     condition_parser( std::string_view key_alpha_, std::string_view key_beta_, jarg arg_,
@@ -113,6 +104,15 @@ struct condition_parser {
         }
         return false;
     }
+
+    bool has_beta = false;
+    std::string_view key_alpha;
+    std::string_view key_beta;
+    jarg arg;
+    f_t f;
+    f_t_beta f_beta;
+    f_t_simple f_simple;
+    f_t_beta_simple f_beta_simple;
 };
 
 std::queue<deferred_math> &get_deferred_math()
