@@ -1371,9 +1371,9 @@ void mapgen_lake_shore( mapgendata &dat )
     const oter_id river_center = oter_river_center.id();
 
     auto is_lake = [&]( const oter_id & id ) {
-        // We want to consider river_center as a lake as well, so that the confluence of a
-        // river and a lake is a continuous water body.
-        return id.obj().is_lake() || id == river_center;
+        // We want to consider river_center and ocean_surface as well as a lake as well, so that the confluence of a
+        // rivers, lakes and oceans are a continuous water body.
+        return id.obj().is_lake() || id == river_center || id.obj().is_ocean();
     };
 
     const auto is_shore = [&]( const oter_id & id ) {
@@ -1823,8 +1823,8 @@ void mapgen_ocean_shore( mapgendata &dat )
     const oter_id river_center = oter_river_center.id();
 
     auto is_ocean = [&]( const oter_id & id ) {
-        // We want to consider river_center as well.
-        return id.obj().is_ocean() || id == river_center;
+        // We want to consider river_center and lake_surface as well.
+        return id.obj().is_ocean() || id == river_center || id.obj().is_lake();
     };
 
     const auto is_shore = [&]( const oter_id & id ) {
