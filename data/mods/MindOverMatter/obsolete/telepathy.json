@@ -24,5 +24,23 @@
     "effect": [
       { "u_add_morale": "morale_telepathy", "bonus": 10, "max_bonus": 25, "duration": "4 hours", "decay_start": "2 hours" }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_invisibility",
+    "name": [ "Obscurity" ],
+    "desc": [ "You are hiding your presence from your enemies." ],
+    "apply_message": "",
+    "remove_message": "You are again visible and vulnerable.",
+    "decay_messages": [
+      [ "Your veil of obscurity is nearly gone.", "bad" ],
+      [ "You notice nearby enemies glancing in your direction.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "100 seconds",
+    "max_intensity": 14,
+    "dur_add_perc": 10,
+    "int_dur_factor": "7 s",
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
   }
 ]

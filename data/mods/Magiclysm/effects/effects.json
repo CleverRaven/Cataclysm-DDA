@@ -507,7 +507,7 @@
     "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": 0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -632,7 +632,7 @@
       {
         "values": [
           { "value": "SPEED", "add": 30 },
-          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "ATTACK_SPEED", "add": -20 },
           { "value": "BONUS_DODGE", "add": 2 },
           { "value": "MELEE_DAMAGE", "multiply": 0.5 }
         ]

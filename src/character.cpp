@@ -237,6 +237,7 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -256,7 +257,9 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
@@ -307,6 +310,8 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -339,6 +344,10 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
+static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
+static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -362,11 +371,6 @@ static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
-
-static const mon_flag_str_id mon_flag_COMBAT_MOUNT( "COMBAT_MOUNT" );
-static const mon_flag_str_id mon_flag_LOUDMOVES( "LOUDMOVES" );
-static const mon_flag_str_id mon_flag_MECH_RECON_VISION( "MECH_RECON_VISION" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
@@ -712,7 +716,8 @@ bool Character::can_recover_oxygen() const
 
 void Character::randomize_heartrate()
 {
-    avg_nat_bpm = rng_normal( 60, 80 );
+    // assume starting character is sedentary so we have some room to go down for cardio hr lowering
+    avg_nat_bpm = rng_normal( 70, 90 );
 }
 
 void Character::randomize_blood()
@@ -1584,7 +1589,6 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
-    avatar &player_avatar = get_avatar();
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
@@ -1608,6 +1612,7 @@ void Character::mount_creature( monster &z )
     }
     mounted_creature = mons;
     mons->mounted_player = this;
+    avatar &player_avatar = get_avatar();
     if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
         player_avatar.grab( object_type::NONE );
@@ -4663,10 +4668,32 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
                                                  eff.duration + eff.duration_dmg_scaling * scaling ) );
                 int scaled_int = roll_remainder( std::max( static_cast<float>( eff.intensity ),
                                                  eff.intensity + eff.intensity_dmg_scaling * scaling ) );
+
+                // go through all effects. if they modify effect duration, scale dur accordingly.
+                // obviously inefficient, but probably fast enough since this only is calculated once per attack.
+                float eff_scale = 1.0f;
+                for( const effect &e : get_effects() ) {
+                    for( const effect_dur_mod &eff_dur_mod : e.get_effect_dur_scaling() ) {
+                        // debugmsg( "Checking effect %s, with same_bp, modifier %f", eff.id.c_str(), eff_dur_mod.modifier);
+                        if( eff_dur_mod.effect_id == eff.id ) {
+                            if( eff_dur_mod.same_bp ) {
+                                if( e.get_bp() != body_part->get_id() ) {
+                                    continue;
+                                }
+                            }
+                            eff_scale *= eff_dur_mod.modifier;
+                        }
+                    }
+                }
+
+                scaled_dur = static_cast<int>( scaled_dur * eff_scale );
+
                 add_msg_debug( debugmode::DF_CHARACTER,
-                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d", eff.id.c_str(),
+                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d, effect scaling %f",
+                               eff.id.c_str(),
                                scaled_dur,
-                               scaled_int );
+                               scaled_int,
+                               eff_scale );
 
                 // Handle intensity/duration clamping
                 if( eff.max_intensity != INT_MAX ) {
@@ -5092,7 +5119,24 @@ void Character::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    // Being stuck in a tight space sucks.
+    if( get_bp_effect_mod() > 0 ) {
+        modify_bp_effect_mod( -std::min( get_bp_effect_mod(), rate_multiplier ) );
+    } else if( get_bp_effect_mod() < 0 ) {
+        modify_bp_effect_mod( std::min( -get_bp_effect_mod(), rate_multiplier ) );
+    }
+
+    if( get_heartrate_effect_mod() > 0 ) {
+        modify_heartrate_effect_mod( -std::min( get_heartrate_effect_mod(), rate_multiplier ) );
+    } else if( get_heartrate_effect_mod() < 0 ) {
+        modify_heartrate_effect_mod( std::min( -get_heartrate_effect_mod(), rate_multiplier ) );
+    }
+
+    if( get_respiration_effect_mod() > 0 ) {
+        modify_respiration_effect_mod( -std::min( get_respiration_effect_mod(), rate_multiplier ) );
+    } else if( get_respiration_effect_mod() < 0 ) {
+        modify_respiration_effect_mod( std::min( -get_respiration_effect_mod(), rate_multiplier ) );
+    }
+
 }
 
 needs_rates Character::calc_needs_rates() const
@@ -7480,10 +7524,12 @@ void Character::vomit()
     get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
-        stomach.empty();
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
+    // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
+    stomach.empty();
+
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
         const effect dummy_nausea( effect_source( this ), &effect_nausea.obj(), 0_turns,
@@ -7503,7 +7549,9 @@ void Character::vomit()
             }
         }
     }
-    remove_effect( effect_pkill1 );
+    remove_effect( effect_pkill1_generic );
+    remove_effect( effect_pkill1_acetaminophen );
+    remove_effect( effect_pkill1_nsaid );
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
@@ -9998,9 +10046,9 @@ float Character::adjust_for_focus( float amount ) const
     return amount * ( effective_focus / 100.0f );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+std::unordered_set<tripoint> Character::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
         if( sees( guy ) ) {
             ret.insert( guy.pos() );
@@ -10792,6 +10840,33 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle Blood Pressure
+    val = get_effect( "BLOOD_PRESSURE", reduced );
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "BLOOD_PRESSURE", val, reduced, mod ) ) {
+            modify_bp_effect_mod( bound_mod_to_vals( get_bp_effect_mod(), val, it.get_max_val( "BLOOD_PRESSURE",
+                                  reduced ), 0 ) );
+        }
+    }
+
+    // handle heart rate
+    val = get_effect( "HEART_RATE", reduced );
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "HEART_RATE", val, reduced, mod ) ) {
+            modify_heartrate_effect_mod( bound_mod_to_vals( get_heartrate_effect_mod(), val,
+                                         it.get_max_val( "HEART_RATE", reduced ), 0 ) );
+        }
+    }
+    // handle perspiration rate
+    val = get_effect( "RESPIRATION_RATE", reduced );
+    if( val != 0 ) {
+        if( is_new || it.activated( calendar::turn, "RESPIRATION_RATE", val, reduced, mod ) ) {
+            modify_respiration_effect_mod( bound_mod_to_vals( get_respiration_effect_mod(), val,
+                                           it.get_max_val( "RESPIRATION_RATE", reduced ), 0 ) );
+        }
+    }
+
+
     // Handle coughing
     mod = 1;
     val = 0;
@@ -10940,20 +11015,12 @@ void Character::process_effects()
                     ( size == creature_size::medium && free_cargo < 62500_ml ) ||
                     ( size == creature_size::large && free_cargo < 125000_ml ) ||
                     ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    if( !has_effect( effect_cramped_space ) ) {
-                        add_effect( effect_cramped_space, 2_turns, true );
-                    }
                     is_cramped_space = true;
-                    return;
                 }
             }
             if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
                 !vp.part_with_feature( "HUGE_OK", false ) ) {
-                if( !has_effect( effect_cramped_space ) ) {
-                    add_effect( effect_cramped_space, 2_turns, true );
-                }
                 is_cramped_space = true;
-                return;
             }
         }
         if( !is_cramped_space ) {
@@ -11031,9 +11098,56 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge ) {
+    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
         get_map().tr_at( pos() ).trigger( pos(), *this );
         get_map().update_visibility_cache( pos().z );
+    }
+}
+
+void Character::stagger()
+{
+    map &here = get_map();
+    std::vector<tripoint> valid_stumbles;
+    valid_stumbles.reserve( 11 );
+    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
+        if( dest != pos() ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
+                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+            } else {
+                valid_stumbles.push_back( dest );
+            }
+        }
+    }
+    const tripoint below( posx(), posy(), posz() - 1 );
+    if( here.valid_move( pos(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
+    }
+    creature_tracker &creatures = get_creature_tracker();
+    while( !valid_stumbles.empty() ) {
+        bool blocked = false;
+        const tripoint dest = random_entry_removed( valid_stumbles );
+        const optional_vpart_position vp_there = here.veh_at( dest );
+        if( vp_there ) {
+            vehicle &veh = vp_there->vehicle();
+            if( veh.enclosed_at( dest ) ) {
+                blocked = true;
+            }
+        }
+        if( here.passable( dest ) && !blocked &&
+            ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
+            avatar &player_avatar = get_avatar();
+            if( is_avatar() && player_avatar.get_grab_type() != object_type::NONE ) {
+                player_avatar.grab( object_type::NONE );
+            }
+            add_msg_player_or_npc( m_warning,
+                                   _( "You stumble!" ),
+                                   _( "<npcname> stumbles!" ) );
+            setpos( dest );
+            mod_moves( -100 );
+            break;
+        }
     }
 }
 
@@ -12480,6 +12594,29 @@ int Character::impact( const int force, const tripoint &p )
     }
 
     return total_dealt;
+}
+
+bool Character::can_fly()
+{
+    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ||
+        ( has_effect( effect_grabbed ) && !try_remove_grab() ) || movement_mode_is( move_mode_prone ) ||
+        has_effect( effect_downed ) ) {
+        return false;
+    }
+    // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
+    if( has_trait_flag( json_flag_GLIDE ) ) {
+        return true;
+    }
+    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ||
+          has_trait_flag( json_flag_WING_GLIDE ) ) &&
+        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 ||
+          has_effect( effect_winded ) ) ) {
+        return false;
+    }
+    if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
+        return false;
+    }
+    return true;
 }
 
 // FIXME: Relies on hardcoded bash damage type

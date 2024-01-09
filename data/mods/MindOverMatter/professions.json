@@ -107,7 +107,7 @@
     "id": "psi_electrokinetic_engineer",
     "name": "Electrical Engineer",
     "description": "You followed your parents' wishes and became an engineer, and to your surprise you were extremely good at it.  It was like the electronics you built just spoke to you, like you could see inside the wires and circuits, and then when the sky broke that literally came true.",
-    "points": 8,
+    "points": 12,
     "skills": [
       { "level": 4, "name": "mechanics" },
       { "level": 8, "name": "electronics" },
@@ -117,10 +117,20 @@
     ],
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
     "spells": [
-      { "id": "electrokinetic_see_electric", "level": 6 },
-      { "id": "electrokinetic_shock_touch", "level": 2 },
-      { "id": "electrokinetic_zap_enemies", "level": 4 },
-      { "id": "electrokinetic_personal_battery", "level": 4 }
+      { "id": "electrokinetic_see_electric", "level": 10 },
+      { "id": "electrokinetic_shock_touch", "level": 9 },
+      { "id": "electrokinetic_zap_enemies", "level": 9 },
+      { "id": "electrokinetic_personal_battery", "level": 10 },
+      { "id": "electrokinetic_reduce_pain", "level": 5 },
+      { "id": "electrokinetic_recharge_vehicle", "level": 7 }
+    ],
+    "recipes": [
+      "practice_electrokinetic_see_electric",
+      "practice_electrokinetic_shock_touch",
+      "practice_electrokinetic_zap_enemies",
+      "practice_electrokinetic_personal_battery",
+      "practice_electrokinetic_reduce_pain",
+      "practice_electrokinetic_recharge_vehicle"
     ],
     "proficiencies": [ "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
     "items": {
@@ -132,6 +142,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "item": "water_clean" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "group": "charged_electrical_measuring" },
           { "group": "charged_laptop" },
@@ -212,7 +223,7 @@
     "id": "psi_telekinetic_testsubject",
     "name": "Test Subject, Project ONYX LIGHTNING",
     "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
-    "points": 5,
+    "points": 13,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -220,12 +231,20 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
     "spells": [
-      { "id": "telekinetic_push", "level": 4 },
-      { "id": "telekinetic_pull", "level": 3 },
-      { "id": "telekinetic_momentum", "level": 2 },
-      { "id": "telekinetic_wave", "level": 2 }
+      { "id": "telekinetic_push", "level": 5 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 3 },
+      { "id": "telekinetic_slowfall", "level": 2 },
+      { "id": "telekinetic_momentum", "level": 6 }
+    ],
+    "recipes": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall"
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
@@ -237,7 +256,8 @@
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_combat", "container-item": "sheath" }
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "matrix_crystal_drained" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
@@ -280,33 +300,45 @@
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
     "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
-    "points": 6,
+    "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
       { "level": 2, "name": "gun" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "survival" },
       { "level": 2, "name": "pistol" },
-      { "level": 5, "name": "metaphysics" }
+      { "level": 7, "name": "metaphysics" }
     ],
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT", "FIFTH_SUN_PEOPLE" ],
     "spells": [
-      { "id": "teleport_blink", "level": 8 },
-      { "id": "teleport_slow", "level": 1 },
-      { "id": "teleport_transpose", "level": 4 },
-      { "id": "teleport_phase", "level": 5 },
-      { "id": "teleport_farstep", "level": 3 }
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
     ],
-    "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_teleport_blink",
+      "practice_teleport_slow",
+      "practice_teleport_displacement",
+      "practice_teleport_phase",
+      "practice_teleport_stride",
+      "practice_teleport_farstep"
+    ],
+    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "pants" },
-          { "item": "dress_shirt" },
+          { "item": "itzcuauhtli_pants" },
+          { "item": "itzcuauhtli_tunic" },
           { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "officer_uniform" },
-          { "item": "beret" },
-          { "item": "holster" },
+          { "item": "itzcuauhtli_boots" },
+          { "item": "itzcuauhtli_cape" },
+          { "item": "itzcuauhtli_hat" },
+          { "item": "itzcuauhtli_holster" },
+          { "item": "matrix_crystal_teleportation" },
           {
             "item": "mom_fusion_pistol",
             "ammo-item": "mom_fusion_ammo",

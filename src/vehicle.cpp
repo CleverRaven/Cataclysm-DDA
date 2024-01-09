@@ -115,6 +115,8 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
+static const json_character_flag json_flag_MUSCLE_VEH_BOOST( "MUSCLE_VEH_BOOST" );
+
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 static const proficiency_id proficiency_prof_athlete_basic( "prof_athlete_basic" );
 static const proficiency_id proficiency_prof_athlete_expert( "prof_athlete_expert" );
@@ -1085,10 +1087,15 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
         } else if( vpi.fuel_type == fuel_type_muscle ) {
             if( const Character *muscle_user = get_passenger( vp_index ) ) {
                 // Calculate virtual strength bonus from cycling proficiency
+                float muscle_veh_boost_bonus = 0;
                 const float athlete_form_bonus = muscle_user->get_proficiency_bonus( "athlete",
                                                  proficiency_bonus_type::strength );
+                if( muscle_user->has_trait_flag( json_flag_MUSCLE_VEH_BOOST ) ) {
+                    muscle_veh_boost_bonus = 8;
+                }
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus;
+                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus +
+                                                muscle_veh_boost_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
@@ -5238,7 +5245,7 @@ vehicle *vehicle::find_vehicle( const tripoint_abs_ms &where )
         return &vp->vehicle();
     }
     // Nope. Load up its submap...
-    point_sm_ms veh_in_sm;
+    point_sm_ms_ib veh_in_sm;
     tripoint_abs_sm veh_sm;
     std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
     const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
@@ -7675,7 +7682,7 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
     tripoint_abs_sm smp;
-    point_sm_ms p;
+    point_sm_ms_ib p;
     // TODO: fix point types
     std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
@@ -7697,7 +7704,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
     tripoint_abs_sm smp;
-    point_sm_ms p;
+    point_sm_ms_ib p;
     // TODO: fix point types
     std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
