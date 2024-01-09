@@ -62,7 +62,6 @@
             "north_west": [ "OCEAN" ],
             "south_east": [ "OCEAN" ],
             "south_west": [ "OCEAN" ],
-            "above": [ "OCEAN" ],
             "below": [ "OCEAN" ]
           }
         }

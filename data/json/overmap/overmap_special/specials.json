@@ -5072,7 +5072,7 @@
     "locations": [ "waterbody_surface" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS", "MAN_MADE" ]
   },
   {
