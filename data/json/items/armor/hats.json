@@ -171,6 +171,32 @@
     ]
   },
   {
+    "id": "fascinator",
+    "type": "ARMOR",
+    "name": { "str": "fascinator hat" },
+    "description": "A small, decorative headpiece comprised of a modest, practically invisible headband and a small black hat adorned with false feathers or plastic flowers.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "price": 4500,
+    "price_postapoc": 50,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "dark_gray",
+    "warmth": 1,
+    "material_thickness": 0.1,
+    "environmental_protection": 0,
+    "flags": [ "FANCY", "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
+    ]
+  },
+  {
     "id": "deerstalker",
     "type": "ARMOR",
     "name": { "str": "deerstalker hat" },
@@ -383,6 +409,28 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+  },
+  {
+    "id": "hat_cloche",
+    "type": "ARMOR",
+    "name": { "str": "cloche hat" },
+    "description": "A typical bell-shaped hat usually wore by women (specially elderly ladies).  It is decorated with a pretty ribbon.",
+    "flags": [ "VARSIZE", "SUN_GLASSES", "FANCY" ],
+    "copy-from": "hat_boonie"
+  },
+  {
+    "id": "hat_bucket",
+    "type": "ARMOR",
+    "name": { "str": "bucket hat" },
+    "description": "A civilian, commercial-grade bucket hat.  Comfortable and somewhat stylish, it will keep the sun out of your eyes.",
+    "copy-from": "hat_boonie"
+  },
+  {
+    "id": "hat_floppy",
+    "type": "ARMOR",
+    "name": { "str": "floppy hat" },
+    "description": "A type of sun hat with a lightweight build and a wide brim that helps keep the sun out of your eyes, face, neck and shoulders.",
+    "copy-from": "hat_boonie"
   },
   {
     "id": "leather_hatball",
@@ -1096,11 +1144,80 @@
     ]
   },
   {
+    "id": "conical_hat",
+    "type": "ARMOR",
+    "name": { "str": "conical hat" },
+    "description": "A conical hat typically made of bamboo, of asian origin.  It can be either a piece of a costume, a decorative item, something you'd find inside a dojo, etc.  This is the base item, it is a error if you found it naturally.",
+    "weight": "300 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "color": "brown",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 3,
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "douli",
+        "name": { "str": "douli hat" },
+        "description": "A conical hat made of bamboo strips, with a wide brim, providing protection from the sun and rain, a pointed top and a chin strap to secure it in place.  Commonly worn by farmers and field workers in rural areas of China, but can be also part of a costume headgear, decorative item and etc.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "satgat",
+        "name": { "str": "satgat hat" },
+        "description": "A conical hat made of bamboo strips, with a wide brim and a round top.  Often worn as part of traditional Korean attire, particularly by scholars and noblemen during the Joseon Dynasty,  but can be also part of a costume headgear, decorative item and etc.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "ngob",
+        "name": { "str": "ngob hat" },
+        "description": "A somewhat conical hat made of bamboo strips and straw, with a wide brim and a squarish top.  Commonly worn by farmers and laborers in rural areas of Thailand, but can be also part of a costume headgear, decorative item and etc.",
+        "weight": 1,
+        "append": true
+        },
+      {
+        "id": "nonla",
+        "name": { "str": "non la hat" },
+        "description": "A conical hat made of bamboo strips, with a wide brim that tapers to a point at the top.  Often worn by farmers and workers in Vietnam to shield them from the sun and rain.  The non la is also considered a symbol of Vietnamese culture and tradition,  but can be also part of a costume headgear, decorative item and etc.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "kasa",
+        "name": { "str": "kasa hat" },
+        "description": "A conical hat made of bamboo strips, with a a broad, flat brim and a rounded crown.  Typically wore by Japanese rice farmers, but can be also part of a costume headgear, decorative item and etc.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "ushanka",
     "type": "ARMOR",
     "name": { "str": "ushanka" },
     "description": "A typically Russian hat made from the pelts of animals with earflaps.  Extremely warm to endure the Siberian Winter.",
-    
+    "copy-from": "hat_fur"
+  },
+  {
+    "id": "coonskin",
+    "type": "ARMOR",
+    "name": { "str": "ushanka" },
+    "description": "A comfortable hat made of the pelt of a raccoon, with a distinctive black and white fur pattern.  It has the tail hanging loose.",
+    "copy-from": "hat_fur"
   },
   {
     "id": "hat_faux_fur",
@@ -1119,6 +1236,16 @@
     "looks_like": "hat_fur",
     "name": { "str": "faux fur ushanka" },
     "description": "A ushanka made of faux fur, a typically Russian headgear with a nice pair of earflaps.  Like real fur, but without the suffering.  Very warm to endure the Russian Winter.",
+    "material": [ "faux_fur", "cotton" ],
+    "warmth": 50
+  },
+  {
+    "id": "fcoonskin",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "looks_like": "hat_fur",
+    "name": { "str": "faux fur coonskin hat" },
+    "description": "A coonskin hat made of faux fur.  Like real racoon fur, but without the suffering.  Very warm and has the tail hanging loose.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 50
   },
