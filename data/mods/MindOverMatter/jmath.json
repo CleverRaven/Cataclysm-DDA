@@ -61,6 +61,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "learn_new_power_lower_time_bound",
+    "num_args": 1,
+    "return": "(((_0 + 2) * 60) * 60) * 0.8"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_upper_time_bound",
+    "num_args": 1,
+    "return": "(((_0 + 2) * 60) * 60) * 1.2"
+  },
+  {
+    "type": "jmath_function",
     "id": "difficulty_one_contemplation",
     "num_args": 1,
     "return": "_0 * 49417"

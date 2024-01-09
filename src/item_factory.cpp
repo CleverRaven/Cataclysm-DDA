@@ -3150,7 +3150,10 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
         }
     }
 
-    optional( jo, false, "pocket_mods", slot.add_pockets );
+    JsonArray pockets = jo.get_array( "pocket_mods" );
+    if( !pockets.empty() ) {
+        optional( jo, false, "pocket_mods", slot.add_pockets );
+    }
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
@@ -3883,6 +3886,8 @@ std::string enum_to_string<link_state>( link_state data )
             return "no_link";
         case link_state::needs_reeling:
             return "needs_reeling";
+        case link_state::automatic:
+            return "automatic";
         case link_state::vehicle_port:
             return "vehicle_port";
         case link_state::vehicle_battery:

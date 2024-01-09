@@ -509,14 +509,6 @@
     "components": [ [ [ "paper", 3 ] ] ]
   },
   {
-    "result": "sandbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "scrap_cotton",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

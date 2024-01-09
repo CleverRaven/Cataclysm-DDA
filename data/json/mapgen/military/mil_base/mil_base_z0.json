@@ -1162,7 +1162,7 @@
           "chance": 50,
           "repeat": [ 20, 60 ]
         },
-        { "group": "aspirin_bottle_plastic_pill_painkiller_20", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
+        { "group": "bottle_otc_painkiller_20", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
         {
           "group": "oxycodone_bottle_plastic_pill_prescription_10",
           "x": 28,

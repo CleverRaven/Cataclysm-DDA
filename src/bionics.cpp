@@ -132,7 +132,9 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -972,7 +974,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_tetanus, effect_poison, effect_badpoison,
-                effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
+                effect_pkill1_generic, effect_pkill1_acetaminophen, effect_pkill1_nsaid, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
@@ -1200,33 +1202,33 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
             for( const item *cable : cables ) {
-                if( !cable->link || cable->link->has_no_links() ) {
+                if( cable->has_no_links() ) {
                     free_cable = true;
-                } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to your CBM but it also has to be connected to a power source." ) );
-                } else if( cable->link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::solarpack, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                } else if( cable->link->has_states( link_state::ups, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::ups, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
-                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
-                           cable->link->has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
+                } else if( cable->link_has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
+                           cable->link_has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
-                } else if( cable->link->s_state == link_state::solarpack ||
-                           cable->link->s_state == link_state::ups ) {
+                } else if( cable->link_has_states( link_state::solarpack, link_state::automatic ) ||
+                           cable->link_has_states( link_state::ups, link_state::automatic ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
-                } else if( cable->link->t_state == link_state::vehicle_battery ||
-                           cable->link->t_state == link_state::vehicle_port ) {
+                } else if( cable->link_has_states( link_state::automatic, link_state::vehicle_battery ) ||
+                           cable->link_has_states( link_state::automatic, link_state::vehicle_port ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
@@ -3422,7 +3424,7 @@ std::vector<item *> Character::get_cable_ups()
     std::vector<item *> stored_fuels;
 
     int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
+        return it.link_has_states( link_state::ups, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return stored_fuels;
@@ -3454,7 +3456,7 @@ std::vector<item *> Character::get_cable_solar()
     std::vector<item *> solar_sources;
 
     int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
+        return it.link_has_states( link_state::solarpack, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return solar_sources;
@@ -3485,9 +3487,9 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 
     std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
     []( const item & it ) {
-        return it.link && it.link->has_state( link_state::bio_cable ) &&
-               ( it.link->has_state( link_state::vehicle_battery ) ||
-                 it.link->has_state( link_state::vehicle_port ) );
+        return it.link_has_state( link_state::bio_cable ) &&
+               ( it.link_has_state( link_state::vehicle_battery ) ||
+                 it.link_has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3497,10 +3499,10 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        if( cable->link->t_veh_safe ) {
-            remote_vehicles.emplace_back( cable->link->t_veh_safe.get() );
+        if( cable->link().t_veh ) {
+            remote_vehicles.emplace_back( cable->link().t_veh.get() );
         } else {
-            const optional_vpart_position vp = here.veh_at( cable->link->t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( cable->link().t_abs_pos );
             if( vp ) {
                 remote_vehicles.emplace_back( &vp->vehicle() );
             }

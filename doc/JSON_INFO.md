@@ -686,7 +686,8 @@ First is when snippet contain multiple fields, mainly `text` and `id` - in this 
       "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
       "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
       "text": "flatbread",                            // Text, that would be used if this snippet category is called
-      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+      "effect_on_examine": [ "effect_on_condition" ], // Examining of this snippet will call effect_on_condition
+      "weight": 10                                    // Weight of this specific snippet, in case of this group the probability to get this one would be 10/13 ~= 76%
     },
     { "id": "bread2", "text": "yeast bread" },
     { "id": "bread3", "text": "cornbread" },
@@ -3035,7 +3036,7 @@ See [MUTATIONS.md](MUTATIONS.md)
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
     "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
-    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
+    "sound_threshold": [5,10] // Optional.  Minimum volume of sound that will trigger this trap.  Defaults to [0,0] (Will not trigger from sound).  If two values [min,max] are provided, trap triggers on a linearly increasing chance depending on volume, from 25% (min) to 100%(max).  To always trigger at some noise, say noise level N, specify as [N,N].  IMPORTANT: Not all traps work with this system.  Make sure to double check and test.
 ```
 
 ### Vehicle Groups

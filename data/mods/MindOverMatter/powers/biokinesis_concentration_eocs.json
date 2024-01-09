@@ -18,7 +18,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 20 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('biokin_overcome_pain') * 75 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -75,7 +75,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 20 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('spell: biokin_overcome_pain') * 75 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -102,7 +102,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 30) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -135,7 +135,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('biokin_physical_enhance') * 30) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -289,7 +289,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -364,7 +364,7 @@
           },
           {
             "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 90 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -457,7 +457,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 30) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -490,7 +490,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('biokin_reflex_enhance') * 30) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('biokin_reflex_enhance') * 90) + 450) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

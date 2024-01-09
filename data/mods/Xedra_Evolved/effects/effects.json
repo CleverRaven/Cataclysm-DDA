@@ -580,7 +580,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": { "math": [ "u_spell_level('spell_melee_damage') * 2" ] } },
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_spell_level('spell_melee_damage') * -2" ] } },
           { "value": "BONUS_DODGE", "add": { "math": [ "u_spell_level('spell_melee_damage') / 10" ] } },
           { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_spell_level('spell_melee_damage') / 20" ] } }
         ]
@@ -754,6 +754,32 @@
     "id": "arvore_perennial_rebirth_cooldown",
     "name": [ "Reborn" ],
     "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_poison_pollen",
+    "name": [ "Night-Blooming Flower" ],
+    "desc": [ "You are emitting a pollen that will weaken and disorient your enemies." ],
+    "rating": "good",
+    "removes_effects": [ "effect_pollen_arvore_weaken" ],
+    "enchantments": [ { "emitter": "emit_arvore_poison_pollen" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pollen_arvore_weaken",
+    "name": [ "Weakening Pollen" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "You cough out pollen.", 1 ] ],
+    "resist_traits": [ "ARVORE_POLLEN_IMMUNE" ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": { "speed_mod": [ -10 ], "hit_mod": [ -2 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

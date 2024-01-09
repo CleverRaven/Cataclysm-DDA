@@ -894,6 +894,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seasoned_scrambled_eggs",
+    "name": { "str_sp": "seasoned scrambled eggs" },
+    "copy-from": "scrambled_eggs",
+    "fun": 5,
+    "description": "Tasty scrambled eggs, with seasoning to taste!"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "boiled_egg",
     "name": { "str": "boiled egg" },
     "copy-from": "egg_chicken",
@@ -938,6 +946,14 @@
     "price_postapoc": 120,
     "material": [ "egg" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seasoned_fried_eggs",
+    "name": { "str_sp": "seasoned fried eggs" },
+    "copy-from": "fried_eggs",
+    "fun": 5,
+    "description": "A tasty fried egg, with seasoning added to taste!"
   },
   {
     "type": "COMESTIBLE",

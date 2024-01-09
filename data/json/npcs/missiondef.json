@@ -331,11 +331,7 @@
       "effect": [
         "stop_following",
         {
-          "weighted_list_eocs": [
-            [ { "id": "get_katana" }, { "const": 5 } ],
-            [ { "id": "get_deagle_44" }, { "const": 10 } ],
-            [ { "id": "get_m4_carbine" }, { "const": 6 } ]
-          ]
+          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
         }
       ]
     },

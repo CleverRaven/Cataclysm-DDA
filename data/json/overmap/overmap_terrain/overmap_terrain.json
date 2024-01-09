@@ -715,19 +715,22 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ws_giant_sinkhole_1",
-    "name": "giant sinkhole",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "abstract": "generic_giant_sinkhole",
     "sym": "O",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_1",
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_2",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "giant sinkhole base",
-    "sym": "O",
-    "color": "brown"
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole base"
   },
   {
     "type": "overmap_terrain",

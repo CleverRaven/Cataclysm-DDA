@@ -1,5 +1,17 @@
 [
   {
+    "id": "m4_cqbr",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item": "modular_m4_carbine",
+        "variant": "m4_cqbr",
+        "contents-item": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
+      }
+    ]
+  },
+  {
     "id": "modular_ar15",
     "type": "item_group",
     "subtype": "collection",
@@ -148,5 +160,23 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "cz600", "contents-item": "retool_cz600_762" } ]
+  },
+  {
+    "id": "modular_deagle_357",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_357" } ]
+  },
+  {
+    "id": "modular_deagle_44",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_44" } ]
+  },
+  {
+    "id": "modular_deagle_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_50" } ]
   }
 ]

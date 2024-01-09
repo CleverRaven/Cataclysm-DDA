@@ -159,11 +159,13 @@
         "description": "A standard capacity magazine for use with the H&K USP handgun."
       }
     ],
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 5900,
-    "price_postapoc": 100,
+    "weight": "99 g",
+    "volume": "116 ml",
+    "longest_side": "130 mm",
+    "price": "49 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
+    "//": "length 5.13 in, width 1.38 in, height 0.978 in, raw 113.46 ml, trim 2.5%",
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],

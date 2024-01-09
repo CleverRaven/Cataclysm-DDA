@@ -293,6 +293,46 @@
                   { "item": "colamdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
+              },
+              {
+                "collection": [
+                  { "item": "zerocola", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerocola", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeroorange", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeroorange", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zerotropical", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerotropical", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeromdew", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeromdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
+                ],
+                "prob": 5
               }
             ],
             "prob": 70
@@ -314,7 +354,12 @@
               { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
               { "item": "orangesoda", "count": [ 1, 6 ], "prob": 20 },
               { "item": "crispycran", "count": [ 1, 6 ], "prob": 20 },
-              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 }
+              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zerocola", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zeroorange", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zerotropical", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zeromdew", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "foodplace_zero_drink", "count": [ 1, 6 ], "prob": 10 }
             ],
             "prob": 15
           },
@@ -325,7 +370,12 @@
               { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
+              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerocola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeroorange", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerotropical", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeromdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "foodplace_zero_drink", "charges-min": 1, "prob": 4, "container-item": "bottle_twoliter" }
             ],
             "prob": 15
           }
@@ -531,6 +581,46 @@
                   { "item": "colamdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
+              },
+              {
+                "collection": [
+                  { "item": "zerocola", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerocola", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeroorange", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeroorange", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zerotropical", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerotropical", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeromdew", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeromdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
+                ],
+                "prob": 5
               }
             ],
             "prob": 70
@@ -548,7 +638,12 @@
               { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
               { "item": "orangesoda", "count": [ 1, 6 ], "prob": 20 },
               { "item": "crispycran", "count": [ 1, 6 ], "prob": 20 },
-              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 }
+              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zerocola", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zeroorange", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zerotropical", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zeromdew", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "foodplace_zero_drink", "count": [ 1, 6 ], "prob": 5 }
             ],
             "prob": 15
           },
@@ -559,7 +654,12 @@
               { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
+              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerocola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeroorange", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerotropical", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeromdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "foodplace_zero_drink", "charges-min": 1, "prob": 4, "container-item": "bottle_twoliter" }
             ],
             "prob": 15
           }
@@ -985,6 +1085,46 @@
                   { "item": "colamdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
                 "prob": 35
+              },
+              {
+                "collection": [
+                  { "item": "zerocola", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerocola", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeroorange", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeroorange", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zerotropical", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zerotropical", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "zeromdew", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  { "item": "zeromdew", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
+                  { "item": "foodplace_zero_drink", "charges": 1, "container-item": "bottle_plastic", "prob": 50, "sealed": false },
+                  {
+                    "item": "foodplace_zero_drink",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
+                ],
+                "prob": 5
               }
             ],
             "prob": 20
@@ -1007,7 +1147,12 @@
               { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
               { "item": "orangesoda", "count": [ 1, 6 ], "prob": 20 },
               { "item": "crispycran", "count": [ 1, 6 ], "prob": 20 },
-              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 }
+              { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 },
+              { "item": "zerocola", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zeroorange", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zerotropical", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "zeromdew", "count": [ 1, 6 ], "prob": 20 },
+              { "item": "foodplace_zero_drink", "count": [ 1, 6 ], "prob": 5 }
             ],
             "prob": 15
           },
@@ -1018,7 +1163,12 @@
               { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
+              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerocola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeroorange", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zerotropical", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "zeromdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "foodplace_zero_drink", "charges-min": 1, "prob": 4, "container-item": "bottle_twoliter" }
             ],
             "prob": 15
           }

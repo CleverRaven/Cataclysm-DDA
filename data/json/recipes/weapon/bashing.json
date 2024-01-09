@@ -12,7 +12,7 @@
     "using": [ [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -239,7 +239,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 6 ], [ "bronze_nail", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,7 +265,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ], [ "bronze_nail", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -317,7 +317,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ], [ "bronze_nail", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -444,7 +444,7 @@
     "using": [ [ "cordage", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 16 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nail", 16 ], [ "bronze_nail", 16 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xl_knuckle_nail",
@@ -453,7 +453,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 18 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nail", 18 ], [ "bronze_nail", 18 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xs_knuckle_nail",
@@ -462,7 +462,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 14 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nail", 14 ], [ "bronze_nail", 14 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -778,7 +778,7 @@
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 1 ], [ "pipe_fittings", 1 ] ],
-      [ [ "nail", 2 ] ],
+      [ [ "nail", 2 ], [ "bronze_nail", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -835,7 +835,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "mace_simple", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "mace_simple", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",

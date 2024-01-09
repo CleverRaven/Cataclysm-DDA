@@ -172,6 +172,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_vengeful",
+    "name": { "str": "Vengeful" },
+    "points": 0,
+    "description": "Oh, they're not getting away with THAT.\n\nYou do +15% damage for two turns after you're hit.",
+    "category": [ "perk" ],
+    "enchantments": [ "perk_ench_vengeful" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
@@ -214,6 +223,23 @@
     "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_quick_recovery",
+    "name": { "str": "Quick Recovery" },
+    "points": 0,
+    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_sleepy",
+    "name": { "str": "Easy Sleeper" },
+    "points": 0,
+    "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.'",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
   },
   {
     "type": "mutation",

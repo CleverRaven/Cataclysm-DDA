@@ -16,7 +16,7 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_Location1w", { "const": 15 } ],
+          [ "EOC_Location1w", 15 ],
           [ "EOC_Location2w", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
           [ "EOC_Location3w", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
         ]
@@ -30,7 +30,7 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_Location1e", { "const": 15 } ],
+          [ "EOC_Location1e", 15 ],
           [ "EOC_Location2e", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
           [ "EOC_Location3e", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
         ]
@@ -44,7 +44,7 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_Location1m", { "const": 15 } ],
+          [ "EOC_Location1m", 15 ],
           [ "EOC_Location2m", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
           [ "EOC_Location3m", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
         ]
@@ -71,13 +71,13 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_slaughtermission1", { "const": 10 } ],
-          [ "EOC_slaughtermission2", { "const": 20 } ],
+          [ "EOC_slaughtermission1", 10 ],
+          [ "EOC_slaughtermission2", 20 ],
           [ "EOC_slaughtermission3", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
           [ "EOC_slaughtermission4", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
           [ "EOC_slaughtermission5", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_slaughtermission6", { "const": 5 } ],
-          [ "EOC_slaughtermission7", { "const": 5 } ]
+          [ "EOC_slaughtermission6", 5 ],
+          [ "EOC_slaughtermission7", 5 ]
         ]
       }
     ]
@@ -95,11 +95,11 @@
       },
       {
         "weighted_list_eocs": [
-          [ "EOC_bonusmission_1", { "const": 45 } ],
-          [ "EOC_bonusmission_2", { "const": 15 } ],
-          [ "EOC_bonusmission_3", { "const": 10 } ],
-          [ "EOC_bonusmission_4", { "const": 15 } ],
-          [ "EOC_bonusmission_5", { "const": 10 } ],
+          [ "EOC_bonusmission_1", 45 ],
+          [ "EOC_bonusmission_2", 15 ],
+          [ "EOC_bonusmission_3", 10 ],
+          [ "EOC_bonusmission_4", 15 ],
+          [ "EOC_bonusmission_5", 10 ],
           [ "EOC_bonusmission_6", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
           [ "EOC_bonusmission_7", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
           [ "EOC_bonusmission_8", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],

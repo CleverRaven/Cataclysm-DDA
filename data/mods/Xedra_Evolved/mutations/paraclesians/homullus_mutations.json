@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to find a goblin fruit when in the remnants of civilization.",
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_cultivate_goblin_fruit", 1 ] ]
+  }
+]

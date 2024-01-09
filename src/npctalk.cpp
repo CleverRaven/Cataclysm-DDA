@@ -108,8 +108,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
-static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const skill_id skill_speech( "speech" );
@@ -3072,8 +3070,7 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                       suppress_message, flags_str, add_talker, target_location, force_equip );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
-                                 itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( count, item_name );
 }
 
 void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view member )
@@ -3510,7 +3507,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, std::string
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
                 if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
-                    ( !passable_only || here.passable( target_pos ) ) &&
+                    ( !passable_only || here.passable( here.getlocal( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -3896,7 +3893,7 @@ void talk_effect_fun_t::set_add_mission( const JsonObject &jo, std::string_view 
     };
 }
 
-const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
+const talk_effect_fun_t::likely_rewards_t &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }
@@ -4869,6 +4866,38 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, std::string_
     };
 }
 
+
+static Character *get_character_from_id( const std::string &id_str, game *g )
+{
+    // Return the character with character_id, return nullptr if counldn't find the character with character_id
+    Character *temp_guy = nullptr;
+
+    character_id char_id;
+    try {
+        char_id = character_id( std::stoi( id_str ) );
+    } catch( const std::exception & ) {
+        return nullptr;
+    }
+
+    // Check Avatar
+    if( char_id == get_avatar().getID() ) {
+        return &get_avatar();
+    }
+
+    // Check visible NPC
+    for( npc *guy : g->get_npcs_if( [char_id]( const npc & guy ) {
+    return guy.getID() == char_id;
+    } ) ) {
+        temp_guy = guy;
+    }
+
+    // Check NPC in the OverMapBuffer
+    if( temp_guy == nullptr ) {
+        temp_guy = g->find_npc( char_id );
+    }
+    return temp_guy;
+}
+
 void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
@@ -4888,14 +4917,82 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view
         target_var = read_var_info( jo.get_object( "beta_loc" ) );
     }
 
-    function = [eoc, context, target_var]( dialogue const & d ) {
+    str_or_var alpha_var;
+    str_or_var beta_var;
+    bool is_alpha_loc = false;
+    bool is_beta_loc = false;
+    bool has_alpha_var = true;
+    bool has_beta_var = true;
+
+    if( jo.has_member( "beta_loc" ) ) {
+        beta_var = get_str_or_var( jo.get_member( "beta_loc" ), "beta_loc", false, "npc" );
+        is_beta_loc = true;
+    } else if( jo.has_member( "beta_talker" ) ) {
+        beta_var = get_str_or_var( jo.get_member( "beta_talker" ), "beta_talker", false, "npc" );
+    } else {
+        beta_var.str_val = "npc";
+        has_beta_var = false;
+    }
+
+    if( jo.has_member( "alpha_loc" ) ) {
+        alpha_var = get_str_or_var( jo.get_member( "alpha_loc" ), "alpha_loc", has_beta_var,
+                                    "u" ); // alpha_talker is mandatory if beta_talker exists
+        is_alpha_loc = true;
+    } else if( jo.has_member( "alpha_talker" ) ) {
+        alpha_var = get_str_or_var( jo.get_member( "alpha_talker" ), "alpha_talker", false, "u" );
+    } else {
+        alpha_var.str_val = "u";
+        has_alpha_var = false;
+    }
+
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+
+    function = [eoc, context, alpha_var, beta_var, is_alpha_loc, is_beta_loc, has_alpha_var,
+         has_beta_var, false_eocs]( dialogue const & d ) {
         dialogue newDialog( d );
 
-        tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
-        Creature *c = get_creature_tracker().creature_at( target_location );
-        if( c ) {
-            newDialog = dialogue( d.actor( false )->clone(), get_talker_for( c ), d.get_conditionals(),
-                                  d.get_context() );
+        if( has_alpha_var || has_beta_var ) {
+            bool alpha_invalid = false;// whether alpha talker exists in the game
+            bool beta_invalid = false;// whether beta talker exists in the game
+            auto get_talker = [&d]( const str_or_var & var, bool is_loc, bool & invalid ) {
+                Creature *guy;
+                std::string str = var.evaluate( d );
+                if( is_loc ) {
+                    tripoint_abs_ms pos = tripoint_abs_ms( tripoint::from_string( str ) );
+                    guy = get_creature_tracker().creature_at( pos );
+                    if( guy == nullptr ) {
+                        invalid = true;
+                    }
+                } else if( str.empty() ) {
+                    guy = nullptr;
+                } else if( str == "u" ) {
+                    guy = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                } else if( str == "npc" ) {
+                    guy = d.has_beta ? d.actor( true )->get_character() : nullptr;
+                } else if( str == "avatar" ) {
+                    guy = &get_avatar();
+                } else {
+                    guy = get_character_from_id( str, g.get() );
+                    if( guy == nullptr ) {
+                        invalid = true;
+                    }
+                }
+                return guy;
+            };
+
+            Creature *alpha_guy = get_talker( alpha_var, is_alpha_loc, alpha_invalid );
+            Creature *beta_guy = get_talker( beta_var, is_beta_loc, beta_invalid );
+            if( alpha_invalid || beta_invalid || ( alpha_guy == nullptr && beta_guy == nullptr ) ) {
+                run_eoc_vector( false_eocs, d );
+                return;
+            } else {
+                newDialog = dialogue(
+                                ( alpha_guy == nullptr ) ? nullptr : get_talker_for( alpha_guy ),
+                                ( beta_guy == nullptr ) ? nullptr : get_talker_for( beta_guy ),
+                                d.get_conditionals(),
+                                d.get_context()
+                            );
+            }
         }
         for( const auto &val : context ) {
             newDialog.set_value( val.first, val.second.evaluate( d ) );
@@ -5175,6 +5272,17 @@ void talk_effect_fun_t::set_map_run_item_eocs( const JsonObject &jo, std::string
     };
 }
 
+void talk_effect_fun_t::set_set_talker( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+    var_type type = var.type;
+    std::string var_name = var.name;
+    function = [is_npc, var, type, var_name]( dialogue & d ) {
+        int id = d.actor( is_npc )->getID().get_value();
+        write_var_value( type, var_name, d.actor( type == var_type::npc ), &d, id );
+    };
+}
+
 void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, std::string_view member )
 {
     std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member );
@@ -5259,9 +5367,17 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     std::vector<std::pair<effect_on_condition_id, std::function<double( dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
-        JsonObject weight = ja.next_object();
-        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                conditional_t::get_get_dbl( weight ) );
+        if( ja.test_int() ) {
+            int weight = ja.next_int();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc,
+            "" ), [weight]( dialogue const & ) {
+                return weight;
+            } );
+        } else {
+            JsonObject weight = ja.next_object();
+            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                    conditional_t::get_get_dbl( weight ) );
+        }
     }
     function = [eoc_pairs]( dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
@@ -5718,7 +5834,8 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, std::string_view me
         int hallucination_count = dov_hallucination_count.evaluate( d );
         string_id<npc_template> cur_npc_class( sov_npc_class.evaluate( d ) );
         std::string cur_unique_id = unique_id.evaluate( d );
-        std::vector<trait_id> cur_traits( traits.size() );
+        std::vector<trait_id> cur_traits;
+        cur_traits.reserve( traits.size() ); // Reserve space for all elements in traits
         for( const str_or_var &cur_trait : traits ) {
             cur_traits.emplace_back( cur_trait.evaluate( d ) );
         }
@@ -6051,6 +6168,7 @@ parsers = {
     { "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
     { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
+    { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker}
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )

@@ -13,6 +13,7 @@
 #include "dialogue.h"
 #include "type_id.h"
 
+class cata_path;
 class JsonArray;
 class JsonObject;
 
@@ -36,6 +37,10 @@ class snippet_library
          * stored in snippets_by_id.
          */
         void add_snippet_from_json( const std::string &category, const JsonObject &jo );
+        /**
+         * Load name list from name.h/cpp
+         */
+        void reload_names( const cata_path &path );
         void clear_snippets();
 
         bool has_category( const std::string &category ) const;
@@ -121,9 +126,21 @@ class snippet_library
         std::unordered_map<snippet_id, translation> name_by_id;
         std::unordered_map<snippet_id, talk_effect_t> EOC_by_id;
 
+        struct weighted_id {
+            // Accumulated weight that increases in the direction of the vector, used for randomization
+            uint64_t weight_acc;
+            snippet_id value;
+        };
+
+        struct weighted_translation {
+            // Accumulated weight that increases in the direction of the vector, used for randomization
+            uint64_t weight_acc;
+            translation value;
+        };
+
         struct category_snippets {
-            std::vector<snippet_id> ids;
-            std::vector<translation> no_id;
+            std::vector<weighted_id> ids;
+            std::vector<weighted_translation> no_id;
         };
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 

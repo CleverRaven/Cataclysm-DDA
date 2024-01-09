@@ -286,42 +286,7 @@
       [ "stock", 1 ]
     ],
     "flags": [ "NO_TURRET" ],
-    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag",
-          "450_ar15mag",
-          "762_ar15mag_5rd",
-          "762_ar15mag_10rd",
-          "762_ar15mag_20rd",
-          "762_ar15mag_30rd",
-          "survivor223mag"
-        ]
-      }
-    ]
+    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "id": "scar_l",
@@ -515,6 +480,12 @@
         "name": { "str": "M4A1" },
         "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
         "ascii_picture": "modular_m4a1"
+      },
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "Mk 18 CQBR" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
+        "weight": 1
       }
     ],
     "to_hit": -1,
@@ -531,109 +502,6 @@
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag",
-          "450_ar15mag",
-          "762_ar15mag_5rd",
-          "762_ar15mag_10rd",
-          "762_ar15mag_20rd",
-          "762_ar15mag_30rd",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "m4_cqbr",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "copy-from": "modular_m4_carbine",
-    "name": { "str": "special duty carbine" },
-    "description": "A rugged military carbine that has been outfitted with various accessories, such as an adjustable buttstock, suppressor, and shortened barrel, to improve its close-quarter battle effectiveness.  Most commonly deployed with special forces units and marines before the Cataclysm, its handy size lends itself well to room clearing and fighting within tight spaces.",
-    "weight": "1316 g",
-    "volume": "1650 ml",
-    "longest_side": "486 mm",
-    "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
-    "price": 240000,
-    "price_postapoc": 5000,
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "m4_cqbr",
-        "name": { "str": "Mk 18 CQBR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
-      }
-    ],
-    "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "NULL" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "default_mods": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
-    "flags": [ "NO_TURRET" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag",
-          "450_ar15mag",
-          "762_ar15mag_5rd",
-          "762_ar15mag_10rd",
-          "762_ar15mag_20rd",
-          "762_ar15mag_30rd",
-          "survivor223mag"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -661,7 +529,7 @@
     "color": "dark_gray",
     "material": [ "aluminum", "steel", "plastic" ],
     "ammo": [ "NULL" ],
-    "default_mods": [ "retool_ar15_223rem_extended" ],
+    "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
     "dispersion": 150,
     "durability": 7,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
@@ -669,41 +537,6 @@
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag",
-          "450_ar15mag",
-          "762_ar15mag_5rd",
-          "762_ar15mag_10rd",
-          "762_ar15mag_20rd",
-          "762_ar15mag_30rd",
-          "survivor223mag"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 12 }
   },
   {

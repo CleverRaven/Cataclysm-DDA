@@ -316,6 +316,8 @@ enum class ter_furn_flag : int {
     TFLAG_SMALL_HIDE,
     TFLAG_NO_FLOOR_WATER,
     TFLAG_MUTANT_TREE,
+    TFLAG_SINGLE_SUPPORT,
+    TFLAG_CLIMB_ADJACENT,
 
     NUM_TFLAG_FLAGS
 };
@@ -333,7 +335,6 @@ struct connect_group {
         std::set<ter_furn_flag> connects_to_flags;
         std::set<ter_furn_flag> rotates_to_flags;
 
-        bool was_loaded;
         static void load( const JsonObject &jo );
         static void reset();
 };

@@ -7,11 +7,21 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "water_clean", "wristwatch", "matrix_crystal_coruscating" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "matrix_crystal_coruscating" },
+          { "group": "charged_smart_phone" },
+          { "group": "charged_matches" }
+        ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -19,7 +29,7 @@
     "id": "psi_biokinetic_athlete",
     "name": "Star Athlete",
     "description": "You were always good at athletics.  People praised your effort and hard work, but the truth was you barely needed to practice.  It all just came naturally to you, as naturally as breathing.  That kept you safe during the Cataclysm--you outran the dead and worse things that chased you and made it out of the cities, and they're certainly the thing that will keep you going, especially since now, you're stronger and faster than you've ever been.",
-    "points": 4,
+    "points": 10,
     "skills": [
       { "level": 3, "name": "throw" },
       { "level": 7, "name": "swimming" },
@@ -28,18 +38,36 @@
     ],
     "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
     "spells": [
-      { "id": "biokin_physical_enhance", "level": 4 },
-      { "id": "biokin_overcome_pain", "level": 2 },
+      { "id": "biokin_physical_enhance", "level": 9 },
+      { "id": "biokin_overcome_pain", "level": 7 },
+      { "id": "biokin_breathe_skin", "level": 4 },
+      { "id": "biokin_dash", "level": 8 },
       { "id": "biokin_flexibility", "level": 3 },
-      { "id": "biokin_reflex_enhance", "level": 1 }
+      { "id": "biokin_adrenaline", "level": 2 }
+    ],
+    "recipes": [
+      "practice_biokin_overcome_pain",
+      "practice_biokin_physical_enhance",
+      "practice_biokin_breathe_skin",
+      "practice_biokin_dash",
+      "practice_biokin_flexibility",
+      "practice_biokin_adrenaline"
     ],
     "items": {
       "both": {
-        "items": [ "jacket_light", "jeans", "socks", "cleats", "sports_drink" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jacket_light" },
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "cleats" },
+          { "item": "sports_drink" },
+          { "item": "matrix_crystal_drained" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -58,11 +86,20 @@
     ],
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "robe", "lowtops", "newest_newspaper", "weeks_old_newspaper", "months_old_newspaper" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "robe" },
+          { "item": "lowtops" },
+          { "item": "newest_newspaper" },
+          { "item": "weeks_old_newspaper" },
+          { "item": "months_old_newspaper" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -70,7 +107,7 @@
     "id": "psi_electrokinetic_engineer",
     "name": "Electrical Engineer",
     "description": "You followed your parents' wishes and became an engineer, and to your surprise you were extremely good at it.  It was like the electronics you built just spoke to you, like you could see inside the wires and circuits, and then when the sky broke that literally came true.",
-    "points": 8,
+    "points": 12,
     "skills": [
       { "level": 4, "name": "mechanics" },
       { "level": 8, "name": "electronics" },
@@ -80,24 +117,40 @@
     ],
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
     "spells": [
-      { "id": "electrokinetic_see_electric", "level": 6 },
-      { "id": "electrokinetic_shock_touch", "level": 2 },
-      { "id": "electrokinetic_zap_enemies", "level": 4 },
-      { "id": "electrokinetic_personal_battery", "level": 4 }
+      { "id": "electrokinetic_see_electric", "level": 10 },
+      { "id": "electrokinetic_shock_touch", "level": 9 },
+      { "id": "electrokinetic_zap_enemies", "level": 9 },
+      { "id": "electrokinetic_personal_battery", "level": 10 },
+      { "id": "electrokinetic_reduce_pain", "level": 5 },
+      { "id": "electrokinetic_recharge_vehicle", "level": 7 }
+    ],
+    "recipes": [
+      "practice_electrokinetic_see_electric",
+      "practice_electrokinetic_shock_touch",
+      "practice_electrokinetic_zap_enemies",
+      "practice_electrokinetic_personal_battery",
+      "practice_electrokinetic_reduce_pain",
+      "practice_electrokinetic_recharge_vehicle"
     ],
     "proficiencies": [ "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
     "items": {
       "both": {
-        "items": [ "socks", "technician_coveralls", "boots", "wristwatch", "mbag", "water_clean" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "technician_coveralls" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "water_clean" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" },
           { "group": "charged_electrical_measuring" },
           { "group": "charged_laptop" },
           { "group": "charged_cigs" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -121,16 +174,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "sneakers" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "jeans" },
+          { "item": "sneakers" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -149,16 +204,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "sneakers" ],
         "entries": [
+          { "item": "socks" },
+          { "item": "jeans" },
+          { "item": "sneakers" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "lighter", "charges": 100 },
           { "item": "lighter", "charges": 100 },
           { "group": "charged_matches" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -166,7 +223,7 @@
     "id": "psi_telekinetic_testsubject",
     "name": "Test Subject, Project ONYX LIGHTNING",
     "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
-    "points": 5,
+    "points": 13,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -174,21 +231,37 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
     "spells": [
-      { "id": "telekinetic_push", "level": 4 },
-      { "id": "telekinetic_pull", "level": 3 },
-      { "id": "telekinetic_momentum", "level": 2 },
-      { "id": "telekinetic_wave", "level": 2 }
+      { "id": "telekinetic_push", "level": 5 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 3 },
+      { "id": "telekinetic_slowfall", "level": 2 },
+      { "id": "telekinetic_momentum", "level": 6 }
+    ],
+    "recipes": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall"
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "gloves_tactical", "army_top", "boots_combat", "socks" ],
-        "entries": [ { "item": "water_clean", "container-item": "canteen" }, { "item": "knife_combat", "container-item": "sheath" } ]
+        "entries": [
+          { "item": "pants_army" },
+          { "item": "gloves_tactical" },
+          { "item": "army_top" },
+          { "item": "boots_combat" },
+          { "item": "socks" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "matrix_crystal_drained" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -208,15 +281,18 @@
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
       "both": {
-        "items": [ "pants", "dress_shirt", "socks", "dress_shoes" ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
           { "item": "water_clean", "container-item": "canteen" },
           { "group": "charged_smart_phone" },
           { "item": "lighter", "charges": 100 }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -224,32 +300,56 @@
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
     "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
-    "points": 6,
+    "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
       { "level": 2, "name": "gun" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "survival" },
       { "level": 2, "name": "pistol" },
-      { "level": 5, "name": "metaphysics" }
+      { "level": 7, "name": "metaphysics" }
     ],
-    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT", "FIFTH_SUN_PEOPLE" ],
     "spells": [
-      { "id": "teleport_blink", "level": 8 },
-      { "id": "teleport_slow", "level": 1 },
-      { "id": "teleport_transpose", "level": 4 },
-      { "id": "teleport_phase", "level": 5 },
-      { "id": "teleport_farstep", "level": 3 }
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
     ],
-    "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_teleport_blink",
+      "practice_teleport_slow",
+      "practice_teleport_displacement",
+      "practice_teleport_phase",
+      "practice_teleport_stride",
+      "practice_teleport_farstep"
+    ],
+    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
-        "items": [ "wristwatch", "pants", "dress_shirt", "socks", "dress_shoes", "officer_uniform", "beret", "holster" ],
         "entries": [
-          { "item": "mom_fusion_pistol", "ammo-item": "mom_fusion_ammo", "charges": 40, "contents-item": [ "mom_fusion_mag" ] },
+          { "item": "wristwatch" },
+          { "item": "itzcuauhtli_pants" },
+          { "item": "itzcuauhtli_tunic" },
+          { "item": "socks" },
+          { "item": "itzcuauhtli_boots" },
+          { "item": "itzcuauhtli_cape" },
+          { "item": "itzcuauhtli_hat" },
+          { "item": "itzcuauhtli_holster" },
+          { "item": "matrix_crystal_teleportation" },
+          {
+            "item": "mom_fusion_pistol",
+            "ammo-item": "mom_fusion_ammo",
+            "charges": 40,
+            "contents-item": [ "mom_fusion_mag" ]
+          },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -268,11 +368,21 @@
     ],
     "items": {
       "both": {
-        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "flyer", "flyer", "flyer", "holy_symbol" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "wristwatch" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "holy_symbol" },
+          { "group": "charged_smart_phone" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
