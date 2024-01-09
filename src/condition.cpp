@@ -75,10 +75,20 @@ struct deferred_math {
 };
 
 struct condition_parser {
-    using f_t = void ( conditional_t::* )( const JsonObject &, std::string_view );
-    using f_t_beta = void ( conditional_t::* )( const JsonObject &, std::string_view, bool );
-    using f_t_simple = void ( conditional_t::* )();
-    using f_t_beta_simple = void ( conditional_t::* )( bool );
+    using condition_func = conditional_t::func;
+    using f_t = condition_func (*) ( const JsonObject &, std::string_view );
+    using f_t_beta = condition_func (*) ( const JsonObject &, std::string_view, bool );
+    using f_t_simple = condition_func (*) ();
+    using f_t_beta_simple = condition_func (*) ( bool );
+
+    bool has_beta = false;
+    std::string_view key_alpha;
+    std::string_view key_beta;
+    jarg arg;
+    f_t f;
+    f_t_beta f_beta;
+    f_t_simple f_simple;
+    f_t_beta_simple f_beta_simple;
 
     condition_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
         arg( arg_ ), f( f_ ) {}
@@ -103,15 +113,6 @@ struct condition_parser {
         }
         return false;
     }
-
-    bool has_beta = false;
-    std::string_view key_alpha;
-    std::string_view key_beta;
-    jarg arg;
-    f_t f;
-    f_t_beta f_beta;
-    f_t_simple f_simple;
-    f_t_beta_simple f_beta_simple;
 };
 
 std::queue<deferred_math> &get_deferred_math()
@@ -126,7 +127,7 @@ std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
     return get_deferred_math().back().exp;
 }
 
-} // namespace
+}  // namespace
 
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val )
@@ -443,7 +444,7 @@ static bodypart_id get_bp_from_str( const std::string &ctxt )
 }
 
 void read_condition( const JsonObject &jo, const std::string &member_name,
-                     std::function<bool( dialogue & )> &condition, bool default_val )
+                     conditional_t::func &condition, bool default_val )
 {
     const auto null_function = [default_val]( dialogue const & ) {
         return default_val;
@@ -476,1123 +477,6 @@ void finalize_conditions()
         math.exp->parse( math.str, math.assignment );
         dfr.pop();
     }
-}
-
-void conditional_t::set_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    std::vector<str_or_var> traits_to_check;
-    for( JsonValue jv : jo.get_array( member ) ) {
-        traits_to_check.emplace_back( get_str_or_var( jv, member ) );
-    }
-    condition = [traits_to_check, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        for( const str_or_var &trait : traits_to_check ) {
-            if( actor->has_trait( trait_id( trait.evaluate( d ) ) ) ) {
-                return true;
-            }
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_has_trait( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [trait_to_check, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_visible_trait( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [trait_to_check, is_npc]( dialogue const & d ) {
-        const talker *observer = d.actor( !is_npc );
-        const talker *observed = d.actor( is_npc );
-        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
-                                 observed->get_character() );
-        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
-        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
-        bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
-        return observed_has && is_visible;
-    };
-}
-
-void conditional_t::set_has_martial_art( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [style_to_check, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->knows_martial_art( matype_id( style_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_flag( const JsonObject &jo, std::string_view member,
-                                  bool is_npc )
-{
-    str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [trait_flag_to_check, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        if( json_character_flag( trait_flag_to_check.evaluate( d ) ) == json_flag_MUTATION_THRESHOLD ) {
-            return actor->crossed_threshold();
-        }
-        return actor->has_flag( json_character_flag( trait_flag_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_species( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
-{
-    str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [species_to_check, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        return actor->has_species( species_id( species_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_bodytype( const JsonObject &jo, std::string_view member,
-                                  bool is_npc )
-{
-    str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [bt_to_check, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        return actor->bodytype( bodytype_id( bt_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_activity( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_activity();
-    };
-}
-
-void conditional_t::set_has_proficiency( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [proficiency_to_check, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->knows_proficiency( proficiency_id( proficiency_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_is_riding( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_mounted();
-    };
-}
-
-void conditional_t::set_npc_has_class( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
-{
-    str_or_var class_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [class_to_check, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_myclass( npc_class_id( class_to_check.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_u_has_mission( const JsonObject &jo, std::string_view member )
-{
-    str_or_var u_mission = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [u_mission]( dialogue const & d ) {
-        for( mission *miss_it : get_avatar().get_active_missions() ) {
-            if( miss_it->mission_id() == mission_type_id( u_mission.evaluate( d ) ) ) {
-                return true;
-            }
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_u_monsters_in_direction( const JsonObject &jo,
-        std::string_view member )
-{
-    str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [dir]( dialogue const & d ) {
-        //This string_to_enum function is defined in widget.h. Should it be moved?
-        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
-                d ) ) );
-        int monster_count = get_avatar().get_mon_visible().unique_mons[card_dir].size();
-        return monster_count > 0;
-    };
-}
-
-void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, std::string_view member )
-{
-    str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [dir]( dialogue const & d ) {
-        //This string_to_enum function is defined in widget.h. Should it be moved?
-        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
-                d ) ) );
-        return get_avatar().get_mon_visible().dangerous[card_dir];
-    };
-}
-
-void conditional_t::set_has_strength( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue & d ) {
-        return d.actor( is_npc )->str_cur() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_has_dexterity( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue & d ) {
-        return d.actor( is_npc )->dex_cur() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_has_intelligence( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue & d ) {
-        return d.actor( is_npc )->int_cur() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_has_perception( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue & d ) {
-        return d.actor( is_npc )->per_cur() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_has_hp( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    std::optional<bodypart_id> bp;
-    optional( jo, false, "bodypart", bp );
-    condition = [dov, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_hp( bid ) >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_has_part_temp( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    std::optional<bodypart_id> bp;
-    optional( jo, false, "bodypart", bp );
-    condition = [dov, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp(
-                bid ) ) >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_is_wearing( const JsonObject &jo, std::string_view member,
-                                    bool is_npc )
-{
-    str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [item_id, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_wearing( itype_id( item_id.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_item( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [item_id, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        return actor->charges_of( itype_id( item_id.evaluate( d ) ) ) > 0 ||
-               actor->has_amount( itype_id( item_id.evaluate( d ) ), 1 );
-    };
-}
-
-void conditional_t::set_has_items( const JsonObject &jo, const std::string_view member,
-                                   bool is_npc )
-{
-    JsonObject has_items = jo.get_object( member );
-    if( !has_items.has_member( "item" ) || ( !has_items.has_member( "count" ) &&
-            !has_items.has_member( "charges" ) ) ) {
-        condition = []( dialogue const & ) {
-            return false;
-        };
-    } else {
-        str_or_var item_id = get_str_or_var( has_items.get_member( "item" ), "item", true );
-        dbl_or_var count = get_dbl_or_var( has_items, "count", false );
-        dbl_or_var charges = get_dbl_or_var( has_items, "charges", false );
-        condition = [item_id, count, charges, is_npc]( dialogue & d ) {
-            const talker *actor = d.actor( is_npc );
-            itype_id id = itype_id( item_id.evaluate( d ) );
-            if( charges.evaluate( d ) == 0 && item::count_by_charges( id ) ) {
-                return actor->has_charges( id, count.evaluate( d ), true );
-            }
-            if( charges.evaluate( d ) > 0 && count.evaluate( d ) == 0 ) {
-                return actor->has_charges( id, charges.evaluate( d ), true );
-            }
-            bool has_enough_charges = true;
-            if( charges.evaluate( d ) > 0 ) {
-                has_enough_charges = actor->has_charges( id, charges.evaluate( d ), true );
-            }
-            return has_enough_charges && actor->has_amount( id, count.evaluate( d ) );
-        };
-    }
-}
-
-void conditional_t::set_has_item_with_flag( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [flag, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_item_with_flag( flag_id( flag.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_item_category( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var category_id = get_str_or_var( jo.get_member( member ), member, true );
-    size_t count = 1;
-    if( jo.has_int( "count" ) ) {
-        int tcount = jo.get_int( "count" );
-        if( tcount > 1 && tcount < INT_MAX ) {
-            count = static_cast<size_t>( tcount );
-        }
-    }
-
-    condition = [category_id, count, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        const item_category_id cat_id = item_category_id( category_id.evaluate( d ) );
-        const auto items_with = actor->const_items_with( [cat_id]( const item & it ) {
-            return it.get_category_shallow().get_id() == cat_id;
-        } );
-        return items_with.size() >= count;
-    };
-}
-
-void conditional_t::set_has_bionics( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
-{
-    str_or_var bionics_id = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [bionics_id, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        if( bionics_id.evaluate( d ) == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->has_max_power();
-        }
-        return actor->has_bionic( bionic_id( bionics_id.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_any_effect( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
-{
-    std::vector<str_or_var> effects_to_check;
-    for( JsonValue jv : jo.get_array( member ) ) {
-        effects_to_check.emplace_back( get_str_or_var( jv, member ) );
-    }
-    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
-    str_or_var bp;
-    if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
-    } else {
-        bp.str_val = "";
-    }
-    condition = [effects_to_check, intensity, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
-                          bodypart_id( bp.evaluate( d ) );
-        for( const str_or_var &effect_id : effects_to_check ) {
-            effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
-            if( !target.is_null() && intensity.evaluate( d ) <= target.get_intensity() ) {
-                return true;
-            }
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_has_effect( const JsonObject &jo, std::string_view member,
-                                    bool is_npc )
-{
-    str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
-    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
-    str_or_var bp;
-    if( jo.has_member( "bodypart" ) ) {
-        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
-    } else {
-        bp.str_val = "";
-    }
-    condition = [effect_id, intensity, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
-                          bodypart_id( bp.evaluate( d ) );
-        effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
-        return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
-    };
-}
-
-void conditional_t::set_need( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
-    dbl_or_var dov;
-    if( jo.has_int( "amount" ) ) {
-        dov.min.dbl_val = jo.get_int( "amount" );
-    } else if( jo.has_object( "amount" ) ) {
-        dov = get_dbl_or_var( jo, "amount" );
-    } else if( jo.has_string( "level" ) ) {
-        const std::string &level = jo.get_string( "level" );
-        auto flevel = fatigue_level_strs.find( level );
-        if( flevel != fatigue_level_strs.end() ) {
-            dov.min.dbl_val = static_cast<int>( flevel->second );
-        }
-    }
-    condition = [need, dov, is_npc]( dialogue & d ) {
-        const talker *actor = d.actor( is_npc );
-        int amount = dov.evaluate( d );
-        return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
-               ( actor->get_hunger() > amount && need.evaluate( d ) == "hunger" ) ||
-               ( actor->get_thirst() > amount && need.evaluate( d ) == "thirst" );
-    };
-}
-
-void conditional_t::set_at_om_location( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
-{
-    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [location, is_npc]( dialogue const & d ) {
-        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
-        const std::string &omt_str = omt_ter.id().str();
-        std::string location_value = location.evaluate( d );
-
-        if( location_value == "FACTION_CAMP_ANY" ) {
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
-            if( bcp ) {
-                return true;
-            }
-            // TODO: legacy check to be removed once primitive field camp OMTs have been purged
-            return omt_str.find( "faction_base_camp" ) != std::string::npos;
-        } else if( location_value == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
-        } else {
-            return oter_no_dir( omt_ter ) == location_value;
-        }
-    };
-}
-
-void conditional_t::set_near_om_location( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
-    const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
-    condition = [location, range, is_npc]( dialogue & d ) {
-        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
-                range.evaluate( d ) ) ) {
-            const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
-            const std::string &omt_str = omt_ter.id().str();
-            std::string location_value = location.evaluate( d );
-
-            if( location_value == "FACTION_CAMP_ANY" ) {
-                std::optional<basecamp *> bcp = overmap_buffer.find_camp( curr_pos.xy() );
-                if( bcp ) {
-                    return true;
-                }
-                // TODO: legacy check to be removed once primitive field camp OMTs have been purged
-                if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
-                    return true;
-                }
-            } else if( location_value  == "FACTION_CAMP_START" &&
-                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
-                return true;
-            } else {
-                if( oter_no_dir( omt_ter ) == location_value ) {
-                    return true;
-                }
-            }
-        }
-        // should never get here this is for safety
-        return false;
-    };
-}
-
-void conditional_t::set_has_var( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
-    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
-    if( !time_check && !jo.has_member( "value" ) ) {
-        jo.throw_error( R"(Missing field: "value" or "time")" );
-        condition = []( dialogue const & ) {
-            return false;
-        };
-        return;
-    }
-
-    condition = [var_name, value, time_check, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        if( time_check ) {
-            return !actor->get_value( var_name ).empty();
-        }
-        return actor->get_value( var_name ) == value;
-    };
-}
-
-void conditional_t::set_expects_vars( const JsonObject &jo, std::string_view member )
-{
-    std::vector<str_or_var> to_check;
-    if( jo.has_array( member ) ) {
-        for( const JsonValue &jv : jo.get_array( member ) ) {
-            to_check.push_back( get_str_or_var( jv, member, true ) );
-        }
-    }
-
-    condition = [to_check]( dialogue const & d ) {
-        std::string missing_variables;
-        for( const str_or_var &val : to_check ) {
-            if( d.get_context().find( "npctalk_var_" + val.evaluate( d ) ) == d.get_context().end() ) {
-                missing_variables += val.evaluate( d ) + ", ";
-            }
-        }
-        if( !missing_variables.empty() ) {
-            debugmsg( string_format( "Missing required variables: %s", missing_variables ) );
-            return false;
-        }
-        return true;
-    };
-}
-
-void conditional_t::set_compare_var( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &op = jo.get_string( "op" );
-
-    dbl_or_var dov = get_dbl_or_var( jo, "value" );
-    condition = [var_name, op, dov, is_npc]( dialogue & d ) {
-        double stored_value = 0;
-        double value = dov.evaluate( d );
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( !var.empty() ) {
-            stored_value = std::stof( var );
-        }
-
-        if( op == "==" ) {
-            return stored_value == value;
-
-        } else if( op == "!=" ) {
-            return stored_value != value;
-
-        } else if( op == "<=" ) {
-            return stored_value <= value;
-
-        } else if( op == ">=" ) {
-            return stored_value >= value;
-
-        } else if( op == "<" ) {
-            return stored_value < value;
-
-        } else if( op == ">" ) {
-            return stored_value > value;
-        }
-
-        return false;
-    };
-}
-
-void conditional_t::set_compare_time_since_var( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &op = jo.get_string( "op" );
-    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                     time_duration::units ) );
-    condition = [var_name, op, value, is_npc]( dialogue const & d ) {
-        int stored_value = 0;
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( var.empty() ) {
-            return false;
-        } else {
-            stored_value = std::stof( var );
-        }
-        stored_value += value;
-        int now = to_turn<int>( calendar::turn );
-
-        if( op == "==" ) {
-            return stored_value == now;
-
-        } else if( op == "!=" ) {
-            return stored_value != now;
-
-        } else if( op == "<=" ) {
-            return now <= stored_value;
-
-        } else if( op == ">=" ) {
-            return now >= stored_value;
-
-        } else if( op == "<" ) {
-            return now < stored_value;
-
-        } else if( op == ">" ) {
-            return now > stored_value;
-        }
-
-        return false;
-    };
-}
-
-void conditional_t::set_npc_role_nearby( const JsonObject &jo, std::string_view member )
-{
-    str_or_var role = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [role]( dialogue const & d ) {
-        const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-            return d.actor( false )->posz() == guy.posz() &&
-                   guy.companion_mission_role_id == role.evaluate( d ) &&
-                   ( rl_dist( d.actor( false )->pos(), guy.pos() ) <= 48 );
-        } );
-        return !available.empty();
-    };
-}
-
-void conditional_t::set_npc_allies( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( dov.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_allies_global( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        const auto all_npcs = overmap_buffer.get_overmap_npcs();
-        const size_t count = std::count_if( all_npcs.begin(),
-        all_npcs.end(), []( const shared_ptr_fast<npc> &ptr ) {
-            return ptr.get()->is_player_ally() && !ptr.get()->hallucination && !ptr.get()->is_dead();
-        } );
-
-        return count >= static_cast<size_t>( dov.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_u_has_cash( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return d.actor( false )->cash() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_u_are_owed( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return d.actor( true )->debt() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_npc_aim_rule( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
-{
-    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [setting, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "aim_rule", setting.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_engagement_rule( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [setting, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "engagement_rule", setting.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_cbm_reserve_rule( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [setting, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "cbm_reserve_rule", setting.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_cbm_recharge_rule( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [setting, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "cbm_recharge_rule", setting.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_rule( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [rule, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "ally_rule", rule.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_npc_override( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
-{
-    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [rule, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "ally_override", rule.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_days_since( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return calendar::turn >= calendar::start_of_cataclysm + 1_days * dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_is_season( const JsonObject &jo, std::string_view member )
-{
-    str_or_var season_name = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [season_name]( dialogue const & d ) {
-        const season_type season = season_of_year( calendar::turn );
-        return ( season == SPRING && season_name.evaluate( d ) == "spring" ) ||
-               ( season == SUMMER && season_name.evaluate( d ) == "summer" ) ||
-               ( season == AUTUMN && season_name.evaluate( d ) == "autumn" ) ||
-               ( season == WINTER && season_name.evaluate( d ) == "winter" );
-    };
-}
-
-void conditional_t::set_mission_goal( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
-{
-    str_or_var mission_goal_str = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [mission_goal_str, is_npc]( dialogue const & d ) {
-        mission *miss = d.actor( is_npc )->selected_mission();
-        if( !miss ) {
-            return false;
-        }
-        const mission_goal mgoal = io::string_to_enum<mission_goal>( mission_goal_str.evaluate( d ) );
-        return miss->get_type().goal == mgoal;
-    };
-}
-
-void conditional_t::set_is_gender( bool is_male, bool is_npc )
-{
-    condition = [is_male, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_male() == is_male;
-    };
-}
-
-void conditional_t::set_is_alive( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_is_alive();
-    };
-}
-
-void conditional_t::set_is_avatar( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_character() && d.actor( is_npc )->get_character()->is_avatar();
-    };
-}
-
-void conditional_t::set_is_npc( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_npc();
-    };
-}
-
-void conditional_t::set_is_character( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_character();
-    };
-}
-
-void conditional_t::set_is_monster( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_monster();
-    };
-}
-
-void conditional_t::set_is_item( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_item();
-    };
-}
-
-void conditional_t::set_is_furniture( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_computer();
-    };
-}
-
-void conditional_t::set_player_see( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        const Creature *c = d.actor( is_npc )->get_creature();
-        if( c ) {
-            return get_player_view().sees( *c );
-        } else {
-            return get_player_view().sees( d.actor( is_npc )->pos() );
-        }
-    };
-}
-
-void conditional_t::set_no_assigned_mission()
-{
-    condition = []( dialogue const & d ) {
-        return d.missions_assigned.empty();
-    };
-}
-
-void conditional_t::set_has_assigned_mission()
-{
-    condition = []( dialogue const & d ) {
-        return d.missions_assigned.size() == 1;
-    };
-}
-
-void conditional_t::set_has_many_assigned_missions()
-{
-    condition = []( dialogue const & d ) {
-        return d.missions_assigned.size() >= 2;
-    };
-}
-
-void conditional_t::set_no_available_mission( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->available_missions().empty();
-    };
-}
-
-void conditional_t::set_has_available_mission( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->available_missions().size() == 1;
-    };
-}
-
-void conditional_t::set_has_many_available_missions( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->available_missions().size() >= 2;
-    };
-}
-
-void conditional_t::set_mission_complete( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        mission *miss = d.actor( is_npc )->selected_mission();
-        return miss && miss->is_complete( d.actor( is_npc )->getID() );
-    };
-}
-
-void conditional_t::set_mission_incomplete( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        mission *miss = d.actor( is_npc )->selected_mission();
-        return miss && !miss->is_complete( d.actor( is_npc )->getID() );
-    };
-}
-
-void conditional_t::set_mission_failed( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        mission *miss = d.actor( is_npc )->selected_mission();
-        return miss && miss->has_failed();
-    };
-}
-
-void conditional_t::set_npc_service( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [is_npc, dov]( dialogue & d ) {
-        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() ) &&
-               d.actor( false )->cash() >= dov.evaluate( d );
-    };
-}
-
-void conditional_t::set_npc_available( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
-    };
-}
-
-void conditional_t::set_npc_following( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_following();
-    };
-}
-
-void conditional_t::set_npc_friend( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_friendly( get_player_character() );
-    };
-}
-
-void conditional_t::set_npc_hostile( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_enemy();
-    };
-}
-
-void conditional_t::set_npc_train_skills( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return !d.actor( is_npc )->skills_offered_to( *d.actor( !is_npc ) ).empty();
-    };
-}
-
-void conditional_t::set_npc_train_styles( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return !d.actor( is_npc )->styles_offered_to( *d.actor( !is_npc ) ).empty();
-    };
-}
-
-void conditional_t::set_npc_train_spells( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return !d.actor( is_npc )->spells_offered_to( *d.actor( !is_npc ) ).empty();
-    };
-}
-
-void conditional_t::set_at_safe_space( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return overmap_buffer.is_safe( d.actor( is_npc )->global_omt_location() ) &&
-               d.actor( is_npc )->is_safe();
-    };
-}
-
-void conditional_t::set_can_stow_weapon( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        return !actor->unarmed_attack() && actor->can_stash_weapon();
-    };
-}
-
-void conditional_t::set_can_drop_weapon( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        return !actor->unarmed_attack() && !actor->wielded_with_flag( flag_NO_UNWIELD );
-    };
-}
-
-void conditional_t::set_has_weapon( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return !d.actor( is_npc )->unarmed_attack();
-    };
-}
-
-void conditional_t::set_is_driving( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
-            return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_has_stolen_item( bool /*is_npc*/ )
-{
-    condition = []( dialogue const & d ) {
-        return d.actor( false )->has_stolen_item( *d.actor( true ) );
-    };
-}
-
-void conditional_t::set_is_day()
-{
-    condition = []( dialogue const & ) {
-        return !is_night( calendar::turn );
-    };
-}
-
-void conditional_t::set_is_outside( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_creature() );
-    };
-}
-
-void conditional_t::set_is_underwater( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return get_map().is_divable( d.actor( is_npc )->pos() );
-    };
-}
-
-void conditional_t::set_one_in_chance( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return one_in( dov.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_query( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
-    bool default_val = jo.get_bool( "default" );
-    condition = [message, default_val, is_npc]( dialogue const & d ) {
-        const talker *actor = d.actor( is_npc );
-        if( actor->get_character() && actor->get_character()->is_avatar() ) {
-            std::string translated_message = message.evaluate( d );
-            return query_yn( translated_message );
-        } else {
-            return default_val;
-        }
-    };
-}
-
-void conditional_t::set_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    std::string type = jo.get_string( member.data() );
-    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
-    std::string message;
-    if( jo.has_member( "message" ) ) {
-        message = jo.get_string( "message" );
-    }
-    dbl_or_var range;
-    if( jo.has_member( "range" ) ) {
-        range = get_dbl_or_var( jo, "range" );
-    }
-    bool z_level = jo.get_bool( "z_level", false );
-    condition = [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
-        std::optional<tripoint> loc;
-        Character *ch = d.actor( is_npc )->get_character();
-        if( ch && ch->as_avatar() ) {
-            avatar *you = ch->as_avatar();
-            if( type == "anywhere" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                tripoint center = d.actor( is_npc )->pos();
-                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
-                loc = g->look_around( looka_params ).position;
-            } else if( type == "line_of_sight" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
-                if( !traj.empty() ) {
-                    loc = traj.back();
-                }
-            } else if( type == "around" ) {
-                if( !message.empty() ) {
-                    loc = choose_adjacent( message );
-                } else {
-                    loc = choose_adjacent( _( "Choose direction" ) );
-                }
-            } else {
-                debugmsg( string_format( "Invalid selection type: %s", type ) );
-            }
-
-        }
-        if( loc.has_value() ) {
-            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
-            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
-                             pos_global.to_string() );
-        }
-        return loc.has_value();
-    };
-}
-
-void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string_view member )
-{
-    const JsonObject &var_obj = jo.get_object( member );
-    dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
-    dbl_or_var dovy = get_dbl_or_var( var_obj, "y" );
-    condition = [dovx, dovy]( dialogue & d ) {
-        return x_in_y( dovx.evaluate( d ),
-                       dovy.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_is_weather( const JsonObject &jo, std::string_view member )
-{
-    str_or_var weather = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [weather]( dialogue const & d ) {
-        return get_weather().weather_id == weather_type_id( weather.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member )
-{
-    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
-    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
-    bool terrain = true;
-    if( member == "map_terrain_with_flag" ) {
-        terrain = true;
-    } else if( member == "map_furniture_with_flag" ) {
-        terrain = false;
-    }
-    condition = [terrain, furn_type, loc_var]( dialogue const & d ) {
-        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
-        if( terrain ) {
-            return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
-        } else {
-            return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
-        }
-    };
-}
-
-void conditional_t::set_map_in_city( const JsonObject &jo, std::string_view member )
-{
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
-        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
-        return c && c.get_distance_from_bounds() <= 0;
-    };
-}
-
-void conditional_t::set_mod_is_loaded( const JsonObject &jo, std::string_view member )
-{
-    str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [compared_mod]( dialogue const & d ) {
-        mod_id comp_mod = mod_id( compared_mod.evaluate( d ) );
-        for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
-            if( comp_mod == mod ) {
-                return true;
-            }
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_has_faction_trust( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue & d ) {
-        return d.actor( true )->get_faction()->trusts_u >= dov.evaluate( d );
-    };
 }
 
 static std::string get_string_from_input( const JsonArray &objects, int index )
@@ -1650,17 +534,1151 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
     return tripoint_abs_ms();
 }
 
-void conditional_t::set_compare_string( const JsonObject &jo, std::string_view member )
+
+namespace conditional_fun {
+namespace {
+
+conditional_t::func f_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    std::vector<str_or_var> traits_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        traits_to_check.emplace_back( get_str_or_var( jv, member ) );
+    }
+    return [traits_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        for( const str_or_var &trait : traits_to_check ) {
+            if( actor->has_trait( trait_id( trait.evaluate( d ) ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_has_trait( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check, is_npc]( dialogue const & d ) {
+        const talker *observer = d.actor( !is_npc );
+        const talker *observed = d.actor( is_npc );
+        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
+                                 observed->get_character() );
+        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
+        return observed_has && is_visible;
+    };
+}
+
+conditional_t::func f_has_martial_art( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [style_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->knows_martial_art( matype_id( style_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_flag( const JsonObject &jo, std::string_view member,
+                                  bool is_npc )
+{
+    str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_flag_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( json_character_flag( trait_flag_to_check.evaluate( d ) ) == json_flag_MUTATION_THRESHOLD ) {
+            return actor->crossed_threshold();
+        }
+        return actor->has_flag( json_character_flag( trait_flag_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_species( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [species_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->has_species( species_id( species_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_bodytype( const JsonObject &jo, std::string_view member,
+                                  bool is_npc )
+{
+    str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [bt_to_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->bodytype( bodytype_id( bt_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_activity( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_activity();
+    };
+}
+
+conditional_t::func f_has_activity( const JsonObject &, std::string_view, bool is_npc ) {
+    return f_has_activity( is_npc );
+}
+
+conditional_t::func f_has_proficiency( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [proficiency_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->knows_proficiency( proficiency_id( proficiency_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_is_riding( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_mounted();
+    };
+}
+
+conditional_t::func f_is_riding( const JsonObject &, std::string_view, bool is_npc ) {
+    return f_is_riding( is_npc );
+}
+
+conditional_t::func f_npc_has_class( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    str_or_var class_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [class_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_myclass( npc_class_id( class_to_check.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_u_has_mission( const JsonObject &jo, std::string_view member )
+{
+    str_or_var u_mission = get_str_or_var( jo.get_member( member ), member, true );
+    return [u_mission]( dialogue const & d ) {
+        for( mission *miss_it : get_avatar().get_active_missions() ) {
+            if( miss_it->mission_id() == mission_type_id( u_mission.evaluate( d ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_u_monsters_in_direction( const JsonObject &jo,
+        std::string_view member )
+{
+    str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
+    return [dir]( dialogue const & d ) {
+        //This string_to_enum function is defined in widget.h. Should it be moved?
+        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
+                d ) ) );
+        int monster_count = get_avatar().get_mon_visible().unique_mons[card_dir].size();
+        return monster_count > 0;
+    };
+}
+
+conditional_t::func f_u_safe_mode_trigger( const JsonObject &jo, std::string_view member )
+{
+    str_or_var dir = get_str_or_var( jo.get_member( member ), member, true );
+    return [dir]( dialogue const & d ) {
+        //This string_to_enum function is defined in widget.h. Should it be moved?
+        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
+                d ) ) );
+        return get_avatar().get_mon_visible().dangerous[card_dir];
+    };
+}
+
+conditional_t::func f_has_strength( const JsonObject &jo, std::string_view member,
+                                      bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov, is_npc]( dialogue & d ) {
+        return d.actor( is_npc )->str_cur() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_has_dexterity( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov, is_npc]( dialogue & d ) {
+        return d.actor( is_npc )->dex_cur() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_has_intelligence( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov, is_npc]( dialogue & d ) {
+        return d.actor( is_npc )->int_cur() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_has_perception( const JsonObject &jo, std::string_view member,
+                                        bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov, is_npc]( dialogue & d ) {
+        return d.actor( is_npc )->per_cur() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_has_hp( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    std::optional<bodypart_id> bp;
+    optional( jo, false, "bodypart", bp );
+    return [dov, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+        return d.actor( is_npc )->get_cur_hp( bid ) >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    std::optional<bodypart_id> bp;
+    optional( jo, false, "bodypart", bp );
+    return [dov, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+        return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_cur_part_temp(
+                bid ) ) >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
+                                    bool is_npc )
+{
+    str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
+    return [item_id, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_wearing( itype_id( item_id.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_item( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
+    return [item_id, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return actor->charges_of( itype_id( item_id.evaluate( d ) ) ) > 0 ||
+               actor->has_amount( itype_id( item_id.evaluate( d ) ), 1 );
+    };
+}
+
+conditional_t::func f_has_items( const JsonObject &jo, const std::string_view member,
+                                   bool is_npc )
+{
+    JsonObject has_items = jo.get_object( member );
+    if( !has_items.has_member( "item" ) || ( !has_items.has_member( "count" ) &&
+            !has_items.has_member( "charges" ) ) ) {
+        return []( dialogue const & ) {
+            return false;
+        };
+    } else {
+        str_or_var item_id = get_str_or_var( has_items.get_member( "item" ), "item", true );
+        dbl_or_var count = get_dbl_or_var( has_items, "count", false );
+        dbl_or_var charges = get_dbl_or_var( has_items, "charges", false );
+        return [item_id, count, charges, is_npc]( dialogue & d ) {
+            const talker *actor = d.actor( is_npc );
+            itype_id id = itype_id( item_id.evaluate( d ) );
+            if( charges.evaluate( d ) == 0 && item::count_by_charges( id ) ) {
+                return actor->has_charges( id, count.evaluate( d ), true );
+            }
+            if( charges.evaluate( d ) > 0 && count.evaluate( d ) == 0 ) {
+                return actor->has_charges( id, charges.evaluate( d ), true );
+            }
+            bool has_enough_charges = true;
+            if( charges.evaluate( d ) > 0 ) {
+                has_enough_charges = actor->has_charges( id, charges.evaluate( d ), true );
+            }
+            return has_enough_charges && actor->has_amount( id, count.evaluate( d ) );
+        };
+    }
+}
+
+conditional_t::func f_has_item_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+    return [flag, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_item_with_flag( flag_id( flag.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_item_category( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var category_id = get_str_or_var( jo.get_member( member ), member, true );
+    size_t count = 1;
+    if( jo.has_int( "count" ) ) {
+        int tcount = jo.get_int( "count" );
+        if( tcount > 1 && tcount < INT_MAX ) {
+            count = static_cast<size_t>( tcount );
+        }
+    }
+
+    return [category_id, count, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        const item_category_id cat_id = item_category_id( category_id.evaluate( d ) );
+        const auto items_with = actor->const_items_with( [cat_id]( const item & it ) {
+            return it.get_category_shallow().get_id() == cat_id;
+        } );
+        return items_with.size() >= count;
+    };
+}
+
+conditional_t::func f_has_bionics( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var bionics_id = get_str_or_var( jo.get_member( member ), member, true );
+    return [bionics_id, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( bionics_id.evaluate( d ) == "ANY" ) {
+            return actor->num_bionics() > 0 || actor->has_max_power();
+        }
+        return actor->has_bionic( bionic_id( bionics_id.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_any_effect( const JsonObject &jo, std::string_view member,
+                                        bool is_npc )
+{
+    std::vector<str_or_var> effects_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        effects_to_check.emplace_back( get_str_or_var( jv, member ) );
+    }
+    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
+    str_or_var bp;
+    if( jo.has_member( "bodypart" ) ) {
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
+    } else {
+        bp.str_val = "";
+    }
+    return [effects_to_check, intensity, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
+        for( const str_or_var &effect_id : effects_to_check ) {
+            effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
+            if( !target.is_null() && intensity.evaluate( d ) <= target.get_intensity() ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
+                                    bool is_npc )
+{
+    str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
+    str_or_var bp;
+    if( jo.has_member( "bodypart" ) ) {
+        bp = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", true );
+    } else {
+        bp.str_val = "";
+    }
+    return [effect_id, intensity, bp, is_npc]( dialogue & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) :
+                          bodypart_id( bp.evaluate( d ) );
+        effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
+        return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
+    };
+}
+
+conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var dov;
+    if( jo.has_int( "amount" ) ) {
+        dov.min.dbl_val = jo.get_int( "amount" );
+    } else if( jo.has_object( "amount" ) ) {
+        dov = get_dbl_or_var( jo, "amount" );
+    } else if( jo.has_string( "level" ) ) {
+        const std::string &level = jo.get_string( "level" );
+        auto flevel = fatigue_level_strs.find( level );
+        if( flevel != fatigue_level_strs.end() ) {
+            dov.min.dbl_val = static_cast<int>( flevel->second );
+        }
+    }
+    return [need, dov, is_npc]( dialogue & d ) {
+        const talker *actor = d.actor( is_npc );
+        int amount = dov.evaluate( d );
+        return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
+               ( actor->get_hunger() > amount && need.evaluate( d ) == "hunger" ) ||
+               ( actor->get_thirst() > amount && need.evaluate( d ) == "thirst" );
+    };
+}
+
+conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view member,
+                                        bool is_npc )
+{
+    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
+    return [location, is_npc]( dialogue const & d ) {
+        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        const std::string &omt_str = omt_ter.id().str();
+        std::string location_value = location.evaluate( d );
+
+        if( location_value == "FACTION_CAMP_ANY" ) {
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
+            if( bcp ) {
+                return true;
+            }
+            // TODO: legacy check to be removed once primitive field camp OMTs have been purged
+            return omt_str.find( "faction_base_camp" ) != std::string::npos;
+        } else if( location_value == "FACTION_CAMP_START" ) {
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
+        } else {
+            return oter_no_dir( omt_ter ) == location_value;
+        }
+    };
+}
+
+conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
+    const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
+    return [location, range, is_npc]( dialogue & d ) {
+        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
+        for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
+                range.evaluate( d ) ) ) {
+            const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
+            const std::string &omt_str = omt_ter.id().str();
+            std::string location_value = location.evaluate( d );
+
+            if( location_value == "FACTION_CAMP_ANY" ) {
+                std::optional<basecamp *> bcp = overmap_buffer.find_camp( curr_pos.xy() );
+                if( bcp ) {
+                    return true;
+                }
+                // TODO: legacy check to be removed once primitive field camp OMTs have been purged
+                if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
+                    return true;
+                }
+            } else if( location_value  == "FACTION_CAMP_START" &&
+                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
+                return true;
+            } else {
+                if( oter_no_dir( omt_ter ) == location_value ) {
+                    return true;
+                }
+            }
+        }
+        // should never get here this is for safety
+        return false;
+    };
+}
+
+conditional_t::func f_has_var( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
+    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    if( !time_check && !jo.has_member( "value" ) ) {
+        jo.throw_error( R"(Missing field: "value" or "time")" );
+        return []( dialogue const & ) {
+            return false;
+        };
+    }
+
+    return [var_name, value, time_check, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( time_check ) {
+            return !actor->get_value( var_name ).empty();
+        }
+        return actor->get_value( var_name ) == value;
+    };
+}
+
+conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view member )
+{
+    std::vector<str_or_var> to_check;
+    if( jo.has_array( member ) ) {
+        for( const JsonValue &jv : jo.get_array( member ) ) {
+            to_check.push_back( get_str_or_var( jv, member, true ) );
+        }
+    }
+
+    return [to_check]( dialogue const & d ) {
+        std::string missing_variables;
+        for( const str_or_var &val : to_check ) {
+            if( d.get_context().find( "npctalk_var_" + val.evaluate( d ) ) == d.get_context().end() ) {
+                missing_variables += val.evaluate( d ) + ", ";
+            }
+        }
+        if( !missing_variables.empty() ) {
+            debugmsg( string_format( "Missing required variables: %s", missing_variables ) );
+            return false;
+        }
+        return true;
+    };
+}
+
+conditional_t::func f_compare_var( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    const std::string &op = jo.get_string( "op" );
+
+    dbl_or_var dov = get_dbl_or_var( jo, "value" );
+    return [var_name, op, dov, is_npc]( dialogue & d ) {
+        double stored_value = 0;
+        double value = dov.evaluate( d );
+        const std::string &var = d.actor( is_npc )->get_value( var_name );
+        if( !var.empty() ) {
+            stored_value = std::stof( var );
+        }
+
+        if( op == "==" ) {
+            return stored_value == value;
+
+        } else if( op == "!=" ) {
+            return stored_value != value;
+
+        } else if( op == "<=" ) {
+            return stored_value <= value;
+
+        } else if( op == ">=" ) {
+            return stored_value >= value;
+
+        } else if( op == "<" ) {
+            return stored_value < value;
+
+        } else if( op == ">" ) {
+            return stored_value > value;
+        }
+
+        return false;
+    };
+}
+
+conditional_t::func f_compare_time_since_var( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    const std::string &op = jo.get_string( "op" );
+    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
+                                     time_duration::units ) );
+    return [var_name, op, value, is_npc]( dialogue const & d ) {
+        int stored_value = 0;
+        const std::string &var = d.actor( is_npc )->get_value( var_name );
+        if( var.empty() ) {
+            return false;
+        } else {
+            stored_value = std::stof( var );
+        }
+        stored_value += value;
+        int now = to_turn<int>( calendar::turn );
+
+        if( op == "==" ) {
+            return stored_value == now;
+
+        } else if( op == "!=" ) {
+            return stored_value != now;
+
+        } else if( op == "<=" ) {
+            return now <= stored_value;
+
+        } else if( op == ">=" ) {
+            return now >= stored_value;
+
+        } else if( op == "<" ) {
+            return now < stored_value;
+
+        } else if( op == ">" ) {
+            return now > stored_value;
+        }
+
+        return false;
+    };
+}
+
+conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view member )
+{
+    str_or_var role = get_str_or_var( jo.get_member( member ), member, true );
+    return [role]( dialogue const & d ) {
+        const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
+            return d.actor( false )->posz() == guy.posz() &&
+                   guy.companion_mission_role_id == role.evaluate( d ) &&
+                   ( rl_dist( d.actor( false )->pos(), guy.pos() ) <= 48 );
+        } );
+        return !available.empty();
+    };
+}
+
+conditional_t::func f_npc_allies( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( dov.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_allies_global( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        const auto all_npcs = overmap_buffer.get_overmap_npcs();
+        const size_t count = std::count_if( all_npcs.begin(),
+        all_npcs.end(), []( const shared_ptr_fast<npc> &ptr ) {
+            return ptr.get()->is_player_ally() && !ptr.get()->hallucination && !ptr.get()->is_dead();
+        } );
+
+        return count >= static_cast<size_t>( dov.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_u_has_cash( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return d.actor( false )->cash() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_u_are_owed( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return d.actor( true )->debt() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_npc_aim_rule( const JsonObject &jo, std::string_view member,
+                                      bool is_npc )
+{
+    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
+    return [setting, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "aim_rule", setting.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_engagement_rule( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
+    return [setting, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "engagement_rule", setting.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_cbm_reserve_rule( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
+    return [setting, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "cbm_reserve_rule", setting.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_cbm_recharge_rule( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
+    return [setting, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "cbm_recharge_rule", setting.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_rule( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    return [rule, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "ally_rule", rule.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_npc_override( const JsonObject &jo, std::string_view member,
+                                      bool is_npc )
+{
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    return [rule, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "ally_override", rule.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_days_since( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_is_season( const JsonObject &jo, std::string_view member )
+{
+    str_or_var season_name = get_str_or_var( jo.get_member( member ), member, true );
+    return [season_name]( dialogue const & d ) {
+        const season_type season = season_of_year( calendar::turn );
+        return ( season == SPRING && season_name.evaluate( d ) == "spring" ) ||
+               ( season == SUMMER && season_name.evaluate( d ) == "summer" ) ||
+               ( season == AUTUMN && season_name.evaluate( d ) == "autumn" ) ||
+               ( season == WINTER && season_name.evaluate( d ) == "winter" );
+    };
+}
+
+conditional_t::func f_mission_goal( const JsonObject &jo, std::string_view member,
+                                      bool is_npc )
+{
+    str_or_var mission_goal_str = get_str_or_var( jo.get_member( member ), member, true );
+    return [mission_goal_str, is_npc]( dialogue const & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        if( !miss ) {
+            return false;
+        }
+        const mission_goal mgoal = io::string_to_enum<mission_goal>( mission_goal_str.evaluate( d ) );
+        return miss->get_type().goal == mgoal;
+    };
+}
+
+conditional_t::func f_is_gender( bool is_male, bool is_npc )
+{
+    return [is_male, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_male() == is_male;
+    };
+}
+
+conditional_t::func f_is_male( bool is_npc ) {
+    return f_is_gender( true, is_npc );
+}
+conditional_t::func f_is_female( bool is_npc ) {
+    return f_is_gender( false, is_npc );
+}
+
+conditional_t::func f_is_alive( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_is_alive();
+    };
+}
+
+conditional_t::func f_is_avatar( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character() && d.actor( is_npc )->get_character()->is_avatar();
+    };
+}
+
+conditional_t::func f_is_npc( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_npc();
+    };
+}
+
+conditional_t::func f_is_character( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_character();
+    };
+}
+
+conditional_t::func f_is_monster( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_monster();
+    };
+}
+
+conditional_t::func f_is_item( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_item();
+    };
+}
+
+conditional_t::func f_is_furniture( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_computer();
+    };
+}
+
+conditional_t::func f_player_see( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const Creature *c = d.actor( is_npc )->get_creature();
+        if( c ) {
+            return get_player_view().sees( *c );
+        } else {
+            return get_player_view().sees( d.actor( is_npc )->pos() );
+        }
+    };
+}
+
+conditional_t::func f_no_assigned_mission()
+{
+    return []( dialogue const & d ) {
+        return d.missions_assigned.empty();
+    };
+}
+
+conditional_t::func f_has_assigned_mission()
+{
+    return []( dialogue const & d ) {
+        return d.missions_assigned.size() == 1;
+    };
+}
+
+conditional_t::func f_has_many_assigned_missions()
+{
+    return []( dialogue const & d ) {
+        return d.missions_assigned.size() >= 2;
+    };
+}
+
+conditional_t::func f_no_available_mission( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->available_missions().empty();
+    };
+}
+
+conditional_t::func f_has_available_mission( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->available_missions().size() == 1;
+    };
+}
+
+conditional_t::func f_has_many_available_missions( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->available_missions().size() >= 2;
+    };
+}
+
+conditional_t::func f_mission_complete( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && miss->is_complete( d.actor( is_npc )->getID() );
+    };
+}
+
+conditional_t::func f_mission_incomplete( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && !miss->is_complete( d.actor( is_npc )->getID() );
+    };
+}
+
+conditional_t::func f_mission_failed( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        mission *miss = d.actor( is_npc )->selected_mission();
+        return miss && miss->has_failed();
+    };
+}
+
+conditional_t::func f_npc_service( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [is_npc, dov]( dialogue & d ) {
+        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() ) &&
+               d.actor( false )->cash() >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_npc_available( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return !d.actor( is_npc )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
+    };
+}
+
+conditional_t::func f_npc_following( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_following();
+    };
+}
+
+conditional_t::func f_npc_friend( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_friendly( get_player_character() );
+    };
+}
+
+conditional_t::func f_npc_hostile( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_enemy();
+    };
+}
+
+conditional_t::func f_npc_train_skills( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return !d.actor( is_npc )->skills_offered_to( *d.actor( !is_npc ) ).empty();
+    };
+}
+
+conditional_t::func f_npc_train_styles( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return !d.actor( is_npc )->styles_offered_to( *d.actor( !is_npc ) ).empty();
+    };
+}
+
+conditional_t::func f_npc_train_spells( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return !d.actor( is_npc )->spells_offered_to( *d.actor( !is_npc ) ).empty();
+    };
+}
+
+conditional_t::func f_at_safe_space( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return overmap_buffer.is_safe( d.actor( is_npc )->global_omt_location() ) &&
+               d.actor( is_npc )->is_safe();
+    };
+}
+
+conditional_t::func f_can_stow_weapon( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return !actor->unarmed_attack() && actor->can_stash_weapon();
+    };
+}
+
+conditional_t::func f_can_drop_weapon( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        return !actor->unarmed_attack() && !actor->wielded_with_flag( flag_NO_UNWIELD );
+    };
+}
+
+conditional_t::func f_has_weapon( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return !d.actor( is_npc )->unarmed_attack();
+    };
+}
+
+conditional_t::func f_is_driving( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
+            return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_has_stolen_item( bool /*is_npc*/ )
+{
+    return []( dialogue const & d ) {
+        return d.actor( false )->has_stolen_item( *d.actor( true ) );
+    };
+}
+
+conditional_t::func f_is_day()
+{
+    return []( dialogue const & ) {
+        return !is_night( calendar::turn );
+    };
+}
+
+conditional_t::func f_is_outside( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return is_creature_outside( *d.actor( is_npc )->get_creature() );
+    };
+}
+
+conditional_t::func f_is_underwater( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return get_map().is_divable( d.actor( is_npc )->pos() );
+    };
+}
+
+conditional_t::func f_one_in_chance( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return one_in( dov.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
+    bool default_val = jo.get_bool( "default" );
+    return [message, default_val, is_npc]( dialogue const & d ) {
+        const talker *actor = d.actor( is_npc );
+        if( actor->get_character() && actor->get_character()->is_avatar() ) {
+            std::string translated_message = message.evaluate( d );
+            return query_yn( translated_message );
+        } else {
+            return default_val;
+        }
+    };
+}
+
+conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    std::string type = jo.get_string( member.data() );
+    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
+    std::string message;
+    if( jo.has_member( "message" ) ) {
+        message = jo.get_string( "message" );
+    }
+    dbl_or_var range;
+    if( jo.has_member( "range" ) ) {
+        range = get_dbl_or_var( jo, "range" );
+    }
+    bool z_level = jo.get_bool( "z_level", false );
+    return [type, target_var, message, range, z_level, is_npc]( dialogue & d ) {
+        std::optional<tripoint> loc;
+        Character *ch = d.actor( is_npc )->get_character();
+        if( ch && ch->as_avatar() ) {
+            avatar *you = ch->as_avatar();
+            if( type == "anywhere" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                tripoint center = d.actor( is_npc )->pos();
+                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
+                loc = g->look_around( looka_params ).position;
+            } else if( type == "line_of_sight" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                if( !traj.empty() ) {
+                    loc = traj.back();
+                }
+            } else if( type == "around" ) {
+                if( !message.empty() ) {
+                    loc = choose_adjacent( message );
+                } else {
+                    loc = choose_adjacent( _( "Choose direction" ) );
+                }
+            } else {
+                debugmsg( string_format( "Invalid selection type: %s", type ) );
+            }
+
+        }
+        if( loc.has_value() ) {
+            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
+                             pos_global.to_string() );
+        }
+        return loc.has_value();
+    };
+}
+
+conditional_t::func f_x_in_y_chance( const JsonObject &jo, const std::string_view member )
+{
+    const JsonObject &var_obj = jo.get_object( member );
+    dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
+    dbl_or_var dovy = get_dbl_or_var( var_obj, "y" );
+    return [dovx, dovy]( dialogue & d ) {
+        return x_in_y( dovx.evaluate( d ),
+                       dovy.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_is_weather( const JsonObject &jo, std::string_view member )
+{
+    str_or_var weather = get_str_or_var( jo.get_member( member ), member, true );
+    return [weather]( dialogue const & d ) {
+        return get_weather().weather_id == weather_type_id( weather.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_view member )
+{
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    bool terrain = true;
+    if( member == "map_terrain_with_flag" ) {
+        terrain = true;
+    } else if( member == "map_furniture_with_flag" ) {
+        terrain = false;
+    }
+    return [terrain, furn_type, loc_var]( dialogue const & d ) {
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        if( terrain ) {
+            return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
+        } else {
+            return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
+        }
+    };
+}
+
+conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    return [target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
+        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
+        return c && c.get_distance_from_bounds() <= 0;
+    };
+}
+
+conditional_t::func f_mod_is_loaded( const JsonObject &jo, std::string_view member )
+{
+    str_or_var compared_mod = get_str_or_var( jo.get_member( member ), member, true );
+    return [compared_mod]( dialogue const & d ) {
+        mod_id comp_mod = mod_id( compared_mod.evaluate( d ) );
+        for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
+            if( comp_mod == mod ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_has_faction_trust( const JsonObject &jo, std::string_view member )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    return [dov]( dialogue & d ) {
+        return d.actor( true )->get_faction()->trusts_u >= dov.evaluate( d );
+    };
+}
+
+conditional_t::func f_compare_string( const JsonObject &jo, std::string_view member )
 {
     str_or_var first;
     str_or_var second;
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 2 ) {
         jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
-        condition = []( dialogue const & ) {
+        return []( dialogue const & ) {
             return false;
         };
-        return;
     }
 
     if( objects.has_object( 0 ) ) {
@@ -1674,83 +1692,256 @@ void conditional_t::set_compare_string( const JsonObject &jo, std::string_view m
         second.str_val = objects.next_string();
     }
 
-    condition = [first, second]( dialogue const & d ) {
+    return [first, second]( dialogue const & d ) {
         return first.evaluate( d ) == second.evaluate( d );
     };
 }
 
-void conditional_t::set_get_condition( const JsonObject &jo, std::string_view member )
+conditional_t::func f_get_condition( const JsonObject &jo, std::string_view member )
 {
     str_or_var conditionalToGet = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [conditionalToGet]( dialogue & d ) {
+    return [conditionalToGet]( dialogue & d ) {
         return d.evaluate_conditional( conditionalToGet.evaluate( d ), d );
     };
 }
 
-void conditional_t::set_get_option( const JsonObject &jo, std::string_view member )
+conditional_t::func f_get_option( const JsonObject &jo, std::string_view member )
 {
     str_or_var optionToGet = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [optionToGet]( dialogue & d ) {
+    return [optionToGet]( dialogue & d ) {
         return get_option<bool>( optionToGet.evaluate( d ) );
     };
 }
 
-void conditional_t::set_compare_num( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_compare_num( const JsonObject &jo, const std::string_view member )
 {
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 3 ) {
         jo.throw_error( "incorrect number of values.  Expected three in " + jo.str() );
-        condition = []( dialogue const & ) {
+        return []( dialogue const & ) {
             return false;
         };
-        return;
     }
-    std::function<double( dialogue & )> get_first_dbl = objects.has_object( 0 ) ? get_get_dbl(
-                objects.get_object( 0 ) ) : get_get_dbl( objects.get_string( 0 ), jo );
-    std::function<double( dialogue & )> get_second_dbl = objects.has_object( 2 ) ? get_get_dbl(
-                objects.get_object( 2 ) ) : get_get_dbl( objects.get_string( 2 ), jo );
+    std::function<double( dialogue & )> get_first_dbl = objects.has_object( 0 ) ? conditional_t::get_get_dbl(
+                objects.get_object( 0 ) ) : conditional_t::get_get_dbl( objects.get_string( 0 ), jo );
+    std::function<double( dialogue & )> get_second_dbl = objects.has_object( 2 ) ? conditional_t::get_get_dbl(
+                objects.get_object( 2 ) ) : conditional_t::get_get_dbl( objects.get_string( 2 ), jo );
     const std::string &op = objects.get_string( 1 );
 
     if( op == "==" || op == "=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) == get_second_dbl( d );
         };
     } else if( op == "!=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) != get_second_dbl( d );
         };
     } else if( op == "<=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) <= get_second_dbl( d );
         };
     } else if( op == ">=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) >= get_second_dbl( d );
         };
     } else if( op == "<" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) < get_second_dbl( d );
         };
     } else if( op == ">" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
+        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) > get_second_dbl( d );
         };
     } else {
         jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
-        condition = []( dialogue const & ) {
+        return []( dialogue const & ) {
             return false;
         };
     }
 }
 
-void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member, eoc_math::type_t::compare );
-    condition = [math = std::move( math )]( dialogue & d ) {
+    return [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
 }
+
+conditional_t::func f_u_has_camp()
+{
+    return []( dialogue const & ) {
+        return !get_player_character().camps.empty();
+    };
+}
+
+conditional_t::func f_has_pickup_list( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->has_ai_rule( "pickup_rule", "any" );
+    };
+}
+
+conditional_t::func f_is_by_radio()
+{
+    return []( dialogue const & d ) {
+        return d.by_radio;
+    };
+}
+
+conditional_t::func f_has_reason()
+{
+    return []( dialogue const & d ) {
+        return !d.reason.empty();
+    };
+}
+
+conditional_t::func f_roll_contested( const JsonObject &jo, const std::string_view member )
+{
+    std::function<double( dialogue & )> get_check = conditional_t::get_get_dbl( jo.get_object(
+                member ) );
+    dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
+    dbl_or_var die_size = get_dbl_or_var( jo, "die_size", false, 10 );
+    return [get_check, difficulty, die_size]( dialogue & d ) {
+        return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
+    };
+}
+
+conditional_t::func f_u_know_recipe( const JsonObject &jo, std::string_view member )
+{
+    str_or_var known_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
+    return [known_recipe_id]( dialogue & d ) {
+        const recipe &rep = recipe_id( known_recipe_id.evaluate( d ) ).obj();
+        // should be a talker function but recipes aren't in Character:: yet
+        return get_player_character().knows_recipe( &rep );
+    };
+}
+
+conditional_t::func f_mission_has_generic_rewards()
+{
+    return []( dialogue const & d ) {
+        mission *miss = d.actor( true )->selected_mission();
+        if( miss == nullptr ) {
+            debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
+            return true;
+        }
+        return miss->has_generic_rewards();
+    };
+}
+
+conditional_t::func f_has_worn_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+    std::optional<bodypart_id> bp;
+    optional( jo, false, "bodypart", bp );
+    return [flag, bp, is_npc]( dialogue const & d ) {
+        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+        return d.actor( is_npc )->worn_with_flag( flag_id( flag.evaluate( d ) ), bid );
+    };
+}
+
+conditional_t::func f_has_wielded_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
+    return [flag, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->wielded_with_flag( flag_id( flag.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_wielded_with_weapon_category( const JsonObject &jo,
+        std::string_view member,
+        bool is_npc )
+{
+    str_or_var w_cat = get_str_or_var( jo.get_member( member ), member, true );
+    return [w_cat, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->wielded_with_weapon_category( weapon_category_id( w_cat.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_can_see( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->can_see();
+    };
+}
+
+conditional_t::func f_is_deaf( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_deaf();
+    };
+}
+
+conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [terrain_type, is_npc]( dialogue const & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() ) == ter_id( terrain_type.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [terrain_type, is_npc]( dialogue const & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() )->has_flag( terrain_type.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_is_in_field( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var field_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [field_type, is_npc]( dialogue const & d ) {
+        map &here = get_map();
+        field_type_id ft = field_type_id( field_type.evaluate( d ) );
+        for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
+                    is_npc )->pos() ) ) {
+            if( f.second.get_field_type() == ft ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+conditional_t::func f_has_move_mode( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    str_or_var mode = get_str_or_var( jo.get_member( member ), member, true );
+    return [mode, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->get_move_mode() == move_mode_id( mode.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
+    return [is_npc, target]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
+        return d.actor( is_npc )->can_see_location( get_map().getlocal( target_pos ) );
+    };
+}
+
+conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [style_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->using_martial_art( matype_id( style_to_check.evaluate( d ) ) );
+    };
+}
+
+}
+} // namespace conditional_fun
 
 template<class T>
 static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
@@ -2967,185 +3158,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     return []( dialogue const &, double ) {};
 }
 
-void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
-                                        bool no_result )
-{
-    JsonArray objects = jo.get_array( member );
-    std::optional<dbl_or_var_part> min;
-    std::optional<dbl_or_var_part> max;
-    if( jo.has_member( "min" ) ) {
-        min = get_dbl_or_var_part( jo.get_member( "min" ), "min" );
-    } else if( jo.has_member( "min_time" ) ) {
-        dbl_or_var_part value;
-        time_duration min_time;
-        mandatory( jo, false, "min_time", min_time );
-        value.dbl_val = to_turns<int>( min_time );
-        min = value;
-    }
-    if( jo.has_member( "max" ) ) {
-        max = get_dbl_or_var_part( jo.get_member( "max" ), "max" );
-    } else if( jo.has_member( "max_time" ) ) {
-        dbl_or_var_part value;
-        time_duration max_time;
-        mandatory( jo, false, "max_time", max_time );
-        value.dbl_val = to_turns<int>( max_time );
-        max = value;
-    }
-    std::string op = "none";
-    std::string result = "none";
-    std::function<void( dialogue &, double )> set_dbl = conditional_t::get_set_dbl(
-                objects.get_object( 0 ), min,
-                max, no_result );
-    int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
-    // Normal full version
-    if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
-        op = objects.get_string( 3 - no_result_mod );
-        if( !no_result ) {
-            result = objects.get_string( 1 );
-            if( result != "=" ) {
-                jo.throw_error( "invalid result " + op + " in " + jo.str() );
-                function = []( dialogue const & ) {
-                    return false;
-                };
-            }
-        }
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 - no_result_mod ) );
-        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 4 - no_result_mod ) );
-        if( op == "*" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
-            };
-        } else if( op == "/" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
-            };
-        } else if( op == "+" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
-            };
-        } else if( op == "-" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
-            };
-        } else if( op == "%" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "^" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( dialogue const & ) {
-                return false;
-            };
-        }
-        // ~
-    } else if( objects.size() == 4 && !no_result ) {
-        op = objects.get_string( 3 );
-        result = objects.get_string( 1 );
-        if( result != "=" ) {
-            jo.throw_error( "invalid result " + op + " in " + jo.str() );
-            function = []( dialogue const & ) {
-                return false;
-            };
-        }
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 ) );
-        if( op == "~" ) {
-            function = [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, ~static_cast<int>( get_first_dbl( d ) ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( dialogue const & ) {
-                return false;
-            };
-        }
-
-        // =, -=, +=, *=, and /=
-    } else if( objects.size() == 3 && !no_result ) {
-        result = objects.get_string( 1 );
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 ) );
-        if( result == "+=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
-            };
-        } else if( result == "-=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
-            };
-        } else if( result == "*=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
-            };
-        } else if( result == "/=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
-            };
-        } else if( result == "%=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( result == "=" ) {
-            function = [get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_second_dbl( d ) );
-            };
-        } else {
-            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
-            function = []( dialogue const & ) {
-                return false;
-            };
-        }
-        // ++ and --
-    } else if( objects.size() == 2 && !no_result ) {
-        op = objects.get_string( 1 );
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        if( op == "++" ) {
-            function = [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + 1 );
-            };
-        } else if( op == "--" ) {
-            function = [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - 1 );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            function = []( dialogue const & ) {
-                return false;
-            };
-        }
-    } else if( objects.size() == 1 && no_result ) {
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        function = [get_first_dbl, set_dbl]( dialogue & d ) {
-            set_dbl( d, get_first_dbl( d ) );
-        };
-    } else {
-        jo.throw_error( "Invalid number of args in " + jo.str() );
-        function = []( dialogue const & ) {
-            return false;
-        };
-        return;
-    }
-}
-
-void talk_effect_fun_t::set_math( const JsonObject &jo, std::string_view member )
-{
-    eoc_math math;
-    math.from_json( jo, member, eoc_math::type_t::assign );
-    function = [math = std::move( math )]( dialogue & d ) {
-        return math.act( d );
-    };
-}
-
 void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
 {
     if( type_ != type_t::compare && action >= oper::equal ) {
@@ -3273,258 +3285,87 @@ double eoc_math::act( dialogue &d ) const
     return 0;
 }
 
-void conditional_t::set_u_has_camp()
-{
-    condition = []( dialogue const & ) {
-        return !get_player_character().camps.empty();
-    };
-}
-
-void conditional_t::set_has_pickup_list( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_ai_rule( "pickup_rule", "any" );
-    };
-}
-
-void conditional_t::set_is_by_radio()
-{
-    condition = []( dialogue const & d ) {
-        return d.by_radio;
-    };
-}
-
-void conditional_t::set_has_reason()
-{
-    condition = []( dialogue const & d ) {
-        return !d.reason.empty();
-    };
-}
-
-void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_view member )
-{
-    std::function<double( dialogue & )> get_check = conditional_t::get_get_dbl( jo.get_object(
-                member ) );
-    dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
-    dbl_or_var die_size = get_dbl_or_var( jo, "die_size", false, 10 );
-    condition = [get_check, difficulty, die_size]( dialogue & d ) {
-        return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
-    };
-}
-
-void conditional_t::set_u_know_recipe( const JsonObject &jo, std::string_view member )
-{
-    str_or_var known_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [known_recipe_id]( dialogue & d ) {
-        const recipe &rep = recipe_id( known_recipe_id.evaluate( d ) ).obj();
-        // should be a talker function but recipes aren't in Character:: yet
-        return get_player_character().knows_recipe( &rep );
-    };
-}
-
-void conditional_t::set_mission_has_generic_rewards()
-{
-    condition = []( dialogue const & d ) {
-        mission *miss = d.actor( true )->selected_mission();
-        if( miss == nullptr ) {
-            debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
-            return true;
-        }
-        return miss->has_generic_rewards();
-    };
-}
-
-void conditional_t::set_has_worn_with_flag( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-    std::optional<bodypart_id> bp;
-    optional( jo, false, "bodypart", bp );
-    condition = [flag, bp, is_npc]( dialogue const & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->worn_with_flag( flag_id( flag.evaluate( d ) ), bid );
-    };
-}
-
-void conditional_t::set_has_wielded_with_flag( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var flag = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [flag, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->wielded_with_flag( flag_id( flag.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_has_wielded_with_weapon_category( const JsonObject &jo,
-        std::string_view member,
-        bool is_npc )
-{
-    str_or_var w_cat = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [w_cat, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->wielded_with_weapon_category( weapon_category_id( w_cat.evaluate( d ) ) );
-    };
-}
-
-void conditional_t::set_can_see( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->can_see();
-    };
-}
-
-void conditional_t::set_is_deaf( bool is_npc )
-{
-    condition = [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_deaf();
-    };
-}
-
-void conditional_t::set_is_on_terrain( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
-{
-    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [terrain_type, is_npc]( dialogue const & d ) {
-        map &here = get_map();
-        return here.ter( d.actor( is_npc )->pos() ) == ter_id( terrain_type.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [terrain_type, is_npc]( dialogue const & d ) {
-        map &here = get_map();
-        return here.ter( d.actor( is_npc )->pos() )->has_flag( terrain_type.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_is_in_field( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
-{
-    str_or_var field_type = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [field_type, is_npc]( dialogue const & d ) {
-        map &here = get_map();
-        field_type_id ft = field_type_id( field_type.evaluate( d ) );
-        for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
-                    is_npc )->pos() ) ) {
-            if( f.second.get_field_type() == ft ) {
-                return true;
-            }
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_has_move_mode( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
-{
-    str_or_var mode = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [mode, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_move_mode() == move_mode_id( mode.evaluate( d ) );
-    };
-}
-
-void conditional_t::set_can_see_location( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [is_npc, target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.actor( is_npc )->can_see_location( get_map().getlocal( target_pos ) );
-    };
-}
-
-void conditional_t::set_using_martial_art( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [style_to_check, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->using_martial_art( matype_id( style_to_check.evaluate( d ) ) );
-    };
-}
-
 static const
 std::vector<condition_parser>
 parsers = {
-    {"u_has_any_trait", "npc_has_any_trait", jarg::array, &conditional_t::set_has_any_trait },
-    {"u_has_trait", "npc_has_trait", jarg::member, &conditional_t::set_has_trait },
-    {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_t::set_has_visible_trait },
-    {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_t::set_has_martial_art },
-    {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_t::set_using_martial_art },
-    {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_t::set_has_proficiency },
-    {"u_has_flag", "npc_has_flag", jarg::member, &conditional_t::set_has_flag },
-    {"u_has_species", "npc_has_species", jarg::member, &conditional_t::set_has_species },
-    {"u_bodytype", "npc_bodytype", jarg::member, &conditional_t::set_bodytype },
-    {"u_has_class", "npc_has_class", jarg::member, &conditional_t::set_npc_has_class },
-    {"u_has_activity", "npc_has_activity", jarg::string, &conditional_t::set_has_activity },
-    {"u_is_riding", "npc_is_riding", jarg::string, &conditional_t::set_is_riding },
-    {"u_has_mission", jarg::string, &conditional_t::set_u_has_mission },
-    {"u_monsters_in_direction", jarg::string, &conditional_t::set_u_monsters_in_direction },
-    {"u_safe_mode_trigger", jarg::member, &conditional_t::set_u_safe_mode_trigger },
-    {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_t::set_has_strength },
-    {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_t::set_has_dexterity },
-    {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_t::set_has_intelligence },
-    {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_t::set_has_perception },
-    {"u_has_hp", "npc_has_hp", jarg::member | jarg::array, &conditional_t::set_has_hp },
-    {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_t::set_has_part_temp },
-    {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_t::set_is_wearing },
-    {"u_has_item", "npc_has_item", jarg::member, &conditional_t::set_has_item },
-    {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_t::set_has_item_with_flag },
-    {"u_has_items", "npc_has_items", jarg::member, &conditional_t::set_has_items },
-    {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_t::set_has_item_category },
-    {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_t::set_has_bionics },
-    {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_t::set_has_any_effect },
-    {"u_has_effect", "npc_has_effect", jarg::member, &conditional_t::set_has_effect },
-    {"u_need", "npc_need", jarg::member, &conditional_t::set_need },
-    {"u_query", "npc_query", jarg::member, &conditional_t::set_query },
-    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_t::set_query_tile },
-    {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_t::set_at_om_location },
-    {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_t::set_near_om_location },
-    {"u_has_var", "npc_has_var", jarg::string, &conditional_t::set_has_var },
-    {"expects_vars", jarg::member, &conditional_t::set_expects_vars },
-    {"u_compare_var", "npc_compare_var", jarg::string, &conditional_t::set_compare_var },
-    {"u_compare_time_since_var", "npc_compare_time_since_var", jarg::string, &conditional_t::set_compare_time_since_var },
-    {"npc_role_nearby", jarg::string, &conditional_t::set_npc_role_nearby },
-    {"npc_allies", jarg::member | jarg::array, &conditional_t::set_npc_allies },
-    {"npc_allies_global", jarg::member | jarg::array, &conditional_t::set_npc_allies_global },
-    {"u_service", "npc_service", jarg::member, &conditional_t::set_npc_service },
-    {"u_has_cash", jarg::member | jarg::array, &conditional_t::set_u_has_cash },
-    {"u_are_owed", jarg::member | jarg::array, &conditional_t::set_u_are_owed },
-    {"u_aim_rule", "npc_aim_rule", jarg::member, &conditional_t::set_npc_aim_rule },
-    {"u_engagement_rule", "npc_engagement_rule", jarg::member, &conditional_t::set_npc_engagement_rule },
-    {"u_cbm_reserve_rule", "npc_cbm_reserve_rule", jarg::member, &conditional_t::set_npc_cbm_reserve_rule },
-    {"u_cbm_recharge_rule", "npc_cbm_recharge_rule", jarg::member, &conditional_t::set_npc_cbm_recharge_rule },
-    {"u_rule", "npc_rule", jarg::member, &conditional_t::set_npc_rule },
-    {"u_override", "npc_override", jarg::member, &conditional_t::set_npc_override },
-    {"days_since_cataclysm", jarg::member | jarg::array, &conditional_t::set_days_since },
-    {"is_season", jarg::member, &conditional_t::set_is_season },
-    {"u_mission_goal", "mission_goal", jarg::member, &conditional_t::set_mission_goal },
-    {"u_mission_goal", "npc_mission_goal", jarg::member, &conditional_t::set_mission_goal },
-    {"roll_contested", jarg::member, &conditional_t::set_roll_contested },
-    {"u_know_recipe", jarg::member, &conditional_t::set_u_know_recipe },
-    {"one_in_chance", jarg::member | jarg::array, &conditional_t::set_one_in_chance },
-    {"x_in_y_chance", jarg::object, &conditional_t::set_x_in_y_chance },
-    {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_t::set_has_worn_with_flag },
-    {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_t::set_has_wielded_with_flag },
-    {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_t::set_has_wielded_with_weapon_category },
-    {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_t::set_is_on_terrain },
-    {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_t::set_is_on_terrain_with_flag },
-    {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_t::set_is_in_field },
-    {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_t::set_has_move_mode },
-    {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_t::set_can_see_location },
-    {"is_weather", jarg::member, &conditional_t::set_is_weather },
-    {"map_terrain_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
-    {"map_furniture_with_flag", jarg::member, &conditional_t::set_map_ter_furn_with_flag },
-    {"map_in_city", jarg::member, &conditional_t::set_map_in_city },
-    {"mod_is_loaded", jarg::member, &conditional_t::set_mod_is_loaded },
-    {"u_has_faction_trust", jarg::member | jarg::array, &conditional_t::set_has_faction_trust },
-    {"compare_int", jarg::member, &conditional_t::set_compare_num },
-    {"compare_num", jarg::member, &conditional_t::set_compare_num },
-    {"math", jarg::member, &conditional_t::set_math },
-    {"compare_string", jarg::member, &conditional_t::set_compare_string },
-    {"get_condition", jarg::member, &conditional_t::set_get_condition },
-    {"get_game_option", jarg::member, &conditional_t::set_get_option },
+    {"u_has_any_trait", "npc_has_any_trait", jarg::array, &conditional_fun::f_has_any_trait },
+    {"u_has_trait", "npc_has_trait", jarg::member, &conditional_fun::f_has_trait },
+    {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_fun::f_has_visible_trait },
+    {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_fun::f_has_martial_art },
+    {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_fun::f_using_martial_art },
+    {"u_has_proficiency", "npc_has_proficiency", jarg::member, &conditional_fun::f_has_proficiency },
+    {"u_has_flag", "npc_has_flag", jarg::member, &conditional_fun::f_has_flag },
+    {"u_has_species", "npc_has_species", jarg::member, &conditional_fun::f_has_species },
+    {"u_bodytype", "npc_bodytype", jarg::member, &conditional_fun::f_bodytype },
+    {"u_has_class", "npc_has_class", jarg::member, &conditional_fun::f_npc_has_class },
+    {"u_has_activity", "npc_has_activity", jarg::string, &conditional_fun::f_has_activity },
+    {"u_is_riding", "npc_is_riding", jarg::string, &conditional_fun::f_is_riding },
+    {"u_has_mission", jarg::string, &conditional_fun::f_u_has_mission },
+    {"u_monsters_in_direction", jarg::string, &conditional_fun::f_u_monsters_in_direction },
+    {"u_safe_mode_trigger", jarg::member, &conditional_fun::f_u_safe_mode_trigger },
+    {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_fun::f_has_strength },
+    {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_fun::f_has_dexterity },
+    {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },
+    {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
+    {"u_has_hp", "npc_has_hp", jarg::member | jarg::array, &conditional_fun::f_has_hp },
+    {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
+    {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
+    {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
+    {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
+    {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
+    {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_fun::f_has_item_category },
+    {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
+    {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
+    {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
+    {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
+    {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
+    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },
+    {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
+    {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
+    {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
+    {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
+    {"u_compare_var", "npc_compare_var", jarg::string, &conditional_fun::f_compare_var },
+    {"u_compare_time_since_var", "npc_compare_time_since_var", jarg::string, &conditional_fun::f_compare_time_since_var },
+    {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
+    {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },
+    {"npc_allies_global", jarg::member | jarg::array, &conditional_fun::f_npc_allies_global },
+    {"u_service", "npc_service", jarg::member, &conditional_fun::f_npc_service },
+    {"u_has_cash", jarg::member | jarg::array, &conditional_fun::f_u_has_cash },
+    {"u_are_owed", jarg::member | jarg::array, &conditional_fun::f_u_are_owed },
+    {"u_aim_rule", "npc_aim_rule", jarg::member, &conditional_fun::f_npc_aim_rule },
+    {"u_engagement_rule", "npc_engagement_rule", jarg::member, &conditional_fun::f_npc_engagement_rule },
+    {"u_cbm_reserve_rule", "npc_cbm_reserve_rule", jarg::member, &conditional_fun::f_npc_cbm_reserve_rule },
+    {"u_cbm_recharge_rule", "npc_cbm_recharge_rule", jarg::member, &conditional_fun::f_npc_cbm_recharge_rule },
+    {"u_rule", "npc_rule", jarg::member, &conditional_fun::f_npc_rule },
+    {"u_override", "npc_override", jarg::member, &conditional_fun::f_npc_override },
+    {"days_since_cataclysm", jarg::member | jarg::array, &conditional_fun::f_days_since },
+    {"is_season", jarg::member, &conditional_fun::f_is_season },
+    {"u_mission_goal", "mission_goal", jarg::member, &conditional_fun::f_mission_goal },
+    {"u_mission_goal", "npc_mission_goal", jarg::member, &conditional_fun::f_mission_goal },
+    {"roll_contested", jarg::member, &conditional_fun::f_roll_contested },
+    {"u_know_recipe", jarg::member, &conditional_fun::f_u_know_recipe },
+    {"one_in_chance", jarg::member | jarg::array, &conditional_fun::f_one_in_chance },
+    {"x_in_y_chance", jarg::object, &conditional_fun::f_x_in_y_chance },
+    {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_fun::f_has_worn_with_flag },
+    {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_fun::f_has_wielded_with_flag },
+    {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_fun::f_has_wielded_with_weapon_category },
+    {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_fun::f_is_on_terrain },
+    {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_fun::f_is_on_terrain_with_flag },
+    {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_fun::f_is_in_field },
+    {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_fun::f_has_move_mode },
+    {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_fun::f_can_see_location },
+    {"is_weather", jarg::member, &conditional_fun::f_is_weather },
+    {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
+    {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
+    {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
+    {"compare_int", jarg::member, &conditional_fun::f_compare_num },
+    {"compare_num", jarg::member, &conditional_fun::f_compare_num },
+    {"math", jarg::member, &conditional_fun::f_math },
+    {"compare_string", jarg::member, &conditional_fun::f_compare_string },
+    {"get_condition", jarg::member, &conditional_fun::f_get_condition },
+    {"get_game_option", jarg::member, &conditional_fun::f_get_option },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
@@ -3533,59 +3374,59 @@ parsers = {
 static const
 std::vector<condition_parser>
 parsers_simple = {
-    {"u_male", "npc_male", &conditional_t::set_is_male },
-    {"u_female", "npc_female", &conditional_t::set_is_female },
-    {"has_no_assigned_mission", &conditional_t::set_no_assigned_mission },
-    {"has_assigned_mission", &conditional_t::set_has_assigned_mission },
-    {"has_many_assigned_missions", &conditional_t::set_has_many_assigned_missions },
-    {"u_has_no_available_mission", "has_no_available_mission", &conditional_t::set_no_available_mission },
-    {"u_has_no_available_mission", "npc_has_no_available_mission", &conditional_t::set_no_available_mission },
-    {"u_has_available_mission", "has_available_mission", &conditional_t::set_has_available_mission },
-    {"u_has_available_mission", "npc_has_available_mission", &conditional_t::set_has_available_mission },
-    {"u_has_many_available_missions", "has_many_available_missions", &conditional_t::set_has_many_available_missions },
-    {"u_has_many_available_missions", "npc_has_many_available_missions", &conditional_t::set_has_many_available_missions },
-    {"u_mission_complete", "mission_complete", &conditional_t::set_mission_complete },
-    {"u_mission_complete", "npc_mission_complete", &conditional_t::set_mission_complete },
-    {"u_mission_incomplete", "mission_incomplete", &conditional_t::set_mission_incomplete },
-    {"u_mission_incomplete", "npc_mission_incomplete", &conditional_t::set_mission_incomplete },
-    {"u_mission_failed", "mission_failed", &conditional_t::set_mission_failed },
-    {"u_mission_failed", "npc_mission_failed", &conditional_t::set_mission_failed },
-    {"u_available", "npc_available", &conditional_t::set_npc_available },
-    {"u_following", "npc_following", &conditional_t::set_npc_following },
-    {"u_friend", "npc_friend", &conditional_t::set_npc_friend },
-    {"u_hostile", "npc_hostile", &conditional_t::set_npc_hostile },
-    {"u_train_skills", "npc_train_skills", &conditional_t::set_npc_train_skills },
-    {"u_train_styles", "npc_train_styles", &conditional_t::set_npc_train_styles },
-    {"u_train_spells", "npc_train_spells", &conditional_t::set_npc_train_spells },
-    {"u_at_safe_space", "at_safe_space", &conditional_t::set_at_safe_space },
-    {"u_at_safe_space", "npc_at_safe_space", &conditional_t::set_at_safe_space },
-    {"u_can_stow_weapon", "npc_can_stow_weapon", &conditional_t::set_can_stow_weapon },
-    {"u_can_drop_weapon", "npc_can_drop_weapon", &conditional_t::set_can_drop_weapon },
-    {"u_has_weapon", "npc_has_weapon", &conditional_t::set_has_weapon },
-    {"u_driving", "npc_driving", &conditional_t::set_is_driving },
-    {"u_has_activity", "npc_has_activity", &conditional_t::set_has_activity },
-    {"u_is_riding", "npc_is_riding", &conditional_t::set_is_riding },
-    {"is_day", &conditional_t::set_is_day },
-    {"u_has_stolen_item", "npc_has_stolen_item", &conditional_t::set_has_stolen_item },
-    {"u_is_outside", "is_outside", &conditional_t::set_is_outside },
-    {"u_is_outside", "npc_is_outside", &conditional_t::set_is_outside },
-    {"u_is_underwater", "npc_is_underwater", &conditional_t::set_is_underwater },
-    {"u_has_camp", &conditional_t::set_u_has_camp },
-    {"u_has_pickup_list", "has_pickup_list", &conditional_t::set_has_pickup_list },
-    {"u_has_pickup_list", "npc_has_pickup_list", &conditional_t::set_has_pickup_list },
-    {"is_by_radio", &conditional_t::set_is_by_radio },
-    {"has_reason", &conditional_t::set_has_reason },
-    {"mission_has_generic_rewards", &conditional_t::set_mission_has_generic_rewards },
-    {"u_can_see", "npc_can_see", &conditional_t::set_can_see },
-    {"u_is_deaf", "npc_is_deaf", &conditional_t::set_is_deaf },
-    {"u_is_alive", "npc_is_alive", &conditional_t::set_is_alive },
-    {"u_is_avatar", "npc_is_avatar", &conditional_t::set_is_avatar },
-    {"u_is_npc", "npc_is_npc", &conditional_t::set_is_npc },
-    {"u_is_character", "npc_is_character", &conditional_t::set_is_character },
-    {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
-    {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
-    {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
-    {"player_see_u", "player_see_npc", &conditional_t::set_player_see },
+    {"u_male", "npc_male", &conditional_fun::f_is_male },
+    {"u_female", "npc_female", &conditional_fun::f_is_female },
+    {"has_no_assigned_mission", &conditional_fun::f_no_assigned_mission },
+    {"has_assigned_mission", &conditional_fun::f_has_assigned_mission },
+    {"has_many_assigned_missions", &conditional_fun::f_has_many_assigned_missions },
+    {"u_has_no_available_mission", "has_no_available_mission", &conditional_fun::f_no_available_mission },
+    {"u_has_no_available_mission", "npc_has_no_available_mission", &conditional_fun::f_no_available_mission },
+    {"u_has_available_mission", "has_available_mission", &conditional_fun::f_has_available_mission },
+    {"u_has_available_mission", "npc_has_available_mission", &conditional_fun::f_has_available_mission },
+    {"u_has_many_available_missions", "has_many_available_missions", &conditional_fun::f_has_many_available_missions },
+    {"u_has_many_available_missions", "npc_has_many_available_missions", &conditional_fun::f_has_many_available_missions },
+    {"u_mission_complete", "mission_complete", &conditional_fun::f_mission_complete },
+    {"u_mission_complete", "npc_mission_complete", &conditional_fun::f_mission_complete },
+    {"u_mission_incomplete", "mission_incomplete", &conditional_fun::f_mission_incomplete },
+    {"u_mission_incomplete", "npc_mission_incomplete", &conditional_fun::f_mission_incomplete },
+    {"u_mission_failed", "mission_failed", &conditional_fun::f_mission_failed },
+    {"u_mission_failed", "npc_mission_failed", &conditional_fun::f_mission_failed },
+    {"u_available", "npc_available", &conditional_fun::f_npc_available },
+    {"u_following", "npc_following", &conditional_fun::f_npc_following },
+    {"u_friend", "npc_friend", &conditional_fun::f_npc_friend },
+    {"u_hostile", "npc_hostile", &conditional_fun::f_npc_hostile },
+    {"u_train_skills", "npc_train_skills", &conditional_fun::f_npc_train_skills },
+    {"u_train_styles", "npc_train_styles", &conditional_fun::f_npc_train_styles },
+    {"u_train_spells", "npc_train_spells", &conditional_fun::f_npc_train_spells },
+    {"u_at_safe_space", "at_safe_space", &conditional_fun::f_at_safe_space },
+    {"u_at_safe_space", "npc_at_safe_space", &conditional_fun::f_at_safe_space },
+    {"u_can_stow_weapon", "npc_can_stow_weapon", &conditional_fun::f_can_stow_weapon },
+    {"u_can_drop_weapon", "npc_can_drop_weapon", &conditional_fun::f_can_drop_weapon },
+    {"u_has_weapon", "npc_has_weapon", &conditional_fun::f_has_weapon },
+    {"u_driving", "npc_driving", &conditional_fun::f_is_driving },
+    {"u_has_activity", "npc_has_activity", &conditional_fun::f_has_activity },
+    {"u_is_riding", "npc_is_riding", &conditional_fun::f_is_riding },
+    {"is_day", &conditional_fun::f_is_day },
+    {"u_has_stolen_item", "npc_has_stolen_item", &conditional_fun::f_has_stolen_item },
+    {"u_is_outside", "is_outside", &conditional_fun::f_is_outside },
+    {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
+    {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
+    {"u_has_camp", &conditional_fun::f_u_has_camp },
+    {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },
+    {"u_has_pickup_list", "npc_has_pickup_list", &conditional_fun::f_has_pickup_list },
+    {"is_by_radio", &conditional_fun::f_is_by_radio },
+    {"has_reason", &conditional_fun::f_has_reason },
+    {"mission_has_generic_rewards", &conditional_fun::f_mission_has_generic_rewards },
+    {"u_can_see", "npc_can_see", &conditional_fun::f_can_see },
+    {"u_is_deaf", "npc_is_deaf", &conditional_fun::f_is_deaf },
+    {"u_is_alive", "npc_is_alive", &conditional_fun::f_is_alive },
+    {"u_is_avatar", "npc_is_avatar", &conditional_fun::f_is_avatar },
+    {"u_is_npc", "npc_is_npc", &conditional_fun::f_is_npc },
+    {"u_is_character", "npc_is_character", &conditional_fun::f_is_character },
+    {"u_is_monster", "npc_is_monster", &conditional_fun::f_is_monster },
+    {"u_is_item", "npc_is_item", &conditional_fun::f_is_item },
+    {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
+    {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )
@@ -3648,14 +3489,14 @@ conditional_t::conditional_t( const JsonObject &jo )
     for( const condition_parser &p : parsers ) {
         if( p.has_beta ) {
             if( p.check( jo ) ) {
-                ( this->*p.f_beta )( jo, p.key_alpha, false );
+                condition = p.f_beta( jo, p.key_alpha, false );
                 found = true;
             } else if( p.check( jo, true ) ) {
-                ( this->*p.f_beta )( jo, p.key_beta, true );
+                condition = p.f_beta( jo, p.key_beta, true );
                 found = true;
             }
         } else if( p.check( jo ) ) {
-            ( this->*p.f )( jo, p.key_alpha );
+            condition = p.f( jo, p.key_alpha );
             if( jo.has_member( "math" ) ) {
                 found_sub_member = true;
             }
@@ -3688,14 +3529,14 @@ conditional_t::conditional_t( std::string_view type )
     for( const condition_parser &p : parsers_simple ) {
         if( p.has_beta ) {
             if( type == p.key_alpha ) {
-                ( this->*p.f_beta_simple )( false );
+                condition = p.f_beta_simple( false );
                 found = true;
             } else if( type == p.key_beta ) {
-                ( this->*p.f_beta_simple )( true );
+                condition = p.f_beta_simple( true );
                 found = true;
             }
         } else if( type == p.key_alpha ) {
-            ( this->*p.f_simple )();
+            condition = p.f_simple();
             found = true;
         }
         if( found ) {
