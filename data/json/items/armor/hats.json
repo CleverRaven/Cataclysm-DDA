@@ -24,6 +24,11 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+    "id": "trilby_hat",
+    "type": "ARMOR",
+    "name": { "str": "trilby hat" },
+    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "copy-from": "10gal_hat"
   },
   {
     "id": "bandana_head",
@@ -63,7 +68,7 @@
     "category": "clothing",
     "name": { "str": "head neckwarmer" },
     "description": "A synthetic fabric neckwarmer, worn over the head.",
-    "weight": "42 g",
+    "weight": "50 g",
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
