@@ -76,10 +76,10 @@ struct deferred_math {
 
 struct condition_parser {
     using condition_func = conditional_t::func;
-    using f_t = condition_func (*) ( const JsonObject &, std::string_view );
-    using f_t_beta = condition_func (*) ( const JsonObject &, std::string_view, bool );
-    using f_t_simple = condition_func (*) ();
-    using f_t_beta_simple = condition_func (*) ( bool );
+    using f_t = condition_func( * )( const JsonObject &, std::string_view );
+    using f_t_beta = condition_func( * )( const JsonObject &, std::string_view, bool );
+    using f_t_simple = condition_func( * )();
+    using f_t_beta_simple = condition_func( * )( bool );
 
     condition_parser( std::string_view key_alpha_, jarg arg_, f_t f_ ) : key_alpha( key_alpha_ ),
         arg( arg_ ), f( f_ ) {}
@@ -535,8 +535,10 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
 }
 
 
-namespace conditional_fun {
-namespace {
+namespace conditional_fun
+{
+namespace
+{
 
 conditional_t::func f_has_any_trait( const JsonObject &jo, std::string_view member, bool is_npc )
 {
@@ -580,7 +582,7 @@ conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view 
 }
 
 conditional_t::func f_has_martial_art( const JsonObject &jo, std::string_view member,
-        bool is_npc )
+                                       bool is_npc )
 {
     str_or_var style_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [style_to_check, is_npc]( dialogue const & d ) {
@@ -589,7 +591,7 @@ conditional_t::func f_has_martial_art( const JsonObject &jo, std::string_view me
 }
 
 conditional_t::func f_has_flag( const JsonObject &jo, std::string_view member,
-                                  bool is_npc )
+                                bool is_npc )
 {
     str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [trait_flag_to_check, is_npc]( dialogue const & d ) {
@@ -602,7 +604,7 @@ conditional_t::func f_has_flag( const JsonObject &jo, std::string_view member,
 }
 
 conditional_t::func f_has_species( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
+                                   bool is_npc )
 {
     str_or_var species_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [species_to_check, is_npc]( dialogue const & d ) {
@@ -612,7 +614,7 @@ conditional_t::func f_has_species( const JsonObject &jo, std::string_view member
 }
 
 conditional_t::func f_bodytype( const JsonObject &jo, std::string_view member,
-                                  bool is_npc )
+                                bool is_npc )
 {
     str_or_var bt_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [bt_to_check, is_npc]( dialogue const & d ) {
@@ -628,12 +630,13 @@ conditional_t::func f_has_activity( bool is_npc )
     };
 }
 
-conditional_t::func f_has_activity( const JsonObject &, std::string_view, bool is_npc ) {
+conditional_t::func f_has_activity( const JsonObject &, std::string_view, bool is_npc )
+{
     return f_has_activity( is_npc );
 }
 
 conditional_t::func f_has_proficiency( const JsonObject &jo, std::string_view member,
-        bool is_npc )
+                                       bool is_npc )
 {
     str_or_var proficiency_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [proficiency_to_check, is_npc]( dialogue const & d ) {
@@ -648,12 +651,13 @@ conditional_t::func f_is_riding( bool is_npc )
     };
 }
 
-conditional_t::func f_is_riding( const JsonObject &, std::string_view, bool is_npc ) {
+conditional_t::func f_is_riding( const JsonObject &, std::string_view, bool is_npc )
+{
     return f_is_riding( is_npc );
 }
 
 conditional_t::func f_npc_has_class( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
+                                     bool is_npc )
 {
     str_or_var class_to_check = get_str_or_var( jo.get_member( member ), member, true );
     return [class_to_check, is_npc]( dialogue const & d ) {
@@ -699,7 +703,7 @@ conditional_t::func f_u_safe_mode_trigger( const JsonObject &jo, std::string_vie
 }
 
 conditional_t::func f_has_strength( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
+                                    bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     return [dov, is_npc]( dialogue & d ) {
@@ -708,7 +712,7 @@ conditional_t::func f_has_strength( const JsonObject &jo, std::string_view membe
 }
 
 conditional_t::func f_has_dexterity( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
+                                     bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     return [dov, is_npc]( dialogue & d ) {
@@ -717,7 +721,7 @@ conditional_t::func f_has_dexterity( const JsonObject &jo, std::string_view memb
 }
 
 conditional_t::func f_has_intelligence( const JsonObject &jo, std::string_view member,
-        bool is_npc )
+                                        bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     return [dov, is_npc]( dialogue & d ) {
@@ -726,7 +730,7 @@ conditional_t::func f_has_intelligence( const JsonObject &jo, std::string_view m
 }
 
 conditional_t::func f_has_perception( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
+                                      bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     return [dov, is_npc]( dialogue & d ) {
@@ -746,7 +750,7 @@ conditional_t::func f_has_hp( const JsonObject &jo, std::string_view member, boo
 }
 
 conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
+                                     bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
     std::optional<bodypart_id> bp;
@@ -759,7 +763,7 @@ conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view memb
 }
 
 conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
-                                    bool is_npc )
+                                  bool is_npc )
 {
     str_or_var item_id = get_str_or_var( jo.get_member( member ), member, true );
     return [item_id, is_npc]( dialogue const & d ) {
@@ -778,7 +782,7 @@ conditional_t::func f_has_item( const JsonObject &jo, std::string_view member, b
 }
 
 conditional_t::func f_has_items( const JsonObject &jo, const std::string_view member,
-                                   bool is_npc )
+                                 bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
     if( !has_items.has_member( "item" ) || ( !has_items.has_member( "count" ) &&
@@ -840,7 +844,7 @@ conditional_t::func f_has_item_category( const JsonObject &jo, std::string_view 
 }
 
 conditional_t::func f_has_bionics( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
+                                   bool is_npc )
 {
     str_or_var bionics_id = get_str_or_var( jo.get_member( member ), member, true );
     return [bionics_id, is_npc]( dialogue const & d ) {
@@ -853,7 +857,7 @@ conditional_t::func f_has_bionics( const JsonObject &jo, std::string_view member
 }
 
 conditional_t::func f_has_any_effect( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
+                                      bool is_npc )
 {
     std::vector<str_or_var> effects_to_check;
     for( JsonValue jv : jo.get_array( member ) ) {
@@ -880,7 +884,7 @@ conditional_t::func f_has_any_effect( const JsonObject &jo, std::string_view mem
 }
 
 conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
-                                    bool is_npc )
+                                  bool is_npc )
 {
     str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var intensity = get_dbl_or_var( jo, "intensity", false, -1 );
@@ -923,7 +927,7 @@ conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool 
 }
 
 conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view member,
-                                        bool is_npc )
+                                      bool is_npc )
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     return [location, is_npc]( dialogue const & d ) {
@@ -948,7 +952,7 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
 }
 
 conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view member,
-        bool is_npc )
+                                        bool is_npc )
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
@@ -1030,7 +1034,7 @@ conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view membe
 }
 
 conditional_t::func f_compare_var( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
+                                   bool is_npc )
 {
     dbl_or_var empty;
     const std::string var_name = get_talk_varname( jo, member, false, empty );
@@ -1162,7 +1166,7 @@ conditional_t::func f_u_are_owed( const JsonObject &jo, std::string_view member 
 }
 
 conditional_t::func f_npc_aim_rule( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
+                                    bool is_npc )
 {
     str_or_var setting = get_str_or_var( jo.get_member( member ), member, true );
     return [setting, is_npc]( dialogue const & d ) {
@@ -1206,7 +1210,7 @@ conditional_t::func f_npc_rule( const JsonObject &jo, std::string_view member, b
 }
 
 conditional_t::func f_npc_override( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
+                                    bool is_npc )
 {
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     return [rule, is_npc]( dialogue const & d ) {
@@ -1235,7 +1239,7 @@ conditional_t::func f_is_season( const JsonObject &jo, std::string_view member )
 }
 
 conditional_t::func f_mission_goal( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
+                                    bool is_npc )
 {
     str_or_var mission_goal_str = get_str_or_var( jo.get_member( member ), member, true );
     return [mission_goal_str, is_npc]( dialogue const & d ) {
@@ -1255,10 +1259,12 @@ conditional_t::func f_is_gender( bool is_male, bool is_npc )
     };
 }
 
-conditional_t::func f_is_male( bool is_npc ) {
+conditional_t::func f_is_male( bool is_npc )
+{
     return f_is_gender( true, is_npc );
 }
-conditional_t::func f_is_female( bool is_npc ) {
+conditional_t::func f_is_female( bool is_npc )
+{
     return f_is_gender( false, is_npc );
 }
 
@@ -1722,9 +1728,11 @@ conditional_t::func f_compare_num( const JsonObject &jo, const std::string_view 
             return false;
         };
     }
-    std::function<double( dialogue & )> get_first_dbl = objects.has_object( 0 ) ? conditional_t::get_get_dbl(
+    std::function<double( dialogue & )> get_first_dbl = objects.has_object(
+                0 ) ? conditional_t::get_get_dbl(
                 objects.get_object( 0 ) ) : conditional_t::get_get_dbl( objects.get_string( 0 ), jo );
-    std::function<double( dialogue & )> get_second_dbl = objects.has_object( 2 ) ? conditional_t::get_get_dbl(
+    std::function<double( dialogue & )> get_second_dbl = objects.has_object(
+                2 ) ? conditional_t::get_get_dbl(
                 objects.get_object( 2 ) ) : conditional_t::get_get_dbl( objects.get_string( 2 ), jo );
     const std::string &op = objects.get_string( 1 );
 
@@ -1876,7 +1884,7 @@ conditional_t::func f_is_deaf( bool is_npc )
 }
 
 conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
+                                     bool is_npc )
 {
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
     return [terrain_type, is_npc]( dialogue const & d ) {
@@ -1896,7 +1904,7 @@ conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string
 }
 
 conditional_t::func f_is_in_field( const JsonObject &jo, std::string_view member,
-                                     bool is_npc )
+                                   bool is_npc )
 {
     str_or_var field_type = get_str_or_var( jo.get_member( member ), member, true );
     return [field_type, is_npc]( dialogue const & d ) {
@@ -1913,7 +1921,7 @@ conditional_t::func f_is_in_field( const JsonObject &jo, std::string_view member
 }
 
 conditional_t::func f_has_move_mode( const JsonObject &jo, std::string_view member,
-                                       bool is_npc )
+                                     bool is_npc )
 {
     str_or_var mode = get_str_or_var( jo.get_member( member ), member, true );
     return [mode, is_npc]( dialogue const & d ) {
@@ -1922,7 +1930,7 @@ conditional_t::func f_has_move_mode( const JsonObject &jo, std::string_view memb
 }
 
 conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view member,
-        bool is_npc )
+                                        bool is_npc )
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( dialogue const & d ) {
