@@ -3357,9 +3357,9 @@ void overmap::set_scent( const tripoint_abs_omt &loc, const scent_trace &new_sce
     scents[loc] = new_scent;
 }
 
-void overmap::set_omt_outside_defined_omap( std::string sin )
+void overmap::set_omt_outside_defined_omap( const std::string sin )
 {
-    omt_outside_defined_omap( const sin );
+    omt_outside_defined_omap( sin );
 }
 
 void overmap::generate( const overmap *north, const overmap *east,
