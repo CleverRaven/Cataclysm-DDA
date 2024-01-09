@@ -5688,7 +5688,7 @@
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
-    "flags": [ "WINGS_2", "WING_GLIDE" ]
+    "flags": [ "WINGS_2", "WING_GLIDE", "ARM_WINGS" ]
   },
   {
     "type": "mutation",
@@ -6775,9 +6775,11 @@
     "ugliness": 4,
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
+    "flags": [ "WINGGLIDE", "WINGS_2", "ARM_WINGS" ]
     "prereqs": [ "WEBBED" ],
     "category": [ "CHIROPTERAN" ],
-    "threshreq": [ "THRESH_CHIROPTERAN" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
   },
   {
     "type": "mutation",
@@ -6863,7 +6865,8 @@
       "RAT",
       "CHIMERA",
       "SPIDER",
-      "CRUSTACEAN"
+      "CRUSTACEAN",
+      "CHIROPTERAN"
     ]
   },
   {
