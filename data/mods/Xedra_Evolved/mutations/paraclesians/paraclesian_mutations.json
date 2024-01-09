@@ -278,7 +278,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "description": "Upon gaining this ability the Undine gains the ability to create a cloud of damaging steam.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "cloud_of_steam_undine", 1 ] ]
   },
@@ -300,7 +300,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "description": "Upon gaining this ability the Salamander gains the ability to create light.",
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "create_light_salamander", 1 ] ]
   },
