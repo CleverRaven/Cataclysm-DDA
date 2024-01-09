@@ -3886,6 +3886,8 @@ std::string enum_to_string<link_state>( link_state data )
             return "no_link";
         case link_state::needs_reeling:
             return "needs_reeling";
+        case link_state::automatic:
+            return "automatic";
         case link_state::vehicle_port:
             return "vehicle_port";
         case link_state::vehicle_battery:

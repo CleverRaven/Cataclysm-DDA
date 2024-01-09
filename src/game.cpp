@@ -33,6 +33,10 @@
 #include <utility>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -2548,7 +2552,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -3418,6 +3422,11 @@ bool game::save()
                 fout.imbue( std::locale::classic() );
                 fout << total_time_played.count();
             } );
+#if defined(EMSCRIPTEN)
+            // This will allow the window to be closed without a prompt, until do_turn()
+            // is called.
+            EM_ASM( window.game_unsaved = false; );
+#endif
             return true;
         }
     } catch( std::ios::failure & ) {

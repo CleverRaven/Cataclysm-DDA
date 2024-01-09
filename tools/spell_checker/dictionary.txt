@@ -1780,6 +1780,7 @@ macronutrient
 macrophenotypic
 macuahuitl
 maculata
+magicks
 magickal
 magwells
 maiasaura

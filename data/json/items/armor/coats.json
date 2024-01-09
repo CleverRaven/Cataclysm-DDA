@@ -1209,12 +1209,12 @@
     "id": "jacket_flannel",
     "type": "ARMOR",
     "name": { "str": "flannel jacket" },
-    "description": "A jacket made from flannel-style denim, favored by outdoorsy types.",
+    "description": "A jacket made from flannel, favored by outdoorsy types.",
     "weight": "958 g",
     "volume": "4250 ml",
     "price": 6000,
     "price_postapoc": 250,
-    "material": [ "denim" ],
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
@@ -1239,7 +1239,6 @@
       }
     ],
     "warmth": 35,
-    "//": "Moderate weight 9 oz jacket.",
     "material_thickness": 0.7,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1258,9 +1257,9 @@
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 14, 16 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 10 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 14, 14 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
     ],
     "pocket_data": [
       {
@@ -1308,7 +1307,7 @@
     "looks_like": "vest_leather",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 10 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 }
     ],
     "pocket_data": [

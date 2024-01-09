@@ -42,7 +42,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nail", 10 ] ] ]
+    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nail", 10 ], [ "bronze_nail", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -88,7 +88,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -103,7 +103,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -214,7 +214,7 @@
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 200 ], [ "nail", 100 ] ],
+      [ [ "bb", 200 ], [ "nail", 100 ], [ "bronze_nail", 100 ] ],
       [
         [ "gunpowder", 720 ],
         [ "chem_black_powder", 720 ],

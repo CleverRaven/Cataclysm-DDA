@@ -130,7 +130,7 @@
     "shape": "blast",
     "spell_class": "IERDE",
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "str_to_level(1)" ] },
+    "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 8,
     "base_casting_time": 180000,
     "final_casting_time": 100,
