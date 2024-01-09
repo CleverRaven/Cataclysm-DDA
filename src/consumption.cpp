@@ -1816,7 +1816,8 @@ trinary Character::consume( item &target, bool force )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return trinary::NONE;
     }
-    if( (!has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER )  ) && cant_do_underwater() ) {
+    if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
+        cant_do_underwater() ) {
         return trinary::NONE;
     }
 
