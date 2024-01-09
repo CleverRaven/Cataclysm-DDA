@@ -32,6 +32,7 @@
       "ς": "t_door_metal_locked",
       "g": "t_switchgear_s",
       "ω": "t_metal_floor",
+      "~": "t_water_cube",
       "ξ": "t_deck_coating_no_roof",
       "θ": "t_metal_floor",
       "A": "t_metal_floor",
@@ -109,7 +110,15 @@
       "Λ": "t_metal_floor",
       "μ": "t_metal_floor",
       "β": "t_metal_floor",
-      "Δ": "t_metal_floor"
+      "Δ": "t_metal_floor",
+      "δ": "t_metal_floor",
+      "ε": "t_metal_floor",
+      "ζ": "t_metal_floor",
+      "=": "t_metal_floor",
+      "n": "t_metal_floor",
+      "Θ": "t_metal_floor",
+      "J": "t_metal_floor",
+      "K": "t_metal_floor"
     },
     "furniture": {
       "θ": "f_rack",
@@ -377,9 +386,7 @@
     "nested": {
       "δ": { "chunks": [ [ "null", 2 ], [ "crates_supplies_mechanics", 3 ] ] },
       "ε": { "chunks": [ [ "null", 2 ], [ "crates_armament_milspec", 3 ] ] },
-      "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] },
-      "~": { "chunks": [ "1x1_water_cube" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] },
-      " ": { "chunks": [ "1x1_water_dp" ], "predecessors": [ { "om_terrain": "lake", "om_terrain_match_type": "PREFIX" } ] }
+      "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] }
     },
     "vehicles": {
       "n": { "vehicle": "hospital_bed", "chance": 100, "status": 1 },
