@@ -1,6 +1,7 @@
 [
   {
     "id": "ppshdrum",
+    "//": "Audited by previous PR, longest_side with ImageJ.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "PPSh 71-round drum magazine" },
@@ -21,6 +22,7 @@
   },
   {
     "id": "ppshmag",
+    "//": "Audited with ImageJ.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "PPSh 35-round magazine" },
@@ -39,6 +41,7 @@
   },
   {
     "id": "tokarevmag",
+    "//": "Audited from schematics.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Tokarev 8-round magazine" },
