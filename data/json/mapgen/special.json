@@ -45,7 +45,28 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "special_waterbody_shore",
-    "//": "For use over existing shore where it's unknown whether it's lake or ocean",
-    "object": { "fallback_predecessor_mapgen": "ocean_shore" }
+    "//": "For use over existing lake/ocean where it's unknown which of the two are required and allowing placement over surface rather than just shore for islands",
+    "object": {
+      "predecessor_mapgen": "lake_shore",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_saltify" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "OCEAN" ],
+            "east": [ "OCEAN" ],
+            "south": [ "OCEAN" ],
+            "west": [ "OCEAN" ],
+            "north_east": [ "OCEAN" ],
+            "north_west": [ "OCEAN" ],
+            "south_east": [ "OCEAN" ],
+            "south_west": [ "OCEAN" ],
+            "above": [ "OCEAN" ],
+            "below": [ "OCEAN" ]
+          }
+        }
+      ]
+    }
   }
 ]
