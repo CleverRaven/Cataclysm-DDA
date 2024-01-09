@@ -1167,8 +1167,7 @@
     "difficulty": 0,
     "action": "sound_detect",
     "sound_threshold": [ 15, 25 ]
-  }
-
+  },
   {
     "type": "trap",
     "id": "tr_weak_floor",

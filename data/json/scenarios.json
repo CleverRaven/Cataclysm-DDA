@@ -1375,7 +1375,8 @@
     "points": -3,
     "description": "It's difficult to remember whether you were a patient or one of the staff.  There's hardly any difference now, but you know one thing - you have got to get out of here.",
     "allowed_locs": [ "lab_mental_hospital_2f" ],
-    "flags:" [ "LONE_START" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Psychiatric Hospital",
     "professions": [
       "patient",
       "mutant_patient",
