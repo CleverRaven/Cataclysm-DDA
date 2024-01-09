@@ -68,6 +68,18 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "special_lake_ocean_shore",
+    "//": "For use over existing shore where it's unknown whether it's lake or ocean",
+    "copy-from": "generic_water",
+    "name": "shore",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 1,
+    "travel_cost_type": "shore",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_air",
     "name": "open air",
     "sym": ".",

@@ -40,5 +40,12 @@
     "method": "json",
     "om_terrain": "special_air",
     "object": { "predecessor_mapgen": "open_air" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_lake_ocean_shore",
+    "//": "For use over existing shore where it's unknown whether it's lake or ocean",
+    "object": { "fallback_predecessor_mapgen": "ocean_shore" }
   }
 ]
