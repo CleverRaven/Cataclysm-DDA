@@ -69,7 +69,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
     "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "OCEAN", "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -81,7 +81,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
     "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "OCEAN", "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -93,7 +93,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
     "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "OCEAN", "LAKE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -156,7 +156,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -171,7 +171,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -186,7 +186,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -201,7 +201,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -216,7 +216,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -231,7 +231,7 @@
     "locations": [ "waterbody_shore" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -1220,7 +1220,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1356,7 +1356,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4270,7 +4270,7 @@
     "locations": [ "waterbody_shore" ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4363,7 +4363,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4420,7 +4420,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4445,7 +4445,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4513,7 +4513,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4656,7 +4656,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4724,7 +4724,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4804,7 +4804,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4845,7 +4845,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4886,7 +4886,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4927,7 +4927,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4968,7 +4968,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE", "OCEAN", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
