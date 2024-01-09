@@ -71,6 +71,7 @@
     "id": "mon_dog_cuspated",
     "type": "MONSTER",
     "name": { "str": "cuspated dog" },
+    "//": "Cuspated just means angled, sharp, pointy. Other ways of translating the feel of the name may be something akin to 'scythe dog', or 'beaked beast'.",
     "description": "This dog's snout and jaw have seemingly fused together, the skin and flesh ranging from completely gone or barely hanging on. The boney mass as a whole has an incredibly sharp yet jagged point. It stumbles around, barely keeping its hefty 'beak' from hitting the ground.",
     "default_faction": "zombie",
     "bodytype": "dog",
@@ -94,12 +95,12 @@
     "vision_day": 15,
     "vision_night": 5,
     "harvest": "zombie_dog",
-    "//": "Can't bite because it doesn't exactly have a mouth anymore. Instead, it's effectively a one-hit, one-trick wonder. It tries to drive its extremely sharp beak into you. If it succeeds, you're thoroughly damaged. If it fails, it's screwed.",
+    "//2": "Can't bite because it doesn't exactly have a mouth anymore. Instead, it's effectively a one-hit, one-trick wonder. It tries to drive its extremely sharp beak into you. If it succeeds, you're thoroughly damaged. If it fails, it's screwed.",
     "special_attacks": [ { "id": "wicked_impale", "attack_upper": false } ],
     "death_drops": "mon_dog_death_drops",
     "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
-    "//2": "Minor amounts of protection due to the boney jaw.",
+    "//3": "Minor amounts of protection due to the boney jaw.",
     "armor": { "cut": 5, "stab": 8, "acid": 1, "bullet": 8, "electric": 1 }
   },
   {
