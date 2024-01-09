@@ -3593,3 +3593,8 @@ template std::function<void( dialogue &, double )>
 conditional_t::get_set_dbl<>( const kwargs_shim &,
                               const std::optional<dbl_or_var_part> &,
                               const std::optional<dbl_or_var_part> &, bool );
+
+template std::function<void( dialogue &, double )>
+conditional_t::get_set_dbl<>( const JsonObject &,
+                              const std::optional<dbl_or_var_part> &,
+                              const std::optional<dbl_or_var_part> &, bool );
