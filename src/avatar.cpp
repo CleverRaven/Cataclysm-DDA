@@ -1962,7 +1962,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) || has_trait ( trait_UNDINE_SLEEP_WATER ) ) {
+    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
