@@ -778,7 +778,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     // TODO: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
-    if( is_underwater() && (!has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) )  ) {
+    if( is_underwater() && ( !has_trait( trait_WATERSLEEP ) ||
+                             has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
@@ -1815,7 +1816,8 @@ trinary Character::consume( item &target, bool force )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return trinary::NONE;
     }
-    if( (!has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER )  ) && cant_do_underwater() ) {
+    if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
+        cant_do_underwater() ) {
         return trinary::NONE;
     }
 
