@@ -1001,6 +1001,13 @@
     ]
   },
   {
+    "id": "beanie_hat",
+    "type": "ARMOR",
+    "name": { "str": "beanie hat" },
+    "description": "A comfortable, snug-fitting beanie hat.  Quite warm.",
+    "copy-from": "hat_cotton"
+  },
+  {
     "id": "hat_fur",
     "type": "ARMOR",
     "name": { "str": "fur hat" },
@@ -1026,12 +1033,29 @@
     ]
   },
   {
+    "id": "ushanka",
+    "type": "ARMOR",
+    "name": { "str": "ushanka" },
+    "description": "A typically Russian hat made from the pelts of animals with earflaps.  Extremely warm to endure the Siberian Winter.",
+    
+  },
+  {
     "id": "hat_faux_fur",
     "type": "ARMOR",
     "copy-from": "hat_fur",
     "looks_like": "hat_fur",
     "name": { "str": "faux fur hat" },
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
+    "material": [ "faux_fur", "cotton" ],
+    "warmth": 50
+  },
+  {
+    "id": "fushanka",
+    "type": "ARMOR",
+    "copy-from": "hat_fur",
+    "looks_like": "hat_fur",
+    "name": { "str": "faux fur ushanka" },
+    "description": "A ushanka made of faux fur, a typically Russian headgear with a nice pair of earflaps.  Like real fur, but without the suffering.  Very warm to endure the Russian Winter.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 50
   },
@@ -1486,6 +1510,14 @@
     ]
   },
   {
+    "id": "k_beanie",
+    "type": "ARMOR",
+    "name": { "str": "knit beanie hat" },
+    "description": "A very comfortable, snug-fitting beanie hat knitted from wool.  Very warm.",
+    "copy-from": "hat_knit"
+    
+  },
+  {
     "id": "hat_newsboy",
     "type": "ARMOR",
     "name": { "str": "newsboy cap" },
@@ -1780,6 +1812,58 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+  },
+  {
+    "id": "tinfoil_boat",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tinfoil boat hat" },
+    "description": "A sheet of aluminum foil that has been molded into the shape of a boat that fits the head.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM.",
+    "copy-from": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_fedora",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tinfoil fedora" },
+    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting fedora.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but with STYLE.",
+    "weight": "32 g",
+    "volume": "250 ml",
+    "copy-from": "tinfoil_hat"
+    
+  },
+  {
+    "id": "paper_boat",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "paperboat hat" },
+    "description": "A hat constructed using a single sheet of paper, which was folded and manipulated to form the shape of a boat.",
+    "weight": "3 g",
+    "volume": "12 ml",
+    "price": 16,
+    "price_postapoc": 10,
+    "material": [ "paper" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "warmth": 2,
+    "color": "white",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "SOFT" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
+  },
+  {
+    "id": "news_boat",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "newspaperboat hat" },
+    "description": "A hat constructed using a single page of newspaper, which was folded and manipulated to form the shape of a boat.",
+    "copy-from": "paper_boat"
   },
   {
     "id": "tophat",
