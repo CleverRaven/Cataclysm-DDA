@@ -126,7 +126,7 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ], [ "needle_steel", 30 ], [ "tailors_kit", 30 ], [ "superglue", 1 ] ], [ [ "fire", 1] ] ],
+    "tools": [ [ [ "sewing_kit", 30 ], [ "needle_steel", 30 ], [ "tailors_kit", 30 ], [ "superglue", 1 ] ], [ [ "fire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ 
       [ 
