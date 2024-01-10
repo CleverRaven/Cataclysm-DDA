@@ -296,8 +296,8 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Undine's are born of the waters, and water is their home.  This trait allows them to move much faster when in water.",
-    "prereqs": [ "BREATHE_UNDERWATER" ],
+    "description": "The Undines are born of the waters and water is their home.  This trait allows them to move much faster when in water.",
+    "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
     "movecost_swim_modifier": 0.8
@@ -356,7 +356,6 @@
     "time": 2,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_UNDINE_WATER_FORM_ON" ],
-    "processed_eocs": [ "EOC_UNDINE_WATER_FORM_TRAITS" ],
     "deactivated_eocs": [ "EOC_UNDINE_WATER_FORM_OFF" ]
   },
   {
