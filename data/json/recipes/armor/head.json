@@ -149,16 +149,7 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "components": [ 
-      [ 
-        [ "scrap", 20 ] ], 
-      [ 
-        [ "superglue", 1 ] ], 
-      [ 
-        [ "hat_ball", 1 ], 
-        [ "trucker_hat", 1 ] 
-      ] 
-    ]
+    "components": [ [ [ "scrap", 20 ] ], [ [ "superglue", 1 ] ], [ [ "hat_ball", 1 ], [ "trucker_hat", 1 ] ] ]
   },
   {
     "result": "chaplet",
