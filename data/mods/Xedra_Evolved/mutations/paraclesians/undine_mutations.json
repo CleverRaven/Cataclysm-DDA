@@ -334,7 +334,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing damage is reduced even further, and ballistic damage is halved.  However, the Undine neds to drink more water.",
+    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2" ],
     "category": [ "UNDINE" ],
     "thirst_modifier": 0.25,
