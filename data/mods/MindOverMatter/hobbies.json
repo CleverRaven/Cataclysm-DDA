@@ -133,7 +133,7 @@
     "subtype": "hobby",
     "id": "late_electrokinetic",
     "name": "Ascended Electrokinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You managed to drive the entire week the sky broke on a single charge in your car, and while you had to abandon it since then it got you out of the worst of the cities.  Anything that attacks you hs to face your lightning and you haven't found anything yet that can withstand it.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You managed to drive the entire week the sky broke on a single charge in your car, and while you had to abandon it since then it got you out of the worst of the cities.  Anything that attacks you has to face your lightning and you haven't found anything yet that can withstand it.",
     "points": 11,
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
     "skills": [ { "level": 7, "name": "metaphysics" } ],
