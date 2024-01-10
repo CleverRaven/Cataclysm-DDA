@@ -263,7 +263,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes and 30 seconds to 7 minutes and 30 seconds, plus 12 seconds to 25 seconds per level<br />
 *Stamina Cost*: 8000, minus 150 per level to a minimum of 4500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
-*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.
+*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
 *Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
 
 ## Prescient Tactician (C)
@@ -272,10 +272,10 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 1 to 3 minutes, plus 9 seconds to 23 seconds per level<br />
 *Stamina Cost*: 7500, minus 125 per level to a minimum of 4000<br />
 *Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 60<br />
-*Effects*: The psion enters a trance and predicts the flow of an entire group of combatants. While this inhibits their own combat ability, causing a -6 dodge and -5 hit penalty, the prescient orders they call out add a +4 dodge bonus and +1 block and dodge, +1 extra block and dodge to 8 power levels, to all allies who are close enough to hear the orders.
+*Effects*: The psion enters a trance and predicts the flow of an entire group of combatants. While this inhibits their own combat ability, causing a -6 dodge and -5 hit penalty, the prescient orders they call out add a +4 dodge bonus and +1 block and dodge, +1 extra block and dodge to 8 power levels, to all allies who are close enough to hear the orders.<br />
 *Prerequisites*: Combat Sense 8, Marksman's Eye 7<br />
 
-## Satellite View
+## Omniscience
 *Difficulty*: 10<br />
 *Target*: An area of XXXXXXXXXXXXX squares around the psion<br />
 *Duration*: 2 to 10 seconds, plus 0.75 to 1.5 seconds per power level<br />
