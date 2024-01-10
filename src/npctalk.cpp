@@ -4609,9 +4609,7 @@ void talk_effect_fun_t::set_transform_item( const JsonObject &jo, std::string_vi
         if( it && it->get_item() ) {
             const std::string target_str = target_id.evaluate( d );
             ( *it )->convert( itype_id( target_str ), it->carrier() );
-            if( activate ) {
-                ( *it )->active = true;
-            }
+            ( *it )->active = activate || ( *it )->has_temperature();
         } else {
             debugmsg( "beta talker must be Item." );
         }
