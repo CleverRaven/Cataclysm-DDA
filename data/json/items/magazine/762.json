@@ -153,6 +153,7 @@
   },
   {
     "id": "bren2_762mag30",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Bren 2 30-round magazine" },
@@ -170,6 +171,7 @@
   },
   {
     "id": "bren2_762mag10",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Bren 2 10-round magazine" },
@@ -187,6 +189,7 @@
   },
   {
     "id": "762_ar15mag_5rd",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "7.62mm 5-round conversion magazine" },
@@ -205,6 +208,7 @@
   },
   {
     "id": "762_ar15mag_10rd",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "7.62mm 10-round conversion magazine" },
@@ -222,6 +226,7 @@
   },
   {
     "id": "762_ar15mag_20rd",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "7.62mm 20-round conversion magazine" },
@@ -239,6 +244,7 @@
   },
   {
     "id": "762_ar15mag_30rd",
+    "//": "Dimensions and weight are from previous PR, not sure of methods.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "7.62mm 30-round conversion magazine" },
