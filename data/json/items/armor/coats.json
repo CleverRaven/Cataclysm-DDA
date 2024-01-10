@@ -2000,7 +2000,7 @@
     "id": "leather_police_jacket",
     "type": "ARMOR",
     "name": { "str": "motorcycle jacket" },
-    "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes. The leather is thick enough that it could likely support extra padding.",
+    "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.  The leather is thick enough that it could likely support extra padding.",
     "weight": "2700 g",
     "volume": "3500 ml",
     "price": 30000,
