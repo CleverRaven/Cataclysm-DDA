@@ -171,6 +171,7 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
+static const trait_id trait_UNDINE_ABSORB_WATER( "UNDINE_ABSORB_WATER" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_VINES1( "VINES1" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -312,6 +313,9 @@ void suffer::while_underwater( Character &you )
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
+        you.mod_thirst( -1 );
+    }
+    if( you.has_trait( trait_UNDINE_ABSORB_WATER ) && you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
 }
