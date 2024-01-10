@@ -4621,7 +4621,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
 {
     str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
 
-    dbl_or_var volume = get_dbl_or_var(jo,"volume", true);
+    dbl_or_var volume = get_dbl_or_var( jo, "volume", true );
     bool ambient = jo.get_bool( "ambient", false );
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
@@ -4679,7 +4679,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message, ambient );
+        sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message,
+                       ambient );
     };
 }
 
