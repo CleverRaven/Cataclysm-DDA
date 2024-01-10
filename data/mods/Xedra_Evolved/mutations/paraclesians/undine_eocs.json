@@ -166,6 +166,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_TRAITS_LOSE_WATER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "UNDINE_WATER_FORM_TRAITS" },
+    "effect": [ { "math": [ "u_val('thirst')", "+=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNDINE_WATER_FORM_ON",
     "effect": [
       { "u_add_trait": "UNDINE_WATER_FORM_TRAITS" },

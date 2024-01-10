@@ -401,7 +401,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
     "effect": "area_push",
     "shape": "blast",
     "min_range": 0,
