@@ -1537,7 +1537,7 @@
     "id": "mon_zombie_ocular",
     "type": "MONSTER",
     "name": { "str": "ocular zombie" },
-    "description": "This otherwise-regular zombie's head is absolutely filled to the brim with eyes, half of them frantically swiveling in their orbits. The other half are staring directly at you.",
+    "description": "This otherwise-regular zombie's head is absolutely filled to the brim with eyes, half of them frantically swiveling in their orbits.  The other half are staring directly at you.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
