@@ -738,7 +738,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
       } 
-    ],
+    ]
   },
   {
     "id": "scrap_cap1",
