@@ -636,8 +636,17 @@ void conditional_t::set_u_profession( const JsonObject &jo, std::string_view mem
     str_or_var u_profession = get_str_or_var( jo.get_member( member ), member, true );
     condition = [u_profession]( dialogue const & d ) {
         const profession *prof = get_player_character().get_profession();
+        std::set<const profession *> hobbies = get_player_character().get_hobbies();
         if( prof->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
             return true;
+        } else if( profession_id( u_profession.evaluate( d ) )->is_hobby() ) {
+            for ( const profession *hob : hobbies ) {
+                if( hob->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
+                    return true;
+                }
+                break;
+            }
+            return false;
         } else {
             return false;
         }
