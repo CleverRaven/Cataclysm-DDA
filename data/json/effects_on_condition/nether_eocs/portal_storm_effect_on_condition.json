@@ -1105,7 +1105,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
