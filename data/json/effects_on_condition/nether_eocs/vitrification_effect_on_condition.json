@@ -54,12 +54,12 @@
         {
           "id": "EOC_vitrified_entry_state",
           "effect": [
-            { "math": [ "u_glass_health_head", "=", "u_val('hp','bodypart: head')" ] },
-            { "math": [ "u_glass_health_torso", "=", "u_val('hp','bodypart: torso')" ] },
-            { "math": [ "u_glass_health_arm_l", "=", "u_val('hp','bodypart: arm_l')" ] },
-            { "math": [ "u_glass_health_arm_r", "=", "u_val('hp','bodypart: arm_r')" ] },
-            { "math": [ "u_glass_health_leg_l", "=", "u_val('hp','bodypart: leg_l')" ] },
-            { "math": [ "u_glass_health_leg_r", "=", "u_val('hp','bodypart: leg_r')" ] },
+            { "math": [ "u_glass_health_head", "=", "u_hp('head')" ] },
+            { "math": [ "u_glass_health_torso", "=", "u_hp('torso')" ] },
+            { "math": [ "u_glass_health_arm_l", "=", "u_hp('arm_l')" ] },
+            { "math": [ "u_glass_health_arm_r", "=", "u_hp('arm_r')" ] },
+            { "math": [ "u_glass_health_leg_l", "=", "u_hp('leg_l')" ] },
+            { "math": [ "u_glass_health_leg_r", "=", "u_hp('leg_r')" ] },
             { "math": [ "u_glass_fatigue", "=", "u_val('fatigue')" ] }
           ]
         },
