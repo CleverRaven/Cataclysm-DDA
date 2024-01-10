@@ -1272,7 +1272,7 @@
     "id": "astrakhan",
     "type": "ARMOR",
     "name": { "str": "astrakhan hat" },
-    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia."
+    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia.",
     "copy-from": "hat_fur"
   },
   {
