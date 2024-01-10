@@ -273,7 +273,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 7500, minus 125 per level to a minimum of 4000<br />
 *Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 60<br />
 *Effects*: The psion enters a trance and predicts the flow of an entire group of combatants. While this inhibits their own combat ability, causing a -6 dodge and -5 hit penalty, the prescient orders they call out add a +4 dodge bonus and +1 block and dodge, +1 extra block and dodge to 8 power levels, to all allies who are close enough to hear the orders.<br />
-*Prerequisites*: Combat Sense 8, Marksman's Eye 7<br />
+*Prerequisites*: Combat Sense 8, Marksman's Eye 7, Clarity 5<br />
 
 ## Omniscience
 *Difficulty*: 10<br />
@@ -282,7 +282,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 10000, minus 115 per level to a minimum of 7500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
 *Effects*: The psion expands their senses to encompass the entire area around them, seeing everything within XXXXXXXXX squares and from Z level 10 to Z level -10 all simultaneously. Their powers allow them to process all the information simultaneously and not suffer any consequences from doing so.<br />
-*Prerequisites*: Clairvoyance 14 *or* Satellite View 8<br />
+*Prerequisites*: Clairvoyance 14 *or* Satellite View 8, Clarity 9<br />
 
 # Electrokinesis
 
