@@ -16,6 +16,10 @@
 #include "platform_win.h"
 #endif
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
@@ -160,4 +164,8 @@ void ofstream_wrapper::close()
         // Leave the temp path, so the user can move it if possible.
         throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );
     }
+
+#if defined(EMSCRIPTEN)
+    EM_ASM( window.setFsNeedsSync(); );
+#endif
 }
