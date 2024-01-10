@@ -4231,7 +4231,7 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
 {
     dbl_or_var new_hp = get_dbl_or_var( jo, member, true );
     std::optional<str_or_var> target_part;
-    if( jo.has_string( "target_part" ) ) {
+    if( jo.has_member( "target_part" ) ) {
         target_part = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
     }
     bool only_increase = jo.get_bool( "only_increase", false );
