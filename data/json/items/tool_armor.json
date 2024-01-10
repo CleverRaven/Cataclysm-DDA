@@ -730,10 +730,11 @@
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
-    "id": "trilby_hat",
+    "id": "homburg_hat",
     "type": "ARMOR",
-    "name": { "str": "trilby hat" },
-    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "name": { "str": "homburg hat" },
+    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
+    "material": [ "wool" ],
     "copy-from": "fedora"
   },
   {
