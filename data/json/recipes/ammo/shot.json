@@ -197,6 +197,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 4 ],
+        [ "bronze_nail", 4 ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -231,6 +232,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 4 ],
+        [ "bronze_nail", 4 ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -259,6 +261,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 4 ],
+        [ "bronze_nail", 4 ],
         [ "bb", 7 ],
         [ "solder_wire", 4 ],
         [ "platinum_small", 1 ],
@@ -521,6 +524,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],
+        [ "bronze_nail", 5 ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
@@ -556,6 +560,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],
+        [ "bronze_nail", 5 ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],
@@ -584,6 +589,7 @@
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],
+        [ "bronze_nail", 5 ],
         [ "bb", 10 ],
         [ "solder_wire", 5 ],
         [ "platinum_small", 2 ],

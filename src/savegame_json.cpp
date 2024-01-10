@@ -2878,8 +2878,8 @@ void item::craft_data::deserialize( const JsonObject &obj )
 void item::link_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "link_i_state", s_state );
-    jsout.member( "link_t_state", t_state );
+    jsout.member( "link_i_state", source );
+    jsout.member( "link_t_state", target );
     jsout.member( "link_t_abs_pos", t_abs_pos );
     jsout.member( "link_t_mount", t_mount );
     jsout.member( "link_length", length );
@@ -2895,8 +2895,8 @@ void item::link_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
 
-    data.read( "link_i_state", s_state );
-    data.read( "link_t_state", t_state );
+    data.read( "link_i_state", source );
+    data.read( "link_t_state", target );
     data.read( "link_t_abs_pos", t_abs_pos );
     data.read( "link_t_mount", t_mount );
     data.read( "link_length", length );
@@ -3028,11 +3028,11 @@ void item::io( Archive &archive )
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
     static const cata::value_ptr<link_data> null_link_ptr = nullptr;
-    archive.io( "link_data", link, null_link_ptr );
-    if( link ) {
-        const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+    archive.io( "link_data", link_, null_link_ptr );
+    if( has_link_data() ) {
+        const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
         if( vp ) {
-            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
+            link().t_veh = vp.value().vehicle().get_safe_reference();
         }
     }
 
