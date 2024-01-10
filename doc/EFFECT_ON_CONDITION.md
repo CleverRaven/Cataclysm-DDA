@@ -530,6 +530,27 @@ checks is `victim_type` has `zombie` faction
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
 ```
 
+### `u_profession`
+- type: string or [variable object](##variable-object)
+- Return true if player character has the given profession id or its "hobby" subtype
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the character has selected Heist Driver profession at the character creation
+```json
+{ "u_profession": "heist_driver" }
+```
+
+True if the character has selected Fishing background at the character creation
+```json
+{ "u_profession": "fishing" }
+```
+
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
 - type: int or [variable object](##variable-object)
 - Return true if alpha or beta talker stat is at least the value or higher
