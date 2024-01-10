@@ -785,7 +785,7 @@
     "points": 1,
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance.",
     "types": [ "HEARING" ],
-    "prereqs": [ "GOODHEARING" ]
+    "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
     "hearing_modifier": 2.0
   },
@@ -794,7 +794,7 @@
     "id": "ECHOLOCATION",
     "name": { "str": "Echolocation" },
     "points": 3,
-    "description": "You've learned how to hunt without sight.  As long as you're awake and able to hear, you'll never suffer penalties for fighting enemies you can't see."
+    "description": "You've learned how to hunt without sight.  As long as you're awake and able to hear, you'll never suffer penalties for fighting enemies you can't see.",
     "prereqs": [ "BATEARS" ],
     "category": [ "CHIROPTERAN" ]
   },
@@ -1981,7 +1981,7 @@
     "description": "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat wheat-based products, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "starting_trait": true,
-    "category: [ "CHIROPTERAN" ]
+    "category": [ "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -4616,14 +4616,11 @@
             "u_can_drop_weapon",
             { "u_has_move_mode": "walk" },
             {
-              "and": [
-                { "not": { "u_has_trait": "THRESH_CHIROPTERAN" } },
-              ]
-            },
-            { "not": { "u_has_trait": "WINGS_BAT" } }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+              "and": [ { "not": { "u_has_trait": "WINGS_BAT" } } ]
+             }
+            ]
+      },
+      "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
   },
@@ -6788,11 +6785,11 @@
     "ugliness": 4,
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
-    "flags": [ "WINGGLIDE", "WINGS_2", "ARM_WINGS" ]
+    "flags": [ "WINGGLIDE", "WINGS_2", "ARM_WINGS" ],
     "prereqs": [ "WEBBED" ],
     "category": [ "CHIROPTERAN" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "threshreq": [ "THRESH_CHIROPTERAN" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ]
   },
   {
     "type": "mutation",
