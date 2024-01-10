@@ -753,6 +753,9 @@ class Character : public Creature, public visitable
         virtual bool is_ally( const Character &p ) const = 0;
         virtual bool is_obeying( const Character &p ) const = 0;
 
+        //returns character's profession
+        const profession *get_profession() const;
+
         // Has item with mission_id
         bool has_mission_item( int mission_id ) const;
 

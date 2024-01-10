@@ -5248,6 +5248,11 @@ item Character::reduce_charges( item *it, int quantity )
     return result;
 }
 
+const profession *Character::get_profession() const
+{
+    return prof;
+}
+
 bool Character::has_mission_item( int mission_id ) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
