@@ -631,7 +631,7 @@ void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, std::string_v
     };
 }
 
-void conditional_t::set_u_profession( const JsonObject& jo, std::string_view member )
+void conditional_t::set_u_profession( const JsonObject &jo, std::string_view member )
 {
     str_or_var u_profession = get_str_or_var( jo.get_member( member ), member, true );
     condition = [u_profession]( dialogue const & d ) {
