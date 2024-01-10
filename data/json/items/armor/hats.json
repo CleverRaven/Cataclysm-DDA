@@ -26,13 +26,6 @@
     ]
   },
   {
-    "id": "trilby_hat",
-    "type": "ARMOR",
-    "name": { "str": "trilby hat" },
-    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
-    "copy-from": "10gal_hat"
-  },
-  {
     "id": "homburg_hat",
     "type": "ARMOR",
     "name": { "str": "homburg hat" },
