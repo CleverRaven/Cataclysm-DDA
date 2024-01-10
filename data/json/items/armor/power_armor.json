@@ -15,6 +15,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
         "max_contains_weight": "2000 g",
@@ -24,6 +25,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "description": "Compartment for a UPS.",
         "flag_restriction": [ "IS_UPS" ],
         "max_contains_weight": "2000 g",
@@ -33,16 +35,18 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "ablative": true,
         "description": "Hooks and straps to attach head armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
-        "max_contains_weight": "7000 g",
-        "max_contains_volume": "3110 ml",
+        "max_contains_weight": "7300 g",
+        "max_contains_volume": "3600 ml",
         "max_item_length": "30 cm",
         "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "ablative": true,
         "description": "Hooks and straps to attach torso armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
@@ -53,6 +57,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "ablative": true,
         "description": "Hooks and straps to attach arms armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
@@ -63,6 +68,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
         "ablative": true,
         "description": "Hooks and straps to attach legs armor.",
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
