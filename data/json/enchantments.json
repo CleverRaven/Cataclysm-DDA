@@ -219,6 +219,8 @@
   {
     "type": "enchantment",
     "id": "ENCH_BIONIC_ARMS",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
       { "lose": "hand_l" },
       { "lose": "hand_r" },
       { "gain": "bionic_basic_arm_l" },
