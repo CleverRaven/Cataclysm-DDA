@@ -1,6 +1,5 @@
 [
   {
-    not finished yet
     "id": "10gal_hat",
     "type": "ARMOR",
     "name": { "str": "ten-gallon hat" },
@@ -160,6 +159,39 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+  },
+  {
+    "id": "plumber_cap",
+    "type": "ARMOR",
+    "name": { "str": "plumber cap" },
+    "description": "The base item for the plumber's cap several variants.  It is a error if you found it naturally.",
+    "copy-from": "hat_ball"
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "plumber_cap_red",
+        "name": { "str": "red plumber cap" },
+        "description": "A soft red cap featuring a white circle in the center, with a prominent red “M” in the middle.  It shields your face from the sun.",
+        "weight": 1
+      },
+      {
+        "id": "plumber_cap_green",
+        "name": { "str_sp": "green plumber cap" },
+        "description": "A soft green cap featuring a white circle in the center, with a prominent green “L” in the middle.  It shields your face from the sun.",
+        "append": true
+      },
+      {
+        "id": "plumber_cap_yellow",
+        "name": { "str_sp": "yellow plumber cap" },
+        "description": "A soft yellow cap featuring a somewhat small white circle in the center, with a prominent navy blue “W” in the middle that oversizes the circle.  It shields your face from the sun.",
+        "append": true
+      },
+      {
+        "id": "plumber_cap_purple",
+        "name": { "str_sp": "purple plumber cap" },
+        "description": "A soft purple cap featuring a white circle in the center, with a prominent yellow “Γ” in the middle.  It shields your face from the sun.",
+        "append": true
+      }
   },
   {
     "id": "bowhat",
@@ -1758,6 +1790,13 @@
     "type": "ARMOR",
     "name": { "str": "knit beanie hat" },
     "description": "A very comfortable, snug-fitting beanie hat knitted from wool.  Very warm.",
+    "copy-from": "hat_knit"
+  },
+  {
+    "id": "chullo_hat",
+    "type": "ARMOR",
+    "name": { "str": "chullo hat" },
+    "description": "A comfortable chullo hat knitted from wool.  It provides warm for the head and ears.",
     "copy-from": "hat_knit"
   },
   {
