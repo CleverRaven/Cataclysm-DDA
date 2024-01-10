@@ -26,13 +26,6 @@
     ]
   },
   {
-    "id": "tyrolean_hat",
-    "type": "ARMOR",
-    "name": { "str": "Tyrolean hat" },
-    "description": "A hat with a tall crown and a brim that is turned up on all sides.  It is a traditional Alpine headwear that originated in the Tyrol region of Austria.",
-    "copy-from": "10gal_hat"
-  },
-  {
     "id": "bandana_head",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -748,7 +741,7 @@
   },
   {
     "id": "scrap_cap1",
-    "repairs_like": "balclava",
+    "repairs_like": "apron_plastic",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "plastic scrap cap" },
@@ -783,7 +776,7 @@
   },
   {
     "id": "scrap_cap2",
-    "repairs_like": "balclava",
+    "repairs_like": "pot_helmet",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap cap" },
@@ -925,7 +918,7 @@
       {
         "id": "meat_hatball",
         "name": { "str": "Bacon is Life cap" },
-        "description": "A snapback baseball cap displaying the green icon of a slice of bacon in the front, and a text on the top of it reading 'Bacon is Life!'.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A snapback baseball cap displaying the pinkish icon of a slice of bacon in the front, and a text on the top of it reading 'Bacon is Life!'.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
@@ -1053,7 +1046,7 @@
   {
     "id": "propeller_hat",
     "type": "ARMOR",
-    "name": { "str": "propeller hat" },
+    "name": { "str": "propeller cap" },
     "description": "A colorful cap with a brim and a plastic propeller on top.  It shields your eyes from the sun and make you look goofy.",
     "copy-from": "hat_ball"
   },
@@ -1983,6 +1976,14 @@
     "type": "ARMOR",
     "name": { "str": "trilby hat" },
     "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "copy-from": "porkpie"
+  },
+  {
+    "id": "tyrolean_hat",
+    "type": "ARMOR",
+    "name": { "str": "Tyrolean hat" },
+    "description": "A hat with a tall crown and a brim that is turned up on all sides.  It is a traditional Alpine headwear that originated in the Tyrol region of Austria.",
+    "delete": { [ "FANCY" ] },
     "copy-from": "porkpie"
   },
   {
