@@ -144,7 +144,7 @@
     "type": "ARMOR",
     "name": { "str": "plumber cap" },
     "description": "The base item for the plumber's cap several variants.  It is a error if you found it naturally.",
-    "copy-from": "hat_ball"
+    "copy-from": "hat_ball",
     "variant_type": "generic",
     "variants": [
       {
