@@ -256,11 +256,31 @@
     "ugliness": 0,
     "description": "With the Undine's more fluid skin has come more fluid motion.  Activate this trait to immediately escape a grab and suffer less damage from falls for a few seconds.",
     "prereqs": [ "UNDINE_SKIN_2" ],
+    "category": [ "UNDINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_FAST_SWIM_SPEED",
+    "name": { "str": "Like a Fish to the River" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Undine's are born of the waters, and water is their home.  This trait allows them to move much faster when in water.",
+    "prereqs": [ "BREATHE_UNDERWATER" ],
     "category": [ "UNDINE" ],
-    "active": true,
-    "cost": 8,
-    "thirst": true,
-    "activated_eocs": [ "EOC_UNDINE_ESCAPE_GRABS" ]
+    "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
+    "movecost_swim_modifier": 0.8
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_PUSH_AWAY",
+    "name": { "str": "Crashing Waves" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The waters come to the Undine's defense.  When attacked, there is a chance that a burst of water will surge out and push their attackers back.",
+    "prereqs": [ "UNDINE_ESCAPE_GRABS" ],
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",
@@ -275,5 +295,75 @@
     "prereqs2": [ "BREATH_UNDERWATER" ],
     "active": true,
     "activated_eocs": [ "EOC_UNDINE_RIVER_MAPPING" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_BODY",
+    "name": { "str": "Fluid Body" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing damage is reduced even further, and ballistic damage is halved.  However, the Undine neds to drink more water.",
+    "prereqs": [ "UNDINE_SKIN_2" ],
+    "category": [ "UNDINE" ],
+    "thirst_modifier": 0.25,
+    "enchantments": [ "ench_undine_water_body" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM",
+    "name": { "str": "Form of the Flowing Waters" },
+    "points": 8,
+    "description": "You may transform into a tree, extending roots and spreading leaves out to the sun.  You will heal faster, gain more benefit from sleep, and almost all monsters will ignore you, but you will only be dimly aware of the outside world and will be nearly unable to move.",
+    "prereqs": [ "UNDINE_WATER_BODY" ],
+    "prereqs2": [ "UNDINE_ABSORB_WATER" ],
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "active": true,
+    "thirst": true,
+    "cost": 1,
+    "time": 2,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_UNDINE_WATER_FORM_ON" ],
+    "processed_eocs": [ "EOC_UNDINE_WATER_FORM_TRAITS" ],
+    "deactivated_eocs": [ "EOC_UNDINE_WATER_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_TRAITS",
+    "name": { "str": "Water Form" },
+    "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
+    "points": 10,
+    "valid": false,
+    "movecost_swim_modifier": 0.6,
+    "enchantments": [ "ench_undine_water_form_no_attack", "ench_undine_water_form_armor" ],
+    "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_CAMOUFLAGE",
+    "name": { "str": "Watery Camouflage" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater.",
+    "category": [ "UNDINE" ],
+    "valid": false,
+    "triggers": [ [ { "condition": "u_is_underwater" } ] ],
+    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
+    "name": { "str": "Watery Camouflage (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater, such as right now.",
+    "category": [ "UNDINE" ],
+    "stealth_modifier": 60,
+    "triggers": [ [ { "condition": { "not": "u_is_underwater" } } ] ],
+    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
   }
 ]

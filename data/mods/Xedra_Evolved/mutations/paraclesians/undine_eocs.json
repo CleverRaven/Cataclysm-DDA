@@ -145,5 +145,42 @@
       },
       { "u_remove_item_with": "undine_waters_map" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_PUSH_AWAY",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNDINE_WATER_PUSH_AWAY" },
+        {
+          "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_UNDINE) u_has_trait('THRESH_UNDINE)" ] }, "y": 40 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "undine_water_push_away", "hit_self": false } },
+      { "u_cast_spell": { "id": "undine_water_push_away", "hit_self": false } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_ON",
+    "effect": [
+      { "u_add_trait": "UNDINE_WATER_FORM_TRAITS" },
+      { "u_add_trait": "UNDINE_WATER_FORM_CAMOUFLAGE" },
+      { "u_message": "Your body falls apart in a rush of water." },
+      { "u_spawn_item": "water", "count": { "math": [ "rng(30,100)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_OFF",
+    "effect": [
+      { "u_lose_trait": "UNDINE_WATER_FORM_TRAITS" },
+      { "u_lose_trait": "UNDINE_WATER_FORM_CAMOUFLAGE" },
+      { "u_message": "Your body reconstitutes itself from the waters." }
+    ]
   }
 ]
