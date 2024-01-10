@@ -452,6 +452,95 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "gambeson_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gambeson",
+    "looks_like": "gambeson",
+    "name": { "str": "gossamer gambeson" },
+    "description": "A padded greatcoat assembled by quilting gossamer and stuffing the layers with more scraps of gossamer.  It shimmers in a soft rainbow of colors.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "fae_cotton_quilted", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 13
+      },
+      {
+        "material": [
+          { "type": "fae_cotton_quilted", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 17
+      },
+      {
+        "material": [ { "type": "fae_cotton_quilted", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 5,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "gambeson_pants_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gambeson_pants",
+    "name": { "str_sp": "gossamer arming pants" },
+    "description": "Thick pants made of gossamer, meant to be worn alongside a gambeson under or without armor.  Stylish and as comfortable as armor can be.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "fae_cotton_quilted", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "gambeson_hood_gossamer",
+    "type": "ARMOR",
+    "copy-from": "gambeson_hood",
+    "looks_like": "gambeson_hood",
+    "name": { "str": "gossamer gambeson coif" },
+    "description": "A gossamer coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  The sort of thing a fae knight guarding a crossroads would wear when challenging travelers to duels.",
+    "proportional": { "weight": 0.6666, "price": 2 },
+    "color": "white",
+    "material": [ "fae_cotton" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "fae_cotton_quilted", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "fae_cotton", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
     "id": "mt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",

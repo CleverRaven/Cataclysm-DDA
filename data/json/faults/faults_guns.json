@@ -28,5 +28,32 @@
     "type": "fault",
     "name": { "str": "Fouling" },
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.  Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm."
+  },
+  {
+    "id": "fault_overheat_explosion",
+    "type": "fault",
+    "name": { "str": "Fatal containment failure" },
+    "description": "It got hot."
+  },
+  {
+    "id": "fault_overheat_venting",
+    "type": "fault",
+    "name": { "str": "Emergency venting" },
+    "description": "This weapon can uncontrollably vent coolant when overheated."
+  },
+  {
+    "id": "fault_overheat_melting",
+    "type": "fault",
+    "name": { "str": "Fused internals" },
+    "description": "Excessive heat has rendered this weapon inoperable.",
+    "item_prefix": "ruined",
+    "flags": [ "RUINED_GUN" ]
+  },
+  {
+    "id": "fault_overheat_safety",
+    "type": "fault",
+    "name": { "str": "Overheat safety" },
+    "description": "This weapon will attempt to enter a cooling cycle when overheated.",
+    "flags": [ "JAMMED_GUN" ]
   }
 ]

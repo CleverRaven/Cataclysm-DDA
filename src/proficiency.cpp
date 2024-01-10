@@ -108,6 +108,7 @@ void proficiency::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
     optional( jo, was_loaded, "ignore_focus", _ignore_focus );
+    optional( jo, was_loaded, "teachable", _teachable, true );
 
     optional( jo, was_loaded, "bonuses", _bonuses );
 
@@ -138,7 +139,7 @@ const std::vector<proficiency_category> &proficiency_category::get_all()
 bool proficiency::can_learn() const
 {
     if( _can_learn ) {
-        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        const double scaling = get_option<float>( "PROFICIENCY_TRAINING_SPEED" );
         return scaling != 0.0;
     } else {
         return false;
@@ -148,6 +149,11 @@ bool proficiency::can_learn() const
 bool proficiency::ignore_focus() const
 {
     return _ignore_focus;
+}
+
+bool proficiency::is_teachable() const
+{
+    return _teachable;
 }
 
 proficiency_id proficiency::prof_id() const
@@ -192,7 +198,7 @@ float proficiency::default_weakpoint_penalty() const
 
 time_duration proficiency::time_to_learn() const
 {
-    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    const double scaling = get_option<float>( "PROFICIENCY_TRAINING_SPEED" );
     if( scaling != 1.0 && scaling != 0.0 ) {
         return _time_to_learn / scaling;
     } else {

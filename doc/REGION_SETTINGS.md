@@ -367,11 +367,6 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 | `random_point_size_scalar` | Forest size is divided by this and added to the minimum number of random points.            |
 | `trailhead_chance`         | One in X chance a trailhead will spawn at end of trail near field.                          |
 | `trailhead_road_distance`  | Maximum distance trailhead can be from a road and still be created.                         |
-| `trail_center_variance`    | Center of the trail in mapgen is offset in X and Y by a random amount between +/- variance  |
-| `trail_width_offset_min`   | Trail width in mapgen is offset by `rng(trail_width_offset_min, trail_width_offset_max)`.   |
-| `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
-| `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
-| `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
 | `trailheads`               | Weighted list of overmap specials / city buildings that will be placed as trailheads.       |
 
 ### Example
@@ -387,13 +382,6 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 		"random_point_size_scalar": 100,
 		"trailhead_chance": 1,
 		"trailhead_road_distance": 6,
-		"trail_center_variance": 3,
-		"trail_width_offset_min": 1,
-		"trail_width_offset_max": 3,
-		"clear_trail_terrain": false,
-		"trail_terrain": {
-			"t_dirt": 1
-		},
 		"trailheads": {
 			"trailhead_basic": 50
 		}

@@ -93,7 +93,6 @@
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_World" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
     ]
   },

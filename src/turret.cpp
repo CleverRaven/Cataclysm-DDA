@@ -290,7 +290,7 @@ void turret_data::post_fire( Character &you, int shots )
     static const auto clear_mag_wells = []( item & it ) {
         std::vector<item_pocket *> magazine_wells = it.get_contents().get_pockets(
         []( const item_pocket & pocket ) {
-            return pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+            return pocket.is_type( pocket_type::MAGAZINE_WELL );
         } );
         for( item_pocket *pocket : magazine_wells ) {
             pocket->clear_items();

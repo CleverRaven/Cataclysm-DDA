@@ -163,6 +163,7 @@ Below is a table of currently implemented effects, along with special rules for 
 
 Effect                 | Description
 ---                    |---
+`add_trap`             | Adds a trap in the target tile.  This always succeeds (unless there is an existing trap) and only places 1 trap.  The `effect_str` is the id of the trap.
 `area_pull`            | Pulls `valid_targets` in its aoe toward the target location.  Currently, the pull distance is set to 1 (see `directed_push`).
 `area_push`            | Pushes `valid_targets` in its aoe away from the target location.  Currently, the push distance is set to 1 (see `directed_push`).
 `attack`               | Causes damage to `valid_targets` in its aoe, and applies `effect_str` named effect to targets.  To damage terrain use `bash`.
@@ -184,10 +185,12 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
 `recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
+`revive_dormant`       | Revives a dormant monster.  The monster must have the `REVIVES` AND the `DORMANT` flag.
 `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
 `slime_split`          | The slime splits into two large or normal slimes, depending on mass.  Note: hardcoded for `mon_blob`-type enemies, check the monster `death_function` + spell `summon` combination.
 `spawn_item`           | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
@@ -237,10 +240,12 @@ Field group | Description | Example
 `affected_body_parts` | Respond on which body part `effect_str` will occur. Doesn't respond what body part the spell will target if you damage the target, it always aim a `torso` no matter what | "affected_body_parts": [ "head" ] 
 `extra_effects` | Cast `id` spell right after the end of the main. Can cast multiple different spells at once | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
 `learn_spells` | Allow user to learn this spells, when it will reach the amount of levels ("create_atomic_light": 5 means user can learn create_atomic_light, when it will reach the 5 level of the spell) | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
+`teachable` | Whether it's possible to teach this spell between characters. (Default = true) | `"teachable": true`
 `message` | The message, that will be send in log, when you cast a spell. "You cast %s!" by default | "message": "You feel refreshed."
 `sound_type`, `sound_description`, `sound_ambient`, `sound_id`, `sound_variant` | Respond for the sound that play when you use the spell. `sound_type` is one of `background`, `weather`, `music`, `movement`, `speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, `order`; `sound_description` respond for the message in log, as "You hear %s" ("an explosion" by default); `sound_ambient` whether or not this is treated as an ambient sound | "sound_type": "combat", <bp>"sound_description": "a whoosh", <bp>"sound_ambient": true, <bp>"sound_id": "misc", <bp>"sound_variant": "shockwave", 
 `targeted_monster_ids` | You can target only `monster_id` | "targeted_monster_ids": [ "mon_hologram" ],
 `targeted_monster_species` | You can target only picked species (for list see data/json/species.json) | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
+`ignored_monster_species` | The opposite of targeted_monster_species: you can target everything except picked species (for list see data/json/species.json) | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
 
 ### Spell Flags
 
@@ -264,6 +269,7 @@ Flag                       | Description
 `HOSTILE_50`               | Summoned monster spawns friendly 50% of the time.
 `IGNITE_FLAMMABLE`         | If the spell area has anything flammable, a fire will be produced
 `IGNORE_WALLS`             | Spell's aoe goes through walls.
+`LIQUID`                   | Effects applied by spell will be resisted by waterproof armor if the spell targets a character's body part. Does not currently affect damage.
 `LOUD`                     | Spell makes extra noise at target.
 `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
 `MUTATE_TRAIT`             | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
@@ -278,11 +284,13 @@ Flag                       | Description
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
+`PSIONIC`                  | Spells with this flag are not blocked by the NO_SPELLCASTING character flag, instead being blocked by NO_PSIONICS.
 `RANDOM_AOE`               | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_CRITTER`           | Same as `RANDOM_TARGET` but ignores ground.
 `RANDOM_DAMAGE`            | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
-`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
+`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
+`RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
@@ -775,6 +783,7 @@ Character status value  | Description
 `ARMOR_STAB`            | 
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
 `ATTACK_SPEED`          | Affects attack speed of item even if it's not the one you're wielding.
+`AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BIONIC_POWER`          |
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
@@ -823,6 +832,7 @@ Character status value  | Description
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
+`SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.

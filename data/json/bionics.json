@@ -1196,8 +1196,8 @@
   {
     "id": "bio_membrane",
     "type": "bionic",
-    "name": { "str": "Nictating Membrane" },
-    "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties.",
+    "name": { "str": "Nictitating Membrane" },
+    "description": "Your eyes are equipped with thin membranes that cover your eyes while underwater, negating any vision penalties.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "EYE_MEMBRANE" ]
   },

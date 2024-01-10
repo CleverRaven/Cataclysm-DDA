@@ -100,7 +100,7 @@
     "components": [
       [ [ "potion_starter_superior", 1 ] ],
       [ [ "fern_flower", 2 ] ],
-      [ [ "glowing_mushroom", 4 ] ],
+      [ [ "glowing_mushroom", 4 ], [ "mossling_fur", 4 ] ],
       [ [ "wood_barnacle", 4 ] ]
     ]
   },
@@ -254,7 +254,7 @@
       [ [ "potion_starter_superior", 2 ] ],
       [ [ "glowing_mushroom", 2 ] ],
       [ [ "kampuch", 1 ] ],
-      [ [ "horn_moss_capsule", 3 ] ],
+      [ [ "horn_moss_capsule", 3 ], [ "gnome_eye", 1 ] ],
       [ [ "wood_barnacle", 2 ] ]
     ]
   },
@@ -273,7 +273,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "mortar_pestle", -3 ] ] ],
     "components": [
       [ [ "potion_starter_superior", 3 ] ],
-      [ [ "wood_barnacle", 4 ] ],
+      [ [ "wood_barnacle", 4 ], [ "bracken_eye", 1 ] ],
       [ [ "horn_moss_capsule", 3 ] ],
       [ [ "moonflowers", 1 ] ]
     ]
@@ -314,7 +314,7 @@
       [ [ "moonflowers", 2 ] ],
       [ [ "wood_barnacle", 2 ] ],
       [ [ "fern_flower", 2 ] ],
-      [ [ "glowing_mushroom", 5 ] ]
+      [ [ "glowing_mushroom", 5 ], [ "gnome_eye", 1 ] ]
     ]
   },
   {
@@ -437,7 +437,7 @@
       [ [ "sojourners_flower", 2 ] ],
       [ [ "dragon_nail", 2 ] ],
       [ [ "glowing_mushroom", 6 ] ],
-      [ [ "moonflowers", 1 ] ]
+      [ [ "moonflowers", 1 ], [ "bracken_eye", 1 ] ]
     ]
   },
   {
@@ -450,7 +450,7 @@
       [ [ "potion_starter_superior", 3 ] ],
       [ [ "glowing_mushroom", 2 ] ],
       [ [ "moonflowers", 2 ] ],
-      [ [ "funnelcap_chunk", 15 ] ],
+      [ [ "funnelcap_chunk", 15 ], [ "mossling_fur", 20 ] ],
       [ [ "wood_barnacle", 4 ] ]
     ]
   },

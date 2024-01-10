@@ -519,43 +519,37 @@
           "str": "This a poster for the highly anticipated sequel \"Last Stand 2: Still Standing\".  Ashton Murphy reprises his role as Det. Harvey Baxter, a retired private eye who delivers pain to those who flee from justice.",
           "//NOLINT(cata-text-style)": "intentional format"
         },
-        "color": "yellow",
-        "weight": 1
+        "color": "yellow"
       },
       {
         "id": "adventure",
         "name": { "str": "The Black Freighter movie poster" },
         "description": "A poster promoting the animated movie \"The Black Freighter\", an adaptation of the novel of the same name.  The print is in the same style as the source material.",
-        "color": "black",
-        "weight": 1
+        "color": "black"
       },
       {
         "id": "comedy",
         "name": { "str": "Simple Guy movie poster" },
         "description": "A white movie poster displaying a balding man in a stained hoodie waving lackadaisically.  He appears to be the title character.",
-        "color": "white",
-        "weight": 1
+        "color": "white"
       },
       {
         "id": "fantasy",
         "name": { "str": "Fyreguard: A Tale as Old as Time movie poster" },
         "description": "A vibrant poster displaying an astonishing landscape full of magical creatures.  Above the illustration is the title of the movie in a medieval font.",
-        "color": "green",
-        "weight": 1
+        "color": "green"
       },
       {
         "id": "horror",
         "name": { "str": "Hunted III movie poster" },
         "description": "A poster for \"Hunted III\", the third entry of the \"Hunted\" slasher franchise.  Its tagline reads: \"You can't outrun it forever\".",
-        "color": "red",
-        "weight": 1
+        "color": "red"
       },
       {
         "id": "sci-fi",
         "name": { "str": "Cybercop 3D movie poster" },
         "description": "A poster for \"Cybercop 3D\", a sci-fi movie about a policeman tasked to take down a group of dangerous hackers inside a simulated reality.",
-        "color": "light_blue",
-        "weight": 1
+        "color": "light_blue"
       }
     ]
   },

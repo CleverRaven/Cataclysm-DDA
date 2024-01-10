@@ -43,7 +43,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "level_cache.h"
@@ -65,6 +64,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -1144,7 +1144,7 @@ class mapgen_value
         using StringId = to_string_id_t<Id>;
         struct void_;
         using Id_unless_string =
-            std::conditional_t<std::is_same<Id, std::string>::value, void_, Id>;
+            std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 
         struct value_source {
             virtual ~value_source() = default;
@@ -1938,7 +1938,6 @@ class jmapgen_sign : public jmapgen_piece
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
-            replace_name_tags( signtext );
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1989,7 +1988,6 @@ class jmapgen_graffiti : public jmapgen_piece
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
-            replace_name_tags( graffiti );
             return graffiti;
         }
 };
@@ -2260,6 +2258,7 @@ class jmapgen_loot : public jmapgen_piece
             } else {
                 result_group.add_group_entry( group, 100 );
             }
+            result_group.finalize( itype_id::NULL_ID() );
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2336,6 +2335,7 @@ class jmapgen_monster : public jmapgen_piece
         bool one_or_none;
         bool friendly;
         std::string name;
+        std::string random_name_str;
         bool target;
         bool use_pack_size;
         struct spawn_data data;
@@ -2347,6 +2347,7 @@ class jmapgen_monster : public jmapgen_piece
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
+            , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
             if( jsi.has_member( "group" ) ) {
@@ -2356,6 +2357,11 @@ class jmapgen_monster : public jmapgen_piece
             } else {
                 mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
+            }
+
+            std::set<std::string> valid_random_name_strs = { "random", "female", "male", "snippet", "" };
+            if( valid_random_name_strs.count( random_name_str ) == 0 ) {
+                debugmsg( "Invalid random name '%s'", random_name_str );
             }
 
             if( jsi.has_object( "spawn_data" ) ) {
@@ -2425,6 +2431,18 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
+            std::string chosen_name = name;
+            if( !random_name_str.empty() ) {
+                if( random_name_str == "female" ) {
+                    chosen_name = SNIPPET.expand( "<female_given_name>" );
+                } else if( random_name_str == "male" ) {
+                    chosen_name = SNIPPET.expand( "<male_given_name>" );
+                } else if( random_name_str == "random" ) {
+                    chosen_name = SNIPPET.expand( "<given_name>" );
+                } else if( random_name_str == "snippet" ) {
+                    chosen_name = SNIPPET.expand( name );
+                }
+            }
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
@@ -2432,14 +2450,14 @@ class jmapgen_monster : public jmapgen_piece
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             } else if( ids.is_valid() ) {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
                     dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             }
         }
@@ -4465,10 +4483,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
-            std::vector<map_key> row_keys;
-            for( const std::string &key : utf8_display_split( row ) ) {
-                row_keys.emplace_back( key );
-            }
+            static std::vector<std::string_view> row_keys;
+            row_keys.clear();
+            row_keys.reserve( total_size.x );
+            utf8_display_split_into( row, row_keys );
             if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
@@ -4481,7 +4499,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const map_key key = row_keys[i];
+                const map_key key{ std::string( row_keys[i] ) };
                 const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
@@ -5383,10 +5401,14 @@ void map::draw_lab( mapgendata &dat )
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-            rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-            bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-            lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+            tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+            rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+            bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+            lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
             int boarders = 0;
             if( tw == 0 ) {
@@ -5938,10 +5960,14 @@ void map::draw_lab( mapgendata &dat )
             set_temperature_mod( p2 + point( SEEX, SEEY ), temperature_d );
         }
 
-        tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-        rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-        bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-        lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+        tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+        rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+        bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+        lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
         // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
@@ -6484,7 +6510,7 @@ std::vector<item *> map::place_items(
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
                 !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
+                e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );

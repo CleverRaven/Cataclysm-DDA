@@ -1,0 +1,93 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_triffid",
+    "weakpoints": [
+      {
+        "id": "branch",
+        "name": "the branch",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 6
+      },
+      {
+        "id": "root",
+        "name": "the root",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 15
+      },
+      {
+        "id": "flower",
+        "name": "the flower",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 2, "ranged": 5 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "gap",
+        "name": "a small gap in the bark",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "joint",
+        "name": "a soft fold in the thick bark",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "all": 0.5 }
+      },
+      {
+        "id": "thick bark",
+        "name": "a particularly thick patch of the bark",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      }
+    ]
+  }
+]

@@ -168,6 +168,25 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 1 ) );
     CHECK( testexp.parse( "_test_diag_('1':2*_test_diag_('2':'3'))" ) );  // kwarg compounding
     CHECK( testexp.eval( d ) == Approx( 6 ) );
+    CHECK( testexp.parse( "_test_diag_([1,2,2+1])" ) );  // array arg
+    CHECK( testexp.eval( d ) == Approx( 6 ) );
+    CHECK( testexp.parse( "_test_diag_([1,1+1,3], 'blorg': [3+1,5,6])" ) );  // array kwarg
+    CHECK( testexp.eval( d ) == Approx( 21 ) );
+    CHECK( testexp.parse( "_test_str_len_(['1','2'], 'test_str_arr': ['one','two'])" ) );  // str array
+    CHECK( testexp.eval( d ) == Approx( 8 ) );
+    CHECK( testexp.parse( "_test_diag_([1,2,3], 'blorg': [4,5,_test_diag_([6,7,8], 'blarg':[9])])" ) );  // yo dawg
+    CHECK( testexp.eval( d ) == Approx( 45 ) );
+    CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,4]])" ) );  // nested arrays
+    CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,(3+1)]])" ) );
+    CHECK( testexp.eval( d ) == Approx( 8 ) );
+    CHECK( testexp.parse( "_test_diag_([],1)" ) );  // empty array
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "_test_diag_([0?1:2,3,1?4:5])" ) );  // ternaries in array
+    CHECK( testexp.eval( d ) == Approx( 9 ) );
+    CHECK( testexp.parse( "_test_str_len_((['1','2']))" ) ); // pointless parens
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "_test_str_len_((['1',('2')]))" ) ); // pointless parens
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
 
     // failed validation
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
@@ -175,13 +194,18 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "2+" ) );
         CHECK_FALSE( testexp.parse( ")" ) );
         CHECK_FALSE( testexp.parse( "(" ) );
+        CHECK_FALSE( testexp.parse( "[" ) );
+        CHECK_FALSE( testexp.parse( "]" ) );
         CHECK_FALSE( testexp.parse( "()" ) );
+        CHECK_FALSE( testexp.parse( "[]" ) );
+        CHECK_FALSE( testexp.parse( "[2]" ) ); // not diag function
         CHECK_FALSE( testexp.parse( "(2+2))" ) );
         CHECK_FALSE( testexp.parse( "(2+2^)" ) );
         CHECK_FALSE( testexp.parse( "((2+2)" ) );
         CHECK_FALSE( testexp.parse( "(2+2,3)" ) );
         CHECK_FALSE( testexp.parse( "sin(1,2)" ) ); // too many arguments
         CHECK_FALSE( testexp.parse( "rng(1)" ) );   // not enough arguments
+        CHECK_FALSE( testexp.parse( "rng(1,[2,3])" ) );   // not diag function
         CHECK_FALSE( testexp.parse( "sin((1+2,3))" ) );
         CHECK_FALSE( testexp.parse( "sin(1" ) );
         CHECK_FALSE( testexp.parse( "sin" ) );
@@ -201,7 +225,25 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_diag_('1':'2':)" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':'2':'3')" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_(:)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(2[)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(2+[)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(2])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(2+])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(['1','':'1')" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([1,2))" ) ); // mismatched brackets
+        CHECK_FALSE( testexp.parse( "_test_diag_([1,2]*2)" ) ); // no operators support arrays (yet)
+        CHECK_FALSE( testexp.parse( "_test_diag_(-[1,2])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([1,2]?1:2)" ) ); // array can't be condition for ternary
+        CHECK_FALSE( testexp.parse( "_test_diag_(1?2:[2,3])" ) ); // no arrays in ternaries (yet)
+        CHECK_FALSE( testexp.parse( "_test_diag_(1?[2,3]:4)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_(['blorg':3])" ) ); // no kwargs in arrays
+        CHECK_FALSE( testexp.parse( "_test_diag_(1?'a':1:'b':2)" ) ); // no kwargs in ternaries
         CHECK_FALSE( testexp.parse( "sin('1':'2')" ) ); // no kwargs in math functions (yet?)
+        CHECK( testexp.parse( "_test_str_len_('fail')" ) );  // expected array at runtime
+        CHECK( testexp.eval( d ) == 0 );
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
         CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
@@ -213,6 +255,10 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK( testexp.parse( "2+3" ) );
         testexp.assign( d, 10 ); // assignment called on eval tree should not crash
     } );
+
+    // make sure there were no bad error messages
+    CHECK( dmsg.find( "Unexpected" ) == std::string::npos );
+    CHECK( dmsg.find( "That's all we know" ) == std::string::npos );
 }
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive

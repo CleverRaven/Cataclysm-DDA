@@ -26,14 +26,14 @@ static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_glockmag( "glockmag" );
-static const itype_id itype_m4_carbine( "m4_carbine" );
+static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )
 {
-    const itype_id gun_id = itype_m4_carbine;
+    const itype_id gun_id = itype_modular_m4_carbine;
     const ammotype gun_ammo = ammo_223;
     const itype_id ammo_id = itype_556; // any type of compatible ammo
     const itype_id alt_ammo = itype_223; // any alternative type of compatible ammo
@@ -49,7 +49,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     CHECK( mag_cap > 0 );
 
     avatar &player_character = get_avatar();
-    player_character.worn.clear();
+    player_character.clear_worn();
     player_character.inv->clear();
     player_character.remove_weapon();
     player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
@@ -344,7 +344,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
     CHECK( alt_ammo != bad_ammo );
 
     Character &player_character = get_player_character();
-    player_character.worn.clear();
+    player_character.clear_worn();
     player_character.inv->clear();
     player_character.remove_weapon();
     player_character.wear_item( item( "backpack" ) ); // so we don't drop anything

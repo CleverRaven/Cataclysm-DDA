@@ -24,7 +24,6 @@ class scenario
         friend class generic_factory<scenario>;
         friend struct mod_tracker;
         string_id<scenario> id;
-        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;
@@ -150,6 +149,7 @@ class scenario
         const std::vector<effect_on_condition_id> &eoc() const;
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
 };
 
 struct scen_blacklist {

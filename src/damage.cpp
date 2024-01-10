@@ -584,14 +584,6 @@ int dealt_damage_instance::total_damage() const
     } );
 }
 
-resistances::resistances()
-{
-    resist_vals.clear();
-    for( const damage_type &dam : damage_type::get_all() ) {
-        resist_vals.emplace( dam.id, 0.0f );
-    }
-}
-
 resistances::resistances( const item &armor, bool to_self, int roll, const bodypart_id &bp )
 {
     // Armors protect, but all items can resist
@@ -629,18 +621,6 @@ float resistances::get_effective_resist( const damage_unit &du ) const
 {
     return std::max( type_resist( du.type ) - du.res_pen,
                      0.0f ) * du.res_mult * du.unconditional_res_mult;
-}
-
-resistances &resistances::operator+=( const resistances &other )
-{
-    for( const auto &dam : other.resist_vals ) {
-        if( resist_vals.count( dam.first ) <= 0 ) {
-            resist_vals[dam.first] = 0.0f;
-        }
-        resist_vals[dam.first] += dam.second;
-    }
-
-    return *this;
 }
 
 bool resistances::operator==( const resistances &other )
@@ -778,10 +758,10 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
     return di;
 }
 
-std::map<damage_type_id, float> load_damage_map( const JsonObject &jo,
+std::unordered_map<damage_type_id, float> load_damage_map( const JsonObject &jo,
         const std::set<std::string> &ignored_keys )
 {
-    std::map<damage_type_id, float> ret;
+    std::unordered_map<damage_type_id, float> ret;
     for( const JsonMember &jmemb : jo ) {
         if( !ignored_keys.empty() && ignored_keys.count( jmemb.name() ) > 0 ) {
             continue;
@@ -791,7 +771,7 @@ std::map<damage_type_id, float> load_damage_map( const JsonObject &jo,
     return ret;
 }
 
-void finalize_damage_map( std::map<damage_type_id, float> &damage_map, bool force_derive,
+void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map, bool force_derive,
                           float default_value )
 {
     const std::vector<damage_type> &dams = damage_type::get_all();

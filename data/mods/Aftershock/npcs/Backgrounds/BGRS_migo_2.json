@@ -22,7 +22,7 @@
   {
     "id": "BGRS_MIGO_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Some kind of hideos alien was standing over my neighbors disemboweled corpse.  It looked at me and said 'You're a great neighbor' then everything faded to black.  I feel like everything in my body fits differently now.",
+    "dynamic_line": "Some kind of hideous alien was standing over my neighbors disemboweled corpse.  It looked at me and said 'You're a great neighbor' then everything faded to black.  I feel like everything in my body fits differently now.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

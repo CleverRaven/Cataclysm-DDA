@@ -5,6 +5,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
   }
 ]

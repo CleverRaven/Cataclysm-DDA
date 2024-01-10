@@ -174,14 +174,18 @@ enum class oter_flags : int {
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     should_not_spawn,
+    water,
     river_tile,
     has_sidewalk,
+    bridge,
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
     requires_predecessor,
     lake,
     lake_shore,
+    ocean,
+    ocean_shore,
     ravine,
     ravine_edge,
     generic_loot,
@@ -217,6 +221,26 @@ struct enum_traits<oter_flags> {
     static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
+enum class oter_travel_cost_type : int {
+    other,
+    impassable,
+    road,
+    field,
+    dirt_road,
+    trail,
+    forest,
+    shore,
+    swamp,
+    water,
+    air,
+    last
+};
+
+template<>
+struct enum_traits<oter_travel_cost_type> {
+    static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
+};
+
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
@@ -229,7 +253,8 @@ struct oter_type_t {
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
-        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
+        oter_travel_cost_type travel_cost_type =
+            oter_travel_cost_type::other;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
         effect_on_condition_id entry_EOC;
@@ -334,8 +359,8 @@ struct oter_t {
         unsigned char get_see_cost() const {
             return type->see_cost;
         }
-        unsigned char get_travel_cost() const {
-            return type->travel_cost;
+        oter_travel_cost_type get_travel_cost_type() const {
+            return type->travel_cost_type;
         }
 
         const std::string &get_extras() const {
@@ -392,12 +417,23 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
+        bool is_water() const {
+            return type->has_flag( oter_flags::water );
+        }
         bool is_lake() const {
             return type->has_flag( oter_flags::lake );
         }
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ocean() const {
+            return type->has_flag( oter_flags::ocean );
+        }
+
+        bool is_ocean_shore() const {
+            return type->has_flag( oter_flags::ocean_shore );
         }
 
         bool is_ravine() const {
@@ -537,6 +573,9 @@ class overmap_special
             return flags_;
         }
         bool has_flag( const std::string & ) const;
+        int get_priority() const {
+            return priority_;
+        }
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
@@ -578,6 +617,7 @@ class overmap_special
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
+        int priority_ = 0;
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<string_id<overmap_location>> default_locations_;

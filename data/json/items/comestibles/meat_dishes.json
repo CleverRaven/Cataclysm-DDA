@@ -341,7 +341,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_aspic",
-    "name": { "str": "aspic" },
+    "name": { "str_sp": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
@@ -529,7 +529,7 @@
   {
     "type": "COMESTIBLE",
     "id": "stuffed_clams",
-    "name": { "str": "stuffed clam" },
+    "name": { "str_sp": "stuffed clam" },
     "copy-from": "fish_fried",
     "weight": "150 g",
     "calories": 115,
@@ -542,7 +542,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lunchmeat",
-    "name": { "str": "lunch meat" },
+    "name": { "str_sp": "lunch meat" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "loathsome %s" } } ],
     "weight": "56 g",
     "color": "red",
@@ -586,7 +586,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lutefisk",
-    "name": { "str": "lutefisk" },
+    "name": { "str_sp": "lutefisk" },
     "weight": "175 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -631,7 +631,7 @@
     "type": "COMESTIBLE",
     "id": "debug_nutrition",
     "copy-from": "can_spam",
-    "name": { "str": "holy SPAM of debugging", "str_pl": "holy SPAMs of debugging" },
+    "name": { "str_sp": "holy SPAM of debugging" },
     "calories": 2150,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
@@ -640,7 +640,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_sardine",
-    "name": { "str": "canned sardine" },
+    "name": { "str_sp": "canned sardine" },
     "weight": "200 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -661,14 +661,10 @@
   {
     "type": "COMESTIBLE",
     "id": "sausagegravy",
-    "name": { "str": "sausage gravy", "str_pl": "sausage gravies" },
+    "name": { "str_sp": "sausage gravy" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "killbasa gravy", "str_pl": "killbasa gravies" }
-      },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Mannwurst gravy" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "killbasa gravy" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "ghastly %s" } }
     ],
     "weight": "60 g",
@@ -765,7 +761,7 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_helper",
-    "name": { "str": "hamburger helper" },
+    "name": { "str_sp": "hamburger helper" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "hobo helper" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "halfling helper" } },
@@ -791,7 +787,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ravioli",
-    "name": { "str": "ravioli" },
+    "name": { "str_sp": "ravioli" },
     "weight": "170 g",
     "color": "light_red",
     "spoils_in": "2 days",
@@ -810,19 +806,11 @@
   {
     "type": "COMESTIBLE",
     "id": "chili",
-    "name": { "str": "chili con carne", "str_pl": "chilis con carne" },
+    "name": { "str_sp": "chili con carne" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" } },
-      {
-        "type": "FLAG",
-        "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "chili con Sindar", "str_pl": "chilis con Sindar" }
-      },
-      {
-        "type": "COMPONENT_ID_SUBSTRING",
-        "condition": "mutant",
-        "name": { "str": "chili con chupacabra", "str_pl": "chilis con chupacabra" }
-      }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chili con cabron" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "chili con Sindar" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chili con chupacabra" } }
     ],
     "weight": "253 g",
     "color": "red",
@@ -902,7 +890,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chicken",
-    "name": { "str": "canned chicken" },
+    "name": { "str_sp": "canned chicken" },
     "weight": "217 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -940,7 +928,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_clams",
-    "name": { "str": "canned clam" },
+    "name": { "str_sp": "canned clam" },
     "weight": "169 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -960,10 +948,10 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chowder",
-    "name": { "str": "clam chowder" },
+    "name": { "str_sp": "clam chowder" },
     "conditional_names": [
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "meat", "name": "meat chowder" },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "monster chowder" }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "meat", "name": { "str_sp": "meat chowder" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "monster chowder" } }
     ],
     "weight": "253 g",
     "color": "white",
@@ -1049,8 +1037,8 @@
     "id": "pie_meat",
     "name": { "str": "meat pie" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prick pie" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal pie" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prick pie" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "talking animal pie" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "malignant %s" } }
     ],
     "weight": "189 g",
@@ -1075,8 +1063,8 @@
     "id": "pizza_meat",
     "name": { "str": "meat pizza" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "poser pizza" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "protesting pizza" } },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "poser pizza" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "protesting pizza" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "miserable %s" } }
     ],
     "weight": "230 g",
@@ -1137,7 +1125,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_canned",
-    "name": { "str": "canned meat" },
+    "name": { "str_sp": "canned meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient slice" } },
@@ -1157,7 +1145,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_salted",
-    "name": { "str": "salted meat slice" },
+    "name": { "str_sp": "salted meat slice" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "salted simpleton slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "salted sapient slice" } },
@@ -1203,7 +1191,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne",
-    "name": { "str": "lasagne" },
+    "name": { "str_sp": "lasagne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Luigi %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Lab %s" } },
@@ -1246,7 +1234,8 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast cheeseburger" } }
     ],
     "weight": "333 g",
     "color": "brown",
@@ -1272,7 +1261,8 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast cheeseburger" } }
     ],
     "weight": "333 g",
     "color": "brown",
@@ -1326,9 +1316,10 @@
     "id": "hamburger",
     "name": { "str": "hamburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "bobburger" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "bobburger" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Moreauburger" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast burger" } }
     ],
     "weight": "300 g",
     "color": "brown",
@@ -1351,9 +1342,10 @@
     "id": "hamburger_wheat_free",
     "name": { "str": "wheat-free hamburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "wheat-free bobburger" } },
-      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "wheat-free Moreauburger" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "wheat-free bobburger" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "wheat-free Moreauburger" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast burger" } }
     ],
     "weight": "300 g",
     "color": "brown",
@@ -1486,7 +1478,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_pickled",
-    "name": { "str": "pickled meat" },
+    "name": { "str_sp": "pickled meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "pickled punk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "pickled anthro" } },
@@ -1505,7 +1497,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat",
-    "name": { "str": "dehydrated meat" },
+    "name": { "str_sp": "dehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
@@ -1527,7 +1519,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_meat",
-    "name": { "str": "rehydrated meat" },
+    "name": { "str_sp": "rehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
@@ -1620,7 +1612,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat_tainted",
-    "name": { "str": "dehydrated tainted meat" },
+    "name": { "str_sp": "dehydrated tainted meat" },
     "copy-from": "meat_tainted",
     "weight": "85 g",
     "color": "red",
@@ -1638,7 +1630,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pelmeni",
-    "name": { "str": "pelmeni" },
+    "name": { "str_sp": "pelmeni" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perilous %s" } } ],
     "weight": "151 g",
     "color": "light_red",
@@ -1660,7 +1652,10 @@
     "type": "COMESTIBLE",
     "id": "homemade_burrito",
     "name": { "str": "homemade burrito" },
-    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "bone-chilling burrito" } ],
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "bone-chilling burrito" },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast burrito" } }
+    ],
     "weight": "142 g",
     "color": "brown",
     "spoils_in": "1 days 4 hours",
@@ -1779,7 +1774,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lahmacun",
-    "name": { "str_sp": "lahmacun" },
+    "name": { "str": "lahmacun" },
     "weight": "50 g",
     "color": "brown",
     "spoils_in": "3 days",

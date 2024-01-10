@@ -2,13 +2,14 @@
   {
     "id": "32_acp",
     "type": "AMMO",
-    "name": { "str_sp": ".32 ACP" },
-    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  It lacks power compared to the .38 and the 9x19mm.",
+    "name": { "str_sp": ".32 ACP FMJ" },
+    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  It lacks power compared to .380 Auto and 9x19mm.",
+    "ascii_picture": "32_acp",
     "weight": "8 g",
     "volume": "116 ml",
     "longest_side": "25 mm",
-    "price": 160,
-    "price_postapoc": 1600,
+    "price": 2750,
+    "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
@@ -18,7 +19,25 @@
     "ammo_type": "32",
     "casing": "32_casing",
     "range": 12,
-    "damage": { "damage_type": "bullet", "amount": 16 },
+    "//": ".311in 71gr PrviPartizan JHP-RN B-075, 3.1gr Nitrochemie P2636 Ws",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 16,
+      "barrels": [
+        { "barrel_length": "28 mm", "amount": 11 },
+        { "barrel_length": "37 mm", "amount": 12 },
+        { "barrel_length": "49 mm", "amount": 13 },
+        { "barrel_length": "64 mm", "amount": 14 },
+        { "barrel_length": "86 mm", "amount": 15 },
+        { "barrel_length": "123 mm", "amount": 16 },
+        { "barrel_length": "171 mm", "amount": 17 },
+        { "barrel_length": "246 mm", "amount": 18 },
+        { "barrel_length": "366 mm", "amount": 19 },
+        { "barrel_length": "570 mm", "amount": 20 },
+        { "barrel_length": "1019 mm", "amount": 21 },
+        { "barrel_length": "1259 mm", "amount": 22 }
+      ]
+    },
     "dispersion": 70,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -28,7 +47,7 @@
     "copy-from": "32_acp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP, black powder" },
-    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -43,7 +62,7 @@
     "copy-from": "32_acp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP, reloaded" },
-    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -54,9 +73,55 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".32 ACP, matchhead powder" },
-    "description": "A .32 ACP round, once a popular handgun cartridge in the 20th century.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_32_acp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "32_acp_jhp",
+    "copy-from": "32_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP JHP" },
+    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This caliber was once a popular handgun cartridge in the 20th century, though it lacks power compared to .380 Auto and 9x19mm.",
+    "price": 3680,
+    "price_postapoc": 1000,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 1 } }
+  },
+  {
+    "id": "bp_32_acp_jhp",
+    "copy-from": "32_acp_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP JHP, black powder" },
+    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_32_acp_jhp",
+    "copy-from": "32_acp_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": ".32 ACP JHP, reloaded" },
+    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense..  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_32_acp_jhp",
+    "copy-from": "bp_32_acp_jhp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".32 ACP JHP, matchhead powder" },
+    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_32_acp_jhp",
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

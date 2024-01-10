@@ -121,7 +121,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 14, "into_group": "GROUP_MOSSY_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
@@ -170,7 +170,7 @@
     "special_attacks": [ [ "scratch", 20 ] ],
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "death_function": { "effect": { "id": "death_sap", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_sap", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -212,7 +212,7 @@
     "harvest": "exempt",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "death_function": { "message": "A %s explodes!", "effect": { "id": "death_pollen", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s explodes!", "effect": { "id": "death_pollen", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "PARALYZEVENOM" ]
   },

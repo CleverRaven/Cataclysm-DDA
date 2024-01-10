@@ -117,17 +117,22 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
 
+static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -178,9 +183,11 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
-static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -722,7 +729,7 @@ class atm_menu
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
-            if( card_count >= 1 && you.has_item_with_flag( flag_OLD_CURRENCY ) ) {
+            if( card_count >= 1 && you.cache_has_item_with( flag_OLD_CURRENCY ) ) {
                 add_choice( exchange_cash, _( "Exchange Cash for eCash (1%% fee)" ) );
             }
 
@@ -805,9 +812,8 @@ class atm_menu
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
 
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
+            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
+                    &item::is_cash_card );
             if( cash_cards_on_hand.empty() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
@@ -866,9 +872,8 @@ class atm_menu
                     return false;
                 }
             } else {
-                const std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-                    return i.typeId() == itype_cash_card;
-                } );
+                const std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card",
+                                                       &item::is_cash_card );
                 if( cash_cards.empty() ) {
                     popup( _( "You do not have a cash card." ) );
                     return false;
@@ -915,9 +920,8 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
+            std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
+                    &item::is_cash_card );
             if( you.activity.id() == ACT_ATM ) {
                 dst = you.activity.targets.front().get_item();
                 you.activity.set_to_null(); // stop for now, if required, it will be created again.
@@ -930,7 +934,7 @@ class atm_menu
                 if( cash_cards_on_hand.empty() ) {
                     return false;
                 }
-                dst = cash_cards_on_hand.front();
+                dst = *cash_cards_on_hand.begin();
             }
 
             for( item *i : cash_cards_on_hand ) {
@@ -1520,7 +1524,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         move_cost = 100;
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
-        if( g->slip_down() ) {
+        if( g->slip_down( game::climb_maneuver::over_obstacle, climbing_aid_furn_CLIMBABLE ) ) {
             you.moves -= move_cost;
             return;
         }
@@ -1577,13 +1581,26 @@ void iexamine::bars( Character &you, const tripoint &examp )
 void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 {
     map &here = get_map();
-    if( !query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
-        return;
+
+    tripoint drop_pos = pos;
+
+    if( you.pos().z != pos.z ) {
+        drop_pos = you.pos();
+        if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You pull up the %s." ),
+                               here.furn( pos ).obj().name() );
+    } else {
+        if( !you.query_yn( _( "Take down the %s?" ), here.furn( pos ).obj().name() ) ) {
+            return;
+        }
+        you.add_msg_if_player( m_info, _( "You take down the %s." ),
+                               here.furn( pos ).obj().name() );
     }
-    you.add_msg_if_player( m_info, _( "You take down the %s." ),
-                           here.furn( pos ).obj().name() );
+
     const itype_id furn_item = here.furn( pos ).obj().deployed_item;
-    here.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
+    here.add_item_or_charges( drop_pos, item( furn_item, calendar::turn ) );
     here.furn_set( pos, f_null );
 }
 
@@ -1702,46 +1719,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
-/**
- * Loop prompt to bet $10.
- */
-void iexamine::slot_machine( Character &you, const tripoint & )
-{
-    const int price = 10;
-    auto cents = []( int x ) {
-        return x * 100;
-    };
-    bool played = false;
-    while( true ) {
-        if( you.cash < cents( price ) ) {
-            add_msg( m_info, _( "You need $%d to play." ), price );
-            break;
-        }
-        if( !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
-            break;
-        }
-        you.cash -= cents( price );
-        played = true;
-        int won;
-        if( one_in( 5 ) ) {
-            won = price;
-            popup( _( "Three cherries… you get your money back!" ) );
-        } else if( one_in( 20 ) ) {
-            won = 50;
-            popup( _( "Three bells… you win $%d!" ), won );
-        } else if( one_in( 50 ) ) {
-            won = 200;
-            popup( _( "Three stars… you win $%d!" ), won );
-        } else if( one_in( 1000 ) ) {
-            won = 3000;
-            popup( _( "JACKPOT!  You win $%d!" ), won );
-        } else {
-            won = 0;
-            popup( _( "No win." ) );
-        }
-        you.cash += cents( won );
-    }
-}
+
 
 /**
  * Attempt to crack safe through audio-feedback manual lock manipulation.
@@ -1754,7 +1732,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
 {
     bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
-    has_cracking_tool = has_cracking_tool || you.has_item_with_flag( flag_SAFECRACK );
+    has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
 
     if( !has_cracking_tool ) {
         you.moves -= to_moves<int>( 10_seconds );
@@ -2526,9 +2504,7 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<item *> seed_inv = you.items_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
+    std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
     if( seed_inv.empty() ) {
         add_msg( m_info, _( "You have no seeds to plant." ) );
         return;
@@ -2548,6 +2524,11 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
         return;
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
+
+    if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
+        add_msg( _( "This type of seed can not be planted in this location." ) );
+        return;
+    }
 
     plant_seed( you, examp, seed_id );
 }
@@ -2706,7 +2687,8 @@ ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
     if( here.i_at( tile ).size() > 1 ) {
         return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
     }
-    if( !you.has_charges( fertilizer, 1 ) ) {
+    if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
+        !you.has_amount( fertilizer, 1 ) ) {
         return ret_val<void>::make_failure(
                    _( "Tried to fertilize with %s, but player doesn't have any." ),
                    fertilizer.c_str() );
@@ -2724,7 +2706,12 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
         return;
     }
 
-    std::list<item> planted = you.use_charges( fertilizer, 1 );
+    std::list<item> planted;
+    if( fertilizer->count_by_charges() ) {
+        planted = you.use_charges( fertilizer, 1 );
+    } else {
+        planted = you.use_amount( fertilizer, 1 );
+    }
 
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).
@@ -2762,7 +2749,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
+    std::vector<item *> f_inv = you.cache_get_items_with( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -2770,7 +2757,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
-    for( const item *&f : f_inv ) {
+    for( const item * const &f : f_inv ) {
         if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
@@ -3184,7 +3171,7 @@ void iexamine::stook_full( Character &, const tripoint &examp )
     }
     for( item &it : items ) {
         if( it.has_flag( flag_SMOKABLE ) && it.get_comestible() ) {
-            item result( it.get_comestible()->smoking_result, it.birthday(), it.charges );
+            item result( it.get_comestible()->smoking_result, it.birthday() );
             recipe rec;
             result.inherit_flags( it, rec );
             if( !result.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
@@ -3194,7 +3181,6 @@ void iexamine::stook_full( Character &, const tripoint &examp )
                     it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                 }
                 result.components.add( it );
-                result.recipe_charges = it.charges;
             }
             add_msg( _( "You take down the stook as the drying process is now finished." ) );
             it = result;
@@ -3502,9 +3488,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
     if( !brew_present ) {
         add_msg( _( "This keg is empty." ) );
         // TODO: Allow using brews from crafting inventory
-        const auto b_inv = you.items_with( []( const item & it ) {
-            return it.is_brewable();
-        } );
+        const auto b_inv = you.cache_get_items_with( "is_brewable", &item::is_brewable );
         if( b_inv.empty() ) {
             add_msg( m_info, _( "You have no brew to ferment." ) );
             return;
@@ -3647,12 +3631,14 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
 
         if( query_yn( _( "Finish brewing?" ) ) ) {
             const std::map<itype_id, int> results = brew_i.brewing_results();
+            const int count = brew_i.count();
+            const time_point birthday = brew_i.birthday();
 
             here.i_clear( examp );
             for( const std::pair<const itype_id, int> &result : results ) {
-                int amount = result.second * brew_i.count();
+                int amount = result.second * count;
                 // TODO: Different age based on settings
-                item booze( result.first, brew_i.birthday() );
+                item booze( result.first, birthday );
                 if( result.first->phase == phase_id::LIQUID ) {
                     booze.charges = amount;
                     here.add_item( examp, booze );
@@ -4215,7 +4201,9 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( can_not_be_disarmed() ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
+        if( id != tr_ledge ) {
+            add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
+        }
         return;
     }
 
@@ -4234,6 +4222,7 @@ void trap::examine( const tripoint &examp ) const
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
+        const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
@@ -4251,7 +4240,8 @@ void trap::examine( const tripoint &examp ) const
             proficiency_effect += 1;
             // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
         }
-        const float mean_roll = traps_skill_level + ( weighted_stat_average / 4.0f ) + proficiency_effect;
+        const float mean_roll = ( ( traps_skill_level + traps_knowledge_level ) / 2 ) +
+                                ( weighted_stat_average / 4.0f ) + proficiency_effect;
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
 
@@ -4688,9 +4678,9 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    for( const item *it : you.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
-        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
-    }
+    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item & it ) {
+        discount = std::max( discount, getGasDiscountCardQuality( it ) );
+    } );
 
     return discount;
 }
@@ -4987,9 +4977,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-            return i.typeId() == itype_cash_card;
-        } );
+        std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card", &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
@@ -5031,54 +5019,98 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
 void iexamine::ledge( Character &you, const tripoint &examp )
 {
+    enum ledge_actions {
+        ledge_peek_down = 1,
+        ledge_jump_across,
+        ledge_fall_down,
+        ledge_examine_furniture_below,
+        ledge_glide,
+    };
+
+    map &here = get_map();
+    tripoint jump_target( you.posx() + 2 * sgn( examp.x - you.posx() ),
+                          you.posy() + 2 * sgn( examp.y - you.posy() ),
+                          you.posz() );
+    bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    point jd( examp.xy() + point( -you.posx(), -you.posy() ) );
+    int jump_direction = 0;
+
+    if( jd.y > 0 && jd.x == 0 ) {
+        jump_direction = 0; //south
+    } else if( jd.y > 0 && jd.x < 0 ) {
+        jump_direction = 1; //southwest
+    } else if( jd.y == 0 && jd.x < 0 ) {
+        jump_direction = 2; //west
+    } else if( jd.y < 0 && jd.x < 0 ) {
+        jump_direction = 3; //northwest
+    } else if( jd.y < 0 && jd.x == 0 ) {
+        jump_direction = 4; //north
+    } else if( jd.y < 0 && jd.x > 0 ) {
+        jump_direction = 5; //northeast
+    } else if( jd.y == 0 && jd.x > 0 ) {
+        jump_direction = 6; //east
+    } else if( jd.y > 0 && jd.x > 0 ) {
+        jump_direction = 7; //southeast
+    }
+
+    tripoint just_below = examp;
+    just_below.z--;
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
-    cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
-    if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
-    }
 
+    // NOTE this menu is merged with the climb down menu, manage keys carefully.
+    cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
+    g->climb_down_menu_gen( examp, cmenu );
+    if( here.has_flag_furn( "EXAMINE_FROM_ABOVE", just_below ) ) {
+        cmenu.addentry( ledge_examine_furniture_below, true, 'e',
+                        _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
+    }
+    cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
+                    ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
+    cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
+    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+    }
     cmenu.query();
 
-    map &here = get_map();
+
     creature_tracker &creatures = get_creature_tracker();
+    if( g->climb_down_menu_pick( examp, cmenu.ret ) ) {
+        // This branch means the player chose some option generated by the climb menu.
+        return;
+    }
     switch( cmenu.ret ) {
-        case 1: {
+        case ledge_jump_across: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
                 return;
             }
 
-            tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
-                           you.posy() + 2 * sgn( examp.y - you.posy() ),
-                           you.posz() );
             if( you.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
-            } else if( !here.valid_move( examp, dest, false, true ) ) {
+            } else if( !here.valid_move( examp, jump_target, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( creatures.creature_at( dest ) ) {
+            } else if( creatures.creature_at( jump_target ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         creatures.creature_at( dest )->disp_name() );
-            } else if( here.ter( dest ).obj().trap == tr_ledge ) {
+                         creatures.creature_at( jump_target )->disp_name() );
+            } else if( !jump_target_valid ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                you.set_activity_level( LIGHT_EXERCISE );
-                g->place_player( dest );
+                you.set_activity_level( BRISK_EXERCISE );
+                g->place_player( jump_target );
             }
             break;
         }
-        case 2: {
+        /*case ledge_climb_down: {
             g->climb_down( examp );
             break;
-        }
-        case 3: {
+        }*/
+        case ledge_peek_down: {
             // Peek
             tripoint where = examp;
             tripoint below = examp;
@@ -5099,7 +5131,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }
-        case 4: {
+        case ledge_examine_furniture_below: {
+            // Examine the furniture below.
+            here.furn( just_below ).obj().examine( you, just_below );
+            break;
+        }
+        /*case ledge_cling_down: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5117,6 +5154,65 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     g->water_affect_items( you );
                     you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
                 }
+            }
+            break;
+        }*/
+        case ledge_glide: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+            // The carried weight check here is redundant, but we do it anyway for better player feedback
+            if( 100 * you.weight_carried() / you.weight_capacity() > 50 &&
+                you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+                add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else if( !you.can_fly() ) {
+                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
+            } else {
+                int glide_distance = 5;
+                const weather_manager &weather = get_weather();
+                add_msg( m_info, _( "You soar away from the ledge." ) );
+                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+                // Handle cases where the difference wraps around due to compass directions
+                angledifference = std::min( angledifference, 360 - angledifference );
+                if( angledifference <= 45 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                    glide_distance += 1;
+                }
+                // Check if the directions are greater than 135 degrees apart
+                else if( angledifference >= 135 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                    glide_distance -= 1;
+                }
+                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                    glide_distance = std::round( 0.7 * glide_distance );
+                }
+                you.as_avatar()->grab( object_type::NONE );
+                glide_activity_actor glide( &you, jump_direction, glide_distance );
+                you.remove_effect( effect_bouldering );
+                you.assign_activity( glide );
+                you.add_effect( effect_gliding, 1_turns, true );
+                you.setpos( examp );
+            }
+            break;
+        }
+        case ledge_fall_down: {
+            if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
+                you.moves -= 100;
+                // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+                if( !you.move_effects( false ) ) {
+                    return;
+                }
+                // Step into open air, then fall...
+                if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
+                    you.add_effect( effect_slow_descent, 1_seconds, false );
+                }
+                you.setpos( examp );
+                you.gravity_check();
+            } else {
+                // Just to highlight the trepidation
+                popup( _( "You decided to step back from the ledge." ) );
             }
             break;
         }
@@ -5373,7 +5469,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            item_location bionic = game_menus::inv::install_bionic( you, patient );
+            item_location bionic = game_menus::inv::install_bionic( you, you, patient );
 
             if( !bionic ) {
                 return;
@@ -5567,16 +5663,16 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
-                                                   _( "The Autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
+                                                   _( "The Autodoc detected ongoing blood loss from your %s and administered you hemostatic drugs to stop it." ),
+                                                   _( "The Autodoc detected ongoing blood loss from <npcname>'s %s and administered them hemostatic drugs to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
                 if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The Autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
-                                                   _( "The Autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
+                                                   _( "The Autodoc detected an open wound on your %s and applied disinfectant to sterilize it." ),
+                                                   _( "The Autodoc detected an open wound on <npcname>'s %s and applied disinfectant to sterilize it." ),
                                                    body_part_name( bp_healed ) );
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of Autodoc.
@@ -5601,8 +5697,8 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             if( patient.get_rad() ) {
                 if( patient.has_effect( effect_pblue ) ) {
                     patient.add_msg_player_or_npc( m_info,
-                                                   _( "The Autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer another dose right now." ),
-                                                   _( "The Autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer another dose right now." ) );
+                                                   _( "The Autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer you another dose right now." ),
+                                                   _( "The Autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer them another dose right now." ) );
                 } else {
                     add_msg( m_good,
                              _( "The Autodoc administered an anti-radiation drug to treat radiation poisoning." ) );
@@ -5650,6 +5746,16 @@ static int get_charcoal_charges( units::volume food )
 static bool is_non_rotten_crafting_component( const item &it )
 {
     return is_crafting_component( it ) && !it.rotten();
+}
+
+static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
+                              map &here )
+{
+    const item_filter valid = [&milled_id]( const item & itm ) {
+        return itm.typeId() == milled_id;
+    };
+    const int num_here = here.items_with( examp, valid ).size();
+    return num_here * milled_id.obj().milling_data->conversion_rate_;
 }
 
 static void mill_activate( Character &you, const tripoint &examp )
@@ -5700,8 +5806,8 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( const item &it : here.i_at( examp ) ) {
         const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
         if( mdata ) {
-            const int charges = it.count() * mdata->conversion_rate_;
-            if( charges <= 0 ) {
+            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
+            if( resulting_charges <= 0 ) {
                 no_final_product.emplace( it.tname() );
             }
         }
@@ -5863,36 +5969,82 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+
+    // Get list of milable items, their rot timer and their flags
+    std::map<itype_id, std::vector<double>> millable_rot;
+    std::map<itype_id, std::vector<flag_id>> millable_flags;
+    std::map<itype_id, item> millable_items;
+    std::vector<map_stack::iterator> iter_to_delet;
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         item &it = *iter;
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
-            const islot_milling &mdata = *it.type->milling_data;
-            const int charges = it.count() * mdata.conversion_rate_;
-            // if not enough material, just remove the item (0 loops)
-            // (may happen if the player did not add enough charges to the mill
-            // or if the conversion rate is changed between versions)
-            for( int i = 0; i < charges; i++ ) {
-                item result( mdata.into_, start_time + milling_time );
-                result.components.add( it );
-                // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-                for( const flag_id &f : it.type->get_flags() ) {
-                    if( f->craft_inherit() ) {
-                        result.set_flag( f );
-                    }
-                }
-                result.recipe_charges = result.charges;
-                // Set flag to tell set_relative_rot() to calc from bday not now
-                result.set_flag( flag_PROCESSING_RESULT );
-                result.set_relative_rot( it.get_relative_rot() );
-                result.unset_flag( flag_PROCESSING_RESULT );
-                here.add_item( examp, result );
+            // Unset processing flag to be able to check the relative rot
+            it.unset_flag( flag_PROCESSING );
+
+            if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
+                const std::vector<double> rot_times = { it.get_relative_rot() };
+                millable_rot.emplace( it.typeId(), rot_times );
+            } else {
+                const double rot_time = it.get_relative_rot();
+                millable_rot[it.typeId()].emplace_back( rot_time );
             }
+            if( millable_flags.find( it.typeId() ) == millable_flags.end() ) {
+                std::vector<flag_id> flags;
+                for( const flag_id &f : it.type->get_flags() ) {
+                    flags.emplace_back( f );
+                }
+                millable_flags.emplace( it.typeId(), flags );
+            } else {
+                for( const flag_id &f : it.type->get_flags() ) {
+                    millable_flags[it.typeId()].emplace_back( f );
+                }
+            }
+            millable_items.emplace( it.typeId(), it );
+
+            iter_to_delet.push_back( iter );
+        }
+    }
+    //Create the product items
+    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
+        const itype_id &type = rot_data.first;
+        const std::vector<double> &relative_rots = rot_data.second;
+        const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
+                                    0.0 ) / relative_rots.size();
+
+        const islot_milling &mdata = *type->milling_data;
+        const int resulting_charges = get_milled_amount( type, examp, here );
+        // if not enough material, just remove the item (0 loops)
+        // (may happen if the player did not add enough charges to the mill
+        // or if the conversion rate is changed between versions)
+        for( int i = 0; i < resulting_charges; i++ ) {
+            item result( mdata.into_, start_time + milling_time );
+            result.components.add( millable_items[type] );
+
+            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+            for( const flag_id &f : millable_flags[type] ) {
+                if( f->craft_inherit() ) {
+                    result.set_flag( f );
+                }
+            }
+
+            result.recipe_charges = resulting_charges;
+            // Set flag to tell set_relative_rot() to calc from bday not now
+            result.set_flag( flag_PROCESSING_RESULT );
+            result.set_relative_rot( relative_rot );
+            result.unset_flag( flag_PROCESSING_RESULT );
+            here.add_item( examp, result );
+        }
+    }
+    //Delete the original items that got milled
+    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+        if( std::find( iter_to_delet.begin(), iter_to_delet.end(), iter ) != iter_to_delet.end() ) {
             iter = items.erase( iter );
         } else {
             ++iter;
         }
     }
+
     here.furn_set( examp, next_mill_type );
 }
 
@@ -6660,7 +6812,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                 }
                 const recipe &rec = selected_craft->get_making();
                 const inventory &inv = you.crafting_inventory();
-                if( !you.has_recipe( &rec, inv, you.get_crafting_helpers() ) ) {
+                if( !you.has_recipe( &rec, inv, you.get_crafting_group() ) ) {
                     you.add_msg_player_or_npc(
                         _( "You don't know the recipe for the %s and can't continue crafting." ),
                         _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -6730,7 +6882,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "portable_structure", &iexamine::portable_structure },
             { "pit", &iexamine::pit },
             { "pit_covered", &iexamine::pit_covered },
-            { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },

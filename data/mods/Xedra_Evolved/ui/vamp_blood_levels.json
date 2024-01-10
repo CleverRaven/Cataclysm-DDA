@@ -67,7 +67,7 @@
       },
       {
         "id": "flush",
-        "text": "FLUSH",
+        "text": "Flush",
         "color": "light_red",
         "condition": {
           "and": [

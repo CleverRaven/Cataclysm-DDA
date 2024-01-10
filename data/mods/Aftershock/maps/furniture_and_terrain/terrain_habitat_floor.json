@@ -1,0 +1,28 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_strconc_floor_heated",
+    "name": "reinforced concrete floor",
+    "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
+    "emissions": [ "afs_emit_geovent" ],
+    "connect_groups": "CONCRETE",
+    "connects_to": "CONCRETE",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    }
+  }
+]

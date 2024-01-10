@@ -77,6 +77,17 @@ class om_noise_layer_lake : public om_noise_layer
         float noise_at( const point_om_omt &local_omt_pos ) const override;
 };
 
+
+class om_noise_layer_ocean : public om_noise_layer
+{
+    public:
+        om_noise_layer_ocean( const point_abs_omt &global_base_point, unsigned seed )
+            : om_noise_layer( global_base_point, seed ) {
+        }
+
+        float noise_at( const point_om_omt &local_omt_pos ) const override;
+};
+
 } // namespace om_noise
 
 #endif // CATA_SRC_OVERMAP_NOISE_H

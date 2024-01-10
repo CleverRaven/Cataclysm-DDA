@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "ranch_nurse_clinic_aspirin",
-    "items": [ { "prob": 1, "group": "aspirin_bottle_plastic_pill_painkiller_20" } ]
+    "items": [ { "prob": 1, "group": "bottle_otc_painkiller_20" } ]
   },
   {
     "type": "item_group",
@@ -34,12 +34,13 @@
     "//": "Subset of surgery item_group with only basic and non quest conflicting items",
     "id": "ranch_nurse_clinic_surgery",
     "items": [
-      { "item": "saline", "prob": 20, "container-item": "bag_iv" },
+      { "group": "saline_bottle_random", "prob": 20 },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "bandages", "prob": 50, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
+      { "group": "cotton_ball_bag_full", "prob": 25 },
       [ "mask_dust", 65 ],
       [ "towel", 40 ],
       [ "vacutainer", 10 ],
@@ -952,6 +953,7 @@
         "W........W  ",
         "WWW....WWW  "
       ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "W": "t_wall_log", ".": "t_dirtfloor" }
     }
   },

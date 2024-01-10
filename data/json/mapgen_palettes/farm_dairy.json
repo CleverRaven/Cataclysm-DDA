@@ -23,6 +23,7 @@
       },
       ".": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ],
       ",": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ]
-    }
+    },
+    "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ], ",": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] }
   }
 ]

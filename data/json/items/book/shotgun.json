@@ -9,53 +9,45 @@
       {
         "id": "mag_shotgun",
         "name": { "str": "Trap and Field", "str_pl": "issues of Trap and Field" },
-        "description": "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages.",
-        "weight": 1
+        "description": "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages."
       },
       {
         "id": "mag_shotgun_1",
         "name": { "str": "Gun Digest Shooter's Guide to Shotguns", "str_pl": "copies of Gun Digest Shooter's Guide to Shotguns" },
         "description": "A training guide for anyone who never used a shotgun, with simple explanations and drills.",
-        "//": "978-1440240683",
-        "weight": 1
+        "//": "978-1440240683"
       },
       {
         "id": "mag_shotgun_2",
         "name": { "str": "Man Magnum", "str_pl": "issues of Man Magnum" },
-        "description": "A modern magazine, published in South Africa, it contains various information about hunting and shooting.  This particular issue has a lot of information about shotguns and drills with them.",
-        "weight": 1
+        "description": "A modern magazine, published in South Africa, it contains various information about hunting and shooting.  This particular issue has a lot of information about shotguns and drills with them."
       },
       {
         "id": "mag_shotgun_3",
         "name": { "str": "Texas Parks and Wildlife", "str_pl": "issues of Texas Parks and Wildlife" },
-        "description": "Published by Texas Parks and Wildlife Department, this book contains lots of information and photos about nature and recreation in Texas's fields.  This exact issue is about hunting and gun safety.",
-        "weight": 1
+        "description": "Published by Texas Parks and Wildlife Department, this book contains lots of information and photos about nature and recreation in Texas's fields.  This exact issue is about hunting and gun safety."
       },
       {
         "id": "mag_shotgun_4",
         "name": { "str": "The Wingshooter's Diary", "str_pl": "issues of The Wingshooter's Diary" },
-        "description": "An annual magazine about bird hunting, including species identification, hunting techniques, and equipment recommendations.",
-        "weight": 1
+        "description": "An annual magazine about bird hunting, including species identification, hunting techniques, and equipment recommendations."
       },
       {
         "id": "mag_shotgun_5",
         "name": { "str": "The Skeet Shooter's Logbook", "str_pl": "copies of The Skeet Shooter's Logbook" },
-        "description": "A small guide to skeet shooting, including rules, equipment, tips, and techniques for improving accuracy and performance.",
-        "weight": 1
+        "description": "A small guide to skeet shooting, including rules, equipment, tips, and techniques for improving accuracy and performance."
       },
       {
         "id": "mag_shotgun_6",
         "name": { "str": "If It Ain't Broke, Fix It!", "str_pl": "copies of If It Ain't Broke, Fix It!" },
         "description": "The beginner's guide to clay shooting, with lots of advice, instructions, and drills.",
-        "//": "978-0976020400",
-        "weight": 1
+        "//": "978-0976020400"
       },
       {
         "id": "mag_shotgun_7",
         "name": { "str": "Sporting Clays Consistency", "str_pl": "copies of Sporting Clays Consistency" },
         "description": "A bird and clay shooting manual, this book contains lots of information about proper shotgun shooting like stances, aim, and ballistics.",
-        "//": "978-0976020417",
-        "weight": 1
+        "//": "978-0976020417"
       }
     ],
     "weight": "90 g",
@@ -82,64 +74,55 @@
       {
         "id": "manual_shotgun",
         "name": { "str": "Shotguns: The Art and Science", "str_pl": "copies of Shotguns: The Art and Science" },
-        "description": "This book claims to address every problem the shotgunner is likely to face, and offers solutions to ensure that shooters can make every shot count.",
-        "weight": 1
+        "description": "This book claims to address every problem the shotgunner is likely to face, and offers solutions to ensure that shooters can make every shot count."
       },
       {
         "id": "manual_shotgun_1",
         "name": { "str": "Fine Shotguns", "str_pl": "copies of Fine Shotguns" },
         "description": "This book shows the history, science and art of the most beautiful shotguns in the world - single and double barrel, combination, hammer shotguns, paired shotguns, special-use guns, and small-bore shotguns from around the world, with detailed information about each of them, and their usage.",
-        "//": "978-1616080891",
-        "weight": 1
+        "//": "978-1616080891"
       },
       {
         "id": "manual_shotgun_2",
         "name": { "str": "Shotguns: A Comprehensive Guide", "str_pl": "copies of Shotguns: A Comprehensive Guide" },
         "description": "Detailed manual about buying, owning, and shooting a shotgun, with additional information like cleaning, safety, and training.",
-        "//": "978-1939473219",
-        "weight": 1
+        "//": "978-1939473219"
       },
       {
         "id": "manual_shotgun_3",
         "name": { "str": "Winchester Shotguns", "str_pl": "copies of Winchester Shotguns" },
         "description": "An illustrated chronicle of every model designed and produced under the Winchester name, with a wealth of facts, figures, and historically relevant information.",
-        "//": "9781510709249",
-        "weight": 1
+        "//": "9781510709249"
       },
       {
         "id": "manual_shotgun_4",
         "name": { "str": "Ordnance Maintenance Shotguns, All Types", "str_pl": "copies of Ordnance Maintenance Shotguns, All Types" },
         "description": "Part of a 1942 army manual, this book contains lots of information about the proper usage and maintenance of all shotguns that were adopted by the U.S. military, including the Winchester M97 and M12, Stevens M620, M620A and M520, the Ithaca M37, the Remington M31, M11, and Browning Automatic 5.",
-        "//": "978-1940453712",
-        "weight": 1
+        "//": "978-1940453712"
       },
       {
         "id": "manual_shotgun_5",
         "name": { "str": "Streetsweepers", "str_pl": "copies of Streetsweepers" },
         "description": "A comprehensive book about combat shotguns, covering single- and double-barreled, slide-action, semi-auto and rotary-cylinder shotguns, their usage, service, and tactics.",
-        "//": "978-1581604368",
-        "weight": 1
+        "//": "978-1581604368"
       },
       {
         "id": "manual_shotgun_6",
         "name": { "str": "Shotguns and Shooting", "str_pl": "copies of Shotguns and Shooting" },
         "description": "This book has lot of fundamental information about shotguns, their workmanship, engineering, and art, along with lot of practical trainings for them.",
-        "//": "978-0924357480",
-        "weight": 1
+        "//": "978-0924357480"
       },
       {
         "id": "manual_shotgun_7",
         "name": { "str": "Shotguns - Their History and Development", "str_pl": "copies of Shotguns - Their History and Development" },
         "description": "An old magazine about shotguns: their history, models, cartridges, ballistics, accessories, and shooting, along with an appendix on shotgun data and tables.",
-        "//": "978-1905124862",
-        "weight": 1
+        "//": "978-1905124862"
       },
       {
         "id": "manual_shotgun_8",
         "name": { "str": "Vintage British Shotguns", "str_pl": "copies of Vintage British Shotguns" },
         "description": "A good guide for both sportsmen and gun collectors, this book contains information about classic shotguns and their usage.",
-        "//": "978-0892727742",
-        "weight": 1
+        "//": "978-0892727742"
       }
     ],
     "weight": "400 g",

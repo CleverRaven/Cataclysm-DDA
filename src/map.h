@@ -17,6 +17,7 @@
 #include <set>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -26,6 +27,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -38,11 +40,14 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+#if defined(TILES)
+#include "cata_tiles.h"
+#endif
 
 struct scent_block;
 
@@ -119,11 +124,13 @@ struct visibility_variables {
     bool variables_set = false;
     bool u_sight_impaired = false;
     bool u_is_boomered = false;
+    bool visibility_cache_dirty = true;
     // Cached values for map visibility calculations
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
+    tripoint last_pos;
 };
 
 struct bash_params {
@@ -273,6 +280,41 @@ struct drawsq_params {
         //@}
 };
 
+struct tile_render_info {
+    struct common {
+        const tripoint pos;
+        // accumulator for 3d tallness of sprites rendered here so far;
+        int height_3d = 0;
+
+        common( const tripoint &pos, const int height_3d )
+            : pos( pos ), height_3d( height_3d ) {}
+    };
+
+    struct vision_effect {
+        visibility_type vis;
+
+        explicit vision_effect( const visibility_type vis )
+            : vis( vis ) {}
+    };
+
+    struct sprite {
+        lit_level ll;
+        std::array<bool, 5> invisible;
+
+        sprite( const lit_level ll, const std::array<bool, 5> &inv )
+            : ll( ll ), invisible( inv ) {}
+    };
+
+    common com;
+    std::variant<vision_effect, sprite> var;
+
+    tile_render_info( const common &com, const vision_effect &var )
+        : com( com ), var( var ) {}
+
+    tile_render_info( const common &com, const sprite &var )
+        : com( com ), var( var ) {}
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -347,6 +389,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
+        void set_pathfinding_cache_dirty( const tripoint &p );
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -364,14 +407,10 @@ class map
 
         /**
          * A pre-filter for bresenham LOS.
-         * true, if there might be is a potential bresenham path between two points.
+         * true, if there might be a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
-        bool has_potential_los( const tripoint &from, const tripoint &to,
-                                bool bounds_check = true ) const;
-
-        int reachability_cache_value( const tripoint &p, bool vertical_cache,
-                                      reachability_cache_quadrant quadrant ) const;
+        bool has_potential_los( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -576,6 +615,7 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -583,6 +623,9 @@ class map
         * If there's no obstacle adjacent to the target - no coverage.
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        int ledge_coverage( const Creature &viewer, const tripoint &target_p ) const;
+        int ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+                            const float &eye_level = 1.0f ) const;
         /**
         * Returns coverage value of the tile.
         */
@@ -647,10 +690,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+
+        // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
+        // if that is not possible.
+        std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -796,6 +843,9 @@ class map
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
+
+        int get_map_damage( const tripoint_bub_ms &p ) const;
+        void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,
@@ -1444,6 +1494,7 @@ class map
 
         // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
+        const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
@@ -1461,9 +1512,12 @@ class map
          * This functions assumes the character is either on top of the trap,
          * or adjacent to it.
          */
+
         // TODO: fix point types (remove the first overload)
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
         void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid ) const;
+        // Handles triggering a proximity trap. Similar but subtly different.
+        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1660,12 +1714,16 @@ class map
         void support_dirty( const tripoint &p );
     public:
 
-        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR,
+        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR
+        // and ter_furn_flag::TFLAG_NO_FLOOR_WATER,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
+        bool has_floor_or_water( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
         bool has_floor_or_support( const tripoint &p ) const;
+        bool has_vehicle_floor( const tripoint &p ) const;
+        bool has_vehicle_floor( const tripoint_bub_ms &p ) const;
 
         /**
          * Handles map objects of given type (not creatures) falling down.
@@ -1747,6 +1805,7 @@ class map
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
         bool is_transparent( const tripoint &p ) const;
+        bool is_transparent_wo_fields( const tripoint &p ) const;
         // End of light/transparency
 
         /**
@@ -1757,7 +1816,7 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        virtual bool pl_sees( const tripoint &t, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
         /**
          * Uses the map cache to tell if the player could see the given square.
          * pl_sees implies pl_line_of_sight
@@ -1933,6 +1992,9 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        void seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
+                                        const array_of_grids_of<const bool> &floor_caches,
+                                        const std::optional<tripoint> &override_p ) const;
 
     protected:
         void generate_lightmap( int zlev );
@@ -2005,7 +2067,9 @@ class map
         }
         submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2017,7 +2081,9 @@ class map
         const submap *unsafe_get_submap_at(
             const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
@@ -2226,9 +2292,11 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
+        void update_pathfinding_cache( const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
+        void invalidate_visibility_cache();
         const visibility_variables &get_visibility_variables_cache() const;
 
         void update_submaps_with_active_items();
@@ -2277,6 +2345,16 @@ class map
 
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
+
+#if defined(TILES)
+        bool draw_points_cache_dirty = true;
+        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
+        point prev_top_left;
+        point prev_bottom_right;
+        point prev_o;
+        std::multimap<point, formatted_text> overlay_strings_cache;
+        color_block_overlay_container color_blocks_cache;
+#endif
 };
 
 map &get_map();
@@ -2293,8 +2371,6 @@ class tinymap : public map
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
-        // @returns false
-        bool pl_sees( const tripoint &t, int max_range ) const override;
 };
 
 class fake_map : public tinymap

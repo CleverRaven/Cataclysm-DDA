@@ -43,7 +43,7 @@
   {
     "id": "mom_fusion_ammo",
     "type": "AMMO",
-    "name": { "str_sp": "Ch47 power cartridges" },
+    "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
     "weight": "20 g",
     "volume": "192 ml",
@@ -63,5 +63,48 @@
     "id": "mom_fusion_ammo",
     "name": "Ch47 fusion shot",
     "default": "mom_fusion_ammo"
+  },
+  {
+    "id": "itzcuauhtli_cape",
+    "copy-from": "cloak",
+    "type": "ARMOR",
+    "name": { "str_sp": "Itzcuauhtli Corps tilmàtli" },
+    "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
+    "delete": { "flags": [ "HOOD" ] }
+  },
+  {
+    "id": "itzcuauhtli_hat",
+    "copy-from": "beret",
+    "type": "ARMOR",
+    "name": { "str": "Imperial navy cap" },
+    "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Èhecatl on it."
+  },
+  {
+    "id": "itzcuauhtli_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "Ch47 holster" },
+    "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to."
+  },
+  {
+    "id": "itzcuauhtli_tunic",
+    "copy-from": "dress_shirt",
+    "type": "ARMOR",
+    "name": { "str": "Yohualli Èhecatl division tunic" },
+    "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
+  },
+  {
+    "id": "itzcuauhtli_pants",
+    "copy-from": "pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "Itzcuauhtli Corps pants" },
+    "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it."
+  },
+  {
+    "id": "itzcuauhtli_boots",
+    "copy-from": "boots",
+    "type": "ARMOR",
+    "name": { "str_sp": "naval boots" },
+    "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot."
   }
 ]

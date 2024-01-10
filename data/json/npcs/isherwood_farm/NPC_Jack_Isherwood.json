@@ -53,6 +53,7 @@
           { "item": "jacket_leather" },
           { "item": "trenchcoat" },
           { "item": "jacket_jean" },
+          { "item": "vest_jean" },
           { "item": "jacket_flannel" }
         ]
       },
@@ -82,6 +83,7 @@
           { "item": "jacket_leather" },
           { "item": "trenchcoat" },
           { "item": "jacket_jean" },
+          { "item": "vest_jean" },
           { "item": "jacket_flannel" }
         ]
       },
@@ -199,12 +201,19 @@
         "effect": "start_trade",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_JACK_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK_RESTOCK",
+    "dynamic_line": "Around <interval>.",
+    "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

@@ -7,7 +7,7 @@
 #include "rng.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_m4_carbine( "m4_carbine" );
+static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior
@@ -45,7 +45,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     REQUIRE_FALSE( character_has_item_with_var_val( they, "uid", rope_uid ) );
 
     WHEN( "avatar wears a hiking backpack from the ground with wear_item" ) {
-        they.worn.clear();
+        they.clear_worn();
         // Get the backpack from the iterator returned by wear_item,
         // for the reference to the backpack that the avatar is wearing now
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
@@ -64,7 +64,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         }
 
         WHEN( "using put_in to put a rope directly into the backpack" ) {
-            REQUIRE( backpack.put_in( rope_map, item_pocket::pocket_type::CONTAINER ).success() );
+            REQUIRE( backpack.put_in( rope_map, pocket_type::CONTAINER ).success() );
 
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );
@@ -97,7 +97,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     // But Character::pick_up cannot wield or wear items in the act of picking them up;
     // the available storage needs to be worn ahead of time.
     GIVEN( "avatar is not wearing anything that can store items" ) {
-        they.worn.clear();
+        they.clear_worn();
 
         WHEN( "avatar tries to get the backpack with pick_up" ) {
             item_location backpack_loc( map_cursor( ground ), &backpack_map );
@@ -142,7 +142,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
     // Spawn items on the map at this location
     const tripoint ground = they.pos();
-    item &m4a1 = here.add_item( ground, item( itype_m4_carbine ) );
+    item &m4a1 = here.add_item( ground, item( itype_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 

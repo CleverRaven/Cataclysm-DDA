@@ -67,7 +67,7 @@
     "//": "Yield is just over 98% by weight, each output of copper is 400 weight.  Volume of output is massively oversize however.",
     "result_mult": 21,
     "byproducts": [ [ "platinum_small" ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
   {
@@ -84,7 +84,7 @@
     "autolearn": true,
     "//": "Reversed copper smelting recipe to make it easier to find the platinum recipe.",
     "byproducts": [ [ "copper", 21 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
   {
@@ -101,7 +101,7 @@
     "autolearn": true,
     "//": "Yield is just over 97% by weight, each output of silver is 300 weight.  Volume of output is massively oversize however.",
     "result_mult": 34,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_silver", 1 ] ] ]
   },
   {
@@ -118,7 +118,7 @@
     "autolearn": true,
     "//": "Yield is just over 98% by weight, each output of gold is 500 weight.  Volume of output is massively oversize however.",
     "result_mult": 38,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_gold", 1 ] ] ]
   },
   {
@@ -135,7 +135,7 @@
     "autolearn": true,
     "//": "Yield is just 100% by weight, each output of aluminum is 675 weight.",
     "result_mult": 4,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_aluminum", 1 ] ] ]
   },
   {

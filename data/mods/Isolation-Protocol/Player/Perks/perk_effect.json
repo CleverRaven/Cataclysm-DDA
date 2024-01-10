@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_type",
+    "id": "iso_eff_backup",
+    "rating": "good",
+    "int_dur_factor": "1 s",
+    "max_duration": "1 s",
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "iso_eff_hypo_o",
+    "rating": "good",
+    "int_dur_factor": "1 s",
+    "max_duration": "6 s",
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "iso_heal",
+    "rating": "good",
+    "int_dur_factor": "1 s",
+    "name": [ "Rapid Healing" ],
+    "max_duration": "6 s",
+    "base_mods": { "hurt_amount": [ -10 ] }
+  }
+]

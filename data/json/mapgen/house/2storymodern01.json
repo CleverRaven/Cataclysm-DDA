@@ -229,7 +229,10 @@
       "furniture": { "!": "f_region_flower_decorative", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
       "place_loot": [ { "item": "television", "x": 11, "y": 10, "chance": 100 } ],
-      "place_vehicles": [ { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 } ],
+      "place_vehicles": [
+        { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 },
+        { "vehicle": "rolling_trash_can", "x": 5, "y": 4, "chance": 80, "status": 0 }
+      ],
       "rotation": [ 2 ]
     }
   },
@@ -287,7 +290,10 @@
       },
       "furniture": { "$": "f_table", ",": "f_chair" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "status": 100, "rotation": 180 } ],
+      "place_vehicles": [
+        { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "status": 100, "rotation": 180 },
+        { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 }
+      ],
       "rotation": [ 2 ]
     }
   },
@@ -340,6 +346,7 @@
       },
       "furniture": { "$": "f_table", ",": "f_chair", "(": "f_piano", "[": "f_region_flower_decorative" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 } ],
       "rotation": [ 2 ]
     }
   },

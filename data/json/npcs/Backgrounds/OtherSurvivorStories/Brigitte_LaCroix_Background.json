@@ -21,7 +21,7 @@
         "effect": { "assign_mission": "directions_Brigitte_LaCroix" },
         "switch": true
       },
-      { "text": "<done_conversation>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

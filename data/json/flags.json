@@ -191,6 +191,11 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "OVERHEATS",
+    "type": "json_flag",
+    "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
@@ -308,6 +313,11 @@
     "info": "This gear <good>completely protects</good> you from <info>bash damage</info>."
   },
   {
+    "id": "EMP_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>EMP blasts</info>."
+  },
+  {
     "id": "CUT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>cut damage</info>."
@@ -379,6 +389,30 @@
     "type": "json_flag",
     "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
     "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "BOOT_FINS",
+    "type": "json_flag",
+    "info": "This item is attachable to commercial diving boots as fins.",
+    "restriction": "Item must be some kind of fins"
+  },
+  {
+    "id": "BOOT_FINS_CUSTOM",
+    "type": "json_flag",
+    "info": "This item is attachable to custom diving boots as fins.",
+    "restriction": "Item must be some kind of custom fins"
+  },
+  {
+    "id": "HEAD_STRAP_MOUNT",
+    "type": "json_flag",
+    "info": "This item is attachable to straps and mountings on some masks and hoods.",
+    "restriction": "Item must be some kind of item that can be attached to straps on masks and hoods."
+  },
+  {
+    "id": "WRIST_MOUNT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable to a proprietary wrist mount.",
+    "restriction": "Item must be some kind of item that can be attached to a proprietary wrist mount."
   },
   {
     "id": "EXTRA_PLATING",
@@ -559,6 +593,16 @@
     "type": "json_flag"
   },
   {
+    "id": "ARM_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the arms, and can only be used as a replacement limb."
+  },
+  {
+    "id": "LEG_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",
@@ -607,6 +651,11 @@
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+  },
+  {
+    "id": "PROVIDES_TECHNIQUES",
+    "type": "json_flag",
+    "//": "This item provides martial arts techniques in addition to the character's weapon"
   },
   {
     "id": "SPAWN_ACTIVE",
@@ -688,6 +737,11 @@
     "type": "json_flag"
   },
   {
+    "id": "IRRADIATED",
+    "type": "json_flag",
+    "info": "This food item has been irradiated, and will spoil 4 times slower."
+  },
+  {
     "id": "FREEZERBURN",
     "type": "json_flag"
   },
@@ -752,11 +806,6 @@
     "id": "RAD_STERILIZED",
     "type": "json_flag",
     "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
-  },
-  {
-    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
-    "type": "json_flag",
-    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -1339,6 +1388,10 @@
   },
   {
     "id": "PORTAL_PROOF",
+    "type": "json_flag"
+  },
+  {
+    "id": "TELEPORT_LOCK",
     "type": "json_flag"
   },
   {
@@ -1926,10 +1979,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag"
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag"
   },
@@ -2297,5 +2346,46 @@
   {
     "id": "RABBIT",
     "type": "json_flag"
+  },
+  {
+    "id": "TREE_COMMUNION_PLUS",
+    "type": "json_flag",
+    "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
+  },
+  {
+    "id": "ROOTS2",
+    "type": "json_flag",
+    "info": "The character has roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ROOTS3",
+    "type": "json_flag",
+    "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "UNDERFED",
+    "type": "json_flag",
+    "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "TRANSPARENT",
+    "type": "json_flag",
+    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
+  },
+  {
+    "id": "UNRESTRICTED",
+    "type": "json_flag",
+    "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
+    "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
+  },
+  {
+    "id": "BLEEDSLOW",
+    "type": "json_flag",
+    "info": "The character bleeds slower than normal, losing blood at 2/3rds the normal rate."
+  },
+  {
+    "id": "BLEEDSLOW2",
+    "type": "json_flag",
+    "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
   }
 ]

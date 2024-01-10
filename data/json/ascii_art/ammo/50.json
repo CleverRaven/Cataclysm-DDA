@@ -1,0 +1,57 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "50bmg",
+    "picture": [
+      "<color_yellow>/\\",
+      "││",
+      "║║",
+      "║║",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "50_incendiary",
+    "picture": [
+      "<color_red>/\\",
+      "<color_yellow>││",
+      "║║",
+      "║║",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "50match",
+    "picture": [
+      "<color_light_gray>/\\",
+      "<color_yellow>││",
+      "║║",
+      "║║",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "50ss",
+    "picture": [
+      "<color_dark_gray>/\\",
+      "<color_yellow>││",
+      "║║",
+      "║║",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "50_mk211",
+    "picture": [
+      "<color_light_green>/<color_white>\\",
+      "<color_yellow>││",
+      "║║",
+      "║║",
+      "╙╜"
+    ]
+  }
+]

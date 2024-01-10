@@ -120,7 +120,14 @@
       {
         "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "PRETTY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
       },
       {
         "text": "So about those condoms.  I thought of a good use for them…",
@@ -130,6 +137,7 @@
             { "not": { "u_has_trait": "PRETTY" } },
             { "not": { "u_has_trait": "UGLY" } },
             { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -137,7 +145,19 @@
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "UGLY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
+      },
+      {
+        "text": "So about those condoms.  I thought of a good use for them…",
+        "topic": "TALK_REFUGEE_Alonso_Too_Young",
+        "condition": { "math": [ "u_val('age')", "<", "18" ] }
       }
     ]
   },
@@ -319,6 +339,7 @@
     "id": "MISSION_REFUGEE_Alonso_pants",
     "type": "mission_definition",
     "name": { "str": "Alonso must have his special pants" },
+    "description": "Find Alonso's leather pants in the 'toy shop' Alonso has marked on your map.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,
@@ -407,6 +428,19 @@
       { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Too_Young",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Alonso thinks maybe we should wait a few years?",
+      "yes": "Sorry kid, you're younger than my little sister was.  Seems wrong."
+    },
+    "responses": [ { "text": "Sigh.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

@@ -9,6 +9,8 @@
     "weight": "1502 g",
     "volume": "565 ml",
     "longest_side": "332 mm",
+    "barrel_length": "258 mm",
+    "//": "212.725 + 45mm max OAL for 454. Revolvers just built different.",
     "price": 64100,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -40,6 +42,8 @@
     "weight": "2070 g",
     "volume": "1175 ml",
     "longest_side": "385 mm",
+    "barrel_length": "241 mm",
+    "//": "165.1 + 76mm max OAL for .410 3in. Revolvers just built different.",
     "clip_size": 6,
     "pocket_data": [
       {

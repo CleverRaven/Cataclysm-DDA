@@ -129,12 +129,72 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_statue_return",
-    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.",
+    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.  Behavior based on difficulty selector",
+    "effect": {
+      "switch": { "math": [ "roomteleportselector" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "run_eocs": "EOC_statue_return_whole_room" } ] },
+        { "case": 1, "effect": [ { "run_eocs": "EOC_statue_return_whole_room_cost" } ] },
+        { "case": 2, "effect": [ { "run_eocs": "EOC_statue_return_self_only" } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room",
+    "//": "This is the version that returns the whole room home.",
     "condition": {
-      "u_query": "This will teleport you back home with only the items on your person.  Anything left behind will be as good as gone.  Are you ready to leave?",
+      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost",
+    "condition": { "u_has_items": { "item": "warp_vortex_token", "count": 1 } },
+    "effect": [ { "run_eocs": [ "EOC_statue_return_whole_room_cost_2" ] } ],
+    "false_effect": [ { "run_eocs": [ "EOC_statue_return_self_only" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost_2",
+    "//": "This is the version that returns the whole room home if you pay a vortex token.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  You will spend your vortex token to return any items in the room home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [
+      { "math": [ "raidswon", "++" ] },
+      { "u_consume_item": "warp_vortex_token", "count": 1 },
+      { "run_eocs": [ "EOC_return_OM_teleport_item" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_self_only",
+    "//": "This version returns only you home.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  Any items not on your person WILL BE LOST.  Are you ready to leave?",
       "default": false
     },
     "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport_item",
+    "effect": [
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "loc" },
+        "min_radius": 0,
+        "max_radius": 10,
+        "true_eocs": [ { "id": "EOC_map_item_run", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
+      },
+      { "queue_eocs": [ "EOC_return_OM_teleport" ], "time_in_future": "1 s" },
+      { "u_message": "Now teleporting back home.  Please wait…" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -294,9 +354,7 @@
       { "math": [ "hardermissions", "=", "0" ] },
       { "math": [ "hardestmissions", "=", "0" ] },
       { "math": [ "distancetotarget", "=", "0" ] },
-      { "math": [ "mindistancetotarget", "=", "0" ] },
-      { "math": [ "u_val('spell_level', 'spell: warp_home')", "=", "0" ] },
-      { "math": [ "u_val('spell_exp', 'spell: warp_home')", "=", "0" ] }
+      { "math": [ "mindistancetotarget", "=", "0" ] }
     ]
   },
   {
@@ -324,7 +382,7 @@
         "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -335,7 +393,7 @@
         "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -346,7 +404,7 @@
         "u_message": "Difficulty set to Hard.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
   {
@@ -357,6 +415,126 @@
         "u_message": "Difficulty set to Impossible.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "run_eocs": "EOC_difficultycheck_2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultycheck_2",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_warphome_adjuster_1", "EOC_warphome_adjuster_2", "EOC_warphome_adjuster_3" ],
+        "names": [ "Whole Room", "Whole Room for a Cost", "Self Only" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "Set the behavior of the return obelisk.\nWith this option, everything in the room with you will return to your sky island.  Getting resources will generally not be a problem as long as you make it to the extraction point.",
+          "Set the behavior of the return obelisk.\nWith this option, if you have a warp vortex token with you, everything in the room with you will return to your sky island.  Otherwise, only what you are carrying on your person will return with you.  You may have to make difficult choices about what to bring back.",
+          "Set the behavior of the return obelisk.\nWith this option, only what you are carrying on your person will return with you.  You will always have to make difficult choices about what to bring back."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_1",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "0" ] },
+      { "run_eocs": "EOC_difficultycheck_3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_2",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "1" ] },
+      { "run_eocs": "EOC_difficultycheck_3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warphome_adjuster_3",
+    "effect": [
+      {
+        "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "roomteleportselector", "=", "2" ] },
+      { "run_eocs": "EOC_difficultycheck_3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultycheck_3",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_warpspell_adjuster_1", "EOC_warpspell_adjuster_2", "EOC_warpspell_adjuster_3", "EOC_warpspell_adjuster_4" ],
+        "names": [ "Get the Warp Home spell", "Get the Warped Return spell", "Get the Warped Skyward Beacon recipe", "Get nothing" ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [
+          "Set the possibility of returning home without the extraction point.\nWith this option, you will receive a spell that will return you home at any time for no cost.  It takes one minute to cast.  Using this will remove most of the challenge of the mod.",
+          "Set the possibility of returning home without the extraction point.\nWith this option, you will receive a spell that will return you home at any time by paying 1 warp shard.  It takes one minute to cast.  You may not be near any enemies when the spell is successfully cast or it will have no effect.",
+          "Set the possibility of returning home without the extraction point.\nWith this option, you will receive a recipe to craft a Warped Skyward Beacon.  This costs 5 warp shards and when used, casts the Warped Return spell.",
+          "Set the possibility of returning home without the extraction point.\nWith this option, your only choice is to find the extraction point.  Good luck!"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warpspell_adjuster_1",
+    "effect": [
+      {
+        "u_message": "Warp Home spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
+      { "u_forget_recipe": "warp_skyward_beacon" },
+      { "math": [ "u_spell_level('warp_home')", "=", "0" ] },
+      { "math": [ "u_spell_exp('warp_home')", "=", "0" ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warpspell_adjuster_2",
+    "effect": [
+      {
+        "u_message": "Warped Return spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
+      { "u_forget_recipe": "warp_skyward_beacon" },
+      { "math": [ "u_spell_level('warped_return')", "=", "0" ] },
+      { "math": [ "u_spell_exp('warped_return')", "=", "0" ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warpspell_adjuster_3",
+    "effect": [
+      {
+        "u_message": "Warped Skyward Beacon recipe granted.  You may find it in the Warp crafting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
+      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
+      { "u_learn_recipe": "warp_skyward_beacon" },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warpspell_adjuster_4",
+    "effect": [
+      {
+        "u_message": "All additional returning options removed.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
+      { "u_forget_recipe": "warp_skyward_beacon" },
+      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
   },
@@ -387,7 +565,84 @@
     "type": "SPELL",
     "name": "Warp Home",
     "//": "A simple no-failure spell that can be cast with hands full and triggers the EOC to return home.  Flagged as verbal so you make noise while casting, increasing the need to find a safe spot to warp from.  This only exists in case of bugs.",
-    "description": "Take a full minute of concentration and return to the safety of your home base.  THIS SPELL IS FOR EMERGENCIES AND CHEATERS ONLY -- USE IN THE EVENT YOUR EXIT ROOM DID NOT SPAWN SUCCESSFULLY.",
+    "description": "Take a full minute of concentration and return to the safety of your home base.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],
+    "difficulty": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "duration_increment": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_return_OM_teleport_check",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "final_energy_cost": 0,
+    "base_casting_time": 6000,
+    "final_casting_time": 6000
+  },
+  {
+    "id": "warped_return",
+    "type": "SPELL",
+    "name": "Warped Return",
+    "description": "Take a full minute of concentration, pay one warp shard, and return to the safety of your home base.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],
+    "difficulty": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "duration_increment": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_warped_return_shard_check",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "final_energy_cost": 0,
+    "base_casting_time": 6000,
+    "final_casting_time": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warped_return_shard_check",
+    "condition": { "u_has_items": { "item": "warptoken", "count": 1 } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_warped_return_shard_check_2",
+            "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
+            "effect": [ { "u_consume_item": "warptoken", "count": 1 }, { "run_eocs": "EOC_return_OM_teleport_check" } ],
+            "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You have no warp shards!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport_check",
+    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
+    "condition": {
+      "u_query": "This will warp you home directly, bypassing the mission structure and need to find an exit point.  Do you want to warp home directly?",
+      "default": false
+    },
+    "effect": [ { "u_cast_spell": { "id": "warp_home_real" } }, { "run_eocs": "EOC_REMOVE_WARPED_SKYWARD_BEACON_CHECK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_WARPED_SKYWARD_BEACON_CHECK",
+    "condition": { "u_has_items": { "item": "warp_skyward_beacon", "count": 1 } },
+    "effect": [ { "u_consume_item": "warp_skyward_beacon", "count": 1 } ]
+  },
+  {
+    "id": "warp_home_real",
+    "type": "SPELL",
+    "name": "Warp Home Real",
+    "//": "A simple no-failure spell that can be cast with hands full and triggers the EOC to return home.  Flagged as verbal so you make noise while casting, increasing the need to find a safe spot to warp from.  This only exists in case of bugs.",
+    "description": "The actual warp home spell.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],
@@ -397,11 +652,13 @@
     "duration_increment": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_return_OM_teleport",
-    "shape": "blast",
-    "energy_source": "NONE",
-    "base_energy_cost": 0,
-    "final_energy_cost": 0,
-    "base_casting_time": 6000,
-    "final_casting_time": 6000
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_ENEMY_CHECK_RETURN",
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
+    "effect": [ { "u_assign_activity": "ACT_WARP_HOME", "duration": "60 seconds" } ],
+    "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
   }
 ]

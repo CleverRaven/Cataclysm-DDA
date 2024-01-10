@@ -51,6 +51,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -84,6 +85,8 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
+    optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
+    optional( obj, was_loaded, "ignore_dest_danger", ignore_dest_danger, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -169,6 +172,16 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate place it can't enter, discarded" );
+            continue;
+        }
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate with dangerous conditions, discarded" );
+            continue;
+        }
         candidates.emplace( candidate_dist, candidate );
     }
     for( const auto &candidate : candidates ) {
@@ -194,12 +207,12 @@ bool leap_actor::call( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
                 break;
+            } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, i ) &&
+                       z.get_size() > creature_size::medium ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
+                blocked_path = true;
+                break;
             }
-        }
-        // don't leap into water if you could drown (#38038)
-        if( z.is_aquatic_danger( dest ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Can't leap into water, candidate discarded" );
-            blocked_path = true;
         }
         if( blocked_path ) {
             continue;
@@ -735,6 +748,7 @@ bool melee_actor::call( monster &z ) const
 
     // We need to do some calculations in the main function - we might mutate bp_hit
     // But first we need to handle exclusive grabs etc.
+    std::optional<bodypart_id> grabbed_bp_id;
     if( is_grab ) {
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
@@ -821,6 +835,7 @@ bool melee_actor::call( monster &z ) const
         } else if( result == 0 ) {
             return true;
         }
+        grabbed_bp_id = bp_id;
     }
 
     // Damage instance calculation
@@ -860,7 +875,7 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : to_translation( "" ),
-                                       mon_name, body_part_name_accusative( bp_id ) );
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
@@ -1040,6 +1055,11 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
     }
 
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
     obj.read( "max_ammo", max_ammo );
 
     obj.read( "move_cost", move_cost );
@@ -1093,6 +1113,14 @@ bool gun_actor::call( monster &z ) const
     Creature *target;
     tripoint aim_at;
     bool untargeted = false;
+
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
 
     if( z.friendly ) {
         int max_range = get_max_range();
@@ -1217,11 +1245,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

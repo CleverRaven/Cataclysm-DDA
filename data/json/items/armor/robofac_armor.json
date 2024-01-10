@@ -90,6 +90,7 @@
           "robofac_gun_smg",
           "robofac_gun_dmr",
           "robofac_gun_shotgun",
+          "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
           "robofac_gun_57",
           "robofac_gun_46"
@@ -191,6 +192,7 @@
           "robofac_gun_smg",
           "robofac_gun_dmr",
           "robofac_gun_shotgun",
+          "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
           "robofac_gun_57",
           "robofac_gun_46"
@@ -600,7 +602,7 @@
     "material_thickness": 5.25,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
+    "flags": [ "BLOCK_WHILE_WORN", "OUTER", "PADDED" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -627,7 +629,7 @@
     "material_thickness": 5.25,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "PADDED" ],
     "armor": [
       {
         "encumbrance": 3,

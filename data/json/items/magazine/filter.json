@@ -3,7 +3,7 @@
     "id": "gasfilter_sm",
     "type": "MAGAZINE",
     "category": "tool_magazine",
-    "name": { "str": "gas mask cartridge" },
+    "name": { "str": "filter mask cartridge" },
     "description": "A small-sized, replaceable filter cartridge for an air filtration mask.",
     "weight": "2 g",
     "volume": "250 ml",

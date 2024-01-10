@@ -869,6 +869,7 @@
     "likes_u": 30,
     "respects_u": 30,
     "known_by_u": false,
+    "mon_faction": "exodii",
     "size": 100,
     "power": 100,
     "food_supply": 115200,

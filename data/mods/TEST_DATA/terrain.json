@@ -137,6 +137,22 @@
   },
   {
     "type": "terrain",
+    "id": "test_t_bash_persist",
+    "name": "Bash persistence furniture",
+    "description": "Testing that bashing data does not persist when terrain changes",
+    "symbol": "t",
+    "color": "blue",
+    "bash": {
+      "str_min": 4,
+      "str_max": 100,
+      "sound": "Tests testing!",
+      "sound_fail": "Tests testing!",
+      "ter_set": "test_t_pit_shallow"
+    },
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
     "id": "test_t_pit_shallow",
     "name": "shallow pit",
     "description": "test shallow pit",

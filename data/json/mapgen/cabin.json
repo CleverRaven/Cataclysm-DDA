@@ -33,7 +33,7 @@
         "-----------GG-----------"
       ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
+      "place_loot": [ { "group": "corpse_generic_human", "x": 7, "y": 4, "chance": 100 } ],
       "place_nested": [ { "chunks": [ [ "KINDRED_Darren_Cooper_spawn", 20 ], [ "null", 80 ] ], "x": 12, "y": 14 } ]
     }
   },

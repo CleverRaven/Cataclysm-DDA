@@ -52,5 +52,21 @@
     "mutagen_message": "Wish upon a star.",
     "vitamin": "mutagen_dollkin",
     "memorial_message": "Real enough for you?"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_ADD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_MULT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_REGEN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_SIPHON"
   }
 ]

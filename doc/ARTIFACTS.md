@@ -64,6 +64,9 @@ The various ways this artifact can charge and use charges.
 - **periodic** This artifact takes 'time' amount of time to recharge
 - **solar_sunny** This artifact takes 'time' amount of time to recharge, only recharges if weather is sunny and character is outside
 - **solar_cloudy** This artifact takes 'time' amount of time to recharge, only recharges if weather is cloudy and character is outside
+- **lunar** This artifact takes 'time' amount of time to recharge, only recharges at night time.
+- **full_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the full moon
+- **new_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the new moon
 
 #### recharge_conditions
 

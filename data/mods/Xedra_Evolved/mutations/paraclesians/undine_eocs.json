@@ -1,0 +1,99 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE",
+    "effect": { "u_message": "These are all the ways you can alter these elements now." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE",
+    "effect": { "u_message": "You learn how to alter an element." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALTWATER_TO_FRESHWATER",
+    "condition": { "u_has_trait": "SALTWATER_TO_FRESHWATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "salt_water_from_water", "water_from_salt_water" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOUL_WATER",
+    "condition": { "u_has_trait": "FOUL_WATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "water_from_water_clean", "water_clean_from_water" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIQUID_TO_WATER",
+    "condition": { "u_has_trait": "LIQUID_TO_WATER" },
+    "effect": [
+      {
+        "u_roll_remainder": [ "water_from_liquid" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain": "t_water_dp" },
+        { "u_is_on_terrain": "t_water_sh" },
+        { "u_is_on_terrain": "t_swater_dp" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_water_dp_underground" },
+        { "u_is_on_terrain": "t_water_pool" },
+        { "u_is_on_terrain": "t_water_pool_outdoors" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_water_hot" },
+        { "u_is_on_terrain": "t_water_murky" },
+        { "u_is_on_terrain": "t_water_sh_underground" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_swater_sh_underground" },
+        { "u_is_on_terrain": "t_swater_sh" },
+        { "u_is_on_terrain": "t_water_pool_shallow" },
+        { "u_is_on_terrain": "t_water_pool_shallow_outdoors" },
+        { "u_is_on_terrain": "t_water_moving_dp" },
+        { "u_is_on_terrain": "t_water_moving_dp_underground" },
+        { "u_is_on_terrain": "t_water_sh_murky_underground" },
+        { "u_at_om_location": "generic_river_bank" },
+        { "u_at_om_location": "generic_river" },
+        { "u_at_om_location": "river_center" },
+        { "u_at_om_location": "river" },
+        { "u_at_om_location": "river_c_not_ne" },
+        { "u_at_om_location": "river_c_not_nw" },
+        { "u_at_om_location": "river_c_not_se" },
+        { "u_at_om_location": "river_c_not_sw" },
+        { "u_at_om_location": "river_ne" },
+        { "u_at_om_location": "river_se" },
+        { "u_at_om_location": "river_sw" },
+        { "u_at_om_location": "river_nw" },
+        { "u_at_om_location": "lake_shore" },
+        { "u_at_om_location": "lake_surface" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [
+      {
+        "u_message": "You must be standing in water or near a large body of water to call forth a goblin fruit.",
+        "type": "bad"
+      }
+    ]
+  }
+]

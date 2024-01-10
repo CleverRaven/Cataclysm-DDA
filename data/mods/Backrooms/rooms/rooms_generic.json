@@ -362,6 +362,27 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mx_backroom_big_generic",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "--?--?--",
+        "-      -",
+        "- UUUU -",
+        "D      D",
+        "d      d",
+        "- UUUU -",
+        "-      -",
+        "--?--?--"
+      ],
+      "palettes": [ "backrooms_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "mx_backroom_small_generic",
     "object": {
       "mapgensize": [ 4, 4 ],

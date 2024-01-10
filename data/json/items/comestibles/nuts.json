@@ -425,7 +425,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_ambrosia",
-    "name": { "str": "hickory nut ambrosia" },
+    "name": { "str_sp": "hickory nut ambrosia" },
     "weight": "64 g",
     "color": "brown",
     "spoils_in": "10 days 19 hours",
@@ -452,7 +452,7 @@
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": { "str": "peanut butter" },
+    "name": { "str_sp": "peanut butter" },
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
     "price": 195,
     "price_postapoc": 1000,
@@ -474,7 +474,7 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "name": { "str": "imitation peanutbutter" },
+    "name": { "str_sp": "imitation peanutbutter" },
     "description": "A thick, nutty brown paste so that the peanut-allergic can enjoy PB&Js too.",
     "copy-from": "peanutbutter",
     "calories": 400

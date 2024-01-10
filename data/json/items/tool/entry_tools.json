@@ -78,8 +78,7 @@
     "type": "TOOL",
     "name": { "str": "makeshift crowbar" },
     "description": "A pipe with both ends bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  It's not strong enough to pry doors or windows, though.  You could also wield it to fight with, in a pinch.",
-    "weight": "450 g",
-    "volume": "100 ml",
+    "copy-from": "pipe",
     "longest_side": "45 cm",
     "price": 0,
     "price_postapoc": 10,
@@ -89,10 +88,10 @@
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "use_action": [ "CROWBAR_WEAK" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
+    "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
     "weapon_category": [ "BATONS" ],
-    "melee_damage": { "bash": 12, "cut": 1 }
+    "melee_damage": { "bash": 10, "cut": 1 }
   },
   {
     "id": "picklocks",

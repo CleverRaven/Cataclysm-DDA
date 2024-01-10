@@ -33,7 +33,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
-    "melee_damage": { "bash": 3, "cut": 5 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 3, "cut": 5 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "hoe",
@@ -168,17 +170,16 @@
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },
     "description": "A long, crooked tool used to reap souls, with a skull engraved in its blade.  Let the harvest begin.",
-    "weight": "2721 g",
+    "weight": "586 g",
     "volume": "3550 ml",
     "longest_side": "150 cm",
     "price": 3000,
-    "price_postapoc": 10,
+    "price_postapoc": 5,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
-    "techniques": [ "WIDE", "BRUTAL" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "shovel",

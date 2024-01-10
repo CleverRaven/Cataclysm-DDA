@@ -283,6 +283,11 @@
         "effect": { "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_8"
       },
+      {
+        "text": "Do you know any tunes good to dance to?",
+        "condition": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+        "topic": "TALK_REFUGEE_Draco_Dance"
+      },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
     ]
   },
@@ -434,6 +439,90 @@
       { "text": "No problem, Draco.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "You're welcome.  Later.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance",
+    "dynamic_line": "Sure thing, friend!  Let's see how you can move to this one.",
+    "responses": [
+      { "text": "Just a sec, got somethig I need to do first.", "topic": "TALK_DONE" },
+      {
+        "text": "[Shuffle back and forth a little]",
+        "topic": "TALK_REFUGEE_Draco_Dance_1",
+        "condition": { "math": [ "u_val('dodge')", "<", "1" ] },
+        "switch": true
+      },
+      {
+        "text": "[Do a little dance]",
+        "topic": "TALK_REFUGEE_Draco_Dance_2",
+        "condition": { "math": [ "u_val('dodge')", "<", "6" ] },
+        "switch": true
+      },
+      {
+        "text": "[Perform a decent dance]",
+        "topic": "TALK_REFUGEE_Draco_Dance_3",
+        "condition": { "math": [ "u_val('dodge')", "<", "10" ] },
+        "switch": true
+      },
+      {
+        "text": "[Perform an impressive dance]",
+        "topic": "TALK_REFUGEE_Draco_Dance_4",
+        "condition": { "math": [ "u_val('dodge')", "<", "15" ] },
+        "switch": true
+      },
+      {
+        "text": "[Perform an masterful dance]",
+        "topic": "TALK_REFUGEE_Draco_Dance_5",
+        "condition": { "math": [ "u_val('dodge')", "<", "20" ] },
+        "switch": true
+      },
+      {
+        "text": "[Perform a legendary dance]",
+        "topic": "TALK_REFUGEE_Draco_Dance_6",
+        "condition": { "math": [ "u_val('dodge')", ">", "20" ] },
+        "switch": true,
+        "default": true
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_1",
+    "dynamic_line": "Not in the mood to dance, huh?  Or perhaps you should try wearing something less encumbering.  You know, if you want to.",
+    "responses": [
+      { "text": "I'll consider it.  Thanks for the tunes.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Thanks, Later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_2",
+    "dynamic_line": "Ah yes, that's the spirit!  This place could sure use more dancing.",
+    "responses": [ { "text": "Cheers!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_3",
+    "dynamic_line": "Oh my, am I dealing with a professional dancer here?  Sweet moves, friend.",
+    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_4",
+    "dynamic_line": "Oh my oh my.  That was impressive!  Sweet moves!",
+    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_5",
+    "dynamic_line": "Daym.  You're probably the best dancer I've ever had the honor of meeting.  Well done.  Well done indeed.",
+    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_Dance_6",
+    "dynamic_line": "Oh wow.  I didn't even know the human body could move like that.  I don't know what to say.  That was amazing!",
+    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",

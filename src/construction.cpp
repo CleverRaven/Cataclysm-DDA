@@ -92,8 +92,6 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
-static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
-
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
@@ -1026,9 +1024,36 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         }
     } else {
         // Use up the components
-        for( const auto &it : con.requirements->get_components() ) {
-            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
-            used.splice( used.end(), tmp );
+        for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
+            for( const item_comp &comp : it ) {
+                comp_selection<item_comp> sel;
+                sel.use_from = usage_from::both;
+                sel.comp = comp;
+                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
+                                                 is_empty_crafting_component );
+
+                int left_to_consume = 0;
+
+                if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
+                    int consumed = 0;
+                    for( item &itm : empty_consumed ) {
+                        consumed += itm.charges;
+                    }
+                    left_to_consume = comp.count - consumed;
+                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
+                    left_to_consume = comp.count - empty_consumed.size();
+                }
+
+                if( left_to_consume > 0 ) {
+                    comp_selection<item_comp> remainder = sel;
+                    remainder.comp.count = 1;
+                    std::list<item>used_consumed = player_character.consume_items( remainder,
+                                                   left_to_consume, is_crafting_component );
+                    empty_consumed.splice( empty_consumed.end(), used_consumed );
+                }
+
+                used.splice( used.end(), empty_consumed );
+            }
         }
     }
     pc.components = used;
@@ -1036,6 +1061,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     for( const auto &it : con.requirements->get_tools() ) {
         player_character.consume_tools( it );
     }
+    player_character.invalidate_crafting_inventory();
+    player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
     player_character.activity.placement = here.getglobal( pnt );
 }
@@ -1070,10 +1097,10 @@ void complete_construction( Character *you )
     };
 
     award_xp( *you );
-    // Friendly NPCs gain exp from assisting or watching...
-    // TODO: NPCs watching other NPCs do stuff and learning from it
+    // Other friendly Characters gain exp from assisting or watching...
+    // TODO: Characters watching other Characters do stuff and learning from it
     if( you->is_avatar() ) {
-        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
+        for( Character *elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -1146,7 +1173,7 @@ void complete_construction( Character *you )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp, *you );
-    // npcs will automatically resume backlog, players wont.
+    // Players will not automatically resume backlog, other Characters will.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         you->backlog.clear();
@@ -1258,6 +1285,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     if( here.has_furn( p ) ) {
+        // Can deconstruct furniture here, make sure regular deconstruction isn't available if easy deconstruction is possible
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
+            return false;
+        }
         return here.furn( p ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
@@ -1422,7 +1453,8 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
+    const int partnum = veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
+    veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -2054,7 +2086,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
+    for( Character *elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

@@ -258,5 +258,28 @@
     "intelligence": 10,
     "time": "60 m",
     "fun": -1
+  },
+  {
+    "id": "history_botanical_enchantment",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "A Comprehensive History of Botanical Enchantment",
+      "str_pl": "copies of A Comprehensive History of Botanical Enchantment"
+    },
+    "description": "A history of the ancient art of \"botanical enchantment\", infusing fruit with mana to create primitive potions.  While one of the earliest methods of alchemy known, discovered in prehistoric times, advancement in alchemical techniques (to say nothing of modern chemistry) rendered it a curiosity at best in the decades leading up to the Cataclysm.  Still, the book details several methods of botanical enchantment that would probably be useful.",
+    "weight": "750 g",
+    "volume": "1250 ml",
+    "price": 3000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "spellcraft",
+    "required_level": 4,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "25 m",
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   }
 ]

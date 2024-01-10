@@ -553,6 +553,7 @@
     "id": "MISSION_REFUGEE_Boris_WORKSPACE",
     "type": "mission_definition",
     "name": { "str": "Bring Boris a circular saw." },
+    "description": "Find a circular saw for Boris.  Smokes might be selling one if it's available in stock.",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -583,6 +584,7 @@
     "id": "MISSION_REFUGEE_Boris_LAPTOP",
     "type": "mission_definition",
     "name": { "str": "Bring Boris his son's lost writing." },
+    "description": "Find Boris' son's laptop in the evac shelter marked on your map.",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -596,10 +598,7 @@
         "random": true,
         "search_range": 120
       },
-      "update_mapgen": {
-        "om_terrain": "shelter_2_vandal",
-        "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ]
-      }
+      "update_mapgen": { "place_item": [ { "item": "laptop_boris", "x": 15, "y": 12 }, { "item": "mbag", "x": 15, "y": 12 } ] }
     },
     "dialogue": {
       "describe": "Find Boris' son's laptop.",

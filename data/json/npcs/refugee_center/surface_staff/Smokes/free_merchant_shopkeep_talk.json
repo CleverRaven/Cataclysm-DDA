@@ -47,7 +47,20 @@
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
       { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Next shipment should arrive in around <interval>.",
+      "Stick around for <interval>, there will surely be something you'd like."
+    ],
+    "responses": [
+      { "text": "Actually, I wanted to ask…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "Thanks, I will make sure to check back.  Farewell.", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -22,14 +22,6 @@
     "chance": 100
   },
   {
-    "id": "emit_cold_energy_weak",
-    "type": "emit",
-    "field": "fd_cold_energy",
-    "intensity": 1,
-    "qty": 15,
-    "chance": 100
-  },
-  {
     "id": "emit_cold_energy_strong",
     "type": "emit",
     "field": "fd_cold_energy",
@@ -51,5 +43,42 @@
     "intensity": 1,
     "qty": 22,
     "chance": 100
+  },
+  {
+    "id": "emit_kelvinist_anti_heat",
+    "type": "emit",
+    "field": "fd_kelvinist_cold",
+    "intensity": 3,
+    "qty": 300,
+    "chance": 100
+  },
+  {
+    "id": "emit_kelvinist_anti_cold",
+    "type": "emit",
+    "field": "fd_kelvinist_warmth",
+    "intensity": 3,
+    "qty": 300,
+    "chance": 100
+  },
+  {
+    "id": "emit_rad_mage",
+    "type": "emit",
+    "field": "fd_rad_mage_aura",
+    "intensity": 1,
+    "qty": 4
+  },
+  {
+    "id": "emit_rad_mage_cloud",
+    "type": "emit",
+    "field": "fd_rad_mage_aura",
+    "intensity": 3,
+    "qty": 100
+  },
+  {
+    "id": "emit_obscuring_fog",
+    "type": "emit",
+    "field": "fd_obscuring_fog",
+    "intensity": 3,
+    "qty": 80
   }
 ]

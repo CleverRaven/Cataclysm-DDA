@@ -15,7 +15,7 @@
     "traits": [
       { "trait": "SPIRITUAL" },
       { "trait": "EAGLEEYED" },
-      { "trait": "hair_brown_long" },
+      { "trait": "hair_long", "variant": "brown" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -92,7 +92,7 @@
       { "trait": "PRETTY" },
       { "trait": "PACIFIST" },
       { "group": "NPC_starting_traits" },
-      { "trait": "hair_blond_long" },
+      { "trait": "hair_long", "variant": "blond" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -436,7 +436,7 @@
       { "trait": "FLIMSY" },
       { "trait": "ANIMALEMPATH" },
       { "trait": "HYPEROPIC" },
-      { "trait": "hair_white_long" },
+      { "trait": "hair_long", "variant": "white" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -1076,8 +1076,7 @@
       [ "trappers_companion", 2 ],
       [ "textbook_traps", 8 ],
       [ "beartrap", 25 ],
-      [ "bolt_steel", 15 ],
-      [ "bolt_cf", 10 ],
+      { "group": "crossbow_bolts", "prob": 10 },
       [ "hand_crossbow", 1 ],
       [ "crossbow", 2 ],
       [ "compcrossbow", 3 ],
@@ -1138,7 +1137,7 @@
     "entries": [
       { "item": "screwdriver" },
       { "item": "duct_tape" },
-      { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" },
+      { "item": "welder" },
       { "item": "goggles_welding" },
       { "item": "solar_cell" }
     ]

@@ -3,7 +3,7 @@
     "id": "caramel_ointement",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "caramel ointment",
+    "name": { "str_sp": "caramel ointment" },
     "description": "An ointment made of caramel.  You could use it to heal your wounds, if you were made of sugar.",
     "weight": "375 g",
     "volume": "27 ml",

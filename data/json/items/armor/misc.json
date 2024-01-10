@@ -312,5 +312,49 @@
     "material_thickness": 1.0,
     "environmental_protection": 0,
     "armor": [ { "encumbrance": 15, "coverage": 10, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "bostonchan_wig",
+    "type": "ARMOR",
+    "name": { "str": "Boston-Chan wig" },
+    "description": "A long blue hair wig for the Boston-Chan costume.",
+    "weight": "125 g",
+    "volume": "750 ml",
+    "price": 2500,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "dog_tag",
+    "type": "ARMOR",
+    "name": { "str_sp": "dog tag" },
+    "description": "Two oval disks attached to a chain, worn by military personnel for identification.",
+    "variants": [
+      {
+        "id": "dog_tag_id",
+        "name": { "str": "dog tag" },
+        "description": "They have inscribed:\n<family_name>\n<given_name_army>\n<number><number><number><number><number><number><number><number><number><number>\n<blood_type_caps>\n<religion_caps>",
+        "expand_snippets": true,
+        "append": true,
+        "weight": 1
+      }
+    ],
+    "weight": "5 g",
+    "volume": "1 ml",
+    "price": 10,
+    "price_postapoc": 1,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml"
   }
 ]

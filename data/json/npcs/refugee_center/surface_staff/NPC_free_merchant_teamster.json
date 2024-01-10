@@ -96,9 +96,7 @@
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
@@ -109,9 +107,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_dirty" }
           ]
@@ -122,9 +118,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "not": { "math": [ "godco_freemerch_representative_dead", "==", "0" ] } },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_clean" }
           ]
@@ -427,7 +421,7 @@
       {
         "text": "Glad to help.",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 1 } ] },
+          { "math": [ "freemerch_godco_trader_investigated", "=", "1" ] },
           { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
           { "u_spawn_item": "FMCNote", "count": 20 },
           { "u_sell_item": "godcotrader_accounting_records_dirty" }

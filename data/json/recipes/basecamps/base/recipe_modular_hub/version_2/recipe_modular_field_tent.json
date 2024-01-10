@@ -29,7 +29,7 @@
     "time": "3 h",
     "construction_blueprint": "fbmh_2_tent_room_ENE",
     "blueprint_name": "east north east tent",
-    "blueprint_requires": [ { "id": "fbmh_2_room_NE", "amount": 4 }, { "id": "fbmh_2_fire_NE" }, { "id": "fbmh_2_bed_NE_2" } ],
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_2_room_ENE", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_2_room_ENE" } ],
     "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],

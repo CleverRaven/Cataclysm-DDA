@@ -100,6 +100,16 @@
       { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },
       { "text": "Is there any way I could join the community?", "topic": "TALK_GODCO_chef_join" },
+      {
+        "text": "Could you tell me about Katherine?",
+        "condition": { "u_has_var": "u_know_about_family", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_chef_katherine"
+      },
+      {
+        "text": "Could you tell me about Jeremiah?",
+        "condition": { "u_has_var": "u_know_about_family", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_chef_jeremiah"
+      },
       { "text": "I've changed my mind, forget about it.", "topic": "TALK_NONE" },
       { "text": "On second thought, I gotta go.  See ya, <name_g>.", "topic": "TALK_DONE" }
     ]
@@ -130,7 +140,10 @@
     "id": "TALK_GODCO_chef_family",
     "type": "talk_topic",
     "dynamic_line": [ "Katherine's probably in the bunks right now, and Jeremiah's next door.  Feel free to say hello sometime." ],
+    "speaker_effect": { "effect": { "npc_add_var": "u_know_about_family", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
+      { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_chef" },
       { "text": "I'll do that.", "topic": "TALK_DONE" }
     ]
@@ -165,6 +178,47 @@
     "responses": [
       { "text": "Is there any way I could join the community?", "topic": "TALK_GODCO_chef_join" },
       { "text": "It was worth a shot, I guess.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_katherine",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "She's my wife, worked for the Church before <the_cataclysm>.  She used to organized charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife."
+    ],
+    "responses": [
+      { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
+      {
+        "text": "That's good to hear.  I'd like to ask you about something else.",
+        "topic": "TALK_GODCO_chef_idle_chat"
+      },
+      { "text": "That's good to hear, but I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_jeremiah",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Jeremiah is my son, he's a sweet boy and all grown up now.  We taught him everything he knows, and we all had high hopes for how he could make it in the world, before <the_cataclysm> took it away.  He doesn't like his mother, Katherine, very much, and I've tried to help the two, but they can't seem to properly get along."
+    ],
+    "responses": [
+      { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Why would they have an issue with each other?", "topic": "TALK_GODCO_chef_k&j_conflict" },
+      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "I gotta go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GODCO_chef_k&j_conflict",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Katherine is a bit overprotective of him, and ever since <the_cataclysm>, she's become extremely worried for his safety.  He wants more independence, seein' as how he's grown now, but she won't leave him be.  She tells me that someone needs to keep an eye on him, so she took it upon herself to do so.  I think she has the best intentions at heart, I know she loves him dearly, but the boy needs to figure out some things on his own."
+    ],
+    "responses": [
+      { "text": "Could you tell me more about Katherine?", "topic": "TALK_GODCO_chef_katherine" },
+      { "text": "Could you tell me more about Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
+      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
     ]
   },
   {

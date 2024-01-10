@@ -134,6 +134,14 @@
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
   {
+    "id": "rolling_trash_can",
+    "type": "vehicle",
+    "name": "Rolling Trash Can",
+    "blueprint": [ [ "o" ] ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe", "wheel_caster", "integrated_trashcan" ] } ],
+    "items": [ { "x": 0, "y": 0, "chance": 75, "item_groups": [ "trash" ] } ]
+  },
+  {
     "id": "grocery_cart",
     "type": "vehicle",
     "name": "Grocery Cart",

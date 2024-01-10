@@ -271,6 +271,7 @@
   {
     "type": "terrain",
     "id": "t_card_robofac",
+    "looks_like": "t_card_science",
     "name": "card reader",
     "description": "A smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  An ominous red LED reminds you of a robot gone haywire from an old sci-fi flick.  You could swipe a scientific ID badge near it if you do not fear the machine.",
     "//": "It takes a science card/hack attempt and then calls iexamine::intercom",
@@ -409,7 +410,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_VISITOR" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": true,
       "despawn_monsters": true,
       "radius": 3,
@@ -423,6 +424,7 @@
   {
     "type": "terrain",
     "id": "t_card_artisans",
+    "looks_like": "t_card_science",
     "name": "card reader",
     "description": "A smartcard reader.  A sticky note plastered above it reads 'CO-OP MEMBERS ONLY'.",
     "//": "for the isolated artisans faction",
@@ -533,7 +535,7 @@
     "examine_action": {
       "type": "cardreader",
       "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
-      "consume_card": true,
+      "consume_card": false,
       "allow_hacking": false,
       "despawn_monsters": false,
       "radius": 7,

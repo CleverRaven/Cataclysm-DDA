@@ -48,14 +48,11 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
+static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
-
-static const mon_flag_str_id mon_flag_DROPS_AMMO( "DROPS_AMMO" );
-static const mon_flag_str_id mon_flag_NOGIB( "NOGIB" );
-static const mon_flag_str_id mon_flag_SILENT_DISAPPEAR( "SILENT_DISAPPEAR" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -65,7 +62,7 @@ item_location mdeath::normal( monster &z )
         return {};
     }
 
-    if( !z.quiet_death ) {
+    if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
@@ -201,6 +198,9 @@ item_location mdeath::splatter( monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
+        if( z.has_effect( effect_critter_underfed ) ) {
+            corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
+        }
         return here.add_item_ret_loc( z.pos(), corpse );
     }
     return {};
@@ -288,6 +288,9 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
+    }
+    if( z.has_effect( effect_critter_underfed ) ) {
+        corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
     return get_map().add_item_ret_loc( z.pos(), corpse );
 }

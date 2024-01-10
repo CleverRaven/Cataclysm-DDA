@@ -20,8 +20,8 @@
     "name": { "str": "foot pedals" },
     "item": "foot_crank",
     "durability": 50,
-    "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
     "power": "360 W",
+    "description": "A set of bicycle-style foot pedals attached to a crank.  If mounted on the same tile as a seat, they allow you to use your stamina to produce engine power, using your legs.  Provides more power the stronger you are.",
     "muscle_power_factor": 60,
     "folded_volume": "500 ml",
     "requirements": {
@@ -40,9 +40,9 @@
     "name": { "str": "hand rims" },
     "item": "hand_rims",
     "durability": 50,
-    "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
-    "power": "180 W",
-    "muscle_power_factor": 30,
+    "description": "A set of wheelchair-style hoop hand rims, often attached directly to the wheels.  If mounted on the same tile as seat, they allow you to use your stamina to produce engine power, using your arms.  Provides more power the stronger you are.",
+    "power": "240 W",
+    "muscle_power_factor": 40,
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -52,5 +52,47 @@
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "MUSCLE_ARMS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
+  },
+  {
+    "id": "hand_paddles",
+    "type": "vehicle_part",
+    "copy-from": "engine_manual",
+    "name": { "str": "hand paddles" },
+    "durability": 50,
+    "power": "720 W",
+    "muscle_power_factor": 40,
+    "noise_factor": 8,
+    "item": "hand_paddles",
+    "folded_volume": "500 ml",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
+    },
+    "flags": [ "ENGINE", "CONTROLS", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
+    "damage_reduction": { "all": 5 },
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reins_tackle",
+    "name": { "str": "reins and tackle" },
+    "categories": [ "operations" ],
+    "broken_color": "red",
+    "durability": 80,
+    "description": "A set of leather bindings to control a creature pulling a vehicle, such as a cart.",
+    "bonus": 10,
+    "damage_modifier": 5,
+    "item": "reins_tackle",
+    "folded_volume": "250 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CONTROL_ANIMAL" ],
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": "W", "symbols_broken": "X" } ]
   }
 ]

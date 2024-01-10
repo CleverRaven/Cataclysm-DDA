@@ -11,23 +11,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -45,7 +45,7 @@
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
     ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
@@ -65,23 +65,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -99,7 +99,7 @@
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
     ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
@@ -119,23 +119,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -153,7 +153,7 @@
       [ [ "nuts_bolts", 25 ] ],
       [ [ "inventor_heavy_cell", 2 ] ]
     ],
-    "time": "18 h",
+    "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],

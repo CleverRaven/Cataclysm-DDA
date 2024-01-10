@@ -196,5 +196,12 @@
     "calories": 20,
     "fun": -6,
     "vitamins": [ [ "mutant_toxin", 800 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cockatrice",
+    "name": { "str": "cockatrice egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_COCKATRICE"
   }
 ]

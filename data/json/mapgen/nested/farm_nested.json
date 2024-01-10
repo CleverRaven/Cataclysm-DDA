@@ -483,7 +483,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "3x3_trunks",
+    "nested_mapgen_id": "3x3_stumps",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -561,7 +561,14 @@
         "@@",
         "@@"
       ],
-      "item": { "@": [ { "item": "cattlefodder", "chance": 10, "repeat": 5 }, { "item": "straw_pile", "chance": 10, "repeat": 5 } ] }
+      "item": {
+        "@": [
+          { "item": "cattlefodder", "chance": 10, "repeat": 5 },
+          { "item": "straw_pile", "chance": 10, "repeat": 5 },
+          { "item": "cattlefodder_medium", "chance": 5, "repeat": 3 },
+          { "item": "cattlefodder_large", "chance": 3, "repeat": 2 }
+        ]
+      }
     }
   },
   {
@@ -1014,118 +1021,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_north",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".??////////??.",
-        "???////////???",
-        "??//////////??",
-        "??//////////??",
-        "?.///....///.?",
-        "../......../..",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        ".............."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_east",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".........????.",
-        "..........????",
-        "........////??",
-        "........./////",
-        "........./////",
-        "..........////",
-        "..........////",
-        "..........////",
-        "..........////",
-        "........./////",
-        "........./////",
-        "........////??",
-        "..........????",
-        ".........????."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_south",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "../......../..",
-        "?.///....///.?",
-        "??//////////??",
-        "??//////////??",
-        "???////////???",
-        ".??////////??."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_west",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".????.........",
-        "????..........",
-        "??////........",
-        "/////.........",
-        "/////.........",
-        "////..........",
-        "////..........",
-        "////..........",
-        "////..........",
-        "/////.........",
-        "/////.........",
-        "??////........",
-        "????..........",
-        ".????........."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "7x7_silo_fodder",
     "object": {
       "mapgensize": [ 7, 7 ],
@@ -1141,7 +1036,7 @@
       ],
       "palettes": [ "farm_lots" ],
       "terrain": { "_": "t_null" },
-      "item": { "_": { "item": "cattlefodder", "chance": 20, "repeat": 10 } },
+      "item": { "_": { "item": "cattlefodder_large", "chance": 20, "repeat": 10 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

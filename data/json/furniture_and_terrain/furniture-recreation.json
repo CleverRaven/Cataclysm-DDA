@@ -397,8 +397,7 @@
         { "item": "nuts_bolts", "charges": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
-        { "item": "material_sand", "charges": 4000 },
-        { "item": "bag_plastic", "count": 4 }
+        { "item": "material_sand", "charges": 4000 }
       ]
     },
     "bash": {
@@ -411,7 +410,8 @@
         { "item": "leather", "count": [ 16, 32 ] },
         { "item": "tanned_hide", "count": [ 0, 4 ] },
         { "item": "material_sand", "charges": 4000 },
-        { "item": "cotton_patchwork", "count": [ 33, 66 ] }
+        { "item": "sheet_cotton", "count": [ 4, 8 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 4 ] }
       ]
     }
   },
@@ -658,7 +658,11 @@
       "str_max": 12,
       "sound": "whish!",
       "sound_fail": "whish.",
-      "items": [ { "item": "cardboard", "count": [ 20, 80 ] }, { "item": "cotton_patchwork", "count": [ 50, 175 ] } ]
+      "items": [
+        { "item": "cardboard", "count": [ 20, 80 ] },
+        { "item": "sheet_cotton", "count": [ 6, 21 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 7 ] }
+      ]
     }
   },
   {

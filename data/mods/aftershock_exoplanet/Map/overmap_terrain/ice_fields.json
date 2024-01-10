@@ -8,7 +8,6 @@
     "color": "light_gray",
     "see_cost": 2,
     "extras": "field",
-    "mapgen": [ { "method": "builtin", "name": "field" } ],
     "flags": [ "NO_ROTATE" ]
   },
   {

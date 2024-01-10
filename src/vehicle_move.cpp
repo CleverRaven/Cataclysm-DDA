@@ -54,6 +54,9 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
+static const proficiency_id proficiency_prof_boat_pilot( "prof_boat_pilot" );
+static const proficiency_id proficiency_prof_driver( "prof_driver" );
+
 static const skill_id skill_driving( "driving" );
 
 static const trait_id trait_DEFT( "DEFT" );
@@ -1222,7 +1225,8 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
     Character &player_character = get_player_character();
     const bool seen = player_character.sees( p );
     const bool known = tr.can_see( p, player_character );
-    if( seen ) {
+    const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
+    if( seen && damage_done ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
             add_msg( m_bad, _( "The %1$s's %2$s runs over %3$s." ), name, vp_wheel.name(), tr.name() );
@@ -1239,7 +1243,8 @@ void vehicle::handle_trap( const tripoint &p, vehicle_part &vp_wheel )
         if( veh_data.do_explosion ) {
             const Creature *source = player_in_control( player_character ) ? &player_character : nullptr;
             explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
-        } else {
+            // Don't damage wheels with very high durability, such as roller drums or rail wheels
+        } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( here, vp_wheel, veh_data.damage );
         }
@@ -1397,12 +1402,42 @@ bool vehicle::check_heli_ascend( Character &p ) const
 
 void vehicle::pldrive( Character &driver, const point &p, int z )
 {
+    bool is_non_proficient = false;
+    float effective_driver_skill = driver.get_skill_level( skill_driving );
+    float vehicle_proficiency;
+    // Check if you're piloting on land or water, and reduce effective driving skill proportional to relevant proficiencies (10% Boat Proficiency = 10% driving skill on water)
+    if( !driver.has_proficiency( proficiency_prof_driver ) && !in_deep_water ) {
+        is_non_proficient = true;
+        vehicle_proficiency = driver.get_proficiency_practice( proficiency_prof_driver );
+    } else if( !driver.has_proficiency( proficiency_prof_boat_pilot ) && in_deep_water ) {
+        is_non_proficient = true;
+        vehicle_proficiency = driver.get_proficiency_practice( proficiency_prof_boat_pilot );
+    }
+
+    bool non_prof_fumble = false;
+    float non_prof_penalty = 0;
+    //If you lack the appropriate piloting proficiency, increase handling penalty, and roll chance to fumble while steering
+    if( is_non_proficient ) {
+        effective_driver_skill *= vehicle_proficiency;
+        non_prof_penalty = std::max( 0.0f,
+                                     ( 1.0f - vehicle_proficiency ) * 10.0f -
+                                     ( driver.get_dex() + driver.get_per() ) * 0.25f );
+        non_prof_fumble = one_in( vehicle_proficiency * 12.0f +
+                                  ( driver.get_dex() + driver.get_per() ) * 0.5f + 6.0f );
+        // Penalties mitigated by proficiency progress, and dex/per stats.
+        // - Unskilled pilot at Per/Dex 4: 1-in-8 chance to fumble while turning
+        // - Unskilled pilot at Per/Dex 8: 1-in-10
+        // - Unskilled pilot at Per/Dex 12: 1-in-12
+        // - 50% Skill at Per/Dex 4: 1-in-14 chance
+        // - 50% Skill at Per/Dex 8: 1-in-16 chance
+        // - 50% Skill at Per/Dex 12: 1-in-18 chance
+    }
     if( z != 0 && is_rotorcraft() ) {
         driver.moves = std::min( driver.moves, 0 );
         thrust( 0, z );
     }
     units::angle turn_delta = vehicles::steer_increment * p.x;
-    const float handling_diff = handling_difficulty();
+    const float handling_diff = handling_difficulty() + non_prof_penalty;
     if( turn_delta != 0_degrees ) {
         float eff = steering_effectiveness();
         if( eff == -2 ) {
@@ -1431,9 +1466,10 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         ///\EFFECT_PER reduces chance of losing control of vehicle when turning
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
-        float skill = std::min( 10.0f, driver.get_skill_level( skill_driving ) +
+        float skill = std::min( 10.0f, effective_driver_skill +
                                 ( driver.get_dex() + driver.get_per() ) / 10.0f );
         float penalty = rng_float( 0.0f, handling_diff ) - skill;
+
         int cost;
         if( penalty > 0.0f ) {
             // At 10 penalty (rather hard to get), we're taking 4 turns per turn
@@ -1443,18 +1479,33 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
             cost = std::max( driver.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
-        if( penalty > skill || ( penalty > 0 && cost > 400 ) ) {
-            driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
-            // Anything from a wasted attempt to 2 turns in the intended direction
-            turn_delta *= rng( 0, 2 );
-            // Also wastes next turn
-            cost = std::max( cost, driver.moves + 100 );
+        // Chance to fumble steering when in a non-proficient vehicle, or in difficult conditions
+        if( non_prof_fumble || penalty > skill || ( penalty > 0 && cost > 400 ) ) {
+            int fumble_roll = rng( 0, 6 );
+            int fumble_factor = 0;
+            int fumble_time = 1;
+            if( fumble_roll <= 1 ) {
+                // On a 0 or 1, fumble briefly instead of steering for 1 turn
+                driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
+            } else if( fumble_roll <= 4 ) {
+                // On a 2, 3, or 4, steer as intended but take 2 turns to do it
+                driver.add_msg_if_player( m_warning, _( "You turn slower than you meant to." ) );
+                fumble_factor = 1;
+                fumble_time = 2;
+            } else {
+                // On a 5 or 6, steer twice as far as you meant to, and take 2 turns to do it.
+                driver.add_msg_if_player( m_warning, _( "You oversteer the %s!" ), name );
+                fumble_factor = 2;
+                fumble_time = 2;
+            }
+            turn_delta *= fumble_factor;
+            cost = std::max( cost, driver.moves + fumble_time * 100 );
         } else if( one_in( 10 ) ) {
             // Don't warn all the time or it gets spammy
             if( cost >= driver.get_speed() * 2 ) {
-                driver.add_msg_if_player( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
+                driver.add_msg_if_player( m_warning, _( "It takes you a very long time to steer the vehicle!" ) );
             } else if( cost >= driver.get_speed() * 1.5f ) {
-                driver.add_msg_if_player( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
+                driver.add_msg_if_player( m_warning, _( "It takes you a long time to steer the vehicle!" ) );
             }
         }
 
@@ -1474,7 +1525,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) <
-            driver.dex_cur + driver.get_skill_level( skill_driving ) * 2 ) {
+            driver.dex_cur + effective_driver_skill * 2 ) {
             driver.add_msg_if_player( _( "You regain control of the %s." ), name );
             driver.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );

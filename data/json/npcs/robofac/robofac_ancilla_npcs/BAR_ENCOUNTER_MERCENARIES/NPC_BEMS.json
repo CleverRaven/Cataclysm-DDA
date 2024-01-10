@@ -12,6 +12,26 @@
   },
   {
     "type": "npc",
+    "id": "BEM_silent_veteran",
+    "name_unique": "the drinking veteran",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_CHATTING_VETERANS_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_chatting_veteran",
+    "name_unique": "the drinking veteran",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_CHATTING_VETERANS_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
     "id": "BEM_drugrunner",
     "name_unique": "the pill pusher",
     "class": "NC_BEM_DRUGRUNNER",

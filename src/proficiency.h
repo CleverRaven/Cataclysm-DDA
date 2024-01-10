@@ -71,6 +71,7 @@ class proficiency
 
         bool _can_learn = false;
         bool _ignore_focus = false;
+        bool _teachable = true;
 
         translation _name;
         translation _description;
@@ -95,6 +96,7 @@ class proficiency
 
         bool can_learn() const;
         bool ignore_focus() const;
+        bool is_teachable() const;
         proficiency_id prof_id() const;
         proficiency_category_id prof_category() const;
         std::string name() const;
@@ -220,6 +222,7 @@ class book_proficiency_bonuses
         float time_factor( const proficiency_id &id ) const;
 };
 
-void show_proficiencies_window( const Character &u );
+void show_proficiencies_window( const Character &u,
+                                std::optional<proficiency_id> default_selection = std::nullopt );
 
 #endif // CATA_SRC_PROFICIENCY_H

@@ -92,8 +92,8 @@
     "batch_time_factors": [ 95, 4 ],
     "autolearn": true,
     "book_learn": [ [ "cookbook_sushi", 3 ] ],
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "STRAIN", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "Needs to be pastuerized but this is a very very small quantity",
     "components": [ [ [ "soy_sauce_unstrained", 1 ] ] ]
   },
@@ -140,7 +140,7 @@
     "batch_time_factors": [ 90, 1 ],
     "charges": 12,
     "autolearn": true,
-    "tools": [ [ "colander_steel" ] ],
+    "qualities": [ { "id": "STRAIN", "level": 1 } ],
     "components": [ [ [ "gelatin_extracted", 1 ] ] ]
   },
   {
@@ -356,12 +356,12 @@
     "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
     "components": [
       [
-        [ "seed_cotton_boll", 50 ],
-        [ "seed_pumpkin", 50 ],
-        [ "seed_sunflower", 50 ],
-        [ "seed_canola", 50 ],
-        [ "seed_grapes", 50 ],
-        [ "seed_weed", 50 ]
+        [ "seed_cotton_boll", 8 ],
+        [ "seed_pumpkin", 8 ],
+        [ "seed_sunflower", 8 ],
+        [ "seed_canola", 1 ],
+        [ "seed_grapes", 8 ],
+        [ "seed_weed", 8 ]
       ]
     ]
   },

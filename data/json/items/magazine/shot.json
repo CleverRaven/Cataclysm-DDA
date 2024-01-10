@@ -10,8 +10,7 @@
       {
         "id": "saiga10mag",
         "name": { "str": "Saiga-12 10-round magazine" },
-        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
-        "weight": 1
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds."
       }
     ],
     "weight": "210 g",
@@ -36,8 +35,7 @@
       {
         "id": "saiga30mag",
         "name": { "str": "Saiga-12 30-round drum magazine" },
-        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
-        "weight": 1
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds."
       }
     ],
     "weight": "460 g",

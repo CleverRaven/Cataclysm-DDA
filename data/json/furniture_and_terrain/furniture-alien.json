@@ -671,6 +671,67 @@
   },
   {
     "type": "furniture",
+    "id": "f_exodii_locator_antenna",
+    "name": "locator antenna",
+    "description": "A tall metal pole solidly fixed to the roof.  It does not look activated but there's a small set of holes near its base, maybe something could be plugged in one to reboot the locator.",
+    "symbol": "Z",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "bash": {
+      "str_min": 45,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "exodii_module", "count": [ 0, 1 ] }
+      ]
+    },
+    "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EXOWARE_LOCATOR_ACTIVE",
+          "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
+          "effect": [ { "u_message": "The locator is already active" } ]
+        },
+        {
+          "id": "EOC_EXOWARE_LOCATOR_FALSE",
+          "condition": {
+            "and": [
+              { "not": { "u_has_item": "warehouse_rebooter" } },
+              { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] }
+            ]
+          },
+          "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
+        },
+        {
+          "id": "EOC_EXOWARE_LOCATOR",
+          "condition": {
+            "and": [
+              { "u_has_item": "warehouse_rebooter" },
+              { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] }
+            ]
+          },
+          "effect": [
+            { "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>" },
+            { "u_consume_item": "warehouse_rebooter" },
+            { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_crystalline_flower",
     "name": "crystalline flower",
     "description": "A crystalline structure that resembles a plant.",

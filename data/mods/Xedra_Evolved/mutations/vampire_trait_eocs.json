@@ -49,6 +49,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_COMMUNE_NIGHT_MAP",
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "0" ] }, { "not": "is_day" }, "u_is_outside" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "vampire_map_real" } },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "u_message": "The children of the night tell you what features of the map are nearby." }
+    ],
+    "false_effect": [ { "u_message": "Without the ability to howl into the wilds of the night, there is no response." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_COAGULANTWEAVE_activated",
     "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
     "effect": [

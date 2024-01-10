@@ -92,8 +92,8 @@
       "u_has_faction_trust": 10,
       "yes": [
         "Ah great to see you around.",
-        "How goes the surface?  All dead and walkey still?.",
-        "Should hang around one of these days, help me out in the bar for a change, what do you say, eh?.",
+        "How goes the surface?  All dead and walkey still?",
+        "Should hang around one of these days, help me out in the bar for a change, what do you say, eh?",
         "Oh, what can I do for you today?"
       ],
       "no": {
@@ -101,7 +101,7 @@
         "type": "dialogue",
         "context": "ancilla_barkeep",
         "value": "yes",
-        "yes": "Feel free to lounge around, and ask if theres anything you need.",
+        "yes": "Feel free to lounge around, and ask if there's anything you need.",
         "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
       }
     },
@@ -168,10 +168,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD",
-    "dynamic_line": "Oh yes of course, think this should be all, well thats all there is anyhow.",
+    "dynamic_line": "Oh yes of course, think this should be all, well that's all there is anyhow.",
     "speaker_effect": {
       "effect": [
         { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": -1 },
+        { "u_add_faction_trust": 1 },
         { "u_spawn_item": "RobofacCoin", "count": 2 }
       ]
     }

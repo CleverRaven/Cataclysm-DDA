@@ -126,7 +126,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom1" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_nw" }, { "id": "bed", "amount": 1 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_nw" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_nw" } ]
   },
   {
@@ -144,7 +144,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom2" }, { "id": "fbmc_shelter_1_bed_nw" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w1" }, { "id": "bed", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_w1" } ]
   },
   {
@@ -162,7 +162,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom3" }, { "id": "fbmc_shelter_1_bed_w1" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w2" }, { "id": "bed", "amount": 3 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_w2" } ]
   },
   {
@@ -180,7 +180,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom5" }, { "id": "fbmc_shelter_1_bed_w2" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w3" }, { "id": "bed", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_w3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_w3" } ]
   },
   {
@@ -198,7 +198,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bed_w3" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_sw" }, { "id": "bed", "amount": 5 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_sw" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_sw" } ]
   },
   {
@@ -216,7 +216,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_shelter_1_bedroom6" }, { "id": "fbmc_shelter_1_bed_sw" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_s1" }, { "id": "bed", "amount": 7 } ],
+    "blueprint_provides": [ { "id": "fbmc_shelter_1_bed_s1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bed_s1" } ]
   },
   {

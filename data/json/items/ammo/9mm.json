@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "9x19mm JHP" },
     "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds, but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
+    "ascii_picture": "9mm",
     "weight": "12 g",
     "volume": "115 ml",
     "longest_side": "30 mm",

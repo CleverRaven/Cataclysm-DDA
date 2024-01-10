@@ -146,7 +146,8 @@
     "name": "road",
     "looks_like": "road",
     "color": "dark_gray",
-    "see_cost": 1
+    "see_cost": 1,
+    "travel_cost_type": "road"
   },
   {
     "type": "overmap_terrain",

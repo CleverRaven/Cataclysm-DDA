@@ -200,6 +200,9 @@ class overmap
         const point_abs_om &pos() const {
             return loc;
         }
+        int get_urbanity() const {
+            return urbanity;
+        }
 
         void save() const;
 
@@ -423,10 +426,13 @@ class overmap
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
+        // code deduplication - calc ocean gradient
+        float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
         void place_lakes();
+        void place_oceans();
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west );
         void place_swamps();
@@ -444,6 +450,18 @@ class overmap
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
+
+        // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
+        // NOLINTNEXTLINE(cata-serialize)
+        int urbanity = 0;
+        // forest_size_adjust is basically the same as forestosity, but forestosity is
+        // scaled to be comparable to urbanity and other biome stats.
+        // NOLINTNEXTLINE(cata-serialize)
+        float forest_size_adjust = 0.0f;
+        // NOLINTNEXTLINE(cata-serialize)
+        float forestosity = 0.0f;
+        void calculate_urbanity();
+        void calculate_forestosity();
 
         void place_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
@@ -537,7 +555,9 @@ class overmap
 };
 
 bool is_river( const oter_id &ter );
-bool is_river_or_lake( const oter_id &ter );
+bool is_water_body( const oter_id &ter );
+bool is_lake_or_river( const oter_id &ter );
+bool is_ocean( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain

@@ -16,6 +16,7 @@
       "river_c_not_se",
       "river_c_not_sw"
     ],
+    "//": "Weight should be removed if/when lake_shore and river (or their weights) are unhardcoded",
     "weight": 100000000000,
     "object": {
       "fill_ter": "t_mudcrack",
@@ -47,163 +48,24 @@
           "else_chunks": [ "shore_north_east" ],
           "x": 0,
           "y": 0,
-          "neighbors": {
-            "north_east": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
+          "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
         {
           "else_chunks": [ "shore_south_east" ],
           "x": 0,
           "y": 0,
-          "neighbors": {
-            "south_east": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
+          "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
         {
           "else_chunks": [ "shore_south_west" ],
           "x": 0,
           "y": 0,
-          "neighbors": {
-            "south_west": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
+          "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
-        {
-          "else_chunks": [ "shore_north" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "north": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
-        },
-        {
-          "else_chunks": [ "shore_east" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "east": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
-        },
-        {
-          "else_chunks": [ "shore_south" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "south": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
-        },
-        {
-          "else_chunks": [ "shore_west" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "west": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
-        }
+        { "else_chunks": [ "shore_north" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_east" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_south" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_west" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } }
       ]
     }
   },

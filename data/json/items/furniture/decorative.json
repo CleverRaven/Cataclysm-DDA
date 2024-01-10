@@ -1,0 +1,19 @@
+[
+  {
+    "id": "bigmirror",
+    "type": "GENERIC",
+    "name": { "str": "standing mirror" },
+    "looks_like": "f_bigmirror",
+    "description": "A full-length mirror mounted in a sleek aluminum frame.  Metal stand is currently folded.",
+    "weight": "12977 g",
+    "volume": "5450 ml",
+    "longest_side": "165 cm",
+    "price": "149 USD",
+    "//": "Tried to base it on <https://www.amazon.com/dp/B09YPNXLFM>, but it's weight and out glass density seems to be incompatible",
+    "//2": "165 cm x 61 cm x 0.5 cm, additional volume is from frame and stand",
+    "material": [ { "type": "glass", "portion": 96 }, { "type": "aluminum", "portion": 4 } ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_bigmirror" },
+    "symbol": "{",
+    "color": "white"
+  }
+]

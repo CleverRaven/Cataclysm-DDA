@@ -128,7 +128,7 @@
         { "chance": 35, "item": "misc_smoking", "x": 9, "y": 17 },
         { "chance": 35, "item": "misc_smoking", "x": 10, "y": 14 }
       ],
-      "place_monsters": [ { "monster": "GROUP_DOGS", "x": 5, "y": 14 } ]
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 5, 8 ], "y": [ 7, 14 ], "chance": 50, "repeat": [ 2, 4 ] } ]
     }
   },
   {

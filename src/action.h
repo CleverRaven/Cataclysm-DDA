@@ -118,6 +118,8 @@ enum action_id : int {
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
     ACTION_HAUL,
+    /** Quickly toggle hauling on/off */
+    ACTION_HAUL_TOGGLE,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -182,6 +184,8 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Open the insert-item menu */
+    ACTION_INSERT_ITEM,
     /** Unload container in a given direction */
     ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
@@ -338,8 +342,6 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle retracted/transparent high sprites */
     ACTION_TOGGLE_PREVENT_OCCLUSION,
-    /** Toggle reachability zones map */
-    ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,

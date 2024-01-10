@@ -1,0 +1,13 @@
+[
+  {
+    "id": "afs_jumpsuit_military",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str_sp": "military overalls" },
+    "description": "A sturdy Nomex jumpsuit, normally worn by armed forces during transit or beneath combat armor while in the field.",
+    "material": [ { "type": "nylon", "portion": 7 }, { "type": "nomex", "portion": 3 } ],
+    "material_thickness": 0.4,
+    "color": "light_gray"
+  }
+]

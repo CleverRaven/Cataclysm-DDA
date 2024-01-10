@@ -442,6 +442,12 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
