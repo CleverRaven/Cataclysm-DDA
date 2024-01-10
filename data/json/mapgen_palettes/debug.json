@@ -31,7 +31,7 @@
         "                        ",
         "                        "
       ],
-      "items": { " ": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ] }
+      "items": { " ": [ { "item": "mutagen_slurry_kit", "chance": 100 } ] }
     }
   },
   {
