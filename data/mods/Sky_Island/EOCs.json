@@ -265,7 +265,7 @@
       {
         "u_message": "Your body mends itself in the blink of an eye.  Underlying health issues may persist, but your structural integrity is restored."
       },
-      { "u_set_hp": 999, "only_increase": true },
+      { "math": [ "u_hp('ALL')", "=", "999" ] },
       { "run_eocs": [ "EOC_healextras" ] }
     ],
     "false_effect": [
@@ -312,13 +312,8 @@
     "id": "EOC_death_heal",
     "//": "This is the heal that is called when you die to make sure you have enough health to not-die.  It also lowers your hunger and thirst slightly if they're above an extreme limit.  Finally it sets your sub-parts to full health since they will otherwise get totally ruined and don't seem to have any natural way to heal.",
     "effect": [
-      { "u_set_hp": 999, "only_increase": true },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "torso" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "head" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_l" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_r" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_r" },
-      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_l" },
+      { "math": [ "u_hp('ALL')", "=", "999" ] },
+      { "math": [ "u_hp('ALL_MAJOR')", "=", "15" ] },
       { "run_eocs": [ "EOC_healextras" ] }
     ]
   },
