@@ -26,13 +26,6 @@
     ]
   },
   {
-    "id": "homburg_hat",
-    "type": "ARMOR",
-    "name": { "str": "homburg hat" },
-    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
-    "copy-from": "10gal_hat"
-  },
-  {
     "id": "tyrolean_hat",
     "type": "ARMOR",
     "name": { "str": "Tyrolean hat" },
@@ -795,7 +788,7 @@
     "category": "armor",
     "name": { "str": "scrap cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor, with small sheets of scrap metal attached or glued to it.  It is not much beautiful, but it protects your head even more now that it is reinforced with metal.  It shields your eyes from the sun and provides a little bit of warmth.",
+    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor, with small sheets of scrap metal attached or glued to it.  It is not exactly beautiful, but it protects your head even more now that it is reinforced with metal.  It shields your eyes from the sun and provides a little bit of warmth.",
     "weight": "125 g",
     "volume": "500 ml",
     "price": 2800,
@@ -1277,7 +1270,7 @@
   {
     "id": "coonskin",
     "type": "ARMOR",
-    "name": { "str": "ushanka" },
+    "name": { "str": "coonskin hat" },
     "description": "A comfortable hat made of the pelt of a raccoon, with a distinctive black and white fur pattern.  It has the tail hanging loose.",
     "copy-from": "hat_fur"
   },
@@ -1984,6 +1977,13 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ]
+  },
+  {
+    "id": "trilby_hat",
+    "type": "ARMOR",
+    "name": { "str": "trilby hat" },
+    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "copy-from": "porkpie"
   },
   {
     "id": "postman_hat",
