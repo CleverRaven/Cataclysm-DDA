@@ -85,13 +85,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 2,
-    "armor": [ 
-      { 
-        "encumbrance": 1, 
-        "coverage": 95, 
-        "covers": [ "mouth" ] 
-      } 
-    ]
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
     "id": "bondage_mask",
