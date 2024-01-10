@@ -263,7 +263,7 @@
     "subtype": "hobby",
     "id": "late_teleporter",
     "name": "Ascended Teleporter",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  No wall or door is a barrier to you and sometimes when you close your eyes you can travel to places you've already been.  Once you were surprised by a bandit and when he leveled his gun at you, you wished he was somewhere else and he just...disappeared.  Nothing can keep you down now.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  No wall or door is a barrier to you and sometimes when you close your eyes you can travel to places you've already been.  Once you were surprised by a bandit and when he leveled his gun at you, you wished he was somewhere else and he just…disappeared.  Nothing can keep you down now.",
     "points": 13,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
     "skills": [ { "level": 7, "name": "metaphysics" } ],
