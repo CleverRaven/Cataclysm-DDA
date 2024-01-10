@@ -1984,7 +1984,7 @@
     "type": "ARMOR",
     "name": { "str": "Tyrolean hat" },
     "description": "A hat with a tall crown and a brim that is turned up on all sides.  It is a traditional Alpine headwear that originated in the Tyrol region of Austria.",
-    "delete": { [ "FANCY" ] },
+    "flags": [ "VARSIZE" ],
     "copy-from": "porkpie"
   },
   {
