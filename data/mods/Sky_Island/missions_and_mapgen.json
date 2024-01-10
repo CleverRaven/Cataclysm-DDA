@@ -358,7 +358,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 0 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "0" ] }
     ]
   },
   {
@@ -378,7 +378,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 1 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "1" ] }
     ]
   },
   {
@@ -398,7 +398,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 2 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "2" ] }
     ]
   },
   {

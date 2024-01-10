@@ -24,7 +24,7 @@
         "u_location_variable": { "global_val": "randenc_jotunn_loc" },
         "target_params": { "om_terrain": "roadstop_a" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "=", { "const": 1 } ] }
+      { "math": [ "RandEnc_Jotunn", "=", "1" ] }
     ]
   },
   {
@@ -45,7 +45,7 @@
         "om_terrain": "roadstop_a",
         "target_var": { "global_val": "randenc_jotunn_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "=", { "const": 0 } ] }
+      { "math": [ "RandEnc_Jotunn", "=", "0" ] }
     ]
   },
   {

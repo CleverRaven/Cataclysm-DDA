@@ -558,21 +558,8 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
-        ],
-        "max": 1200
-      },
-      {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "-=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
-        ]
-      },
+      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "math": [ "ps_str", "+", "20" ] } ], "max": 1200 },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "math": [ "ps_str", "+", "50" ] } ] },
       { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
     ]
   },
@@ -627,7 +614,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -756,7 +743,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -836,7 +823,7 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
@@ -857,7 +844,7 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },

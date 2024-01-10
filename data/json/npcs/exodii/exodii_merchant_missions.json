@@ -229,10 +229,7 @@
     "responses": [
       {
         "text": "*Tell him.",
-        "effect": [
-          { "u_add_faction_trust": 5 },
-          { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
-        ],
+        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
         "topic": "TALK_DONE"
       },
       { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -328,7 +325,7 @@
       {
         "text": "Beloved jaryi?  What did you just call me?",
         "topic": "TALK_EXODII_MERCHANT_jaryi",
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_know_jaryi" }, "=", { "const": 1 } ] } ]
+        "effect": [ { "math": [ "u_know_jaryi", "=", "1" ] } ]
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
