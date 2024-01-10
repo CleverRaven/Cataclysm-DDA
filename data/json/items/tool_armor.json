@@ -730,6 +730,13 @@
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
+    "id": "trilby_hat",
+    "type": "ARMOR",
+    "name": { "str": "trilby hat" },
+    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
+    "copy-from": "fedora"
+  },
+  {
     "id": "thermal_socks",
     "type": "TOOL_ARMOR",
     "category": "clothing",
