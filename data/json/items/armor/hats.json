@@ -733,7 +733,7 @@
         "coverage": 80, 
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
-      } 
+      }
     ]
   },
   {
