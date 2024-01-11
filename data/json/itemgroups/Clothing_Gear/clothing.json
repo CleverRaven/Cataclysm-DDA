@@ -3567,11 +3567,17 @@
       { "item": "tophat", "prob": 10 },
       { "item": "deerstalker", "prob": 1 },
       { "item": "hat_ball", "prob": 40 },
-      { "item": "leather_hatball", "
-vizor_hat
-lvizor_hat
-trucker_hat
-ltrucker_hat
+      { "item": "leather_hatball", 15 },
+      { "item": "trucker_hat", 40 },
+      { "item": "ltrucker_hat", 15 },
+      { "item": "beanie_hat", 20 },
+      { "item": "k_beanie", 10 },
+      { "item": "deerstalker", 1 },
+      { "item": "trilby_hat", 15 },
+      { "item": "homburg_hat", 15 },
+      { "item": "tyrolean_hat", 1 },
+      { "item": "propeller_hat", 1 },
+      { "item": "plumber_cap", 1 },
       { "item": "fedora", "prob": 15 },
       { "item": "hat_cotton", "prob": 30 },
       { "item": "hat_knit", "prob": 20 },
@@ -3646,7 +3652,9 @@ ltrucker_hat
       [ "scarf", 45 ],
       [ "scarf_long", 1 ],
       [ "hat_cotton", 45 ],
+      [ "beanie_hat", 30 ],
       [ "hat_knit", 25 ],
+      [ "k_beanie", 15 ],
       [ "hat_newsboy", 20 ],
       [ "under_armor", 20 ],
       [ "under_armor_shorts", 20 ],
@@ -3763,6 +3771,7 @@ ltrucker_hat
     "type": "item_group",
     "items": [
       [ "bandana", 25 ],
+      [ "neckwarmer", 5 ]
       [ "boxer_shorts", 25 ],
       { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
       { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
@@ -3775,6 +3784,7 @@ ltrucker_hat
       [ "socks_ankle", 30 ],
       [ "stockings", 20 ],
       [ "hat_cotton", 35 ],
+      [ "beanie_hat", 15 ],
       [ "copper_bracelet", 10 ],
       [ "sunglasses", 25 ],
       [ "tieclip", 15 ],
@@ -3783,6 +3793,7 @@ ltrucker_hat
       [ "santa_hat", 4 ],
       [ "vampire_fangs", 5 ],
       [ "mask_skull", 4 ],
+      [ "deerstalker", 1 ]
       [ "ankle_wallet_pouch", 5 ]
     ]
   },
@@ -3834,8 +3845,15 @@ ltrucker_hat
         "distribution": [
           { "item": "hat_hunting", "prob": 20 },
           { "item": "hat_faux_fur", "prob": 10 },
+          { "item": "fushanka", "prob": 1 },
+          { "item": "fcoonskin", "prob": 1 },
+          { "item": "fastrakhan", "prob": 1 },
+          { "item": "ushanka", "prob": 1 },
+          { "item": "coonskin", "prob": 1 },
+          { "item": "astrakhan", "prob": 1 },
           { "item": "hat_fur", "prob": 5 },
           { "item": "hat_boonie", "prob": 15 },
+          { "item": "hat bucket", "prob": 20 },
           { "item": "cowl_wool", "prob": 15 },
           { "item": "hood_rain", "prob": 25 }
         ],
@@ -3852,15 +3870,32 @@ ltrucker_hat
           { "item": "straw_fedora", "prob": 5 },
           { "item": "hat_golf", "prob": 15 },
           { "item": "straw_hat", "prob": 15 },
+          { "item": "panama_hat", "prob": 10 },
+          { "item": "boater_hat", "prob": 10 },
           { "item": "beret_wool", "prob": 5 },
           { "item": "beret", "prob": 10 },
+          { "item": "trilby_hat", "prob": 10 },
+          { "item": "homburg_hat", "prob": 10 },
+          { "item": "hat_cloche", "prob": 10 },
+          { "item": "hat_floppy", "prob": 10 },
+          { "item": "fez", "prob": 1 },
+          { "item": "hat_cart", "prob": 10 },
+          { "item": "tyrolean_hat", "prob": 1 },
           { "item": "porkpie", "prob": 15 }
         ],
         "prob": 50
       },
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
+      { "item": "beanie_hat", "prob": 25 },
+      { "item": "k_beanie", "prob": 35 },
+      { "item": "chullo_hat", "prob": 15 },
       { "item": "hat_ball", "prob": 50 },
+      { "item": "leather_hatball", "prob": 15 },
+      { "item": "vizor_hat", "prob": 25 },
+      { "item": "lvizor_hat", "prob": 10 },
+      { "item": "trucker_hat", "prob": 50 },
+      { "item": "ltrucker_hat", "prob": 10 },
       { "group": "costume_hats_hoods", "prob": 1 },
       { "group": "costume_hats_hoods", "prob": 80, "event": "halloween" }
     ]
@@ -3872,6 +3907,7 @@ ltrucker_hat
     "subtype": "distribution",
     "items": [
       { "item": "bondage_mask", "prob": 5 },
+      { "item": "neckwarmer", "prob": 15 },
       { "item": "mask_dust", "prob": 15 },
       { "item": "mask_guy_fawkes", "prob": 1 },
       { "item": "mask_hockey", "prob": 10 },
@@ -3903,6 +3939,7 @@ ltrucker_hat
       { "item": "bandana", "prob": 90 },
       { "item": "balclava", "prob": 50 },
       { "item": "headscarf", "prob": 50 },
+      { "item": "neckwarmer", "prob": 25 },
       { "item": "scarf_fur_long", "prob": 10 },
       { "item": "scarf_fur", "prob": 20 },
       { "item": "scarf", "prob": 80 },
