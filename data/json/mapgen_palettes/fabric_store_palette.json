@@ -29,7 +29,7 @@
       "d": { "item": "SUS_office_desk", "chance": 60 },
       "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
       "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
-	  "l": [ { "item": "SUS_tailoring_materials", "chance": 30 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
+      "l": [ { "item": "SUS_tailoring_materials", "chance": 30 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
       "J": { "item": "SUS_janitors_closet", "chance": 60 }
     }
   }
