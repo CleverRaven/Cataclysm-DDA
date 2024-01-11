@@ -2080,28 +2080,29 @@
       [ "lvizor_hat", 30 ],
       [ "trucker_hat", 100 ],
       [ "ltrucker_hat", 35 ],
-      [ "beanie_hat
-ushanka
-fushanka
-k_beanie
-neckwarmer
-deerstalker
-trilby_hat
-fascinator 
-hat_cloche
-hat_floppy
-coonskin
-conical_hat
-homburg_hat
-fez
-hat_cart
-tyrolean_hat
-fastrakhan
-propeller_hat
-chullo_hat
-plumber_cap
-panama_hat
-boater_hat
+      [ "beanie_hat", 20 ],
+      [ "ushanka", 5 ],
+      [ "fushanka", 5 ],
+      [ "k_beanie", 15 ],
+      [ "deerstalker", 1 ],
+      [ "trilby_hat", 10 ],
+      [ "fascinator", 5 ],
+      [ "hat_cloche", 10 ],
+      [ "hat_floppy", 10 ],
+      [ "coonskin", 1 ],
+      [ "fcoonskin", 1 ],
+      [ "conical_hat", 1 ],
+      [ "homburg_hat", 10 ],
+      [ "fez", 1 ],
+      [ "hat_cart", 10 ],
+      [ "tyrolean_hat", 1 ],
+      [ "astrakhan", 1 ],
+      [ "fastrakhan", 1 ],
+      [ "propeller_hat", 10 ],
+      [ "chullo_hat", 10 ],
+      [ "plumber_cap", 5 ],
+      [ "panama_hat", 15 ],
+      [ "boater_hat", 15 ],
       { "group": "costume_hats_hoods", "prob": 450, "event": "halloween" },
       { "group": "christmas_hats", "prob": 450, "event": "christmas" }
     ]
@@ -2115,6 +2116,7 @@ boater_hat
       [ "long_knit_scarf", 30 ],
       [ "scarf_long", 30 ],
       [ "bandana", 100 ],
+      [ "neckwarmer", 30 ],
       [ "hairpin", 50 ],
       [ "fc_hairpin", 20 ],
       [ "barrette", 30 ]
@@ -2401,6 +2403,29 @@ boater_hat
       { "item": "hat_sombrero", "prob": 3 },
       { "item": "hat_fur", "prob": 15 },
       { "item": "hat_faux_fur", "prob": 20 },
+      { "item": "beanie_hat", "prob": 30 },
+      { "item": "ushanka", "prob": 1 },
+      { "item": "fushanka", "prob": 1 },
+      { "item": "k_beanie", "prob": 10 },
+      { "item": "neckwarmer", "prob": 15 },
+      { "item": "deerstalker", "prob": 1 },
+      { "item": "trilby_hat", "prob": 10 },
+      { "item": "fascinator", "prob": 5 },
+      { "item": "hat_cloche", "prob": 10 },
+      { "item": "hat_floppy", "prob": 10 },
+      { "item": "coonskin", "prob": 1 },
+      { "item": "fcoonskin", "prob": 1 },
+      { "item": "conical_hat", "prob": 1 },
+      { "item": "homburg_hat", "prob": 10 },
+      { "item": "fez", "prob": 1 },
+      { "item": "hat_cart", "prob": 10 },
+      { "item": "tyrolean_hat", "prob": 1 },
+      { "item": "astrakhan", "prob": 1 },
+      { "item": "fastrakhan", "prob": 1 },
+      { "item": "chullo_hat", "prob": 5 },
+      { "item": "plumber_cap", "prob": 1 },
+      { "item": "panama_hat", "prob": 8 },
+      { "item": "boater_hat", "prob": 8 },
       { "item": "under_armor", "prob": 20 },
       { "item": "under_armor_shorts", "prob": 20 },
       { "item": "tights", "prob": 20 },
@@ -3399,6 +3424,7 @@ boater_hat
       [ "holster", 6 ],
       [ "nylon_holster", 8 ],
       [ "bandana", 18 ],
+      [ "neckwarmer", 8 ],
       [ "scarf", 26 ],
       [ "long_knit_scarf", 15 ],
       { "item": "mask_gas_xl", "prob": 4, "charges": [ 0, 100 ] },
@@ -3507,6 +3533,7 @@ boater_hat
       { "item": "helmet_kabuto", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "helmet_nasal", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "helmet_galea", "prob": 40, "damage": [ 2, 4 ] },
+      { "item": "conical_hat", "prob": 5, "damage": [ 2, 4 ] },
       { "item": "chainmail_junk_hood", "prob": 30, "damage": [ 2, 4 ] }
     ]
   },
@@ -3538,7 +3565,13 @@ boater_hat
       { "item": "duster", "prob": 15 },
       { "item": "peacoat", "prob": 30 },
       { "item": "tophat", "prob": 10 },
+      { "item": "deerstalker", "prob": 1 },
       { "item": "hat_ball", "prob": 40 },
+      { "item": "leather_hatball", "
+vizor_hat
+lvizor_hat
+trucker_hat
+ltrucker_hat
       { "item": "fedora", "prob": 15 },
       { "item": "hat_cotton", "prob": 30 },
       { "item": "hat_knit", "prob": 20 },
