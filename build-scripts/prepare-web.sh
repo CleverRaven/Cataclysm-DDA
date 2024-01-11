@@ -3,7 +3,7 @@ set -exo pipefail
 
 mkdir -p build/
 cp \
-  index.html \
+  build-data/web/index.html \
   cataclysm-tiles.{data,js,wasm} \
   data/font/Terminus.ttf \
   build
