@@ -217,12 +217,7 @@
     "environmental_protection": 0,
     "flags": [ "FANCY", "VARSIZE" ],
     "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown" ]
-      }
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
     ]
   },
   {
