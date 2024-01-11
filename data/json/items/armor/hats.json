@@ -1232,7 +1232,7 @@
         "description": "A somewhat conical hat made of bamboo strips and straw, with a wide brim and a squarish top.  Commonly worn by farmers and laborers in rural areas of Thailand, but can be also part of a costume headgear, decorative item and etc.",
         "weight": 1,
         "append": true
-        },
+      },
       {
         "id": "nonla",
         "name": { "str": "non la hat" },
