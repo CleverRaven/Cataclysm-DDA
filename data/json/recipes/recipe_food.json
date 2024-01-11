@@ -3115,7 +3115,7 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "apple", 2 ] ] ]
+    "components": [ [ [ "apple", 2 ], [ "crabapple", 10 ] ] ]
   },
   {
     "type": "recipe",
