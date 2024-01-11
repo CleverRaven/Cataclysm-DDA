@@ -388,7 +388,7 @@
     "color": "blue",
     "extend": { "flags": [ "SOURCE_TAILORING" ] }
   },
-    {
+  {
     "type": "overmap_terrain",
     "id": [ "s_fabricstore_roof" ],
     "copy-from": "generic_city_building",
