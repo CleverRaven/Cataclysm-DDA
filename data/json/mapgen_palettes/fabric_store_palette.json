@@ -23,12 +23,9 @@
       "J": "f_locker"
     },
     "items": {
-      "c": [
-        { "item": "SUS_tailoring_materials", "chance": 50 },
-        { "item": "SUS_tailoring_materials", "chance": 50 }
-      ],
-	  "C": { "item": "SUS_fur_tailoring_materials", "chance": 30 },
-	  "Q": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
+      "c": [ { "item": "SUS_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_materials", "chance": 50 } ],
+      "C": { "item": "SUS_fur_tailoring_materials", "chance": 30 },
+      "Q": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
       "d": { "item": "SUS_office_desk", "chance": 60 },
       "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
       "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
