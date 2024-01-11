@@ -1709,6 +1709,10 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         const std::function<bool( const item & )> &filter, bool player_inv, bool npc_query,
         const recipe *rec )
 {
+    std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
+        return is_preferred_component( it ) && filter( it );
+    };
+
     Character &player_character = get_player_character();
     std::vector<std::pair<item_comp, std::optional<nc_color>>> player_has;
     std::vector<std::pair<item_comp, std::optional<nc_color>>> map_has;
@@ -1721,7 +1725,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
-            int map_charges = map_inv.charges_of( type, INT_MAX, filter );
+            int map_charges = map_inv.charges_of( type, INT_MAX, preferred_component_filter );
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
@@ -1730,20 +1734,39 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 return selected;
             }
             if( player_inv ) {
-                int player_charges = charges_of( type, INT_MAX, filter );
-                bool found = false;
+                int player_charges = charges_of( type, INT_MAX, preferred_component_filter );
                 if( player_charges >= count ) {
                     player_has.emplace_back( component, std::nullopt );
-                    found = true;
-                }
-                if( map_charges >= count ) {
+                } else if( map_charges >= count ) {
                     map_has.emplace_back( component, std::nullopt );
-                    found = true;
+                } else {
+                    if( player_charges + map_charges >= count ) {
+                        mixed.emplace_back( component, std::nullopt );
+                    } else {
+                        bool found = false;
+                        player_charges = charges_of( type, INT_MAX, filter );
+
+                        if( player_charges >= count ) {
+                            player_has.emplace_back( component, std::nullopt );
+                            found = true;
+                        } else {
+                            map_charges = map_inv.charges_of( type, INT_MAX, filter );
+
+                            if( map_charges >= count ) {
+                                map_has.emplace_back( component, std::nullopt );
+                                found = true;
+                            }
+                        }
+
+                        if( !found && player_charges + map_charges >= count ) {
+                            mixed.emplace_back( component, std::nullopt );
+                        }
+                    }
                 }
-                if( !found && player_charges + map_charges >= count ) {
-                    mixed.emplace_back( component, std::nullopt );
-                }
+
             } else {
+                map_charges = map_inv.charges_of( type, INT_MAX, filter );
+
                 if( map_charges >= count ) {
                     map_has.emplace_back( component, std::nullopt );
                 }
@@ -1752,42 +1775,23 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
             // Can't use pseudo items as components
             if( player_inv ) {
-                bool found = false;
                 const item item_sought( type );
                 if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
-                    has_amount( type, count, false, filter ) ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( !has_amount( type, count, false, [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) ) {
-                        colr = c_magenta;
-                    }
-                    player_has.emplace_back( component, colr );
-                    found = true;
-                }
-                if( map_inv.has_components( type, count, filter ) ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) ) {
-                        colr = c_magenta;
-                    }
-                    map_has.emplace_back( component, colr );
-                    found = true;
-                }
-                if( !found &&
-                    amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
-                    map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( amount_of( type, false, std::numeric_limits<int>::max(), [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) + map_inv.amount_of( type, false,
-                    std::numeric_limits<int>::max(), [&filter]( const item & it ) {
-                        return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) < count ) {
-                        colr = c_magenta;
-                    }
-                    mixed.emplace_back( component, colr );
+                    has_amount( type, count, false, preferred_component_filter ) ) {
+                    player_has.emplace_back( component, std::nullopt );
+                } else if( map_inv.has_components( type, count, preferred_component_filter ) ) {
+                    map_has.emplace_back( component, std::nullopt );
+                } else if( amount_of( type, false, std::numeric_limits<int>::max(), preferred_component_filter ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
+                                              preferred_component_filter ) >= count ) {
+                    mixed.emplace_back( component, std::nullopt );
+                } else if( has_amount( type, count, false, filter ) ) {
+                    player_has.emplace_back( component, c_magenta );
+                } else if( map_inv.has_components( type, count, filter ) ) {
+                    map_has.emplace_back( component, c_magenta );
+                } else if( amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
+                    mixed.emplace_back( component, c_magenta );
                 }
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {

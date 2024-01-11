@@ -750,7 +750,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 }
 
 template<typename T>
-std::vector<std::string> requirement_data::get_folded_list( int width,
+std::vector<std::string> requirement_data::w( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
         requirement_display_flags flags ) const
@@ -993,6 +993,9 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
         return d.type == pocket_type::CONTAINER && d.watertight;
     } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
+            return c_magenta;
+        }
+        if( inv != nullptr && inv->must_use_hallu_poison( type, count * batch ) ) {
             return c_magenta;
         }
         // Will use favorited component
