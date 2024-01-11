@@ -1226,6 +1226,8 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+    const bool is_psi = has_flag( spell_flag::PSIONIC );
+
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
@@ -1247,31 +1249,33 @@ float spell::spell_fail( const Character &guy ) const
     const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
             guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
-    if( ( effective_skill > 30.0f && !has_flag( spell_flag::PSIONIC ) ) ||
-        ( psi_effective_skill > 40.0f && has_flag( spell_flag::PSIONIC ) ) ) {
+    if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
-    } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
+    } else if( ( effective_skill < 0.0f && !is_psi ) || ( psi_effective_skill < 0.0f && is_psi ) ) {
         return 1.0f;
     }
 
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     float psi_fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
 
-    if( has_flag( spell_flag::SOMATIC ) &&
-        !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0,
-                                          guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
-        // each encumbrance point beyond the "gray" color counts as half an additional fail %
-        fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+    if( !is_psi ) {
+        if( has_flag( spell_flag::SOMATIC ) &&
+            !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int arms_encumb = std::max( 0,
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+            // each encumbrance point beyond the "gray" color counts as half an additional fail %
+            fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+        }
+        if( has_flag( spell_flag::VERBAL ) &&
+            !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
+            // a little bit of mouth encumbrance is allowed, but not much
+            const int mouth_encumb = std::max( 0,
+                                               guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
+            fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
+        }
     }
-    if( has_flag( spell_flag::VERBAL ) &&
-        !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
-        // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0,
-                                           guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
-        fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
-    }
+
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
         if( guy.get_focus() <= 0 ) {
@@ -1283,11 +1287,7 @@ float spell::spell_fail( const Character &guy ) const
         psi_fail_chance /= 1.0f - concentration_loss;
     }
 
-    if( has_flag( spell_flag::PSIONIC ) ) {
-        return clamp( psi_fail_chance, 0.0f, 1.0f );
-    }
-
-    return clamp( fail_chance, 0.0f, 1.0f );
+    return clamp( is_psi ? psi_fail_chance : fail_chance, 0.0f, 1.0f );
 }
 
 std::string spell::colorized_fail_percent( const Character &guy ) const

@@ -1,0 +1,363 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be near a source of fire or heat.  The game currently can't detect a nearby fire using EoC--once it can that should be added.",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SALAMANDER" },
+        {
+          "u_has_any_trait": [
+            "SALAMANDER_MAKE_FIRE",
+            "SALAMANDER_DASH_BOOM",
+            "SALAMANDER_SMOKE_TELEPORT",
+            "SALAMANDER_FLAME_PUNCH",
+            "SALAMANDER_SUMMON_FIRE_SPIRIT",
+            "SALAMANDER_FLAME_BREATH",
+            "SALAMANDER_INCREASE_SPEED",
+            "SALAMANDER_SUMMON_WHIP",
+            "SALAMANDER_EMIT_HEAT",
+            "SALAMANDER_CURE_CONDITIONS",
+            "SALAMANDER_CREATE_LIGHT",
+            "SALAMANDER_FLY_IN_FIRE_SPELL",
+            "SALAMANDER_FLAME_IMMUNITY_ALLY",
+            "SALAMANDER_CULTIVATE_GOBLIN_FRUIT",
+            "PARACLESIAN_MAKE_GOSSAMER"
+          ]
+        },
+        {
+          "or": [
+            { "u_has_item": "torch_lit" },
+            { "u_has_item": "candle_lit" },
+            { "u_has_item": "oil_lamp_on" },
+            { "u_has_item": "oil_lamp_clay_on" },
+            { "u_has_item": "cigar_lit" },
+            { "u_has_item": "cig_lit" },
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SALAMANDER" } },
+    "effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Salamander knows. Probability is [11-Difficulty]",
+    "condition": {
+      "or": [
+        { "math": [ "u_spell_level('salamander_make_fire')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_dash_boom_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_smoke_teleport_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_flame_punch_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_summon_fire_spirit')", "<", "35" ] },
+        { "math": [ "u_spell_level('salamander_fire_breath')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_increase_speed_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_flaming_whip_spell')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_emit_heat')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_cure_conditions')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('create_light_salamander')", "<", "20" ] },
+        { "math": [ "u_spell_level('salamander_fire_fly')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_ally_flame_immune_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_LEVELER_SALAMANDER_MAKE_FIRE", 10 ],
+        [ "EOC_LEVELER_SALAMANDER_DASH_BOOM", 7 ],
+        [ "EOC_LEVELER_SALAMANDER_SMOKE_TELEPORT", 8 ],
+        [ "EOC_LEVELER_SALAMANDER_FLAME_PUNCH", 8 ],
+        [ "EOC_LEVELER_SALAMANDER_SUMMON_FIRE_SPIRIT", 8 ],
+        [ "EOC_LEVELER_SALAMANDER_FLAME_BREATH", 6 ],
+        [ "EOC_LEVELER_SALAMANDER_INCREASE_SPEED", 5 ],
+        [ "EOC_LEVELER_SALAMANDER_SUMMON_WHIP", 6 ],
+        [ "EOC_LEVELER_SALAMANDER_EMIT_HEAT", 5 ],
+        [ "EOC_LEVELER_SALAMANDER_CURE_CONDITIONS", 5 ],
+        [ "EOC_LEVELER_SALAMANDER_CREATE_LIGHT", 9 ],
+        [ "EOC_LEVELER_SALAMANDER_FLY_IN_FIRE_SPELL", 5 ],
+        [ "EOC_LEVELER_SALAMANDER_FLAME_IMMUNITY_ALLY", 4 ],
+        [ "EOC_LEVELER_SALAMANDER_CULTIVATE_GOBLIN_FRUIT", 3 ],
+        [ "EOC_LEVELER_SALAMANDER_MAKE_GOSSAMER", 4 ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_MAKE_FIRE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_make_fire')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_make_fire')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_make_fire')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_DASH_BOOM",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_dash_boom_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_dash_boom_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_dash_boom_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_SMOKE_TELEPORT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_smoke_teleport_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_smoke_teleport_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_smoke_teleport_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_FLAME_PUNCH",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_flame_punch_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_flame_punch_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_flame_punch_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_SUMMON_FIRE_SPIRIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_summon_fire_spirit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_summon_fire_spirit')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_summon_fire_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_FLAME_BREATH",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_fire_breath')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_fire_breath')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_fire_breath')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_INCREASE_SPEED",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_increase_speed_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_increase_speed_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_increase_speed_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_SUMMON_WHIP",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_flaming_whip_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_flaming_whip_spell')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_flaming_whip_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_EMIT_HEAT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_emit_heat')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_emit_heat')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_emit_heat')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_CURE_CONDITIONS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_cure_conditions')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_cure_conditions')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_cure_conditions')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_CREATE_LIGHT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('create_light_salamander')", ">=", "0" ] },
+        { "math": [ "u_spell_level('create_light_salamander')", "<", "20" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('create_light_salamander')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_FLY_IN_FIRE_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_fire_fly')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_fire_fly')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_fire_fly')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_FLAME_IMMUNITY_ALLY",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_ally_flame_immune_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_ally_flame_immune_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_ally_flame_immune_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_CULTIVATE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  }
+]

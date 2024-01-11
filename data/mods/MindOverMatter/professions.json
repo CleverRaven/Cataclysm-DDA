@@ -223,7 +223,7 @@
     "id": "psi_telekinetic_testsubject",
     "name": "Test Subject, Project ONYX LIGHTNING",
     "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
-    "points": 5,
+    "points": 13,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -231,12 +231,20 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
     "spells": [
-      { "id": "telekinetic_push", "level": 4 },
-      { "id": "telekinetic_pull", "level": 3 },
-      { "id": "telekinetic_momentum", "level": 2 },
-      { "id": "telekinetic_wave", "level": 2 }
+      { "id": "telekinetic_push", "level": 5 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 3 },
+      { "id": "telekinetic_slowfall", "level": 2 },
+      { "id": "telekinetic_momentum", "level": 6 }
+    ],
+    "recipes": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall"
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
@@ -248,7 +256,8 @@
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_combat", "container-item": "sheath" }
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "matrix_crystal_drained" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },

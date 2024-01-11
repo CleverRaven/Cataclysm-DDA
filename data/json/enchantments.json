@@ -195,5 +195,26 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_wings_bird",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "arm_l" },
+      { "lose": "arm_r" },
+      { "lose": "hand_r" },
+      { "lose": "hand_l" },
+      { "gain": "wing_bird_l" },
+      { "gain": "wing_bird_r" }
+    ]
+  },
+  {
+    "id": "ench_wings_insect_active",
+    "type": "enchantment",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "Your rapidly buzzing wings propel you with extra speed.",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
   }
 ]

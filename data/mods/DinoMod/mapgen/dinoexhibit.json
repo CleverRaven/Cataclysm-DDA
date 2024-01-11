@@ -255,8 +255,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_flat_roof", " ": "t_open_air", "-": "t_gutter_north", "5": "t_gutter_drop" },
-      "furniture": { "&": "f_roof_turbine_vent" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]
