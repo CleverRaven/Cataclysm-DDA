@@ -180,15 +180,8 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
-Added several new plushies variants for fluff purposes.
-Removes fursuits from sex stores, 12.3 HWP needs special magazine, filk
-Added the holy books to their item groups
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
-Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system 
-Added Mall Santa as a profession and some other Santa items
-Increases spawn rate and locations of Paraclesians
-Add new denim items and recipes
-Grammar fixes and even more religious books.
+Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
 
 
 ## Interface:
@@ -335,18 +328,8 @@ Paraclesian Map extras
 [Sky Island] Lots of updates
 [MoM] Change success formula for psionic powers
 [DinoMod] plesiosaurus
-[MoM] Feral psion attack updates
-[MoM] Power learning revamp: Electrokinesis
-[MoM] Itzcuauhtli uniform changes
-[MoM] Add new telekinesis power--knockdown
-[MoM] Edit spell UI a bit for psionics
-[MoM] Rework the telepathic power Obscurity
-[MoM] Power learning revamp: Teleportation
-[Xedra Evolved] More Arvore Traits
+[MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
-[Xedra Evolved] Add some Ierde traits
-[MoM] Power learning revamp: Telekinesis
-[Xedra Evolved] Add Arvore Overgrowth spell
 
 
 ## Balance:
@@ -506,20 +489,8 @@ Prevent softlock when sleeping in cramped spaces
 Invalidate draw point cache if viewport size or position changes
 clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
-[Bombastic Perks] Perk fixes
-[MoM] Fix invalid proficiency category
-Prevent segfault on unload_activity_actor
 Count charges in all nearby smoking racks to crafting inventory
-Fix impassable broken vehicle parts
-Fix minor cramped space errors
-Make signal flares actually stay lit, set signal flare duration to 1 minute
-Mark reachability zones for hallucinations
-fix the error when using 'u_spawn_npc' with 'traits' 
 Fix crash from reachability zones checking dead NPCs.
-fix some denim recipes and add uncraft for new denim recipes
-Minus is Plus
-Added missing leather sheet and various patchwork sheet decon recipes and a scrap felt decon recipe
-#70038 Remove trailing spaces and dots from file names in Windows
 
 
 ## Performance:
@@ -537,7 +508,6 @@ Reduce time of selecting large amount of items in inventory menu
 Fix armor resistances hotspot exposed by NPC AI improvements
 Slightly fewer allocations in npc::process_turn
 Optimized creature iteration during monster planning and parrot_at_danger.
-fix performance of map view after reading a map
 Optimize monster flag checking.
 Increase pathfinder performance
 Optimize stationary vehicle performance when they contain a lot of items.
