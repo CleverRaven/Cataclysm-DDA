@@ -39,7 +39,8 @@
       { "value": "ARMOR_CUT", "multiply": -0.6 },
       { "value": "ARMOR_STAB", "multiply": -0.8 },
       { "value": "ARMOR_BULLET", "multiply": -1.0 },
-      { "value": "ARMOR_HEAT", "multiply": 2.0 }
+      { "value": "ARMOR_COLD", "multiply": 2.0 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": -20 }
     ]
   },
   {

@@ -264,7 +264,7 @@
     "name": { "str": "Embrace of the Waters" },
     "points": 1,
     "description": "Surrounded by the waters, Undines find it easy to rest.  Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "UNDINE_SKIN_2" ],
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "prereqs2": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
@@ -286,7 +286,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "With the Undine's more fluid skin has come more fluid motion.  Activate this trait to immediately escape a grab and suffer less damage from falls for a few seconds.",
-    "prereqs": [ "UNDINE_SKIN_2" ],
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ]
   },
   {
@@ -389,7 +389,6 @@
     "description": "Like the flowing river, the Undine can twist back on themselves and pass through any obstacle.  +6 Dexterity.  However, they must also drink 25% more water.",
     "prereqs": [ "UNDINE_DEX_UP_2" ],
     "prereqs2": [ "UNDINE_WATER_BODY" ],
-    "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
     "passive_mods": { "dex_mod": 6 },
     "thirst_modifier": 0.25
@@ -414,7 +413,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Even the Undine's internal organs are becoming more liquid.  Bashing damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
-    "prereqs": [ "UNDINE_SKIN_2" ],
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
     "thirst_modifier": 0.25,
     "enchantments": [ "ench_undine_water_body" ]
@@ -424,7 +423,7 @@
     "id": "UNDINE_WATER_FORM",
     "name": { "str": "Form of the Flowing Waters" },
     "points": 8,
-    "description": "You may transform your body into pure water, becoming much more difficult to hurt (except by fire), able to flow easily over all terrain, and capable of moving much faster and more stealthily when in water.  However, you will be unable to attack and fire will do triple damage to you.",
+    "description": "You may transform your body into pure water, becoming much more difficult to hurt (except by fire), able to flow easily over all terrain, and capable of moving much faster and more stealthily when in water.  However, you will be unable to attack and cold will do triple damage to you.",
     "prereqs": [ "UNDINE_WATER_BODY" ],
     "prereqs2": [ "UNDINE_ABSORB_WATER" ],
     "category": [ "UNDINE" ],
