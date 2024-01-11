@@ -495,8 +495,8 @@
         "coverage": 50,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
-      } 
-    ]  
+      }
+    ]
   },
   {
     "id": "vizor_hat",
