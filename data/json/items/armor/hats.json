@@ -836,7 +836,7 @@
     "variant_type": "generic",
     "variants": [
       {
-      "id": "generic_hatball",
+        "id": "generic_hatball",
         "name": { "str": "baseball cap" },
         "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
         "weight": 75
