@@ -481,5 +481,19 @@
     "info": "When mutating, displays a menu which allows players to pick from a list of possible mutations.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Defaults to Boston.",
+    "stype": "float",
+    "value": 42.36
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Defaults to Boston.",
+    "stype": "float",
+    "value": -71.06
   }
 ]
