@@ -339,7 +339,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: %s" ),
+    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: 0.I Experimental, build %s" ),
                   getVersionString() ) );
 
     int menu_length = 0;
