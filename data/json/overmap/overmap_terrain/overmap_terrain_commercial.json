@@ -393,7 +393,7 @@
     "id": [ "s_fabricstore_roof" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_clothes_roof",
-    "name": "clothing store",
+    "name": "fabric store roof",
     "color": "blue"
   },
   {
