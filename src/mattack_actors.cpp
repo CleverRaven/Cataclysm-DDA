@@ -65,10 +65,6 @@ static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
-static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
-
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
