@@ -31,9 +31,10 @@
       { "id": "scratch_humanoid" },
       {
         "id": "stretch_attack",
+        "cooldown": 5,
         "move_cost": 50,
         "range": 2,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 5 } ]
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ]
       }
     ],
     "upgrades": { "half_life": 24, "into": "mon_zombie_tentacle" },
@@ -86,10 +87,10 @@
       { "id": "grab_2", "cooldown": 5, "move_cost": 50 },
       {
         "id": "stretch_attack",
-        "cooldown": 10,
+        "cooldown": 5,
         "move_cost": 50,
         "range": 2,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ]
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ]
       },
       { "id": "tentacle", "cooldown": 15, "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ] },
       { "id": "ranged_pull", "cooldown": 10, "grab_data": { "pull_weight_ratio": 1 } }
@@ -145,12 +146,12 @@
       { "id": "grab_2", "cooldown": 5, "move_cost": 50 },
       {
         "id": "stretch_attack",
-        "cooldown": 10,
+        "cooldown": 5,
         "move_cost": 50,
         "range": 2,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ]
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ]
       },
-      { "id": "tentacle", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ] },
+      { "id": "tentacle", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ] },
       { "id": "ranged_pull", "cooldown": 5, "grab_data": { "pull_weight_ratio": 1.5 } },
       {
         "id": "teke_push",

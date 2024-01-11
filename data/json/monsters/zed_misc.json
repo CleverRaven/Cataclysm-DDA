@@ -397,7 +397,12 @@
     "harvest": "zombie_humanoid",
     "grab_strength": 15,
     "special_attacks": [
-      { "id": "smash", "throw_strength": 35, "cooldown": 10 },
+      {
+        "id": "smash",
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "throw_strength": 35,
+        "cooldown": 10
+      },
       { "id": "grab", "cooldown": 7 },
       { "id": "bite_humanoid" },
       { "id": "scratch_humanoid" }
