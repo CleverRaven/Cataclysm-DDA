@@ -300,6 +300,11 @@
     "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "crabapple_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "crabapple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "sassafras_harv",
     "type": "harvest",
     "entries": [ { "drop": "sassafras_root", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

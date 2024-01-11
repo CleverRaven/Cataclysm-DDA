@@ -723,7 +723,7 @@
     "type": "terrain",
     "id": "t_tree_crabapple",
     "name": "crabapple tree",
-    "looks_like": "t_tree",
+    "looks_like": "t_tree_apple",
     "roof": "t_treetop",
     "description": "This tree is a member of the 'Malus' genus, though unlike popular cultivars, its fruits are small and sour.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
     "symbol": "7",
