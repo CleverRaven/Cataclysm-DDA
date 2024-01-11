@@ -423,7 +423,7 @@
     "id": "UNDINE_WATER_FORM",
     "name": { "str": "Form of the Flowing Waters" },
     "points": 8,
-    "description": "You may transform your body into pure water, becoming much more difficult to hurt (except by fire), able to flow easily over all terrain, and capable of moving much faster and more stealthily when in water.  However, you will be unable to attack and cold will do triple damage to you.",
+    "description": "You may transform your body into pure water, becoming much more difficult to hurt (except by fire), able to flow easily over all terrain, and capable of moving much faster and more stealthily when in water.  However, you will be unable to attack, cold will do triple damage to you, and cold weather will affect you more.",
     "prereqs": [ "UNDINE_WATER_BODY" ],
     "prereqs2": [ "UNDINE_ABSORB_WATER" ],
     "category": [ "UNDINE" ],
