@@ -771,6 +771,8 @@ void game::setup()
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
+    calendar::set_location( ::get_option<float>( "LATITUDE" ), ::get_option<float>( "LONGITUDE" ) );
+
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_game + 30_minutes;
