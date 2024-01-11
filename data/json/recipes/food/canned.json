@@ -2534,7 +2534,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "apple", 24 ], [ "crabapple", 150 ] ] ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "apple", 24 ], [ "crabapple", 120 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
