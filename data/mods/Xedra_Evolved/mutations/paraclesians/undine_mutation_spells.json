@@ -397,7 +397,7 @@
     "id": "undine_water_push_away",
     "type": "SPELL",
     "name": "Crashing Waves spell",
-    "description": "The actual spell that pushes enemies away. It's a bug if you have it.",
+    "description": "The actual spell that pushes enemies away.  It's a bug if you have it.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],

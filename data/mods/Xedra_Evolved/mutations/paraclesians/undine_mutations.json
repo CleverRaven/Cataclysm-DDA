@@ -292,7 +292,7 @@
   {
     "type": "mutation",
     "id": "UNDINE_FAST_SWIM_SPEED",
-    "name": { "str": "Like a Fish to the River" },
+    "name": { "str": "Like a Fish in the River" },
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
