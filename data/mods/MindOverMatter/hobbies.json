@@ -63,6 +63,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can see auras around people that tell you what they're feeling, and you've already used it to avoid someone who was feigning being injured with the hope of stealing your gear.  You can see through walls, and tell where the best place to hit something is to take it down for good.  That last ability will definitely get plenty of use.",
     "points": 8,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
@@ -80,6 +81,7 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can finish books in a few hours and remember almost everything you read, you had to fix a bicycle a few weeks ago and even though you've never tried to do that before in your life, everything you needed to do just…came to you.  What's more, last time the Zs attacked you, you never got a scratch.  Three of them came at you at once and you dodged every attack because you could see what they were going to do before they did it.  If only you could see where you needed to go to be safe.",
     "points": 14,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
