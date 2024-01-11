@@ -517,10 +517,11 @@
     "material_thickness": 0.1,
     "environmental_protection": 0,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ 
-      { 
-        "encumbrance_modifiers": [ "NONE" ], 
-        "coverage": 10, "covers": [ "head" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 10,
+        "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
       } 
     ]
