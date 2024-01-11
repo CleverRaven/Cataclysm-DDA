@@ -405,6 +405,23 @@ class deploy_furn_actor : public iuse_actor
 };
 
 /**
+ * Deployable appliances from items
+ */
+class deploy_appliance_actor : public iuse_actor
+{
+    public:
+        itype_id appliance_base;
+
+        deploy_appliance_actor() : iuse_actor( "deploy_appliance" ) {}
+        ~deploy_appliance_actor() override = default;
+
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
  * Reveals specific things on the overmap.
  */
 class reveal_map_actor : public iuse_actor
@@ -1082,10 +1099,10 @@ class link_up_actor : public iuse_actor
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-        void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
 };
 
 class deploy_tent_actor : public iuse_actor

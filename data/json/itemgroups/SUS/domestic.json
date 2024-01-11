@@ -119,6 +119,7 @@
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
       { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ] },
+      { "item": "superglue", "prob": 30 },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
       { "item": "corkscrew", "prob": 60 },
@@ -129,6 +130,7 @@
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       { "item": "aluminum_foil", "prob": 25 },
+      { "item": "wrapper_foil", "prob": 12, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
       { "item": "nuts_bolts", "prob": 20, "charges-min": 1, "charges-max": 4 },
       {
         "distribution": [
@@ -281,7 +283,8 @@
       { "item": "polaroid_photo", "prob": 10 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "chopsticks", "prob": 10 },
-      { "item": "soldering_iron", "prob": 10, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 10 },
+      { "item": "soldering_iron_portable", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "pipe_cleaner", "count": [ 3, 15 ], "prob": 10 },
       { "item": "balloon", "prob": 8, "count": [ 10, 20 ] },
       { "item": "bead_bracelet", "count": [ 5, 9 ], "prob": 5 },
@@ -324,7 +327,8 @@
       { "item": "hinge", "prob": 30, "count": 3 },
       { "item": "bearing", "prob": 25, "charges-min": 12, "charges-max": 75 },
       { "item": "stapler", "prob": 25 },
-      { "item": "soldering_iron", "prob": 25, "charges": [ 5, 45 ] },
+      { "item": "soldering_iron", "prob": 25 },
+      { "item": "soldering_iron_portable", "prob": 150, "charges": [ 0, 50 ] },
       { "item": "xacto", "prob": 25 },
       { "item": "kevlar_shears", "prob": 10 },
       { "item": "tin_snips", "prob": 10 },
@@ -333,7 +337,7 @@
       { "item": "old_key", "prob": 20, "count": [ 1, 6 ] },
       { "item": "office_letter_opener", "prob": 15 },
       { "item": "razor_blade", "count": [ 1, 3 ], "prob": 15 },
-      { "prob": 15, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
       { "item": "reading_light", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "book_binder", "prob": 15 },
       { "item": "paint_brush", "prob": 10 },
@@ -365,10 +369,12 @@
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
+      { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
+      { "item": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
-      { "prob": 50, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "prob": 50, "group": "bottle_otc_painkiller_20" },
       { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
       { "item": "ref_matches", "prob": 50, "charges": 32 },
@@ -477,6 +483,9 @@
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
       { "group": "dry_goods", "prob": 80, "count": [ 1, 3 ] },
       { "group": "preserved_food", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
+      { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
+      { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
       { "group": "pet_food", "prob": 50 }
     ]
   },
@@ -488,13 +497,13 @@
     "subtype": "collection",
     "entries": [
       { "item": "microwave", "prob": 90 },
-      { "item": "food_processor", "prob": 70, "charges": [ 0, 500 ] },
+      { "item": "food_processor", "prob": 70 },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "multi_cooker", "prob": 25, "charges": [ 0, 500 ] },
+      { "item": "multi_cooker", "prob": 25 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
-      { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "hotplate_induction", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "hotplate", "prob": 10 },
+      { "item": "hotplate_induction", "prob": 1 },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       {
         "collection": [
@@ -517,10 +526,7 @@
     "//2": "This group is for a cupboard where coffee and tea supplies are kept.",
     "subtype": "collection",
     "entries": [
-      {
-        "distribution": [ { "item": "coffeemaker", "prob": 90, "charges": [ 0, 500 ] }, { "item": "atomic_coffeepot", "prob": 10 } ],
-        "prob": 75
-      },
+      { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
       {
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
@@ -772,7 +778,28 @@
         "distribution": [
           {
             "item": "aspirin",
-            "prob": 160,
+            "prob": 50,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "acetaminophen",
+            "prob": 70,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "ibuprofen",
+            "prob": 80,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "naproxen",
+            "prob": 20,
             "count": [ 1, 30 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_painkiller"
@@ -1058,7 +1085,8 @@
       { "group": "pants_unisex", "prob": 50 },
       { "group": "pants_male", "prob": 60 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {
@@ -1080,7 +1108,8 @@
       { "group": "pants_female", "prob": 60 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
   {

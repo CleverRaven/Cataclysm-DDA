@@ -280,7 +280,7 @@
     "category": "armor",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
-    "weight": "16200 g",
+    "weight": "9500 g",
     "volume": "12 L",
     "price": 200000,
     "price_postapoc": 7000,

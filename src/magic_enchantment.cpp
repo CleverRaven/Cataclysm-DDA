@@ -85,6 +85,7 @@ namespace io
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_NETHER: return "SIGHT_RANGE_NETHER";
+            case enchant_vals::mod::SIGHT_RANGE_MINDS: return "SIGHT_RANGE_MINDS";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
@@ -148,6 +149,7 @@ namespace io
             case enchant_vals::mod::EVASION: return "EVASION";
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::RANGE: return "RANGE";
+            case enchant_vals::mod::AVOID_FRIENDRY_FIRE: return "AVOID_FRIENDRY_FIRE";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );

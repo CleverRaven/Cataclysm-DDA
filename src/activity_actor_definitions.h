@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "pickup.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -341,6 +342,34 @@ class hotwire_car_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class glide_activity_actor : public activity_actor
+{
+    private:
+        int jump_direction;
+        int glide_distance;
+        int moved_tiles = 0;
+        int moves_total = to_moves<int>( 1_seconds );
+        explicit glide_activity_actor() = default;
+
+    public:
+        explicit glide_activity_actor( Character *you, int jump_direction, int glide_distance );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GLIDE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<glide_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class bikerack_racking_activity_actor : public activity_actor
 {
     private:
@@ -461,13 +490,15 @@ class move_items_activity_actor : public activity_actor
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
+        bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination ) :
+                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ) {}
+            relative_destination( relative_destination ),
+            hauling_mode( hauling_mode ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
@@ -495,6 +526,7 @@ class pickup_activity_actor : public activity_actor
         /** Target items and the quantities thereof */
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        Pickup::pick_info info;
 
         /**
          * Position of the character when the activity is started. This is
@@ -629,8 +661,9 @@ class lockpick_activity_actor : public activity_actor
 class ebooksave_activity_actor : public activity_actor
 {
     public:
-        explicit ebooksave_activity_actor( const item_location &book, const item_location &ereader ) :
-            book( book ), ereader( ereader ) {};
+        explicit ebooksave_activity_actor( const std::vector<item_location> &books,
+                                           const item_location &ereader ) :
+            books( books ), ereader( ereader ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_EBOOKSAVE" );
@@ -638,12 +671,17 @@ class ebooksave_activity_actor : public activity_actor
 
         static int pages_in_book( const itype_id &book ) {
             // an A4 sheet weights roughly 5 grams
-            return units::to_gram( book->weight ) / 5;
+            return std::max( 1, static_cast<int>( units::to_gram( book->weight ) / 5 ) );
         };
+        static int total_pages( const std::vector<item_location> &books );
+        static time_duration required_time( const std::vector<item_location> &books );
+        static int required_charges( const std::vector<item_location> &books,
+                                     const item_location &ereader );
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<ebooksave_activity_actor>( *this );
@@ -653,16 +691,23 @@ class ebooksave_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        item_location book;
+        /**
+         * All remaining books left to scan.
+         * After a book is fully scanned to ereader, this list is modified so that the scanned book is removed from here.
+        */
+        std::vector<item_location> books;
         item_location ereader;
-        static constexpr time_duration time_per_page = 5_seconds;
+        /** How many books this activity has scanned to ereader so far. */
+        int handled_books = 0;
+        /** How much time is left on this book until it is fully scanned and we can move on to the next book. */
+        int turns_left_on_current_book = 0;
 
-        bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const ebooksave_activity_actor &actor = static_cast<const ebooksave_activity_actor &>
-                                                    ( other );
-            return actor.book == book && actor.ereader == ereader;
-        }
+        static constexpr time_duration time_per_page = 5_seconds;
+        // Every 25 pages requires one charge of the ereader
+        static constexpr int pages_per_charge = 25;
+
+        void start_scanning_next_book( player_activity &act );
+        void completed_scanning_current_book( player_activity &act, Character &who );
 };
 
 class migration_cancel_activity_actor : public activity_actor
@@ -1024,6 +1069,7 @@ class drop_activity_actor : public activity_actor
         contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
+        bool current_bulk_unload = false;
 };
 
 class stash_activity_actor: public activity_actor
@@ -1058,6 +1104,7 @@ class stash_activity_actor: public activity_actor
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
         tripoint placement;
+        bool current_bulk_unload = false;
 };
 
 class harvest_activity_actor : public activity_actor
@@ -1143,7 +1190,7 @@ class milk_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {}
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &/*act*/, Character &/*who*/ ) override {}
 

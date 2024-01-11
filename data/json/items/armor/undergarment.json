@@ -238,7 +238,6 @@
         "id": "binder_top_american",
         "name": { "str": "american binder" },
         "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the american flag.",
-        "weight": 1,
         "append": true
       },
       {
@@ -296,7 +295,7 @@
     "id": "xl_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str_sp": "XL binder" },
+    "name": { "str": "XL binder" },
     "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -306,7 +305,7 @@
     "type": "ARMOR",
     "copy-from": "binder_top",
     "looks_like": "binder_top",
-    "name": { "str_sp": "XS binder" },
+    "name": { "str": "XS binder" },
     "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate smaller mutants.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -366,8 +365,7 @@
         "id": "flag_boxer_shorts",
         "name": { "str_sp": "star-spangled boxer shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ],
     "weight": "42 g",
@@ -423,8 +421,7 @@
         "id": "flag_boy_shorts",
         "name": { "str_sp": "star-spangled boy shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true,
-        "weight": 1
+        "append": true
       }
     ],
     "weight": "42 g",
@@ -485,7 +482,7 @@
     "id": "xl_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str_sp": "XL bra" },
+    "name": { "str": "XL bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for larger mutants.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -495,7 +492,7 @@
     "type": "ARMOR",
     "copy-from": "bra",
     "looks_like": "bra",
-    "name": { "str_sp": "XS bra" },
+    "name": { "str": "XS bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for smaller mutants.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

@@ -42,7 +42,7 @@
       { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON" ],
     "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6 }
   },
   {
@@ -127,7 +127,18 @@
     "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "WIELDED_WEAPON"
+    ],
     "armor": { "bash": 4, "cut": 4, "stab": 4, "bullet": 4 }
   },
   {
@@ -174,13 +185,14 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their Glock!"
       }
     ],
     "death_drops": "renfield_9mm_death_drops",
-    "zombify_into": "mon_zombie_cop",
+    "zombify_into": "mon_zombie",
     "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_WEAK" ],
     "flags": [
@@ -195,7 +207,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   },
@@ -239,6 +252,7 @@
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield fires their shotgun!"
@@ -258,7 +272,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
@@ -302,13 +317,14 @@
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The renfield shoots their flamethrower!"
       }
     ],
     "death_drops": "renfield_flamethrower_death_drops",
-    "zombify_into": "mon_zombie_flamer",
+    "zombify_into": "mon_zombie",
     "flags": [
       "SEES",
       "HEARS",
@@ -321,60 +337,11 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
-  },
-  {
-    "id": "mon_zombie_flamer",
-    "type": "MONSTER",
-    "name": { "str": "zombie burner" },
-    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 5,
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 100,
-    "speed": 70,
-    "material": [ "flesh" ],
-    "symbol": "Z",
-    "color": "white_red",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 1,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
-    "vision_day": 30,
-    "vision_night": 3,
-    "luminance": 8,
-    "harvest": "zombie",
-    "starting_ammo": { "pressurized_tank": 1000 },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
-    "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "DRIPS_NAPALM",
-      "FILTHY"
-    ],
-    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 4 }
   },
   {
     "id": "mon_renfield_bionic_monster",
@@ -453,6 +420,7 @@
     ],
     "death_drops": "mon_renfield_abomination_death_drops",
     "regenerates": 7,
+    "zombify_into": "mon_zombie_brute_grappler",
     "flags": [
       "SEES",
       "HEARS",

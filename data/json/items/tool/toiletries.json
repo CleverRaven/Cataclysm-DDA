@@ -278,7 +278,7 @@
     "description": "A wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": "1160 g",
     "volume": "900 ml",
-    "longest_side": "50 cm",
+    "longest_side": "40 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,

@@ -855,5 +855,37 @@
       "sound_fail": "clang!",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vitrified_doll",
+    "name": "incomplete plush doll",
+    "symbol": "D",
+    "description": "A soft plush torso, empty of features, is lying on this sofa.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 1,
+    "required_str": 900,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_doll_talk" ] },
+    "rotates_to": "INDOORFLOOR",
+    "bash": { "str_min": 900, "str_max": 900, "sound": "smash!", "sound_fail": "whump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vitrified_bookcase_talker",
+    "name": "black glass bookcase",
+    "symbol": "{",
+    "description": "This bookcase is missing a book.",
+    "color": "dark_gray",
+    "looks_like": "f_vitrified_bookcase",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 900,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_bookcase_talk" ] },
+    "flags": [ "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
+    "emissions": [ "emit_glimmer" ]
   }
 ]

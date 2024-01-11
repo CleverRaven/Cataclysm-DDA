@@ -1,0 +1,24 @@
+[
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      {
+        "id": "exosuit_guide_introduction",
+        "text": "\"Welcome to your Exosuit Piloting and Maintenance Manual.  This manual will walk you through the basic operations of an exosuit.  Before proceeding, please ensure you have completed the UCIA Exosuit Piloting course.  Any operation without a valid UCIA Exosuit Pilot Licence is considered a violation of safety standards.  <this is followed by twenty pages of disclaimers>\""
+      },
+      {
+        "id": "exosuit_guide_underlayer",
+        "text": "\"Part One: The Underlayer.  Underlayer are specialized clothing meant to interface with the exosuit frame.  While not essential, they do minimize the risk of clothing getting caught on the frame.  Some underlayers offer additional protection to the pilot, ranging from ballistic armor to fully sealed suits designed for operating underwater or outside a breathable atmosphere.\""
+      },
+      {
+        "id": "exosuit_guide_frame",
+        "text": "\"Part Two: The Frame.  The exosuit frame meets UICA Interoperability Standard AV-98, allowing it to interface with UICA and legacy TSKBEM modules.  Third-party modules should not be used unless also UISAV-98 compliant.  Designed to be worn over an underlayer or conventional clothes, the frame is adjustable to fit a range of pilots, and will adjust automatically when powered on.\""
+      },
+      {
+        "id": "exosuit_guide_management",
+        "text": "\"Part Three: Activation and Management.  On activation, the pilot will be asked to choose between 'Manage Exosuit Modules' or 'Turn On'. Selecting, 'Enter', the option to Manage Exosuit Modules will display a list of the exosuit frame's module slots, which are a combination of compartments for mounting protective plating and hardpoints.  Selecting an item, 'Enter', will show options based on the slot selected.  An empty slot will prompt the pilot to select an available appropriate module to load into that slot.  Selecting an occupied module will prompt the pilot to unload the slot, unload/reload the module (when appropriate), or swap the module with another.  Modules can be manually activated through this menu as well.\""
+      }
+    ]
+  }
+]

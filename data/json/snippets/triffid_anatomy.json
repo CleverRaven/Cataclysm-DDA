@@ -1,0 +1,30 @@
+[
+  {
+    "type": "snippet",
+    "category": "<triffid_harvest>",
+    "text": [
+      "The bark of this \"plant\" has a bark like texture, but is more leathery in consistency.",
+      "The smell emanating from the creature when you dissect it reminds you of vegetables.",
+      "The monster's sap is sticky and somewhat greenish.",
+      "While outwardly plant like, the creature's muscles look surprisingly similar to those of normal animals.",
+      "Thick fibers are found throughout the body of the creature.  Perhaps they serve a scaffolding purpose similar to that of (very flexible) bones.",
+      "The creature's whip like sting drips from poison.  You take extra care not to accidentally scratch yourself on it."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<triffid_harvest_deeper>",
+    "text": [
+      "The creature appears to have a vascular system vaguely similar to those of animals, with a branching network of vein, although the organization is unfamiliar.",
+      "You find what you think is a heart, although it doesn't look like any configuration you know of from Earth.  In fact, you find four hearts, each seemingly supporting a lateral quarter of the body.",
+      "A sac connected to the sting is filled with some fluid.  Might it perhaps have some useful properties?",
+      "While the roots of the plant creature contain muscles and veins, they also contain finer networks indicating a use for nutrient uptake when the roots are lodged into the soil.",
+      "At the top of the creature you find what you assume is a brain, although it seems to employ quadrilateral symmetry and thus is shaped and organized completely differently from that of terrestial versions."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<triffid_harvest>",
+    "text": [ "<triffid_harvest>", "<triffid_harvest_deeper>", "<triffid_harvest>  <triffid_harvest_deeper>" ]
+  }
+]

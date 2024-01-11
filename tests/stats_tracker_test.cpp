@@ -81,9 +81,9 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
 
     const character_id u_id = get_player_character().getID();
     const cata::event kill1 =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     const cata::event kill2 = cata::event::make<event_type::character_kills_monster>( u_id,
-                              mon_zombie_brute );
+                              mon_zombie_brute, 0 );
     const cata::event::data_type char_is_player{ { "killer", cata_variant( u_id ) } };
 
     CHECK( s.get_events( kill1.type() ).count( kill1.data() ) == 0 );
@@ -310,11 +310,11 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         character_id other_id = u_id;
         ++other_id;
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         send_game_start( b, u_id );
         CHECK( event_statistic_avatar_id->value( s ) == cata_variant( u_id ) );
@@ -526,11 +526,11 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         character_id other_id = u_id;
         ++other_id;
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         watch_stat kills_watcher;
         watch_stat zombie_kills_watcher;
@@ -651,7 +651,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
 
     SECTION( "hidden_kills" ) {
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id a_kill_10( "achievement_kill_10_monsters" );
         achievement_id a_kill_100( "achievement_kill_100_monsters" );
@@ -679,7 +679,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         calendar::turn = calendar::start_of_game + time_since_game_start;
 
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id c_pacifist( "conduct_zero_kills" );
         achievement_id c_merciful( "conduct_zero_character_kills" );
@@ -933,7 +933,7 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     send_game_start( get_event_bus(), u_id );
 
     const cata::event avatar_zombie_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );

@@ -135,14 +135,10 @@ static const matec_id tec_none( "tec_none" );
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
 
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_spellcraft( "spellcraft" );
-static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
@@ -646,11 +642,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const bool hits = hit_spread >= 0;
 
     if( monster *m = t.as_monster() ) {
-        get_event_bus().send<event_type::character_melee_attacks_monster>(
-            getID(), cur_weap.typeId(), hits, m->type->id );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_monster>( getID(),
+                        cur_weap.typeId(), hits, m->type->id );
+        get_event_bus().send_with_talker( this, m, e );
     } else if( Character *c = t.as_character() ) {
-        get_event_bus().send<event_type::character_melee_attacks_character>(
-            getID(), cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        cata::event e = cata::event::make<event_type::character_melee_attacks_character>( getID(),
+                        cur_weap.typeId(), hits, c->getID(), c->get_name() );
+        get_event_bus().send_with_talker( this, c, e );
     }
 
     const int skill_training_cap = t.is_monster() ? t.as_monster()->type->melee_training_cap :
@@ -723,10 +721,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Pick one or more special attacks
         matec_id technique_id;
-        if( allow_special && !has_force_technique ) {
-            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
-        } else if( has_force_technique ) {
+        if( has_force_technique ) {
             technique_id = force_technique;
+        } else if( allow_special ) {
+            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
             technique_id = tec_none;
         }
@@ -955,7 +953,8 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 
 void Character::reach_attack( const tripoint &p, int forced_movecost )
 {
-    matec_id force_technique = tec_none;
+    static const matec_id no_technique_id( "" );
+    matec_id force_technique = no_technique_id;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
     if( weapon.has_flag( flag_WHIP ) && ( get_skill_level( skill_melee ) > 5 ) && one_in( 3 ) ) {
         force_technique = WHIP_DISARM;
@@ -977,7 +976,7 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     int move_cost = attack_speed( weapon ) * weary_mult;
-    float skill = std::min( 10.0f, get_skill_level( skill_stabbing ) );
+    float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
     map &here = get_map();
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
@@ -985,7 +984,7 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = creatures.creature_at( path_point );
-        /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
+        /** @EFFECT_MELEE decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
                      ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
@@ -1001,7 +1000,6 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
             }
             critter = inter;
             break;
-            /** @EFFECT_STABBING increases ability to reach attack through fences */
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
@@ -1029,7 +1027,7 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     }
 
     reach_attacking = true;
-    melee_attack_abstract( *critter, false, force_technique, false, forced_movecost );
+    melee_attack_abstract( *critter, true, force_technique, false, forced_movecost );
     reach_attacking = false;
 }
 
@@ -1525,6 +1523,18 @@ std::vector<matec_id> Character::evaluate_techniques( Creature &t, const item_lo
             continue;
         }
 
+        // skip non reach ok techniques if reach attacking
+        if( !( tec.reach_ok || tec.reach_tec ) && reach_attacking ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not usable with reach attack, attack discarded" );
+            continue;
+        }
+
+        // skip reach techniques if not reach attacking
+        if( tec.reach_tec && !reach_attacking ) {
+            add_msg_debug( debugmode::DF_MELEE, "Only usable with reach attack, attack discarded" );
+            continue;
+        }
+
         // skip dodge counter techniques if it's not a dodge count, and vice versa
         if( dodge_counter != tec.dodge_counter ) {
             add_msg_debug( debugmode::DF_MELEE, "Not a dodge counter, attack discarded" );
@@ -1846,7 +1856,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
             cur_weapon.get_item()->force_insert_item( item( casing ).set_flag( flag_CASING ),
-                    item_pocket::pocket_type::MAGAZINE );
+                    pocket_type::MAGAZINE );
             cur_weapon.get_item()->on_contents_changed();
         }
     }
@@ -2748,8 +2758,18 @@ double Character::weapon_value( const item &weap, int ammo ) const
             return cached_value->second;
         }
     }
-    const double val_gun = gun_value( weap, ammo );
-    const double val_melee = melee_value( weap );
+    double val_gun = gun_value( weap, ammo );
+    val_gun = val_gun /
+              5.0f; // This is an emergency patch to get melee and ranged in approximate parity, if you're looking at it in 2025 or later and it's still here... I'm sorry.  Kill it with fire.  Tear it all down, and rebuild a glorious castle from the ashes.
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "<color_magenta>weapon_value</color>%s %s valued at <color_light_cyan>%1.2f as a ranged weapon</color>.",
+                   disp_name( true ), weap.type->get_id().str(), val_gun );
+    double val_melee = melee_value( weap );
+    val_melee *=
+        val_melee; // Same emergency patch.  Same purple prose descriptors, you already saw them above.
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon</color>.", disp_name( true ),
+                   weap.type->get_id().str(), val_melee );
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 

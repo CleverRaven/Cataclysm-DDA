@@ -34,7 +34,6 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "POLEARMS", "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 5, "stab": 9 }
@@ -839,7 +838,7 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR", "SPEAR" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 9, "cut": 53 }
   },

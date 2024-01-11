@@ -28,6 +28,9 @@ namespace target_handler
 // Trajectory to target. Empty if selection was aborted or player ran out of moves
 using trajectory = std::vector<tripoint>;
 
+/** Generic target select without fire something */
+trajectory mode_select_only( avatar &you, int range );
+
 /**
  * Firing ranged weapon. This mode allows spending moves on aiming.
  */

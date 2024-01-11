@@ -38,6 +38,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_portal_dependent",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", "EOC_PORTAL_DEPENDENT_FOCUS_BAD", "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "scenario_mansion_pursuit",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
@@ -107,6 +117,15 @@
     "id": "faction_camp_start",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "mapgen_update": "faction_start_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_liam",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_Liam_Introdialogue" } },
+      { "mapgen_update": "scenario_spawn_liam", "om_terrain": "cabin_liam" }
+    ]
   },
   {
     "type": "effect_on_condition",

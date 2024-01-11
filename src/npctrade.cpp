@@ -352,7 +352,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
             const units::volume pvol = pkt.max_containable_volume();
             const item &i = *it.first;
             if( pkt.can_holster( i ) || ( pkt.can_contain( i ).success() && pvol > i.volume() ) ) {
-                pkt.put_in( i, item_pocket::pocket_type::CONTAINER );
+                pkt.put_in( i, pocket_type::CONTAINER );
                 item_stored = true;
                 break;
             }

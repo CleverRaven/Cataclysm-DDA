@@ -40,6 +40,21 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "santa_ear",
+    "type": "ARMOR",
+    "name": { "str": "pair of candycane earrings", "str_pl": "pairs of candycane earrings" },
+    "description": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs Claus style.",
+    "weight": "400 mg",
+    "volume": "1 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "gold_ear",
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
     "id": "bead_necklace",
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
@@ -47,6 +62,22 @@
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": "u",
+    "color": "brown",
+    "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "santa_necklace",
+    "type": "ARMOR",
+    "name": { "str": "Christmas holly necklace" },
+    "description": "A festive, lightweight ans simple necklace made of string and a bunch of preserved Christmas holly, for keeping the Christmas Spirit alive.",
+    "looks_like": "silver_necklace",
+    "weight": "8 g",
+    "volume": "20 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -346,6 +377,16 @@
     "symbol": "[",
     "looks_like": "silver_necklace",
     "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
@@ -616,8 +657,7 @@
       {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
-        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood."
       }
     ]
   },
@@ -694,8 +734,7 @@
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
-        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations."
       }
     ],
     "color": "dark_gray"
@@ -919,6 +958,16 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -1481,7 +1530,7 @@
       {
         "id": "pharaoh_necklace",
         "name": { "str": "Ankh necklace" },
-        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, it's major use in modern times was of a try to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, the source of its major use in modern times was through a new religious movement attempting to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
         "color": "yellow",
         "weight": 5
       },
@@ -1626,6 +1675,16 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -1796,6 +1855,16 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -1860,6 +1929,24 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
+    "ascii_picture": "wristwatch",
+    "symbol": "[",
+    "color": "dark_gray",
+    "sided": true,
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
+    "id": "santa_wristwatch",
+    "type": "ARMOR",
+    "name": { "str": "Christmas wrist watch", "str_pl": "Christmas wrist watches" },
+    "description": "A festive, good-quality red and white wristwatch on a red leather band.  Tells the time and has an alarm clock feature, for Santa Claus not to miss Christmas.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "leather", "steel" ],
     "ascii_picture": "wristwatch",
     "symbol": "[",
     "color": "dark_gray",
@@ -1950,6 +2037,17 @@
     "weight": "50 g",
     "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
+  },
+  {
+    "id": "badge_santa",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "Santa badge" },
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": 10,
+    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
   },
   {
     "id": "fur_cat_ears",
@@ -2254,8 +2352,7 @@
       {
         "id": "vampire_earring",
         "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
-        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
-        "weight": 1
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs."
       }
     ]
   },
@@ -2332,8 +2429,7 @@
       {
         "id": "dark_earring",
         "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
-        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
-        "weight": 1
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts."
       }
     ],
     "color": "dark_gray"
@@ -2678,8 +2774,7 @@
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
-        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
-        "weight": 1
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it."
       }
     ]
   },
@@ -2756,8 +2851,7 @@
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
-        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
-        "weight": 1
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it."
       }
     ],
     "color": "dark_gray"
@@ -3110,8 +3204,7 @@
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
-        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts.",
-        "weight": 1
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts."
       }
     ]
   },
@@ -3188,8 +3281,7 @@
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
-        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
-        "weight": 1
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye."
       }
     ],
     "color": "dark_gray"
@@ -3526,8 +3618,7 @@
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
-        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
-        "weight": 1
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant."
       }
     ]
   },
@@ -3604,8 +3695,7 @@
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
-        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
-        "weight": 1
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart."
       }
     ],
     "color": "dark_gray"
@@ -4070,8 +4160,7 @@
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
-        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
-        "weight": 1
+        "description": "A sinister dark silver tiara adorned with blood-red rubies."
       }
     ]
   },
@@ -4145,12 +4234,7 @@
         "description": "A shiny, silver tiara adorned with onyx.",
         "weight": 99
       },
-      {
-        "id": "dark_tiara",
-        "name": { "str": "dark tiara" },
-        "description": "A dark silver tiara adorned with onyx.",
-        "weight": 1
-      }
+      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
   }

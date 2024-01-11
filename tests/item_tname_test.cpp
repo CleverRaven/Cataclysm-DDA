@@ -8,9 +8,9 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -683,7 +683,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
 
     SECTION( "single stack inside" ) {
 
-        backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+        backpack_hiking.put_in( rock, pocket_type::CONTAINER );
 
         std::string const rock_nested_tname = colorize( rock.tname(), rock.color_in_inventory() );
         std::string const rocks_nested_tname = colorize( rock.tname( 2 ), rock.color_in_inventory() );
@@ -693,13 +693,13 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
                    rock_nested_tname );
         }
         SECTION( "several rocks" ) {
-            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock, pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
                    " " + rocks_nested_tname + " (2)" );
         }
         SECTION( "several stacks" ) {
-            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
-            backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock, pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock2, pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
         }
         SECTION( "container has whitelist" ) {
@@ -722,10 +722,10 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     std::string const purse_color = get_tag_from_color( purse.color_in_inventory() );
     std::string const color_end_tag = "</color>";
     SECTION( "multi-level nesting" ) {
-        purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
+        purse.put_in( rock, pocket_type::CONTAINER );
 
         SECTION( "single rock" ) {
-            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) ==
                    color_pref + "hiking backpack " +
                    nesting_sym + " " + purse_color + color_pref + "purse " +
@@ -734,9 +734,9 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
 
         SECTION( "several rocks" ) {
-            purse.put_in( rock2, item_pocket::pocket_type::CONTAINER );
+            purse.put_in( rock2, pocket_type::CONTAINER );
 
-            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, pocket_type::CONTAINER );
 
             CHECK( backpack_hiking.tname( 1 ) ==
                    color_pref + "hiking backpack " +
@@ -746,8 +746,8 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
 
         SECTION( "several purses" ) {
-            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
-            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, pocket_type::CONTAINER );
 
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
                    " " + purse_color + color_pref + "purses" + color_end_tag + " (2)" );
@@ -762,7 +762,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         REQUIRE( usb_drive.is_software_storage() );
         REQUIRE( medisoft.is_software() );
         REQUIRE( medisoft_nested_tname == "<color_c_light_gray>MediSoft</color>" );
-        usb_drive.put_in( medisoft, item_pocket::pocket_type::SOFTWARE );
+        usb_drive.put_in( medisoft, pocket_type::SOFTWARE );
         CHECK( usb_drive.tname( 1 ) == "USB drive " + nesting_sym + " " + medisoft_nested_tname );
     }
 }

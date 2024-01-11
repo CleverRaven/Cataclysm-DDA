@@ -74,9 +74,7 @@
     "values": [
       {
         "value": "ITEM_DAMAGE_HEAT",
-        "add": {
-          "math": [ "(5 + (u_val('spell_level', 'spell: salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ]
-        }
+        "add": { "math": [ "(5 + (u_spell_level('salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] }
       }
     ]
   }

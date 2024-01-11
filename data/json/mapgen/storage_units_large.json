@@ -278,7 +278,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "large_storage_units_3",
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

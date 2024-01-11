@@ -9,38 +9,32 @@
       {
         "id": "mag_guns",
         "name": { "str": "Guns n Ammo", "str_pl": "issues of Guns n Ammo" },
-        "description": "Reviews of firearms, and various useful tips about their use.",
-        "weight": 1
+        "description": "Reviews of firearms, and various useful tips about their use."
       },
       {
         "id": "mag_guns_1",
         "name": { "str": "Gun Digest", "str_pl": "issues of Gun Digest" },
-        "description": "Annual magazine about firearms, weapon collections, self-defense, same as some practical and legal advices.",
-        "weight": 1
+        "description": "Annual magazine about firearms, weapon collections, self-defense, same as some practical and legal advices."
       },
       {
         "id": "mag_guns_2",
         "name": { "str": "Recoil", "str_pl": "issues of Recoil" },
-        "description": "A modern magazine about handguns, tactical weapons, knives, and shooting activities.  It says there is a fold-out target, but someone took it off.",
-        "weight": 1
+        "description": "A modern magazine about handguns, tactical weapons, knives, and shooting activities.  It says there is a fold-out target, but someone took it off."
       },
       {
         "id": "mag_guns_3",
         "name": { "str": "SWAT", "str_pl": "issues of SWAT" },
-        "description": "\"Special Weapons And Tactics for the prepared American\", this magazine contains info about firearms, law enforcement, and related interests, with a focus on SWAT police officers.",
-        "weight": 1
+        "description": "\"Special Weapons And Tactics for the prepared American\", this magazine contains info about firearms, law enforcement, and related interests, with a focus on SWAT police officers."
       },
       {
         "id": "mag_guns_4",
         "name": { "str": "Bullet Point", "str_pl": "issues of Bullet Point" },
-        "description": "Small magazine about ammo and firearms, and how to choose, use, and maintain them properly.",
-        "weight": 1
+        "description": "Small magazine about ammo and firearms, and how to choose, use, and maintain them properly."
       },
       {
         "id": "mag_guns_5",
         "name": { "str": "Trigger Happy", "str_pl": "issues of Trigger Happy" },
-        "description": "Modern magazine for young people about firearms, self-defense, different competitions, and reviews.",
-        "weight": 1
+        "description": "Modern magazine for young people about firearms, self-defense, different competitions, and reviews."
       }
     ],
     "weight": "60 g",
@@ -66,56 +60,48 @@
       {
         "id": "manual_gun",
         "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
-        "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
-        "weight": 1
+        "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms."
       },
       {
         "id": "manual_gun_1",
         "name": { "str": "FM 3-90-1: Offense And Defense", "str_pl": "copies of FM 3-90-1: Offense And Defense" },
-        "description": "Official U.S. Army manual about basics and tactics of moving and attacking a target - how to shoot, how to hide, how to retreat, and how to defend.",
-        "weight": 1
+        "description": "Official U.S. Army manual about basics and tactics of moving and attacking a target - how to shoot, how to hide, how to retreat, and how to defend."
       },
       {
         "id": "manual_gun_2",
         "name": { "str": "Surplus Military", "str_pl": "issues of Surplus Military" },
         "description": "A journal about modern and old firearms, their style, manufacturing, and usage.",
-        "//": "978-1736672723",
-        "weight": 1
+        "//": "978-1736672723"
       },
       {
         "id": "manual_gun_3",
         "name": { "str": "Owning a Modern Firearm", "str_pl": "copies of Owning a Modern Firearm" },
         "description": "Essential handbook detailing how to own, use, and properly maintain a modern-day firearm.",
-        "//": "979-8519992862",
-        "weight": 1
+        "//": "979-8519992862"
       },
       {
         "id": "manual_gun_4",
         "name": { "str": "Practical Shooting Training", "str_pl": "copies of Practical Shooting Training" },
         "description": "Step-by-step instructions on how to use a gun, with lot of drills for each level.",
-        "//": "979-8593500014",
-        "weight": 1
+        "//": "979-8593500014"
       },
       {
         "id": "manual_gun_5",
         "name": { "str": "The Illustrated History of Firearms", "str_pl": "copies of The Illustrated History of Firearms" },
         "description": "A reference book that contains hundreds of images of firearms inside, with lot of comments from professionals and information about each model.",
-        "//": "978-1951115142",
-        "weight": 1
+        "//": "978-1951115142"
       },
       {
         "id": "manual_gun_6",
         "name": { "str": "Long Range Shooting Handbook", "str_pl": "copies of Long Range Shooting Handbook" },
         "description": "\"The Complete Beginner's Guide to Precision Rifle Shooting\", this book contains information about shooting equipment, terminology, principles, and covers the theory of long-range shooting.  It has a lot practical advices about marksmanship.",
-        "//": "978-1518654725",
-        "weight": 1
+        "//": "978-1518654725"
       },
       {
         "id": "manual_gun_7",
         "name": { "str": "The Rifle-Musket", "str_pl": "copies of The Rifle-Musket" },
         "description": "\"A Practical Treatise on the Enfield-Pritchett Rifle, Recently Adopted in the British Service\".  This is a practical guide to using the newly adopted P-1853 Enfield Rifle-Musket.  Despite being written in 1854, it still has lot of useful information about shooting, as well as information about how to maintain this antique rifle.",
-        "//": "978-1480115736",
-        "weight": 1
+        "//": "978-1480115736"
       }
     ],
     "weight": "462 g",
@@ -164,29 +150,25 @@
           "str": "Ballistics: Theory, Design, and Application",
           "str_pl": "copies of Ballistics: Theory, Design, and Application"
         },
-        "description": "This hefty, hardbound textbook is written in obtuse, complex language.  If you already knew a bit about engineering and fabrication, it might be a useful reference on gunsmithing and design, but without that knowledge it'd be better used to prop up a table.",
-        "weight": 1
+        "description": "This hefty, hardbound textbook is written in obtuse, complex language.  If you already knew a bit about engineering and fabrication, it might be a useful reference on gunsmithing and design, but without that knowledge it'd be better used to prop up a table."
       },
       {
         "id": "text_gunsmith_1",
         "name": { "str": "The Complete Guide to Gunsmithing", "str_pl": "copies of The Complete Guide to Gunsmithing" },
         "description": "This fairly old book is a highly detailed and essential reference for any gun enthusiast, and covers everything from the use of proper tools to how to get a gunsmithing job.",
-        "//": "978-1632202697",
-        "weight": 1
+        "//": "978-1632202697"
       },
       {
         "id": "text_gunsmith_2",
         "name": { "str": "Professional Gunsmithing", "str_pl": "copies of Professional Gunsmithing" },
         "description": "A guide for gun shop owners, this book contains lots of information about weapons and weapon maintenance.",
-        "//": "978-1163156063",
-        "weight": 1
+        "//": "978-1163156063"
       },
       {
         "id": "text_gunsmith_3",
         "name": { "str": "Gunsmithing - Rifles", "str_pl": "copies of Gunsmithing - Rifles" },
         "description": "The book contains step-by-step instructions to repair and maintain all major rifle types, from the AR-15 and AK-47 to the M1 Garand.  It also details many different projects and enhancements for gun owners.",
-        "//": "978-1946267467",
-        "weight": 1
+        "//": "978-1946267467"
       },
       {
         "id": "text_gunsmith_4",
@@ -195,29 +177,25 @@
           "str_pl": "copies of Gunsmithing: A Manual of Firearm Design, Construction, Alteration and Remodeling"
         },
         "description": "This book contains extremely precise instructions for fixing different issues with your gun.  Having lots of modern photos is a huge advantage, though the fact that it's a reprint of a book from the 1950s is not.",
-        "//": "978-1614272373",
-        "weight": 1
+        "//": "978-1614272373"
       },
       {
         "id": "text_gunsmith_5",
         "name": { "str": "The Guns of John Moses Browning", "str_pl": "copies of The Guns of John Moses Browning" },
         "description": "A major biography of John Moses Browning, \"the Thomas Edison of guns\", this book describes his story, and the inventions he made, as well as decisions behind their development, processes, manufacturing, and usage.",
-        "//": "978-1982129224",
-        "weight": 1
+        "//": "978-1982129224"
       },
       {
         "id": "text_gunsmith_6",
         "name": { "str": "DIY Guns: Easy DIY Gunsmithing Projects", "str_pl": "issues of DIY Guns: Easy DIY Gunsmithing Projects" },
         "description": "A big magazine about different gunsmithing projects, from tuning your gun to making a brand new one using common techniques.",
-        "//": "978-1732132764",
-        "weight": 1
+        "//": "978-1732132764"
       },
       {
         "id": "text_gunsmith_7",
         "name": { "str": "The Book of the Crossbow", "str_pl": "copies of The Book of the Crossbow" },
         "description": "This book details the long story of crossbows - a devastating weapon which improved medieval distance warfare drastically - with lot of illustrations and information about additional weapons, like ballistae and catapults.",
-        "//": "978-0486287201",
-        "weight": 1
+        "//": "978-0486287201"
       }
     ],
     "weight": "350 g",

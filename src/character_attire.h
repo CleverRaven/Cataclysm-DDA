@@ -113,6 +113,7 @@ class outfit
         units::volume contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume volume_capacity_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume free_space() const;
+        units::mass free_weight_capacity() const;
         units::volume max_single_item_volume() const;
         units::length max_single_item_length() const;
         // total volume

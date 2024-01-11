@@ -33,6 +33,7 @@
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 100, "starts": "180 hours" },
@@ -52,6 +53,7 @@
     "monsters": [
       { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "weight": 240, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 0, "starts": "30 days" },
       { "monster": "mon_yugg", "weight": 70, "cost_multiplier": 0 },

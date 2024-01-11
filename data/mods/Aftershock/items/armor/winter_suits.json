@@ -29,7 +29,7 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 20,
     "material_thickness": 2,
@@ -93,7 +93,7 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -120,5 +120,63 @@
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" }
+  },
+  {
+    "id": "afs_combat_cryo",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "combat cryo suit" },
+    "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.",
+    "weight": "7800 g",
+    "volume": "14 L",
+    "price": "12 kUSD",
+    "material": [ "nylon", "nanoprinted_alloy" ],
+    "symbol": "[",
+    "looks_like": "afs_cryopod_bodyglove",
+    "color": "cyan",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_combat_cryo_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 0.5,
+    "environmental_protection": 6,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT" ]
+  },
+  {
+    "id": "afs_combat_cryo_on",
+    "copy-from": "afs_combat_cryo",
+    "repairs_like": "afs_frontier_cryo",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
+    "looks_like": "afs_cryopod_bodyglove",
+    "description": "The temperature control units of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
+    "power_draw": "11111 mW",
+    "warmth": 150,
+    "revert_to": "afs_combat_cryo",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_combat_cryo" }
   }
 ]

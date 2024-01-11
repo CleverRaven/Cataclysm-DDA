@@ -1,0 +1,345 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_trail",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_trail_clear",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "*" ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_predecessor_groundcover",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "place_nested": [
+        { "chunks": [ "1x1_t_region_groundcover_forest" ], "x": 0, "y": 0, "predecessors": [ "forest", "forest_thick" ] },
+        { "chunks": [ "1x1_t_region_groundcover_swamp" ], "x": 0, "y": 0, "predecessors": [ "forest_water" ] }
+      ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_predecessor_shrub",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "place_nested": [
+        { "chunks": [ "1x1_t_region_shrub_forest" ], "x": 0, "y": 0, "predecessors": [ "forest" ] },
+        { "chunks": [ "1x1_t_region_shrub_forest_dense" ], "x": 0, "y": 0, "predecessors": [ "forest_thick" ] },
+        { "chunks": [ "1x1_t_region_shrub_swamp" ], "x": 0, "y": 0, "predecessors": [ "forest_water" ] }
+      ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_predecessor_tree",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "place_nested": [
+        { "chunks": [ "1x1_t_region_tree_forest" ], "x": 0, "y": 0, "predecessors": [ "forest", "forest_water" ] },
+        { "chunks": [ "1x1_t_region_tree_forest_dense" ], "x": 0, "y": 0, "predecessors": [ "forest_thick" ] }
+      ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_groundcover_forest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_groundcover_forest" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_groundcover_swamp",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_groundcover_swamp" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_shrub_forest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_shrub_forest" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_shrub_forest_dense",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_shrub_forest_dense" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_shrub_swamp",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_shrub_swamp" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_shrub_swamp",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_shrub_swamp" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_tree_forest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_tree_forest" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_region_tree_forest_dense",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_region_tree_forest_dense" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_railroad_rubble",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_railroad_rubble" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_dirt",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_dirt" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_t_mud",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "terrain": { ".": "t_mud" },
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_intersection",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         4444444        ",
+        "       44333333344      ",
+        "      4332222222334     ",
+        "     432211111112234    ",
+        "    43211000000011234   ",
+        "    43210000000001234   ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "    43210000000001234   ",
+        "    43211000000011234   ",
+        "     432211111112234    ",
+        "      4332222222334     ",
+        "       44333333344      ",
+        "         4444444        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "place_nested": [
+        { "chunks": [ "9x9_forest_trail_intersection_north" ], "x": 8, "y": 0, "neighbors": { "north": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_east" ], "x": 18, "y": 8, "neighbors": { "east": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_south" ], "x": 8, "y": 18, "neighbors": { "south": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_west" ], "x": 0, "y": 8, "neighbors": { "west": "trail" } },
+        {
+          "chunks": [ "11x11_forest_trail_intersection_south_fire_lookout" ],
+          "x": 0,
+          "y": 13,
+          "neighbors": { "south": "ws_fire_lookout_tower_base" }
+        },
+        { "chunks": [ [ "null", 25 ], [ "3x3_horseposts", 75 ] ], "x": 8, "y": 8 },
+        {
+          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_stumps", 50 ] ],
+          "x": [ 12, 13 ],
+          "y": [ 12, 13 ]
+        },
+        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 17, "y": 8 },
+        { "chunks": [ [ "null", 75 ], [ "3x3_shed_trail_supplies_N", 25 ] ], "x": 17, "y": 17 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "432101234",
+        "432101234",
+        "432101234",
+        "432101234",
+        "432101234",
+        "  21012  ",
+        "  10001  ",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_east",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   444   ",
+        "   333   ",
+        "012222   ",
+        "001111   ",
+        "000000   ",
+        "001111   ",
+        "012222   ",
+        "   333   ",
+        "   444   "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  00000  ",
+        "  10001  ",
+        "  21012  ",
+        "432101234",
+        "432101234",
+        "432101234",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_west",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "4444     ",
+        "3333     ",
+        "2222210  ",
+        "1111100  ",
+        "0000000  ",
+        "1111100  ",
+        "2222210  ",
+        "3333     ",
+        "4444     "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  }
+]

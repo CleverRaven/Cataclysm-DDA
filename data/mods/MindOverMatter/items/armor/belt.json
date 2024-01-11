@@ -151,7 +151,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_HEAT", "add": -80 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 400 } ]
+          "values": [ { "value": "ARMOR_HEAT", "multiply": -1.0 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
         }
       ]
     }

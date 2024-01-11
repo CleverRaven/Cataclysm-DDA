@@ -241,13 +241,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ],
-        [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ],
-        [ "EOC_PORTAL_EXPAND", { "const": 3 } ]
-      ]
-    }
+    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ], [ "EOC_PORTAL_EXPAND", 3 ] ] }
   },
   {
     "type": "effect_on_condition",
@@ -304,13 +298,14 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
-        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
-        [ "EOC_PORTAL_NPC", { "const": 1 } ]
+        [ "EOC_PORTAL_GRASS_CHANGE", 10 ],
+        [ "EOC_PORTAL_LIGHT", 2 ],
+        [ "EOC_PORTAL_ABSENCE", 4 ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 5 ],
+        [ "EOC_PORTAL_FLATLANDER", 5 ],
+        [ "EOC_PORTAL_MEMORIES", 1 ],
+        [ "EOC_PORTAL_GIANT_APPENDAGE", 1 ],
+        [ "EOC_PORTAL_NPC", 1 ]
       ]
     }
   },
@@ -338,14 +333,14 @@
       { "run_eocs": "EOC_PORTAL_MESSAGE" },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-          [ "EOC_PORTAL_PAIN", { "const": 2 } ],
-          [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
-          [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
-          [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-          [ "EOC_PORTAL_TAUNT", { "const": 1 } ],
-          [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
-          [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
+          [ "EOC_PORTAL_PAIN", 2 ],
+          [ "EOC_PORTAL_HALLUCINATOR", 2 ],
+          [ "EOC_PORTAL_SMOKE", 2 ],
+          [ "EOC_PORTAL_SWARM_STRUCTURE", 2 ],
+          [ "EOC_PORTAL_TAUNT", 1 ],
+          [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
+          [ "EOC_PORTAL_ARTIFACT_WEAK", 1 ]
         ]
       }
     ]
@@ -410,9 +405,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_VOICES_3", 1 ] ] }
             }
           }
         },
@@ -423,9 +416,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_2",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_2", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ], [ "EOC_PORTAL_STORM_VOICES_2", 1 ] ] }
             }
           }
         },
@@ -436,9 +427,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ], [ "EOC_PORTAL_STORM_VOICES_1", 1 ] ] }
             }
           }
         }
@@ -531,6 +520,21 @@
       "lifespan": [ "1 minutes", "3 minutes" ],
       "spawn_message": "You cannot remember how the impossible shape came to be here.  The pain in your head suggests that that's a good thing.",
       "spawn_message_plural": "You cannot remember how the impossible shapes came to be here.  The pain in your head suggests that that's a good thing."
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_FLATLANDER",
+    "effect": {
+      "u_spawn_monster": "mon_flatlander",
+      "real_count": 1,
+      "hallucination_count": 1,
+      "outdoor_only": true,
+      "min_radius": 3,
+      "max_radius": 20,
+      "lifespan": [ "1 minutes", "3 minutes" ],
+      "spawn_message": "something glides into your field of vision out of thin air, slipping between the space between atoms.",
+      "spawn_message_plural": "several things glide into your field of vision out of thin air, slipping between the spaces between atoms."
     }
   },
   {
@@ -1061,16 +1065,39 @@
       "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
       "cases": [
         {
-          "case": 0,
+          "case": 2,
+          "effect": [
+            {
+              "weighted_list_eocs": [
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", 1 ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", 1 ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", 1 ]
+              ]
+            },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_PORTAL_DEPENDENT_DUNGEON",
+                  "condition": { "u_has_trait": "PORTAL_DEPENDENT" },
+                  "effect": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "case": 7,
           "effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", { "const": 1 } ],
-              [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", { "const": 1 } ],
-              [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", { "const": 1 } ]
+            "run_eocs": [
+              { "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM" },
+              {
+                "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL",
+                "condition": { "u_has_trait": "PORTAL_DEPENDENT" },
+                "effect": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL_REWARD" }
+              }
             ]
           }
-        },
-        { "case": 5, "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_ITEM" } }
+        }
       ]
     }
   },
@@ -1090,17 +1117,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
-    "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "weakened_inertia",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
-    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "warped_viewpoint",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
-    "effect": { "u_add_effect": "weakened_gravity", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": {
+      "u_add_effect": "weakened_gravity",
+      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
+    }
   },
   {
     "type": "effect_on_condition",
@@ -1131,8 +1167,8 @@
       { "math": [ "ps_effect_length", "=", "u_val('time: 3 h')" ] },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", { "const": 10 } ],
-          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", { "const": 10 } ]
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", 10 ],
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", 10 ]
         ]
       }
     ]

@@ -40,16 +40,9 @@
 
 static const material_id material_flesh( "flesh" );
 
-static const mon_flag_str_id mon_flag_BASHES( "BASHES" );
-static const mon_flag_str_id mon_flag_BORES( "BORES" );
-static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_str_id mon_flag_DESTROYS( "DESTROYS" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_str_id mon_flag_NOT_HALLUCINATION( "NOT_HALLUCINATION" );
-static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
-
 static const speed_description_id speed_description_DEFAULT( "DEFAULT" );
+
+static const spell_id spell_pseudo_dormant_trap_setup( "pseudo_dormant_trap_setup" );
 
 namespace
 {
@@ -326,6 +319,7 @@ static void build_behavior_tree( mtype &type )
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
+    std::vector<mtype> extra_mtypes;
     for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
 
@@ -431,6 +425,11 @@ void MonsterGenerator::finalize_mtypes()
             }
         }
         mon.weakpoints.finalize();
+
+        // check lastly to make extra fake monsters.
+        if( mon.has_flag( mon_flag_GEN_DORMANT ) ) {
+            extra_mtypes.push_back( generate_fake_pseudo_dormant_monster( mon ) );
+        }
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
@@ -438,6 +437,96 @@ void MonsterGenerator::finalize_mtypes()
             hallucination_monsters.push_back( mon.id );
         }
     }
+
+    // now add the fake monsters to the mon_templates
+    for( mtype &mon : extra_mtypes ) {
+        mon_templates->insert( mon );
+    }
+}
+
+mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
+{
+
+    // this is what we are trying to build. Example for mon_zombie
+    //{
+    //    "id": "pseudo_dormant_mon_zombie",
+    //        "type" : "MONSTER",
+    //        "name" : { "str": "zombie" },
+    //        "description" : "Fake zombie used for spawning dormant zombies.  If you see this, open an issue on github.",
+    //        "copy-from" : "mon_zombie",
+    //        "looks_like" : "corpse_mon_zombie",
+    //        "hp" : 5,
+    //        "speed" : 1,
+    //        "flags" : ["FILTHY", "REVIVES", "DORMANT", "QUIETDEATH"] ,
+    //        "zombify_into" : "mon_zombie",
+    //        "special_attacks" : [
+    //    {
+    //        "id": "pseudo_dormant_trap_setup_attk",
+    //            "type" : "spell",
+    //            "spell_data" : { "id": "pseudo_dormant_trap_setup", "hit_self" : true },
+    //            "cooldown" : 1,
+    //            "allow_no_target" : true,
+    //            "monster_message" : ""
+    //    }
+    //        ]
+    //},
+    mtype fake_mon = mtype( mon );
+    fake_mon.id = mtype_id( "pseudo_dormant_" + mon.id.str() );
+    // allowed (optional) flags: [ "FILTHY" ],
+    // delete all others.
+    // then add [ "DORMANT", "QUIETDEATH", "REVIVES", "REVIVES_HEALTHY" ]
+    bool has_filthy = fake_mon.has_flag( mon_flag_FILTHY );
+    fake_mon.flags.clear();
+    fake_mon.flags.emplace( mon_flag_DORMANT );
+    fake_mon.flags.emplace( mon_flag_QUIETDEATH );
+    fake_mon.flags.emplace( mon_flag_REVIVES );
+    fake_mon.flags.emplace( mon_flag_REVIVES_HEALTHY );
+    if( has_filthy ) {
+        fake_mon.flags.emplace( mon_flag_FILTHY );
+    }
+
+    // zombify into the original mon
+    fake_mon.zombify_into = mon.id;
+    // looks like "corpse" + original mon
+    fake_mon.looks_like = "corpse_" + mon.id.str();
+    // set the hp to 5
+    fake_mon.hp = 5;
+    // set the speed to 1
+    fake_mon.speed = 1;
+    // now ensure that monster will always die instantly. Nuke all resistances and dodges.
+    // before this monsters like zombie predators could periodically resist the killing effect for a while.
+    // clear dodge
+    fake_mon.sk_dodge = 0;
+    // clear regenerate
+    fake_mon.regenerates = 0;
+    fake_mon.regenerates_in_dark = false;
+    // clear armor
+    for( const auto &dam : fake_mon.armor.resist_vals ) {
+        fake_mon.armor.resist_vals[dam.first] = 0;
+    }
+    // add the special attack.
+    // first make a new mon_spellcasting_actor actor
+    std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
+    new_actor->allow_no_target = true;
+    new_actor->cooldown = 1;
+    new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
+    new_actor->spell_data.self = true;
+
+    // create the special attack now using the actor
+    // use this constructor
+    // explicit mtype_special_attack( std::unique_ptr<mattack_actor> f ) : actor( std::move( f ) ) { }
+
+    std::unique_ptr<mattack_actor> base_actor = std::move( new_actor );
+    mtype_special_attack new_attack( std::move( base_actor ) );
+
+    std::pair<const std::string, mtype_special_attack> new_pair{
+        std::string( "pseudo_dormant_trap_setup_attk" ),
+        std::move( new_attack )
+    };
+    fake_mon.special_attacks.emplace( std::move( new_pair ) );
+    fake_mon.special_attacks_names.emplace_back( "pseudo_dormant_trap_setup_attk" );
+
+    return fake_mon;
 }
 
 void MonsterGenerator::apply_species_attributes( mtype &mon )
@@ -487,9 +576,11 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "NONE", mattack::none );
     add_hardcoded_attack( "ABSORB_ITEMS", mattack::absorb_items );
     add_hardcoded_attack( "SPLIT", mattack::split );
+    add_hardcoded_attack( "BROWSE", mattack::browse );
     add_hardcoded_attack( "EAT_CARRION", mattack::eat_carrion );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
+    add_hardcoded_attack( "GRAZE", mattack::graze );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
@@ -894,6 +985,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
+
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 

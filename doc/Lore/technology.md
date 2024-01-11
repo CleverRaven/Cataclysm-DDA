@@ -14,7 +14,12 @@ See [the timeline](./lore-background.md) for lore explanations of the divergent 
 In terms of civilian technology there are a handful of things that differ from our world.  All of these are very rare and expensive.
 
 ### Cybernetics
-Cybernetics were not available on CDDA-Earth prior to the portal storms.  Note that this is a recent major change to the lore. There are two gameplay reasons for this change. Firstly: too much good loot was concentrated in one "dungeon" - secret labs. [The plan is to make a new different "dungeon" and move cybernetic loot there.](https://www.reddit.com/r/cataclysmdda/comments/wbgtll/comment/iiav21w/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button). Secondly [it was decided to make cybernetic power generation, power storage, low-impact cybernetics and the ability to install cybernetics available without clearing a dangerous location and less dependent on random loot luck](https://www.reddit.com/r/cataclysmdda/comments/t3xum7/comment/hyxhiew/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
+Cybernetics were not available on CDDA-Earth prior to the portal storms.  The technology level of the CBMs available from the Exodii faction should be roughly comparable to things that we can make in the modern day, with exceptions being considered special and rare.  The main difference isn't what the tech itself can do, but the fact that it can do it from an arm interface that draws from your central power supply and is connected to your brain.
+
+Note that this is a change to the lore implemented around 2021 or so. There are a few gameplay reasons for this change, and examining them can be helpful to understanding how the design philosophy works.
+- Prior to the change, cybernetics were required to make sense as something developed on an Earth with a similar technology level to ours, or we had to make CDDA Earth so different from ours that it loses a lot of the "real life zombie apocalypse" feel.  Making them interdimensional removes a lot of restrictions on the design space of what "makes sense" for a cybernetic.  For example, things like shotgun arms and knives for hands don't make a ton of sense in the "real world" we're trying to go for in DDA, but they're totally something someone may have cooked up *somewhere*. This allows them to stay in.
+- Labs used to be a very one-stop-shop for loot (and still are, at the time of this writing).  The lore change to CBMs should allow us to move them to their own type of dungeon at some point, giving a wider variety of exploration goals with different feels.
+- Linking NPCs to the process of cybernetic installation makes it more possible to ensure players can reliably obtain critical important CBMs instead of being completely reliant on random loot generation and dissecting dozens of zombie corpses to try to get enough power to run them. However, random loot should still remain part of the process of getting CBMs.
 
 #### Prosthetics
 Prosthetic limbs available to civilians are not markedly above the level available on our Earth.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
@@ -26,7 +31,6 @@ Proto-AI evolved from dimensional heuristics (the secrets of which are completel
 Energy storage among civilians is basically the same as real life earth, with a couple exceptions:
 - electrolytic hydrogen fuel cells are moderately more efficient, thanks to an early introduction of transdimensional tech.  As a result, fuel cell powered vehicles and other technologies are more common.
 - Li-ion batteries are no better, but are a bit cheaper and more common
-- Radioactive power sources such as betavoltaic cells and even radioisotope thermoelectric generators are more common owing to a generally less safe attitude towards consumers. These aren't any better than equivalent devices in reality... just more common.
 
 ### Powered Suits
 Due to the availability of fuel cells, powered exoskeletons for industrial work are extremely rare but do exist.  These suits are bulky but allow a degree of finesse that a crane or forklift can't match.  Their primary market is wealthy nerds.

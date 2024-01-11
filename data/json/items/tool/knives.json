@@ -76,7 +76,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 1, "stab": 8 }
   },
   {
@@ -93,8 +93,8 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [  ],
-    "weapon_category": [ "KNIVES" ],
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "stab": 7 }
   },
   {
@@ -131,7 +131,9 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
-    "melee_damage": { "cut": 3 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "cut": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "TOOL",

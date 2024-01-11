@@ -18,11 +18,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "submap.h"
@@ -205,7 +205,7 @@ void player_add_headlamp()
     item headlamp( "wearable_light_on" );
     item battery( "light_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
-    headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+    headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();
     you.worn.wear_item( you, headlamp, false, true );
 }

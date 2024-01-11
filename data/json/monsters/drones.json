@@ -106,21 +106,6 @@
     "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
-    "id": "mon_mininuke_hack",
-    "copy-from": "base_drone",
-    "type": "MONSTER",
-    "name": { "str": "mininuke hack" },
-    "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you… run.",
-    "diff": 40,
-    "hp": 20,
-    "speed": 150,
-    "color": "light_green_magenta",
-    "revert_to_itype": "bot_mininuke_hack",
-    "starting_ammo": { "mininuke_payload": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
-    "armor": { "bash": 1, "cut": 6, "bullet": 5 }
-  },
-  {
     "abstract": "exodii_sniper_drone",
     "type": "MONSTER",
     "name": { "str": "balloon sniper-drone" },

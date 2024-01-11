@@ -1437,7 +1437,7 @@
         "condition": { "u_has_effect": "hunger_satisfied" }
       },
       { "id": "blank", "text": "    ", "color": "h_green", "condition": { "u_has_effect": "hunger_blank" } },
-      { "id": "hungry", "text": "█   ", "color": "h_yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      { "id": "hungry", "text": "█   ", "color": "c_light_gray", "condition": { "u_has_effect": "hunger_hungry" } },
       {
         "id": "very_hungry",
         "text": "██  ",

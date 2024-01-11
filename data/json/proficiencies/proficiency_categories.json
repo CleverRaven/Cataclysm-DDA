@@ -7,6 +7,12 @@
   },
   {
     "type": "proficiency_category",
+    "id": "prof_combat",
+    "name": "Weapons Proficiencies",
+    "description": "Proficiencies for various weapons."
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_chem",
     "name": "Applied Science",
     "description": "Proficiencies for scientific understanding and working with certain chemicals and substances."

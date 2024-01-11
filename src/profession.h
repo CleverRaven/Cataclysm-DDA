@@ -70,6 +70,7 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<proficiency_id> _starting_proficiencies;
+        std::vector<recipe_id> _starting_recipes;
         std::vector<trait_and_var> _starting_traits;
         std::vector<matype_id> _starting_martialarts;
         std::vector<matype_id> _starting_martialarts_choices;
@@ -118,6 +119,7 @@ class profession
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
+        std::vector<recipe_id> recipes() const;
         std::vector<matype_id> ma_known() const;
         std::vector<matype_id> ma_choices() const;
         int ma_choice_amount;

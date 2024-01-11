@@ -11,6 +11,18 @@
   },
   {
     "type": "scenario",
+    "id": "friend_liam",
+    "name": "Friends to the End",
+    "points": -10,
+    "description": "You and your friends always talked about what you'd do when the world ended… now it's come true, and you've made your way to a remote cabin your friend Liam always said to head for.  It's been a hell of a journey.  You hope Liam and the others made it in one piece.",
+    "allowed_locs": [ "sloc_liam_cabin" ],
+    "start_name": "Liam's Cabin",
+    "eoc": [ "scenario_liam" ],
+    "missions": [ "MISSION_FIND_LIAM" ],
+    "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "squatter",
     "name": "Squatter",
     "points": -1,
@@ -140,7 +152,6 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_lodge_ground",
-      "sloc_freshwater_research_station",
       "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
@@ -400,6 +411,58 @@
   },
   {
     "type": "scenario",
+    "id": "one_legged_man_start",
+    "name": "Challenge - One Legged Man In An Ass Kicking Contest",
+    "points": -2,
+    "forced_traits": [ "NO_LEFT_LEG", "NO_RIGHT_ARM", "NO_LEFT_ARM" ],
+    "description": "While trying to escape town, you had to dodge a horde into your holdout, becoming separated from your compatriots.  You've only got one leg to your name, no arms, and now you're surrounded by zombies.  Just how are you going to get out of this one?",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_gun_store",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_military_surplus",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital",
+      "sloc_fire_station",
+      "sloc_police",
+      "sloc_town_hall",
+      "sloc_pharm",
+      "sloc_hardware",
+      "sloc_dojo",
+      "sloc_gym",
+      "sloc_clothes",
+      "sloc_restaurant",
+      "sloc_bar",
+      "sloc_electronics",
+      "sloc_arcade",
+      "sloc_animalshelter",
+      "sloc_laundromat",
+      "sloc_stripclub",
+      "sloc_sexshop",
+      "sloc_candyshop",
+      "sloc_bikeshop",
+      "sloc_petstore"
+    ],
+    "start_name": "In Town",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "medieval",
     "name": "Challenge - Medieval Peasant",
     "points": -8,
@@ -420,7 +483,14 @@
     "points": -8,
     "description": "The scientists stopped their experiments on you abruptly, leaving you behind while they evacuated before lockdown.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "mutant_amputee" ],
+    "professions": [
+      "unemployed",
+      "mutant_patient",
+      "mutant_volunteer",
+      "mutant_amputee",
+      "mutant_amputee_noarms",
+      "mutant_amputee_everything"
+    ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
       "ELFAEYES",
@@ -592,7 +662,7 @@
     "start_name": "Hospital",
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
-    "professions": [ "unemployed", "patient", "veteran", "amputee_nolegs" ],
+    "professions": [ "unemployed", "patient", "veteran", "amputee_nolegs", "amputee_noarms", "amputee_everything" ],
     "requirement": "achievement_reach_hospital",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -663,7 +733,7 @@
     "description": "You have been heavily experimented upon for the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you escaped the lab and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
-    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "mutant_amputee" ],
+    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "mutant_amputee", "mutant_amputee_noarms" ],
     "traits": [
       "ELFAEYES",
       "URSINE_EYE",
@@ -921,6 +991,7 @@
   },
   {
     "type": "scenario",
+    "copy-from": "mutant",
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
@@ -929,10 +1000,23 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
-    "eoc": [ "scenario_strong_portal_storm" ],
+    "eoc": [ "scenario_strong_portal_storm", "scenario_portal_dependent" ],
     "requirement": "achievement_reach_lab_finale",
     "reveal_locale": false,
-    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
+    "professions": [
+      "portal_traveler",
+      "churl",
+      "true_foodperson",
+      "unemployed",
+      "naked",
+      "mutant_patient",
+      "mutant_volunteer",
+      "mutant_amputee",
+      "labtech",
+      "security",
+      "medic",
+      "paranormal_investigator"
+    ]
   },
   {
     "type": "scenario",
@@ -1255,7 +1339,7 @@
   {
     "type": "scenario",
     "id": "road_start",
-    "name": "Middle of nowhere",
+    "name": "Middle of Nowhere",
     "points": 1,
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
@@ -1271,5 +1355,17 @@
     "start_name": "Underground",
     "allowed_locs": [ "sloc_sewer" ],
     "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "last_stand_start",
+    "name": "Challenge - Last Stand",
+    "points": -1,
+    "description": "Together with some others you decided to take up arms against the horde.  Now you are reconsidering whether that was a wise choice.",
+    "start_name": "Intersection",
+    "allowed_locs": [ "sloc_nesw_manhole" ],
+    "requirement": "achievement_kill_10_monsters",
+    "map_extra": "mx_laststand",
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

@@ -7,7 +7,7 @@
     "condition": "ALWAYS",
     "values": [
       { "value": "CARRY_WEIGHT", "multiply": 1 },
-      { "value": "ATTACK_SPEED", "multiply": 0.1 },
+      { "value": "ATTACK_SPEED", "multiply": -0.1 },
       { "value": "MELEE_DAMAGE", "multiply": 0.1 }
     ]
   }

@@ -85,7 +85,8 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "1750 ml",
     "price": 16000,
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -104,7 +105,8 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
     "price": 16000,
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -121,7 +123,8 @@
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "2250 ml",
     "price": "25 USD",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -355,6 +358,7 @@
     "//": "Not actually as damaging as a steel katana, by any stretch.  It's a fancy, very well-carved wooden training sword, not a weapon of war.  It's also completely rounded, so any cutting damage wouldn't make sense.  Also, the heaviest bokken I could find were 700g, none were nearly close to a kilogram.",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "category": "weapons",
+    "weapon_category": [ "LONG_SWORDS" ],
     "melee_damage": { "bash": 16 }
   },
   {
@@ -444,7 +448,8 @@
     "longest_side": "90 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price": 20000,
-    "melee_damage": { "bash": 22, "cut": 8 }
+    "melee_damage": { "bash": 22, "cut": 8 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -479,6 +484,21 @@
     "price_postapoc": 10,
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "santa_staff",
+    "name": { "str": "candy cane" },
+    "description": "A sturdy red and white striped novelty candycane made of wood, originally meant to be used by the Good Old Man as a decorative gear.  Given the circumstances, it works fine as a melee weapon.",
+    "copy-from": "cane",
+    "weight": "500 g",
+    "color": "red",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
+    "price_postapoc": 10,
+    "extend": { "flags": [ "CRUTCHES" ] },
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "TOOL",
@@ -723,11 +743,11 @@
     "color": "light_cyan",
     "name": { "str": "glass shiv" },
     "description": "A glass shard with wrapping at one end so it can be safely wielded.",
-    "material": [ "glass", "cotton" ],
-    "weight": "115 g",
+    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
+    "weight": "193 g",
     "price_postapoc": 10,
-    "volume": "30 ml",
-    "longest_side": "20 cm",
+    "volume": "82 ml",
+    "longest_side": "15 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
@@ -866,7 +886,8 @@
     "longest_side": "90 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 8000,
     "price_postapoc": 50,
     "melee_damage": { "bash": 35, "stab": 2 }
@@ -1090,6 +1111,7 @@
   {
     "type": "GENERIC",
     "id": "lc_mace",
+    "looks_like": "mace",
     "name": { "str": "mild carbon steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with low carbon steel, which technically still works fine but tends to blunt more easily, and the grip is kind of bad.",
     "weight": "1400 g",
@@ -1112,6 +1134,7 @@
   {
     "type": "GENERIC",
     "id": "mc_mace",
+    "looks_like": "mace",
     "name": { "str": "medium steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with medium carbon steel which is passable, but hardly the pinnacle of weapon making.",
     "weight": "1500 g",
@@ -1134,6 +1157,7 @@
   {
     "type": "GENERIC",
     "id": "hc_mace",
+    "looks_like": "mace",
     "name": { "str": "high steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with high carbon steel and is a solid, dependable weapon.",
     "weight": "1500 g",
@@ -1156,6 +1180,7 @@
   {
     "type": "GENERIC",
     "id": "ch_mace",
+    "looks_like": "mace",
     "name": { "str": "case hardened steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with case hardened steel and can pulverize bones.",
     "weight": "1500 g",
@@ -1178,6 +1203,7 @@
   {
     "type": "GENERIC",
     "id": "qt_mace",
+    "looks_like": "mace",
     "name": { "str": "tempered steel mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  It is heavy and slow to swing, but its crushing damage is devastating.  This one is custom-made with tempered steel and will crack skulls like watermelons.",
     "weight": "1500 g",
@@ -1416,7 +1442,8 @@
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "price": 16000,
     "price_postapoc": 1750,
-    "melee_damage": { "bash": 22, "stab": 4 }
+    "melee_damage": { "bash": 22, "stab": 4 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "type": "GENERIC",
@@ -1428,6 +1455,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "MACES" ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },

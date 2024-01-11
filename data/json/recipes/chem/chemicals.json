@@ -189,14 +189,7 @@
     ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [
-        [ "lemon", 8 ],
-        [ "irradiated_lemon", 8 ],
-        [ "orange", 8 ],
-        [ "irradiated_orange", 8 ],
-        [ "grapefruit", 8 ],
-        [ "irradiated_grapefruit", 8 ]
-      ],
+      [ [ "lemon", 8 ], [ "orange", 8 ], [ "grapefruit", 8 ] ],
       [ [ "lye_powder", 4 ] ],
       [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "paper", 10 ] ],

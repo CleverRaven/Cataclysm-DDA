@@ -43,6 +43,7 @@
       },
       "furniture": { "a": "f_displaycase" },
       "place_vehicles": [
+        { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 5, "rotation": 270, "chance": 20, "status": 0 },
         { "vehicle": "showroom_small_vehicles", "x": 19, "y": 5, "rotation": 270, "chance": 20, "status": 0 }
       ],

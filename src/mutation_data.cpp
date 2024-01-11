@@ -239,6 +239,24 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string_view member
     return true;
 }
 
+mut_personality_score::mut_personality_score() = default;
+
+bool mut_personality_score::load( const JsonObject &jsobj, const std::string_view member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    optional( j, false, "min_aggression", min_aggression, -10 );
+    optional( j, false, "max_aggression", max_aggression, 10 );
+    optional( j, false, "min_bravery", min_bravery, -10 );
+    optional( j, false, "max_bravery", max_bravery, 10 );
+    optional( j, false, "min_collector", min_collector, -10 );
+    optional( j, false, "max_collector", max_collector, 10 );
+    optional( j, false, "min_altruism", min_altruism, -10 );
+    optional( j, false, "max_altruism", max_altruism, 10 );
+
+    return true;
+}
+
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
     read_condition( jsobj, "condition", trigger, false );
@@ -353,6 +371,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         transform = cata::make_value<mut_transform>();
         transform->load( jo, "transform" );
     }
+    if( jo.has_object( "personality_score" ) ) {
+        personality_score = cata::make_value<mut_personality_score>();
+        personality_score->load( jo, "personality_score" );
+    }
 
     optional( jo, was_loaded, "triggers", trigger_list );
 
@@ -360,11 +382,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
         JsonArray bodytemp_array = jo.get_array( "bodytemp_modifiers" );
-        bodytemp_min = bodytemp_array.get_int( 0 );
-        bodytemp_max = bodytemp_array.get_int( 1 );
+        bodytemp_min = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 0 ) );
+        bodytemp_max = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 1 ) );
     }
 
-    optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
+    int legacy_bodytemp_sleep = units::to_legacy_bodypart_temp_delta( bodytemp_sleep );
+    optional( jo, was_loaded, "bodytemp_sleep", legacy_bodytemp_sleep, 0 );
+    bodytemp_sleep = units::from_legacy_bodypart_temp_delta( legacy_bodytemp_sleep );
     optional( jo, was_loaded, "threshold", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
@@ -478,6 +502,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+    optional( jo, was_loaded, "prevented_by", prevented_by, trait_reader{} );
 
     for( JsonArray pair : jo.get_array( "moncams" ) ) {
         moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );

@@ -1440,5 +1440,44 @@
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "material_aluminium_ingot", 7 ], [ "scrap_aluminum", 34 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "NO_EXERCISE",
+    "result": "pedal_extenders_makeshift",
+    "skill_used": "fabrication",
+    "time": "1 s",
+    "components": [ [ [ "wood_block", 2 ] ] ],
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "NO_EXERCISE",
+    "result": "pedal_extenders",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "components": [ [ [ "rubber_tire_chunk", 4 ], [ "clamp", 2 ] ] ],
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "hand_controls",
+    "difficulty": 4,
+    "skill_used": "fabrication",
+    "time": "35 m",
+    "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "components": [ [ [ "pipe_fittings", 2 ], [ "pipe", 2 ], [ "clamp", 2 ] ] ],
+    "autolearn": true
   }
 ]

@@ -147,7 +147,6 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "UNPLUG" );
     ctxt.register_action( "MERGE" );
 }
 
@@ -508,7 +507,11 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( pos );
+    item cord( "power_cord" );
+    cord.link_to( *veh, a_point, link_state::automatic );
+    if( cord.get_use( "link_up" ) ) {
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
+    }
 }
 
 void veh_app_interact::merge()
@@ -527,7 +530,7 @@ void veh_app_interact::merge()
             return false;
         }
         vehicle &target_veh = target_vp->vehicle();
-        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+        if( !target_veh.is_powergrid() ) {
             return false;
         }
         return true;

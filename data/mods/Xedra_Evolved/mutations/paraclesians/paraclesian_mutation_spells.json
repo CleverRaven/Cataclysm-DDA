@@ -1,6 +1,6 @@
 [
   {
-    "id": "cloud_of_steam",
+    "id": "cloud_of_steam_sylph",
     "type": "SPELL",
     "name": "Cloud of Steam",
     "description": "You bring forth a cloud of boiling water.",
@@ -26,17 +26,50 @@
     "final_energy_cost": 100,
     "energy_increment": 8,
     "energy_source": "MANA",
+    "teachable": false,
+    "spell_class": "SYLPH",
     "difficulty": 4,
     "damage_type": "heat"
   },
   {
-    "id": "create_light",
+    "id": "cloud_of_steam_undine",
+    "type": "SPELL",
+    "name": "Cloud of Steam",
+    "description": "You bring forth a cloud of boiling water.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "max_level": 35,
+    "min_damage": 4,
+    "max_damage": 68,
+    "damage_increment": 2.2,
+    "min_aoe": 3,
+    "max_aoe": 11,
+    "aoe_increment": 0.2,
+    "min_range": 6,
+    "max_range": 20,
+    "range_increment": 1.0,
+    "base_casting_time": 200,
+    "final_casting_time": 120,
+    "casting_time_increment": 4,
+    "base_energy_cost": 350,
+    "final_energy_cost": 100,
+    "energy_increment": 8,
+    "energy_source": "MANA",
+    "teachable": false,
+    "spell_class": "UNDINE",
+    "difficulty": 4,
+    "damage_type": "heat"
+  },
+  {
+    "id": "create_light_sylph",
     "type": "SPELL",
     "name": "Light",
     "description": "Creates a magical light.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "NO_LEGS" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -44,6 +77,33 @@
     "effect": "spawn_item",
     "effect_str": "magic_light",
     "shape": "blast",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "energy_source": "MANA",
+    "difficulty": 2,
+    "max_level": 20,
+    "base_casting_time": 200,
+    "base_energy_cost": 150,
+    "min_duration": 100000,
+    "max_duration": 1000000,
+    "duration_increment": 45000
+  },
+  {
+    "id": "create_light_salamander",
+    "type": "SPELL",
+    "name": "Light",
+    "description": "Creates a magical light.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_LEGS" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "magic_light",
+    "shape": "blast",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
     "energy_source": "MANA",
     "difficulty": 2,
     "max_level": 20,
@@ -81,14 +141,10 @@
     "shape": "blast",
     "difficulty": 5,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
+      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
+      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "energy_source": "MANA",
     "base_energy_cost": 600,
@@ -101,7 +157,7 @@
     "type": "SPELL",
     "name": "Weave Gossamer",
     "description": "Under the light of the moon, you can weave cotton into gossamer.",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "components": "spell_components_paraclesian_spell_make_gossamer",
     "skill": "deduction",
@@ -133,7 +189,7 @@
     "effect": "spawn_item",
     "effect_str": "gossamer_patchwork",
     "shape": "blast",
-    "min_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] },
-    "max_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] }
+    "min_damage": { "math": [ "(u_spell_level('paraclesian_spell_make_gossamer') )" ] },
+    "max_damage": { "math": [ "(u_spell_level('paraclesian_spell_make_gossamer') )" ] }
   }
 ]

@@ -40,7 +40,6 @@
   {
     "type": "terrain",
     "id": "t_gutter",
-    "alias": [ "t_gutter_north", "t_gutter_south", "t_gutter_east", "t_gutter_west" ],
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
     "symbol": "LINE_OXOX",
@@ -66,7 +65,7 @@
     "name": "gutter drop",
     "description": "A spot in the gutter where the water flows into a downspout.  It looks flimsy.  You may be able to climb down here.",
     "symbol": "o",
-    "looks_like": "t_gutter_north",
+    "looks_like": "t_gutter",
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
@@ -329,5 +328,45 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "light_green", "green", "yellow_yellow", "brown" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "CLIMBABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_evergreen",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "green" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_dead",
+    "name": "dead treetop",
+    "description": "The bare upper branches of a dead tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_giant_fern",
+    "name": "giant fern top",
+    "description": "The top of some unearthly gigantic fern.  There is enough room to perch up here, but only just.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
   }
 ]

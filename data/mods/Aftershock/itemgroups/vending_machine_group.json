@@ -18,6 +18,7 @@
       { "group": "drugs_soldier", "prob": 40, "count-min": 5, "count-max": 25 },
       { "group": "drugs_soldier", "prob": 40, "count-min": 5, "count-max": 25 },
       { "item": "afs_synth_blood", "prob": 40, "count-min": 1, "count-max": 5 },
+      { "group": "afs_ifak", "prob": 40, "count-min": 1, "count-max": 2 },
       { "group": "harddrugs", "prob": 10, "count-min": 5, "count-max": 25 }
     ]
   },

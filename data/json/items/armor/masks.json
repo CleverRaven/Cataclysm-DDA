@@ -516,7 +516,49 @@
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "FRAGILE" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "zombie_mask",
+        "name": { "str": "zombie mask" },
+        "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
+        "weight": 100
+      },
+      {
+        "id": "chicken_mask",
+        "name": { "str": "chicken mask" },
+        "color": "light_gray",
+        "description": "A chicken mask that looks like a killer in Miami would wear.",
+        "weight": 30
+      },
+      {
+        "id": "green_mask",
+        "name": { "str": "green mask" },
+        "color": "green",
+        "description": "A green skinned full-face mask, much like the one from The Mask.",
+        "weight": 24
+      },
+      {
+        "id": "scream_mask",
+        "name": { "str": "Scream mask" },
+        "color": "dark_gray",
+        "description": "A white mask with a screaming face on it, much like the mask Ghostface worn in Scream, black hood included.",
+        "weight": 41
+      },
+      {
+        "id": "michael_myers_mask",
+        "name": { "str": "Michael Myers' mask" },
+        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween",
+        "weight": 17
+      },
+      {
+        "id": "frankenstein_mask",
+        "name": { "str": "Frankenstein's Monster mask" },
+        "description": "A full-head mask that looks like the head of Frankenstein's monster.",
+        "weight": 20
+      }
+    ]
   },
   {
     "id": "mask_plague",

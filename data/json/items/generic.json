@@ -691,7 +691,7 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": [ "stone" ],
-    "weight": "907 g",
+    "weight": "700 g",
     "volume": "250 ml",
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -846,11 +846,12 @@
         "holster": true,
         "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
         "max_contains_weight": "500 g",
-        "max_contains_volume": "500 ml",
-        "item_restriction": [ "candle", "candle_lit" ]
+        "max_contains_volume": "550 ml",
+        "item_restriction": [ "candle", "candle_lit" ],
+        "transparent": true
       }
     ],
-    "//2": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
+    "//2": "Based on the medium variation from https://www.amazon.com/dp/B09TNCS7HL"
   },
   {
     "type": "GENERIC",
@@ -883,7 +884,9 @@
     "volume": "750 ml",
     "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 6, "cut": 8 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
@@ -1136,8 +1139,9 @@
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": [ "wood" ],
-    "weight": "751 g",
-    "volume": "750 ml",
+    "weight": "510 g",
+    "volume": "1042 ml",
+    "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 8 }
   },
@@ -1387,7 +1391,7 @@
     "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "weight": "5 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -1643,7 +1647,7 @@
   {
     "type": "AMMO",
     "id": "paper",
-    "name": { "str": "paper" },
+    "name": { "str_sp": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -1705,7 +1709,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5400 g",
+    "weight": "1500 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1722,25 +1726,8 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4480 g",
+    "weight": "2000 g",
     "volume": "750 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_mininuke_hack",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "broken mininuke hack" },
-    "category": "other",
-    "description": "A broken mininuke hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
-    "price": 18000,
-    "price_postapoc": 10,
-    "material": [ "aluminum", "plastic" ],
-    "weight": "25000 g",
-    "volume": "18750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
@@ -1756,7 +1743,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5360 g",
+    "weight": "2600 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1773,7 +1760,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4700 g",
+    "weight": "2000 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1790,7 +1777,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4536 g",
+    "weight": "1750 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1807,7 +1794,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5870 g",
+    "weight": "3100 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1855,9 +1842,9 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "30 g",
+    "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "20 ml",
+    "volume": "18 ml",
     "to_hit": -1
   },
   {
@@ -1979,7 +1966,7 @@
     "price": 6000,
     "price_postapoc": 50,
     "material": [ "glass" ],
-    "weight": "15 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -2133,7 +2120,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "weight": "21000 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }
@@ -2151,15 +2138,8 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
+    "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2543,23 +2523,10 @@
   },
   {
     "type": "GENERIC",
-    "id": "dog_tag",
-    "name": { "str_sp": "dog tag" },
-    "description": "An oval disk attached to a chain, worn by military personnel for identification.",
-    "weight": "5 g",
-    "color": "light_gray",
-    "symbol": "[",
-    "material": [ "steel" ],
-    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
-    "volume": "1 ml",
-    "price": 0,
-    "price_postapoc": 0
-  },
-  {
-    "type": "GENERIC",
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
-    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.",
+    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.  It says \"<dog_name>\".",
+    "expand_snippets": true,
     "weight": "1 g",
     "color": "green",
     "symbol": "[",
@@ -2670,7 +2637,7 @@
     "material": [ "soil" ],
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
-    "volume": "750 ml",
+    "volume": "2250 ml",
     "to_hit": -2,
     "price": 2000,
     "price_postapoc": 10,
@@ -2989,20 +2956,17 @@
       {
         "id": "bodypillow_generic",
         "name": { "str": "anime body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back."
       },
       {
         "id": "bodypillow_azurlane",
         "name": { "str": "ship body pillow" },
-        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty."
       },
       {
         "id": "bodypillow_gfl",
         "name": { "str": "gun body pillow" },
-        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive."
       },
       {
         "id": "bodypillow_boston",
@@ -3013,62 +2977,52 @@
       {
         "id": "bodypillow_boston_lewd",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her."
       },
       {
         "id": "bodypillow_survivor",
         "name": { "str": "survivor body pillow" },
-        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar.",
-        "weight": 1
+        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar."
       },
       {
         "id": "bodypillow_furry",
         "name": { "str": "fox body pillow" },
-        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back."
       },
       {
         "id": "bodypillow_vocaloid",
         "name": { "str": "vocaloid body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back."
       },
       {
         "id": "bodypillow_goth",
         "name": { "str": "goth body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram."
       },
       {
         "id": "bodypillow_yandere",
         "name": { "str": "yandere body pillow" },
-        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back."
       },
       {
         "id": "bodypillow_tomboy",
         "name": { "str": "tomboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides."
       },
       {
         "id": "bodypillow_femboy",
         "name": { "str": "femboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides."
       },
       {
         "id": "bodypillow_tsundere",
         "name": { "str": "tsundere body pillow" },
-        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!"
       },
       {
         "id": "bodypillow_vtuber",
         "name": { "str": "VTuber body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back."
       },
       {
         "id": "bodypillow_makeshift",
@@ -3881,7 +3835,6 @@
     "material": [ "leather" ],
     "volume": "285 ml",
     "weight": "80 g",
-    "extend": { "flags": [ "FANCY" ] },
     "pocket_data": [
       {
         "//": "Folded Sleeve",
@@ -3919,8 +3872,7 @@
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
-    "material": [ "leather" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "material": [ "leather" ]
   },
   {
     "id": "wallet_travel",
@@ -3993,7 +3945,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4 kg",
+    "weight": "1600 g",
     "volume": "600 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],

@@ -1,0 +1,102 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_defense_mode",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "deactivate_condition": { "math": [ "wave_number", ">=", "1" ] },
+    "effect": [
+      { "math": [ "diffulty_modifier", "=", "1" ] },
+      { "math": [ "wave_money_modifier", "=", "-1000" ] },
+      { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
+      {
+        "u_location_variable": { "global_val": "your_spawnpoint" },
+        "target_max_radius": 2,
+        "min_radius": 0,
+        "max_radius": 0
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "defense_mode_game_start_final_setup",
+    "//": "This is what really starts the game for the player.",
+    "effect": [
+      { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
+      { "run_eocs": "DEFENSE_MODE_WAVE_CONTROL" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "defense_mode_caravan_spawn",
+    "recurrence": [ "2 days", "4 days" ],
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
+    "effect": [
+      { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
+      { "u_message": "A caravan approaches!", "type": "good", "popup": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "defense_mode_hire_merc_true",
+    "global": true,
+    "effect": [ { "u_spawn_npc": "follower_mercenary", "real_count": 1, "min_radius": 2, "max_radius": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "defense_mode_money_add_npc",
+    "global": false,
+    "condition": { "not": { "npc_has_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" } },
+    "effect": [
+      { "u_spend_cash": { "math": [ "wave_number * wave_money_modifier" ] } },
+      { "npc_add_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_FORTRESS_TRAP",
+    "//": "Keeps you from running away from your hideout.",
+    "global": true,
+    "recurrence": 100,
+    "condition": {
+      "or": [
+        { "u_near_om_location": "field", "range": 0 },
+        { "u_near_om_location": "forest", "range": 0 },
+        { "u_near_om_location": "forest_thick", "range": 0 },
+        { "u_near_om_location": "lake_shore", "range": 0 },
+        { "u_near_om_location": "lake_surface", "range": 0 }
+      ]
+    },
+    "effect": [
+      { "u_message": "You can't leave your fortress behind!", "type": "bad", "popup": false },
+      { "u_teleport": { "global_val": "your_spawnpoint" } }
+    ]
+  },
+  {
+    "id": "EOC_DEFENSE_MODE_PREVENT_DEATH",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "math": [ "revivication_counter", ">=", "1" ] },
+    "effect": [
+      { "u_lose_effect": "hypovolemia" },
+      { "u_lose_effect": "redcells_anemia" },
+      { "u_lose_effect": "grabbed" },
+      { "u_lose_effect": "staggered" },
+      { "u_lose_effect": "bite" },
+      { "u_lose_effect": "bleed" },
+      { "math": [ "u_val('stored_kcal')", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_val('pkill')", "=", "u_val('pkill')" ] },
+      { "math": [ "u_val('stim')", "=", "u_val('stim')" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_val('fatigue')", "=", "0" ] },
+      { "math": [ "u_val('stamina')", "=", "8500" ] },
+      { "math": [ "revivication_counter", "--" ] },
+      { "u_cast_spell": { "id": "remove_opponents" } },
+      {
+        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
+        "popup": true
+      },
+      { "u_set_hp": 100, "only_increase": true, "main_only": true }
+    ]
+  }
+]

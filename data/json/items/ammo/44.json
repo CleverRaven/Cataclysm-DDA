@@ -1,17 +1,10 @@
 [
   {
     "id": "44fmj",
-    "copy-from": "44magnum",
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum FMJ" },
-    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
-  },
-  {
-    "id": "44magnum",
-    "type": "AMMO",
-    "name": { "str": ".44 Magnum" },
-    "description": ".44 Magnum ammunition with a 240gr JHP bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "description": "Jacketed .44 Magnum ammunition with a 240gr bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "ascii_picture": "44fmj",
     "weight": "25 g",
     "volume": "87 ml",
     "longest_side": "41 mm",
@@ -26,10 +19,52 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
+    "//": ".429in, 240gr, Speer HP GD 4455, 15.1gr ADI AP 90",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 40,
+      "armor_penetration": 12,
+      "barrels": [
+        { "barrel_length": "27 mm", "amount": 23 },
+        { "barrel_length": "30 mm", "amount": 24 },
+        { "barrel_length": "33 mm", "amount": 25 },
+        { "barrel_length": "36 mm", "amount": 26 },
+        { "barrel_length": "41 mm", "amount": 27 },
+        { "barrel_length": "45 mm", "amount": 28 },
+        { "barrel_length": "50 mm", "amount": 29 },
+        { "barrel_length": "53 mm", "amount": 30 },
+        { "barrel_length": "61 mm", "amount": 31 },
+        { "barrel_length": "70 mm", "amount": 32 },
+        { "barrel_length": "79 mm", "amount": 33 },
+        { "barrel_length": "87 mm", "amount": 34 },
+        { "barrel_length": "96 mm", "amount": 35 },
+        { "barrel_length": "113 mm", "amount": 36 },
+        { "barrel_length": "131 mm", "amount": 37 },
+        { "barrel_length": "157 mm", "amount": 38 },
+        { "barrel_length": "183 mm", "amount": 39 },
+        { "barrel_length": "217 mm", "amount": 40 },
+        { "barrel_length": "261 mm", "amount": 41 },
+        { "barrel_length": "313 mm", "amount": 42 },
+        { "barrel_length": "382 mm", "amount": 43 },
+        { "barrel_length": "452 mm", "amount": 44 },
+        { "barrel_length": "576 mm", "amount": 45 },
+        { "barrel_length": "726 mm", "amount": 46 },
+        { "barrel_length": "950 mm", "amount": 47 },
+        { "barrel_length": "1246 mm", "amount": 48 }
+      ]
+    },
     "dispersion": 30,
     "recoil": 1570,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "44magnum",
+    "copy-from": "44fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".44 Magnum JHP" },
+    "description": "Jacketed .44 Magnum ammunition with a 240gr hollowpoint bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "ascii_picture": "44magnum",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
   },
   {
     "id": "reloaded_44fmj",

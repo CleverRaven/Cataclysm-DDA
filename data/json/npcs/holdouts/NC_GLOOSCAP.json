@@ -34,7 +34,7 @@
         "topic": "TALK_GLOOSCAP_WHERE"
       },
       {
-        "text": "[INT 11]  Like the Abenaki myth?",
+        "text": "[INT 11]  Like the Wabanaki myth?",
         "topic": "TALK_GLOOSCAP_MYTH",
         "condition": {
           "and": [
@@ -224,7 +224,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_JOKING",
-    "dynamic_line": "Haha, right.  What would Glooscap be doing in the sunrise lands at the beginning of the fourth age?  That's silly.  I'm probably some Abenaki that got hit on the head or something.  And who turns into a beaver?  Haha.  You got me.  Just a normal human made out of trees like the rest.",
+    "dynamic_line": "Haha, right.  What would Glooscap be doing in the sunrise lands at the beginning of the fourth age?  That's silly.  I'm probably some Wabanaki that got hit on the head or something.  And who turns into a beaver?  Haha.  You got me.  Just a normal human made out of trees like the rest.",
     "responses": [
       {
         "text": "No problem, a lot of people are going through some hard times right now.  Honestly, you're doing better than most.  You should follow me, I have a pretty good handle on reality.",
@@ -279,7 +279,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SUGGEST_FOLLOW_GLOOSCAP",
-    "dynamic_line": "Maybe some day.  If you can survive a long enough I may decide to come and stay with you.",
+    "dynamic_line": "Maybe some day.  If you can survive for long enough I may decide to come and stay with you.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GLOOSCAP" },
       { "text": "I need to move on.", "topic": "TALK_DONE" }

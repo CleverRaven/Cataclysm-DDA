@@ -256,6 +256,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
     // TODO: use string_id<bionic_type> or so
     optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
+    optional( jo, was_loaded, "recipes", _starting_recipes );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
@@ -551,6 +552,11 @@ std::vector<bionic_id> profession::CBMs() const
 std::vector<proficiency_id> profession::proficiencies() const
 {
     return _starting_proficiencies;
+}
+
+std::vector<recipe_id> profession::recipes() const
+{
+    return _starting_recipes;
 }
 
 std::vector<matype_id> profession::ma_known() const

@@ -234,7 +234,18 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "HAS_MIND",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS",
+      "FILTHY"
+    ],
     "armor": { "electric": 1 }
   }
 ]

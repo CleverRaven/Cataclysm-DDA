@@ -229,6 +229,44 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_mole_cricket",
+    "type": "MONSTER",
+    "copy-from": "mon_mole_cricket",
+    "name": { "str": "giant mole cricket" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_mole_cricket_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_mole_cricket_nymph",
+    "name": { "str": "mole cricket nymph" },
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_lady_bug_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_lady_bug_giant",
+    "name": { "str": "giant lady bug" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_lady_bug_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_lady_bug_larva",
+    "name": { "str": "ladybug larva", "str_pl": "ladybug larvae" },
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_grasshopper_nymph",
     "type": "MONSTER",
     "copy-from": "mon_grasshopper_nymph",

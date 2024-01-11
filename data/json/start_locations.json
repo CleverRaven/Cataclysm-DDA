@@ -135,7 +135,6 @@
       "house_07",
       "house_08",
       "house_09",
-      "house_09b",
       "house_10",
       "house_11",
       "house_12",
@@ -349,6 +348,13 @@
     "id": "sloc_cabin",
     "name": "Cabin",
     "terrain": [ "cabin" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_liam_cabin",
+    "name": "Liam's Cabin",
+    "terrain": [ "cabin_liam_driveway" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -806,5 +812,12 @@
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

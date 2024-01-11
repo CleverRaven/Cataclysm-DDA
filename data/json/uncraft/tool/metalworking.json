@@ -14,5 +14,37 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "anvil",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "50 m",
+    "tools": [ [ [ "angle_grinder", 45 ] ] ],
+    "components": [ [ [ "steel_lump", 26 ] ] ]
+  },
+  {
+    "result": "anvil_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "50 m",
+    "tools": [ [ [ "angle_grinder", 45 ] ] ],
+    "components": [ [ [ "scrap_bronze", 86 ] ] ]
+  },
+  {
+    "result": "anvil_heavy",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "6 h",
+    "tools": [ [ [ "angle_grinder", 300 ] ] ],
+    "components": [ [ [ "steel_lump", 225 ] ] ]
+  },
+  {
+    "result": "anvil_crude",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "50 m",
+    "tools": [ [ [ "angle_grinder", 45 ] ] ],
+    "components": [ [ [ "steel_lump", 27 ] ] ]
   }
 ]

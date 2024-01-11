@@ -44,6 +44,30 @@
   },
   {
     "type": "material",
+    "id": "fiberglass",
+    "name": "Fiberglass Laminate",
+    "//": "Fiberglass laminates, consisting of sheets of fiberglass and epoxy resin.  Includes FR-4, G-10, G-11 laminates.",
+    "density": 1.8,
+    "copy-from": "generic_polymer_resin",
+    "chip_resist": 9,
+    "burn_data": [
+      { "fuel": 0.1, "smoke": 5, "burn": 0.001 },
+      { "fuel": 0.2, "smoke": 8, "burn": 0.006 },
+      { "fuel": 0.6, "smoke": 15, "burn": 0.02 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "carbonfiber",
+    "name": "Carbon Fiber Composite",
+    "//": "CF composites, consisting of sheets of woven CF and epoxy resin.",
+    "density": 1.55,
+    "copy-from": "fiberglass",
+    "conductive": true,
+    "chip_resist": 10
+  },
+  {
+    "type": "material",
     "id": "pseudo_fuel",
     "name": "Pseudo Fuel",
     "density": 1,
@@ -736,6 +760,14 @@
   },
   {
     "type": "material",
+    "id": "drug_filler",
+    "name": "Drug filler",
+    "copy-from": "flesh",
+    "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
+  },
+  {
+    "type": "material",
     "id": "gutskin",
     "name": "Gutskin",
     "density": 1.1,
@@ -974,6 +1006,27 @@
       { "fuel": 0, "smoke": 5, "burn": 0.005 }
     ],
     "resist": { "bash": 0, "cut": 0, "acid": 1, "heat": 1, "bullet": 0 }
+  },
+  {
+    "type": "material",
+    "id": "sugar",
+    "name": "Sugar",
+    "//": "Any carbohydrates, ideally, but since not a lot of them exist now, name is a `sugar`",
+    "density": 1.59,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 124,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 150, "smoke": 6, "burn": 1 },
+      { "fuel": 300, "smoke": 6, "burn": 2 },
+      { "fuel": 450, "smoke": 6, "burn": 3 }
+    ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
   {
     "type": "material",
@@ -1281,6 +1334,31 @@
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 1, "cut": 3, "acid": 4, "heat": 2, "bullet": 2 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "leather_treated",
+    "name": "Treated Leather",
+    "//": "Regular leather made waterproof with wax, oil, chrome tanning, etc",
+    "density": 1.1,
+    "specific_heat_liquid": 1.5,
+    "specific_heat_solid": 1.5,
+    "latent_heat": 273,
+    "soft": true,
+    "chip_resist": 10,
+    "repaired_with": "leather",
+    "salvaged_into": "leather",
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced",
+    "burn_data": [
+      { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
+      { "fuel": 0.1, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
+      { "fuel": 0.2, "smoke": 10, "burn": 0.004, "volume_per_turn": "1 L" }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 2, "bullet": 2 },
     "repair_difficulty": 3
   },
   {
@@ -1593,6 +1671,20 @@
   },
   {
     "type": "material",
+    "id": "rdx",
+    "copy-from": "plastic",
+    "name": "RDX",
+    "density": 1.806
+  },
+  {
+    "type": "material",
+    "id": "tnt",
+    "copy-from": "plastic",
+    "name": "TNT",
+    "density": 1.654
+  },
+  {
+    "type": "material",
     "id": "powder",
     "name": "Powder",
     "density": 1,
@@ -1697,7 +1789,7 @@
     "type": "material",
     "id": "rubber",
     "name": "Rubber",
-    "//1": "this is sythetic rubber, which is much different than natural, but called rubber for ease of use",
+    "//1": "this is synthetic rubber, which is much different than natural, but called rubber for ease of use",
     "density": 1.6,
     "soft": false,
     "specific_heat_liquid": 0.4,
@@ -1716,6 +1808,31 @@
       { "fuel": 1, "smoke": 4, "burn": 0.3 }
     ],
     "resist": { "bash": 5, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "vinyl",
+    "name": "Vinyl",
+    "//1": "Can be several synthetic polymers such as silicone or pvc, in a soft and very flexible form suitable for making a raincoat or a hazmat suit",
+    "density": 1.4,
+    "soft": true,
+    "specific_heat_liquid": 0.4,
+    "specific_heat_solid": 0.13,
+    "latent_heat": 165,
+    "chip_resist": 5,
+    "repaired_with": "plastic_sheet",
+    "salvaged_into": "plastic_sheet",
+    "dmg_adj": [ "worn", "stressed", "shredded", "ruined" ],
+    "bash_dmg_verb": "stressed",
+    "cut_dmg_verb": "slashed",
+    "//2": "based on synthetic fabric and wood, trying to get long burning with much smoke but little fuel",
+    "burn_data": [
+      { "fuel": 1, "smoke": 3, "burn": 0.1, "volume_per_turn": "100 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 0.2 },
+      { "fuel": 1, "smoke": 4, "burn": 0.3 }
+    ],
+    "resist": { "bash": 3, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
   },
   {
@@ -2051,6 +2168,27 @@
   },
   {
     "type": "material",
+    "id": "rhodonite",
+    "name": "Rhodonite",
+    "copy-from": "stone",
+    "density": 3.7
+  },
+  {
+    "type": "material",
+    "id": "zincite",
+    "name": "Zincite",
+    "copy-from": "stone",
+    "density": 5.68
+  },
+  {
+    "type": "material",
+    "id": "slaked_lime",
+    "name": "Slaked Lime",
+    "copy-from": "stone",
+    "density": 2.34
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2077,6 +2215,13 @@
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
+    "id": "anomaly",
+    "name": "Anomalous Material",
+    "copy-from": "monolith",
+    "density": 10000
   },
   {
     "type": "material",
@@ -2383,6 +2528,7 @@
     "id": "blood",
     "name": "Blood",
     "copy-from": "water",
+    "density": 1.06,
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ]
   },
   {
@@ -2390,6 +2536,49 @@
     "id": "hblood",
     "name": "Human Blood",
     "copy-from": "blood"
+  },
+  {
+    "type": "material",
+    "id": "acetone",
+    "name": "Acetone",
+    "density": 0.784,
+    "specific_heat_liquid": 2.14,
+    "specific_heat_solid": 2.14,
+    "latent_heat": 50,
+    "edible": false,
+    "conductive": false,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 300, "smoke": 6, "burn": 1 },
+      { "fuel": 600, "smoke": 6, "burn": 2 },
+      { "fuel": 900, "smoke": 6, "burn": 3 }
+    ],
+    "fuel_data": {
+      "energy": "35800 kJ",
+      "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    },
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
+  },
+  {
+    "type": "material",
+    "id": "acid",
+    "name": "acid",
+    "//": "fallback for all acids; stats are delivered from sulfuric acid",
+    "density": 1.83,
+    "specific_heat_liquid": 1.38,
+    "specific_heat_solid": 1.38,
+    "latent_heat": 451,
+    "edible": false,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
   },
   {
     "type": "material",
@@ -2669,6 +2858,13 @@
   },
   {
     "type": "material",
+    "id": "sand",
+    "name": "Sand",
+    "copy-from": "soil",
+    "density": 1.52
+  },
+  {
+    "type": "material",
     "id": "zinc",
     "name": "Zinc",
     "density": 7.2,
@@ -2890,5 +3086,38 @@
     "soft": true,
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 }
+  },
+  {
+    "type": "material",
+    "id": "mi-go_flesh",
+    "name": "Mi-go Flesh",
+    "copy-from": "flesh",
+    "edible": false
+  },
+  {
+    "type": "material",
+    "id": "mi-go_blood",
+    "name": "Mi-go Ichor",
+    "copy-from": "water",
+    "edible": false
+  },
+  {
+    "type": "material",
+    "id": "mi-go_bone",
+    "name": "Mi-go Bone",
+    "density": 2.0,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 200,
+    "edible": false,
+    "rotting": true,
+    "chip_resist": 12,
+    "wind_resist": 90,
+    "repaired_with": "bone_mi-go",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 2, "bullet": 2 },
+    "repair_difficulty": 7
   }
 ]

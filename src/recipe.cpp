@@ -75,7 +75,7 @@ time_duration recipe::batch_duration( const Character &guy, int batch, float mul
 
 static bool helpers_have_proficiencies( const Character &guy, const proficiency_id &prof )
 {
-    for( Character *helper : guy.get_crafting_helpers() ) {
+    for( Character *helper : guy.get_crafting_group() ) {
         if( helper->has_proficiency( prof ) ) {
             return true;
         }
@@ -272,10 +272,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    // TODO: Make this mandatory, no default or 'fake' exception
-    optional( jo, was_loaded, "activity_level", exertion_str, "MODERATE_EXERCISE" );
-    // For making scripting that needs to be broken up over multiple PRs easier
+    mandatory( jo, was_loaded, "activity_level", exertion_str );
+    // Remove after 0.H
     if( exertion_str == "fake" ) {
+        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
+                  ident_.c_str(), src );
         exertion_str = "MODERATE_EXERCISE";
     }
     const auto it = activity_levels_map.find( exertion_str );
@@ -1023,7 +1024,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
 static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
-    for( const Character *helper : crafter.get_crafting_helpers() ) {
+    for( const Character *helper : crafter.get_crafting_group() ) {
         max_prof = std::max( max_prof, helper->get_proficiency_practice( prof ) );
     }
     return max_prof;
@@ -1031,8 +1032,10 @@ static float get_aided_proficiency_level( const Character &crafter, const profic
 
 static float proficiency_time_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id ) &&
-        !helpers_have_proficiencies( crafter, prof.id ) && prof.time_multiplier > 1.0f ) {
+    if( !crafter.has_proficiency( prof.id )
+        && !helpers_have_proficiencies( crafter, prof.id )
+        && prof.time_multiplier > 1.0f
+      ) {
         double malus = prof.time_multiplier - 1.0;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
@@ -1064,8 +1067,10 @@ float recipe::max_proficiency_time_maluses( const Character & ) const
 
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id ) &&
-        !helpers_have_proficiencies( crafter, prof.id ) && prof.skill_penalty > 0.f ) {
+    if( !crafter.has_proficiency( prof.id )
+        && !helpers_have_proficiencies( crafter, prof.id )
+        && prof.skill_penalty > 0.f
+      ) {
         double malus =  prof.skill_penalty;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
@@ -1133,7 +1138,7 @@ float recipe::exertion_level() const
 }
 
 // Format a vector of std::pair<skill_id, int> for the crafting menu.
-// skill colored green (or yellow if beyond characters skill)
+// skill colored green, yellow or red according to character skill
 // with the skill level (player / difficulty)
 static std::string required_skills_as_string( const std::vector<std::pair<skill_id, int>> &skills,
         const Character &c )
@@ -1144,7 +1149,14 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
     return enumerate_as_string( skills,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c.get_skill_level( skill.first );
-        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string difficulty_color;
+        if( skill.second <= player_skill ) {
+            difficulty_color = "green";
+        } else if( static_cast<int>( skill.second * 0.8 ) <= player_skill ) {
+            difficulty_color = "yellow";
+        } else {
+            difficulty_color = "red";
+        }
         return string_format( "<color_cyan>%s</color> <color_%s>(%d/%d)</color>", skill.first->name(),
                               difficulty_color, player_skill, skill.second );
     } );
@@ -1300,19 +1312,17 @@ std::function<bool( const item & )> recipe::get_component_filter(
 bool recipe::npc_can_craft( std::string &reason ) const
 {
     if( is_practice() ) {
-        reason = _( "Ordering practice to NPC is not implemented yet." );
+        reason = _( "Ordering NPC to practice is not implemented yet." );
         return false;
     }
     if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering no solid item to NPC is not implemented yet." );
+        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
         return false;
     }
-    if( !get_byproducts().empty() ) {
-        for( const std::pair<const itype_id, int> &bp : get_byproducts() ) {
-            if( bp.first->phase != phase_id::SOLID ) {
-                reason = _( "Ordering no solid item to NPC is not implemented yet." );
-                return false;
-            }
+    for( const auto& [bp, _] : get_byproducts() ) {
+        if( bp->phase != phase_id::SOLID ) {
+            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+            return false;
         }
     }
     return true;

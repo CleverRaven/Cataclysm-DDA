@@ -46,7 +46,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": { "str": "chewy candy", "str_pl": "chewy candies" },
+    "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -58,7 +58,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3gator",
-    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "name": { "str_sp": "chewy reptilian candy" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -82,7 +82,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers_roe",
-    "name": "graham cracker roe",
+    "name": { "str_sp": "graham cracker roe" },
     "symbol": "%",
     "container": "null",
     "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
@@ -142,7 +142,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cow_candy",
-    "name": "candy cattle",
+    "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
     "symbol": "*",
     "copy-from": "cow_candy",
@@ -211,7 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "licorice",
-    "name": "licorice",
+    "name": { "str_sp": "licorice" },
     "symbol": "%",
     "copy-from": "licorice",
     "rot_spawn": "GROUP_EGG_LICORICE",

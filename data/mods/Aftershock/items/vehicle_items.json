@@ -12,7 +12,7 @@
     "symbol": "]",
     "color": "light_gray",
     "looks_like": "cargo_rack",
-    "properties": [ [ "creature_size_capacity", "LARGE" ] ],
+    "properties": { "creature_size_capacity": "LARGE" },
     "use_action": "CAPTURE_MONSTER_VEH",
     "flags": [ "TRADER_AVOID" ]
   },

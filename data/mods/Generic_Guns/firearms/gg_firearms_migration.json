@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "launcher_simple", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -25,12 +25,12 @@
     "replace": "grenade_hmg"
   },
   {
-    "id": [ "m320" ],
+    "id": [ "m320", "brogyeki" ],
     "type": "MIGRATION",
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "rm802", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -56,7 +56,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460", "draco" ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -103,6 +103,7 @@
       "walther_p38",
       "walther_ccp",
       "makarov",
+      "STI_DS_10",
       "af2011a1_38super",
       "m1911a1_38super",
       "glock_22",
@@ -125,6 +126,7 @@
       "px4_40",
       "glock_29",
       "glock_20",
+      "glock_40",
       "glock_21",
       "m1911_10",
       "witness_10",
@@ -213,7 +215,6 @@
       "nato_assault_rifle",
       "modular_m4_carbine",
       "m4_carbine",
-      "m4_cqbr",
       "modular_m27_assault_rifle",
       "m27_assault_rifle",
       "modular_m16_auto_rifle",
@@ -238,7 +239,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": [ "m2browning_sawn", "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -278,6 +279,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "steyr_scout",
       "M24",
       "sharps"
     ],
@@ -293,6 +295,9 @@
       "m14ebr",
       "smle_mk3",
       "number4_mki",
+      "type99",
+      "type99ld",
+      "type99_sniper",
       "ar10",
       "1895sbl",
       "ak74",
@@ -334,7 +339,7 @@
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
-      "fn_fal",
+      "fn_fal_semi",
       "m1a",
       "sks",
       "mosin44",

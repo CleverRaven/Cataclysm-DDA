@@ -77,9 +77,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "6" ] },
-            { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "8" ] },
-            { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "5" ] }
+            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "6" ] },
+            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "8" ] },
+            { "math": [ "u_spell_level('clair_voyance')", ">=", "5" ] }
           ]
         },
         "effect": [
@@ -148,9 +148,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_val('spell_level', 'spell: vita_pain_split')", ">=", "8" ] },
-            { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')", ">=", "6" ] },
-            { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "2" ] }
+            { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
+            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "6" ] },
+            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "2" ] }
           ]
         },
         "effect": [
@@ -170,6 +170,45 @@
           },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           { "u_forget_recipe": "psi_research_rad_powers" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "name": "research extended channeling",
+    "id": "psi_research_extended_channeling",
+    "description": "There has to be an easier way of evoking your powers than frantically concentrating and trying to get the energies out.  Maybe if you took more time, you wouldn't have to concentrate so hard?  It wouldn't help you when a zombie was trying to eat you but it would definitely be useful otherwise.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "6 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_EXTENDED_CHANNELING",
+        "condition": { "and": [ { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 } ] },
+        "effect": [
+          {
+            "u_message": "You've figured it out.  The concept of \"taking more time\" wasn't exactly hard to grasp, but maintain the images in your mind, keeping your focus on a single train of thought, that was harder.  Now you've got it down, though.  If you take meticulous care in channeling your powers, it will take much longer but you'll be more likely to succeed.",
+            "type": "good"
+          },
+          { "u_add_trait": "PSI_EXTENDED_CHANNELING" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's just something you're not grasping.  You need more practice before you can get it down.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
     ]

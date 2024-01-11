@@ -387,7 +387,7 @@ struct aim_mods_cache {
     int limit;
     double aim_factor_from_volume;
     double aim_factor_from_length;
-    std::optional<std::reference_wrapper<parallax_cache>> parallaxes;
+    parallax_cache parallaxes;
 };
 
 struct special_attack {
@@ -642,9 +642,6 @@ class Character : public Creature, public visitable
         using Creature::mod_speed_bonus;
         void mod_speed_bonus( int nspeed, const std::string &desc );
 
-        // Prints message(s) about current health
-        void print_health() const;
-
         /** Getters for health values exclusive to characters */
         int get_lifestyle() const;
         int get_daily_health() const;
@@ -704,6 +701,7 @@ class Character : public Creature, public visitable
     public:
 
         void gravity_check();
+        void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
@@ -767,8 +765,8 @@ class Character : public Creature, public visitable
         std::vector<aim_type> get_aim_types( const item &gun ) const;
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
-                                            Target_attributes target_attributes = Target_attributes(),
-                                            std::optional<std::reference_wrapper<parallax_cache>> parallax_cache = std::nullopt ) const;
+                                            const Target_attributes &target_attributes = Target_attributes(),
+                                            std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache = std::nullopt ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
         double aim_factor_from_length( const item &gun ) const;
@@ -790,7 +788,7 @@ class Character : public Creature, public visitable
         * Use a struct to avoid repeatedly calculate some modifiers that are actually persistent for aiming UI drawing.
         */
         double aim_per_move( const item &gun, double recoil,
-                             Target_attributes target_attributes = Target_attributes(),
+                             const Target_attributes &target_attributes = Target_attributes(),
                              std::optional<std::reference_wrapper<const aim_mods_cache>> aim_cache = std::nullopt ) const;
 
         int get_dodges_left() const;
@@ -816,6 +814,7 @@ class Character : public Creature, public visitable
         int get_spell_resist() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
+        bool check_avoid_friendly_fire() const override;
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
@@ -879,6 +878,8 @@ class Character : public Creature, public visitable
         bool is_electrical() const override;
         // true if the character is from the nether
         bool is_nether() const override;
+        // true if the character has a sapient mind
+        bool has_mind() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
@@ -1165,6 +1166,7 @@ class Character : public Creature, public visitable
         mutable std::optional<bool> cached_dead_state;
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
+        void mod_part_hp_cur( const bodypart_id &id, int set ) override;
 
         void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0, int per_max = 0, int int_max = 0, int healthy_mod = 0,
@@ -1174,7 +1176,9 @@ class Character : public Creature, public visitable
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns value of player's stable footing */
+        /** Returns value of player's footing on narrow or slippery terrain */
+        float balance_roll() const;
+        /** Returns value of player's footing on skates or similar */
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
@@ -1382,6 +1386,9 @@ class Character : public Creature, public visitable
         bool check_mount_is_spooked();
         void dismount();
         void forced_dismount();
+
+        /** Attempt to enter a tile in a vehicle */
+        bool move_in_vehicle( Creature *c, const tripoint &dest_loc ) const;
 
         bool is_deaf() const;
         bool is_mute() const;
@@ -1650,6 +1657,8 @@ class Character : public Creature, public visitable
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
+        // Container of OMTs to highlight as having been revealed
+        std::unordered_set<tripoint_abs_omt> map_revealed_omts;
         bool is_using_bionic_weapon() const;
         bionic_uid get_weapon_bionic_uid() const;
 
@@ -1758,7 +1767,7 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    pocket_type pk_type = pocket_type::CONTAINER,
                     bool check_best_pkt = false );
         void store( item_pocket *pocket, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY );
@@ -1849,7 +1858,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, item_pocket::pocket_type::SOFTWARE );
+                }, pocket_type::SOFTWARE );
             }
         };
 
@@ -2199,6 +2208,7 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::volume free_space() const;
+        units::mass free_weight_capacity() const;
         /**
          * Returns the total volume of all worn holsters.
         */
@@ -2484,6 +2494,9 @@ class Character : public Creature, public visitable
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
+        std::pair<bodypart_id, int> best_part_to_smash() const;
+        virtual int smash_ability() const;
+
         // checks if your character is immune to an effect or field based on field_immunity_data
         bool check_immunity_data( const field_immunity_data &ft ) const override;
         bool is_immune_field( const field_type_id &fid ) const override;
@@ -2523,6 +2536,8 @@ class Character : public Creature, public visitable
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
+        /** Checks to see if the character is able to use their wings properly */
+        bool can_fly();
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -2609,6 +2624,10 @@ class Character : public Creature, public visitable
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
+        /** Which body part has the most staunchable bleeding, and what is the max improvement */
+        bodypart_id most_staunchable_bp();
+        bodypart_id most_staunchable_bp( int &max );
+
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
@@ -2624,7 +2643,17 @@ class Character : public Creature, public visitable
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
+
+        // Means player is hauling items along the ground
         bool hauling = false;
+        // Means player is automatically including new items in the haul
+        bool autohaul = false;
+        // Skip autohaul on the stop the hauling selection is modified manually
+        bool suppress_autohaul = false;
+        std::string hauling_filter;
+        // Items currently being hauled
+        std::vector<item_location> haul_list;
+
         tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
@@ -2691,6 +2720,12 @@ class Character : public Creature, public visitable
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         queued_eocs queued_effect_on_conditions;
 
+        /** Queue an EOC to add effect after a delay */
+        void queue_effect( const std::string &name, const time_duration &delay,
+                           const time_duration &duration );
+        /** Count queued add_effect EOCs for specific effect */
+        int count_queued_effects( const std::string &effect ) const;
+
         /** Adds an addiction to the player */
         void add_addiction( const addiction_id &type, int strength );
         /** Removes an addition from the player */
@@ -2720,9 +2755,16 @@ class Character : public Creature, public visitable
         int activity_vehicle_part_index = -1;
 
         // Hauling items on the ground
-        void start_hauling();
+        void toggle_hauling();
+        void start_hauling( const std::vector<item_location> &items_to_haul );
         void stop_hauling();
         bool is_hauling() const;
+
+        void start_autohaul();
+        void stop_autohaul();
+        bool is_autohauling() const;
+        // Remove items from haul list which are not in valid_items. Returns true if anything was trimmed
+        bool trim_haul_list( const std::vector<item_location> &valid_items );
 
         /**
          * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
@@ -2963,13 +3005,25 @@ class Character : public Creature, public visitable
         void mod_rad( int mod );
 
         float get_heartrate_index() const;
+        void set_heartrate_effect_mod( int  mod );
+        void modify_heartrate_effect_mod( int mod );
+        int get_heartrate_effect_mod() const;
         void update_heartrate_index();
 
         float get_bloodvol_index() const;
         void update_bloodvol_index();
 
         float get_circulation_resistance() const;
-        void set_circulation_resistance( float ncirculation_resistance );
+        void set_bp_effect_mod( int mod );
+        void modify_bp_effect_mod( int mod );
+        int get_bp_effect_mod() const;
+        void update_circulation_resistance();
+
+        float get_respiration_rate() const;
+        void set_respiration_effect_mod( int mod );
+        int get_respiration_effect_mod() const;
+        void modify_respiration_effect_mod( int mod );
+        void update_respiration_rate();
 
         void update_circulation();
 
@@ -3133,7 +3187,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        std::unordered_set<tripoint> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -3172,19 +3226,20 @@ class Character : public Creature, public visitable
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.
          **/
-        static int floor_bedding_warmth( const tripoint &pos );
+        static units::temperature_delta floor_bedding_warmth( const tripoint &pos );
         /** Warmth from clothing on the floor **/
-        static int floor_item_warmth( const tripoint &pos );
+        static units::temperature_delta floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
-        int floor_warmth( const tripoint &pos ) const;
+        units::temperature_delta floor_warmth( const tripoint &pos ) const;
 
         /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
+        units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
+        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature, int heat_strength,
-                                               int chill_strength ) const;
+        units::temperature temp_corrected_by_climate_control( units::temperature temperature,
+                int heat_strength,
+                int chill_strength ) const;
 
         bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
@@ -3481,6 +3536,11 @@ class Character : public Creature, public visitable
         bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Return nearby Characters ready and willing to help with crafting. */
         std::vector<Character *> get_crafting_helpers() const;
+        /**
+         * Return group of ally characters sharing knowledge of crafting.
+         * Unlike get_crafting_helpers, includes the caller and sleeping Characters.
+         */
+        std::vector<Character *> get_crafting_group() const;
         int get_num_crafting_helpers( int max ) const;
         /**
          * Handle skill gain for player and followers during crafting.
@@ -3909,6 +3969,7 @@ class Character : public Creature, public visitable
         // i.e. a value of 1.1 means 110% of normal.
         float heart_rate_index = 1.0f;
         float blood_vol_index = 1.0f;
+        float respiration_rate = 1.0f;
 
         float circulation;
         // Should remain fixed at 1.0 for now.
@@ -3925,6 +3986,10 @@ class Character : public Creature, public visitable
 
         int stim;
         int pkill;
+
+        int bp_effect_mod = 0;
+        int heart_rate_effect_mod = 0;
+        int resp_rate_effect_mod = 0;
 
         int radiation;
 

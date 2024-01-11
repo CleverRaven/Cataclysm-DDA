@@ -40,6 +40,15 @@
     "disarms": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "description": "Unwield target's weapon, min 4 melee",
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -265,6 +274,15 @@
     "disarms": true,
     "messages": [ "You disarm %s using your whip!", "<npcname> disarms %s using their whip!" ],
     "description": "Unwield target's weapon",
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -283,7 +301,10 @@
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
+    "messages": [
+      "You were almost grabbed by %s, but you break its grab!",
+      "<npcname> was almost grabbed by %s, but they break its grab!"
+    ]
   },
   {
     "type": "technique",
@@ -401,6 +422,15 @@
     "required_buffs_all": [ "buff_aikido_onblock" ],
     "crit_ok": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
@@ -445,6 +475,15 @@
     "required_buffs_all": [ "buff_aikido_ondodge" ],
     "crit_ok": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
@@ -482,8 +521,8 @@
     "id": "tec_aikido_break",
     "name": "Grab Break",
     "messages": [
-      "The %s tries to grab you, but you smoothly break free!",
-      "The %s tries to grab <npcname>, but they smoothly break free!"
+      "You were almost grabbed by %s, but you smoothly break free!",
+      "<npcname> was almost grabbed by %s, but they smoothly break free!"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
@@ -496,7 +535,7 @@
     "type": "technique",
     "id": "tec_bojutsu_thrust",
     "name": "Front Thrust",
-    "messages": [ "You thrust at the %s!", "<npcname> thrusts at %s!" ],
+    "messages": [ "You thrust at %s!", "<npcname> thrusts at %s!" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
@@ -588,6 +627,15 @@
     "melee_allowed": true,
     "crit_ok": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -597,7 +645,7 @@
     "messages": [ "You thrust your weapon through %s!", "<npcname> thrusts their weapon through %s!" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "weapon_categories_allowed": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
+    "weapon_categories_allowed": [ "GREAT_SWORDS" ],
     "aoe": "impale",
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.1 },
@@ -615,6 +663,7 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "disarms": true,
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The hand of %s is forced open!" } ],
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.66 },
@@ -709,7 +758,10 @@
     "type": "technique",
     "id": "tec_brawl_break_melee",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you force yourself free!",
+      "<npcname> was almost grabbed by %s, but they break free!"
+    ],
     "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -719,7 +771,10 @@
     "type": "technique",
     "id": "tec_brawl_break_unarmed",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you force yourself free!",
+      "<npcname> was almost grabbed by %s, but they break free!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -753,6 +808,15 @@
     "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -763,6 +827,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -934,8 +1007,8 @@
     "id": "tec_crane_break",
     "name": "Crane Flap",
     "messages": [
-      "The %s tries to grab you, but you swing your arms and break free!",
-      "The %s tries to grab <npcname>, but they flap free!"
+      "You were almost grabbed by %s, but you swing your arms and break free!",
+      "<npcname> was almost grabbed by %s, but they flap free!"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
@@ -1278,6 +1351,7 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "forbidden_buffs_all": [ "buff_medievalpole_onmove" ],
+    "reach_ok": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.1 },
       { "stat": "damage", "type": "cut", "scale": 1.1 },
@@ -1300,7 +1374,7 @@
     "type": "technique",
     "id": "tec_medievalpole_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you push away!", "The %s tries to grab <npcname>, but they push away!" ],
+    "messages": [ "You were almost grabbed by %s, but you push away!", "<npcname> was almost grabbed by %s, but they push away!" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -1315,6 +1389,7 @@
     "melee_allowed": true,
     "required_buffs_all": "buff_medievalpole_onmiss",
     "crit_ok": true,
+    "reach_ok": true,
     "weighting": 2,
     "condition": {
       "and": [
@@ -1344,6 +1419,7 @@
     "condition": { "npc_has_effect": "downed" },
     "condition_desc": "* Only works on a <info>downed</info> target",
     "crit_tec": true,
+    "reach_ok": true,
     "weighting": 2,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.5 },
@@ -1385,6 +1461,15 @@
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "condition": {
       "and": [
         { "math": [ "u_val('size')", "<=", "n_val('size')" ] },
@@ -1430,8 +1515,8 @@
     "id": "tec_judo_break",
     "name": "Grab Break",
     "messages": [
-      "The %s tries to grab you, but you break their feeble grapple!",
-      "The %s tries to grab <npcname>, but they break its feeble grapple!"
+      "You were almost grabbed by %s, but you break their feeble grapple!",
+      "<npcname> was almost grabbed by %s, but they break its feeble grapple!"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
@@ -1677,7 +1762,7 @@
     "id": "tec_krav_maga_rapid",
     "messages": [ "You jab at %s!", "<npcname> jabs at %s!" ],
     "name": "Jab",
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "mult_bonuses": [
@@ -1690,13 +1775,35 @@
   },
   {
     "type": "technique",
-    "id": "tec_krav_maga_crit",
-    "name": "Cheap Shot",
-    "messages": [ "You hit %s where it hurts!", "<npcname> hits %s with a cheap shot!" ],
+    "id": "tec_krav_maga_disarm_simple",
+    "messages": [ "You quickly slap and disarm %s!", "<npcname> quickly slaps and disarms %s!" ],
+    "name": "Disarming Slap",
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
+    "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_crit",
+    "name": "Cheap Shot",
+    "messages": [ "You hit %s where it hurts!", "<npcname> hits %s with a cheap shot!" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
     "crit_tec": true,
+    "weighting": 2,
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
@@ -1735,6 +1842,7 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
+    "weighting": 2,
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
@@ -1754,13 +1862,13 @@
     "messages": [ "*CRACK!* You brutally maim %s's arm!", "*CRACK!* <npcname> brutally maims %s's arm!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
-    "weighting": 2,
+    "weighting": 3,
     "crit_tec": true,
     "condition": {
       "and": [
         { "npc_has_effect": "downed" },
         { "npc_has_effect": "stunned" },
-        { "npc_has_species": "HUMAN" },
+        { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] },
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
         { "npc_bodytype": "human" }
       ]
@@ -1770,9 +1878,9 @@
       {
         "id": "maimed_arm",
         "chance": 100,
-        "permanent": true,
+        "duration": 44000,
         "on_damage": true,
-        "message": "The %s's arm is mangled beyond recognition!"
+        "message": "The arm of %s is mangled beyond recognition!"
       }
     ],
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
@@ -1783,8 +1891,8 @@
     "type": "technique",
     "id": "tec_krav_maga_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "messages": [ "You were almost grabbed by %s, but you wrestle free!", "<npcname> was almost grabbed by %s, but they wrestle free!" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
     "defensive": true,
@@ -2066,7 +2174,10 @@
     "type": "technique",
     "id": "tec_muay_thai_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you break the clinch!", "The %s tries to grab <npcname>, but they break the clinch!" ],
+    "messages": [
+      "You were almost grabbed by %s, but you break the clinch!",
+      "<npcname> was almost grabbed by %s, but they break the clinch!"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -2108,32 +2219,7 @@
     "melee_allowed": true,
     "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
-    "stun_dur": 1,
-    "condition": {
-      "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "not": { "npc_has_effect": "stunned" } },
-        {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
-          ]
-        }
-      ]
-    },
-    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
+    "weighting": 3,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.3 },
       { "stat": "damage", "type": "cut", "scale": 1.3 },
@@ -2144,9 +2230,9 @@
   {
     "type": "technique",
     "id": "tec_ninjutsu_takedown",
-    "name": "Ninjutsu Takedown",
+    "name": "Ninjutsu Takedown (unarmed)",
     "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings %s to the ground!" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
@@ -2155,7 +2241,77 @@
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
-        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "down_dur": 2,
+    "weighting": 3,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "THROW" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_takedown_melee",
+    "name": "Ninjutsu Takedown (melee)",
+    "messages": [ "You quickly grab and bring %s to the ground!", "<npcname> quickly grabs and brings %s to the ground!" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
+    "weapon_categories_allowed": [ "KNIVES", "CLAWS" ],
+    "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "down_dur": 2,
+    "weighting": 3,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "THROW" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_staffdown",
+    "name": "Bite the Dust",
+    "messages": [ "You sweep %s to the ground!", "<npcname> sweeps %s to the ground!" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "required_buffs_all": [ "buff_ninjutsu_onattack" ],
+    "melee_allowed": true,
+    "weapon_categories_allowed": "QUARTERSTAVES",
+    "crit_ok": true,
+    "//condition": "Humanoids of similar size and no flying",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "down_dur": 2,
+    "weighting": 2,
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_downkill",
+    "name": "Dirty Kill",
+    "messages": [ "You strike and confine %s to the ground!", "<npcname> strikes and confines %s to the ground!" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "condition": {
+      "and": [
+        { "npc_has_effect": "downed" },
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -2177,11 +2333,13 @@
         }
       ]
     },
-    "condition_desc": "* Only works on a <info>non-downed and non-stunned mundane humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
-    "down_dur": 2,
+    "condition_desc": "* Only works on a <info>downed</info> and <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
+    "weighting": 2,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "THROW" ]
+    "disarms": true,
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The hand of %s is forced open!" } ],
+    "attack_vectors": [ "WEAPON" ],
+    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
@@ -2331,39 +2489,25 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
+    "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "not": { "npc_has_effect": "stunned" } },
-        {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
-          ]
-        }
+        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
       ]
     },
-    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
-    "stun_dur": 2,
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "down_dur": 2,
     "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
     "id": "tec_pankration_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
+    "messages": [ "You were almost grabbed by %s, but you wrestle free!", "<npcname> was almost grabbed by %s, but they wrestle free!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -2376,8 +2520,8 @@
     "messages": [ "You grab and knee %s!", "<npcname> grabs and knees %s!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
-    "condition": { "npc_has_effect": "stunned" },
-    "condition_desc": "* Only works on a <info>stunned</info> target",
+    "condition": { "npc_has_effect": "downed" },
+    "condition_desc": "* Only works on a <info>downed</info> target",
     "weighting": 3,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
     "attack_vectors": [ "KNEE" ]
@@ -2389,12 +2533,12 @@
     "messages": [ "You disarm %s with an arm lock!", "<npcname> disarms %s with an arm lock!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "condition": { "npc_has_effect": "stunned" },
-    "condition_desc": "* Only works on a <info>stunned</info> target",
+    "condition": { "npc_has_effect": "downed" },
+    "condition_desc": "* Only works on a <info>downed</info> target",
     "crit_ok": true,
     "weighting": 3,
     "disarms": true,
-    "stun_dur": 1,
+    "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The hand of %s is forced open!" } ],
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
     "attack_vectors": [ "GRAPPLE" ]
@@ -2411,34 +2555,33 @@
     "down_dur": 2,
     "knockback_dist": 2,
     "knockback_spread": 2,
+    "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "n_val('size')", "!=", "1" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
-        { "not": { "npc_has_effect": "stunned" } },
         {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
           ]
         }
       ]
     },
-    "condition_desc": "* Only works on a <info>non-downed and non-stunned mundane humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight, may fail on targets <info>grabbing you</info>",
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
     "attack_vectors": [ "THROW" ]
   },
@@ -2563,7 +2706,7 @@
     "type": "technique",
     "id": "tec_snake_break",
     "name": "Snake Slither",
-    "messages": [ "The %s tries to grab you, but you slither free!", "The %s tries to grab <npcname>, but they slither free!" ],
+    "messages": [ "You were almost grabbed by %s, but you slither free!", "<npcname> was almost grabbed by %s, but they slither free!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -2656,6 +2799,7 @@
     "messages": [ "You deftly trip %s!", "<npcname> deftly trips %s!" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
+    "reach_ok": true,
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
@@ -2670,6 +2814,22 @@
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_jab",
+    "name": "Jab",
+    "messages": [ "You quickly strike %s!", "<npcname> quickly strikes %s!" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "reach_tec": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
     "attack_vectors": [ "WEAPON" ]
   },
@@ -2707,32 +2867,33 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2,
+    "down_dur": 2,
+    "//condition": "Humanoids of similar size and no flying",
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "not": { "npc_has_effect": "stunned" } },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] },
         {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
           ]
         }
       ]
     },
-    "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
+    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight, may fail on targets <info>grabbing you</info>",
     "knockback_dist": 2,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 1.5 },
@@ -2828,6 +2989,15 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "disarms": true,
+    "tech_effects": [
+      {
+        "id": "disarmed",
+        "chance": 100,
+        "duration": 400,
+        "on_damage": true,
+        "message": "The weapon of %s has been forced out ot their hands!"
+      }
+    ],
     "attack_vectors": [ "HAND" ]
   },
   {
@@ -2959,8 +3129,8 @@
     "id": "tec_tiger_break",
     "name": "Grab Break",
     "messages": [
-      "The %s tries to grab you, but you are too powerful to be caged!",
-      "The %s tries to grab <npcname>, but they are too powerful to be caged!"
+      "You were almost grabbed by %s, but you are too powerful to be caged!",
+      "<npcname> was almost grabbed by %s, but they are too powerful to be caged!"
     ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -3225,7 +3395,7 @@
     "type": "technique",
     "id": "tec_zuiquan_break",
     "name": "Grab Break",
-    "messages": [ "The %s tries to grab you, but you stumble away!", "The %s tries to grab <npcname>, but they stumble away!" ],
+    "messages": [ "You were almost grabbed by %s, but you stumble away!", "<npcname> was almost grabbed by %s, but they stumble away!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,

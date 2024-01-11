@@ -645,7 +645,7 @@
     "coverage": 50,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
-    "examine_action": "slot_machine",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "slot_machine_examine" ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,

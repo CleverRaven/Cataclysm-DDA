@@ -61,7 +61,6 @@
 #include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -84,6 +83,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "projectile.h"
@@ -101,6 +101,7 @@
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
 #include "units_fwd.h"
@@ -169,6 +170,7 @@ static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_stock_none( "stock_none" );
@@ -185,9 +187,6 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
-
-static const mon_flag_str_id mon_flag_POISON( "POISON" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
 
 static const morale_type morale_null( "morale_null" );
 
@@ -332,8 +331,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         }
     } else {
         auto const mag_filter = []( item_pocket const & pck ) {
-            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) ||
-                   pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+            return pck.is_type( pocket_type::MAGAZINE ) ||
+                   pck.is_type( pocket_type::MAGAZINE_WELL );
         };
         for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
             pocket->settings.set_collapse( true );
@@ -351,16 +350,16 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
             it.set_flag( flag_IRREMOVABLE );
-            put_in( it, item_pocket::pocket_type::MOD );
+            put_in( it, pocket_type::MOD );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
-            put_in( item( mod, turn, qty ), item_pocket::pocket_type::MOD );
+            put_in( item( mod, turn, qty ), pocket_type::MOD );
         }
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
             put_in( item( type->magazine->default_ammo, calendar::turn, type->magazine->count ),
-                    item_pocket::pocket_type::MAGAZINE );
+                    pocket_type::MAGAZINE );
         }
 
     } else if( has_temperature() ) {
@@ -379,6 +378,14 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( !type->snippet_category.empty() ) {
         snip_id = SNIPPET.random_id_from_category( type->snippet_category );
+    }
+
+    if( type->expand_snippets ) {
+        set_var( "description", SNIPPET.expand( type->description.translated() ) );
+    }
+
+    if( has_itype_variant() && itype_variant().expand_snippets ) {
+        set_var( "description", SNIPPET.expand( variant_description() ) );
     }
 
     if( current_phase == phase_id::PNULL ) {
@@ -407,7 +414,7 @@ item::item( const itype_id &id, time_point turn, solitary_tag tag )
 
 safe_reference<item> item::get_safe_reference()
 {
-    return anchor.reference_to( this );
+    return anchor->reference_to( this );
 }
 
 static const item *get_most_rotten_component( const item &craft )
@@ -579,10 +586,10 @@ item::item( const recipe *rec, int qty, item &component )
 }
 
 item::item( const item & ) = default;
-item::item( item && ) noexcept( map_is_noexcept ) = default;
+item::item( item && ) noexcept = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
-item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
+item &item::operator=( item && ) noexcept = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -624,7 +631,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
-        if( !temp.put_in( *it, item_pocket::pocket_type::MOD ).success() ) {
+        if( !temp.put_in( *it, pocket_type::MOD ).success() ) {
             debugmsg( "failed to insert mod" );
         }
     }
@@ -640,7 +647,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
     }
-    if( carrier ) {
+    if( carrier && carrier->has_item( *this ) ) {
         carrier->on_item_acquire( *this );
     }
 
@@ -736,7 +743,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 charges = std::min( qty, ammo_capacity( ammo_type ) );
             } else if( is_gun() ) {
                 const item temp_ammo( ammo_default(), calendar::turn, std::min( qty, ammo_capacity( ammo_type ) ) );
-                put_in( temp_ammo, item_pocket::pocket_type::MAGAZINE );
+                put_in( temp_ammo, pocket_type::MAGAZINE );
             }
         }
         return *this;
@@ -760,7 +767,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             set_ammo.set_flag( flag_NO_DROP );
             set_ammo.set_flag( flag_IRREMOVABLE );
         }
-        put_in( set_ammo, item_pocket::pocket_type::MAGAZINE );
+        put_in( set_ammo, pocket_type::MAGAZINE );
 
     } else {
         if( !magazine_current() ) {
@@ -806,7 +813,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     mag = opts.back().typeId();
                 }
             }
-            put_in( item( mag ), item_pocket::pocket_type::MAGAZINE_WELL );
+            put_in( item( mag ), pocket_type::MAGAZINE_WELL );
         }
         item *mag_cur = magazine_current();
         if( mag_cur != nullptr ) {
@@ -1239,7 +1246,7 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
         container.add_automatic_whitelist();
         return container;
     } else if( is_software() && container.is_software_storage() ) {
-        container.put_in( *this, item_pocket::pocket_type::SOFTWARE );
+        container.put_in( *this, pocket_type::SOFTWARE );
         container.invlet = invlet;
         return container;
     }
@@ -1270,22 +1277,30 @@ void item::update_modified_pockets()
     std::optional<const pocket_data *> mag_or_mag_well;
     std::vector<const pocket_data *> container_pockets;
 
+    // Prevent cleanup of pockets belonging to the item base type
     for( const pocket_data &pocket : type->pockets ) {
-        if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+        if( pocket.type == pocket_type::CONTAINER ) {
             container_pockets.push_back( &pocket );
-        } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
-                   pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+        } else if( pocket.type == pocket_type::MAGAZINE ||
+                   pocket.type == pocket_type::MAGAZINE_WELL ) {
             mag_or_mag_well = &pocket;
+        }
+    }
+
+    // Prevent cleanup of added modular pockets
+    for( const item *it : contents.get_added_pockets() ) {
+        for( const pocket_data &pocket : it->type->pockets ) {
+            container_pockets.push_back( &pocket );
         }
     }
 
     for( const item *mod : mods() ) {
         if( mod->type->mod ) {
             for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
-                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                if( pocket.type == pocket_type::CONTAINER ) {
                     container_pockets.push_back( &pocket );
-                } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
-                           pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+                } else if( pocket.type == pocket_type::MAGAZINE ||
+                           pocket.type == pocket_type::MAGAZINE_WELL ) {
                     mag_or_mag_well = &pocket;
                 }
             }
@@ -1420,7 +1435,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
           itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
-    if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
+    const std::set<ammotype> ammo = ammo_types();
+    if( is_money( ammo ) && ammo_remaining( ammo ) != 0 && rhs.ammo_remaining() != 0 ) {
         // Dealing with nonempty cash cards
         // TODO: Fix cash cards not showing total value. Until that is fixed do not stack cash cards.
         // When that is fixed just change this to true.
@@ -1472,11 +1488,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
-    if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
+    if( !map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) ) {
         return false;
     }
-    const std::string omt_loc_var = "spawn_location_omt";
+    static const std::string omt_loc_var = "spawn_location_omt";
     const bool this_has_location = has_var( omt_loc_var );
     const bool that_has_location = has_var( omt_loc_var );
     if( this_has_location != that_has_location ) {
@@ -1508,9 +1524,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
         std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_shelf_life() - rot );
+            clipped_time( std::max( get_shelf_life() - rot, 0_seconds ) );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_shelf_life() - rhs.rot );
+            clipped_time( std::max( rhs.get_shelf_life() - rhs.rot, 0_seconds ) );
         if( ( !combine_liquid || !made_of_from_type( phase_id::LIQUID ) ) &&
             my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
@@ -1605,29 +1621,26 @@ int item::insert_cost( const item &it ) const
     return contents.insert_cost( it );
 }
 
-ret_val<void> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
-                            const bool unseal_pockets )
+ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
+                            const bool unseal_pockets, Character *carrier )
 {
-    ret_val<item_pocket *> result = contents.insert_item( payload, pk_type );
+    ret_val<item *> result = contents.insert_item( payload, pk_type, false, unseal_pockets );
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
-    }
-    if( pk_type == item_pocket::pocket_type::MOD ) {
-        update_modified_pockets();
-    }
-    if( unseal_pockets && result.success() ) {
-        result.value()->unseal();
-    }
-    on_contents_changed();
-    if( result.success() ) {
-        return ret_val<void>::make_success( result.str() );
-    } else {
         return ret_val<void>::make_failure( result.str() );
     }
+    if( pk_type == pocket_type::MOD ) {
+        update_modified_pockets();
+    }
+    if( carrier ) {
+        result.value()->on_pickup( *carrier );
+    }
+    on_contents_changed();
+    return ret_val<void>::make_success( result.str() );
 }
 
-void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
+void item::force_insert_item( const item &it, pocket_type pk_type )
 {
     contents.force_insert_item( it, pk_type );
     update_inherited_flags();
@@ -2274,13 +2287,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
-            // append the description instead of fully overwriting it
-            if( itype_variant().append ) {
-                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s", type->description.translated(),
-                                                     itype_variant().alt_description.translated() ) ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
-            }
+            info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.emplace_back( "DESCRIPTION",
@@ -2570,16 +2577,32 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const int max_value = v.second;
         const int min_rda = player_character.vitamin_RDA( v.first, min_value );
         const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::pair<std::string, std::string> weight_and_units = v.first->mass_str_from_units( v.second );
+        std::string weight_str;
+        if( !weight_and_units.first.empty() ) {
+            if( min_value != max_value ) {
+                std::pair<std::string, std::string> min_weight_and_units = v.first->mass_str_from_units(
+                            min_nutr.get_vitamin( v.first ) );
+                const bool show_first_unit = ( min_value != 0 ) &&
+                                             ( min_weight_and_units.second != weight_and_units.second );
+                std::string first_string = string_format( !show_first_unit ? "%s" : "%s %s",
+                                           min_weight_and_units.first, min_weight_and_units.second );
+                weight_str = string_format( "%s-%s %s ", first_string, weight_and_units.first,
+                                            weight_and_units.second );
+            } else {
+                weight_str = string_format( "%s %s ", weight_and_units.first, weight_and_units.second );
+            }
+        }
         std::string format;
         if( is_vitamin ) {
-            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
-            return string_format( format, v.first->name(), min_rda, max_rda );
+            format = min_value == max_value ? "%s%s (%i%%)" : "%s%s (%i-%i%%)";
+            return string_format( format, weight_str, v.first->name(), min_rda, max_rda );
         }
-        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
-        return string_format( format, v.first->name(), min_value, max_value );
+        format = min_value == max_value ? "%s%s (%i U)" : "%s%s (%i-%i U)";
+        return string_format( format, weight_str, v.first->name(), min_value, max_value );
     };
 
-    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
+    const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins() );
     const std::string required_vits = enumerate_as_string( max_nutr_vitamins,
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
@@ -2925,7 +2948,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
             item tmp_mag( tmp.magazine_default() );
             tmp_mag.ammo_set( tmp_mag.ammo_default() );
-            tmp.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            tmp.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
         }
         loaded_mod = &tmp;
         curammo = loaded_mod->ammo_data();
@@ -3432,15 +3455,29 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", string_format( _( "Location: %s" ), mod.location.name() ) );
     }
 
-    if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
-        std::string mod_black_str = _( "<bold>Incompatible with mod location: </bold> " );
+    if( !mod.blacklist_slot.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_SLOT ) ) {
+        std::string mod_black_str = _( "<bold>Incompatible with gunmods: </bold> " );
 
         int iternum = 0;
-        for( const gunmod_location &black : mod.blacklist_mod ) {
+        for( const gunmod_location &black : mod.blacklist_slot ) {
             if( iternum != 0 ) {
                 mod_black_str += ", ";
             }
-            mod_black_str += string_format( "%s", black.name() );
+            mod_black_str += string_format( "%s", ( black.name() ) );
+            iternum++;
+        }
+        mod_black_str += ".";
+        info.emplace_back( "GUNMOD", mod_black_str );
+    }
+    if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
+        std::string mod_black_str = _( "<bold>Incompatible with slots: </bold> " );
+
+        int iternum = 0;
+        for( const itype_id &black : mod.blacklist_mod ) {
+            if( iternum != 0 ) {
+                mod_black_str += ", ";
+            }
+            mod_black_str += string_format( "%s", ( black->nname( 1 ) ) );
             iternum++;
         }
         mod_black_str += ".";
@@ -5103,7 +5140,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( parts->test( iteminfo_parts::QUALITIES_CONTAINED ) &&
     contents.has_any_with( []( const item & e ) {
     return !e.type->qualities.empty();
-    }, item_pocket::pocket_type::CONTAINER ) ) {
+    }, pocket_type::CONTAINER ) ) {
 
         info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
         std::map<quality_id, int, quality_id::LexCmp> most_quality;
@@ -5431,6 +5468,14 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                                iteminfo::lower_is_better, attack_cost );
         }
         insert_separation_line( info );
+    } else if( player_character.get_skill_level( skill_melee ) < 3 &&
+               ( !dmg_types.empty() || type->m_to_hit > 0 ) ) {
+        insert_separation_line( info );
+        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) );
+            info.emplace_back( "BASE",
+                               _( "You don't know enough about fighting to know how effectively you could use this." ) );
+        }
     }
 }
 
@@ -6032,7 +6077,7 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
         return 0;
     }
     int result = loc->second;
-    for( const item *elem : contents.all_items_top( item_pocket::pocket_type::MOD ) ) {
+    for( const item *elem : contents.all_items_top( pocket_type::MOD ) ) {
         const cata::value_ptr<islot_gunmod> &mod = elem->type->gunmod;
         if( mod && mod->location == location ) {
             result--;
@@ -6487,11 +6532,17 @@ std::string item::overheat_symbol() const
     if( !is_gun() || type->gun->overheat_threshold <= 0.0 ) {
         return "";
     }
+    double modifier = 0;
+    float multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        modifier += mod->type->gunmod->overheat_threshold_modifier;
+        multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+    }
     if( faults.count( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
-                                           0 ) / ( type->gun->overheat_threshold ) * 5.0 ) ) ) {
+                                           0 ) / std::max( type->gun->overheat_threshold * multiplier + modifier, 5.0 ) * 5.0 ) ) ) {
         case 1:
             return "";
         case 2:
@@ -6720,6 +6771,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (old)" );
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
+        }
+        if( has_own_flag( flag_IRRADIATED ) ) {
+            tagtext += _( " (irradiated)" );
         }
     }
     if( has_temperature() ) {
@@ -6959,7 +7013,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    if( amount || show_amt ) {
+    if( ( amount || show_amt ) && !has_flag( flag_PSEUDO ) ) {
         if( is_money() ) {
             amt = " " + format_money( amount );
         } else {
@@ -6992,7 +7046,7 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
-    if( link ) {
+    if( has_link_data() ) {
         std::string extensions = cables().empty() ? "" : string_format( "+%d", cables().size() );
         const int link_len = link_length();
         const int link_max_len = max_link_length();
@@ -7743,7 +7797,7 @@ std::vector<item *> item::toolmods()
 {
     std::vector<item *> res;
     if( is_tool() ) {
-        for( item *e : contents.all_items_top( item_pocket::pocket_type::MOD ) ) {
+        for( item *e : contents.all_items_top( pocket_type::MOD ) ) {
             if( e->is_toolmod() ) {
                 res.push_back( e );
             }
@@ -7756,7 +7810,7 @@ std::vector<const item *> item::toolmods() const
 {
     std::vector<const item *> res;
     if( is_tool() ) {
-        for( const item *e : contents.all_items_top( item_pocket::pocket_type::MOD ) ) {
+        for( const item *e : contents.all_items_top( pocket_type::MOD ) ) {
             if( e->is_toolmod() ) {
                 res.push_back( e );
             }
@@ -7802,6 +7856,10 @@ bool item::goes_bad() const
     }
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
+        // They also only rot if they are not dormant
+        if( corpse->has_flag( mon_flag_DORMANT ) ) {
+            return false;
+        }
         return made_of_any( materials::get_rotting() );
     }
     return is_comestible() && get_comestible()->spoils != 0_turns;
@@ -7956,6 +8014,15 @@ void item::calc_rot( units::temperature temp, const float spoil_modifier,
     }
     if( has_own_flag( flag_MUSHY ) ) {
         factor *= 3.0;
+    }
+    // Food irradiation can quadruple the shelf life.
+    // "Shelf life of ground beef patties treated by gamma radiation":
+    // > Beef patties treated at 1.0 and 3.0 kGy [spoiled] by day 14 and 21, ...
+    // > patties treated at 5.0 kGy did not spoil until 42 days.
+    // > The nonirradiated control samples for both batches of ground beef spoiled within 7 days
+    // We get 0.5, 0.33, and 0.167. 0.25 seems reasonable for irradiation
+    if( has_own_flag( flag_IRRADIATED ) ) {
+        factor *= 0.25;
     }
 
     if( has_own_flag( flag_COLD ) ) {
@@ -8538,7 +8605,12 @@ bool item::ready_to_revive( map &here, const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammo_money );
+    return is_money( ammo_types() );
+}
+
+bool item::is_money( const std::set<ammotype> &ammo ) const
+{
+    return ammo.count( ammo_money );
 }
 
 bool item::is_cash_card() const
@@ -8556,12 +8628,12 @@ bool item::is_software() const
 
 bool item::is_software_storage() const
 {
-    return contents.has_pocket_type( item_pocket::pocket_type::SOFTWARE );
+    return contents.has_pocket_type( pocket_type::SOFTWARE );
 }
 
 bool item::is_ebook_storage() const
 {
-    return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
+    return contents.has_pocket_type( pocket_type::EBOOK );
 }
 
 bool item::is_maybe_melee_weapon() const
@@ -8936,6 +9008,10 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
+    // Fragile items take damage if the block more than 15% of their armor value
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
+        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    }
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
@@ -8966,11 +9042,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    const int damage = has_flag( flag_FRAGILE )
-                       ? rng( 2 * itype::damage_scale, 3 * itype::damage_scale )
-                       : itype::damage_scale;
-
-    return mod_damage( damage ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 
 item::armor_status item::damage_armor_transforms( damage_unit &du ) const
@@ -9132,6 +9204,7 @@ std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) 
             if( bp != bpid ) {
                 continue;
             }
+            matlist.reserve( matlist.size() + d.materials.size() );
             for( const part_material &m : d.materials ) {
                 matlist.emplace_back( &m );
             }
@@ -9335,11 +9408,29 @@ void item::set_itype_variant( const std::string &variant )
     for( const itype_variant_data &option : type->variants ) {
         if( option.id == variant ) {
             _itype_variant = &option;
+            if( option.expand_snippets ) {
+                set_var( "description", SNIPPET.expand( variant_description() ) );
+            }
             return;
         }
     }
 
     debugmsg( "item '%s' has no variant '%s'!", typeId().str(), variant );
+}
+
+std::string item::variant_description() const
+{
+    if( !has_itype_variant() ) {
+        return "";
+    }
+
+    // append the description instead of fully overwriting it
+    if( itype_variant().append ) {
+        return _( string_format( "%s  %s", type->description.translated(),
+                                 itype_variant().alt_description.translated() ) );
+    } else {
+        return itype_variant().alt_description.translated();
+    }
 }
 
 void item::clear_itype_variant()
@@ -9389,7 +9480,7 @@ bool item::is_bionic() const
 
 bool item::is_magazine() const
 {
-    return !!type->magazine || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
+    return !!type->magazine || contents.has_pocket_type( pocket_type::MAGAZINE );
 }
 
 bool item::is_battery() const
@@ -9520,7 +9611,7 @@ bool item::is_ammo_container() const
     return contents.has_any_with(
     []( const item & it ) {
         return it.is_ammo();
-    }, item_pocket::pocket_type::CONTAINER );
+    }, pocket_type::CONTAINER );
 }
 
 bool item::is_melee() const
@@ -9606,7 +9697,7 @@ bool item::any_pockets_sealed() const
 
 bool item::is_container() const
 {
-    return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
+    return contents.has_pocket_type( pocket_type::CONTAINER );
 }
 
 bool item::is_container_with_restriction() const
@@ -9622,13 +9713,13 @@ bool item::is_single_container_with_restriction() const
     return contents.is_single_restricted_container();
 }
 
-bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
+bool item::has_pocket_type( pocket_type pk_type ) const
 {
     return contents.has_pocket_type( pk_type );
 }
 
 bool item::has_any_with( const std::function<bool( const item & )> &filter,
-                         item_pocket::pocket_type pk_type ) const
+                         pocket_type pk_type ) const
 {
     return contents.has_any_with( filter, pk_type );
 }
@@ -9885,7 +9976,7 @@ bool item::is_emissive() const
 
 bool item::is_deployable() const
 {
-    return type->can_use( "deploy_furn" );
+    return type->can_use( "deploy_furn" ) || type->can_use( "deploy_appliance" );
 }
 
 bool item::is_tool() const
@@ -10588,7 +10679,8 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+                          const bool include_linked ) const
 {
     int ret = 0;
 
@@ -10599,18 +10691,17 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     }
 
     // Cable connections
-    if( include_linked && link_length() >= 0 && link->efficiency >= MIN_LINK_EFFICIENCY ) {
-        if( link->t_veh_safe ) {
-            ret += link->t_veh_safe->connected_battery_power_level().first;
+    if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
+        if( link().t_veh ) {
+            ret += link().t_veh->connected_battery_power_level().first;
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
             if( vp ) {
                 ret += vp->vehicle().connected_battery_power_level().first;
             }
         }
     }
 
-    std::set<ammotype> ammo = ammo_types();
     // Non ammo using item that uses charges
     if( ammo.empty() ) {
         ret += charges;
@@ -10618,7 +10709,7 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
 
     // Magazines and integral magazines on their own
     if( is_magazine() ) {
-        for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+        for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->is_ammo() ) {
                 ret += e->charges;
             }
@@ -10627,7 +10718,7 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
 
     // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
     if( !( mag || is_magazine() || ammo.empty() ) ) {
-        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( const item *e : contents.all_items_top( pocket_type::CONTAINER ) ) {
             if( e->is_ammo() && ammo.find( e->ammo_type() ) != ammo.end() ) {
                 ret += e->charges;
             }
@@ -10646,6 +10737,11 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     }
 
     return ret;
+}
+int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+{
+    std::set<ammotype> ammo = ammo_types();
+    return ammo_remaining( ammo, carrier, include_linked );
 }
 
 int item::ammo_remaining( const bool include_linked ) const
@@ -10680,7 +10776,7 @@ units::energy item::energy_remaining( const Character *carrier ) const
 
     // Battery(ammo) contained within
     if( is_magazine() ) {
-        for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+        for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->typeId() == itype_battery ) {
                 ret += units::from_kilojoule( e->charges );
             }
@@ -10707,15 +10803,15 @@ int item::remaining_ammo_capacity() const
 int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
     const item *mag = magazine_current();
-    if( include_linked && link ) {
-        return link->t_veh_safe ? link->t_veh_safe->connected_battery_power_level().second : 0;
+    if( include_linked && has_link_data() ) {
+        return link().t_veh ? link().t_veh->connected_battery_power_level().second : 0;
     } else if( mag ) {
         return mag->ammo_capacity( ammo );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return units::to_kilojoule( get_player_character().get_max_power_level() );
     }
 
-    if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+    if( contents.has_pocket_type( pocket_type::MAGAZINE ) ) {
         return contents.ammo_capacity( ammo );
     }
     if( is_magazine() ) {
@@ -10790,11 +10886,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     const int wanted_qty = qty;
 
     // Consume power from appliances/vehicles connected with cables
-    if( link ) {
-        if( link->t_veh_safe && link->efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link->t_veh_safe->discharge_battery( qty, true );
+    if( has_link_data() ) {
+        if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
+            qty = link().t_veh->discharge_battery( qty, true );
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
             if( vp ) {
                 qty = vp->vehicle().discharge_battery( qty, true );
             }
@@ -11080,12 +11176,12 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    return contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
+    return contents.has_pocket_type( pocket_type::MAGAZINE );
 }
 
 bool item::uses_magazine() const
 {
-    return contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL );
+    return contents.has_pocket_type( pocket_type::MAGAZINE_WELL );
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -11239,10 +11335,17 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
-    for( const gunmod_location &slot : mod.type->gunmod->blacklist_mod ) {
+    for( const gunmod_location &slot : mod.type->gunmod->blacklist_slot ) {
         if( get_mod_locations().count( slot ) ) {
             return ret_val<void>::make_failure( _( "cannot be installed on a weapon with \"%s\"" ),
                                                 slot.name() );
+        }
+    }
+
+    for( const itype_id &testmod : mod.type->gunmod->blacklist_mod ) {
+        if( gunmod_find( testmod ) ) {
+            return ret_val<void>::make_failure( _( "cannot be installed on a weapon with a \"%s\"" ),
+                                                ( testmod->nname( 1 ) ) );
         }
     }
 
@@ -11440,7 +11543,7 @@ void item::reload_option::qty( int val )
     bool ammo_in_liquid_container = ammo->is_watertight_container();
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
                      // this is probably not the right way to do this. there is no guarantee whatsoever that ammo_obj will be an ammo
-                     *ammo->contents.all_items_top( item_pocket::pocket_type::CONTAINER ).front() : *ammo;
+                     *ammo->contents.all_items_top( pocket_type::CONTAINER ).front() : *ammo;
 
     if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
         ( ammo_in_liquid_container && !ammo_obj.made_of( phase_id::LIQUID ) ) ) {
@@ -11559,7 +11662,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             item_copy.charges = qty;
         }
 
-        put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
+        put_in( item_copy, pocket_type::MAGAZINE );
 
     } else if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         item contents( *ammo );
@@ -11581,7 +11684,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             remove_item( *magazine_current() );
         }
 
-        put_in( *ammo, item_pocket::pocket_type::MAGAZINE_WELL );
+        put_in( *ammo, pocket_type::MAGAZINE_WELL );
         ammo.remove_item();
         if( ammo_from_map ) {
             u.invalidate_weight_carried_cache();
@@ -11907,7 +12010,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *contained : all_items_ptr( pocket_type::CONTAINER ) ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -12062,7 +12165,8 @@ int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
                      const bool allow_sealed,
                      const bool ignore_settings,
-                     const bool into_bottom )
+                     const bool into_bottom,
+                     Character *carrier )
 {
     if( amount <= 0 ) {
         return 0;
@@ -12106,11 +12210,13 @@ int item::fill_with( const item &contained, const int amount,
             }
         }
 
-        if( !pocket->insert_item( contained_item, into_bottom ).success() ) {
+        ret_val<item *> result = pocket->insert_item( contained_item, into_bottom );
+        if( !result.success() ) {
             if( count_by_charges ) {
-                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume: %s",
+                          result.str() );
             } else {
-                debugmsg( "best pocket for item cannot actually contain the item" );
+                debugmsg( "best pocket for item cannot actually contain the item: %s", result.str() );
             }
             break;
         }
@@ -12121,6 +12227,9 @@ int item::fill_with( const item &contained, const int amount,
         }
         if( unseal_pockets ) {
             pocket->unseal();
+        }
+        if( carrier ) {
+            result.value()->on_pickup( *carrier );
         }
     }
     if( num_contained == 0 ) {
@@ -12237,11 +12346,22 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container && contents_only_one_type() ) {
-        return contents.first_item().get_category_of_contents();
-    } else {
-        return this->get_category_shallow();
+    if( type->category_force == item_category_container ) {
+        const std::list<const item *> items = contents.all_items_top( pocket_type::CONTAINER );
+        if( !items.empty() ) {
+            const item_category &category_of_first_item = items.front()->get_category_of_contents();
+            if( items.size() == 1 ) {
+                return category_of_first_item;
+            }
+            const auto has_same_category = [&category_of_first_item]( const item * i ) {
+                return i->get_category_of_contents() == category_of_first_item;
+            };
+            if( std::all_of( ++items.begin(), items.end(), has_same_category ) ) {
+                return category_of_first_item;
+            }
+        }
     }
+    return this->get_category_shallow();
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
@@ -12475,7 +12595,7 @@ int item::processing_speed() const
         return to_turns<int>( 10_minutes );
     }
 
-    if( active || ethereal || wetness || link ||
+    if( active || ethereal || wetness || has_link_data() ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
         has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ) {
         // Unless otherwise indicated, update every turn.
@@ -12929,6 +13049,19 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
         return false;
     }
 
+    if( corpse->has_flag( mon_flag_DORMANT ) ) {
+        //if dormant, ensure trap still exists.
+        const trap *trap_here = &here.tr_at( pos );
+        if( trap_here->is_null() ) {
+            // if there isn't a trap, we need to add one again.
+            here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
+        } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
+            // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
+            return g->revive_corpse( pos, *this, 3 );
+        }
+        return false;
+    }
+
     // handle human corpses rising as zombies
     if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
         !mon_human->zombify_into.is_empty() ) {
@@ -13146,12 +13279,235 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
-bool item::can_link_up() const
+item::link_data &item::link()
 {
-    return !!link || type->can_use( "link_up" );
+    if( link_ ) {
+        return *link_;
+    }
+    if( !can_link_up() ) {
+        debugmsg( "%s is creating link_data even though it doesn't have a link_up action!  can_link_up() should be checked before using link().",
+                  tname() );
+    }
+    return *( link_ = cata::make_value<item::link_data>() );
 }
 
-void item::set_link_traits( const bool assign_t_state )
+const item::link_data &item::link() const
+{
+    if( link_ ) {
+        return *link_;
+    }
+    if( !can_link_up() ) {
+        debugmsg( "%s is creating link_data even though it doesn't have a link_up action!  can_link_up() should be checked before using link().",
+                  tname() );
+    }
+    return *( link_ = cata::make_value<item::link_data>() );
+}
+
+bool item::has_link_data() const
+{
+    return !!link_;
+}
+
+bool item::can_link_up() const
+{
+    return has_link_data() || type->can_use( "link_up" );
+}
+
+bool item::link_has_state( link_state state ) const
+{
+    return !has_link_data() ? state == link_state::no_link :
+           link_->source == state || link_->target == state;
+}
+
+bool item::link_has_states( link_state source, link_state target ) const
+{
+    return !has_link_data() ? source == link_state::no_link && target == link_state::no_link :
+           ( link_->source == source || link_->source == link_state::automatic ) &&
+           ( link_->target == target || link_->target == link_state::automatic );
+}
+
+bool item::has_no_links() const
+{
+    return !has_link_data() ? true :
+           link_->source == link_state::no_link && link_->target == link_state::no_link;
+}
+
+std::string item::link_name() const
+{
+    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( " %s's cable", label( 1 ) );
+}
+
+ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
+{
+    return linked_vp ? link_to( linked_vp->vehicle(), linked_vp->mount(), link_type ) :
+           ret_val<void>::make_failure();
+}
+
+ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
+                             const optional_vpart_position &second_linked_vp, link_state link_type )
+{
+    if( !first_linked_vp || !second_linked_vp ) {
+        return ret_val<void>::make_failure();
+    }
+    // Link up the second vehicle first so, if it's a tow cable, the first vehicle will tow the second.
+    ret_val<void> result = link_to( second_linked_vp->vehicle(), second_linked_vp->mount(), link_type );
+    if( !result.success() ) {
+        return result;
+    }
+    return link_to( first_linked_vp->vehicle(), first_linked_vp->mount(), link_type );
+}
+
+ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
+{
+    if( !can_link_up() ) {
+        return ret_val<void>::make_failure( _( "The %s doesn't have a cable!" ), type_name() );
+    }
+
+    // First, check if the desired link is actually possible.
+
+    if( link_type == link_state::vehicle_tow ) {
+        if( veh.has_tow_attached() || veh.is_towed() || veh.is_towing() ) {
+            return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
+        } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
+            return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
+        } else if( !veh.part( veh.part_at( mount ) ).carried_stack.empty() ) {
+            return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+        }
+    } else {
+        const link_up_actor *it_actor = static_cast<const link_up_actor *>
+                                        ( get_use( "link_up" )->get_actor_ptr() );
+        bool can_link_port = ( link_type == link_state::vehicle_port ||
+                               link_type == link_state::automatic ) &&
+                             it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
+                             veh.avail_linkable_part( mount, true ) != -1;
+
+        bool can_link_battery = ( link_type == link_state::vehicle_battery ||
+                                  link_type == link_state::automatic ) &&
+                                it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
+                                veh.avail_linkable_part( mount, false ) != -1;
+
+        if( !can_link_port && !can_link_battery ) {
+            return ret_val<void>::make_failure( _( "The %s can't connect to that." ), type_name() );
+        } else if( link_type == link_state::automatic ) {
+            link_type = can_link_port ? link_state::vehicle_port : link_state::vehicle_battery;
+        }
+    }
+
+    bool bio_link = link_has_states( link_state::no_link, link_state::bio_cable );
+    if( bio_link || has_no_links() ) {
+
+        // No link exists, so start a new link to a vehicle/appliance.
+
+        link().source = bio_link ? link_state::bio_cable : link_state::no_link;
+        link().target = link_type;
+        link().t_veh = veh.get_safe_reference();
+        link().t_abs_pos = get_map().getglobal( link().t_veh->global_pos3() );
+        link().t_mount = mount;
+        link().s_bub_pos = tripoint_min; // Forces the item to check the length during process_link.
+
+        update_link_traits();
+        return ret_val<void>::make_success();
+    }
+
+    // There's already a link, so connect the previous vehicle/appliance to the new one.
+
+    if( !link_has_state( link_state::no_link ) ) {
+        debugmsg( "Failed to connect the %s, both ends are already connected!", tname() );
+        return ret_val<void>::make_failure();
+    }
+    if( !link().t_veh ) {
+        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
+        if( found_veh ) {
+            link().t_veh = found_veh->get_safe_reference();
+        } else {
+            debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", tname() );
+            return ret_val<void>::make_failure();
+        }
+    }
+    vehicle *prev_veh = link().t_veh.get();
+    if( prev_veh == &veh ) {
+        return ret_val<void>::make_failure( _( "You cannot connect the %s to itself." ), prev_veh->name );
+    }
+
+    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
+    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
+                ( veh.global_square_location() + veh.coord_translate( mount ) ).raw(),
+                veh.global_square_location().raw() );
+    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
+                ( link().t_abs_pos + prev_veh->coord_translate( link().t_mount ) ).raw(),
+                link().t_abs_pos.raw() );
+
+    for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
+        if( vpr.part().target.first == prev_part_target.first &&
+            vpr.part().target.second == prev_part_target.second ) {
+            return ret_val<void>::make_failure( _( "The %1$s and %2$s are already connected." ),
+                                                veh.name, prev_veh->name );
+        }
+    }
+
+    if( rl_dist( prev_part_target.first, sel_part_target.first ) > link().max_length ) {
+        return ret_val<void>::make_failure( _( "The %s can't stretch that far!" ), type_name() );
+    }
+
+    const itype_id item_id = typeId();
+    vpart_id vpid = vpart_id::NULL_ID();
+    for( const vpart_info &e : vehicles::parts::get_all() ) {
+        if( e.base_item == item_id ) {
+            vpid = e.id;
+            break;
+        }
+    }
+
+    if( vpid.is_null() ) {
+        debugmsg( "item %s is not base item of any vehicle part!", item_id.c_str() );
+        return ret_val<void>::make_failure();
+    }
+
+    const point prev_mount = link().t_mount;
+
+    const ret_val<void> can_mount1 = prev_veh->can_mount( prev_mount, *vpid );
+    if( !can_mount1.success() ) {
+        //~ %1$s - cable name, %2$s - the reason why it failed
+        return ret_val<void>::make_failure( _( "You can't attach the %1$s: %2$s" ),
+                                            type_name(), can_mount1.str() );
+    }
+    const ret_val<void> can_mount2 = veh.can_mount( mount, *vpid );
+    if( !can_mount2.success() ) {
+        //~ %1$s - cable name, %2$s - the reason why it failed
+        return ret_val<void>::make_failure( _( "You can't attach the %1$s: %2$s" ),
+                                            type_name(), can_mount2.str() );
+    }
+
+    vehicle_part prev_veh_part( vpid, item( *this ) );
+    prev_veh_part.target.first = prev_part_target.first;
+    prev_veh_part.target.second = prev_part_target.second;
+    prev_veh->install_part( prev_mount, std::move( prev_veh_part ) );
+    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
+
+    vehicle_part sel_veh_part( vpid, item( *this ) );
+    sel_veh_part.target.first = sel_part_target.first;
+    sel_veh_part.target.second = sel_part_target.second;
+    veh.install_part( mount, std::move( sel_veh_part ) );
+    veh.precalc_mounts( 1, veh.pivot_rotation[1], veh.pivot_anchor[1] );
+
+    if( link_type == link_state::vehicle_tow ) {
+        if( link().source == link_state::vehicle_tow ) {
+            veh.tow_data.set_towing( prev_veh, &veh ); // Previous vehicle is towing.
+        } else {
+            veh.tow_data.set_towing( &veh, prev_veh ); // Previous vehicle is being towed.
+        }
+    }
+
+    if( typeId() != itype_power_cord ) {
+        // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
+        reset_link();
+    }
+    //~ %1$s - first vehicle name, %2$s - second vehicle name - %3$s - cable name,
+    return ret_val<void>::make_success( _( "You connect the %1$s and %2$s with the %3$s." ),
+                                        prev_veh->disp_name(), veh.disp_name(), type_name() );
+}
+
+void item::update_link_traits()
 {
     if( !can_link_up() ) {
         return;
@@ -13159,10 +13515,11 @@ void item::set_link_traits( const bool assign_t_state )
 
     const link_up_actor *it_actor = static_cast<const link_up_actor *>
                                     ( get_use( "link_up" )->get_actor_ptr() );
-    link->max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
-    link->efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
+    link().max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
+    link().efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
-    link->s_bub_pos = tripoint_min;
+    link().s_bub_pos = tripoint_min;
+    link().last_processed = calendar::turn;
 
     for( const item *cable : cables() ) {
         if( !cable->can_link_up() ) {
@@ -13170,42 +13527,33 @@ void item::set_link_traits( const bool assign_t_state )
         }
         const link_up_actor *actor = static_cast<const link_up_actor *>
                                      ( cable->get_use( "link_up" )->get_actor_ptr() );
-        link->max_length += actor->cable_length == -1 ? cable->type->maximum_charges() :
-                            actor->cable_length;
-        link->efficiency = link->efficiency < MIN_LINK_EFFICIENCY ? 0.0f :
-                           link->efficiency * actor->efficiency;
+        link().max_length += actor->cable_length == -1 ? cable->type->maximum_charges() :
+                             actor->cable_length;
+        link().efficiency = link().efficiency < MIN_LINK_EFFICIENCY ? 0.0f :
+                            link().efficiency * actor->efficiency;
     }
 
-    link->charge_rate = link->efficiency < MIN_LINK_EFFICIENCY ? 0 : it_actor->charge_rate.value();
-    // Convert charge_rate to how long it takes to charge 1 kW, the unit batteries use.
-    // 0 means batteries won't be charged, but it can still provide power to devices unless efficiency is also 0.
-    link->charge_interval = link->efficiency < MIN_LINK_EFFICIENCY || it_actor->charge_rate == 0_W ? 0 :
-                            std::max( static_cast<int>( std::floor( 1000000.0 / abs( it_actor->charge_rate.value() ) + 0.5 ) ),
-                                      1 );
-
-    if( assign_t_state && link->t_veh_safe ) {
-        // Assign t_state based on the parts available at the connected mount point.
-        if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
-            ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ||
-              link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_port;
-        } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
-                   ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ||
-                     link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
-            link->t_state = link_state::vehicle_battery;
+    if( link().efficiency >= MIN_LINK_EFFICIENCY ) {
+        link().charge_rate = it_actor->charge_rate.value();
+        // Convert charge_rate to how long it takes to charge 1 kW, the unit batteries use.
+        // 0 means batteries won't be charged, but it can still provide power to devices unless efficiency is also 0.
+        if( it_actor->charge_rate != 0_W ) {
+            double charge_rate = std::floor( 1000000.0 / abs( it_actor->charge_rate.value() ) + 0.5 );
+            link().charge_interval = std::max( 1, static_cast<int>( charge_rate ) );
         }
     }
 }
 
 int item::link_length() const
 {
-    return !link || link->has_no_links() ? -2 :
-           link->has_state( link_state::needs_reeling ) ? -1 : link->length;
+    return has_no_links() ? -2 :
+           link_has_state( link_state::needs_reeling ) ? -1 : link().length;
 }
 
 int item::max_link_length() const
 {
-    return !link ? -2 : link->max_length != -1 ? link->max_length : type->maximum_charges();
+    return !has_link_data() ? -2 :
+           link().max_length != -1 ? link().max_length : type->maximum_charges();
 }
 
 int item::link_sort_key() const
@@ -13225,120 +13573,107 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
 
     // Handle links to items in the inventory.
-    if( link->s_state == link_state::solarpack ) {
+    if( link().source == link_state::solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            add_msg_if_player_sees( pos, m_bad,
-                                    string_format( is_cable_item ? _( "The %s has come loose from the solar pack." ) :
-                                                   _( "The %s's cable has come loose from the solar pack." ), type_name() ) );
-            reset_link( carrier );
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the solar pack." ),
+                                    link_name() );
+            reset_link( true, carrier );
             return false;
         }
     }
     const item_filter used_ups = [&]( const item & itm ) {
         return itm.get_var( "cable" ) == "plugged_in";
     };
-    if( link->s_state == link_state::ups ) {
+    if( link().source == link_state::ups ) {
         if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
-            add_msg_if_player_sees( pos, m_bad,
-                                    string_format( is_cable_item ? _( "The %s has come loose from the UPS." ) :
-                                                   _( "The %s's cable has come loose from the UPS." ), type_name() ) );
-            reset_link( carrier );
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the UPS." ), link_name() );
+            reset_link( true, carrier );
             return false;
         }
     }
     // Certain cable states should skip processing and also become inactive if dropped.
-    if( ( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ) ||
-        link->t_state == link_state::bio_cable ) {
+    if( ( link().target == link_state::no_link && link().source != link_state::vehicle_tow ) ||
+        link().target == link_state::bio_cable ) {
         if( carrier == nullptr ) {
-            return reset_link( nullptr, -1, true, pos );
+            return reset_link( true, nullptr, -1, true, pos );
         }
         return false;
     }
 
-    const bool last_t_abs_pos_is_oob = !here.inbounds( link->t_abs_pos );
+    const bool last_t_abs_pos_is_oob = !here.inbounds( link().t_abs_pos );
 
-    // Lambda function for setting a cable's length, then checking if it's now stretched too long, resetting it if so.
+    // Lambda function for checking if a cable has been stretched too long, resetting it if so.
     // @return True if the cable is disconnected.
-    const auto set_length_and_check = [this, carrier, pos, last_t_abs_pos_is_oob,
-          is_cable_item]( float new_length ) {
-        link->length = new_length;
+    const auto check_length = [this, carrier, pos, last_t_abs_pos_is_oob, is_cable_item]() {
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d", type_name(),
-                           link->t_abs_pos.to_string_writable(), last_t_abs_pos_is_oob ? " (OoB)" : "",
-                           link->length, link->max_length );
+                           link().t_abs_pos.to_string_writable(), last_t_abs_pos_is_oob ? " (OoB)" : "",
+                           link().length, link().max_length );
         }
-        if( link->length > link->max_length ) {
+        if( link().length > link().max_length ) {
+            std::string cable_name = is_cable_item ? string_format( "over-extended %s", label( 1 ) ) :
+                                     string_format( "%s's over-extended cable", label( 1 ) );
             if( carrier != nullptr ) {
-                carrier->add_msg_if_player( m_bad,
-                                            string_format( is_cable_item ? _( "Your over-extended %s breaks loose!" ) :
-                                                    _( "Your %s's over-extended cable breaks loose!" ), type_name() ) );
+                carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {
-                add_msg_if_player_sees( pos, m_bad,
-                                        string_format( is_cable_item ? _( "The over-extended %s breaks loose!" ) :
-                                                       _( "The %s's over-extended cable breaks loose!" ), type_name() ) );
+                add_msg_if_player_sees( pos, m_bad, _( "Your %s breaks loose!" ), cable_name );
             }
             return true;
-        } else if( new_length + M_SQRT2 >= link->max_length + 1 && carrier != nullptr ) {
-            carrier->add_msg_if_player( m_warning,
-                                        string_format( is_cable_item ? _( "Your %s is stretched to its limit!" ) :
-                                                _( "Your %s's cable is stretched to its limit!" ), type_name() ) );
+        } else if( link().length + M_SQRT2 >= link().max_length + 1 && carrier != nullptr ) {
+            carrier->add_msg_if_player( m_warning, _( "Your %s is stretched to its limit!" ), link_name() );
         }
         return false;
     };
 
     // Check if the item has moved positions this turn.
-    bool check_length = false;
-    if( link->s_bub_pos != pos ) {
-        link->s_bub_pos = pos;
-        check_length = true;
+    bool length_check_needed = false;
+    if( link().s_bub_pos != pos ) {
+        link().s_bub_pos = pos;
+        length_check_needed = true;
     }
 
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
-    if( !link->t_veh_safe ) {
-        vehicle *found_veh = vehicle::find_vehicle( link->t_abs_pos );
+    if( !link().t_veh ) {
+        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
         if( !found_veh ) {
-            return reset_link( carrier, -2, true, pos );
+            return reset_link( true, carrier, -2, true, pos );
         }
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "Re-established link of %s to %s.", type_name(),
                            found_veh->disp_name() );
         }
-        link->t_veh_safe = found_veh->get_safe_reference();
+        link().t_veh = found_veh->get_safe_reference();
     }
 
     // Regular pointers are faster, so make one now that we know the reference is valid.
-    vehicle *t_veh = link->t_veh_safe.get();
+    vehicle *t_veh = link().t_veh.get();
 
     // We should skip processing if the last saved target point is out of bounds, since vehicles give innacurate absolute coordinates when out of bounds.
     // However, if the linked vehicle is moving fast enough, we should always do processing to avoid erroneously skipping linked items riding inside of it.
     if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
-        if( !check_length ) {
+        if( !length_check_needed ) {
             return false;
         }
-        if( trigdist ) {
-            if( set_length_and_check( trig_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
-                                      link->t_mount.abs().x + link->t_mount.abs().y ) ) {
-                return reset_link( carrier );
-            }
-        } else if( set_length_and_check( square_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
-                                         link->t_mount.abs().x + link->t_mount.abs().y ) ) {
-            return reset_link( carrier );
+        link().length = rl_dist( here.getabs( pos ), link().t_abs_pos.raw() ) +
+                        link().t_mount.abs().x + link().t_mount.abs().y;
+        if( check_length() ) {
+            return reset_link( true, carrier );
         }
         return false;
     }
 
     // Find the vp_part index the cable is linked to.
     int link_vp_index = -1;
-    if( link->t_state == link_state::vehicle_port ) {
+    if( link().target == link_state::vehicle_port ) {
         for( int idx : t_veh->cable_ports ) {
-            if( t_veh->part( idx ).mount == link->t_mount ) {
+            if( t_veh->part( idx ).mount == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
         }
-    } else if( link->t_state == link_state::vehicle_battery ) {
+    } else if( link().target == link_state::vehicle_battery ) {
         for( int idx : t_veh->batteries ) {
-            if( t_veh->part( idx ).mount == link->t_mount ) {
+            if( t_veh->part( idx ).mount == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
@@ -13346,47 +13681,42 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( link_vp_index == -1 ) {
             // Check cable_ports, since that includes appliances
             for( int idx : t_veh->cable_ports ) {
-                if( t_veh->part( idx ).mount == link->t_mount ) {
+                if( t_veh->part( idx ).mount == link().t_mount ) {
                     link_vp_index = idx;
                     break;
                 }
             }
         }
-    } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
-        link_vp_index = t_veh->part_at( t_veh->coord_translate( link->t_mount ) );
+    } else if( link().target == link_state::vehicle_tow || link().source == link_state::vehicle_tow ) {
+        link_vp_index = t_veh->part_at( t_veh->coord_translate( link().t_mount ) );
     }
     if( link_vp_index == -1 ) {
         // The part with cable ports was lost, so disconnect the cable.
-        return reset_link( carrier, -2, true, pos );
+        return reset_link( true, carrier, -2, true, pos );
     }
 
-    if( link->last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
+    if( link().last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
         add_msg_if_player_sees( pos, m_warning, string_format( _( "You detached the %s." ), type_name() ) );
-        return reset_link( carrier, -2 );
+        return reset_link( true, carrier, -2 );
     }
     t_veh->part( link_vp_index ).set_flag( vp_flag::linked_flag );
 
-    int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
-    link->last_processed = calendar::turn;
+    int turns_elapsed = to_turns<int>( calendar::turn - link().last_processed );
+    link().last_processed = calendar::turn;
 
     // Set the new absolute position to the vehicle's origin.
     tripoint t_veh_bub_pos = t_veh->global_pos3();
     tripoint_abs_ms new_t_abs_pos = here.getglobal( t_veh_bub_pos );
-    if( link->t_abs_pos != new_t_abs_pos ) {
-        link->t_abs_pos = new_t_abs_pos;
-        check_length = true;
+    if( link().t_abs_pos != new_t_abs_pos ) {
+        link().t_abs_pos = new_t_abs_pos;
+        length_check_needed = true;
     }
 
     // If either of the link's connected sides moved, check the cable's length.
-    if( check_length ) {
-        if( trigdist ) {
-            if( set_length_and_check( trig_dist( pos, t_veh_bub_pos +
-                                                 t_veh->part( link_vp_index ).precalc[0] ) ) ) {
-                return reset_link( carrier, link_vp_index );
-            }
-        } else if( set_length_and_check( square_dist( pos, t_veh_bub_pos +
-                                         t_veh->part( link_vp_index ).precalc[0] ) ) ) {
-            return reset_link( carrier, link_vp_index );
+    if( length_check_needed ) {
+        link().length = rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
+        if( check_length() ) {
+            return reset_link( true, carrier, link_vp_index );
         }
     }
 
@@ -13394,7 +13724,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( !is_cable_item ) {
         int power_draw = 0;
 
-        if( link->efficiency < MIN_LINK_EFFICIENCY ) {
+        if( link().efficiency < MIN_LINK_EFFICIENCY ) {
             return false;
         }
         // Recharge or charge linked batteries
@@ -13419,7 +13749,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->charge_rate == 0 || link->charge_interval < 1 ) {
+    if( !has_link_data() || link().charge_rate == 0 || link().charge_interval < 1 ) {
         return 0;
     }
 
@@ -13430,7 +13760,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         }
     }
 
-    const bool power_in = link->charge_rate > 0;
+    const bool power_in = link().charge_rate > 0;
     if( power_in ? ammo_remaining() >= ammo_capacity( ammo_battery ) :
         ammo_remaining() <= 0 ) {
         return 0;
@@ -13438,26 +13768,26 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 
     // Normally efficiency is the chance to get a charge every charge_interval, but if we're catching up from
     // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
-    bool short_time_passed = turns_elapsed <= link->charge_interval;
+    bool short_time_passed = turns_elapsed <= link().charge_interval;
 
     if( turns_elapsed < 1 || ( short_time_passed &&
-                               !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) ) {
-        return link->charge_rate;
+                               !calendar::once_every( time_duration::from_turns( link().charge_interval ) ) ) ) {
+        return link().charge_rate;
     }
 
     // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
     int transfer_total = short_time_passed ? 1 :
-                         ( turns_elapsed * 1.0f / link->charge_interval ) * link->charge_interval;
+                         ( turns_elapsed * 1.0f / link().charge_interval ) * link().charge_interval;
 
     if( power_in ) {
         const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
-        if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link->efficiency ) ) {
+        if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
             ammo_set( itype_battery, ammo_remaining() + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
-        if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link->efficiency ) {
+        if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
             const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
             if( battery_surplus == 0 ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );
@@ -13469,79 +13799,69 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
             }
         }
     }
-    return link->charge_rate;
+    return link().charge_rate;
 }
 
-bool item::reset_link( Character *p, int vpart_index,
+bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
                        const bool loose_message, const tripoint cable_position )
 {
-    if( !link ) {
+    if( !has_link_data() ) {
         return has_flag( flag_NO_DROP );
     }
-    // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
-    if( link->has_state( link_state::needs_reeling ) ) {
+    if( unspool_if_too_long && link_has_state( link_state::needs_reeling ) ) {
+        // Cables that need reeling should be reset with a reel_cable_activity_actor instead.
         return false;
     }
 
-    if( vpart_index != -2 && link->t_veh_safe ) {
+    if( vpart_index != -2 && link().t_veh ) {
         if( vpart_index == -1 ) {
-            vehicle *t_veh = link->t_veh_safe.get();
+            vehicle *t_veh = link().t_veh.get();
             // Find the vp_part index the cable is linked to.
-            if( link->t_state == link_state::vehicle_port ) {
+            if( link().target == link_state::vehicle_port ) {
                 for( int idx : t_veh->cable_ports ) {
-                    if( t_veh->part( idx ).mount == link->t_mount ) {
+                    if( t_veh->part( idx ).mount == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }
                 }
-            } else if( link->t_state == link_state::vehicle_battery ) {
+            } else if( link().target == link_state::vehicle_battery ) {
                 for( int idx : t_veh->batteries ) {
-                    if( t_veh->part( idx ).mount == link->t_mount ) {
+                    if( t_veh->part( idx ).mount == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }
                 }
-            } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
-                vpart_index = t_veh->part_at( t_veh->coord_translate( link->t_mount ) );
+            } else if( link().target == link_state::vehicle_tow || link().source == link_state::vehicle_tow ) {
+                vpart_index = t_veh->part_at( t_veh->coord_translate( link().t_mount ) );
             }
         }
         if( vpart_index != -1 ) {
-            link->t_veh_safe->part( vpart_index ).remove_flag( vp_flag::linked_flag );
+            link().t_veh->part( vpart_index ).remove_flag( vp_flag::linked_flag );
         }
     }
-
-    const bool is_cable_item = has_flag( flag_CABLE_SPOOL );
 
     if( loose_message ) {
         if( p != nullptr ) {
-            p->add_msg_if_player( m_warning,
-                                  string_format( is_cable_item ? _( "Your %s has come loose." ) :
-                                                 _( "Your %s's cable has come loose." ), type_name() ) );
+            p->add_msg_if_player( m_warning, _( "Your %s has come loose." ), link_name() );
         } else {
-            add_msg_if_player_sees( cable_position, m_warning,
-                                    string_format( is_cable_item ? _( "The %s has come loose." ) :
-                                                   _( "The %s's cable has come loose." ), type_name() ) );
+            add_msg_if_player_sees( cable_position, m_warning, _( "The %s has come loose." ), link_name() );
         }
     }
 
-    const int respool_threshold = 6;
-    if( link->length > respool_threshold ) {
+    if( unspool_if_too_long && link().length > LINK_RESPOOL_THRESHOLD ) {
         // Cables that are too long need to be manually rewound before reuse.
-        link->s_state = link_state::needs_reeling;
+        link().source = link_state::needs_reeling;
         return false;
     }
 
     if( loose_message && p ) {
-        p->add_msg_if_player( m_info, string_format( is_cable_item ?
-                              _( "You reel in the %s and wind it up." ) :
-                              _( "You reel in the %s's cable and wind it up." ), tname() ) );
+        p->add_msg_if_player( m_info, _( "You reel in the %s and wind it up." ), link_name() );
     }
 
-    link.reset();
+    link_.reset();
     if( !cables().empty() ) {
         // If there are extensions, keep link active to maintain max_length.
-        link = cata::make_value<item::link_data>();
-        set_link_traits();
+        update_link_traits();
     }
     return has_flag( flag_NO_DROP );
 }
@@ -13556,7 +13876,7 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     }
     bool has_connected_cable = carrier->cache_has_item_with( "can_link_up", &item::can_link_up,
     [&required_state]( const item & it ) {
-        return it.link && it.link->has_state( required_state );
+        return it.link_has_state( required_state );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
@@ -13642,8 +13962,19 @@ bool item::process_blackpowder_fouling( Character *carrier )
 bool item::process_gun_cooling( Character *carrier )
 {
     double heat = get_var( "gun_heat", 0 );
-    double threshold = type->gun->overheat_threshold;
-    heat -= type->gun->cooling_value;
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    double cooling_modifier = 0;
+    float cooling_multiplier = 1.0f;
+    for( const item *mod : gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+        cooling_modifier += mod->type->gunmod->cooling_value_modifier;
+        cooling_multiplier *= mod->type->gunmod->cooling_value_multiplier;
+    }
+    double threshold = std::max( ( type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
+    heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
     if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
         faults.erase( fault_overheat_safety );
@@ -13726,7 +14057,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         wetness -= 1;
     }
 
-    if( link ) {
+    if( has_link_data() ) {
         process_link( here, carrier, pos );
     }
 
@@ -13878,6 +14209,30 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
+}
+
+std::optional<furn_str_id> item::get_plant_seedling_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->seedling_form;
+}
+
+std::optional<furn_str_id> item::get_plant_mature_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->mature_form;
+}
+
+std::optional<furn_str_id> item::get_plant_harvestable_form() const
+{
+    if( !type->seed ) {
+        return std::nullopt;
+    }
+    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const
@@ -14073,15 +14428,15 @@ bool item::is_reloadable() const
     }
 
     for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
-        if( pocket->is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        if( pocket->is_type( pocket_type::MAGAZINE_WELL ) ) {
             if( pocket->empty() || !pocket->front().is_magazine_full() ) {
                 return true;
             }
-        } else if( pocket->is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        } else if( pocket->is_type( pocket_type::MAGAZINE ) ) {
             if( remaining_ammo_capacity() > 0 ) {
                 return true;
             }
-        } else if( pocket->is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        } else if( pocket->is_type( pocket_type::CONTAINER ) ) {
             // Container pockets are reloadable only if they are watertight, not full and do not contain non-liquid item
             if( pocket->full( false ) || !pocket->watertight() ) {
                 continue;
@@ -14498,7 +14853,7 @@ units::volume item::check_for_free_space() const
 {
     units::volume volume;
 
-    for( const item *container : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *container : contents.all_items_top( pocket_type::CONTAINER ) ) {
         std::vector<const item_pocket *> containedPockets =
             container->contents.get_all_contained_pockets();
         if( !containedPockets.empty() ) {
@@ -14600,12 +14955,12 @@ std::list<item *> item::all_items_top()
     return contents.all_items_top();
 }
 
-std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) const
+std::list<const item *> item::all_items_top( pocket_type pk_type ) const
 {
     return contents.all_items_top( pk_type );
 }
 
-std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool unloading )
+std::list<item *> item::all_items_top( pocket_type pk_type, bool unloading )
 {
     return contents.all_items_top( pk_type, unloading );
 }
@@ -14620,8 +14975,8 @@ item const *item::this_or_single_content() const
 bool item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
-        return pkt.is_type( item_pocket::pocket_type::CONTAINER ) ||
-               pkt.is_type( item_pocket::pocket_type::SOFTWARE );
+        return pkt.is_type( pocket_type::CONTAINER ) ||
+               pkt.is_type( pocket_type::SOFTWARE );
     } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
@@ -14633,25 +14988,25 @@ bool item::contents_only_one_type() const
 std::list<const item *> item::all_items_ptr() const
 {
     std::list<const item *> all_items_internal;
-    for( int i = static_cast<int>( item_pocket::pocket_type::CONTAINER );
-         i < static_cast<int>( item_pocket::pocket_type::LAST ); i++ ) {
-        std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
+    for( int i = static_cast<int>( pocket_type::CONTAINER );
+         i < static_cast<int>( pocket_type::LAST ); i++ ) {
+        std::list<const item *> inserted{ all_items_top_recursive( static_cast<pocket_type>( i ) ) };
         all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
     }
     return all_items_internal;
 }
 
-std::list<const item *> item::all_items_ptr( item_pocket::pocket_type pk_type ) const
+std::list<const item *> item::all_items_ptr( pocket_type pk_type ) const
 {
     return all_items_top_recursive( pk_type );
 }
 
-std::list<item *> item::all_items_ptr( item_pocket::pocket_type pk_type )
+std::list<item *> item::all_items_ptr( pocket_type pk_type )
 {
     return all_items_top_recursive( pk_type );
 }
 
-std::list<const item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type )
+std::list<const item *> item::all_items_top_recursive( pocket_type pk_type )
 const
 {
     std::list<const item *> contained = contents.all_items_top( pk_type );
@@ -14665,7 +15020,7 @@ const
     return all_items_internal;
 }
 
-std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type )
+std::list<item *> item::all_items_top_recursive( pocket_type pk_type )
 {
     std::list<item *> contained = contents.all_items_top( pk_type );
     std::list<item *> all_items_internal{ contained };

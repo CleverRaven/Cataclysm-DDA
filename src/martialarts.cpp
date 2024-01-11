@@ -40,6 +40,8 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const flag_id json_flag_PROVIDES_TECHNIQUES( "PROVIDES_TECHNIQUES" );
+
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
@@ -221,6 +223,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "reach_tec", reach_tec, false );
+    optional( jo, was_loaded, "reach_ok", reach_ok, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -349,6 +353,7 @@ void martialart::load( const JsonObject &jo, const std::string &src )
         int skill_level = skillArray.get_int( 1 );
         autolearn_skills.emplace_back( skill_name, skill_level );
     }
+    optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "primary_skill", primary_skill, skill_unarmed );
     optional( jo, was_loaded, "learn_difficulty", learn_difficulty );
     optional( jo, was_loaded, "teachable", teachable, true );
@@ -1318,6 +1323,13 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         const auto &weapon_techs = weap->get_techniques();
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
+    // If we have any items that also provide techniques
+    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+                json_flag_PROVIDES_TECHNIQUES );
+    for( const item *it : tech_providing_items ) {
+        const std::set<matec_id> &item_techs = it->get_techniques();
+        tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
+    }
     // and martial art techniques
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
     // And limb techniques
@@ -1863,6 +1875,13 @@ std::string ma_technique::get_description() const
                 std::string( "\n" );
     } else if( crit_tec ) {
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
+    }
+
+    if( reach_ok ) {
+        dump += _( "* Can activate on a <info>normal</info> or a <info>reach attack</info> hit" ) +
+                std::string( "\n" );
+    } else if( reach_tec ) {
+        dump += _( "* Will only activate on a <info>reach attack</info>" ) + std::string( "\n" );
     }
 
     if( side_switch ) {

@@ -24,6 +24,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -701,6 +702,34 @@ void talker_npc::clear_ai_rule( const std::string &, const std::string &rule )
 std::string talker_npc::get_job_description() const
 {
     return me_npc->describe_mission();
+}
+
+std::string talker_npc::view_personality_traits() const
+{
+    // Special starting char so it doesn't appear as though the NPC is talking to us
+    std::string assessment = "&";
+    assessment += _( "<npc_name> seems to be:" );
+    bool found_personality_trait = false;
+    for( const auto &trait_data_pairs : me_npc->my_mutations ) {
+        const mutation_branch &mdata = trait_data_pairs.first.obj();
+        if( mdata.personality_score ) {
+            found_personality_trait = true;
+            assessment += "\n";
+            assessment += me_npc->mutation_name( mdata.id );
+            assessment += " - ";
+            assessment += me_npc->mutation_desc( mdata.id );
+            // Example output:
+            // John Doe seems to be:
+            // Coward - John Doe flinches at the thought of fighting, whether it be other people or the undead.
+            // Nice - John Doe has a higher than average altruism.
+            // TRAIT NAME - TRAIT DESCRIPTION
+        }
+    }
+    // Fallback
+    if( !found_personality_trait ) {
+        assessment += _( "\nNormal person - <npc_name> seems to be pretty normal." );
+    }
+    return assessment;
 }
 
 std::string talker_npc::evaluation_by( const talker &alpha ) const

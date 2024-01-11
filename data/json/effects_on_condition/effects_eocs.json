@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "bad_food_mood_debuff",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "condition": { "u_has_effect": "bad_food_ennui" },
+    "//": "duration doesn't matter, since morale is added every hour, therefore it will always be mismatched with bad_food_ennui; instead, if you loose bad_food_ennui effect, you will lost the mood debuff also",
+    "effect": [
+      {
+        "u_add_morale": "morale_bad_protein_bar",
+        "bonus": { "math": [ "u_vitamin('bad_food') / -10" ] },
+        "max_bonus": { "math": [ "u_vitamin('bad_food') / -4" ] },
+        "duration": "1 days",
+        "decay_start": "1 days"
+      }
+    ],
+    "false_effect": [ { "u_lose_morale": "morale_bad_protein_bar" } ]
+  }
+]

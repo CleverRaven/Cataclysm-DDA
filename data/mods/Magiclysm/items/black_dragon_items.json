@@ -28,7 +28,7 @@
     "type": "COMESTIBLE",
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
-    "name": "raw black dragon hide",
+    "name": { "str_sp": "raw black dragon hide" },
     "weight": "2500 g",
     "color": "black_white",
     "spoils_in": "3 day",

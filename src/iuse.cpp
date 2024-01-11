@@ -165,8 +165,11 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
+static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dazed( "dazed" );
@@ -203,6 +206,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
@@ -306,11 +310,6 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-
-static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -643,6 +642,24 @@ std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint & )
         } else {
             p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
         }
+    }
+    if( p->has_effect( effect_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            p->remove_effect( effect_conjunctivitis_bacterial );
+            p->add_msg_if_player( m_good, _( "Your pinkeye seems to be clearing up." ) );
+        } else {
+            p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
+        }
+    }
+    if( p->has_effect( effect_pre_conjunctivitis_bacterial ) ) {
+        if( one_in( 2 ) ) {
+            //There were no symptoms yet, so we skip telling the player they feel better.
+            p->remove_effect( effect_pre_conjunctivitis_bacterial );
+        }
+    }
+    if( p->has_effect( effect_conjunctivitis_viral ) ) {
+        //Antibiotics don't kill viruses.
+        p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
@@ -1213,7 +1230,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint & 
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
             mutagen_technique::injected_smart_purifier );
     return 1;
@@ -1550,7 +1567,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
     if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
         if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
             p->mod_moves( -to_moves<int>( 1_seconds ) );
-            p->add_msg_if_player( _( "You put your %1$s into %2$s mouth!" ),
+            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ),
                                   it->tname(), who->disp_name( true ) );
             if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
                 who->say(
@@ -1613,6 +1630,15 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon->get_name() );
+        if( mon->has_flag( mon_flag_EATS ) ) {
+            int kcal = it->get_comestible()->default_nutrition.kcal();
+            mon->amount_eaten += kcal;
+            if( mon->amount_eaten >= mon->stomach_size ) {
+                p->add_msg_if_player( _( "The %1$s seems full now." ), mon->get_name() );
+            }
+        } else if( !mon->has_flag( mon_flag_EATS ) ) {
+            mon->add_effect( effect_critter_well_fed, 24_hours );
+        }
 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
@@ -1742,7 +1768,11 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        // this is a ridiculous way to find a good fishing spot, but I'm just trying
+        // to do oceans right now.  Maybe is_water_body() would be better?
+        // if you find this comment still here and it's later than 2025, LOL.
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_ocean() &&
+        !cur_omt->is_lake_shore() && !cur_omt->is_ocean_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
     }
@@ -2276,7 +2306,7 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            ret_val<item *> rval = pkt->insert_item( *candidates[ret] );
             if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );
@@ -4658,7 +4688,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     if( acid_blood ) {
         item acid( "blood_acid", calendar::turn );
         acid.set_item_temperature( blood_temp );
-        it->put_in( acid, item_pocket::pocket_type::CONTAINER );
+        it->put_in( acid, pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage() ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4679,7 +4709,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     }
 
     blood.set_item_temperature( blood_temp );
-    it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    it->put_in( blood, pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return 1;
 }
@@ -5451,7 +5481,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint &
         const item mod_copy( *it );
         item modded_gun( *loc );
 
-        modded_gun.put_in( mod_copy, item_pocket::pocket_type::MOD );
+        modded_gun.put_in( mod_copy, pocket_type::MOD );
 
         if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
             continue;
@@ -7217,7 +7247,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint & )
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
+                it->put_in( p->i_rem( &put ), pocket_type::CONTAINER );
             } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "You want to arm your RC car with %s?  But how?" ),
                                       put.tname() );
@@ -7280,6 +7310,8 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     std::map<std::string, use_function> use_methods = it.type->use_methods;
                     if( use_methods.find( "transform" ) != use_methods.end() ) {
                         it.type->get_use( "transform" )->call( &p, it, loc );
+                        item_location itm_loc = item_location( map_cursor( loc ), &it );
+                        here.update_lum( itm_loc, true );
                     } else {
                         it.type->get_use( it.type->use_methods.begin()->first )->call( &p, it, loc );
                     }
@@ -7294,6 +7326,8 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( &p, *itm, loc );
+                        item_location itm_loc = item_location( map_cursor( loc ), itm );
+                        here.update_lum( itm_loc, true );
                     }
                 }
             }
@@ -7971,7 +8005,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
         it->erase_var( "COOKTIME" );
         it->convert( itype_multi_cooker, p );
         if( it->can_contain( meal ).success() ) {
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            it->put_in( meal, pocket_type::CONTAINER );
         } else {
             add_msg( m_info,
                      _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
@@ -8583,7 +8617,7 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint & )
     }
     const recipe &rec = it->get_making();
     const inventory &inv = p->crafting_inventory();
-    if( !p->has_recipe( &rec, inv, p->get_crafting_helpers() ) ) {
+    if( !p->has_recipe( &rec, inv, p->get_crafting_group() ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -8737,7 +8771,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
     auto filter = [it]( const item & itm ) {
         return !itm.is_broken() &&
                &itm != it &&
-               itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
+               itm.has_pocket_type( pocket_type::EBOOK );
     };
 
     item_location storage_card = game_menus::inv::titled_filter_menu(
@@ -8796,7 +8830,7 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
         books_moved = fromset.size();
         for( const item *ebook : fromset )
         {
-            toit.put_in( *ebook, item_pocket::pocket_type::EBOOK );
+            toit.put_in( *ebook, pocket_type::EBOOK );
         }
     };
 
@@ -8859,30 +8893,16 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
-    std::set<itype_id> ebooks;
-    for( const item *ebook : it->ebooks() ) {
-        if( !ebook->is_book() ) {
-            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-            continue;
-        }
-
-        ebooks.insert( ebook->typeId() );
-    }
-
-    const item_location book = game_menus::inv::titled_filter_menu(
-    [&ebooks, &p]( const item & itm ) {
-        return itm.is_book() && itm.type->book->is_scannable && !ebooks.count( itm.typeId() ) &&
-               itm.is_owned_by( *p, true );
-    },
-    *p->as_avatar(), _( "Scan which book?" ), PICKUP_RANGE );
-
-    if( !book ) {
-        p->add_msg_if_player( m_info, _( "Nevermind." ) );
+    item_location ereader = item_location( *p, it );
+    const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
+    if( to_scan.empty() ) {
         return std::nullopt;
     }
-
-    p->assign_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) );
-
+    std::vector<item_location> books;
+    for( const auto &pair : to_scan ) {
+        books.push_back( pair.first );
+    }
+    p->assign_activity( ebooksave_activity_actor( books, ereader ) );
     return std::nullopt;
 }
 

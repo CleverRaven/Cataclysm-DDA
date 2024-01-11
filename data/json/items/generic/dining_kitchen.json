@@ -181,7 +181,8 @@
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
     "symbol": "u",
-    "description": "A ceramic coffee cup with a logo on the side.",
+    "description": "A small, <color> ceramic coffee cup.",
+    "expand_snippets": true,
     "copy-from": "base_ceramic_dish",
     "weight": "318 g",
     "volume": "475 ml",
@@ -198,57 +199,205 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "snippet_category": [
-      { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
-      { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
-      { "id": "mug3", "text": "The side of the mug has a picture of a happy-looking family." },
+    "variants": [
+      {
+        "id": "mug1",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'World's Greatest Dad'."
+      },
+      {
+        "id": "mug2",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'World's Greatest Mom'."
+      },
+      {
+        "id": "mug3",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a picture of a happy-looking family."
+      },
       {
         "id": "mug4",
-        "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
       },
-      { "id": "mug5", "text": "The side of the mug reads 'I'd rather be playing open source games'." },
-      { "id": "mug6", "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'." },
-      { "id": "mug7", "text": "The side of the mug has a diagram of a caffeine molecule." },
-      { "id": "mug8", "text": "The side of the mug has a cute picture of a sleeping cat." },
-      { "id": "mug9", "text": "The mug is printed in leopard spots." },
-      { "id": "mug10", "text": "The mug is blue and looks like a TARDIS." },
-      { "id": "mug11", "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber." },
-      { "id": "mug12", "text": "The side of the mug reads 'House Stark' and depicts a fictional crest." },
-      { "id": "mug13", "text": "The side of the mug reads 'My fandom could beat up your fandom'. " },
+      {
+        "id": "mug5",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'I'd rather be playing open source games'."
+      },
+      {
+        "id": "mug6",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'If you think I'm bad, look in a mirror'."
+      },
+      {
+        "id": "mug7",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a diagram of a caffeine molecule."
+      },
+      {
+        "id": "mug8",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a cute picture of a sleeping cat."
+      },
+      {
+        "id": "mug9",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The mug is printed in leopard spots."
+      },
+      {
+        "id": "mug10",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The mug is blue and looks like a TARDIS."
+      },
+      {
+        "id": "mug11",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber."
+      },
+      {
+        "id": "mug12",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'House Stark' and depicts a fictional crest."
+      },
+      {
+        "id": "mug13",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'My fandom could beat up your fandom'. "
+      },
       {
         "id": "mug14",
-        "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
       },
-      { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
-      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" },
-      { "id": "mug17", "text": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side." },
+      {
+        "id": "mug15",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'I wish this was wine!'"
+      },
+      {
+        "id": "mug16",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'CasUaL aLcoHoLiSm'"
+      },
+      {
+        "id": "mug17",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side."
+      },
       {
         "id": "mug18",
-        "text": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
       },
       {
         "id": "mug19",
-        "text": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
       },
       {
         "id": "mug20",
-        "text": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
       },
-      { "id": "mug21", "text": "A white ceramic coffee mug.  On the side is a winking woman in lingerie." },
+      {
+        "id": "mug21",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  On the side is a winking woman in lingerie."
+      },
       {
         "id": "mug22",
-        "text": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
       },
       {
         "id": "mug23",
-        "text": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
       },
       {
         "id": "mug24",
-        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
       },
-      { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
-      { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
+      {
+        "id": "mug25",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it."
+      },
+      {
+        "id": "mug26",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side."
+      },
+      {
+        "id": "mean_mug",
+        "description": "The side of the mug reads \"fuck you, <name_b>!\"",
+        "append": true,
+        "name": "coffee mug",
+        "expand_snippets": true,
+        "weight": 0
+      },
+      {
+        "id": "mean_mug2",
+        "description": "The side of the mug reads \"Worlds Worst Dad\".",
+        "expand_snippets": true,
+        "append": true,
+        "name": "coffee mug",
+        "weight": 0
+      }
     ],
     "//": "Based on https://www.amazon.com/dp/B0B6CWNKCP"
   },
@@ -495,7 +644,8 @@
     "longest_side": "21 cm",
     "price": 75,
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
@@ -511,7 +661,8 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
@@ -571,10 +722,11 @@
     "volume": "75 ml",
     "longest_side": "21 cm",
     "price": "4 USD",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "copy-from": "base_silverware",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
+    "weapon_category": [ "SHIVS" ],
     "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
@@ -587,7 +739,8 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "copy-from": "base_plastic_silverware",
     "melee_damage": { "bash": 1, "stab": 1 }
   },
@@ -673,9 +826,10 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "fork",
     "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -684,9 +838,10 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "spork",
     "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
@@ -695,7 +850,7 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "symbol": "X",
     "color": "light_gray",
     "price": "1 USD",
@@ -704,6 +859,7 @@
     "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
+    "weapon_category": [ "SHIVS" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
     "//": "Based on https://www.amazon.com/dp/B07N47CN44"
@@ -785,6 +941,7 @@
     "longest_side": "29 cm",
     "price": "12 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 3, "stab": 2 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
@@ -1182,7 +1339,7 @@
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
+    "qualities": [ [ "SIEVE", 2 ], [ "WINNOW", 1 ], [ "STRAIN", 1 ] ],
     "price": 600,
     "price_postapoc": 5
   },

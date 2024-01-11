@@ -28,11 +28,11 @@
   {
     "id": "MISSION_SCRAP_TRADER_GET_75_CHARCOAL",
     "type": "mission_definition",
-    "name": "Obtain 75 Charcoal",
-    "description": "Obtain 75 lumps of charcoal in exchange for credit with the scrap merchant.",
+    "name": "Obtain 300 Charcoal",
+    "description": "Obtain 300 lumps of charcoal in exchange for credit with the scrap merchant.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "charcoal",
-    "count": 75,
+    "count": 300,
     "difficulty": 4,
     "value": 7500,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -40,7 +40,7 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need help…",
-      "offer": "That machine I put together is working wonderfully, but the generator is nearly out of juice.  If you could get me 75 lumps of charcoal, I'll pay you however I can.",
+      "offer": "That machine I put together is working wonderfully, but the generator is nearly out of juice.  If you could get me 300 lumps of charcoal, I'll pay you however I can.",
       "advice": "Its fairly simple to make some.  I don't know where you could find any, though.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",

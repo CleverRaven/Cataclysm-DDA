@@ -179,19 +179,6 @@ void advanced_inv_area::init()
     }
 }
 
-units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
-{
-    // should be a specific location instead
-    cata_assert( id != AIM_ALL );
-    if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return get_player_character().free_space();
-    } else if( in_vehicle ) {
-        return get_vehicle_stack().free_volume();
-    } else {
-        return get_map().free_volume( pos );
-    }
-}
-
 bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
 {
     // All locations (sans the below) are compared by the coordinates,
