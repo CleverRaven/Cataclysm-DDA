@@ -322,7 +322,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "//": "Volume/calorie ratio is different from most online nutrition facts because these fruits contain a lot of inedible matter.",
+    "//": "Volume/calorie ratio is different from most online nutrition facts as those show prepared fruit. Unprepared hips like these contain a lot of inedible matter.",
     "calories": 102,
     "description": "A handful of fruits grown from pollinated rose flowers.",
     "price": 200,
