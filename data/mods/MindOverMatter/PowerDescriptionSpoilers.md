@@ -224,7 +224,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 ## Combat Sense (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
-*Duration*: 2 minutes to 7 minutes and 30 seconds, plus 4 minutes and 10 seconds to 10 minutes per level<br />
+*Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
 *Effects*: Gaze a short time into the future to predict enemy movements.  Grants +1 bonus dodge and block, +1 addition bonus dodge and block per 6 power levels, prevents the psion from being grabbed, and applies the UNCANNY_DODGE flag.<br />
@@ -233,7 +233,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 ## Intuitive Artisan (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
-*Duration*: 20 minutes and 15 seconds to 45 minutes, plus 9 seconds to 17 seconds per level<br />
+*Duration*: 20 minutes and 15 seconds to 45 minutes, plus 4 minutes and 10 seconds to 10 minutes per level<br />
 *Stamina Cost*: 6500, minus 145 per level to a minimum of 3250<br />
 *Channeling Time*: 500 moves, minus 3 moves per level to a minimum of 300<br />
 *Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance.<br />
