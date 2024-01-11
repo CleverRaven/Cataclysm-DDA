@@ -397,6 +397,46 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "arvore_treesung_location" },
+          "message": "Select nearby tree"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
+          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
+          "else": { "u_message": "You must be near a tree to treesing to it." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "ACT_ARVORE_TREESINGING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "treesinging",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_ARVORE_TREE_SINGING_COMPLETE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING_COMPLETE",
+    "effect": [
+      {
+        "u_message": "As your song fades, you open your eyes to find a large growth of wood lying on the ground in front of you, separated from the tree without violence.",
+        "type": "good"
+      },
+      { "u_spawn_item": "log_treesung", "count": 1, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": {
       "and": [
