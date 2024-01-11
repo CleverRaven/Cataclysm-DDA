@@ -87,6 +87,17 @@
     "entries": [
       { "item": "balclava", "prob": 50 },
       { "item": "hat_cotton", "prob": 50 },
+      { "item": "beanie_hat", "prob": 25 },
+      { "item": "neckwarmer", "prob": 25 },
+      { "item": "ushanka", "prob": 10 },
+      { "item": "fushanka", "prob": 5 },
+      { "item": "k_beanie", "prob": 5 },
+      { "item": "astrakhan", "prob": 1 },
+      { "item": "fastrakhan", "prob": 1 },
+      { "item": "tyrolean_hat", "prob": 1 },
+      { "item": "coonskin", "prob": 1 },
+      { "item": "fcoonskin", "prob": 1 },
+      { "item": "deerstalker", "prob": 1 },
       { "item": "hat_faux_fur", "prob": 25 },
       { "item": "hat_fur", "prob": 50 },
       { "item": "hat_hunting", "prob": 75 },
@@ -825,6 +836,7 @@
       [ "apron_leather", 10 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
+      [ "plumber_cap", 1 ],
       { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ] }
     ]
   },
@@ -1738,6 +1750,29 @@
       [ "scythe_fake", 2 ],
       [ "scythe_toy", 2 ],
       [ "bodysuit_lycra", 5 ],
+      [ "beanie_hat", 20 ],
+      [ "ushanka", 1 ],
+      [ "fushanka", 1 ],
+      [ "k_beanie", 15 ],
+      [ "neckwarmer", 15 ],
+      [ "deerstalker", 1 ],
+      [ "trilby_hat", 10 ],
+      [ "fascinator", 1 ],
+      [ "hat_cloche", 10 ],
+      [ "hat_floppy", 10 ],
+      [ "coonskin", 1 ],
+      [ "fcoonskin", 1 ],
+      [ "conical_hat", 1 ],
+      [ "homburg_hat", 10 ],
+      [ "fez", 1 ],
+      [ "hat_cart", 10 ],
+      [ "tyrolean_hat", 1 ],
+      [ "astrakhan", 1 ],
+      [ "fastrakhan", 1 ],
+      [ "chullo_hat", 5 ],
+      [ "plumber_cap", 1 ],
+      [ "panama_hat", 5 ],
+      [ "boater_hat", 5 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
       { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
@@ -1915,9 +1950,19 @@
       [ "long_knit_scarf", 15 ],
       [ "scarf_long", 2 ],
       [ "hat_cotton", 45 ],
+      [ "beanie_hat", 30 ],
       [ "hat_newsboy", 20 ],
       [ "hat_knit", 25 ],
+      [ "k_beanie", 10 ],
       [ "hat_fur", 15 ],
+      [ "ushanka", 1 ],
+      [ "fushanka", 1 ],
+      [ "astrakhan", 1 ],
+      [ "fastrakhan", 1 ],
+      [ "coonskin", 1 ],
+      [ "fcoonskin", 1 ],
+      [ "neckwarmer", 15 ],
+      [ "deerstalker", 1 ],
       [ "hat_faux_fur", 20 ],
       [ "pants_ski", 60 ],
       [ "mask_ski", 15 ],
@@ -1965,7 +2010,7 @@
     "type": "item_group",
     "id": "fur_hats_unisex",
     "subtype": "distribution",
-    "entries": [ { "item": "hat_fur", "prob": 100 } ]
+    "entries": [ { "item": "hat_fur", "prob": 90 }, { "item": "ushanka", "prob": 1 }, { "item": "astrakhan", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -1985,6 +2030,10 @@
     "items": [
       [ "hat_fur", 300 ],
       [ "hat_faux_fur", 300 ],
+      [ "ushanka", 10 ],
+      [ "fushanka", 10 ],
+      [ "astrakhan", 5 ],
+      [ "fastrakhan", 5 ],
       [ "sleeveless_trenchcoat_fur", 10 ],
       [ "sleeveless_duster_fur", 10 ],
       [ "sleeveless_trenchcoat_faux_fur", 10 ],
@@ -2026,6 +2075,33 @@
       [ "eboshi", 10 ],
       [ "balclava", 20 ],
       [ "porkpie", 30 ],
+      [ "leather_hatball", 25 ],
+      [ "vizor_hat", 60 ],
+      [ "lvizor_hat", 30 ],
+      [ "trucker_hat", 100 ],
+      [ "ltrucker_hat", 35 ],
+      [ "beanie_hat
+ushanka
+fushanka
+k_beanie
+neckwarmer
+deerstalker
+trilby_hat
+fascinator 
+hat_cloche
+hat_floppy
+coonskin
+conical_hat
+homburg_hat
+fez
+hat_cart
+tyrolean_hat
+fastrakhan
+propeller_hat
+chullo_hat
+plumber_cap
+panama_hat
+boater_hat
       { "group": "costume_hats_hoods", "prob": 450, "event": "halloween" },
       { "group": "christmas_hats", "prob": 450, "event": "christmas" }
     ]
