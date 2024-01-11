@@ -291,7 +291,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "time": "10 m",
-    "autolearn", true,
+    "autolearn": true,
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "felt_patch", 1 ] ] ]
   {
