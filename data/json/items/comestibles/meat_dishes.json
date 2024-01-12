@@ -1557,7 +1557,7 @@
   {
     "type": "COMESTIBLE",
 	"id": "rehydrated_froglegs",
-	"name": { "str": "rehydrated frog legs" },
+	"name": { "str": "rehydrated frog leg", "str_pl": "rehydrated frog legs" },
 	"copy-from": "froglegs_cooked",
 	"color": "light_red",
 	"description": "Reconstitued frog flakes, which are much more enjoyable to eat now that they have been rehydrated.",
