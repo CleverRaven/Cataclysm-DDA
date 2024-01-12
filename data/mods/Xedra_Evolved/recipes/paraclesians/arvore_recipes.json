@@ -16,7 +16,8 @@
       "create_verdant_helm",
       "create_verdant_cuirass",
       "create_verdant_gauntlets",
-      "create_verdant_boots"
+      "create_verdant_boots",
+      "create_verdant_cloak"
     ],
     "difficulty": 1
   },
@@ -442,8 +443,8 @@
   },
   {
     "type": "recipe",
-    "name": "verdant boots",
-    "id": "create_verdant_boots",
+    "name": "verdant cloak",
+    "id": "create_verdant_cloak",
     "description": "Use your magick to turn treesung wood into a cloak made of living wood and leaves.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
