@@ -1560,7 +1560,7 @@
     "name": { "str": "rehydrated frog leg" },
     "copy-from": "froglegs_cooked",
     "color": "light_red",
-    "description": "Reconstitued frog flakes, which are much more enjoyable to eat now that they have been rehydrated.",
+    "description": "Reconstituted frog legs, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 600,
     "price_postapoc": 300,
     "fun": 2
