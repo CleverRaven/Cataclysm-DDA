@@ -1161,8 +1161,8 @@ bool inventory::must_use_hallu_poison( const itype_id &id, int to_use ) const
 {
     const int total = count_item( id );
     int bad = 0;
-    for( std::list<item> item_list : items ) {
-        for( item it : item_list ) {
+    for( const std::list<item> &item_list : items ) {
+        for( const item &it : item_list ) {
             if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
                                        it.has_flag( flag_HIDDEN_HALLU ) ) ) {
                 if( it.count_by_charges() ) {
