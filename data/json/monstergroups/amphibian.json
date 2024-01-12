@@ -117,12 +117,6 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_large_bullfrog_frog",
-        "weight": 120,
-        "pack_size": [ 2, 6 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
         "monster": "mon_strange_frog",
         "weight": 20,
         "pack_size": [ 1, 4 ],
@@ -193,12 +187,6 @@
         "monster": "mon_bullfrog_frog",
         "weight": 100,
         "pack_size": [ 1, 4 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_large_bullfrog_frog",
-        "weight": 100,
-        "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
