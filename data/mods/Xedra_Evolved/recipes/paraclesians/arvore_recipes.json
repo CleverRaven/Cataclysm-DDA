@@ -189,7 +189,7 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden bedframe",
+    "name": "Treesung wooden bed frame",
     "id": "create_bedframe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "LIGHT_EXERCISE",
