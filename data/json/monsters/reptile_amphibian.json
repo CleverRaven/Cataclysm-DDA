@@ -561,7 +561,7 @@
     "id": "mon_large_bullfrog_frog",
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
-    "description": "The American bullfrog, in its natural habitat. This one looks like it preys on squrriels.",
+    "description": "The American bullfrog, in its natural habitat.  This one looks like it preys on squrriels.",
     "name": { "str": "large bullfrog" },
     "volume": "3 L",
     "weight": "2 kg",

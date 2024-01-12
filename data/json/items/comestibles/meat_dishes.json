@@ -484,7 +484,7 @@
   {
     "type": "COMESTIBLE",
 	"id": "fried_froglegs",
-	"name": { "str": "fried frog legs" },
+	"name": { "str": "pair of fried frog legs", "str_pl": "pairs of fried frog legs" },
 	"weight": "120 g",
 	"color": "yellow",
 	"spoils_in": "1 day",
@@ -1539,7 +1539,7 @@
   {
     "type": "COMESTIBLE",
 	"id": "dry_froglegs",
-	"name": { "str": "dehydrated frog legs" },
+	"name": { "str": "pair of dehydrated frog legs", "str_pl": "pairs of dehydrated frog legs" },
 	"copy-from": "froglegs_cooked",
 	"weight": "13 g",
 	"//": "Froglegs are 87 percent water",
