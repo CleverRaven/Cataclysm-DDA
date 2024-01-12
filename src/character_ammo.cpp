@@ -83,12 +83,12 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
     }
 
     for( const item *mod : base->gunmods() ) {
-        item_location mod_loc( base, const_cast<item *>( mod ) );
         if( !mod->has_flag( flag_NOT_MAGAZINE ) ) {
+        item_location mod_loc( base, const_cast<item *>( mod ) );
         opts.emplace_back( mod_loc );
-        }
-        if( mod->magazine_current() && !mod->has_flag( flag_NOT_MAGAZINE ) ) {
+        if( mod->magazine_current() ) {
             opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
+        }
         }
     }
 
