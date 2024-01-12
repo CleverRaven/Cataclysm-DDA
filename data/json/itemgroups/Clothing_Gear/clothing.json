@@ -3567,7 +3567,7 @@
       { "item": "tophat", "prob": 10 },
       { "item": "deerstalker", "prob": 1 },
       { "item": "hat_ball", "prob": 40 },
-      { "item": "leather_hatball", 15 },
+      { "item": "leather_hatball", "prob": 15 },
       { "item": "trucker_hat", 40 },
       { "item": "ltrucker_hat", 15 },
       { "item": "beanie_hat", 20 },
