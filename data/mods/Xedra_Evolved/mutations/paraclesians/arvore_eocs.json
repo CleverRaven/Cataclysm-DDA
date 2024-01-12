@@ -501,10 +501,15 @@
           "create_chair_wood_treesung",
           "create_wardrobe_wood_treesung",
           "create_table_wood_treesung",
-          "create_bedframe_wood_treesung"
+          "create_bedframe_wood_treesung",
+          "create_verdant_helm",
+          "create_verdant_cuirass",
+          "create_verdant_gauntlets",
+          "create_verdant_boots"
         ],
         "type": "recipe"
-      }
+      },
+      { "u_message": "The trees whisper their knowledge of a recipe to you", "type": "good" }
     ]
   },
   {

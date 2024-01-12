@@ -1103,7 +1103,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATERPROOF", "STURDY", "NO_REPAIR" ],
+    "flags": [ "WATERPROOF", "STURDY", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
     "armor": [
       {
         "covers": [ "head" ],
@@ -1149,6 +1149,7 @@
     "id": "armor_verdant_cuirass",
     "//": "Derived from chitinous armor",
     "type": "ARMOR",
+    "//2": "The idea for this is that it's basically plate-and-mail, but with bark and a kind of mossy, viney connective tissue",
     "name": { "str": "verdant cuirass", "str_pl": "verdant cuirasses" },
     "description": "A cuirass made of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
     "weight": "2632 g",
@@ -1163,7 +1164,7 @@
     "warmth": 10,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
     "armor": [
       {
         "breathability": "AVERAGE",
@@ -1174,6 +1175,17 @@
         "coverage": 100,
         "covers": [ "torso" ],
         "encumbrance": 10
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 100,
+        "covers": [ "arm_r", "arm_l" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ],
+        "encumbrance": 6
       },
       {
         "breathability": "AVERAGE",
@@ -1196,7 +1208,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of verdant gauntlets", "str_pl": "pairs of verdant gauntlets" },
-    "description": "A pair of gauntlets made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "description": "A pair of fingerless gauntlets made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
     "weight": "760 g",
     "volume": "1750 ml",
     "price": 38000,
@@ -1207,9 +1219,9 @@
     "looks_like": "gauntlets_larmor",
     "color": "green",
     "warmth": 20,
-    "material_thickness": 4,
+    "material_thickness": 3.5,
     "environmental_protection": 4,
-    "flags": [ "STURDY", "DURABLE_MELEE", "NO_REPAIR" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "breathability": "AVERAGE",
@@ -1217,7 +1229,18 @@
           { "type": "mut_wood", "covered_by_mat": 95, "thickness": 2.5 },
           { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "encumbrance": 12,
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 8,
         "coverage": 95,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
@@ -1229,6 +1252,16 @@
           { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "coverage": 70,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ]
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 80, "thickness": 1.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
@@ -1255,13 +1288,13 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "NO_REPAIR" ],
+    "flags": [ "STURDY", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
     "armor": [
       {
         "breathability": "AVERAGE",
         "material": [
-          { "type": "mut_wood", "covered_by_mat": 85, "thickness": 1.5 },
-          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "mut_wood", "covered_by_mat": 85, "thickness": 2 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 2 }
         ],
         "coverage": 95,
         "covers": [ "foot_l", "foot_r" ],
@@ -1275,7 +1308,7 @@
           "foot_sole_l",
           "foot_sole_r"
         ],
-        "encumbrance": 15
+        "encumbrance": 12
       },
       {
         "breathability": "AVERAGE",
