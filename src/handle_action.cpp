@@ -147,6 +147,7 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
@@ -1208,6 +1209,7 @@ static void sleep()
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
         !player_character.has_trait( trait_WATERSLEEPER ) &&
         !player_character.has_trait( trait_WATERSLEEP ) &&
+        !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
         boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
