@@ -164,7 +164,7 @@
         }
       ]
     },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK" ],
     "melee_damage": { "bash": 2, "cut": 30 }
   },
   {
