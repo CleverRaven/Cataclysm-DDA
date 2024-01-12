@@ -399,7 +399,7 @@
       { "proficiency": "prof_quenching" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ] ],
-    "tools": [ 
+    "tools": [
       [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
