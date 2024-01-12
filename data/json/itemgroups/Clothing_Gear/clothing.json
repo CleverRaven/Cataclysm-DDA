@@ -3853,7 +3853,7 @@
           { "item": "astrakhan", "prob": 1 },
           { "item": "hat_fur", "prob": 5 },
           { "item": "hat_boonie", "prob": 15 },
-          { "item": "hat bucket", "prob": 20 },
+          { "item": "hat_bucket", "prob": 20 },
           { "item": "cowl_wool", "prob": 15 },
           { "item": "hood_rain", "prob": 25 }
         ],
