@@ -896,7 +896,7 @@
   {
     "type": "GENERIC",
     "id": "aztec_sword_stone",
-    "name": { "str_sp": "stone lined macuahuitl" },
+    "name": { "str": "stone lined macuahuitl" },
     "description": "An improvised version of the close combat weapon that was mainly used by Aztecs.  It's not very sturdy, but it will break someone's skull open and give them a good cut.",
     "weight": "2050 g",
     "volume": "3800 ml",
@@ -915,7 +915,7 @@
   {
     "type": "GENERIC",
     "id": "aztec_sword_scrap",
-    "name": { "str_sp": "makeshift macuahuitl" },
+    "name": { "str": "makeshift macuahuitl" },
     "description": "A poor imitation of the close combat weapon affiliated with Aztec warriors, made with a large wooden club and carefully hammered razors.  Although not very sturdy, it delivers some nasty cuts and bruises.",
     "weight": "2050 g",
     "volume": "3800 ml",
