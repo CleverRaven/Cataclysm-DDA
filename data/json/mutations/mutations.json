@@ -2774,6 +2774,20 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_FANGS",
+    "name": { "str": "Vampire Fangs" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 3,
+    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep the blood flowing long after it should have stopped.",
+    "types": [ "TEETH" ],
+    "prereqs": [ "FANGS" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
+    "category": [ "CHIROPTERAN" ],
+    "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
     "id": "MEMBRANE",
     "name": { "str": "Nictitating Membrane" },
     "points": 1,
@@ -8754,6 +8768,16 @@
     "points": 1,
     "description": "Who needs skin when you can have a hard carapace?",
     "flags": [ "INVERTEBRATEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_CHIROPTERAN",
+    "name": { "str": "Chiropteran" },
+    "points": 1,
+    "description": "You long for a colony, the cover of darkness, and a meal on the wing.",
     "valid": false,
     "purifiable": false,
     "threshold": true

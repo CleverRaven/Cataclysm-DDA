@@ -3490,5 +3490,18 @@
       }
     ],
     "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE",
+    "name": "Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -10,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": true,
+    "attack_vectors": [ "MOUTH" ]
   }
 ]
