@@ -403,8 +403,8 @@ The old implementation of acid rain had a massive world consistency flaw, given 
 
 These aren’t suggestions, but arguments that comes up in support of suggestions or alterations to the game. They come up constantly so I’m putting a note about them here.
 
-In context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again", or "if someone wants to add something into the game, they should review it separately from the rest of the game, not relying on another parts of the game"
-The game is open-source and community build, and changes itself all the time - Whales cataclysm and DDA has a 10 years of difference, and ~40k merged changes from ~2k different contributors. The game changes all the time, we've got an entire setting revamped, which means there is a lot of items, that was added long enough, that can't be added anymore, and honeslty shouldn't be - mininuke manhacks, SPIW weapon, healing royal jelly, superalloy dog harnesses… 
+In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
+The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honeslty shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
 More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
