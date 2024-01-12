@@ -167,10 +167,6 @@
   },
   {
     "type": "item_action",
-    "id": "TRIMMER_ON"
-  },
-  {
-    "type": "item_action",
     "id": "CIRCSAW_ON"
   },
   {
@@ -840,11 +836,6 @@
     "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",

@@ -3078,15 +3078,6 @@ std::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, const tripoi
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-std::optional<int> iuse::trimmer_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 3,
-                           15, _( "With a roar, the hedge trimmer leaps to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
 static int toolweapon_running( Character *p, item &it, const tripoint &pos,
                                const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
                                const bool double_charge_cost = false )
@@ -3139,11 +3130,6 @@ std::optional<int> iuse::chainsaw_on( Character *p, item *it, const tripoint &po
 std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, const tripoint &pos )
 {
     return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-std::optional<int> iuse::trimmer_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
 }
 
 std::optional<int> iuse::circsaw_on( Character *p, item *it, const tripoint &pos )

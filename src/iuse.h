@@ -192,8 +192,6 @@ std::optional<int> tazer2( Character *, item *, const tripoint & );
 std::optional<int> teleport( Character *, item *, const tripoint & );
 std::optional<int> toolmod_attach( Character *, item *, const tripoint & );
 std::optional<int> towel( Character *, item *, const tripoint & );
-std::optional<int> trimmer_off( Character *, item *, const tripoint & );
-std::optional<int> trimmer_on( Character *, item *, const tripoint & );
 std::optional<int> unfold_generic( Character *, item *, const tripoint & );
 std::optional<int> unpack_item( Character *, item *, const tripoint & );
 std::optional<int> vibe( Character *, item *, const tripoint & );
