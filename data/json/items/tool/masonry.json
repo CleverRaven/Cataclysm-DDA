@@ -131,7 +131,16 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [
-      "TOOLWEAPON_DEACTIVATE",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
+            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
+          }
+        ]
+      },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",

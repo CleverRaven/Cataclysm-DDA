@@ -3078,38 +3078,6 @@ std::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, const tripoi
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-static int toolweapon_running( Character *p, item &it, const tripoint &pos,
-                               const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
-                               const bool double_charge_cost = false )
-{
-    if( double_charge_cost && it.ammo_sufficient( p ) ) {
-        it.ammo_consume( 1, pos, p );
-    }
-    bool drown = false;
-    if( !works_underwater ) {
-        if( !p ) {
-            map &here = get_map();
-            if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
-                // Item is on ground on water
-                drown = true;
-            }
-        } else if( p->is_underwater() ) {
-            drown = true;
-        }
-    }
-
-    if( drown ) {
-        if( p ) {
-            p->add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
-        }
-        it.convert( *it.type->revert_to, p ).active = false;
-    } else if( one_in( sound_chance ) ) {
-        sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
-    }
-
-    return 0; // Ammo consumption handled elsewhere
-}
-
 std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tripoint &pos )
 {
     if( it->typeId() == itype_chainsaw_on ) {
@@ -3120,16 +3088,6 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tr
     p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
     it->convert( *it->type->revert_to, p ).active = false;
     return 0; // Don't consume charges when turning off.
-}
-
-std::optional<int> iuse::chainsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
-}
-
-std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
 }
 
 std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint & )

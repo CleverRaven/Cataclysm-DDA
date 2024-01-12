@@ -167,14 +167,6 @@
   },
   {
     "type": "item_action",
-    "id": "CHAINSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON"
-  },
-  {
-    "type": "item_action",
     "id": "CHANGE_EYES",
     "name": { "str": "Change the eye color" }
   },
@@ -417,11 +409,6 @@
     "type": "item_action",
     "id": "EBOOKREAD",
     "name": { "str": "Read stored books" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",

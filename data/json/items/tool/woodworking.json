@@ -72,7 +72,23 @@
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CHAINSAW_ON" ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__chainsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": "Your chainsaw rumbles.",
+              "volume": "12",
+              "revert_to": "chainsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 70 }
   },
@@ -111,8 +127,33 @@
     "revert_to": "polesaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CHAINSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__polesaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__polesaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": "Your chainsaw rumbles.",
+              "volume": "12",
+              "revert_to": "polesaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 4, "cut": 35 }
   },
@@ -281,7 +322,29 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "ELEC_CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__elec_chainsaw",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "elec_chainsaw_on",
+              "success_message": "With a roar, the electric chainsaw screams to life!",
+              "volume": "20",
+              "failure_message": "You flip the switch, but nothing happens."
+            }
+          },
+          "false_effect": {
+            "u_message": "You flip the switch, but nothing happens."
+          }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
@@ -304,8 +367,33 @@
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__elec_chainsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__elec_chainsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "5",
+              "sound_message": "Your electric chainsaw rumbles.",
+              "volume": "12",
+              "revert_to": "elec_chainsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 70 }
   },
@@ -317,7 +405,30 @@
     "price": "66 USD",
     "name": { "str": "corded electric chainsaw (off)", "str_pl": "corded electric chainsaws (off)" },
     "description": "A treecutting tool moonlighting as a weapon of opportunity.  It has a short electric cord, which you can connect to the generator or your home grid.  Extension cord not included.",
-    "use_action": [ "ELEC_CHAINSAW_OFF", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
+    "use_action": [{
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "elec_chainsaw_cord_on",
+              "success_message": "With a roar, the corded electric chainsaw screams to life!",
+              "volume": "20",
+              "failure_message": "You flip the switch, but nothing happens."
+            }
+          },
+          "false_effect": {
+            "u_message": "You flip the switch, but nothing happens."
+          }
+        }
+      ]
+    },
+       { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
     "pocket_data": [  ]
   },
   {
@@ -326,8 +437,36 @@
     "looks_like": "elec_chainsaw_on",
     "type": "TOOL",
     "name": { "str": "corded electric chainsaw (on)", "str_pl": "corded electric chainsaws (on)" },
-    "use_action": [ "TOOLWEAPON_DEACTIVATE", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
-    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
+            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" }
+    ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__elec_chainsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "5",
+              "sound_message": "Your corded electric chainsaw rumbles.",
+              "volume": "12",
+              "revert_to": "elec_chainsaw_cord_off"
+            }
+          }
+        }
+      ]
+    },
     "power_draw": "2 kW",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
