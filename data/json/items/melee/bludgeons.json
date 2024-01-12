@@ -936,7 +936,7 @@
     "id": "lc_aztec_sword",
     "name": { "str": "mild steel bladed macuahuitl" },
     "description": "A modern reimagining of the large close combat weapon affiliated with Aztec warriors, made of a sturdy wooden club and sharp blades forged from mild steel.  Blades are definitely sturdier than obsidian ones.  Not great, not terrible.",
-    "weight": "2300 g",
+    "weight": "3600 g",
     "volume": "4500 ml",
     "price": 4000,
     "price_postapoc": 1500,
