@@ -330,7 +330,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 2,
-    "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT" ],
+    "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
     "vitamins": [ [ "vitC", 300 ], [ "calcium", 8 ], [ "iron", 4 ] ]
   },
   {
