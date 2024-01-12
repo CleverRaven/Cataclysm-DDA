@@ -41,7 +41,7 @@
     "name": { "str": "cartwheel hat" },
     "description": "A type of sun hat with a flat, circular crown and an oversized brim that extends outward from the head, creating a striking silhouette.",
     "material": "cotton",
-    "weight": "270 g"
+    "weight": "270 g",
     "volume": "1150 ml",
     "copy-from": "10gal_hat"
   },
