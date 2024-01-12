@@ -415,7 +415,6 @@
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
-      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -430,7 +429,6 @@
         "text": "Oh, you mean you got here early in the Cataclysm.  Why is that so good?",
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4a"
       },
-      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -500,7 +498,6 @@
         "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
-      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -856,11 +853,6 @@
     "dynamic_line": "Just so, aye.  Again an' again, this'n has seen it.  Too many times.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "Do you know what's going on?  What caused all this?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
       },
@@ -879,11 +871,6 @@
     "//~": "You want to get religious, eh?  I can't tell you for sure, but the people who claim to know, they talk about the Enemy.  Most folks have a fairy tale like that, I think.  A monster from ancient memory, returned.  I don't know much about that, but something makes those bodies walk and moan, and it doesn't seem to be anything human.  How it gets in, well, that's anyone's guess.  It can come the way we came, through a portal, but it doesn't always.  How it was for your world, I can't tell you.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "Wait, it can come like you did?  Did you bring this here?!",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2"
       },
@@ -901,11 +888,6 @@
     "dynamic_line": "No!  Bluster an' clouds, no!\"  *Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  \"We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.\"",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
       },
@@ -919,11 +901,6 @@
     "dynamic_line": "This be a deadland, kennit.  Spend a farthing at the pastor's house, d'ye razz?  What be left for ye?  The dead'll be in the fields, the forests, all around the green and brown.  Anything what walks, they'll salt 'n fallow, and most'll rise up and rejoin.  Those what don't, the Enemy twists and turns as well.  Every deadland be the same.  Ye've turns and twain, but come as it may, this land be dead.  Though, an I'm ken, ye've quite a few turns and twain to go yet.",
     "//~": "This is a deadland, you see.  Take a moment and look around, know what I mean?  What's left for you?  The dead will be in the fields, the forests, all over the world.  Anything that walks, they'll make it so it doesn't, and most will come back as undead.  Those that don't, the Enemy will change them as well.  Every deadland is the same.  You've years and more to go, but one way or another, this place is dead.  Though, as far as I can see, you've got quite a few years to go yet.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
       {
         "text": "What then?  What happens after the whole planet dies?  Could it spread to other worlds from here?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2"
@@ -950,11 +927,6 @@
     },
     "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
       {
         "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
@@ -990,11 +962,6 @@
     "//~": "If you want to try it, I won't stop you.  In fact, I'll sell you equipment that might help.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "Do you know what's going on?  What caused all this?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
       },
@@ -1010,11 +977,6 @@
     "dynamic_line": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself.",
     "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is Benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
       {
         "text": "Do you know what's going on?  What caused all this?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
