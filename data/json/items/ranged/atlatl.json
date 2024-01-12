@@ -59,8 +59,8 @@
   {
     "id": "bronze_atlatl_spear",
     "type": "AMMO",
-    "name": { "str": "steel tipped atlatl spear" },
-    "description": "A steal tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
+    "name": { "str": "bronze tipped atlatl spear" },
+    "description": "A bronze tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
     "weight": "280 g",
     "volume": "600 ml",
     "price": 1000,
