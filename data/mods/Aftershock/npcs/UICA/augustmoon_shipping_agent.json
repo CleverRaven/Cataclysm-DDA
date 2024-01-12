@@ -51,7 +51,7 @@
     "responses": [
       {
         "text": "I'm ready, book me in the next ship down.",
-        "effect": [ { "u_spend_cash": 10000, "true_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ],
+        "effect": [ { "u_spend_cash": 100000, "true_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ],
         "topic": "TALK_DONE"
       },
       { "text": "I need to settle a few things first", "topic": "TALK_DONE" }

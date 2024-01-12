@@ -48,8 +48,9 @@
     "description": "The ancient hull of Port Augustmoon, spun into orbit several lifetimes ago.",
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL",  "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
+    "bash": { "str_min": 4000, "str_max": 8000, "sound": "whump!", "sound_fail": "whump!", "ter_set": "t_afs_augustmoon_hull_wall" },
     "color": "white"
   },
   {
