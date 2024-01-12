@@ -87,7 +87,7 @@
     "id": "ter_arvore_wood_floor",
     "terrain": [
       {
-        "result": [ "t_barkfloor" ],
+        "result": [ "t_barkfloor_no_roof" ],
         "valid_terrain": [
           "t_grass",
           "t_grass_long",
@@ -106,9 +106,9 @@
         "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
       },
       {
-        "result": [ "t_barkfloor_no_roof" ],
-        "valid_terrain": [ "t_barkfloor" ],
-        "message": "The ground churns as bark-covered roots quest upward."
+        "result": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor_no_roof" ],
+        "message": "The ground churns as bark-covered roots quest upward, forming an intertwining roof."
       },
       {
         "result": [ "t_barkfloor_no_roof" ],
