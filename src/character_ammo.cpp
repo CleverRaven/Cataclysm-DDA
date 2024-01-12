@@ -84,8 +84,10 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
 
     for( const item *mod : base->gunmods() ) {
         item_location mod_loc( base, const_cast<item *>( mod ) );
+        if( !mod->has_flag( flag_NOT_MAGAZINE ) ) {
         opts.emplace_back( mod_loc );
-        if( mod->magazine_current() ) {
+        }
+        if( mod->magazine_current() && !mod->has_flag( flag_NOT_MAGAZINE ) ) {
             opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
         }
     }
@@ -97,10 +99,12 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
             if( p->can_reload_with( *ammo.get_item(), false ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
+                        add_msg_if_player( m_info, _( "ammo found 1." ) );
                 ammo_match_found = true;
             } else if( ( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) &&
                        p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
+                        add_msg_if_player( m_info, _( "ammo found 2." ) );
                 ammo_match_found = p->can_reload_with( *ammo.get_item(), false );
             }
             if( can_reload( *p, ammo.get_item() ) ) {
@@ -110,6 +114,10 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
     }
     return ammo_match_found;
 }
+
+
+
+
 
 item::reload_option Character::select_ammo( const item_location &base,
         std::vector<item::reload_option> opts, const std::string &name_override ) const
@@ -352,6 +360,11 @@ item::reload_option Character::select_ammo( const item_location &base,
 item::reload_option Character::select_ammo( const item_location &base, bool prompt,
         bool empty ) const
 {
+
+    if( has_flag( flag_NOT_MAGAZINE ) ) {
+        return item::reload_option();
+    }
+
     if( !base ) {
         return item::reload_option();
     }

@@ -2387,5 +2387,10 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "NOT_MAGAZINE",
+    "type": "json_flag",
+    "//": "Skips a check in Character::list_ammo that would otherwise prevent items here from being used to reload a gun."
   }
 ]

@@ -1715,7 +1715,6 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
             }
 
             return true;
-
         } else if( is_type( pocket_type::MAGAZINE_WELL ) ) {
             // Reloading is refused if there already is full magazine here
             // Reloading with another identical mag with identical contents is also pointless so it is not allowed
@@ -1725,8 +1724,10 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
                     front().same_contents( ammo ) );
         } else if( is_type( pocket_type::CONTAINER ) ) {
             // Reloading is possible if liquid combines with old liquid
-
             if( front().can_combine( ammo ) ) {
+                return true;
+            }
+            if( !ammo.made_of( phase_id::LIQUID ) ) {
                 return true;
             }
         }

@@ -132,5 +132,33 @@
     "location": "belt clip",
     "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "12_gauge_shell_holder",
+    "type": "GUNMOD",
+    "name": { "str": "12 gauge shell holder" },
+    "description": "Designed to be affixed to the side of a shotgun's receiver, this polymer shotshell holder can store six 12 gauge shells for easy reloading.",
+    "weight": "16 g",
+    "volume": "60 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "install_time": "30 s",
+    "material": [ "plastic" ],
+    "flags": [ "NOT_MAGAZINE" ],
+    "symbol": ":",
+    "color": "black",
+    "location": "loading port",
+    "mod_targets": [ "shotgun" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "120 ml",
+        "max_contains_weight": "300 g",
+        "ammo_restriction": { "shot": 6 },
+        "moves": 25
+      }
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
   }
 ]
