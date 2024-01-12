@@ -27,7 +27,7 @@
     "id": "f_wardrobe_treesung",
     "name": "treesung wardrobe",
     "looks_like": "f_dresser",
-    "description": "A very large wooden cabinet for storing clothes, effectively an upright closet.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.  There's even a bit of mossing growing on the sides.",
+    "description": "A very large wooden cabinet for storing clothes, effectively an upright closet.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.  There's even a bit of moss growing on the sides.",
     "symbol": "{",
     "color": "i_green",
     "move_cost_mod": -1,
