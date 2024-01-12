@@ -20,7 +20,7 @@
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
     ],
     "//": "All guns are more expensive here.",
-    "shopkeeper_item_group": [ { "group": "afs_civilian_armory", "rigid": true } ],
+    "shopkeeper_item_group": [ { "group": "afs_civilian_armory", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
     "shopkeeper_price_rules": [ { "group": "afs_general_armory", "markup": 1.5 } ]
   },
   {

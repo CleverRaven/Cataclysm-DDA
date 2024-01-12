@@ -1,0 +1,15 @@
+[
+  {
+    "id": "augustmoon_shop_money",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "UICA_1000d", "count": 5 },
+      { "item": "UICA_100d", "count": 20 },
+      { "item": "UICA_10d", "count": 30 },
+      { "item": "UICA_5d", "count": 20 },
+      { "item": "UICA_1d", "count": 50 }
+    ]
+  }
+]

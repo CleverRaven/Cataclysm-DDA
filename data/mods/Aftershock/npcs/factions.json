@@ -82,7 +82,13 @@
     "known_by_u": true,
     "size": 100,
     "power": 100,
-    "currency": "",
+    "currency": "UICA_1d",
+    "price_rules": [
+      { "item": "UICA_5d", "fixed_adj": 0 },
+      { "item": "UICA_10d", "fixed_adj": 0 },
+      { "item": "UICA_100d", "fixed_adj": 0 },
+      { "item": "UICA_1000d", "fixed_adj": 0 }
+    ],
     "food_supply": 115200,
     "wealth": 75000,
     "relations": {
