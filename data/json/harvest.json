@@ -2668,10 +2668,8 @@
   },
   {
     "id": "bullfrog",
-	"//": "Frog legs, but the rest of the frog is mostly inedible",
-	"type": "harvest",
-	"entries": [
-	  { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 }
-	]
-  }	
+    "//": "Frog legs, but the rest of the frog is mostly inedible",
+    "type": "harvest",
+    "entries": [ { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 } ]
+  }
 ]
