@@ -1948,7 +1948,7 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
     };
 }
 
-}
+} // namespace
 } // namespace conditional_fun
 
 template<class T>
