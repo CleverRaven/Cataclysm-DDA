@@ -423,7 +423,7 @@
     "to_hit": -1,
     "material": [ "veggy" ],
     "symbol": "[",
-    "looks_like": "coat_rain",
+    "looks_like": "cloak",
     "color": "green",
     "warmth": 30,
     "material_thickness": 0.4,
