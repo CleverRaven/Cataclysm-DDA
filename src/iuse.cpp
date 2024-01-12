@@ -3132,16 +3132,6 @@ std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, const tripoin
     return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
 }
 
-std::optional<int> iuse::circsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
-}
-
-std::optional<int> iuse::e_circsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your electric circular saw buzzes." ) );
-}
-
 std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint & )
 {
     if( p->is_avatar() ) {

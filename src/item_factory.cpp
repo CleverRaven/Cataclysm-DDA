@@ -1683,8 +1683,6 @@ void Item_factory::init()
     add_iuse( "CHANGE_SKIN", &iuse::change_skin );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
-    add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
-    add_iuse( "ELECTRIC_CIRCSAW_ON", &iuse::e_circsaw_on );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );

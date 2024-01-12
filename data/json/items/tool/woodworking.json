@@ -132,7 +132,25 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__circsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "circsaw_on",
+              "success_message": "With a loud buzz, the <npc_name> roars to life!",
+              "volume": "15",
+              "failure_message": "You flip the switch, but nothing happens."
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE" ],
     "pocket_data": [
       {
@@ -155,8 +173,33 @@
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CIRCSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__circsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__circsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": "Your circular saw buzzes.",
+              "volume": "7",
+              "revert_to": "circsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 2, "cut": 50 }
   },
