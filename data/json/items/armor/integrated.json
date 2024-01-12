@@ -1588,7 +1588,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "vampire fangs" },
-    "description": "Useful for the hunt, suitable for maximum efficiency.",
+    "description": "A wicked pair of fangs, pointed and surgically sharp.",
     "weight": "112 g",
     "volume": "125 ml",
     "price": 0,
@@ -1603,12 +1603,12 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
-        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "material": [ { "type": "bone", "covered_by_mat": 0, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
-        "coverage": 10,
+        "coverage": 0,
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "pierce": 20 }
   }
 ]
