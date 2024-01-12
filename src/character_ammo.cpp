@@ -97,12 +97,10 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
             if( p->can_reload_with( *ammo.get_item(), false ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
-                        add_msg_if_player( m_info, _( "ammo found 1." ) );
                 ammo_match_found = true;
             } else if( ( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) &&
                        p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
-                        add_msg_if_player( m_info, _( "ammo found 2." ) );
                 ammo_match_found = p->can_reload_with( *ammo.get_item(), false );
             }
             if( can_reload( *p, ammo.get_item() ) ) {
@@ -112,10 +110,6 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
     }
     return ammo_match_found;
 }
-
-
-
-
 
 item::reload_option Character::select_ammo( const item_location &base,
         std::vector<item::reload_option> opts, const std::string &name_override ) const
