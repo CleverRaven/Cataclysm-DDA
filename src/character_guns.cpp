@@ -17,7 +17,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
 
         // This stops containers and magazines counting *themselves* as ammo sources
-        if( node == &obj ) {
+        if( node == &obj && !node->has_flag( flag_NOT_MAGAZINE ) ) {
             return VisitResponse::SKIP;
         }
 
@@ -32,7 +32,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         }
 
         // Do not steal ammo from magazines
-        if( parent != nullptr && parent->is_magazine() ) {
+        if( parent != nullptr && parent->is_magazine() && !parent->is_magazine() ) {
             return VisitResponse::SKIP;
         }
 
@@ -252,6 +252,7 @@ bool Character::gunmod_remove( item &gun, item &mod )
             break;
         }
     }
+
     if( gunmod_idx == mods.size() ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;

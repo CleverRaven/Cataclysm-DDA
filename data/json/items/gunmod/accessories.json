@@ -144,7 +144,7 @@
     "price_postapoc": 50,
     "install_time": "30 s",
     "material": [ "plastic" ],
-    "flags": [ "NOT_MAGAZINE" ],
+    "flags": [ "NOT_MAGAZINE", "TARDIS" ],
     "symbol": ":",
     "color": "black",
     "location": "loading port",
