@@ -13,7 +13,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
-    "deconstruct": { "items": [ { "item": "f_chair_treesung", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "chair_treesung", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 25,

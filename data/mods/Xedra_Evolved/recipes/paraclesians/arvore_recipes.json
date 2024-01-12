@@ -8,8 +8,29 @@
     "name": "treesinging",
     "description": "Recipes related to turning sung wood into furniture and items.",
     "skill_used": "deduction",
-    "nested_category_data": [ "create_chair_wood_treesung", "create_wardrobe_wood_treesung", "create_table_wood_treesung" ],
+    "nested_category_data": [
+      "create_chair_wood_treesung",
+      "create_wardrobe_wood_treesung",
+      "create_table_wood_treesung",
+      "create_bedframe_wood_treesung"
+    ],
     "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "2x4",
+    "id_suffix": "from treesung logs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "result_mult": 8,
+    "components": [ [ [ "log_treesung", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -46,8 +67,8 @@
               ],
               "false_effect": [
                 { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
-                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150" ] }, "suppress_message": true },
-                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,30" ] }, "suppress_message": true },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,30)" ] }, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "300" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(150) + 50" ] }
               ]
@@ -96,8 +117,8 @@
               ],
               "false_effect": [
                 { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
-                { "u_spawn_item": "splinter", "count": { "math": [ "rng(250,450" ] }, "suppress_message": true },
-                { "u_spawn_item": "twig", "count": { "math": [ "rng(20,50" ] }, "suppress_message": true },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(250,450)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(20,50)" ] }, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "750" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(150) + 50" ] }
               ]
@@ -133,7 +154,7 @@
         "effect": {
           "run_eocs": [
             {
-              "id": "EOC_ARVORE_TREESINGING_CHAIR_SPELL_CHECK",
+              "id": "EOC_ARVORE_TREESINGING_TABLE_SPELL_CHECK",
               "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "4" ] },
               "effect": [
                 {
@@ -146,8 +167,8 @@
               ],
               "false_effect": [
                 { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
-                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150" ] }, "suppress_message": true },
-                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20" ] }, "suppress_message": true },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "400" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(150) + 50" ] }
               ]
@@ -164,7 +185,7 @@
   {
     "type": "recipe",
     "name": "Treesung wooden bedframe",
-    "id": "create_table_wood_treesung",
+    "id": "create_bedframe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a bedframe.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
@@ -196,8 +217,8 @@
               ],
               "false_effect": [
                 { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
-                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150" ] }, "suppress_message": true },
-                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20" ] }, "suppress_message": true },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(50,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "200" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(150) + 50" ] }
               ]

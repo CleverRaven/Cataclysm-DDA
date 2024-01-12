@@ -97,11 +97,11 @@
   {
     "type": "construction_group",
     "id": "build_bed_treesung",
-    "name": "Build Treesung Bed"
+    "name": "Build treesung bed"
   },
   {
     "type": "construction_group",
     "id": "build_down_bed_treesung",
-    "name": "Build Treesung Down Bed"
+    "name": "Build treesung down bed"
   }
 ]

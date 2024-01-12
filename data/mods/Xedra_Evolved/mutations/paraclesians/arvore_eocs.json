@@ -437,6 +437,78 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING_LEARN_RECIPES",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ARVORE" },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "1" ] },
+        {
+          "or": [
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
+            { "u_at_om_location": "arvore_genius_loci_NW" },
+            { "u_at_om_location": "arvore_genius_loci_NE" },
+            { "u_at_om_location": "arvore_genius_loci_SW" },
+            { "u_at_om_location": "arvore_genius_loci_SE" },
+            { "u_is_on_terrain": "t_barkfloor" },
+            { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z0_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z1_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z2_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z3_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z3_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z4_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z4_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z5_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z5_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z7_se", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_06", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_11", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
+            { "u_near_om_location": "great_tree_roots", "range": 2 },
+            { "u_near_om_location": "great_tree_roots_se", "range": 2 },
+            { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "create_chair_wood_treesung",
+          "create_wardrobe_wood_treesung",
+          "create_table_wood_treesung",
+          "create_bedframe_wood_treesung"
+        ],
+        "type": "recipe"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": {
       "and": [
