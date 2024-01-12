@@ -87,6 +87,7 @@ static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
 static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
@@ -2208,6 +2209,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
+    } else if( at.count( ammo_atlatl ) ) {
+        return { noise, _( "swoosh!" ) };
     }
 
     auto fx = ammo_effects();
