@@ -3771,7 +3771,7 @@
     "type": "item_group",
     "items": [
       [ "bandana", 25 ],
-      [ "neckwarmer", 5 ]
+      [ "neckwarmer", 5 ],
       [ "boxer_shorts", 25 ],
       { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
       { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
