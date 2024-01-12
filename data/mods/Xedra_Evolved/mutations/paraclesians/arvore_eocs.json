@@ -452,7 +452,8 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
-            { "not": { "u_know_recipe": "create_verdant_boots" } }
+            { "not": { "u_know_recipe": "create_verdant_boots" } },
+            { "not": { "u_know_recipe": "create_verdant_cloak" } }
           ]
         },
         {
@@ -517,7 +518,8 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
-          "create_verdant_boots"
+          "create_verdant_boots",
+          "create_verdant_cloak"
         ],
         "type": "recipe"
       },

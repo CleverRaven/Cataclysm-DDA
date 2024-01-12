@@ -142,5 +142,16 @@
     "has": "WORN",
     "condition": "ALWAYS",
     "mutations": [ "VERDANT_BOOTS" ]
+  },
+  {
+    "id": "ench_verdant_cloak",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 },
+      { "value": "BONUS_DODGE", "add": 1 }
+    ]
   }
 ]
