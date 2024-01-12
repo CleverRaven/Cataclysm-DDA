@@ -26,6 +26,26 @@
     ]
   },
   {
+    "id": "hat_floppy",
+    "type": "ARMOR",
+    "name": { "str": "floppy hat" },
+    "description": "A type of sun hat with a lightweight build and a wide brim that helps keep the sun out of your eyes, face, neck and shoulders.",
+    "material": "cotton",
+    "weight": "250 g",
+    "volume": "1000 ml",
+    "copy-from": "10gal_hat"
+  },
+  {
+    "id": "hat_cart",
+    "type": "ARMOR",
+    "name": { "str": "cartwheel hat" },
+    "description": "A type of sun hat with a flat, circular crown and an oversized brim that extends outward from the head, creating a striking silhouette.",
+    "material": "cotton",
+    "weight": "270 g"
+    "volume": "1150 ml",
+    "copy-from": "10gal_hat"
+  },
+  {
     "id": "bandana_head",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -69,7 +89,7 @@
     "price_postapoc": 10,
     "use_action": {
       "type": "transform",
-      "msg": "You adjust the %s to cover your mouth.",
+      "msg": "You adjust the %s to cover your mouth and neck.",
       "target": "neckwarmer",
       "menu_text": "Cover mouth"
     },
@@ -454,20 +474,6 @@
     "type": "ARMOR",
     "name": { "str": "bucket hat" },
     "description": "A civilian, commercial-grade bucket hat.  Comfortable and somewhat stylish, it will keep the sun out of your eyes.",
-    "copy-from": "hat_boonie"
-  },
-  {
-    "id": "hat_floppy",
-    "type": "ARMOR",
-    "name": { "str": "floppy hat" },
-    "description": "A type of sun hat with a lightweight build and a wide brim that helps keep the sun out of your eyes, face, neck and shoulders.",
-    "copy-from": "hat_boonie"
-  },
-  {
-    "id": "hat_cart",
-    "type": "ARMOR",
-    "name": { "str": "cartwheel hat" },
-    "description": "A type of sun hat with a flat, circular crown and an oversized brim that extends outward from the head, creating a striking silhouette.",
     "copy-from": "hat_boonie"
   },
   {
