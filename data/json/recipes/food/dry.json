@@ -44,7 +44,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 10, "LIST" ] ] ],
     "//": "100g of stuff",
-    "components": [ [ [ "froglegs", 1, "LIST" ] ] ]
+    "components": [ [ [ "froglegs", 1 ] ] ]
   },
   {
     "type": "recipe",
