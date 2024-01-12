@@ -750,7 +750,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 }
 
 template<typename T>
-std::vector<std::string> requirement_data::w( int width,
+std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
         requirement_display_flags flags ) const
