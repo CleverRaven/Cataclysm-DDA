@@ -33,7 +33,7 @@
   {
     "type": "GENERIC",
     "id": "bedframe_treesung",
-    "name": { "str": "treesung bed frame frame" },
+    "name": { "str": "treesung bed frame" },
     "description": "A sturdy wooden bed frame built to hold most standard mattresses.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.",
     "color": "green",
     "copy-from": "frame_wood"

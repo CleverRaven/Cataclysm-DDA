@@ -191,7 +191,7 @@
     "type": "recipe",
     "name": "Treesung wooden bedframe",
     "id": "create_bedframe_wood_treesung",
-    "description": "Use your magick to turn treesung wood into a bedframe.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -213,7 +213,7 @@
               "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "2" ] },
               "effect": [
                 {
-                  "u_message": "As your song fades, you behold a bedframe all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
+                  "u_message": "As your song fades, you behold a bed frame all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
                   "type": "good"
                 },
                 { "u_spawn_item": "bedframe_treesung", "count": 1, "suppress_message": true },
