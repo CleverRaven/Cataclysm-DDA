@@ -1226,7 +1226,7 @@
       {
         "id": "satgat",
         "name": { "str": "satgat hat" },
-        "description": "A conical hat made of bamboo strips, with a wide brim and a round top.  Often worn as part of traditional Korean attire, particularly by scholars and noblemen during the Joseon Dynasty,  but can be also part of a costume headgear, decorative item and etc.",
+        "description": "A conical hat made of bamboo strips, with a wide brim and a round top.  Often worn as part of traditional Korean attire, particularly by scholars and noblemen during the Joseon Dynasty, but can be also part of a costume headgear, decorative item and etc.",
         "weight": 1,
         "append": true
       },
@@ -1240,7 +1240,7 @@
       {
         "id": "nonla",
         "name": { "str": "non la hat" },
-        "description": "A conical hat made of bamboo strips, with a wide brim that tapers to a point at the top.  Often worn by farmers and workers in Vietnam to shield them from the sun and rain.  The non la is also considered a symbol of Vietnamese culture and tradition,  but can be also part of a costume headgear, decorative item and etc.",
+        "description": "A conical hat made of bamboo strips, with a wide brim that tapers to a point at the top.  Often worn by farmers and workers in Vietnam to shield them from the sun and rain.  The non la is also considered a symbol of Vietnamese culture and tradition, but can be also part of a costume headgear, decorative item and etc.",
         "weight": 1,
         "append": true
       },
@@ -1271,7 +1271,7 @@
     "id": "astrakhan",
     "type": "ARMOR",
     "name": { "str": "astrakhan hat" },
-    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia.",
+    "description": "A historically luxurious hat with a tall, rounded crown and no brim, originally from Russia.",
     "copy-from": "hat_fur"
   },
   {
@@ -1310,7 +1310,7 @@
     "copy-from": "hat_fur",
     "looks_like": "hat_fur",
     "name": { "str": "faux fur astrakhan hat" },
-    "description": "A historically luxurious hat with a tall, rounded crown and a wide, flat brim, originally from Russia, but made with fauxfur.  Like real fur, but without the suffering.",
+    "description": "A historically luxurious hat with a tall, rounded crown and no brim, originally from Russia, but made with fauxfur.  Like real fur, but without the suffering.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 50
   },
@@ -2108,7 +2108,6 @@
   {
     "id": "tinfoil_boat",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "tinfoil boat hat" },
     "description": "A sheet of aluminum foil that has been molded into the shape of a boat that fits the head.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM.",
     "copy-from": "tinfoil_hat"
@@ -2116,7 +2115,6 @@
   {
     "id": "tinfoil_hat1",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "brimmed tinfoil hat" },
     "description": "Some sheets of aluminum foil that had been molded into a form-fitting brimmed hat, just like those ones farmers wear.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, with some protection from the sun.",
     "weight": "49 g",
@@ -2126,7 +2124,6 @@
   {
     "id": "tinfoil_fedora",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "tinfoil fedora" },
     "description": "A couple sheets of aluminum foil that had been molded into a form-fitting fedora.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but with STYLE.",
     "weight": "32 g",
@@ -2136,9 +2133,8 @@
   {
     "id": "tinfoil_hatball",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "tinfoil cap" },
-    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting cap that resembles a baseball cap, brim including.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but also with some protection against the sun.",
+    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting cap that resembles a baseball cap, brim included.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but also with some protection against the sun.",
     "weight": "32 g",
     "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES" ],
     "copy-from": "tinfoil_hat"
@@ -2171,7 +2167,6 @@
   {
     "id": "news_boat",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "newspaperboat hat" },
     "description": "A hat constructed using a single page of newspaper, which was folded and manipulated to form the shape of a boat.",
     "copy-from": "paper_boat"
