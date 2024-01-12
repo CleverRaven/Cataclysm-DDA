@@ -527,6 +527,7 @@
       [
         [ "club_wooden_large", -1 ],
         [ "homewrecker", -1 ],
+        [ "aztec_sword_scrap", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -546,7 +547,11 @@
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],
-        [ "lucern_hammer", -1 ]
+        [ "lc_aztec_sword", -1 ],
+        [ "mc_aztec_sword", -1 ],
+        [ "hc_aztec_sword", -1 ],
+        [ "ch_aztec_sword", -1 ],
+        [ "qt_aztec_sword", -1 ]
       ]
     ]
   },
