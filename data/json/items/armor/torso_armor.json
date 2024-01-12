@@ -1063,7 +1063,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 24, 25 ],
+        "encumbrance": [ 15, 16 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
@@ -1072,7 +1072,7 @@
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 25, 25 ],
+        "encumbrance": [ 15, 15 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
@@ -1116,7 +1116,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 24, 25 ],
+        "encumbrance": [ 15, 16 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
           { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
@@ -1186,7 +1186,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 24, 25 ],
+        "encumbrance": [ 15, 16 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
@@ -1195,7 +1195,7 @@
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 25, 25 ],
+        "encumbrance": [ 15, 15 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
@@ -1216,7 +1216,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 24, 25 ],
+        "encumbrance": [ 15, 16 ],
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }

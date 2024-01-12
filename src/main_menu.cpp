@@ -13,6 +13,10 @@
 #include <optional>
 #include <string>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_scope_helpers.h"
@@ -452,7 +456,9 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
+#if !defined(EMSCRIPTEN)
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+#endif
 
     // new game menu items
     vNewGameSubItems.clear();
@@ -635,6 +641,10 @@ bool main_menu::opening_screen()
         }
     }
 
+#if defined(EMSCRIPTEN)
+    EM_ASM( window.dispatchEvent( new Event( 'menuready' ) ); );
+#endif
+
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
@@ -724,9 +734,11 @@ bool main_menu::opening_screen()
 
         // also check special keys
         if( action == "QUIT" ) {
+#if !defined(EMSCRIPTEN)
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
+#endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
             sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
