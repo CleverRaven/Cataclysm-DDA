@@ -555,7 +555,7 @@
     "harvest": "bullfrog",
     "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-	"upgrades": { "age_grow": 61, "into": "mon_large_bullfrog_frog" }
+    "upgrades": { "age_grow": 61, "into": "mon_large_bullfrog_frog" }
   },
   {
     "id": "mon_large_bullfrog_frog",
