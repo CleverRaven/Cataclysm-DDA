@@ -30,13 +30,13 @@
   },
   {
     "id": "froglegs_cooked",
-	"copy-from": "froglegs",
-	"type": "COMESTIBLE",
-	"name": { "str": "pair of cooked frog legs", "str_pl": "pairs of cooked frog legs" },
-	"parasites": 0,
-	"spoils_in": "1 day",
-	"flags": [ "EATEN_HOT" ],
-	"price_postapoc": 100
+    "copy-from": "froglegs",
+    "type": "COMESTIBLE",
+    "name": { "str": "pair of cooked frog legs", "str_pl": "pairs of cooked frog legs" },
+    "parasites": 0,
+    "spoils_in": "1 day",
+    "flags": [ "EATEN_HOT" ],
+    "price_postapoc": 100
   },
   {
     "id": "froglegs_smoked",
