@@ -205,6 +205,8 @@ augmentations
 auk
 auroral
 ausgegangen
+atlatl
+atlatls
 autoclave
 autoclaving
 autoinjector
