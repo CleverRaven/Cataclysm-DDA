@@ -354,7 +354,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ], [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -369,7 +369,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ], [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -384,7 +384,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "electric_spinwheel", 2 ] ] ],
-    "components": [ [ [ "cotton_ball", 3 ] ] ]
+    "components": [ [ [ "cotton_ball", 3 ], [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -490,7 +490,7 @@
     "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ], [ "cotton_ball", 3 ] ] ]
   },
   {
     "result": "yarn",
@@ -506,7 +506,7 @@
     "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ], [ "cotton_ball", 3 ] ] ]
   },
   {
     "result": "yarn",
@@ -522,7 +522,7 @@
     "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "electric_spinwheel", 4 ] ] ],
-    "components": [ [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ], [ "cotton_ball", 3 ] ] ]
   },
   {
     "type": "recipe",
