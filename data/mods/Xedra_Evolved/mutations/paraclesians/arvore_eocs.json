@@ -445,6 +445,18 @@
         { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "1" ] },
         {
           "or": [
+            { "not": { "u_know_recipe": "create_chair_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_wardrobe_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_table_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_bedframe_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_verdant_helm" } },
+            { "not": { "u_know_recipe": "create_verdant_cuirass" } },
+            { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_boots" } }
+          ]
+        },
+        {
+          "or": [
             {
               "and": [
                 "u_is_outside",
