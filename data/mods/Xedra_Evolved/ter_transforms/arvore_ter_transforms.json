@@ -67,7 +67,7 @@
     "terrain": [
       {
         "result": [ "t_triffid_bark_wall" ],
-        "valid_terrain": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor", "t_barkfloor_no_roof" ],
         "message": "The bark surges upward as the roots below grow into a heavy, solid wall covered in bark."
       },
       {
@@ -150,6 +150,7 @@
           "t_grass_dead",
           "t_grass_white",
           "t_sand",
+          "t_moss",
           "t_clay",
           "t_sandmound",
           "t_forestfloor"
