@@ -336,7 +336,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rose_hips_cut",
-    "name": { "str": "cut rose hips", "str_pl": "cut rose hips" },
+    "name": { "str_sp": "cut rose hips" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "2 days",
