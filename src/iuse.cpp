@@ -3078,15 +3078,6 @@ std::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, const tripoi
                            _( "You flip the switch, but nothing happens." ) );
 }
 
-std::optional<int> iuse::carver_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           true,
-                           20, _( "The electric carver's serrated blades start buzzing!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
 std::optional<int> iuse::trimmer_off( Character *p, item *it, const tripoint & )
 {
     return toolweapon_off( *p, *it,
@@ -3148,11 +3139,6 @@ std::optional<int> iuse::chainsaw_on( Character *p, item *it, const tripoint &po
 std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, const tripoint &pos )
 {
     return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-std::optional<int> iuse::carver_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
 }
 
 std::optional<int> iuse::trimmer_on( Character *p, item *it, const tripoint &pos )

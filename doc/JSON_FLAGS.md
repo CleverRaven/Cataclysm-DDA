@@ -1501,8 +1501,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```C4``` Arm the C4.
 - ```CAN_GOO``` Release a little blob buddy.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
-- ```CARVER_OFF``` Turn the carver on.
-- ```CARVER_ON``` Turn the carver off.
 - ```CHAINSAW_OFF``` Turn the chainsaw on.
 - ```CHAINSAW_ON``` Turn the chainsaw off.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.

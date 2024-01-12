@@ -167,10 +167,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_ON"
-  },
-  {
-    "type": "item_action",
     "id": "TRIMMER_ON"
   },
   {
@@ -329,11 +325,6 @@
     "type": "item_action",
     "id": "CAPTURE_MONSTER_VEH",
     "name": { "str": "Capture/place" }
-  },
-  {
-    "type": "item_action",
-    "id": "CARVER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",

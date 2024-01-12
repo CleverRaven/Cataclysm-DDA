@@ -81,8 +81,6 @@ std::optional<int> camera( Character *, item *, const tripoint & );
 std::optional<int> can_goo( Character *, item *, const tripoint & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint & );
 std::optional<int> capture_monster_veh( Character *, item *, const tripoint & );
-std::optional<int> carver_off( Character *, item *, const tripoint & );
-std::optional<int> carver_on( Character *, item *, const tripoint & );
 std::optional<int> chainsaw_off( Character *, item *, const tripoint & );
 std::optional<int> chainsaw_on( Character *, item *, const tripoint & );
 std::optional<int> change_eyes( Character *, item *, const tripoint & );
