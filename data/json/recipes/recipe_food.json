@@ -3149,7 +3149,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "oj_fresh",
-    "byproducts": [ [ "juice_pulp", 15 ] ],
+    "byproducts": [ [ "juice_pulp", 16 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
