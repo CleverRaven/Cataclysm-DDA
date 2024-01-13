@@ -27,7 +27,7 @@
     "fun": 2,
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ],
-        "variant_type": "generic",
+    "variant_type": "generic",
     "variants": [
       {
         "id": "gum_peppermint",
