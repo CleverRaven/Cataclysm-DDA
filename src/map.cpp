@@ -8816,7 +8816,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
                     if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
                         found_mission->register_kill_needed();
                     }
-                } 
+                }
             }
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
