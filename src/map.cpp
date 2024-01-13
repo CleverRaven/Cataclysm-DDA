@@ -8811,7 +8811,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
 
             if( i.mission_id > 0 ) {
                 mission *found_mission = mission::find( i.mission_id );
-                if ( found_mission != nullptr) {
+                if( found_mission != nullptr) {
                     tmp.mission_ids = { i.mission_id };
                     if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
                         found_mission->register_kill_needed();
