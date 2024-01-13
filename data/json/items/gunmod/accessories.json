@@ -134,28 +134,112 @@
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
-    "id": "12_gauge_shell_holder",
+    "id": "12ga_shell_holder_stock",
     "type": "GUNMOD",
-    "name": { "str": "12 gauge shell holder" },
-    "description": "Designed to be affixed to the side of a shotgun's receiver, this polymer shotshell holder can store six 12 gauge shells for easy reloading.",
+    "name": { "str": "stock-mounted shell holder" },
+    "description": "Designed to be strapped to the side of a shotgun's stock, this polymer shotshell holder can store five 12 gauge shells for easy reloading.",
     "weight": "16 g",
     "volume": "60 ml",
     "price": 2000,
     "price_postapoc": 50,
     "install_time": "30 s",
     "material": [ "plastic" ],
-    "flags": [ "NOT_MAGAZINE", "TARDIS" ],
+    "flags": [ "NOT_MAGAZINE" ],
     "symbol": ":",
     "color": "black",
-    "location": "loading port",
+    "location": "stock accessory",
     "mod_targets": [ "shotgun" ],
     "pocket_mods": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "120 ml",
-        "max_contains_weight": "300 g",
-        "ammo_restriction": { "shot": 6 },
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "250 g",
+        "ammo_restriction": { "shot": 5 },
+        "moves": 25
+      }
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "12ga_shell_holder_stock_leather",
+    "type": "GUNMOD",
+    "name": { "str": "stock-mounted leather shell holder" },
+    "description": "Designed to be strapped to the side of a shotgun's stock, this leather shotshell holder can store five 12 gauge shells for easy reloading.",
+    "weight": "16 g",
+    "volume": "60 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "install_time": "30 s",
+    "material": [ "leather" ],
+    "flags": [ "NOT_MAGAZINE" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "stock accessory",
+    "mod_targets": [ "shotgun" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "250 g",
+        "ammo_restriction": { "shot": 5 },
+        "moves": 25
+      }
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "rifle_cart_holder_stock",
+    "type": "GUNMOD",
+    "name": { "str": "stock-mounted cartridge holder" },
+    "description": "Designed to be strapped to the side of a rifle's stock, this polymer cartridge holder can store seven rounds for easy reloading.  Fits most larger calibers.",
+    "weight": "16 g",
+    "volume": "60 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "install_time": "30 s",
+    "material": [ "plastic" ],
+    "flags": [ "NOT_MAGAZINE" ],
+    "symbol": ":",
+    "color": "black",
+    "location": "stock accessory",
+    "mod_targets": [ "rifle" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "250 g",
+        "ammo_restriction": { "338lapua": 7, "3007": 7, "300": 7, "308": 7, "762R": 7, "77mm_arisaka": 7, "762": 7, "50": 7, "30carbine": 7, "223": 7, "123ln": 7, "303": 7 },
+        "moves": 25
+      }
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "rifle_cart_holder_stock_leather",
+    "type": "GUNMOD",
+    "name": { "str": "stock-mounted leather cartridge holder" },
+    "description": "Designed to be strapped to the side of a rifle's stock, this leather cartridge holder can store seven rounds for easy reloading.  Fits most larger calibers.",
+    "weight": "16 g",
+    "volume": "60 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "install_time": "30 s",
+    "material": [ "leather" ],
+    "flags": [ "NOT_MAGAZINE" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "stock accessory",
+    "mod_targets": [ "rifle" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "250 g",
+        "ammo_restriction": { "338lapua": 7, "3007": 7, "300": 7, "308": 7, "762R": 7, "77mm_arisaka": 7, "762": 7, "50": 7, "30carbine": 7, "223": 7, "123ln": 7, "303": 7 },
         "moves": 25
       }
     ],
