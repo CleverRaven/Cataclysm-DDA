@@ -376,9 +376,11 @@ float Character::hit_roll() const
 
     // Difficult to land a hit while prone
     // Quadrupeds don't mind as long as they're unarmed
+    item_location cur_weapon = used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
     if( is_on_ground() ) {
         hit -= 8.0f;
-    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) || attack_vector != "WEAPON" ) ) ) {
+    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
         hit -= 2.0f;
     }
 
@@ -777,7 +779,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // being prone affects how much leverage you can use to deal damage
         if( is_on_ground() ) {
             d.mult_damage( 0.3 );
-        } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) || attack_vector != "WEAPON" ) ) ) {
+        } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
             d.mult_damage( 0.8 );
         }
 
@@ -948,7 +950,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
     const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = round( get_skill_level( skill_melee ) );
-    const int stance_malus = is_on_ground() ? 50 : ( ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) || attack_vector != "WEAPON" ) ) && is_crouching() ? 20 : 0 );
+    const int stance_malus = is_on_ground() ? 50 : ( ( !has_flag( json_flag_QUADRUPED ) && ( !weap->has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
 
     return std::min( -50, mod_sta + melee - stance_malus );
 }
@@ -1038,11 +1040,11 @@ int stumble( Character &u, const item_location &weap )
     if( !weap || u.has_trait( trait_DEFT ) ) {
         return 0;
     }
-
+    item cur_weap = weap ? *weap : null_item_reference();
     units::mass str_mod = u.get_arm_str() * 10_gram;
     if( u.is_on_ground() ) {
         str_mod /= 4;
-    } else if( u.is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) || attack_vector != "WEAPON" ) ) ) {
+    } else if( u.is_crouching() && ( !u.has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !u.unarmed_attack() ) ) ) {
         str_mod /= 2;
     }
 
@@ -2738,10 +2740,9 @@ int Character::attack_speed( const item &weap ) const
     move_cost += ma_move_cost;
 
     move_cost *= mutation_value( "attackcost_modifier" );
-
     if( is_on_ground() ) {
         move_cost *= 4.0;
-    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) || attack_vector != "WEAPON" ) ) ) {
+    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
         move_cost *= 1.5;
     }
 

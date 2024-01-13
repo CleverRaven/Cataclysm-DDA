@@ -1600,10 +1600,10 @@
     "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
     "techniques": [ "VAMPIRE_BITE" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
-        "material": [ { "type": "bone", "covered_by_mat": 0, "thickness": 3.2 } ],
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
         "coverage": 0,
         "encumbrance": 0

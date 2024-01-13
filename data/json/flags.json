@@ -2391,6 +2391,11 @@
   {
     "id": "QUADRUPED",
     "type": "json_flag",
-    "info": "This character receives no penalty for crouching in melee."
+    "//": "This character receives no penalty for crouching in melee."
+  },
+  {
+    "id": "NATURAL_WEAPON",
+    "type": "json_flag",
+    "//": "This item is a 'natural' weapon, such as a mutant's fangs or claws. Should not be applied to bionic weapons."
   }
 ]
