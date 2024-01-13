@@ -1686,7 +1686,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
                     --walk_point;
                 }
                 break;
-            } else {
+            } else if ( walk_point != trajectory.begin() ) {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
                 g->draw_ter();
             }
