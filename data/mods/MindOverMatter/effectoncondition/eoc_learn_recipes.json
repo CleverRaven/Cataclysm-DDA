@@ -7,22 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_clair_night_vision" },
-      { "u_learn_recipe": "practice_clair_danger_sense" },
-      { "u_learn_recipe": "practice_clair_speed_reading" },
-      { "u_learn_recipe": "practice_clair_aura_sight" },
-      { "u_learn_recipe": "practice_clair_spot_weakness" },
-      { "u_learn_recipe": "practice_clair_ranged_enhance" },
-      { "u_learn_recipe": "practice_clair_voyance" },
-      { "u_learn_recipe": "practice_clair_dodge_power" },
-      { "u_learn_recipe": "practice_clair_craft_bonus" },
-      { "u_learn_recipe": "practice_clair_see_map" },
-      { "u_learn_recipe": "practice_clair_perfect_shot" },
-      { "u_learn_recipe": "practice_clair_clear_sight" },
-      { "u_learn_recipe": "practice_clair_group_tactics" },
-      { "u_learn_recipe": "practice_clair_omniscience" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_clair_night_vision" }, { "u_learn_recipe": "practice_clair_speed_reading" } ]
   },
   {
     "type": "effect_on_condition",
