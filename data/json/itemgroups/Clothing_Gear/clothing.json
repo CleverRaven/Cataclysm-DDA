@@ -3295,7 +3295,6 @@
       { "item": "mask_gas", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
       [ "mask_bunker", 2 ],
-      [ "mask_wsurvivor", 4 ],
       [ "mask_fsurvivor", 2 ],
       [ "sunglasses", 12 ],
       [ "fitover_sunglasses", 8 ],

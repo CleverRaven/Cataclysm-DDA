@@ -461,7 +461,10 @@
       { "item": "zerotropical", "prob": 35 },
       { "item": "zeromdew", "prob": 35 },
       { "item": "foodplace_zero_drink", "prob": 10 },
-      { "item": "choc_drink", "prob": 25 }
+      { "item": "choc_drink", "prob": 25 },
+      { "item": "sparkling", "prob": 20 },
+      { "item": "sparkling_peach", "prob": 20 },
+      { "item": "sparkling_pomegranate", "prob": 20 }
     ]
   },
   {
@@ -482,7 +485,10 @@
       { "item": "zerotropical", "prob": 35, "container-item": "bottle_plastic" },
       { "item": "zeromdew", "prob": 35, "container-item": "bottle_plastic" },
       { "item": "foodplace_zero_drink", "prob": 10, "container-item": "bottle_plastic" },
-      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
+      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" },
+      { "item": "sparkling", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "sparkling_peach", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "sparkling_pomegranate", "prob": 20, "container-item": "bottle_plastic" }
     ]
   },
   {

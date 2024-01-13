@@ -27,7 +27,7 @@
     "name": { "str_sp": "blunderbuss scrap shot" },
     "symbol": "=",
     "color": "red",
-    "description": "A prepared blunderbuss shot comprisded of miscellaneous metal or stone bits.",
+    "description": "A prepared blunderbuss shot comprised of miscellaneous metal or stone bits.",
     "material": [ "paper", "powder" ],
     "volume": "100 ml",
     "weight": "28 g",

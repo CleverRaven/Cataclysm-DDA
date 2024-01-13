@@ -475,22 +475,15 @@ struct enum_traits<aggregate_type> {
 };
 
 enum class link_state : int {
-    // Utility states
-    no_link = 0,   // No connection, the default state
-    needs_reeling, // Cable has been disconnected and needs to be manually reeled in before it can be used again
-
-    // States of a cable's link at the end represented by the item (s_state)
-    ups,       // Linked to a UPS the cable holder is holding
-    solarpack, // Linked to a solarpack the cable holder is wearing
-
-    // States of a cable's link at the end represented by t_abs_pos (t_state)
-    vehicle_port, // Linked to a vehicle's cable ports / electrical controls or an appliance
+    no_link = 0,     // No connection, the default state
+    needs_reeling,   // Cable has been disconnected and needs to be manually reeled in before it can be used again
+    ups,             // Linked to a UPS the cable holder is holding
+    solarpack,       // Linked to a solarpack the cable holder is wearing
+    vehicle_port,    // Linked to a vehicle's cable ports / electrical controls or an appliance
     vehicle_battery, // Linked to a vehicle's battery or an appliance
-
-    // States of a link that could be at either the source or the target
-    bio_cable,   // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
-    vehicle_tow, // Linked to a valid tow point on a vehicle - s_state if it's the towing vehicle, t_state if the towed one
-
+    bio_cable,       // Linked to the cable holder's cable system bionic - source if connected to a vehicle, target otherwise
+    vehicle_tow,     // Linked to a valid tow point on a vehicle - source if it's the towing vehicle, target if the towed one
+    automatic,       // Use in link_to() to automatically set the type of connection based on the connected vehicle part. Is always true as a link_has_states() parameter.
     last
 };
 template<>

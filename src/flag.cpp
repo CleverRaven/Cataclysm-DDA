@@ -342,6 +342,7 @@ const flag_id flag_UNDERFED( "UNDERFED" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
 const flag_id flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
 const flag_id flag_UNRECOVERABLE( "UNRECOVERABLE" );
+const flag_id flag_UNRESTRICTED( "UNRESTRICTED" );
 const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
