@@ -205,6 +205,11 @@
     "text": "Feeling bad"
   },
   {
+    "id": "morale_bad_protein_bar",
+    "type": "morale_type",
+    "text": "Demoralizing food"
+  },
+  {
     "id": "morale_killed_innocent",
     "type": "morale_type",
     "text": "Killed an innocent person"

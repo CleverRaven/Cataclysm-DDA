@@ -470,7 +470,7 @@
       { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
       {
         "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_val('spell_level', 'spell: biomancer_giant_growth') * 40 ) + 300 )" ] }
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 )" ] }
       }
     ],
     "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
@@ -554,7 +554,7 @@
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
         "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_val('spell_level', 'spell: biomancer_lashing_tentacles') * 15 ) + 70 )" ] }
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 )" ] }
       }
     ],
     "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]

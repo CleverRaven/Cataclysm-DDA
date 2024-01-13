@@ -67,7 +67,7 @@
     "terrain": [
       {
         "result": [ "t_triffid_bark_wall" ],
-        "valid_terrain": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor", "t_barkfloor_no_roof" ],
         "message": "The bark surges upward as the roots below grow into a heavy, solid wall covered in bark."
       },
       {
@@ -87,7 +87,7 @@
     "id": "ter_arvore_wood_floor",
     "terrain": [
       {
-        "result": [ "t_barkfloor" ],
+        "result": [ "t_barkfloor_no_roof" ],
         "valid_terrain": [
           "t_grass",
           "t_grass_long",
@@ -99,6 +99,7 @@
           "t_grass_dead",
           "t_grass_white",
           "t_sand",
+          "t_moss",
           "t_clay",
           "t_sandmound",
           "t_forestfloor"
@@ -106,9 +107,9 @@
         "message": "The ground churns as bark-covered roots erupt from it and form into a solid bark-covered floor."
       },
       {
-        "result": [ "t_barkfloor_no_roof" ],
-        "valid_terrain": [ "t_barkfloor" ],
-        "message": "The ground churns as bark-covered roots quest upward."
+        "result": [ "t_barkfloor" ],
+        "valid_terrain": [ "t_barkfloor_no_roof" ],
+        "message": "The ground churns as bark-covered roots quest upward, forming an intertwining roof."
       },
       {
         "result": [ "t_barkfloor_no_roof" ],
@@ -149,6 +150,7 @@
           "t_grass_dead",
           "t_grass_white",
           "t_sand",
+          "t_moss",
           "t_clay",
           "t_sandmound",
           "t_forestfloor"
@@ -202,5 +204,134 @@
     "id": "ter_arvore_fungicide",
     "terrain": [ { "result": "t_dirt_barren", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!" } ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "FUNGUS" ], "message": "The fungus withers and dies!" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_arvore_translocator_ground",
+        "valid_furniture": [ "f_null" ],
+        "message": "You meditate within the depths of the forest.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_climbing_vine",
+    "terrain": [
+      {
+        "result": "t_arvore_climbing_vine",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "A vine bursts out of the ground and grows in moments!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_overgrowth",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory_harvested", 32 ],
+          [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut_harvested", 8 ],
+          [ "t_tree_hazelnut_harvested", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple_harvested", 2 ],
+          [ "t_tree_cherry_harvested", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear_harvested", 2 ],
+          [ "t_tree_plum_harvested", 2 ],
+          [ "t_tree_elderberry_harvested", 2 ],
+          [ "t_tree_mulberry_harvested", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_flags": [ "YOUNG" ],
+        "message": "Wood creaks as the tree's limbs grow and stretch toward the sky."
+      },
+      {
+        "result": [
+          [ "t_grass", 75 ],
+          [ "t_grass_long", 30 ],
+          [ "t_grass_tall", 5 ],
+          [ "t_shrub", 15 ],
+          [ "t_underbrush", 35 ],
+          [ "t_shrub_rose", 5 ],
+          [ "t_shrub_blackberry_harvested", 5 ],
+          [ "t_shrub_grape_harvested", 5 ],
+          [ "t_shrub_lilac_harvested", 5 ],
+          [ "t_shrub_blueberry_harvested", 5 ],
+          [ "t_shrub_raspberry_harvested", 5 ],
+          [ "t_shrub_hydrangea_harvested", 5 ],
+          [ "t_shrub_huckleberry_harvested", 5 ],
+          [ "t_tree_young", 35 ]
+        ],
+        "valid_flags": [ "DIGGABLE", "SHRUB" ],
+        "message": "Soil churns as roots quest through it and grass and bushes spring forth from the ground."
+      },
+      {
+        "result": [ [ "t_grass", 9 ], [ "t_moss", 3 ], [ "t_forestfloor", 4 ] ],
+        "valid_terrain": [ "t_grass" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_floor", 9 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_floor_noroof", 9 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor_noroof" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_floor_primitive", 6 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor_primitive" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_pavement", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_pavement" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_pavement_y", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_pavement_y" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_zebra", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_zebra" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_sidewalk", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_sidewalk" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_concrete", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_concrete" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_concrete_y", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_concrete_y" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "MOUNTABLE", "BLOCK_WIND", "ORGANIC" ] } ]
   }
 ]

@@ -864,6 +864,7 @@
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_kojiki", "prob": 2 },
       { "item": "holybook_mormon", "prob": 2 },
+      { "item": "holybook_nag_hammadi", "prob": 1 },
       { "item": "holybook_pastafarian", "prob": 1 },
       { "item": "holybook_quran", "prob": 2 },
       { "item": "holybook_slack", "prob": 1 },

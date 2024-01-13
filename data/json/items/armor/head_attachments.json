@@ -152,7 +152,7 @@
     "symbol": "[",
     "color": "light_blue",
     "material_thickness": 1,
-    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR" ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "TRANSPARENT" ],
     "armor": [ { "encumbrance": 2, "coverage": 90, "covers": [ "eyes" ] } ]
   },
   {
@@ -169,7 +169,7 @@
     "symbol": "[",
     "color": "light_blue",
     "material_thickness": 1.5,
-    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER", "TRANSPARENT" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
@@ -186,7 +186,7 @@
     "symbol": "[",
     "color": "light_gray",
     "material_thickness": 4.5,
-    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER", "TRANSPARENT" ],
     "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
@@ -203,7 +203,7 @@
     "symbol": "[",
     "color": "light_blue",
     "material_thickness": 1,
-    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER", "TRANSPARENT" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {

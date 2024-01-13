@@ -163,6 +163,7 @@ Below is a table of currently implemented effects, along with special rules for 
 
 Effect                 | Description
 ---                    |---
+`add_trap`             | Adds a trap in the target tile.  This always succeeds (unless there is an existing trap) and only places 1 trap.  The `effect_str` is the id of the trap.
 `area_pull`            | Pulls `valid_targets` in its aoe toward the target location.  Currently, the pull distance is set to 1 (see `directed_push`).
 `area_push`            | Pushes `valid_targets` in its aoe away from the target location.  Currently, the push distance is set to 1 (see `directed_push`).
 `attack`               | Causes damage to `valid_targets` in its aoe, and applies `effect_str` named effect to targets.  To damage terrain use `bash`.
@@ -184,10 +185,12 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
 `recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
+`revive_dormant`       | Revives a dormant monster.  The monster must have the `REVIVES` AND the `DORMANT` flag.
 `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
 `slime_split`          | The slime splits into two large or normal slimes, depending on mass.  Note: hardcoded for `mon_blob`-type enemies, check the monster `death_function` + spell `summon` combination.
 `spawn_item`           | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
@@ -286,7 +289,8 @@ Flag                       | Description
 `RANDOM_CRITTER`           | Same as `RANDOM_TARGET` but ignores ground.
 `RANDOM_DAMAGE`            | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
-`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
+`RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
+`RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.

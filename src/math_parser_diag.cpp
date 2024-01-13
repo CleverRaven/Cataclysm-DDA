@@ -8,6 +8,7 @@
 #include "dialogue.h"
 #include "field.h"
 #include "game.h"
+#include "magic.h"
 #include "math_parser_shim.h"
 #include "mtype.h"
 #include "options.h"
@@ -219,6 +220,85 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
     };
 }
 
+std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    enum spell_scope {
+        scope_all,
+        scope_mod,
+        scope_school,
+        scope_spell
+    };
+    diag_value filter( std::string{} );
+    spell_scope spellsearch_scope;
+    if( kwargs.count( "mod" ) != 0 ) {
+        filter = *kwargs.at( "mod" );
+        spellsearch_scope = scope_mod;
+    } else if( kwargs.count( "school" ) != 0 ) {
+        filter = *kwargs.at( "school" );
+        spellsearch_scope = scope_school;
+    } else if( kwargs.count( "spell" ) != 0 ) {
+        filter = *kwargs.at( "spell" );
+        spellsearch_scope = scope_spell;
+    } else {
+        spellsearch_scope = scope_all;
+    }
+
+    diag_value whitelist( std::string{} );
+    diag_value blacklist( std::string{} );
+    if( kwargs.count( "flag_whitelist" ) != 0 ) {
+        whitelist = *kwargs.at( "flag_whitelist" );
+    }
+    if( kwargs.count( "flag_blacklist" ) != 0 ) {
+        blacklist = *kwargs.at( "flag_blacklist" );
+    }
+
+    return[beta = is_beta( scope ),
+                spellcasting_property = params[0], whitelist, blacklist, spellsearch_scope,
+         filter]( dialogue const & d, double val ) {
+        std::string const filter_str = filter.str( d );
+        switch( spellsearch_scope ) {
+            case scope_spell:
+                d.actor( beta )->get_character()->magic->get_spell( spell_id( filter_str ) ).set_temp_adjustment(
+                    spellcasting_property.str( d ), val );
+                break;
+            case scope_school: {
+                const trait_id school_id( filter_str );
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                    if( spellIt->spell_class() == school_id
+                        && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+                      ) {
+                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+                    }
+                }
+                break;
+            }
+            case scope_mod: {
+                const mod_id target_mod_id( filter_str );
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                    if( spellIt->get_src() == target_mod_id
+                        && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+                      ) {
+                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+                    }
+                }
+                break;
+            }
+            case scope_all:
+                for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
+                    if( ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
+                        && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
+                      ) {
+                        spellIt->set_temp_adjustment( spellcasting_property.str( d ), val );
+                    }
+                }
+                break;
+        }
+    };
+}
+
 std::function<double( dialogue & )> hp_max_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -265,14 +345,32 @@ std::function<double( dialogue & )> attack_speed_eval( char scope,
 
 namespace
 {
-bool _filter_monster( Creature const &critter, std::vector<mtype_id> const &ids, int radius,
-                      tripoint_abs_ms const &loc )
+template<class ID>
+using f_monster_match = bool ( * )( Creature const &critter, ID const &id );
+
+bool mon_check_id( Creature const &critter, mtype_id const &id )
+{
+    return id == critter.as_monster()->type->id;
+}
+
+bool mon_check_species( Creature const &critter, species_id const &id )
+{
+    return critter.as_monster()->in_species( id );
+}
+
+bool mon_check_group( Creature const &critter, mongroup_id const &id )
+{
+    return MonsterGroupManager::IsMonsterInGroup( id, critter.as_monster()->type->id );
+}
+
+template<class ID>
+bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int radius,
+                      tripoint_abs_ms const &loc, f_monster_match<ID> f )
 {
     if( critter.is_monster() ) {
-        mtype_id const mid = critter.as_monster()->type->id;
         bool const id_filter =
-        ids.empty() || std::any_of( ids.begin(), ids.end(), [&mid]( mtype_id const & id ) {
-            return id == mid;
+        ids.empty() || std::any_of( ids.begin(), ids.end(), [&critter, f]( ID const & id ) {
+            return ( *f )( critter, id );
         } );
         // friendly to the player, not a target for us
         return id_filter && critter.as_monster()->friendly == 0 &&
@@ -281,10 +379,9 @@ bool _filter_monster( Creature const &critter, std::vector<mtype_id> const &ids,
     return false;
 }
 
-} // namespace
-
-std::function<double( dialogue & )> monsters_nearby_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+template<class ID>
+std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs, f_monster_match<ID> f )
 {
     diag_value radius_val( 1000.0 );
     std::optional<var_info> loc_var;
@@ -298,7 +395,7 @@ std::function<double( dialogue & )> monsters_nearby_eval( char scope,
                                          R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
     }
 
-    return [beta = is_beta( scope ), params, loc_var, radius_val]( dialogue & d ) {
+    return [beta = is_beta( scope ), params, loc_var, radius_val, f]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
@@ -307,17 +404,37 @@ std::function<double( dialogue & )> monsters_nearby_eval( char scope,
         }
 
         int const radius = static_cast<int>( radius_val.dbl( d ) );
-        std::vector<mtype_id> mids( params.size() );
+        std::vector<ID> mids( params.size() );
         std::transform( params.begin(), params.end(), mids.begin(), [&d]( diag_value const & val ) {
-            return mtype_id( val.str( d ) );
+            return ID( val.str( d ) );
         } );
 
         std::vector<Creature *> const targets = g->get_creatures_if( [&mids, &radius,
-               &loc]( const Creature & critter ) {
-            return _filter_monster( critter, mids, radius, loc );
+               &loc, f]( const Creature & critter ) {
+            return _filter_monster( critter, mids, radius, loc, f );
         } );
         return static_cast<double>( targets.size() );
     };
+}
+
+} // namespace
+
+std::function<double( dialogue & )> monsters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _monsters_nearby_eval( scope, params, kwargs, mon_check_id );
+}
+
+std::function<double( dialogue & )> monster_species_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _monsters_nearby_eval( scope, params, kwargs, mon_check_species );
+}
+
+std::function<double( dialogue & )> monster_groups_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _monsters_nearby_eval( scope, params, kwargs, mon_check_group );
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
@@ -547,20 +664,19 @@ std::function<double( dialogue & )> proficiency_eval( char scope,
         time_duration raw = d.actor( beta )->proficiency_practiced_time( prof );
         std::string const format = fmt_val.str( d );
         if( format == "percent" ) {
-            return static_cast<int>( raw * 100  / prof->time_to_learn() );
+            return raw * 100.0  / prof->time_to_learn();
         } else if( format == "permille" ) {
-            return static_cast<int>( raw * 1000  / prof->time_to_learn() );
+            return static_cast<double>( raw * 1000  / prof->time_to_learn() );
         } else if( format == "total_time_required" ) {
-            return to_turns<int>( prof->time_to_learn() );
+            return to_turns<double>( prof->time_to_learn() );
         } else if( format == "time_left" ) {
-            return to_turns<int>( prof->time_to_learn() - raw );
+            return to_turns<double>( prof->time_to_learn() - raw );
         } else {
             if( format != "time_spent" ) {
                 debugmsg( R"(Unknown format type "%s" for proficiency, assumning "time_spent")", format );
             }
-            return to_turns<int>( raw );
+            return to_turns<double>( raw );
         }
-        return 0;
     };
 }
 
@@ -652,7 +768,9 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
         if( d.actor( beta )->get_character() ) {
-            return d.actor( beta )->get_character()->vitamin_get( vitamin_id( id.str( d ) ) );
+            return static_cast<talker const *>( d.actor( beta ) )
+                   ->get_character()
+                   ->vitamin_get( vitamin_id( id.str( d ) ) );
         }
         return 0;
     };

@@ -1137,7 +1137,7 @@
     "entries": [
       { "item": "screwdriver" },
       { "item": "duct_tape" },
-      { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" },
+      { "item": "welder" },
       { "item": "goggles_welding" },
       { "item": "solar_cell" }
     ]

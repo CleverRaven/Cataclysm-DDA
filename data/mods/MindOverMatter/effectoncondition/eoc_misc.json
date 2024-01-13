@@ -62,6 +62,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_PSI_NEUTRALIZED_ENDS_ALL_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_psi_neutralized", { "context_val": "effect" } ] },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSIONICS_BROKEN_LIMB_ENDS_POWERS",
     "eoc_type": "EVENT",
     "required_event": "broken_bone",
@@ -206,7 +214,10 @@
             { "compare_string": [ "weed_high", { "context_val": "effect" } ] },
             { "compare_string": [ "high", { "context_val": "effect" } ] },
             { "compare_string": [ "drunk", { "context_val": "effect" } ] },
-            { "compare_string": [ "zapped", { "context_val": "effect" } ] }
+            { "compare_string": [ "zapped", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_reduced_breathing", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_null", { "context_val": "effect" } ] },
+            { "compare_string": [ "effect_psi_null_unbound", { "context_val": "effect" } ] }
           ]
         },
         {

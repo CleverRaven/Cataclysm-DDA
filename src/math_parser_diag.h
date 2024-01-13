@@ -63,6 +63,8 @@ decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
 decl_diag_eval item_count_eval;
 decl_diag_eval monsters_nearby_eval;
+decl_diag_eval monster_species_nearby_eval;
+decl_diag_eval monster_groups_nearby_eval;
 decl_diag_eval num_input_eval;
 decl_diag_eval option_eval;
 decl_diag_eval pain_eval;
@@ -74,6 +76,7 @@ decl_diag_eval skill_eval;
 decl_diag_ass skill_ass;
 decl_diag_eval skill_exp_eval;
 decl_diag_ass skill_exp_ass;
+decl_diag_ass spellcasting_adjustment_ass;
 decl_diag_eval spell_count_eval;
 decl_diag_eval spell_exp_eval;
 decl_diag_ass spell_exp_ass;
@@ -147,6 +150,8 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
+    { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
+    { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
@@ -169,6 +174,7 @@ inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
+    { "spellcasting_adjustment", { "u", 1, spellcasting_adjustment_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},

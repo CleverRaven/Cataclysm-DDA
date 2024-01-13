@@ -346,6 +346,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sneezing",
+    "name": [ "Sneezing" ],
+    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "acid_charged",
     "name": [ "Charged Acid Glands" ],
     "//": "Enables special attacks where specified",
@@ -598,7 +607,7 @@
     "name": [ "Unstable Footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "resist_traits": [ "GASTROPOD_BALANCE", "BIRD_LEGS" ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -1935,6 +1944,7 @@
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
+    "//": "Applying this to monsters will make them invisible unless they are adjacent to the player.",
     "flags": [ "INVISIBLE" ]
   },
   {
@@ -2025,11 +2035,43 @@
   },
   {
     "type": "effect_type",
-    "id": "pkill1",
+    "id": "anticoagulant",
+    "max_intensity": 3,
+    "rating": "bad",
+    "blood_analysis_description": "Blood Thinner",
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "nsaid_eff",
+    "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 5% increase.",
+    "//2": "NSAIDs are the drug family that includes ibuprofen.",
+    "rating": "bad",
+    "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 2 ], "blood_pressure_max_val": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_generic",
     "max_duration": "4 m",
     "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
     "rating": "good",
     "blood_analysis_description": "Minor Painkiller"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_nsaid",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (NSAID-based)"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_acetaminophen",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (Acetaminophen)"
   },
   {
     "type": "effect_type",
@@ -2925,12 +2967,12 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "common_cold",
-      "flu",
       "pre_conjunctivitis_viral",
       "pre_conjunctivitis_bacterial",
       "conjunctivitis_viral",
-      "conjunctivitis_bacterial"
+      "conjunctivitis_bacterial",
+      "common_cold",
+      "flu"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -3613,6 +3655,26 @@
   },
   {
     "type": "effect_type",
+    "id": "betablock",
+    "name": [ "Beta blocker" ],
+    "desc": [
+      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces fatigue."
+    ],
+    "max_intensity": 3,
+    "base_mods": {
+      "blood_pressure_tick": [ 250 ],
+      "blood_pressure_min": [ -2 ],
+      "blood_pressure_min_val": [ -200 ],
+      "fatigue_min": [ 4 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_max_val": [ 200 ]
+    },
+    "scaling_mods": { "blood_pressure_min": [ -1 ], "blood_pressure_min_val": [ -100 ], "fatigue_max_val": [ 50 ], "fatigue_min": [ 2 ] },
+    "rating": "neutral",
+    "blood_analysis_description": "Beta Blocker"
+  },
+  {
+    "type": "effect_type",
     "id": "hypervitaminosis",
     "name": [ "Hypervitaminosis" ],
     "desc": [ "An excess of vitamins has badly affected your metabolism." ],
@@ -3644,7 +3706,7 @@
       "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
     ],
     "max_intensity": 3,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "//": "Mood debuff is handled separately by bad_food_mood_debuff EoC.",
     "rating": "bad"
   },
   {
@@ -4495,76 +4557,103 @@
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_leg_l_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
+    "id": "hay_fever",
+    "name": [ "Hay Fever" ],
+    "desc": [ "Your eyes are itchy and you've got a runny nose." ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed", "took_antihistamine" ],
+    "show_in_info": true,
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -50 ], "stamina_max": [ -150 ], "stamina_chance": [ 300 ] }
+  },
+  {
+    "id": "star_vampire_blood_drank",
+    "type": "effect_type",
+    "name": [ "Drank blood" ],
+    "desc": [ "The star vampire has drunk blood and is now visible." ],
+    "rating": "good",
+    "removes_effects": [ "invisibility" ],
+    "show_in_info": true
+  },
+  {
+    "id": "star_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Exsanguination" ],
+    "desc": [ "The monster is drinking your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "max_intensity": 2,
+    "show_intensity": false,
+    "int_decay_step": -2,
+    "int_decay_tick": 1,
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
     ]
   },
   {
+    "id": "star_vampire_blood_drink_feral",
     "type": "effect_type",
-    "id": "prosthetic_leg_r_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "name": [ "Exsanguination" ],
+    "desc": [ "The monster is drinking your blood, you vile feral!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "chance_kill": [ [ 1, 20 ] ]
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_arm_l_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "shakes",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "ink_gland_ink",
+    "name": [ "Depleted ink", "Deflated ink glands", "Inky glands", "Bulged ink glands" ],
+    "show_intensity": true,
+    "desc": [
+      "Your ink glands are empty.  Given some time and hydration they will recharge.",
+      "Your ink glands are almost empty.  Given some time and hydration they will recharge.",
+      "Your ink glands have some ink inside.  Given some time and hydration, more ink will be generated.",
+      "Your ink glands are bulged and full.  No more ink is being created."
+    ],
+    "max_intensity": 4,
+    "rating": "neutral"
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_arm_r_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "shakes",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "cramped_space",
+    "name": [ "Cramped Space" ],
+    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
+    "apply_message": "You are squeezed uncomfortably into the cramped space.",
+    "remove_message": "It feels good having room to move again.",
+    "rating": "bad",
+    "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "resist_effects": [ "incorporeal" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "dex_mod": [ -2 ],
+      "str_mod": [ -2 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ],
+      "pain_max_val": [ 35 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "gliding",
+    "name": [ "Gliding" ],
+    "desc": [ "You are gliding through the air." ],
+    "flags": [ "GLIDING" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "slow_descent",
+    "show_in_info": false,
+    "name": [ "Slow Descent" ],
+    "desc": [ "You are descending at a safe speed." ],
+    "flags": [ "FEATHER_FALL" ],
+    "max_duration": "1 s"
   }
 ]

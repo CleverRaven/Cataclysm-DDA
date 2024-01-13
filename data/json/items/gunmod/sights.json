@@ -4,13 +4,14 @@
     "type": "GUNMOD",
     "name": { "str": "five pin bow sight" },
     "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  It takes more time to calibrate but can improve accuracy more effectively.",
-    "weight": "120 g",
-    "volume": "60 ml",
-    "integral_volume": "0 ml",
+    "//": "https://amz.run/7V0e",
+    "weight": "240 g",
+    "volume": "553 ml",
+    "integral_volume": "553 ml",
     "price": 5000,
     "price_postapoc": 500,
     "install_time": "60 m",
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 90 }, { "type": "plastic", "portion": 10 } ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
@@ -317,5 +318,15 @@
     "consume_divisor": 85,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
+  },
+  {
+    "id": "type99_scope",
+    "type": "GUNMOD",
+    "copy-from": "rifle_scope",
+    "name": { "str": "Nagoya 99 gun scope" },
+    "//": "Kokura also made and issued 2.5x rifle scopes for the Type 99, but those are vanishingly rare when compared against Nagoya-built, non-adjustable 4x scopes. That being said, Nagoya also built a small number of 2.5x scopes and dabbled with an adjustable 4x close to the end of production, but those are also comparatively rare enough to be hand-waved away.",
+    "description": "A basic and antique 4x rifle optic: essentially a non-adjustable telescopic sight built by the Nagoya Arsenal during the Second World War and issued for mounting on Type 99 sniper rifles.",
+    "range_multiplier": 2,
+    "mod_targets": [ "type99" ]
   }
 ]

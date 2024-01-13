@@ -130,10 +130,6 @@ static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
 
-static const mon_flag_str_id mon_flag_HARDTOSHOOT( "HARDTOSHOOT" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
@@ -1707,7 +1703,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
-    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+    const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
     const int throw_moves = throw_cost( you, weapon );
 

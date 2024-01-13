@@ -411,9 +411,6 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
-        // Standalone version of the ll and invisible calculations normally done when accumulating draw_points
-        // Used to determine visibility of lower z-levels in 3D vision without generating extra draw_points and overlay_strings
-        std::pair<lit_level, std::array<bool, 5>> calc_ll_invis( const tripoint &draw_loc );
         void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
@@ -808,11 +805,8 @@ class cata_tiles
         pimpl<pixel_minimap> minimap;
 
     public:
-        // Draw caches persist data between draws to avoid unnecessary recalculations
-        // Any event that would invalidate cached data should also clear it
-        // Currently only includes ll_invis_cache
-        // Performance gain from caching draw_points, overlay_strings and color_blocks is negligible
-        void clear_draw_caches();
+        // Draw caches persist data between draws and are only recalculated when dirty
+        void set_draw_cache_dirty();
 
         std::string memory_map_mode = "color_pixel_sepia";
 };

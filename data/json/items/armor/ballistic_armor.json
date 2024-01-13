@@ -377,6 +377,73 @@
     ]
   },
   {
+    "id": "lc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "scrap_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "repairs_like": "hsurvivor_jumpsuit",
+    "name": { "str": "mild ESAPI plate" },
+    "//": "Similar to scrap plates, except made with higher quality steel. A goal for blacksmithing.",
+    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "weight": "1300 g",
+    "volume": "262 ml",
+    "longest_side": "30 cm",
+    "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 1,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
+  },
+  {
+    "id": "mc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "medium ESAPI plate" },
+    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "mc_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "high ESAPI plate" },
+    "description": "High carbon steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "hc_steel" },
+    "repairs_with": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "hard ESAPI plate" },
+    "description": "Hardened steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "qt_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "tempered ESAPI plate" },
+    "description": "Tempered steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "qt_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
     "id": "deltoid_plates",
     "type": "ARMOR",
     "category": "armor",
@@ -455,6 +522,73 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ]
+  },
+  {
+    "id": "lc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "scrap_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "repairs_like": "hsurvivor_jumpsuit",
+    "name": { "str": "mild ESBI plate" },
+    "//": "These will probably be in higher demand since there is no steel version of ESBI plates.",
+    "description": "A hexagonal piece of mild carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "weight": "1300 g",
+    "volume": "262 ml",
+    "longest_side": "20 cm",
+    "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 1,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
+  },
+  {
+    "id": "mc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "medium ESBI plate" },
+    "description": "A hexagonal piece of medium carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "mc_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "high ESBI plate" },
+    "description": "A hexagonal piece of high carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "hc_steel" },
+    "repairs_with": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "hard ESBI plate" },
+    "description": "A hexagonal piece of hardened steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "qt_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "tempered ESBI plate" },
+    "description": "A hexagonal piece of tempered steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "qt_steel" },
+    "repairs_with": [ "mc_steel" ]
   },
   {
     "id": "destroyed_large_ceramic_plate",

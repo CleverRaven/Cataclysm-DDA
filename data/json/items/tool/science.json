@@ -56,14 +56,6 @@
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -256,13 +248,6 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [ "large_storage_battery", "storage_battery" ]
-      }
-    ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -283,26 +268,6 @@
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 40 }
   },
   {
@@ -323,26 +288,6 @@
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ],
     "melee_damage": { "bash": 40 }
   },
   {
@@ -856,14 +801,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -914,7 +852,7 @@
     "category": "tools",
     "name": { "str": "set of spectrometry cuvettes", "str_pl": "sets of spectrometry cuvettes" },
     "description": "A small box filled with precisely-calibrated square plastic tubes for laboratory spectrometer use.",
-    "weight": "500 g",
+    "weight": "70 g",
     "volume": "250 ml",
     "price": 1200,
     "price_postapoc": 250,
@@ -1022,14 +960,7 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1184,14 +1115,6 @@
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {

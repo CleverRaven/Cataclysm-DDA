@@ -645,11 +645,7 @@
     ],
     "false_effect": [
       {
-        "weighted_list_eocs": [
-          [ "EOC_shifting_mass_attack", { "const": 2 } ],
-          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-          [ "EOC_PORTAL_INCORPOREAL", { "const": 1 } ]
-        ]
+        "weighted_list_eocs": [ [ "EOC_shifting_mass_attack", 2 ], [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ]
       },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
@@ -1004,6 +1000,20 @@
     "max_duration": 1000,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect_str": "nausea"
+  },
+  {
+    "type": "SPELL",
+    "id": "star_vampire_invisibility_spell",
+    "name": { "str": "star vampire invisibility" },
+    "description": "Makes the star vampire invisible",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "invisibility",
+    "shape": "blast",
+    "message": "",
+    "min_duration": 99999999999,
+    "max_duration": 99999999999,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ]
   },
   {
     "type": "SPELL",

@@ -312,6 +312,56 @@
     "monsters": [ { "monster": "mon_fry_salmon" } ]
   },
   {
+    "name": "GROUP_EGG_COD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_cod" } ]
+  },
+  {
+    "name": "GROUP_EGG_HADDOCK",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_haddock" } ]
+  },
+  {
+    "name": "GROUP_EGG_BLUEFIN_TUNA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_bluefin_tuna" } ]
+  },
+  {
+    "name": "GROUP_EGG_HALIBUT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_halibut" } ]
+  },
+  {
+    "name": "GROUP_EGG_POLLOCK",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pollock" } ]
+  },
+  {
+    "name": "GROUP_EGG_FLOUNDER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_flounder" } ]
+  },
+  {
+    "name": "GROUP_EGG_MACKEREL",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_mackerel" } ]
+  },
+  {
+    "name": "GROUP_EGG_BLUEFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_bluefish" } ]
+  },
+  {
+    "name": "GROUP_EGG_BLACKFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_blackfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_PORGY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_porgy" } ]
+  },
+  {
     "name": "GROUP_EGG_KOKANEE_SALMON",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_kokanee_salmon" } ]

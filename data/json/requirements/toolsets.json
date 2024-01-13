@@ -96,14 +96,22 @@
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [
+      [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
+      [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ],
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ]
+    ]
   },
   {
     "id": "blacksmithing_scrap",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_scrap energy cost balanced for one scrap metal.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 4 ], [ "oxy_torch", 4 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [
+      [ [ "forge", 4 ], [ "oxy_torch", 4 ] ],
+      [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ]
+    ]
   },
   {
     "id": "mutagen_production_standard",
@@ -159,7 +167,7 @@
         [ "welder", 20 ],
         [ "welding_kit", 20 ],
         [ "welder_crude", 40 ],
-        [ "toolset", 30 ],
+        [ "integrated_welder", 30 ],
         [ "oxy_torch", 1 ],
         [ "propane_torch", 8 ]
       ]
@@ -252,7 +260,15 @@
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "integrated_welder", 1 ], [ "small_repairkit", 1 ], [ "large_repairkit", 1 ] ] ],
+    "tools": [
+      [
+        [ "soldering_iron", 1 ],
+        [ "soldering_iron_portable", 1 ],
+        [ "integrated_welder", 1 ],
+        [ "small_repairkit", 1 ],
+        [ "large_repairkit", 1 ]
+      ]
+    ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
@@ -441,18 +457,12 @@
         [ "mask_gas_xs", -1 ],
         [ "mask_gas_xl", -1 ],
         [ "mask_bunker", -1 ],
-        [ "mask_survivor", -1 ],
-        [ "mask_lsurvivor", -1 ],
-        [ "mask_hsurvivor", -1 ],
-        [ "mask_survivorxl", -1 ],
-        [ "mask_lsurvivorxl", -1 ],
-        [ "mask_survivorxs", -1 ],
-        [ "mask_wsurvivor", -1 ],
-        [ "mask_wsurvivorxl", -1 ],
-        [ "mask_wsurvivorxs", -1 ],
-        [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ]
+        [ "mask_survivor", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_hsurvivorxl", 1 ],
+        [ "mask_hsurvivorxs", 1 ]
       ]
     ]
   },
@@ -469,17 +479,14 @@
         [ "mask_gas_half", 1 ],
         [ "mask_bunker", 1 ],
         [ "mask_survivor", 1 ],
-        [ "mask_lsurvivor", 1 ],
-        [ "mask_hsurvivor", 1 ],
-        [ "mask_survivorxl", 1 ],
-        [ "mask_lsurvivorxl", 1 ],
         [ "mask_survivorxs", 1 ],
-        [ "mask_wsurvivor", 1 ],
-        [ "mask_wsurvivorxl", 1 ],
-        [ "mask_wsurvivorxs", 1 ],
-        [ "mask_wsurvivor_nofur", 1 ],
-        [ "mask_wsurvivor_nofur_xs", 1 ],
-        [ "mask_wsurvivorxl_nofur", 1 ]
+        [ "mask_survivorxl", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_hsurvivorxl", 1 ],
+        [ "mask_hsurvivorxs", 1 ],
+        [ "mask_lsurvivor", 1 ],
+        [ "mask_lsurvivorxl", 1 ],
+        [ "mask_lsurvivorxs", 1 ]
       ]
     ]
   },

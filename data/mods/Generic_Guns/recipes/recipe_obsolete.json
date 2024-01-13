@@ -646,6 +646,46 @@
   },
   {
     "type": "recipe",
+    "result": "reloaded_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchhead_45colt_cowboy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "reloaded_46mm",
     "obsolete": true
   },
@@ -1687,6 +1727,111 @@
   {
     "type": "recipe",
     "result": "matchhead_10mm_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_22lr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_410_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_hornets_nest_22lr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_000",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_000",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_scrap_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_bird_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_slug_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_410shot_000_with_dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_458wm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_458wm",
     "obsolete": true
   }
 ]

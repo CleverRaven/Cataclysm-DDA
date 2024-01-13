@@ -121,14 +121,17 @@
       "furniture": { "C": "f_filing_cabinet", "Ȼ": "f_filing_cabinet", "L": "f_lab_bench", "S": "f_stool", "ŧ": "f_table" },
       "item": {
         "C": { "item": "lab_file_teleportation_item", "chance": 5 },
-        "Ȼ": { "item": "lab_file_teleportation_item", "chance": 5 },
+        "Ȼ": [ { "item": "lab_file_teleportation_item", "chance": 5 }, { "item": "schematics_transporters", "chance": 30 } ],
         "Q": { "item": "matrix_crystal_teleportation", "chance": 15 },
         "R": { "item": "lab_file_teleportation_item", "chance": 15 },
         "t": { "item": "lab_file_teleportation_item", "chance": 2 }
       },
       "items": {
         "C": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "Ȼ": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "Ȼ": [
+          { "item": "SUS_office_filing_cabinet", "chance": 80 },
+          { "item": "dist_matrix_translocation_items", "chance": 50, "repeat": [ 1, 3 ] }
+        ],
         "d": { "item": "SUS_office_desk", "chance": 50 },
         "L": [
           { "item": "psi_lab_no_recipes", "chance": 50, "repeat": [ 1, 3 ] },

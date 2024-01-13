@@ -67,6 +67,18 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
             };
+        // item flags, must type in whole flag string name(case insensitive) so as to avoid revealing hidden flags.
+        case 'f':
+            return [filter]( const item & i ) {
+                std::string flag_filter = filter;
+                transform( flag_filter.begin(), flag_filter.end(), flag_filter.begin(), ::toupper );
+                const flag_id fsearch( flag_filter );
+                if( fsearch.is_valid() ) {
+                    return i.has_flag( fsearch );
+                } else {
+                    return false;
+                }
+            };
         // by book skill
         case 's':
             return [filter]( const item & i ) {

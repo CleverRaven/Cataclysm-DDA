@@ -6,6 +6,7 @@
 
 #include "cata_utility.h"
 #include "character.h"
+#include "itype.h"
 #include "json.h"
 #include "stomach.h"
 #include "units.h"
@@ -318,9 +319,16 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
-        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
-        digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
-                                   vit.second ) );
+        if( vit.first->type() != vitamin_type::DRUG ) {
+            int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
+            digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
+                                       vit.second ) );
+        }
+        // drug vitamins are absorbed to the blood instantly after the first stomach step.
+        // this makes the drug vitamins easier to balance (no need to account for slow trickle-ing in of the drug)
+        else if( vit.first->type() == vitamin_type::DRUG && stomach ) {
+            digested.nutr.set_vitamin( vit.first, vit.second );
+        }
     }
 
     nutr -= digested.nutr;
@@ -373,7 +381,7 @@ void stomach_contents::mod_calories( int kcal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * base_metabolic_rate / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( const units::volume &h2o )

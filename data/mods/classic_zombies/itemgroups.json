@@ -1,0 +1,22 @@
+[
+  {
+    "id": "nested_axmc_retool_300win",
+    "type": "item_group",
+    "//": "Overwriting itemgroups so they stop trying to put ammo into blacklisted guns",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "group": "ar15_223long", "charges-min": 0, "charges-max": 30, "prob": 8 },
+          { "group": "ar15_223medium", "charges-min": 0, "charges-max": 30, "prob": 8 },
+          { "group": "ar15_223short", "charges-min": 0, "charges-max": 30, "prob": 6 }
+        ],
+        "prob": 100
+      },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  }
+]

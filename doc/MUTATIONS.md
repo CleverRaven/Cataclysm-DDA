@@ -145,6 +145,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
+  "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
     "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
     "str_mod": 2

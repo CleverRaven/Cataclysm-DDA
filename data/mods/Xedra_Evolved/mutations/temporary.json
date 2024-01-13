@@ -76,5 +76,17 @@
     "purifiable": false,
     "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "LUCID_DREAM",
+    "name": { "str": "Sleeper" },
+    "active": true,
+    "points": 99,
+    "description": "You still sleep, yet your dreams still can impact the world.  Activate to wake up.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_LUCID_DREAM" ]
   }
 ]

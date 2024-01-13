@@ -22,6 +22,7 @@ class Character;
 class recipe;
 struct tripoint;
 class vehicle;
+struct mutation_variant;
 
 using bodytype_id = std::string;
 
@@ -224,7 +225,7 @@ class talker
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
-        virtual void set_mutation( const trait_id & ) {}
+        virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
@@ -336,7 +337,7 @@ class talker
         }
         virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
-        virtual void remove_effect( const efftype_id & ) {}
+        virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {

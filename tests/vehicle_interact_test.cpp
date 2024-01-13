@@ -45,14 +45,9 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );
         if( plug_in_tools && added_tool->can_link_up() ) {
-            added_tool->link = cata::make_value<item::link_data>();
-            added_tool->link->t_state = link_state::vehicle_port;
-            added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north_west );
-            added_tool->link->last_processed = calendar::turn;
-            added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
-                                           tripoint_north_west )->vehicle().get_safe_reference();
-            added_tool->set_link_traits();
-            REQUIRE( added_tool->link->t_veh_safe );
+            added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north_west ),
+                                 link_state::automatic );
+            REQUIRE( added_tool->link().t_veh );
         }
     }
     player_character.set_skill_level( skill_mechanics, 10 );
@@ -93,12 +88,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        // tools.push_back( tool_with_ammo( "welder", 10000 ) );
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -129,9 +120,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "hammer" );
@@ -143,9 +131,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );
@@ -175,9 +160,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         std::vector<item> tools;
 
         item welder( "welder" );
-        item welder_mag( welder.magazine_default() );
-        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
-        welder.put_in( welder_mag, pocket_type::MAGAZINE_WELL );
         tools.push_back( welder );
 
         tools.emplace_back( "goggles_welding" );

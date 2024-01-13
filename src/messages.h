@@ -216,4 +216,6 @@ inline void add_msg_debug_if_player_sees( const Creature &target, debugmode::deb
     }
 }
 
+void modify_msg_with_exclamations( std::string &msg, game_message_type type );
+
 #endif // CATA_SRC_MESSAGES_H

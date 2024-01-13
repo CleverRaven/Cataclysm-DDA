@@ -35,9 +35,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "pre_common_cold" },
-        {
-          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_health_power')" ] }, "y": 100 }
-        }
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_health_power')" ] }, "y": 100 } }
       ]
     },
     "effect": [ { "u_add_effect": "effect_vita_health_common_cold_protection", "duration": "10 days" } ]
@@ -48,9 +46,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "pre_flu" },
-        {
-          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_health_power')" ] }, "y": 100 }
-        }
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_health_power')" ] }, "y": 100 } }
       ]
     },
     "effect": [ { "u_add_effect": "effect_vita_health_flu_protection", "duration": "10 days" } ]
@@ -61,9 +57,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "pre_conjunctivitis_viral" },
-        {
-          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_health_power')" ] }, "y": 100 }
-        }
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_health_power')" ] }, "y": 100 } }
       ]
     },
     "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_viral_protection", "duration": "10 days" } ]
@@ -74,9 +68,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "pre_conjunctivitis_bacterial" },
-        {
-          "x_in_y_chance": { "x": { "math": [ "10 + u_val('spell_level', 'spell: vita_health_power')" ] }, "y": 100 }
-        }
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_health_power')" ] }, "y": 100 } }
       ]
     },
     "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_bacterial_protection", "duration": "10 days" } ]

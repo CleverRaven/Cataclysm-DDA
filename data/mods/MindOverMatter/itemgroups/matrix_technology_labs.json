@@ -31,7 +31,7 @@
       { "item": "gloves_medical", "prob": 20 },
       { "item": "badge_doctor", "prob": 2 },
       { "item": "lanyard", "prob": 5 },
-      { "item": "chemistry_set", "prob": 4, "charges": [ 0, 500 ] },
+      { "item": "chemistry_set", "prob": 4 },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "usb_drive", "prob": 5 },
       { "item": "wrapped_rad_badge", "prob": 10 },
@@ -58,7 +58,8 @@
       { "group": "psionic_recipes_tools", "prob": 5 },
       { "group": "psionic_recipes_medicine", "prob": 2 },
       { "group": "psionic_recipes_powers", "prob": 2 },
-      { "group": "psionic_recipes_advanced", "prob": 1 }
+      { "group": "psionic_recipes_advanced", "prob": 1 },
+      { "group": "dist_matrix_translocation_items", "prob": 2 }
     ]
   },
   {
@@ -106,6 +107,12 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "dist_matrix_translocation_items",
+    "items": [ { "item": "psionic_transporter_remote", "prob": 5 }, { "item": "psionic_transporter_beacon", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "psi_lab_no_recipes",
     "items": [
       { "item": "water_clean", "prob": 150, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
@@ -126,7 +133,7 @@
       { "item": "magic_8_ball", "prob": 10 },
       { "item": "cards_magic", "prob": 5 },
       { "group": "psi_testing_materials", "prob": 50 },
-      { "item": "chemistry_set", "prob": 4, "charges": [ 0, 500 ] },
+      { "item": "chemistry_set", "prob": 4 },
       { "item": "apron_plastic", "prob": 30 },
       { "item": "apron_cotton", "prob": 10 },
       { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
@@ -151,7 +158,8 @@
       { "item": "mortar_pestle", "prob": 20 },
       { "item": "blindfold", "prob": 10 },
       { "item": "syringe", "prob": 12 },
-      { "item": "matrix_crystal_drained", "prob": 15 }
+      { "item": "matrix_crystal_drained", "prob": 15 },
+      { "group": "dist_matrix_translocation_items", "prob": 2 }
     ]
   },
   {

@@ -2,60 +2,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_biokin_physical_enhance" },
-      { "u_learn_recipe": "practice_biokin_overcome_pain" },
-      { "u_learn_recipe": "practice_biokin_breathe_skin" },
-      { "u_learn_recipe": "practice_biokin_flexibility" },
-      { "u_learn_recipe": "practice_biokin_climate_control" },
-      { "u_learn_recipe": "practice_biokin_enhance_mobility" },
-      { "u_learn_recipe": "practice_biokin_hammerhand" },
-      { "u_learn_recipe": "practice_biokin_armor_skin" },
-      { "u_learn_recipe": "practice_biokin_reflex_enhance" },
-      { "u_learn_recipe": "practice_biokin_sealed_system" },
-      { "u_learn_recipe": "practice_biokin_metabolism_enhance" },
-      { "u_learn_recipe": "practice_biokin_combat_dance" },
-      { "u_learn_recipe": "practice_biokin_perfected_motion" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_biokin_physical_enhance" }, { "u_learn_recipe": "practice_biokin_overcome_pain" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_clair_night_vision" },
-      { "u_learn_recipe": "practice_clair_danger_sense" },
-      { "u_learn_recipe": "practice_clair_speed_reading" },
-      { "u_learn_recipe": "practice_clair_aura_sight" },
-      { "u_learn_recipe": "practice_clair_spot_weakness" },
-      { "u_learn_recipe": "practice_clair_ranged_enhance" },
-      { "u_learn_recipe": "practice_clair_voyance" },
-      { "u_learn_recipe": "practice_clair_dodge_power" },
-      { "u_learn_recipe": "practice_clair_craft_bonus" },
-      { "u_learn_recipe": "practice_clair_see_map" },
-      { "u_learn_recipe": "practice_clair_perfect_shot" },
-      { "u_learn_recipe": "practice_clair_clear_sight" },
-      { "u_learn_recipe": "practice_clair_group_tactics" },
-      { "u_learn_recipe": "practice_clair_omniscience" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_clair_night_vision" }, { "u_learn_recipe": "practice_clair_speed_reading" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_electrokinetic_see_electric" },
-      { "u_learn_recipe": "practice_electrokinetic_shock_touch" },
-      { "u_learn_recipe": "practice_electrokinetic_zap_enemies" },
-      { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
-      { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
-      { "u_learn_recipe": "practice_electrokinetic_paralysis" },
-      { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
-      { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
-      { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
-      { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
-      { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
-      { "u_learn_recipe": "practice_electrokinetic_revive" }
+      { "u_learn_recipe": "practice_electrokinetic_shock_touch" }
     ]
   },
   {
@@ -81,60 +40,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "irradiated_rose_hips" },
-      { "u_learn_recipe": "irradiated_elderberries" },
-      { "u_learn_recipe": "irradiated_mulberries" },
-      { "u_learn_recipe": "irradiated_huckleberries" },
-      { "u_learn_recipe": "irradiated_raspberries" },
-      { "u_learn_recipe": "irradiated_strawberries" },
-      { "u_learn_recipe": "irradiated_blueberries" },
-      { "u_learn_recipe": "irradiated_apple" },
-      { "u_learn_recipe": "irradiated_banana" },
-      { "u_learn_recipe": "irradiated_orange" },
-      { "u_learn_recipe": "irradiated_lemon" },
-      { "u_learn_recipe": "irradiated_grapefruit" },
-      { "u_learn_recipe": "irradiated_pear" },
-      { "u_learn_recipe": "irradiated_cherries" },
-      { "u_learn_recipe": "irradiated_plums" },
-      { "u_learn_recipe": "irradiated_grapes" },
-      { "u_learn_recipe": "irradiated_pineapple" },
-      { "u_learn_recipe": "irradiated_peach" },
-      { "u_learn_recipe": "irradiated_watermelon" },
-      { "u_learn_recipe": "irradiated_melon" },
-      { "u_learn_recipe": "irradiated_blackberries" },
-      { "u_learn_recipe": "irradiated_mango" },
-      { "u_learn_recipe": "irradiated_pomegranate" },
-      { "u_learn_recipe": "irradiated_papaya" },
-      { "u_learn_recipe": "irradiated_guayaba" },
-      { "u_learn_recipe": "irradiated_maracuya" },
-      { "u_learn_recipe": "irradiated_kiwi" },
-      { "u_learn_recipe": "irradiated_lulo" },
-      { "u_learn_recipe": "irradiated_plantain" },
-      { "u_learn_recipe": "irradiated_apricot" },
-      { "u_learn_recipe": "irradiated_lettuce" },
-      { "u_learn_recipe": "irradiated_cabbage" },
-      { "u_learn_recipe": "irradiated_tomato" },
-      { "u_learn_recipe": "irradiated_broccoli" },
-      { "u_learn_recipe": "irradiated_zucchini" },
-      { "u_learn_recipe": "irradiated_onion" },
-      { "u_learn_recipe": "irradiated_carrot" },
-      { "u_learn_recipe": "irradiated_corn" },
-      { "u_learn_recipe": "irradiated_pumpkin" },
-      { "u_learn_recipe": "irradiated_potato" },
-      { "u_learn_recipe": "irradiated_cucumber" },
-      { "u_learn_recipe": "irradiated_celery" },
-      { "u_learn_recipe": "irradiated_rhubarb" },
-      { "u_learn_recipe": "irradiated_eggplant" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
     "effect": [
       { "u_learn_recipe": "practice_pyrokinetic_flash" },
       { "u_learn_recipe": "practice_pyrokinetic_eruption" },
+      { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
@@ -154,17 +64,6 @@
     "effect": [
       { "u_learn_recipe": "practice_telekinetic_pull" },
       { "u_learn_recipe": "practice_telekinetic_push" },
-      { "u_learn_recipe": "practice_telekinetic_momentum" },
-      { "u_learn_recipe": "practice_telekinetic_slowfall" },
-      { "u_learn_recipe": "practice_telekinetic_wave" },
-      { "u_learn_recipe": "practice_telekinetic_strength" },
-      { "u_learn_recipe": "practice_telekinetic_hammer" },
-      { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
-      { "u_learn_recipe": "practice_telekinetic_shield" },
-      { "u_learn_recipe": "practice_telekinetic_explosion" },
-      { "u_learn_recipe": "practice_telekinetic_levitation" },
-      { "u_learn_recipe": "practice_telekinetic_aegis" },
-      { "u_learn_recipe": "practice_telekinetic_earthshaker" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -182,6 +81,7 @@
       { "u_learn_recipe": "practice_telepathic_invisibility" },
       { "u_learn_recipe": "practice_telepathic_fear" },
       { "u_learn_recipe": "practice_telepathic_scream" },
+      { "u_learn_recipe": "practice_telepathic_beast_taming" },
       { "u_learn_recipe": "practice_telepathic_mind_control" },
       { "u_learn_recipe": "practice_telepathic_network" }
     ]
@@ -189,19 +89,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_teleport_blink" },
-      { "u_learn_recipe": "practice_teleport_slow" },
-      { "u_learn_recipe": "practice_teleport_stride" },
-      { "u_learn_recipe": "practice_teleport_phase" },
-      { "u_learn_recipe": "practice_teleport_transpose" },
-      { "u_learn_recipe": "practice_teleport_displacement" },
-      { "u_learn_recipe": "practice_teleport_farstep" },
-      { "u_learn_recipe": "practice_teleport_collapse" },
-      { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" },
-      { "u_learn_recipe": "practice_teleport_breach" }
-    ]
+    "effect": [ { "u_learn_recipe": "practice_teleport_blink" }, { "u_learn_recipe": "practice_teleport_slow" } ]
   },
   {
     "type": "effect_on_condition",
@@ -217,6 +105,7 @@
       { "u_learn_recipe": "practice_vita_pain_split" },
       { "u_learn_recipe": "practice_vita_stop_infection" },
       { "u_learn_recipe": "practice_vita_healing_trance" },
+      { "u_learn_recipe": "practice_vita_attack_touch" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
       { "u_learn_recipe": "practice_vita_banish_illness" },
       { "u_learn_recipe": "practice_vita_super_heal" },
@@ -230,7 +119,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "BIOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -246,7 +135,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "ELECTROKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -255,17 +144,6 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PHOTOKIN_RECIPE_TEACHER2",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "condition": { "u_has_trait": "PHOTOKINETIC" },
-    "effect": [
-      { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] },
-      { "queue_eocs": "EOC_TEACH_PHOTOKIN_FOOD_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -281,7 +159,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -297,7 +175,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -306,6 +184,46 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
+    "recurrence": [ "12 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "0" ] },
+        { "not": { "u_has_effect": "effect_psi_learning_new_power" } }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "u_has_any_trait": [
+          "BIOKINETIC",
+          "CLAIRSENTIENT",
+          "ELECTROKINETIC",
+          "PHOTOKINETIC",
+          "PYROKINETIC",
+          "TELEKINETIC",
+          "TELEPATH",
+          "TELEPORTER",
+          "VITAKINETIC"
+        ]
+      }
+    },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "+=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",

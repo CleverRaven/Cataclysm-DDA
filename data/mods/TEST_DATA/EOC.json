@@ -83,6 +83,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5_nested",
+    "effect": [ { "npc_add_var": "key5", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test5_nested" ],
+        "search_data": [ { "excluded_flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_item_math_test",
     "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
   },
@@ -382,6 +398,8 @@
     "id": "EOC_mon_nearby_test",
     "effect": [
       { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "triffs", "=", "u_mon_species_nearby('PLANT')" ] },
+      { "math": [ "group", "=", "u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
       { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
       { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
       { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
@@ -389,6 +407,11 @@
       { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
       { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_mon_nearby_test",
+    "monsters": [ { "monster": "mon_triffid", "weight": 1 }, { "monster": "mon_zombie_tough", "weight": 1 } ]
   },
   {
     "type": "effect_on_condition",
