@@ -446,7 +446,7 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [
+    "tools": [
       [
         [ "paint_red", 1 ],
         [ "paint_orange", 1 ],
