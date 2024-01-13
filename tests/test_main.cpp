@@ -413,6 +413,8 @@ int main( int argc, const char *argv[] )
 
     if( world_generator == nullptr ) {
         // The session run may not have initialized game state because asked to list tests
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        DebugLog( D_INFO, DC_ALL ) << "Finished in " << elapsed_seconds.count() << " seconds";
         return result;
     }
 
