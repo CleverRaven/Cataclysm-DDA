@@ -676,7 +676,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_BaseTimeLeft",
     "type": "talk_topic",
-    "dynamic_line": "Yon aforetime otherland, 'twere a right soggy biscuit. This'n be crisp an' fresh yet. Us'n'll try as might stay a fair tick.",
+    "dynamic_line": "Yon aforetime otherland, 'twere a right soggy biscuit.  This'n be crisp an' fresh yet.  Us'n'll try as might stay a fair tick.",
     "//~": "The otherlands we were in before had only little time left, so we can't say for sure.  But this land is as fresh as it can be.",
     "responses": [
       { "text": "Good to know you will be here for a while.", "topic": "TALK_NONE" },
