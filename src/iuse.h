@@ -105,7 +105,6 @@ std::optional<int> ehandcuffs( Character *, item *, const tripoint & );
 std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint & );
 std::optional<int> epic_music( Character *, item *, const tripoint & );
 std::optional<int> einktabletpc( Character *, item *, const tripoint & );
-std::optional<int> elec_chainsaw_off( Character *, item *, const tripoint & );
 std::optional<int> emf_passive_on( Character *, item *, const tripoint & );
 std::optional<int> extinguisher( Character *, item *, const tripoint & );
 std::optional<int> fill_pit( Character *, item *, const tripoint & );

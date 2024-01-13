@@ -3069,15 +3069,6 @@ std::optional<int> iuse::chainsaw_off( Character *p, item *it, const tripoint & 
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-std::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the electric chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
 std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tripoint &pos )
 {
     if( it->typeId() == itype_chainsaw_on ) {
