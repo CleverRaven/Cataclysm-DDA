@@ -386,13 +386,13 @@ int main( int argc, const char *argv[] )
     // Tests not requiring the global game initialized are tagged with [nogame]
     {
         using namespace Catch;
-        std::vector<TestCase> const& tcs = filterTests(
-            getAllTestCasesSorted( session.config() ),
-            session.config().testSpec(),
-            session.config()
-        );
-        for( auto const& tc : tcs ) {
-            for( auto const& tag : tc.getTestCaseInfo().tags ) {
+        std::vector<TestCase> const &tcs = filterTests(
+                                               getAllTestCasesSorted( session.config() ),
+                                               session.config().testSpec(),
+                                               session.config()
+                                           );
+        for( auto const &tc : tcs ) {
+            for( auto const &tag : tc.getTestCaseInfo().tags ) {
                 needs_game = true;
                 if( tag == "nogame" ) {
                     needs_game = false;
