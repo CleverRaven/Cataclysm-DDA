@@ -373,9 +373,7 @@
               "failure_message": "You yank the cord, but nothing happens."
             }
           },
-          "false_effect": {
-            "u_message": "You yank the cord, but nothing happens."
-          }
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
         }
       ]
     },
@@ -408,12 +406,7 @@
           "id": "EOC_toolweapon_running__trimmer",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "15",
-              "sound_message": "Your hedge trimmer rumbles.",
-              "volume": "10",
-              "revert_to": "trimmer_off"
-            }
+            "variables": { "sound_chance": "15", "sound_message": "Your hedge trimmer rumbles.", "volume": "10", "revert_to": "trimmer_off" }
           }
         }
       ]

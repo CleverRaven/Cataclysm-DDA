@@ -136,12 +136,12 @@ std::function<double( dialogue & )> damage_level_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[params, beta = is_beta( scope )]( dialogue const & d ) {
-        item_location* it = d.actor( beta )->get_item();
-        if (!it) {
+        item_location *it = d.actor( beta )->get_item();
+        if( !it ) {
             debugmsg( "subject of damage_level() must be an item" );
             return 0;
         }
-        return (*it)->damage_level();
+        return ( *it )->damage_level();
     };
 }
 

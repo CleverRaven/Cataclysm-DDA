@@ -79,12 +79,7 @@
           "id": "EOC_toolweapon_running__chainsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "15",
-              "sound_message": "Your chainsaw rumbles.",
-              "volume": "12",
-              "revert_to": "chainsaw_off"
-            }
+            "variables": { "sound_chance": "15", "sound_message": "Your chainsaw rumbles.", "volume": "12", "revert_to": "chainsaw_off" }
           }
         }
       ]
@@ -144,12 +139,7 @@
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "15",
-              "sound_message": "Your chainsaw rumbles.",
-              "volume": "12",
-              "revert_to": "polesaw_off"
-            }
+            "variables": { "sound_chance": "15", "sound_message": "Your chainsaw rumbles.", "volume": "12", "revert_to": "polesaw_off" }
           }
         }
       ]
@@ -231,12 +221,7 @@
           "id": "EOC_toolweapon_running__circsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "15",
-              "sound_message": "Your circular saw buzzes.",
-              "volume": "7",
-              "revert_to": "circsaw_off"
-            }
+            "variables": { "sound_chance": "15", "sound_message": "Your circular saw buzzes.", "volume": "7", "revert_to": "circsaw_off" }
           }
         }
       ]
@@ -339,9 +324,7 @@
               "failure_message": "You flip the switch, but nothing happens."
             }
           },
-          "false_effect": {
-            "u_message": "You flip the switch, but nothing happens."
-          }
+          "false_effect": { "u_message": "You flip the switch, but nothing happens." }
         }
       ]
     },
@@ -405,30 +388,30 @@
     "price": "66 USD",
     "name": { "str": "corded electric chainsaw (off)", "str_pl": "corded electric chainsaws (off)" },
     "description": "A treecutting tool moonlighting as a weapon of opportunity.  It has a short electric cord, which you can connect to the generator or your home grid.  Extension cord not included.",
-    "use_action": [{
-      "type": "effect_on_conditions",
-      "menu_text": "Turn on",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
-          "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
-            "variables": {
-              "turn_cost": "0.6",
-              "transform_target": "elec_chainsaw_cord_on",
-              "success_message": "With a roar, the corded electric chainsaw screams to life!",
-              "volume": "20",
-              "failure_message": "You flip the switch, but nothing happens."
-            }
-          },
-          "false_effect": {
-            "u_message": "You flip the switch, but nothing happens."
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
+            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "effect": {
+              "run_eoc_with": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": "0.6",
+                "transform_target": "elec_chainsaw_cord_on",
+                "success_message": "With a roar, the corded electric chainsaw screams to life!",
+                "volume": "20",
+                "failure_message": "You flip the switch, but nothing happens."
+              }
+            },
+            "false_effect": { "u_message": "You flip the switch, but nothing happens." }
           }
-        }
-      ]
-    },
-       { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
+        ]
+      },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" }
+    ],
     "pocket_data": [  ]
   },
   {

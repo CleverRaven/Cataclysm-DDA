@@ -34,9 +34,7 @@
               "failure_message": "You yank the cord, but nothing happens."
             }
           },
-          "false_effect": {
-            "u_message": "You yank the cord, but nothing happens."
-          }
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
         }
       ]
     },
@@ -72,12 +70,7 @@
           "id": "EOC_toolweapon_running__masonrysaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": {
-              "sound_chance": "15",
-              "sound_message": "Your masonry saw buzzes.",
-              "volume": "7",
-              "revert_to": "masonrysaw_off"
-            }
+            "variables": { "sound_chance": "15", "sound_message": "Your masonry saw buzzes.", "volume": "7", "revert_to": "masonrysaw_off" }
           }
         }
       ]
