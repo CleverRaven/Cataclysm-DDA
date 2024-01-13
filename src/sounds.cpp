@@ -926,22 +926,29 @@ void sfx::do_vehicle_engine_sfx()
         current_speed = current_speed * -1;
         in_reverse = true;
     }
-    double pitch = 1.0;
-    int safe_speed = veh->safe_velocity();
+    // Getting the safe speed for a stationary vehicle is expensive and unnecessary, so the calculation
+    // is delayed until it is needed.
+    std::optional<int> safe_speed_cached;
+    auto safe_speed = [veh, &safe_speed_cached]() {
+        if( !safe_speed_cached ) {
+            safe_speed_cached = veh->safe_velocity();
+        }
+        return *safe_speed_cached;
+    };
     int current_gear;
     if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
-    } else if( current_speed > 0 && current_speed <= safe_speed / 12 ) {
+    } else if( current_speed > 0 && current_speed <= safe_speed() / 12 ) {
         current_gear = 1;
-    } else if( current_speed > safe_speed / 12 && current_speed <= safe_speed / 5 ) {
+    } else if( current_speed > safe_speed() / 12 && current_speed <= safe_speed() / 5 ) {
         current_gear = 2;
-    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+    } else if( current_speed > safe_speed() / 5 && current_speed <= safe_speed() / 4 ) {
         current_gear = 3;
-    } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
+    } else if( current_speed > safe_speed() / 4 && current_speed <= safe_speed() / 3 ) {
         current_gear = 4;
-    } else if( current_speed > safe_speed / 3 && current_speed <= safe_speed / 2 ) {
+    } else if( current_speed > safe_speed() / 3 && current_speed <= safe_speed() / 2 ) {
         current_gear = 5;
     } else {
         current_gear = 6;
@@ -960,17 +967,14 @@ void sfx::do_vehicle_engine_sfx()
                             get_heard_volume( player_character.pos() ), 0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    if( safe_speed != 0 ) {
-        if( current_gear == 0 ) {
-            pitch = 1.0;
-        } else if( current_gear == -1 ) {
+    double pitch = 1.0;
+    if( current_gear != 0 ) {
+        if( current_gear == -1 ) {
             pitch = 1.2;
-        } else {
-            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed );
+        } else if( safe_speed() != 0 ) {
+            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed() );
+            pitch = std::max( pitch, 0.5 );
         }
-    }
-    if( pitch <= 0.5 ) {
-        pitch = 0.5;
     }
 
     if( current_speed != previous_speed ) {

@@ -447,6 +447,18 @@
   },
   {
     "type": "mutation",
+    "id": "HOLLOW_BONES",
+    "copy-from": "HOLLOW_BONES",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_FEATHERS",
+    "copy-from": "ARM_FEATHERS",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
     "extend": { "category": [ "DRAGON_BLACK", "SPECIES_RAVENFOLK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }

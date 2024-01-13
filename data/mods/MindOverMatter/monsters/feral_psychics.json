@@ -1283,7 +1283,7 @@
         "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
         "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
         "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
-        "no_dmg_msg_npc": "%1$s starss at <npcname>, but the telekinetic attack rebounds off their armor."
+        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
       },
       {
         "id": "smash",

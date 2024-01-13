@@ -3835,7 +3835,6 @@
     "material": [ "leather" ],
     "volume": "285 ml",
     "weight": "80 g",
-    "extend": { "flags": [ "FANCY" ] },
     "pocket_data": [
       {
         "//": "Folded Sleeve",
@@ -3873,8 +3872,7 @@
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
-    "material": [ "leather" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "material": [ "leather" ]
   },
   {
     "id": "wallet_travel",

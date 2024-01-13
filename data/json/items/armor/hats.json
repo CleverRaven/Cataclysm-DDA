@@ -1301,7 +1301,7 @@
     "warmth": 7,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],

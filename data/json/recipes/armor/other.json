@@ -614,7 +614,7 @@
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 17 ], [ "sewing_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "components": [ [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ],
+    "components": [ [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ], [ "wool_staple", 12 ] ] ],
     "byproducts": [ [ "cotton_patchwork", 1 ] ]
   },
   {

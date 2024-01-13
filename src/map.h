@@ -40,7 +40,6 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
@@ -390,6 +389,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
+        void set_pathfinding_cache_dirty( const tripoint &p );
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -410,11 +410,7 @@ class map
          * true, if there might be a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
-        bool has_potential_los( const tripoint &from, const tripoint &to,
-                                bool bounds_check = true ) const;
-
-        int reachability_cache_value( const tripoint &p, bool vertical_cache,
-                                      reachability_cache_quadrant quadrant ) const;
+        bool has_potential_los( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -619,6 +615,7 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -693,10 +690,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+
+        // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
+        // if that is not possible.
+        std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -1493,6 +1494,7 @@ class map
 
         // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
+        const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
@@ -2065,7 +2067,9 @@ class map
         }
         submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2077,7 +2081,9 @@ class map
         const submap *unsafe_get_submap_at(
             const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
@@ -2286,6 +2292,7 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
+        void update_pathfinding_cache( const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );

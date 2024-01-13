@@ -123,13 +123,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "harddrugs", "prob": 5 },
-      { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 }
+      { "group": "harddrugs", "prob": 5 }
     ]
   },
   {
@@ -199,12 +193,6 @@
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
       [ "weak_antibiotic", 15 ],
-      { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 },
-      { "item": "left_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "left_arm_neuroprosthetic", "prob": 2 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 },
       [ "crutches", 5 ]
     ]
   },
@@ -255,8 +243,6 @@
       [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
-      [ "left_leg_prosthetic", 40 ],
-      [ "right_leg_prosthetic", 40 ],
       [ "crutches", 5 ]
     ]
   },
@@ -391,6 +377,7 @@
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 10 ],
+      [ "denim_overalls", 10 ],
       [ "technician_coveralls", 15 ],
       [ "technician_coveralls_h", 5 ],
       [ "gloves_rubber", 20 ],
@@ -1072,11 +1059,7 @@
       { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "left_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "right_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] }
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1180,15 +1163,7 @@
       { "item": "ceramic_cup", "prob": 90, "damage": [ 2, 4 ] },
       { "group": "tinware", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "crown_golden", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "fluid_preserved_brain", "prob": 20 },
-      { "item": "left_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] }
+      { "item": "fluid_preserved_brain", "prob": 20 }
     ]
   },
   {
@@ -1256,6 +1231,7 @@
       [ "wrench", 30 ],
       [ "pipe", 20 ],
       [ "boots", 70 ],
+      [ "denim_overalls", 10 ],
       [ "technician_coveralls", 15 ],
       [ "technician_coveralls_h", 5 ],
       [ "coat_lab", 20 ],
@@ -1318,6 +1294,7 @@
       [ "chain", 20 ],
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
+      [ "denim_overalls", 20 ],
       [ "technician_coveralls", 10 ],
       [ "technician_coveralls_h", 10 ],
       [ "gloves_leather", 45 ],
@@ -1330,7 +1307,8 @@
       [ "hat_hard", 50 ],
       { "item": "wearable_light", "prob": 20, "charges": [ 0, 100 ] },
       [ "ear_plugs", 50 ],
-      [ "backpack", 38 ],
+      [ "backpack", 18 ],
+      [ "backpack_denim", 20 ],
       [ "slingpack", 19 ],
       [ "briefcase", 20 ],
       [ "backpack_leather", 18 ],
@@ -1716,13 +1694,7 @@
       { "group": "tools_medical", "prob": 100 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
-      { "item": "badge_doctor", "prob": 2 },
-      { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 },
-      { "item": "left_arm_prosthetic", "prob": 2 },
-      { "item": "right_arm_prosthetic", "prob": 2 },
-      { "item": "left_arm_neuroprosthetic", "prob": 1 },
-      { "item": "right_arm_neuroprosthetic", "prob": 1 }
+      { "item": "badge_doctor", "prob": 2 }
     ]
   },
   {
@@ -2082,6 +2054,7 @@
       [ "ZSG", 2 ],
       [ "cookies", 50 ],
       [ "backpack", 38 ],
+      [ "backpack_denim", 8 ],
       [ "backpack_leather", 18 ],
       [ "slingpack", 18 ],
       [ "briefcase", 5 ],
@@ -2498,11 +2471,15 @@
       [ "runner_bag", 5 ],
       [ "socks_wool", 30 ],
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 30 ],
+      [ "jeans_vintage", 1 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
       [ "tshirt", 80 ],
       [ "longshirt", 70 ],
+      [ "denim_shirt", 10 ],
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
       [ "coat_winter", 50 ],
@@ -2518,6 +2495,7 @@
       [ "glasses_bal", 5 ],
       [ "hat_knit", 25 ],
       [ "backpack", 38 ],
+      [ "backpack_denim", 8 ],
       [ "backpack_leather", 8 ],
       [ "backpack_tactical_large", 3 ],
       [ "slingpack", 8 ],
@@ -2700,16 +2678,7 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "blanket", "prob": 50 },
-      { "item": "cotton_patchwork", "prob": 100, "custom-flags": [ "FILTHY" ] },
-      { "item": "left_leg_prosthetic", "prob": 20 },
-      { "item": "right_leg_prosthetic", "prob": 20 },
-      { "item": "left_arm_prosthetic", "prob": 20 },
-      { "item": "right_arm_prosthetic", "prob": 20 },
-      { "item": "left_arm_neuroprosthetic", "prob": 10 },
-      { "item": "right_arm_neuroprosthetic", "prob": 10 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 200 }, { "item": "cotton_patchwork", "prob": 400, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_table_hospital",
@@ -2750,11 +2719,7 @@
     "id": "mil_base_iv",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "blood", "prob": 100 },
-      { "item": "saline", "prob": 80, "container-item": "bag_iv" },
-      { "item": "bag_iv", "prob": 50 }
-    ]
+    "entries": [ { "item": "blood", "prob": 100 }, { "group": "saline_bottle_random", "prob": 80 }, { "item": "bag_iv", "prob": 50 } ]
   },
   {
     "id": "mil_base_mess_hall",
@@ -2904,6 +2869,7 @@
           { "item": "linuxtshirt", "prob": 5 },
           { "item": "longshirt", "prob": 20 },
           { "item": "striped_shirt", "prob": 10 },
+          { "item": "denim_shirt", "prob": 5 },
           { "item": "sweater", "prob": 20 },
           { "item": "sweatshirt", "prob": 20 },
           { "item": "tshirt", "prob": 10 },
@@ -2915,6 +2881,7 @@
           { "item": "pants_checkered", "prob": 10 },
           { "item": "pants", "prob": 40 },
           { "item": "jeans", "prob": 20 },
+          { "item": "jeans_skinny", "prob": 5 },
           { "item": "pants", "variant": "pants_flag", "prob": 5 },
           { "item": "breeches", "prob": 25 }
         ]

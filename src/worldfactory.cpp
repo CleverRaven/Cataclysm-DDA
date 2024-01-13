@@ -151,6 +151,9 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 
 WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
+    if( !is_lexically_valid( fs::u8path( name ) ) ) {
+        return nullptr;
+    }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
@@ -405,7 +408,7 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
