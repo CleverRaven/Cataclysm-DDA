@@ -439,6 +439,8 @@ This example adds the "I'm going now!" response to all the listed topics.
 #### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
 
+Note that if `dynamic_line` is an object and contains a `str` member, it is treated as a translation object in which you can specifiy the translation context, translator comments, and so on.
+
 #### `speaker_effect`
 The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
 

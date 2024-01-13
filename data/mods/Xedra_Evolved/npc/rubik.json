@@ -16,15 +16,19 @@
   {
     "id": "TALK_EXODII_MERCHANT_XEDRA",
     "type": "talk_topic",
-    "dynamic_line": "Ye scuffers 'ere dolly walk through the mirror and butcher hook us and ours.  Nevermind the enemy, do these pork loins as if'n the enemy'd nevermind them.  Oy, they got their rust shirt and more comin'.",
-    "//": "The police here travel to different dimensions and hunt Exodii and others.  They act like they don't need to worry about the dead rising.  They got their just desserts in the Cataclysm and we'll kill anymore we find.",
+    "dynamic_line": {
+      "//~": "The police here travel to different dimensions and hunt Exodii and others.  They act like they don't need to worry about the dead rising.  They got their just desserts in the Cataclysm and we'll kill anymore we find.",
+      "str": "Ye scuffers 'ere dolly walk through the mirror and butcher hook us and ours.  Nevermind the enemy, do these pork loins as if'n the enemy'd nevermind them.  Oy, they got their rust shirt and more comin'."
+    },
     "responses": [ { "text": "Oh well yeah, damn the man then I guess.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_VAMPIRE",
     "type": "talk_topic",
-    "dynamic_line": "Claret drinking brown bread, an' a crew of Renny's, on this mudball.  Us un's can't tell if they're part of the enemy or parasites exposed when the enemy rises.  Not on every mudball but definitely moar than enough to be a right pain.",
-    "//": "Blood drinking dead and a group of Renfield's attending to the vampires. They aren't on every world and the exodii don't know why that is.",
+    "dynamic_line": {
+      "//~": "Blood drinking dead and a group of Renfield's attending to the vampires. They aren't on every world and the exodii don't know why that is.",
+      "str": "Claret drinking brown bread, an' a crew of Renny's, on this mudball.  Us un's can't tell if they're part of the enemy or parasites exposed when the enemy rises.  Not on every mudball but definitely moar than enough to be a right pain."
+    },
     "responses": [
       { "text": "Well that's certainly disturbing.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       {
@@ -39,15 +43,19 @@
   {
     "id": "TALK_EXODII_MERCHANT_FAE",
     "type": "talk_topic",
-    "dynamic_line": "The Good Folk of Aberystwyth?  Us 'ave no truck with them, the milk is spoilt, the flesh is hoofshod, the henge holds no peel.  Ye'd ken best not their seductions.  A trifle better than the enemy.",
-    "//": "The faeries announced themselves in Rubik's world near what we know as Wales.  Exodii mostly avoid them referencing several myths about bad luck and that for because they've traded their flesh for metal the fae aren't really interested in them anyway.  Not quite as bad as the undead but more tricksome.",
+    "dynamic_line": {
+      "//~": "The faeries announced themselves in Rubik's world near what we know as Wales.  Exodii mostly avoid them referencing several myths about bad luck and that for because they've traded their flesh for metal the fae aren't really interested in them anyway.  Not quite as bad as the undead but more tricksome.",
+      "str": "The Good Folk of Aberystwyth?  Us 'ave no truck with them, the milk is spoilt, the flesh is hoofshod, the henge holds no peel.  Ye'd ken best not their seductions.  A trifle better than the enemy."
+    },
     "responses": [ { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_VAMPIRE_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "If this green and brown, has the claret drinkers us un'll be truckin with ole Great Grey and bringin out the good and plenty.  Only one way to throw a smash and banger for the tick dead.",
-    "//": "Vampires have infested your world?  We're gonna talk to the supercomputer and bring out some of our anti-vampire designs and will get back to you soon.",
+    "dynamic_line": {
+      "//~": "Vampires have infested your world?  We're gonna talk to the supercomputer and bring out some of our anti-vampire designs and will get back to you soon.",
+      "str": "If this green and brown, has the claret drinkers us un'll be truckin with ole Great Grey and bringin out the good and plenty.  Only one way to throw a smash and banger for the tick dead."
+    },
     "responses": [ { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   }
 ]
