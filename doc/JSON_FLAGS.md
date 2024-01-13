@@ -1501,7 +1501,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```C4``` Arm the C4.
 - ```CAN_GOO``` Release a little blob buddy.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
-- ```CHAINSAW_OFF``` Turn the chainsaw on.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
