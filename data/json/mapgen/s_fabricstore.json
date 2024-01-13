@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "s_fabricstore" ],
     "//": "Fabric Outlet",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
