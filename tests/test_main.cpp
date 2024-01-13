@@ -65,6 +65,8 @@ static std::chrono::system_clock::time_point start;
 static std::chrono::system_clock::time_point end;
 static bool error_during_initialization{ false };
 
+static bool needs_game{ true };
+
 static std::vector<mod_id> extract_mod_selection( const std::string_view mod_string )
 {
     std::vector<std::string> mod_names = string_split( mod_string, ',' );
@@ -200,12 +202,15 @@ struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
     void testRunStarting( Catch::TestRunInfo const & ) override {
-        // TODO: Only init game if we're running tests that need it.
-        init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
-        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-        error_during_initialization = debug_has_error_been_observed();
+        if( needs_game ) {
+            init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+            error_during_initialization = debug_has_error_been_observed();
 
-        DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
+            DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
+        } else {
+            DebugLog( D_INFO, DC_ALL ) << "Running Catch2 session:" << std::endl;
+        }
         end = start = std::chrono::system_clock::now();
     }
 
@@ -376,6 +381,25 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     } else {
         DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed();
+    }
+
+    // Tests not requiring the global game initialized are tagged with [nogame]
+    {
+        using namespace Catch;
+        std::vector<TestCase> const& tcs = filterTests(
+            getAllTestCasesSorted( session.config() ),
+            session.config().testSpec(),
+            session.config()
+        );
+        for( auto const& tc : tcs ) {
+            for( auto const& tag : tc.getTestCaseInfo().tags ) {
+                needs_game = true;
+                if( tag == "nogame" ) {
+                    needs_game = false;
+                    break;
+                }
+            }
+        }
     }
 
     try {
