@@ -29,6 +29,14 @@
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse1" }
+      },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse2" }
+      },
       { "math": [ "searched_port_augustmoon", "=", "1" ] }
     ]
   },
@@ -82,7 +90,10 @@
           "search_range": 10
         }
       },
-      { "u_message": "You see the engine plume of a landing drone shuttle close by." },
+      {
+        "u_message": "You see the engine plume of your landing drone shuttle in the distance.  You'll have about four hours to reach it before it leaves.",
+        "popup": true
+      },
       { "assign_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
       { "mapgen_update": "augustmoon_shuttle_ground", "target_var": { "global_val": "landing_site" } },
       { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "4 hours" }
@@ -105,6 +116,8 @@
     "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
     "effect": [
       { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "1 seconds" },
+      { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
       {
         "u_location_variable": { "context_val": "crate_loc" },
         "terrain": "t_intermodal_crate_scripted_source",
