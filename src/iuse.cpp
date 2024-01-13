@@ -259,8 +259,6 @@ static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
-static const itype_id itype_chainsaw_off( "chainsaw_off" );
-static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
@@ -3029,56 +3027,6 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint & )
     }
     act_vehicle_siphon( v );
     return 1;
-}
-
-static int toolweapon_off( Character &p, item &it, const bool fast_startup,
-                           const bool condition, const int volume,
-                           const std::string &msg_success, const std::string &msg_failure )
-{
-    p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.ammo_sufficient( &p ) ) {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_ambient_variant_sound( "chainsaw_idle", "chainsaw_on", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::idle_chainsaw, 1000 );
-            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::chainsaw_theme,
-                                             3000 );
-        }
-        sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
-        // 4 is the length of "_off".
-        it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ), &p );
-        it.active = true;
-        return 1;
-    } else {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-        }
-        p.add_msg_if_player( msg_failure );
-        return 0; // No charges consumed on failure.
-    }
-}
-
-std::optional<int> iuse::chainsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the chainsaw screams to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tripoint &pos )
-{
-    if( it->typeId() == itype_chainsaw_on ) {
-        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
-        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
-        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
-    }
-    p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
-    it->convert( *it->type->revert_to, p ).active = false;
-    return 0; // Don't consume charges when turning off.
 }
 
 std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint & )

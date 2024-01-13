@@ -312,11 +312,6 @@
   },
   {
     "type": "item_action",
-    "id": "CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "CHEW",
     "name": { "str": "Chew" }
   },
@@ -344,11 +339,6 @@
     "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOOLWEAPON_DEACTIVATE",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",

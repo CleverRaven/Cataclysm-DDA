@@ -1675,7 +1675,6 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
-    add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "CHANGE_EYES", &iuse::change_eyes );
@@ -1684,7 +1683,6 @@ void Item_factory::init()
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
-    add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );
     add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );

@@ -55,7 +55,32 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__chainsaw",
+          "condition": { "and": [{ "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo"] },
+          "effect": [
+            { "turn_cost": "0.8" },
+            {
+              "u_make_sound": "With a roar, the chainsaw screams to life!",
+              "type": "combat",
+              "volume": 20
+            },
+            { "u_message": "With a roar, the chainsaw screams to life!" },
+            { "transform_item": "chainsaw_on", "active": true },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_cord" },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_start" }
+          ],
+          "false_effect": [
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_cord" },
+            { "u_message": "You yank the cord, but nothing happens." }
+          ]
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 10 }
   },
@@ -71,7 +96,19 @@
     "revert_to": "chainsaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__chainsaw",
+          "effect": [
+            { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_stop" }
+          ]
+        }
+      ]
+    },
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [
@@ -106,7 +143,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__polesaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "polesaw_on",
+              "success_message": "With a roar, the polesaw screams to life!",
+              "volume": "15",
+              "failure_message": "You yank the cord, but nothing happens."
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 6 }
   },
