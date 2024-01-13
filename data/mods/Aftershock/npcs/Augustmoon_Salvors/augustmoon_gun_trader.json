@@ -57,7 +57,7 @@
   {
     "id": [ "TALK_AUGUSTMOON_GUNTRADER" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the clerk leaning before an almost impressive collection of weaponry, most of it neatly displayed in racks or hanging from the curved prefab ceiling.  <mypronoun> barely acknowledges your approach, it doesn't seem like customer service is a priority here. ",
+    "dynamic_line": "&You find the clerk leaning before an almost impressive collection of weaponry, most of it neatly displayed in racks or hanging from the curved prefab ceiling.  <mypronoun> barely acknowledges your approach, it doesn't seem like customer service is a priority here.",
     "responses": [
       { "text": "You sell guns here right?", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
