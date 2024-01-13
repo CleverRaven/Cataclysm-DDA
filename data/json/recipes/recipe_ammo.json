@@ -305,11 +305,7 @@
     "charges": 2,
     "time": "30 m",
     "book_learn": [ [ "textbook_mesoam", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_fletching" },
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_redsmithing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
@@ -331,11 +327,7 @@
     "charges": 2,
     "time": "30 m",
     "book_learn": [ [ "textbook_mesoam", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_fletching" },
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_redsmithing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
