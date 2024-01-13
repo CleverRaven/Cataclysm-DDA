@@ -47,7 +47,13 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "slime", "attack_player_only" ],
+    "friendly": [ "slime", "attack_player_only", "zombie_kids" ],
+    "neutral": [ "cult", "small_animal", "fish", "aquatic_predator", "passive_machine", "nether_player_hate" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie_kids",
+    "friendly": [ "slime", "attack_player_only", "zombie" ],
     "neutral": [ "cult", "small_animal", "fish", "aquatic_predator", "passive_machine", "nether_player_hate" ]
   },
   {

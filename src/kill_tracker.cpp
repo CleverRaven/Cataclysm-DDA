@@ -44,6 +44,17 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
+int kill_tracker::kill_count( const mfaction_str_id &fac ) const
+{
+    int result = 0;
+    for( const auto &pair : kills ) {
+        if( pair.first->in_mfaction( fac ) ) {
+            result += pair.second;
+        }
+    }
+    return result;
+}
+
 int kill_tracker::monster_kill_count() const
 {
     int result = 0;

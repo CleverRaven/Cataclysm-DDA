@@ -517,6 +517,7 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
+        bool in_mfaction( const mfaction_str_id &fac ) const;
         std::vector<std::string> species_descriptions() const;
         field_type_id get_bleed_type() const;
         //Used for corpses.
