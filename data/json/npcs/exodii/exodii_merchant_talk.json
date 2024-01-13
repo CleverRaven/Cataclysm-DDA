@@ -559,7 +559,10 @@
     "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.",
     "//~": "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different Earth. You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town.",
     "responses": [
-      { "text": "OK then, what are you meaning with 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "OK then, what are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "Tell me about your own world.", "topic": "TALK_EXODII_MERCHANT_Home" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -572,7 +575,10 @@
     "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "What are you meaning with 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "What are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "How did you come to be made of metal like this?", "topic": "TALK_EXODII_MERCHANT_Metal" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -598,7 +604,10 @@
         },
         "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" }
       },
-      { "text": "What are you meaning with 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "What are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -852,10 +861,7 @@
     "type": "talk_topic",
     "dynamic_line": "Just so, aye.  Again an' again, this'n has seen it.  Too many times.",
     "responses": [
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       {
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
@@ -961,10 +967,7 @@
     "dynamic_line": "If ye be champed t'try, this'n won't stop ye.  Right so, Rubik'll sell ye the pieces ye might use t'do.",
     "//~": "If you want to try it, I won't stop you.  In fact, I'll sell you equipment that might help.",
     "responses": [
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -977,10 +980,7 @@
     "dynamic_line": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself.",
     "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
     "responses": [
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
