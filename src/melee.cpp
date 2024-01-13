@@ -121,6 +121,7 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
+static const json_character_flag json_flag_QUADRUPED( "QUADRUPED" );
 
 static const limb_score_id limb_score_block( "block" );
 static const limb_score_id limb_score_grip( "grip" );
@@ -376,7 +377,7 @@ float Character::hit_roll() const
     // Difficult to land a hit while prone
     if( is_on_ground() ) {
         hit -= 8.0f;
-    } else if( is_crouching() ) {
+    } else if( is_crouching() && !has_flag( json_flag_QUADRUPED ) ) {
         hit -= 2.0f;
     }
 
@@ -775,7 +776,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // being prone affects how much leverage you can use to deal damage
         if( is_on_ground() ) {
             d.mult_damage( 0.3 );
-        } else if( is_crouching() ) {
+        } else if( is_crouching() && !has_flag( json_flag_QUADRUPED ) ) {
             d.mult_damage( 0.8 );
         }
 
@@ -946,7 +947,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
     const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = round( get_skill_level( skill_melee ) );
-    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
+    const int stance_malus = is_on_ground() ? 50 : ( !has_flag( json_flag_QUADRUPED ) && is_crouching() ? 20 : 0 );
 
     return std::min( -50, mod_sta + melee - stance_malus );
 }
@@ -1040,7 +1041,7 @@ int stumble( Character &u, const item_location &weap )
     units::mass str_mod = u.get_arm_str() * 10_gram;
     if( u.is_on_ground() ) {
         str_mod /= 4;
-    } else if( u.is_crouching() ) {
+    } else if( u.is_crouching() && !u.has_flag( json_flag_QUADRUPED ) ) {
         str_mod /= 2;
     }
 
@@ -2739,7 +2740,7 @@ int Character::attack_speed( const item &weap ) const
 
     if( is_on_ground() ) {
         move_cost *= 4.0;
-    } else if( is_crouching() ) {
+    } else if( is_crouching() && !has_flag( json_flag_QUADRUPED ) ) {
         move_cost *= 1.5;
     }
 

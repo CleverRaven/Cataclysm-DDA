@@ -3498,7 +3498,7 @@
     "melee_allowed": true,
     "messages": [ "You bite %s!", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
-    "weighting": -10,
+    "weighting": -30,
     "reach_ok": false,
     "attack_override": true,
     "crit_ok": true,

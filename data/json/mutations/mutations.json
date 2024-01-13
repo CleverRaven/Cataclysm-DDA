@@ -8549,6 +8549,7 @@
     "points": 1,
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
+    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8559,6 +8560,7 @@
     "points": 1,
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
+    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8569,6 +8571,7 @@
     "points": 1,
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
+    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8779,6 +8782,7 @@
     "points": 1,
     "description": "You long for a colony, the cover of darkness, and a meal on the wing.",
     "valid": false,
+    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -9577,6 +9581,7 @@
     "points": 1,
     "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
     "valid": false,
+    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },

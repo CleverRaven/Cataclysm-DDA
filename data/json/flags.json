@@ -2387,5 +2387,10 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "QUADRUPED",
+    "type": "json_flag",
+    "info": "This character receives no penalty for crouching in melee."
   }
 ]
