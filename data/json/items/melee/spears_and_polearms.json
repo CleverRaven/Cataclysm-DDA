@@ -1004,5 +1004,5 @@
     "price_postapoc": 3000,
     "material": [ "wood", "qt_steel" ],
     "melee_damage": { "bash": 18, "cut": 26 }
-  },
+  }
 ]
