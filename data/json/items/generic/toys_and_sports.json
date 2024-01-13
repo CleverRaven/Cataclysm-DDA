@@ -277,7 +277,7 @@
     "color": "white",
     "to_hit": 1,
     "melee_damage": { "bash": 8 }
-    },
+  },
   {
     "type": "GENERIC",
     "id": "curling_stone",
@@ -341,7 +341,7 @@
     "range": 8,
     "dispersion": 8,
     "loudness": 0,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ] 
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
   },
   {
     "type": "GENERIC",
@@ -366,7 +366,7 @@
     "dispersion": 11,
     "loudness": 0,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
- },
+  },
   {
     "type": "GENERIC",
     "id": "petanque_ball_cochonnet",
@@ -603,7 +603,10 @@
     "longest_side": "29 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_football", "msg": "You deflate your football." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_football", "msg": "You deflate your football." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -639,7 +642,10 @@
     "longest_side": "40 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 6 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_leloball", "msg": "You deflate your leloball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_leloball", "msg": "You deflate your leloball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -675,7 +681,7 @@
     "longest_side": "30 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_rugby", "msg": "You deflate your rugby ball." } ]
+    "use_action": [ "PLAY", { "menu_text": "Deflate", "type": "transform", "target": "df_rugby", "msg": "You deflate your rugby ball." } ]
   },
   {
     "type": "GENERIC",
@@ -711,7 +717,15 @@
     "longest_side": "30 cm,",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_aussieball", "msg": "You deflate your Aussie football." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_aussieball",
+        "msg": "You deflate your Aussie football."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -729,7 +743,12 @@
     "longest_side": "30 cm",
     "to_hit": -2,
     "melee_damage": { "bash": 2 },
-    "use_action": { "menu_text": "Inflate", "type": "transform", "target": "aussie_ball", "msg": "You inflate your Aussie football.  Go footy!" }
+    "use_action": {
+      "menu_text": "Inflate",
+      "type": "transform",
+      "target": "aussie_ball",
+      "msg": "You inflate your Aussie football.  Go footy!"
+    }
   },
   {
     "type": "GENERIC",
@@ -747,7 +766,15 @@
     "longest_side": "239 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 6 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_ibasket", "msg": "You deflate your indoor basketball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_ibasket",
+        "msg": "You deflate your indoor basketball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -783,7 +810,15 @@
     "longest_side": "239 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 6 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_obasket", "msg": "You deflate your outdoor basketball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_obasket",
+        "msg": "You deflate your outdoor basketball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -819,7 +854,15 @@
     "longest_side": "26 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_volleyball", "msg": "You deflate your volleyball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_volleyball",
+        "msg": "You deflate your volleyball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -855,7 +898,15 @@
     "longest_side": "27 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_beachball", "msg": "You deflate your beach volleyball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_beachball",
+        "msg": "You deflate your beach volleyball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -873,7 +924,12 @@
     "longest_side": "27 cm",
     "to_hit": -1,
     "melee_damage": { "bash": 2 },
-    "use_action": { "menu_text": "Inflate", "type": "transform", "target": "beach_volleyball", "msg": "You inflate your beach volleyball." }
+    "use_action": {
+      "menu_text": "Inflate",
+      "type": "transform",
+      "target": "beach_volleyball",
+      "msg": "You inflate your beach volleyball."
+    }
   },
   {
     "type": "GENERIC",
@@ -890,7 +946,7 @@
     "volume": "135 ml",
     "longest_side": "30 mm",
     "to_hit": 2,
-    "melee_damage": { "bash": 3}
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -933,14 +989,14 @@
         "name": { "str": "bandy ball" },
         "description": "This is a commercial-grade bandy ball.  It is a small, solid rubber ball specifically designed for the game of bandy.  You can also play wall ball and other games with that.",
         "weight": 30
-    },
-    {
+      },
+      {
         "id": "cerise_bandyball",
         "name": { "str": "cerise bandy ball" },
         "description": "This is a cerise coloured bandy ball, meant to be used at a game of bandy, but you can play wall ball amd other games with that.  Cerise is a deep to vivid reddish pink.",
         "weight": 15
-    },
-    {
+      },
+      {
         "id": "rinkball",
         "name": { "str": "rinkball" },
         "description": "This spherical, blue rinkball is specifically designed for playing rinkball.  It is made of rubber and is blue to differentiate it from the bandy ball.  You can also play wall ball and other games with that.",
@@ -972,14 +1028,14 @@
         "name": { "str": "lacrosse ball" },
         "description": "This is a commercial-grade lacrosse ball.  It is a small, solid rubber ball specifically designed for the sport of lacrosse.  You can also play wall ball and other games with that.",
         "weight": 50
-    },
-    {
+      },
+      {
         "id": "lacrosseball_tra",
         "name": { "str": "training lacrosse ball" },
         "description": "This is a high-level training lacrosse ball made to attend strict specifications, providing consistent weight, bounce, and durability.  This ball was probably approved by official lacrosse governing bodies and are certified for use in professional or collegiate training courses and campaigns, not that any of those will be happening, of course.",
         "weight": 10
-    },
-    {
+      },
+      {
         "id": "lacrosseball_pro",
         "name": { "str": "pro lacrosse ball" },
         "description": "This is a high-level professional lacrosse ball made to attend strict specifications, providing consistent weight, bounce, and durability.  This ball was probably approved by official lacrosse governing bodies and are certified for use in professional or collegiate games, not that any of those will be happening, of course.",
@@ -1029,14 +1085,14 @@
         "name": { "str": "cricket ball" },
         "description": "This red cricket ball is traditionally used in test matches and most first-class cricket.  It has a dark red color and is typically made with a cork core and a leather outer covering.",
         "weight": 50
-    },
-    {
+      },
+      {
         "id": "whiteball",
         "name": { "str": "white cricket ball" },
         "description": "This white cricket ball is meant to be used in limited-overs cricket formats such as One-Day Internationals (ODIs) and Twenty20 Internationals (T20Is), but apparently we are not getting those so soon.  It is made with a soft cork core, covered with a white leather outer.  The white color provides better visibility under floodlights and during day-night matches.",
         "weight": 25
-    },
-    {
+      },
+      {
         "id": "pinkball",
         "name": { "str": "pink cricket ball" },
         "description": "This pink cricket ball was a relatively recent addition to international cricket.  It is meant to used in day-night test matches where the ball needs to be visible under floodlights.  The pink ball has similar characteristics to the red test ball but with a pink color, and is designed to maintain visibility and swing properly during the twilight period.",
@@ -1068,20 +1124,20 @@
         "name": { "str": "ping pong ball" },
         "description": "This is just a lightweight plastic white ping pong ball, to play ping pong with a friend or wall pong alone.  White ones are traditionally used for indoor play.",
         "weight": 50
-    },
-    {
+      },
+      {
         "id": "orangepong",
         "name": { "str": "orange ping pong ball" },
         "description": "This is just a lightweight plastic orange ping pong ball, to play ping pong with a friend or wall pong alone.  Orange ones can be used for outdoor play as it provides better visibility against various backgrounds.",
         "weight": 40
-    },
-    {
-       "id": "redpong",
+      },
+      {
+        "id": "redpong",
         "name": { "str": "red ping pong ball" },
         "description": "This is just a lightweight plastic red ping pong ball, to play ping pong with a friend or wall pong alone.  Red is not a commom color, so probably this one is a limited edition or something like that.",
         "weight": 10
-    },
-    {
+      },
+      {
         "id": "yellowpong",
         "name": { "str": "yellow ping pong ball" },
         "description": "This is just a lightweight plastic yellow ping pong ball, to play ping pong with a friend or wall pong alone.  Yellow is not a commom color, so probably this one is a limited edition or something like that.",
@@ -1113,20 +1169,20 @@
         "name": { "str": "1-dot squash ball" },
         "description": "Just a small, black coloured rubber ball with dots, used in the sport of squash.  This one is the slowest and softest ball, typically used by beginners or younger players.  It has a low bounce and allows for more time to react and retrieve shots.",
         "weight": 25
-    },
-    {
+      },
+      {
         "id": "squash2",
         "name": { "str": "2-dot squash ball" },
         "description": "Just a small, black coloured rubber ball with dots, used in the sport of squash.  This one is slightly faster and harder than a 1-dot ball.  It provides a bit more pace and bounce, suitable for intermediate players who have developed better control and technique.",
         "weight": 20
-    },
-    {
+      },
+      {
         "id": "squash3",
         "name": { "str": "3-dot squash ball" },
         "description": "Just a small, black coloured rubber ball with dots, used in the sport of squash.  This one is the standard ball used by most players.  It offers a good balance between pace and control, and was the most commonly used ball in regular matches and tournaments, before the Cataclysm.",
         "weight": 50
-    },
-    {
+      },
+      {
         "id": "pro_squash",
         "name": { "str": "4-dot squash ball" },
         "description": "Just a small, black coloured rubber ball with dots, used in the sport of squash.  This one is the fastest and hardest ball used in squash.  It was primarily used by professional players or those seeking a highly challenging and fast-paced game.  The 4-dot ball allows for quick rallies and demands exceptional skill and agility.",
@@ -1158,20 +1214,20 @@
         "name": { "str": "racquetball" },
         "description": "This is a small blue rubber ball used specifically in the sport of racquetball.  The blue racquetball is the most commonly used ball in racquetball, suitable for general play and tournament play.",
         "weight": 60
-    },
-    {
+      },
+      {
         "id": "red_racquetball",
         "name": { "str": "high-altitude racquet ball" },
         "description": "This is a small red rubber ball used specifically in the sport of racquetball.  Red racquetballs are uncommon, designed for high-altitude play.  Due to the lower air density at higher altitudes, red racquetballs have a slightly lower bounce to compensate for the thinner air.",
         "weight": 20
-    },
-    {
+      },
+      {
         "id": "green_racquetball",
         "name": { "str": "begginer racquetball" },
         "description": "This is a small green rubber ball used specifically in the sport of racquetball.  Green racquetballs have a slower speed and higher bounce, making them easier to control and suitable for learning the game.",
         "weight": 25
-    },
-    {
+      },
+      {
         "id": "black_racquetball",
         "name": { "str": "outdoor racquetball" },
         "description": "This is a small black rubber ball used specifically in the sport of racquetball.  Black racquetballs are specifically used for outdoor play, as wind and outdoor conditions may affect the movement of lighter balls.",
@@ -1257,8 +1313,8 @@
         "name": { "str": "pro tennis ball" },
         "description": "Just a small, spherical optic yellow coloured tennis ball.  This one, due to the color, is probably a professional-grade one used in official plays and tournaments, or the kind you'd brought from stores.",
         "weight": 20
-    },
-    {
+      },
+      {
         "id": "grasscourt_tennisball",
         "name": { "str": "grasscourt tennis ball" },
         "description": "Just a small, spherical white coloured tennis ball.  This one, due to the color, is probably meant to be used on grass courts or in certain tournaments.",
