@@ -406,13 +406,7 @@
     "id": "marking_soft",
     "type": "requirement",
     "//": "Tools to mark a soft, rough surface.",
-    "tools": [
-      [
-        [ "duct_tape", 1 ],
-        [ "survival_marker", -1 ],
-        [ "paint", 1, "LIST" ]
-      ]
-    ]
+    "tools": [ [ [ "duct_tape", 1 ], [ "survival_marker", -1 ], [ "paint", 1, "LIST" ] ] ]
   },
   {
     "id": "ppe_gloves",
