@@ -7245,7 +7245,7 @@
           { "item": "slingpack" },
           { "item": "leather_belt" },
           { "item": "urbexmap" },
-          { "group": "charged_smart_phone", "container-item": "pants" },
+          { "group": "charged_smart_phone" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
           {
