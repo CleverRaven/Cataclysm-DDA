@@ -120,7 +120,7 @@
   {
     "id": "polesaw_off",
     "type": "TOOL",
-    "name": { "str": "polesaw (off)", "str_pl": "polesaws (off)" },
+    "name": { "str": "pole saw (off)", "str_pl": "pole saws (off)" },
     "description": "A lumbering tool intended for trimming hedges and tree branches at a distance.  If loaded with gas, using this item will cause it to turn on, making it into an unwieldy polearm.",
     "weight": "9525 g",
     "volume": "2500 ml",
@@ -147,7 +147,7 @@
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "polesaw_on",
-              "success_message": "With a roar, the polesaw screams to life!",
+              "success_message": "With a roar, the pole saw screams to life!",
               "volume": "15",
               "failure_message": "You yank the cord, but nothing happens."
             }
@@ -162,8 +162,8 @@
     "id": "polesaw_on",
     "copy-from": "polesaw_off",
     "type": "TOOL",
-    "name": { "str": "polesaw (on)", "str_pl": "polesaws (on)" },
-    "description": "This polesaw is on and making a lot of noise.  Use it to turn it off.",
+    "name": { "str": "pole saw (on)", "str_pl": "pole saws (on)" },
+    "description": "This pole saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
@@ -187,7 +187,7 @@
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "15", "sound_message": "Your chainsaw rumbles.", "volume": "12", "revert_to": "polesaw_off" }
+            "variables": { "sound_chance": "15", "sound_message": "Your pole saw rumbles.", "volume": "12", "revert_to": "polesaw_off" }
           }
         }
       ]
