@@ -38,7 +38,11 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "charges": 25,
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ] ] ]
   },
   {
@@ -140,7 +144,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -164,7 +168,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -188,7 +192,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -263,6 +267,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
+        [ "bronze_nail", 10 ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -284,7 +289,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -308,7 +313,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -332,7 +337,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -445,6 +450,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
+        [ "bronze_nail", 10 ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -558,7 +564,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ] ],
+      [ [ "scrap", 1 ], [ "nail", 8 ], [ "bronze_nail", 8 ], [ "copper", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -596,7 +602,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "nail", 8 ], [ "combatnail", 8 ] ],
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "combatnail", 8 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },

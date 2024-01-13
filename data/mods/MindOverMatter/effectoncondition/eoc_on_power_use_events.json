@@ -20,7 +20,7 @@
           "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION"
         ]
       },
-      { "u_lose_effect": "effect_telepath_invisibility" },
+      { "u_lose_effect": "telepathic_ignorance_self" },
       { "u_lose_effect": "effect_clair_perfect_shot" }
     ]
   },
@@ -61,10 +61,10 @@
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
         { "u_has_effect": "effect_telepathic_learning_bonus" },
-        { "u_has_effect": "effect_telepath_invisibility" }
+        { "u_has_effect": "telepathic_ignorance_self" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
   },
   {
     "type": "effect_on_condition",
@@ -103,10 +103,10 @@
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
         { "u_has_effect": "effect_telepathic_learning_bonus" },
-        { "u_has_effect": "effect_telepath_invisibility" }
+        { "u_has_effect": "telepathic_ignorance_self" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
   },
   {
     "type": "effect_on_condition",
@@ -146,10 +146,10 @@
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
         { "u_has_effect": "effect_telepathic_learning_bonus" },
-        { "u_has_effect": "effect_telepath_invisibility" }
+        { "u_has_effect": "telepathic_ignorance_self" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
   },
   {
     "type": "effect_on_condition",
@@ -189,10 +189,10 @@
         { "u_has_item": "telekin_lifting_jack_20" },
         { "u_has_effect": "effect_telekinetic_levitation" },
         { "u_has_effect": "effect_telepathic_learning_bonus" },
-        { "u_has_effect": "effect_telepath_invisibility" }
+        { "u_has_effect": "telepathic_ignorance_self" }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
   },
   {
     "type": "effect_on_condition",
@@ -234,7 +234,7 @@
             { "u_has_item": "telekin_lifting_jack_20" },
             { "u_has_effect": "effect_telekinetic_levitation" },
             { "u_has_effect": "effect_telepathic_learning_bonus" },
-            { "u_has_effect": "effect_telepath_invisibility" }
+            { "u_has_effect": "telepathic_ignorance_self" }
           ]
         },
         { "math": [ "_damage", ">=", "1" ] },

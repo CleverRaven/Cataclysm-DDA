@@ -19,12 +19,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "clair_night_vision", 2 ],
-      [ "clair_danger_sense", 2 ],
-      [ "clair_speed_reading", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -94,12 +89,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telekinetic_pull", 2 ],
-      [ "telekinetic_push", 2 ],
-      [ "telekinetic_momentum", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -110,12 +100,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "teleport_blink", 2 ],
-      [ "teleport_slow", 2 ],
-      [ "teleport_transpose", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -132,6 +117,15 @@
       [ "vita_hurt_touch", 2 ],
       [ "classless_toggleable_concentration_end", 1 ]
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",

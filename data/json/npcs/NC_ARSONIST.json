@@ -116,7 +116,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "null", "prob": 5 },
-      { "item": "backpack", "prob": 25 },
+      { "item": "backpack", "prob": 20 },
+      { "item": "backpack_denim", "prob": 5 },
       { "item": "backpack_leather", "prob": 25 },
       { "item": "rucksack", "prob": 5 }
     ]
