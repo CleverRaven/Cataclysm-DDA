@@ -95,6 +95,11 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 15,
+    "conditional_flags": [ "WALL_CLING" ],
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
   },
   {
@@ -126,6 +131,11 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 15,
+    "conditional_flags": [ "WALL_CLING" ],
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
   },
   {
