@@ -3149,7 +3149,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "oj_fresh",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp", 16 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -3157,7 +3157,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "orange", 2 ] ] ]
+    "components": [ [ [ "orange", 4 ] ] ]
   },
   {
     "type": "recipe",

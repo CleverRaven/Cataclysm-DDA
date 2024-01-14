@@ -99,14 +99,14 @@
     "type": "COMESTIBLE",
     "id": "can_peach",
     "name": { "str_sp": "peaches in syrup" },
-    "weight": "244 g",
+    "weight": "251 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
     "container": "can_food",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 6,
-    "calories": 58,
+    "calories": 135,
     "sealed": true,
     "description": "Yellow cling peach slices packed in light syrup.",
     "price": 96,
@@ -114,7 +114,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", 7 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -134,7 +134,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
