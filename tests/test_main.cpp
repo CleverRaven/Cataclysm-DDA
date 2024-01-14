@@ -416,22 +416,19 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
-    if( world_generator == nullptr ) {
-        // The session run may not have initialized game state because asked to list tests
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        DebugLog( D_INFO, DC_ALL ) << "Finished in " << elapsed_seconds.count() << " seconds";
-        return result;
-    }
-
-    std::string world_name = world_generator->active_world->world_name;
-    if( result == 0 || dont_save ) {
-        world_generator->delete_world( world_name, true );
-    } else {
-        if( g->save() ) {
-            DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
-        } else {
-            DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
-            result = 1;
+    if( world_generator ) {
+        std::string world_name = world_generator->active_world->world_name;
+        if( result == 0 || dont_save ) {
+            world_generator->delete_world( world_name, true );
+        }
+        else {
+            if( g->save() ) {
+                DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
+            }
+            else {
+                DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
+                result = 1;
+            }
         }
     }
 
