@@ -123,7 +123,7 @@
     "id": "electrokinetic_melee_attacks",
     "type": "SPELL",
     "name": "[Ψ]Voltaic Strikes",
-    "description": "Unleash electrical blasts on those you strike in melee.",
+    "description": "Unleash electrical blasts on those you strike in melee.  It also provides protection against electrical damage.",
     "message": "Lightning crackles between your fingers!",
     "teachable": false,
     "valid_targets": [ "self" ],

@@ -46,6 +46,7 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "popup.h"
+#include "profession.h"
 #include "ranged.h"
 #include "recipe_groups.h"
 #include "talker.h"
@@ -628,6 +629,28 @@ void conditional_t::set_u_safe_mode_trigger( const JsonObject &jo, std::string_v
         const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir.evaluate(
                 d ) ) );
         return get_avatar().get_mon_visible().dangerous[card_dir];
+    };
+}
+
+void conditional_t::set_u_profession( const JsonObject &jo, std::string_view member )
+{
+    str_or_var u_profession = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [u_profession]( dialogue const & d ) {
+        const profession *prof = get_player_character().get_profession();
+        std::set<const profession *> hobbies = get_player_character().get_hobbies();
+        if( prof->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
+            return true;
+        } else if( profession_id( u_profession.evaluate( d ) )->is_hobby() ) {
+            for( const profession *hob : hobbies ) {
+                if( hob->get_profession_id() == profession_id( u_profession.evaluate( d ) ) ) {
+                    return true;
+                }
+                break;
+            }
+            return false;
+        } else {
+            return false;
+        }
     };
 }
 
@@ -2041,15 +2064,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         } else if( checked_value == "perception_bonus" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_per_bonus();
-            };
-        } else if( checked_value == "hp" ) {
-            std::optional<bodypart_id> bp;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                optional( jo, false, "bodypart", bp );
-            }
-            return [is_npc, bp]( dialogue const & d ) {
-                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-                return d.actor( is_npc )->get_cur_hp( bid );
             };
         } else if( checked_value == "warmth" ) {
             std::optional<bodypart_id> bp;
@@ -3476,6 +3490,7 @@ parsers = {
     {"u_has_mission", jarg::string, &conditional_t::set_u_has_mission },
     {"u_monsters_in_direction", jarg::string, &conditional_t::set_u_monsters_in_direction },
     {"u_safe_mode_trigger", jarg::member, &conditional_t::set_u_safe_mode_trigger },
+    {"u_profession", jarg::string, &conditional_t::set_u_profession },
     {"u_has_strength", "npc_has_strength", jarg::member | jarg::array, &conditional_t::set_has_strength },
     {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_t::set_has_dexterity },
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_t::set_has_intelligence },

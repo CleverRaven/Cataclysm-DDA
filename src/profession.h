@@ -135,6 +135,9 @@ class profession
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
 
+        //returns the profession id
+        profession_id get_profession_id() const;
+
         /**
          * Check if this type of profession has a certain flag set.
          *

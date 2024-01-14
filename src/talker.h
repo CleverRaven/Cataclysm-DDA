@@ -23,6 +23,7 @@ class recipe;
 struct tripoint;
 class vehicle;
 struct mutation_variant;
+enum class get_body_part_flags;
 
 using bodytype_id = std::string;
 
@@ -685,7 +686,7 @@ class talker
         virtual units::temperature_delta get_body_temp_delta() const {
             return 0_C_delta;
         }
-        virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
+        virtual std::vector<bodypart_id> get_all_body_parts( get_body_part_flags /* flags */ ) const {
             return std::vector<bodypart_id>();
         }
         virtual int get_part_hp_cur( const bodypart_id & ) const {
