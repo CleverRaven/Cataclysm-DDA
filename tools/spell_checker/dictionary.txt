@@ -207,6 +207,7 @@ auroral
 ausgegangen
 autoclave
 autoclaving
+autohaul
 autoinjector
 autoloading
 autologous
@@ -392,6 +393,7 @@ brainer
 brandishes
 brazing
 breacher
+breachhead
 breadboard
 breakrooms
 breatharians
@@ -1196,6 +1198,7 @@ fungaloid
 fungaloids
 funggnaloid
 fungicidal
+fungii
 funnelcap
 fursuit
 fusillies
@@ -1242,6 +1245,7 @@ genemod
 genemoded
 generalist
 generically
+geokinesis
 geometries
 gesticulates
 getups
@@ -1578,6 +1582,7 @@ junglefowl
 junipers
 k
 kabuto
+kaleidoscoping
 kalimotxo
 kampuch
 karambit
@@ -1783,6 +1788,7 @@ maculata
 magick
 magicks
 magickal
+magicks
 magwells
 maiasaura
 maintainers
@@ -2136,9 +2142,11 @@ ornately
 ornithomimid
 ornithomimus
 orrery
+orthogonally
 oryctodromeus
 oscillated
 osho
+osteokinesis
 oter
 otes
 otherland
@@ -2176,6 +2184,7 @@ overswinging
 overtaxing
 overtop
 ovipositor
+ovipositors
 ovoviviparous
 owlbear
 owww
@@ -2202,6 +2211,7 @@ parabolan
 parachuter
 parasaurolophus
 parasitoid
+parasitoids
 paratronic
 paratrooping
 parboiling
@@ -2392,6 +2402,7 @@ profusive
 promptus
 propellants
 proprietary
+proprioception
 propyl
 prosaurolophus
 prosaurulophus
@@ -2450,6 +2461,7 @@ qianzhousaurus
 qt
 quadcopter
 quadcopters
+quadrilateral
 quadrupedal
 quams
 quantification
@@ -3034,6 +3046,7 @@ tassin
 tastemakers
 tawa
 taxa
+taxying
 tazed
 tazer
 tazers
@@ -3434,9 +3447,9 @@ winglike
 wireframe
 wirey
 wirings
+wist
 witchdoctor
 witchdoctors
-wist
 wizardy
 wk
 wolfish

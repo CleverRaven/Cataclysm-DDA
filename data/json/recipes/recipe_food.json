@@ -10546,5 +10546,58 @@
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "melitzanosalata",
+    "charges": 4,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "with_knife",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "autolearn": false,
+    "time": "52 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "family_cookbook", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "tools": [ [ [ "surface_heat", 44, "LIST" ] ] ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "eggplant", 2 ], [ "eggplant_cut", 2 ] ],
+      [ [ "garlic_clove", 4 ], [ "rehydrated_garlic", 4 ], [ "wild_garlic", 4 ], [ "garlic_powder", 18 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ] ],
+      [ [ "vinegar", 1 ], [ "lemon", 1 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "melitzanosalata",
+    "charges": 4,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "with_food_processor",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "autolearn": false,
+    "time": "47 m",
+    "batch_time_factors": [ 80, 2 ],
+    "//": "Just baking for most of the time",
+    "book_learn": [ [ "family_cookbook", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "tools": [ [ [ "surface_heat", 44, "LIST" ], [ "food_processor", 20 ] ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "components": [
+      [ [ "eggplant", 2 ], [ "eggplant_cut", 2 ] ],
+      [ [ "garlic_clove", 4 ], [ "rehydrated_garlic", 4 ], [ "wild_garlic", 4 ], [ "garlic_powder", 18 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ] ],
+      [ [ "vinegar", 1 ], [ "lemon", 1 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ]
+    ]
   }
 ]

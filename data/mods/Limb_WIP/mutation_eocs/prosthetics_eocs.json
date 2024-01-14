@@ -361,14 +361,34 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTATE_ARM_HEAL",
+    "id": "EOC_MUTATE_ARM_HEAL_TRIGGER_1",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
+    "effect": [ { "run_eocs": "EOC_MUTATE_ARM_HEAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTATE_ARM_HEAL_TRIGGER_2",
+    "eoc_type": "EVENT",
+    "required_event": "evolves_mutation",
+    "effect": [ { "run_eocs": "EOC_MUTATE_ARM_HEAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTATE_ARM_HEAL",
     "condition": {
       "and": [
-        { "or": [ { "u_has_trait": "NO_LEFT_ARM" }, { "u_has_trait": "NO_RIGHT_ARM" } ] },
         {
-          "and": [ { "or": [ { "u_has_trait": "AMORPHOUS" }, { "u_has_trait": "ARM_TENTACLES" }, { "u_has_trait": "WINGS_BIRD" } ] } ]
+          "or": [
+            { "u_has_trait": "INSECT_ARMS" },
+            { "u_has_trait": "INSECT_ARMS_OK" },
+            { "u_has_trait": "ARACHNID_ARMS" },
+            { "u_has_trait": "ARACHNID_ARMS_OK" },
+            { "u_has_trait": "AMORPHOUS" },
+            { "u_has_trait": "ARM_TENTACLES" },
+            { "u_has_trait": "ARM_TENTACLES_4" },
+            { "u_has_trait": "ARM_TENTACLES_8" }
+          ]
         }
       ]
     },
@@ -383,23 +403,30 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MUTATE_LEG_HEAL",
+    "id": "EOC_MUTATE_LEG_HEAL_TRIGGER_1",
     "eoc_type": "EVENT",
     "required_event": "gains_mutation",
+    "effect": [ { "run_eocs": "EOC_MUTATE_LEG_HEAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTATE_LEG_HEAL_TRIGGER_2",
+    "eoc_type": "EVENT",
+    "required_event": "evolves_mutation",
+    "effect": [ { "run_eocs": "EOC_MUTATE_LEG_HEAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTATE_LEG_HEAL",
     "condition": {
       "and": [
-        { "or": [ { "u_has_trait": "NO_LEFT_LEG" }, { "u_has_trait": "NO_RIGHT_LEG" } ] },
         {
-          "and": [
-            {
-              "or": [
-                { "u_has_trait": "CRAB_LEGS" },
-                { "u_has_trait": "GASTROPOD_FOOT" },
-                { "u_has_trait": "AMORPHOUS" },
-                { "u_has_trait": "ROOTS1" },
-                { "u_has_trait": "LEG_TENTACLES" }
-              ]
-            }
+          "or": [
+            { "u_has_trait": "CRAB_LEGS" },
+            { "u_has_trait": "GASTROPOD_FOOT" },
+            { "u_has_trait": "AMORPHOUS" },
+            { "u_has_trait": "ROOTS1" },
+            { "u_has_trait": "LEG_TENTACLES" }
           ]
         }
       ]
