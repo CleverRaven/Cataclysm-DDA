@@ -539,6 +539,21 @@
     "ammo_type": "components"
   },
   {
+    "id": "1l_brass",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L brass ingot" },
+    "description": "A one-liter ingot of solid brass.",
+    "weight": "8730 g",
+    "volume": "1 L",
+    "price": 114548,
+    "price_postapoc": 1145.4,
+    "material": [ "brass" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
     "id": "5l_brass",
     "type": "AMMO",
     "category": "spare_parts",

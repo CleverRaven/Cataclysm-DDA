@@ -321,7 +321,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "//": "[was] perfect = 20000; subtracted 5.5% loss",
     "components": [ [ [ "zinc_metal", 3780 ] ] ]
   },
   {
@@ -379,6 +378,30 @@
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "components": [ [ [ "scrap_copper", 34 ] ] ]
+  },
+  {
+    "result": "10l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_brass", 2 ] ] ]
+  },
+  {
+    "result": "5l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_brass", 5 ] ] ]
+  },
+  {
+    "result": "1l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "scrap_brass", 20 ] ] ]
   },
   {
     "result": "10l_bronze",
