@@ -273,7 +273,7 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     }
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, DEFAULT_TILE_VOLUME );
 
     return multiplier;
 }

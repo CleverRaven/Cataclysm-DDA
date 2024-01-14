@@ -7390,6 +7390,10 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     if( has_flag( flag_SKINNED ) ) {
         corpse_volume *= 0.85;
     }
+    if( corpse_volume > MAX_ITEM_VOLUME ) {
+        // Silently set volume so the corpse can still spawn but a mtype can have a volume > MAX_ITEM_VOLUME
+        corpse_volume = MAX_ITEM_VOLUME;
+    }
     if( corpse_volume > 0_ml ) {
         return corpse_volume;
     }
