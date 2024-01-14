@@ -5771,6 +5771,16 @@ The name that is shown for the starting location. This is useful if the scenario
 
 A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
 
+## `hobbies`
+(optional, array of strings)
+
+A list of allowed hobbies that can be chosen when using this scenario. If this is empty, all hobbies are allowed.
+
+## `whitelist_hobbies`
+(optional, bool)
+
+When set to false, the hobbies in `hobbies` are hobbies that _cannot_ be chosen when using this scenario. This value defaults to true.
+
 ## `map_special`
 (optional, string)
 

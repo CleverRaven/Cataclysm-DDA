@@ -2657,7 +2657,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_hobbies ) {
-            std::vector<profession_id> new_hobbies = profession::get_all_hobbies();
+            std::vector<profession_id> new_hobbies = get_scenario()->permitted_hobbies();
             profession_sorter.male = u.male;
             if( ( hobbies_length = filter_entries( u, cur_id, sorted_hobbies, new_hobbies,
                                                    u.hobbies.empty() ? string_id<profession>() : ( *u.hobbies.begin() )->ident(), filterstring,
