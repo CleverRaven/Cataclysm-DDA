@@ -17,7 +17,7 @@
         "text": "broken",
         "sym": "%",
         "color": "magenta",
-        "condition": { "math": [ "hp('_widget')", "==", "0" ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "splinted",

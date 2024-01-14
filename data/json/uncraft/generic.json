@@ -698,6 +698,31 @@
     "//": "This recipe somehow manages to lose cotton while creating mass out of thin air. Honestly remarkable, but for me it means I have to look into the weight for thread later on"
   },
   {
+    "result": "fur_blanket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 10 ] ], [ [ "sheet_fur_patchwork", 10 ] ], [ [ "thread", 150 ] ] ],
+    "//": "This recipe is based off of the blanket recipe above it, with half of the cotton sheets being replaced by patchwork fur sheets."
+  },
+  {
+    "result": "quilt",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_felt", 20 ] ], [ [ "thread", 150 ] ], [ [ "cotton_ball", 100 ] ] ]
+  },
+  {
+    "result": "quilt_patchwork",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_felt_patchwork", 20 ] ], [ [ "thread", 100 ] ], [ [ "gambeson_batting", 50 ] ] ]
+  },
+  {
     "result": "crackpipe",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

@@ -64,7 +64,7 @@
     "effect": [
       { "u_add_effect": "incorporeal", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1 },
-      { "u_set_hp": 999, "only_increase": true },
+      { "math": [ "u_hp('ALL')", "=", "999" ] },
       { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
       { "u_spawn_item": "corpse_painful" },
       { "queue_eocs": "EOC_DUST_REBORN_2", "time_in_future": "1 seconds" },

@@ -37,7 +37,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "seed_rose", 1 ] ] ]
+    "components": [ [ [ "seed_rose", 1 ] ], [ [ "rose_hips_cut", 1 ] ] ]
   },
   {
     "result": "grapes",

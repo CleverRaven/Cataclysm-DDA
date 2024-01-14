@@ -74,7 +74,8 @@
     "name": { "str": "deep one corpse" },
     "description": "The upper half of a dead deep one body, as if torn apart with enormous force.  Some organs are hanging out.",
     "looks_like": "corpse_generic_deep_one",
-    "volume": "46250 L",
+    "//": "Former volume: 46250 L. Adjusted to 1000L so it can actually be placed. TODO(?): Re-add old volume with some sort of flag",
+    "volume": "1000 L",
     "weight": "60 kg",
     "material": [ "flesh" ]
   },

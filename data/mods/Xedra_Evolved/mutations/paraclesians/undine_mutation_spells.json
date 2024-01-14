@@ -12,6 +12,38 @@
     "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_undine_water_body",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "ARMOR_BASH", "multiply": -0.1 }, { "value": "ARMOR_BULLET", "multiply": -0.5 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_undine_water_form_no_attack",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      { "value": "MELEE_DAMAGE", "multiply": -1.0 },
+      { "value": "RANGE", "multiply": -1.0 },
+      { "value": "RANGED_DAMAGE", "multiply": -1.0 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_undine_water_form_armor",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      { "value": "ARMOR_BASH", "multiply": -0.5 },
+      { "value": "ARMOR_CUT", "multiply": -0.6 },
+      { "value": "ARMOR_STAB", "multiply": -0.8 },
+      { "value": "ARMOR_BULLET", "multiply": -1.0 },
+      { "value": "ARMOR_COLD", "multiply": 2.0 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": -20 }
+    ]
+  },
+  {
     "id": "create_fog",
     "type": "SPELL",
     "name": "Create Fog",
@@ -361,5 +393,20 @@
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
+  },
+  {
+    "id": "undine_water_push_away",
+    "type": "SPELL",
+    "name": "Crashing Waves spell",
+    "description": "The actual spell that pushes enemies away.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "effect": "area_push",
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 3
   }
 ]
