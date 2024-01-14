@@ -2330,7 +2330,15 @@
     "miss_messages": [ [ "The world spins.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "40 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -3 ], "int_mod": [ -2 ], "speed_mod": [ -5 ], "cough_chance": [ 30 ], "vomit_chance": [ 3000 ] },
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -2 ],
+      "per_mod": [ -3 ],
+      "int_mod": [ -2 ],
+      "speed_mod": [ -5 ],
+      "cough_chance": [ 30 ],
+      "vomit_chance": [ 3000 ]
+    },
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.6 },
       { "limb_score": "night_vis", "modifier": 0.7 },
