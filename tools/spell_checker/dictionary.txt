@@ -1788,6 +1788,8 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+magick
+magicks
 magickal
 magicks
 magwells
@@ -3154,6 +3156,8 @@ treatin
 treefrog
 treefrogs
 treelines
+treesinging
+treesung
 trenchcoat
 trenchcoats
 trenchgun

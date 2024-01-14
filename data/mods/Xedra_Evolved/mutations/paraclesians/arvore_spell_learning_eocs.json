@@ -100,21 +100,22 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Arvore knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('arvore_nurture_the_green')", "<", "20" ] },
-        { "math": [ "u_spell_level('arvore_growing_wood_walls')", "<", "20" ] },
+        { "math": [ "u_spell_level('arvore_nurture_the_green')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_growing_wood_walls')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_commune_with_nature')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('arvore_summon_briars')", "<", "15" ] },
+        { "math": [ "u_spell_level('arvore_summon_briars')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_traverse_the_wilds')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_cause_decay')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_wood_spirit')", "<", "35" ] },
         { "math": [ "u_spell_level('arvore_roots_crack_the_foundation')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_forest_translocate')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('arvore_overgrowth_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_overgrowth_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_verdant_infusion')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_roots_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('arvore_climbing_vine_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_climbing_vine_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_anti_plant_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "15" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
@@ -135,6 +136,7 @@
         [ "EOC_LEVELER_ARVORE_ROOTS_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_CLIMBING_VINE_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_ANTI_PLANT_SPELL", 7 ],
+        [ "EOC_LEVELER_ARVORE_TREE_SINGING_SPELL", 5 ],
         [ "EOC_LEVELER_ARVORE_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_ARVORE_WIND_BLOWS_WILLOW_BENDS", 6 ],
         [ "EOC_LEVELER_ARVORE_MAKE_GOSSAMER", 4 ]
@@ -147,7 +149,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('arvore_nurture_the_green')", ">=", "0" ] },
-        { "math": [ "u_spell_level('arvore_nurture_the_green')", "<", "20" ] }
+        { "math": [ "u_spell_level('arvore_nurture_the_green')", "<", "int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -165,7 +167,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('arvore_growing_wood_walls')", ">=", "0" ] },
-        { "math": [ "u_spell_level('arvore_growing_wood_walls')", "<", "20" ] }
+        { "math": [ "u_spell_level('arvore_growing_wood_walls')", "<", "int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -201,7 +203,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('arvore_summon_briars')", ">=", "0" ] },
-        { "math": [ "u_spell_level('arvore_summon_briars')", "<", "15" ] }
+        { "math": [ "u_spell_level('arvore_summon_briars')", "<", "int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -309,7 +311,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level('arvore_overgrowth_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('arvore_overgrowth_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('arvore_overgrowth_spell')", "<", "int_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -395,11 +397,29 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_TREE_SINGING_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LEVELER_ARVORE_CULTIVATE_GOBLIN_FRUIT",
     "condition": {
       "and": [
         { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", ">=", "0" ] },
-        { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] }
       ]
     },
     "effect": [
