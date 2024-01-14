@@ -123,13 +123,7 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "harddrugs", "prob": 5 },
-      { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 }
+      { "group": "harddrugs", "prob": 5 }
     ]
   },
   {
@@ -199,12 +193,6 @@
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
       [ "weak_antibiotic", 15 ],
-      { "item": "left_leg_prosthetic", "prob": 5 },
-      { "item": "right_leg_prosthetic", "prob": 5 },
-      { "item": "left_arm_prosthetic", "prob": 5 },
-      { "item": "right_arm_prosthetic", "prob": 5 },
-      { "item": "left_arm_neuroprosthetic", "prob": 2 },
-      { "item": "right_arm_neuroprosthetic", "prob": 2 },
       [ "crutches", 5 ]
     ]
   },
@@ -255,8 +243,6 @@
       [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
-      [ "left_leg_prosthetic", 40 ],
-      [ "right_leg_prosthetic", 40 ],
       [ "crutches", 5 ]
     ]
   },
@@ -1073,11 +1059,7 @@
       { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
       { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "left_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "right_peg_leg", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_wood", "prob": 10, "damage": [ 2, 4 ] }
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1181,15 +1163,7 @@
       { "item": "ceramic_cup", "prob": 90, "damage": [ 2, 4 ] },
       { "group": "tinware", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "crown_golden", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "fluid_preserved_brain", "prob": 20 },
-      { "item": "left_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_peg_leg", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_leg_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_wood", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "left_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] },
-      { "item": "right_arm_prosthetic_steel", "prob": 15, "damage": [ 2, 4 ] }
+      { "item": "fluid_preserved_brain", "prob": 20 }
     ]
   },
   {
@@ -1720,13 +1694,7 @@
       { "group": "tools_medical", "prob": 100 },
       { "group": "drugs_emergency", "prob": 50 },
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
-      { "item": "badge_doctor", "prob": 2 },
-      { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 },
-      { "item": "left_arm_prosthetic", "prob": 2 },
-      { "item": "right_arm_prosthetic", "prob": 2 },
-      { "item": "left_arm_neuroprosthetic", "prob": 1 },
-      { "item": "right_arm_neuroprosthetic", "prob": 1 }
+      { "item": "badge_doctor", "prob": 2 }
     ]
   },
   {
@@ -2710,16 +2678,7 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "blanket", "prob": 200 },
-      { "item": "cotton_patchwork", "prob": 400, "custom-flags": [ "FILTHY" ] },
-      { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 },
-      { "item": "left_arm_prosthetic", "prob": 2 },
-      { "item": "right_arm_prosthetic", "prob": 2 },
-      { "item": "left_arm_neuroprosthetic", "prob": 1 },
-      { "item": "right_arm_neuroprosthetic", "prob": 1 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 200 }, { "item": "cotton_patchwork", "prob": 400, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_table_hospital",

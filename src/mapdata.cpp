@@ -31,8 +31,6 @@ static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 namespace
 {
 
-const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
-
 generic_factory<ter_t> terrain_data( "terrain" );
 generic_factory<furn_t> furniture_data( "furniture" );
 
@@ -500,7 +498,7 @@ furn_t null_furniture_t()
     new_furniture.transparent = true;
     new_furniture.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
     new_furniture.examine_func = iexamine_functions_from_string( "none" );
-    new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
+    new_furniture.max_volume = DEFAULT_TILE_VOLUME;
     return new_furniture;
 }
 
@@ -522,7 +520,7 @@ ter_t null_terrain_t()
     new_terrain.set_flag( ter_furn_flag::TFLAG_TRANSPARENT );
     new_terrain.set_flag( ter_furn_flag::TFLAG_DIGGABLE );
     new_terrain.examine_func = iexamine_functions_from_string( "none" );
-    new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
+    new_terrain.max_volume = DEFAULT_TILE_VOLUME;
     return new_terrain;
 }
 
@@ -1629,7 +1627,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo, "furniture " + id.str() );

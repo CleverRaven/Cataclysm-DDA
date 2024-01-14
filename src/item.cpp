@@ -7390,6 +7390,10 @@ units::volume item::corpse_volume( const mtype *corpse ) const
     if( has_flag( flag_SKINNED ) ) {
         corpse_volume *= 0.85;
     }
+    if( corpse_volume > MAX_ITEM_VOLUME ) {
+        // Silently set volume so the corpse can still spawn but a mtype can have a volume > MAX_ITEM_VOLUME
+        corpse_volume = MAX_ITEM_VOLUME;
+    }
     if( corpse_volume > 0_ml ) {
         return corpse_volume;
     }
@@ -15111,4 +15115,15 @@ void item::favorite_settings_menu()
 void item::combine( const item_contents &read_input, bool convert )
 {
     contents.combine( read_input, convert );
+}
+
+bool is_preferred_component( const item &component )
+{
+    return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
+           !component.has_flag( flag_HIDDEN_HALLU );
+}
+
+bool is_preferred_crafting_component( const item &component )
+{
+    return is_preferred_component( component ) && is_crafting_component( component );
 }

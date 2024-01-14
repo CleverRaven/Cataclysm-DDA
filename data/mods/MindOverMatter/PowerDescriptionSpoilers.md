@@ -277,7 +277,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 ## Omniscience
 *Difficulty*: 10<br />
-*Target*: An area of 40 squares around the psion<br />
+*Target*: A radius of 40 squares around the psion<br />
 *Duration*: 2 to 10 seconds, plus 0.75 to 1.5 seconds per power level<br />
 *Stamina Cost*: 10000, minus 115 per level to a minimum of 7500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />

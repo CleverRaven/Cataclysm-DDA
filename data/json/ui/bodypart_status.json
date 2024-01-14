@@ -17,7 +17,7 @@
         "text": "broken",
         "sym": "%",
         "color": "magenta",
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "splinted",

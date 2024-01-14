@@ -257,6 +257,466 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "aztec_sword_scrap",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "razor_blade", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "glass_macuahuitl",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "glass_shard", 40 ], [ "ceramic_shard", 40 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aztec_sword_stone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "lc_aztec_sword",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "10 h",
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 48 ],
+        [ "cooking_oil2", 48 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "mc_aztec_sword",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "12 h",
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 48 ],
+        [ "cooking_oil2", 48 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ],
+      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "hc_aztec_sword",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "14 h",
+    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 48 ],
+        [ "cooking_oil2", 48 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ],
+      [ [ "leather", 3 ], [ "fur", 3 ], [ "faux_fur", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "ch_aztec_sword",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "18 h",
+    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 48 ],
+        [ "cooking_oil2", 48 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ],
+      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "qt_aztec_sword",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "22 h",
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_quenching" }
+    ],
+    "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ] ],
+    "tools": [
+      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 48 ],
+        [ "cooking_oil2", 48 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ],
+      [ [ "leather", 3 ], [ "scrap_kevlar", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aztec_spear_scrap",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "adhesive", 3 ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "2x4", 1 ] ], [ [ "razor_blade", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aztec_spear_glass",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "2x4", 1 ] ], [ [ "glass_shard", 14 ], [ "ceramic_shard", 14 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aztec_spear_glass",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "2x4", 1 ] ], [ [ "rock", 8 ], [ "flint", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "lc_aztec_spear",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "mc_aztec_spear",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "hc_aztec_spear",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "10 h",
+    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" }
+    ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "ch_aztec_spear",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "14 h",
+    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ] ],
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "qt_aztec_spear",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "14 h",
+    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_quenching" }
+    ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [
+      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "GRIND", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [
+        [ "any_tallow", 1, "LIST" ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "lamp_oil", 125 ],
+        [ "motor_oil", 125 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nailbat",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",

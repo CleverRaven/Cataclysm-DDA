@@ -287,7 +287,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
-        std::vector<bodypart_id> get_all_body_parts( bool all, bool main_only ) const override;
+        std::vector<bodypart_id> get_all_body_parts( get_body_part_flags flags ) const override;
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_all_parts_hp_cur( int ) const override;
