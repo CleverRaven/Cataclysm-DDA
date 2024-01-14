@@ -44,15 +44,22 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
-int kill_tracker::kill_count( const mfaction_str_id &fac ) const
+int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
 {
-    int result = 0;
-    for( const auto &pair : kills ) {
-        if( pair.first->in_mfaction( fac ) ) {
-            result += pair.second;
+    int children = 0;
+    int humans = 0;
+    int others = 0;
+    auto it = kills.find( mon );
+    if( it != kills.end() ) {
+        if( it->first->has_flag( mon_flag_GUILT_CHILD ) ) {
+            return children += 1;
+        } else if( it->first->has_flag( mon_flag_GUILT_HUMANS ) ) {
+            return humans += 1;
+        } else if( it->first->has_flag( mon_flag_GUILT_OTHERS ) ) {
+            return others += 1;
         }
     }
-    return result;
+    return it->second;
 }
 
 int kill_tracker::monster_kill_count() const

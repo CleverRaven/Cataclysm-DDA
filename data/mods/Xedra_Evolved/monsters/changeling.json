@@ -290,7 +290,7 @@
     "type": "MONSTER",
     "name": { "str": "childlike fetch", "str_pl": "childlike fetches" },
     "description": "It looks like either a child or a child sized doll.  However, the sharp objects in its hands and the reflective nature of its eyes are the real tells this isn't just a living child or doll.  You'd be hard-pressed to not feel like you were killing an actual child by putting it down.",
-    "default_faction": "changeling_child",
+    "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "CHANGELING" ],
     "volume": "30000 ml",
@@ -314,7 +314,7 @@
     "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 }, [ "PARROT_AT_DANGER", 800 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 9 } },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GUILT_CHILD" ],
     "armor": { "bullet": 4, "electric": 1 }
   },
   {

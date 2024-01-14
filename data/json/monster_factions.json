@@ -52,12 +52,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "//": "should only be used for zombie children who have 'death_guilt' death function",
-    "name": "zombie_kids",
-    "base_faction": "zombie"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
     "hate": [ "aquatic_predator", "kraken" ],
@@ -87,12 +81,6 @@
     "base_faction": "zombie",
     "neutral": [ "slime", "zombie", "nether", "vortex", "passive_machine" ],
     "by_mood": [ "leech_plant" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "//": "for blood sacrifice only. May be added to the other victims of the cult, if any are added.",
-    "name": "cult_sacrifice",
-    "base_faction": "cult"
   },
   {
     "type": "MONSTER_FACTION",
@@ -327,12 +315,6 @@
   {
     "type": "MONSTER_FACTION",
     "name": "lab_mutant",
-    "base_faction": "mutant"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "//": "should only be used with mutant children who have 'death_guilt' death function",
-    "name": "lab_mutant_children",
     "base_faction": "mutant"
   },
   {

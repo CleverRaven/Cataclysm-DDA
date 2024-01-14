@@ -603,5 +603,20 @@
     "id": "SMALL_HIDER",
     "type": "monster_flag",
     "//": "This small monster can hide under or behind furniture such as beds, refrigerators, and underbrush"
+  },
+  {
+    "id": "GUILT_CHILD",
+    "type": "monster_flag",
+    "//": "Boss, you killed a child! Warning: Do not use without a death_guilt function. This helps count the children kills before player goes numb."
+  },
+  {
+    "id": "GUILT_HUMANS",
+    "type": "monster_flag",
+    "//": "Warning: Do not use without death_guilt function. This helps count the civilian/futile fighter etc. kills before player goes numb."
+  },
+  {
+    "id": "GUILT_OTHERS",
+    "type": "monster_flag",
+    "//": "Warning: Do not use without death_guilt function. This helps count the all the other kills that do not fit the other two (e.g blood sacrifice) before player goes numb."
   }
 ]

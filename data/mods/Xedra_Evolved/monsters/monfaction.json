@@ -9,11 +9,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "changeling_child",
-    "base_faction": "changeling"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "vampire",
     "base_faction": "zombie",
     "neutral": [ "zombie" ],

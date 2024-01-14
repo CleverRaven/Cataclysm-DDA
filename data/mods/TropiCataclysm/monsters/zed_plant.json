@@ -43,7 +43,7 @@
     "type": "MONSTER",
     "name": { "str": "garden child", "str_pl": "garden children" },
     "description": "This child zombie seems to have been adopted by plants.  It has several thorny vines and sprouts covering its head and body.",
-    "default_faction": "triffid_child_overtaken",
+    "default_faction": "triffid",
     "bodytype": "human",
     "species": [ "ZOMBIE", "PLANT" ],
     "volume": "30000 ml",
@@ -84,7 +84,8 @@
       "NO_BREATHE",
       "REVIVES",
       "FILTHY",
-      "PARALYZEVENOM"
+      "PARALYZEVENOM",
+      "GUILT_CHILD"
     ]
   },
   {
