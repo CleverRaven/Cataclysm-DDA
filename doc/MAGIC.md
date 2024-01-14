@@ -271,7 +271,7 @@ Flag                       | Description
 `IGNORE_WALLS`             | Spell's aoe goes through walls.
 `LIQUID`                   | Effects applied by spell will be resisted by waterproof armor if the spell targets a character's body part. Does not currently affect damage.
 `LOUD`                     | Spell makes extra noise at target.
-`MAGIC_FOCUS`              | Item does not interfer with hand encumbrance while spellcasting.
+`MAGIC_FOCUS`              | Item does not interfere with hand encumbrance while spellcasting.
 `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
 `MUTATE_TRAIT`             | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
 `NO_EXPLOSION_SFX`         | The spell will not generate a visual explosion effect.
