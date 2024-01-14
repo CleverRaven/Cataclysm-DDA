@@ -965,6 +965,23 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_undine_escape_grabs",
+    "name": [ "Flow Like Water" ],
+    "desc": [ "Your movements are inhumanly fluid." ],
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "dur_add_perc": 1,
+    "removes_effects": [ "grabbed" ],
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "block", "modifier": 1.2 },
+      { "limb_score": "crawl", "modifier": 1.5 }
+    ],
+    "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
     "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
