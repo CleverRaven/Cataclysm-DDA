@@ -402,8 +402,9 @@ int main( int argc, const char *argv[] )
                     break;
                 }
             }
-            if( needs_game )
+            if( needs_game ) {
                 break;
+            }
         }
     }
 
@@ -420,12 +421,10 @@ int main( int argc, const char *argv[] )
         std::string world_name = world_generator->active_world->world_name;
         if( result == 0 || dont_save ) {
             world_generator->delete_world( world_name, true );
-        }
-        else {
+        } else {
             if( g->save() ) {
                 DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
-            }
-            else {
+            } else {
                 DebugLog( D_ERROR, DC_ALL ) << "Test world " << world_name << " failed to save.";
                 result = 1;
             }
