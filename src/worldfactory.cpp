@@ -710,14 +710,30 @@ void worldfactory::remove_world( const std::string &worldname )
 void worldfactory::load_last_world_info()
 {
     cata_path lastworld_path = PATH_INFO::lastworld();
-    if( !file_exist( lastworld_path ) ) {
-        return;
-    }
 
-    JsonValue jsin = json_loader::from_path( lastworld_path );
-    JsonObject data = jsin.get_object();
-    last_world_name = data.get_string( "world_name" );
-    last_character_name = data.get_string( "character_name" );
+    try {
+        if( !file_exist( lastworld_path ) ) {
+            return;
+        }
+
+        std::string json_source_path_string = lastworld_path.generic_u8string();
+        std::optional<std::string> json_file_contents = read_whole_file( lastworld_path );
+
+        if( !json_file_contents.has_value() || json_file_contents->empty() ) {
+            return;
+        }
+        else {
+            JsonValue jsin = json_loader::from_path( lastworld_path );
+            JsonObject data = jsin.get_object();
+            last_world_name = data.get_string( "world_name" );
+            last_character_name = data.get_string( "character_name" );
+        }
+        // JsonError would make more sense here, but it isn't an option because multiple exception types appear before JsonError can throw.
+    } catch( ... )
+    {
+        popup( _( "lastworld.json is empty. This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged." ) );
+        debugmsg( "lastworld.json is empty. This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged." );
+    }
 }
 
 void worldfactory::save_last_world_info() const
