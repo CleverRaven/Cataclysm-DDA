@@ -24,22 +24,22 @@
     "type": "COMESTIBLE",
     "id": "crabapple",
     "name": { "str": "crabapple" },
-    "weight": "35 g",
+    "weight": "50 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "calories": 18,
+    "calories": 38,
     "description": "A term used to describe both wild apples native to North America as well as less appetizing feral varieties, these are rather small and far too sour.",
     "price": 40,
     "price_postapoc": 100,
     "material": [ "fruit" ],
-    "volume": "45 ml",
+    "volume": "64 ml",
     "fun": -1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 2 ] ]
+    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -331,7 +331,7 @@
     "volume": "250 ml",
     "fun": 2,
     "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
-    "vitamins": [ [ "vitC", 300 ], [ "calcium", 8 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -343,7 +343,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "calories": 102,
+    "calories": 103,
     "description": "Tart little fruits grown from a rose bush, now separated from their inedible seeds and spines.",
     "price": 200,
     "price_postapoc": 50,
@@ -352,7 +352,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "541 mg" ], [ "iron", "1346 μg" ], [ "calcium", "214600 μg" ] ]
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
