@@ -1696,24 +1696,6 @@
     "weight": "57 g"
   },
   {
-    "id": "scrap_brass",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "chunk of brass", "str_pl": "chunks of brass" },
-    "description": "Some decent-sized chunks of scrap brass.",
-    "weight": "300 g",
-    "//1": "300g / 8.73g/cm3 = ~34.4ml. Add 10% like bronze = 37.8ml rounded upwards to 38ml.",
-    "volume": "38 ml",
-    "//2": "appears to be about 20% cheaper than bronze",
-    "price": 140,
-    "price_postapoc": 80,
-    "to_hit": -2,
-    "material": [ "brass" ],
-    "symbol": ",",
-    "color": "yellow",
-    "melee_damage": { "bash": 1 }
-  },
-  {
     "id": "scrap_bronze",
     "type": "GENERIC",
     "category": "spare_parts",
