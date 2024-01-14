@@ -959,6 +959,45 @@
     ]
   },
   {
+    "result": "10l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_tin", 2 ] ] ]
+  },
+  {
+    "result": "5l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_tin", 5 ] ] ]
+  },
+  {
+    "result": "1l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_tin", 138 ] ] ]
+  },
+  {
     "result": "tin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
