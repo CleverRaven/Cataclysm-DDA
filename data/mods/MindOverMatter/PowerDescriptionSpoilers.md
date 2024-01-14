@@ -277,11 +277,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 ## Omniscience
 *Difficulty*: 10<br />
-*Target*: An area of XXXXXXXXXXXXX squares around the psion<br />
+*Target*: A radius of 40 squares around the psion<br />
 *Duration*: 2 to 10 seconds, plus 0.75 to 1.5 seconds per power level<br />
 *Stamina Cost*: 10000, minus 115 per level to a minimum of 7500<br />
 *Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
-*Effects*: The psion expands their senses to encompass the entire area around them, seeing everything within XXXXXXXXX squares and from Z level 10 to Z level -10 all simultaneously. Their powers allow them to process all the information simultaneously and not suffer any consequences from doing so.<br />
+*Effects*: The psion expands their senses to encompass the entire area around them, seeing everything within 40 squares and from Z level 10 to Z level -10 all simultaneously. Their powers allow them to process all the information simultaneously and not suffer any consequences from doing so.<br />
 *Prerequisites*: Clairvoyance 14 *or* Satellite View 8, Clarity 9<br />
 
 # Electrokinesis
