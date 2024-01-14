@@ -266,7 +266,7 @@
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
-      "effect": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "u_add_faction_trust": 1 } ]
+      "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },

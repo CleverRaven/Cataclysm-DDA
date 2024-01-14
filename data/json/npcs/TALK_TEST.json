@@ -917,21 +917,21 @@
     "id": "TALK_TEST_COMPARE_INT_OP",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
-      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "=", "5" ] } },
+      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
       { "text": "Two == five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
       { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "!=", "5" ] } },
       { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<=", "5" ] } },
       { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">=", "5" ] } },
       { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<", "5" ] } },
       { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
-      { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "=", "5" ] } },
+      { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
       { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
       { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
       { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "5" ] } },
       { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "5" ] } },
       { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "5" ] } },
       { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
-      { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "=", "2" ] } },
+      { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
       { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
       { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
       { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "2" ] } },
@@ -1175,7 +1175,7 @@
         "text": "Test Proficiency learning is 50% out of 100%.",
         "//": "previously it used the number format '{ u_val: proficiency, proficiency_id: prof_test, format: 10 }', but it is deprecated",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "=", "50" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "==", "50" ] }
       },
       {
         "text": "Test Proficiency learning done is 12 hours total.",
