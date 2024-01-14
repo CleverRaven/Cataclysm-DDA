@@ -108,7 +108,7 @@
   {
     "result": "10l_brass",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -121,7 +121,7 @@
   {
     "result": "5l_brass",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -147,7 +147,7 @@
   {
     "result": "10l_platinum",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -160,7 +160,7 @@
   {
     "result": "5l_platinum",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -186,7 +186,7 @@
   {
     "result": "10l_silver",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -199,7 +199,7 @@
   {
     "result": "5l_silver",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -225,7 +225,7 @@
   {
     "result": "10l_gold",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "EXTRA_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -238,7 +238,7 @@
   {
     "result": "5l_gold",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -264,7 +264,7 @@
   {
     "result": "10l_lead",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -277,7 +277,7 @@
   {
     "result": "5l_lead",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -303,7 +303,7 @@
   {
     "result": "10l_bronze",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -316,7 +316,7 @@
   {
     "result": "5l_bronze",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -375,7 +375,7 @@
   {
     "result": "10l_copper",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -388,7 +388,7 @@
   {
     "result": "5l_copper",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -516,7 +516,7 @@
   {
     "result": "10l_zinc",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -529,7 +529,7 @@
   {
     "result": "5l_zinc",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1256,7 +1256,7 @@
   {
     "result": "10l_aluminum",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1296,7 +1296,7 @@
   {
     "result": "10l_tin",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1309,7 +1309,7 @@
   {
     "result": "5l_tin",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
