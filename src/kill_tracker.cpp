@@ -58,7 +58,7 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
         } else if( it->first->has_flag( mon_flag_GUILT_CHILD ) ) {
             children += it->second;
             return children;
-        } else if( it->first->has_flag( mon_flag_GUILT_HUMANS ) ) {
+        } else if( it->first->has_flag( mon_flag_GUILT_HUMAN ) ) {
             humans += it->second;
             return humans;
         } else if( it->first->has_flag( mon_flag_GUILT_OTHERS ) ) {
