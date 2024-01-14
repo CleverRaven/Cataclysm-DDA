@@ -230,9 +230,9 @@ void trade_ui::autobalance()
 
 void trade_ui::bank_balance()
 {
-    if (!get_option<bool>( "CAPITALISM" )) {
-            popup( _( "Your promises of digital payment mean nothing here." ) );
-            return;
+    if( !get_option<bool>( "CAPITALISM" ) ) {
+        popup( _( "Your promises of digital payment mean nothing here." ) );
+        return;
     }
     _bank += _delta_bank;
     _delta_bank = -( _balance - _delta_bank );
@@ -327,13 +327,14 @@ void trade_ui::_draw_header()
                                  colorize( _panes[_you]->get_ctxt()->get_desc(
                                          trade_selector::ACTION_AUTOBALANCE ),
                                            c_yellow ) ) );
-    if ( get_option<bool>( "CAPITALISM" ) ) {
-        right_print( _header_w, 2, 1, c_white, string_format( _( "Bank Balance: %s"), format_money(  _bank ) ) );
+    if( get_option<bool>( "CAPITALISM" ) ) {
+        right_print( _header_w, 2, 1, c_white, string_format( _( "Bank Balance: %s" ),
+                     format_money( _bank ) ) );
         right_print( _header_w, 1, 1, c_white,
-                    string_format( _( "%s to balance trade with bank account balance" ),
+                     string_format( _( "%s to balance trade with bank account balance" ),
                                     colorize( _panes[_you]->get_ctxt()->get_desc(
                                             trade_selector::ACTION_BANKBALANCE ),
-                                            c_yellow ) ) );
+                                              c_yellow ) ) );
     }
 
 }
