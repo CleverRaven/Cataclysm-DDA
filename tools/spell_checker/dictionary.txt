@@ -1694,6 +1694,7 @@ layin
 lb
 lbs
 leache
+leaper
 leatherbacked
 leatherbound
 leathercrafters
