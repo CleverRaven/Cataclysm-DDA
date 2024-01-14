@@ -181,7 +181,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "platinum_small", 4075 ] ] ]
+    "components": [ [ [ "platinum_small", 4290 ] ] ]
   },
   {
     "result": "10l_silver",
@@ -220,7 +220,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "silver_small", 1993 ] ] ]
+    "components": [ [ [ "silver_small", 2098 ] ] ]
   },
   {
     "result": "10l_gold",
@@ -259,7 +259,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "gold_small", 3670 ] ] ]
+    "components": [ [ [ "gold_small", 3864 ] ] ]
   },
   {
     "result": "10l_lead",
@@ -298,7 +298,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "lead", 2155 ] ] ]
+    "components": [ [ [ "lead", 2268 ] ] ]
   },
   {
     "result": "10l_bronze",
