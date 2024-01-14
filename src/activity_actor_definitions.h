@@ -27,7 +27,6 @@
 #include "units.h"
 #include "units_fwd.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 
 #include "activity_actor.h"
 
