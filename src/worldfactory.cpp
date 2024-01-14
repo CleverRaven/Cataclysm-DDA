@@ -711,7 +711,7 @@ void worldfactory::load_last_world_info()
 {
     cata_path lastworld_path = PATH_INFO::lastworld();
     std::string lwmissing =
-        "lastworld.json or one of its values is empty.  This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged.";
+        translate_marker( "lastworld.json or one of its values is empty.  This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged." );
 
     try {
         if( !file_exist( lastworld_path ) ) {
