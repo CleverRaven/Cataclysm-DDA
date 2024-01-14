@@ -717,13 +717,12 @@ void worldfactory::load_last_world_info()
         if( !file_exist( lastworld_path ) ) {
             return;
         }
+
+        std::optional<std::string> json_file_contents = read_whole_file( lastworld_path );
         JsonValue jsin = json_loader::from_path( lastworld_path );
         JsonObject data = jsin.get_object();
         last_world_name = data.get_string( "world_name" );
         last_character_name = data.get_string( "character_name" );
-
-        std::string json_source_path_string = lastworld_path.generic_u8string();
-        std::optional<std::string> json_file_contents = read_whole_file( lastworld_path );
 
         if( !json_file_contents.has_value() || json_file_contents->empty() || last_character_name.empty() ||
             last_world_name.empty() ) {
