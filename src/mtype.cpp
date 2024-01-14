@@ -88,7 +88,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_GROUP_MORALE,
             mon_flag_GUILT_ANIMAL,
             mon_flag_GUILT_CHILD,
-            mon_flag_GUILT_HUMANS,
+            mon_flag_GUILT_HUMAN,
             mon_flag_GUILT_OTHERS,
             mon_flag_HARDTOSHOOT,
             mon_flag_HAS_MIND,
@@ -210,7 +210,7 @@ void set_mon_flag_ids()
     mon_flag_GROUP_MORALE = mon_flag_id( "GROUP_MORALE" );
     mon_flag_GUILT_ANIMAL = mon_flag_id( "GUILT_ANIMAL" );
     mon_flag_GUILT_CHILD = mon_flag_id( "GUILT_CHILD" );
-    mon_flag_GUILT_HUMANS = mon_flag_id( "GUILT_HUMANS" );
+    mon_flag_GUILT_HUMAN = mon_flag_id( "GUILT_HUMAN" );
     mon_flag_GUILT_OTHERS = mon_flag_id( "GUILT_OTHERS" );
     mon_flag_HARDTOSHOOT = mon_flag_id( "HARDTOSHOOT" );
     mon_flag_HAS_MIND = mon_flag_id( "HAS_MIND" );
