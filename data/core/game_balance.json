@@ -463,6 +463,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "CAPITALISM",
+    "info": "NPCs will accept your bank balance as payment in trades.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "DESCRIBE_MUSIC_FREQUENCY",
     "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
     "stype": "int",
