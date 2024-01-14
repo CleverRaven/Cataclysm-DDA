@@ -86,6 +86,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_GRABS,
             mon_flag_GROUP_BASH,
             mon_flag_GROUP_MORALE,
+            mon_flag_GUILT_ANIMAL,
             mon_flag_GUILT_CHILD,
             mon_flag_GUILT_HUMANS,
             mon_flag_GUILT_OTHERS,
@@ -207,6 +208,7 @@ void set_mon_flag_ids()
     mon_flag_GRABS = mon_flag_id( "GRABS" );
     mon_flag_GROUP_BASH = mon_flag_id( "GROUP_BASH" );
     mon_flag_GROUP_MORALE = mon_flag_id( "GROUP_MORALE" );
+    mon_flag_GUILT_ANIMAL = mon_flag_id( "GUILT_ANIMAL" );
     mon_flag_GUILT_CHILD = mon_flag_id( "GUILT_CHILD" );
     mon_flag_GUILT_HUMANS = mon_flag_id( "GUILT_HUMANS" );
     mon_flag_GUILT_OTHERS = mon_flag_id( "GUILT_OTHERS" );
