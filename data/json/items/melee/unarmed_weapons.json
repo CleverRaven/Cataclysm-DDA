@@ -239,7 +239,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "NONCONDUCTIVE" ],
-        "armor": [
+    "armor": [
       {
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
