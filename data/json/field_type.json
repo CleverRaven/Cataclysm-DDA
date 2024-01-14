@@ -1533,9 +1533,7 @@
   "outdoor_age_speedup": "4 minutes",
   "dirty_transparency_cache": true,
   "has_fume": true,
-  "immunity_data": {
-    "body_part_env_resistance": [ [ "mouth",  15 ] ]
-  },
+  "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
   "priority": 8,
   "half_life": "15 minutes",
   "phase": "gas",
