@@ -9,22 +9,28 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES",
+    "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
     "effect": [
-      { "u_learn_recipe": "practice_clair_night_vision" },
-      { "u_learn_recipe": "practice_clair_danger_sense" },
-      { "u_learn_recipe": "practice_clair_speed_reading" },
-      { "u_learn_recipe": "practice_clair_aura_sight" },
-      { "u_learn_recipe": "practice_clair_spot_weakness" },
-      { "u_learn_recipe": "practice_clair_ranged_enhance" },
-      { "u_learn_recipe": "practice_clair_voyance" },
-      { "u_learn_recipe": "practice_clair_dodge_power" },
-      { "u_learn_recipe": "practice_clair_craft_bonus" },
-      { "u_learn_recipe": "practice_clair_see_map" },
-      { "u_learn_recipe": "practice_clair_perfect_shot" },
-      { "u_learn_recipe": "practice_clair_clear_sight" },
-      { "u_learn_recipe": "practice_clair_group_tactics" },
-      { "u_learn_recipe": "practice_clair_omniscience" }
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PHYSICAL_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_OVERCOME_PAIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_BREATH_SKIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_DASH",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_FLEXIBILITY",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ADRENALINE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ARMOR_SKIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_CLIMATE_CONTROL",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ENHANCE_MOBILITY",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HAMMERHAND",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_REFLEX_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_SEALED_SYSTEM",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_METABOLISM_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_COMBAT_DANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PERFECTED_MOTION",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HURRICANE_BLOWS"
+        ]
+      }
     ]
   },
   {
