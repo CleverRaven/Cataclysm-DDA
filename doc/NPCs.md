@@ -1162,8 +1162,8 @@ Example:
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
   "duration": { "global_val": "test2", "default": "2 minutes" },
   {
-    "u_spawn_monster": "mon_absence",
-    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+    "u_spawn_monster": "mon_absence", 
+    "real_count": { "math": [ "1 + rand(2)" ] }
   }
 ]
 ```

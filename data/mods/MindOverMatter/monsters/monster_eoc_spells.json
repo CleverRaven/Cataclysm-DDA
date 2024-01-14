@@ -98,14 +98,6 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "passenger_pigeon_aura" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
-        ]
-      }
-    ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
   }
 ]

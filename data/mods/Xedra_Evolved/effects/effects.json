@@ -142,16 +142,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "max_intensity": 3,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "LUMINATION",
-            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "u_effect_intensity('foxfire_imbibed') * 50" ] } } ] } ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },

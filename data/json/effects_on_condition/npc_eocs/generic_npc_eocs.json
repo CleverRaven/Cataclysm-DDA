@@ -248,7 +248,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 1, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -271,7 +271,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "u_bandit_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -293,7 +293,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 3, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 3 } ] }
+      { "math": [ "u_bandit_assassins_sent", "+=", "3" ] }
     ]
   },
   {
@@ -315,7 +315,7 @@
     },
     "effect": [
       { "u_spawn_npc": "old_guard_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   },
   {

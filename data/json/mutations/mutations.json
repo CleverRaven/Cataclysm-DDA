@@ -630,15 +630,8 @@
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
-    "enchantments": [
-      {
-        "values": [
-          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "hunger" }, "/", { "const": 10 } ] } },
-          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "morale" } ] } }
-        ]
-      }
-    ],
-    "//": "First enchantment increase lumnation the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), second luminate the more you happy (1 tile of lumination for each +10 morale)"
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "(u_val('hunger')/10) + max(u_val('morale'), 0)" ] } } ] } ],
+    "//": "Increases the lumination the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), and the more you happy (1 tile of lumination for each +10 morale, negative morage excluded)"
   },
   {
     "type": "mutation",

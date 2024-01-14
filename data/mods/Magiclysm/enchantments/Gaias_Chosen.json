@@ -82,7 +82,7 @@
       { "u_teleport": { "u_val": "dust_reborn_teleport" } },
       { "u_lose_trait": "DUST_REBORN" },
       { "math": [ "u_pain()", "=", "0" ] },
-      { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
+      { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },
       { "math": [ "u_vitamin('calcium')", "=", "0" ] },

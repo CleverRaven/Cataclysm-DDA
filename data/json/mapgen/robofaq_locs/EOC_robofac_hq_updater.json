@@ -33,7 +33,7 @@
           "condition": { "and": [ { "math": [ "ancilla_fortress_placed", "!=", "1" ] }, { "days_since_cataclysm": 45 } ] },
           "effect": [
             { "mapgen_update": "robofachq_ancilla_fortress_basic", "om_terrain": "robofachq_meteorology2" },
-            { "arithmetic": [ { "global_val": "var", "var_name": "ancilla_fortress_placed" }, "=", { "const": 1 } ] }
+            { "math": [ "ancilla_fortress_placed", "=", "1" ] }
           ]
         },
         {

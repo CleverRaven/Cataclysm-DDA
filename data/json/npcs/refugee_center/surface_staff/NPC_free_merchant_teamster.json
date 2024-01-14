@@ -61,9 +61,7 @@
           "time": "2 days"
         },
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
         "switch": true
@@ -84,9 +82,7 @@
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
         "switch": true,

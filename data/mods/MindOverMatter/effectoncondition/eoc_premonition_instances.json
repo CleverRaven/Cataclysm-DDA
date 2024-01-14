@@ -156,7 +156,7 @@
         "max_radius": 25,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -171,7 +171,7 @@
         "max_radius": 40,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -229,7 +229,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -245,7 +245,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -302,7 +302,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -318,7 +318,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -375,7 +375,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "government_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -391,7 +391,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "government_assassins_sent", "+=", "2" ] }
     ]
   }
 ]
