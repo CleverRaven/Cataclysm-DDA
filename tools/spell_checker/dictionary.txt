@@ -205,6 +205,8 @@ augmentations
 auk
 auroral
 ausgegangen
+atlatl
+atlatls
 autoclave
 autoclaving
 autohaul
@@ -1784,6 +1786,7 @@ machiner
 macronutrient
 macrophenotypic
 macuahuitl
+macuahuitls
 maculata
 magickal
 magicks
@@ -3064,6 +3067,8 @@ temaki
 tenderloins
 tenontosaurus
 tequini
+tepoztopili
+tepoztopilis
 teravolt
 terpenes
 terranean
