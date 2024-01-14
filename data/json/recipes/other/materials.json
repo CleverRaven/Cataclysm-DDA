@@ -1096,7 +1096,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "//": "There is a slight loss here, but rounding up would mean you could create more magically.",
-    "components": [ [ [ "scrap_aluminum", 11 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 54 ] ] ]
   },
   {
     "result": "10l_tin",
