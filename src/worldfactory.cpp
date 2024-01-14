@@ -729,7 +729,6 @@ void worldfactory::load_last_world_info()
             last_world_name.empty() ) {
 
             throw JsonError( lwmissing );
-
         }
         // JsonError would make more sense here, but it isn't an option because multiple exception types appear before JsonError can throw.
     } catch( ... ) {
