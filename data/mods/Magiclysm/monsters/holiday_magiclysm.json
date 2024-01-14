@@ -38,7 +38,7 @@
     "type": "MONSTER",
     "copy-from": "mon_yulecat",
     "name": { "str": "Yule cat cub" },
-    "description": "The child of a yulecat, this catlike creature looks as if it poses no threat to you, but looks can be deceiving.",
+    "description": "The child of a Yule cat, this catlike creature looks as if it poses no threat to you, but looks can be deceiving.",
     "volume": "120 ml",
     "weight": "345 g",
     "hp": 56,
