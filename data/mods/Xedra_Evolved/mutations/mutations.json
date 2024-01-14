@@ -317,16 +317,5 @@
     "valid": false,
     "purifiable": false,
     "enchantments": [ "EATER_SIXTH_SENSE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "FINAL_DISCUSSION",
-    "name": { "str": "FINAL DISCUSSION" },
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "description": "You won't speak with them again if this goes poorly."
   }
 ]
