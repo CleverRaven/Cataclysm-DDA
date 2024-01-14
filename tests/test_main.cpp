@@ -65,7 +65,7 @@ static std::chrono::system_clock::time_point start;
 static std::chrono::system_clock::time_point end;
 static bool error_during_initialization{ false };
 
-static bool needs_game{ true };
+static bool needs_game{ false };
 
 static std::vector<mod_id> extract_mod_selection( const std::string_view mod_string )
 {
