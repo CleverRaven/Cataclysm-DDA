@@ -214,7 +214,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "scrap_copper", 34 ] ] ]
+    "components": [ [ [ "scrap_copper", 36 ] ] ]
   },
   {
     "type": "recipe",
