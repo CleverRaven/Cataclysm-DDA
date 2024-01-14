@@ -99,7 +99,7 @@
     "type": "MONSTER",
     "name": { "str": "blood sacrifice" },
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
-    "default_faction": "cult",
+    "default_faction": "cult_sacrifice",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
