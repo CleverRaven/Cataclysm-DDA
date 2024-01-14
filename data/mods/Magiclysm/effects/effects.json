@@ -236,7 +236,7 @@
     "remove_message": "Your strength deflates.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
-    "base_mods": { "str_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "( u_spell_level('ogres_strength') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -258,7 +258,7 @@
     "remove_message": "Your vision returns to normal.",
     "rating": "good",
     "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
-    "base_mods": { "per_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -269,7 +269,7 @@
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
-    "base_mods": { "dex_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -280,7 +280,7 @@
     "remove_message": "Your intelligence returns to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
-    "base_mods": { "int_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": { "math": [ "( u_spell_level('foxs_cunning') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
