@@ -46,7 +46,7 @@
     "triggers": [
       [
         {
-          "condition": { "compare_num": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
+          "condition": { "math": [ "u_val('morale')", ">", "20" ] },
           "msg_on": { "text": "Your mood is above 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -54,7 +54,7 @@
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('hunger')", ">", "110" ] },
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -62,11 +62,11 @@
           "msg_on": { "text": "You're in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('thirst')", ">", "110" ] },
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "stamina" }, "<", { "const": 1 } ] },
+          "condition": { "math": [ "u_val('stamina')", "<", "1" ] },
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -87,7 +87,7 @@
     "triggers": [
       [
         {
-          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": 20 } ] },
+          "condition": { "math": [ "u_val('morale')", "<", "20" ] },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -95,7 +95,7 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "hunger" }, "<", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('hunger')", "<", "110" ] },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -103,11 +103,11 @@
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('thirst')", "<", "110" ] },
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "stamina" }, ">", { "const": 1 } ] },
+          "condition": { "math": [ "u_val('stamina')", ">", "1" ] },
           "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
