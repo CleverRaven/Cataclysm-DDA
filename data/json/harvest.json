@@ -2670,5 +2670,11 @@
       { "drop": "blood_mi-go", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_mi-go", "type": "bone", "mass_ratio": 0.1 }
     ]
+  },
+  {
+    "id": "bullfrog",
+    "//": "Frog legs, but the rest of the frog is mostly inedible",
+    "type": "harvest",
+    "entries": [ { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 } ]
   }
 ]
