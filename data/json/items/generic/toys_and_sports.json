@@ -1319,61 +1319,61 @@
         "name": { "str": "grasscourt tennis ball" },
         "description": "Just a small, spherical white coloured tennis ball.  This one, due to the color, is probably meant to be used on grass courts or in certain tournaments.",
         "weight": 30
-    },
-    {
+      },
+      {
         "id": "begginer_tennisball",
         "name": { "str": "begginer tennis ball" },
         "description": "Just a small, spherical red coloured tennis ball.  This one, due to the color, is probably a training ball meant to be used in certain beginner programs, specifically designed to have a lower compression level and slower speed.",
         "weight": 30
-    },
-    {
+      },
+      {
         "id": "highvis_tennisball",
         "name": { "str": "high-visibility tennis ball" },
         "description": "Just a small, spherical orange coloured tennis ball.  This one, due to the color, is probably designed for young players or to be used in modified formats of the game, providing higher visibility and easier tracking.",
         "weight": 30
-    },
-    {
+      },
+      {
         "id": "training_tennisball",
         "name": { "str": "tennis ball" },
         "description": "Just a small, spherical green coloured tennis ball.  This one, due to the color, is probably used in specific training situations, such as for players adapting to different ball speeds or conditions.  They are often used in coaching and practice drills and typically sold in stores.",
         "weight": 60
-    },
-    {
+      },
+      {
         "id": "breastcancer_tennisball",
         "name": { "str": "pink tennis ball" },
         "description": "Just a small, spherical pink coloured tennis ball.  This one, due to the color, is a special one, probably used to support breast cancer awareness initiatives, honor survivors, remember those lost to the disease, and to support the progress made to defeat breast cancer.",
         "weight": 5
-    },
-    {
+      },
+      {
         "id": "prostatecancer_tennisball",
         "name": { "str": "blue tennis ball" },
         "description": "Just a small, spherical blue coloured tennis ball.  This one, due to the color, is a special one, probably used to support prostate cancer awareness initiatives, honor survivors, remember those lost to the disease, and to support the progress made to defeat prostate cancer.",
         "weight": 5
-    },
-    {
+      },
+      {
         "id": "frontennisball",
         "name": { "str": "frontenis ball" },
         "description": "Just a small, spherical yellow coloured frontennis ball. Almost identical to a tennis ball, but with minor differences and used to play frontenis.",
         "weight": 10
-    },
-    {
+      },
+      {
         "id": "padelball",
         "name": { "str": "padel ball" },
         "description": "Just a small, spherical yellow coloured padel ball. Almost identical to a tennis ball, but with minor differences and used to play padel.",
         "weight": 20
-    },
-    {
+      },
+      {
         "id": "btennisball",
         "name": { "str": "beach tennis ball" },
         "description": "Just a small, spherical yellow coloured beach tennis ball. Almost identical to a tennis ball, but somewhat larger, lighter and softer and used to play beach tennis.",
         "weight": 20
-    },
-    {
+      },
+      {
         "id": "black_tennisball",
         "name": { "str": "black tennis ball" },
         "description": "Just a small, spherical black coloured tennis ball.  This black tennis ball was probably used for display or novelty purposes, as this color is not typically used in regular gameplay due to low visibility on most tennis court surfaces.",
         "weight": 1
-       }
+      }
     ]
   },
   {
@@ -1392,7 +1392,15 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_soccerball", "msg": "You deflate your soccer ball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_soccerball",
+        "msg": "You deflate your soccer ball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1428,7 +1436,10 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 4 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_soccerball", "msg": "You deflate your handball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_soccerball", "msg": "You deflate your handball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1481,7 +1492,15 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_waterball", "msg": "You deflate your water polo ball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_waterball",
+        "msg": "You deflate your water polo ball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1499,7 +1518,12 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": { "menu_text": "Inflate", "type": "transform", "target": "waterball", "msg": "You inflate your water polo ball.  To the pool!" }
+    "use_action": {
+      "menu_text": "Inflate",
+      "type": "transform",
+      "target": "waterball",
+      "msg": "You inflate your water polo ball.  To the pool!"
+    }
   },
   {
     "type": "GENERIC",
@@ -1517,7 +1541,10 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_dodgeball", "msg": "You deflate your dodgeball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_dodgeball", "msg": "You deflate your dodgeball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1553,7 +1580,15 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_gfootball", "msg": "You deflate your Gaelic football." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_gfootball",
+        "msg": "You deflate your Gaelic football."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1571,7 +1606,12 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": { "menu_text": "Inflate", "type": "transform", "target": "gfootball", "msg": "You inflate your Gaelic football.  Duine ann!" }
+    "use_action": {
+      "menu_text": "Inflate",
+      "type": "transform",
+      "target": "gfootball",
+      "msg": "You inflate your Gaelic football.  Duine ann!"
+    }
   },
   {
     "type": "GENERIC",
@@ -1589,7 +1629,10 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_cestoball", "msg": "You deflate your cestoball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_cestoball", "msg": "You deflate your cestoball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1625,7 +1668,7 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_netball", "msg": "You deflate your netball." } ]
+    "use_action": [ "PLAY", { "menu_text": "Deflate", "type": "transform", "target": "df_netball", "msg": "You deflate your netball." } ]
   },
   {
     "type": "GENERIC",
@@ -1661,7 +1704,10 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 3 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_korfball", "msg": "You deflate your korfball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_korfball", "msg": "You deflate your korfball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1697,7 +1743,10 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 5 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_fistball", "msg": "You deflate your fistball." } ]
+    "use_action": [
+      "PLAY",
+      { "menu_text": "Deflate", "type": "transform", "target": "df_fistball", "msg": "You deflate your fistball." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1733,7 +1782,15 @@
     "longest_side": "220 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 6 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_futsalball", "msg": "You deflate your futsalball." } ]
+    "use_action": [
+      "PLAY",
+      {
+        "menu_text": "Deflate",
+        "type": "transform",
+        "target": "df_futsalball",
+        "msg": "You deflate your futsalball."
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1769,7 +1826,7 @@
     "longest_side": "800 mm",
     "to_hit": -1,
     "melee_damage": { "bash": 5 },
-    "use_action": [ "PLAY" , { "menu_text": "Deflate", "type": "transform", "target": "df_kinball", "msg": "You deflate your kinball." } ]
+    "use_action": [ "PLAY", { "menu_text": "Deflate", "type": "transform", "target": "df_kinball", "msg": "You deflate your kinball." } ]
   },
   {
     "type": "GENERIC",
