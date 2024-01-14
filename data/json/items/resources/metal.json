@@ -494,6 +494,21 @@
     "material": [ "qt_steel" ]
   },
   {
+    "id": "1l_aluminum",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L aluminum ingot" },
+    "description": "A one-liter ingot of solid aluminum.",
+    "weight": "2700 g",
+    "volume": "1 L",
+    "price": 74,
+    "price_postapoc": 15,
+    "material": [ "aluminum" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "5l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
@@ -554,6 +569,21 @@
     "ammo_type": "components"
   },
   {
+    "id": "1l_bronze",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L bronze ingot" },
+    "description": "A one-liter ingot of solid bronze.",
+    "weight": "7690 g",
+    "volume": "1 L",
+    "price": 130039,
+    "price_postapoc": 1300,
+    "material": [ "bronze" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
     "id": "5l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
@@ -581,6 +611,21 @@
     "material": [ "bronze" ],
     "symbol": "=",
     "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
+    "id": "1l_copper",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L copper ingot" },
+    "description": "A one-liter ingot of solid copper.",
+    "weight": "8960 g",
+    "volume": "1 L",
+    "price": 2315,
+    "price_postapoc": 23,
+    "material": [ "copper" ],
+    "symbol": "=",
+    "color": "brown",
     "ammo_type": "components"
   },
   {
@@ -682,6 +727,22 @@
     "volume": "5 L",
     "price": 11575,
     "price_postapoc": 116,
+    "material": [ "zinc" ],
+    "symbol": "=",
+    "color": "white",
+    "ammo_type": "components"
+  },
+  {
+    "id": "1l_zinc",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L zinc ingot" },
+    "description": "A one-liter ingot of solid zinc.",
+    "weight": "7100 g",
+    "volume": "1 L",
+    "price": 2315,
+    "//": "A slight loss on rounding down",
+    "price_postapoc": 23,
     "material": [ "zinc" ],
     "symbol": "=",
     "color": "white",

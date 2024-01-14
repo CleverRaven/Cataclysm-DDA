@@ -311,10 +311,18 @@
     "result": "5l_zinc",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_zinc", 5 ] ] ]
+  },
+  {
+    "result": "1l_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "//": "perfect = 20000; subtracted 5.5% loss",
-    "components": [ [ [ "zinc_metal", 18900 ] ] ]
+    "//": "[was] perfect = 20000; subtracted 5.5% loss",
+    "components": [ [ [ "zinc_metal", 3780 ] ] ]
   },
   {
     "result": "exodii_ingot_steel",
@@ -360,9 +368,17 @@
     "result": "5l_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_copper", 5 ] ] ]
+  },
+  {
+    "result": "1l_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 170 ] ] ]
+    "components": [ [ [ "scrap_copper", 34 ] ] ]
   },
   {
     "result": "10l_bronze",
@@ -376,9 +392,18 @@
     "result": "5l_bronze",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_bronze", 5 ] ] ]
+  },
+  {
+    "result": "1l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_bronze", 121 ] ] ]
+    "//": "Slight loss from rounding",
+    "components": [ [ [ "scrap_bronze", 24 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",
@@ -400,9 +425,17 @@
     "result": "5l_aluminum",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
+    "time": "30 m",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 54 ] ] ]
+    "components": [ [ [ "1l_aluminum", 5 ] ] ]
+  },
+  {
+    "result": "1l_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 10 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",

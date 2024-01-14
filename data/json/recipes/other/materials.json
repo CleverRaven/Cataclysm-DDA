@@ -106,6 +106,46 @@
     "components": [ [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
+    "result": "10l_bronze",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_bronze", 2 ] ] ]
+  },
+  {
+    "result": "5l_bronze",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_bronze", 5 ] ] ]
+  },
+  {
+    "result": "1l_bronze",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "//": "There is a slight loss here, but rounding up would mean you could create more magically.",
+    "components": [ [ [ "scrap_bronze", 25 ] ] ]
+  },
+  {
     "result": "scrap_bronze",
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
@@ -136,6 +176,45 @@
       ],
       [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
+  },
+  {
+    "result": "10l_copper",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_copper", 2 ] ] ]
+  },
+  {
+    "result": "5l_copper",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_copper", 5 ] ] ]
+  },
+  {
+    "result": "1l_copper",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_copper", 34 ] ] ]
   },
   {
     "type": "recipe",
@@ -238,6 +317,45 @@
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]
+  },
+  {
+    "result": "10l_zinc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_zinc", 2 ] ] ]
+  },
+  {
+    "result": "5l_zinc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_zinc", 5 ] ] ]
+  },
+  {
+    "result": "1l_zinc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_aluminum", 3780 ] ] ]
   },
   {
     "type": "recipe",
@@ -939,6 +1057,46 @@
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
+  },
+  {
+    "result": "10l_aluminum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_aluminum", 2 ] ] ]
+  },
+  {
+    "result": "5l_aluminum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_aluminum", 5 ] ] ]
+  },
+  {
+    "result": "1l_aluminum",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "//": "There is a slight loss here, but rounding up would mean you could create more magically.",
+    "components": [ [ [ "scrap_aluminum", 11 ] ] ]
   },
   {
     "result": "10l_tin",
