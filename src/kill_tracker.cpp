@@ -53,13 +53,17 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
     auto it = kills.find( mon );
     if( it != kills.end() ) {
         if( it->first->has_flag( mon_flag_GUILT_ANIMAL ) ) {
-            return animals += 1;
+            animals += 1;
+            return animals;
         } else if( it->first->has_flag( mon_flag_GUILT_CHILD ) ) {
-            return children += 1;
+            children += 1;
+            return children;
         } else if( it->first->has_flag( mon_flag_GUILT_HUMANS ) ) {
-            return humans += 1;
+            humans += 1;
+            return humans;
         } else if( it->first->has_flag( mon_flag_GUILT_OTHERS ) ) {
-            return others += 1;
+            others += 1;
+            return others;
         }
     }
     return it->second;
