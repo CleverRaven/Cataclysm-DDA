@@ -52,15 +52,16 @@
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
+    "//": "surface area of XL body assumed to be 150% size and materials used are also 150% as much.",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gambeson_xs",
     "type": "ARMOR",
-    "copy-from": "gambeson",
-    "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
+    "copy-from": "gambeson",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -258,7 +259,6 @@
   },
   {
     "id": "xl_gambeson_gloves",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL arming mittens", "str_pl": "pairs of XL arming mittens" },
     "copy-from": "gambeson_gloves",
@@ -307,7 +307,6 @@
   },
   {
     "id": "xl_gambeson_hood",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL padded coif" },
     "copy-from": "gambeson_hood",
@@ -316,7 +315,6 @@
   },
   {
     "id": "xs_gambeson_hood",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS padded coif" },
     "copy-from": "gambeson_hood",
@@ -340,18 +338,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 10
-      },
-      {
-        "encumbrance": 15
-      }
-    ]
+    "armor": [ { "encumbrance": 10 }, { "encumbrance": 15 } ]
   },
   {
     "id": "xl_aketon_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas aketon" },
     "copy-from": "aketon_canvas",
@@ -360,7 +350,6 @@
   },
   {
     "id": "xs_aketon_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas aketon" },
     "copy-from": "aketon_canvas",
@@ -382,15 +371,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 10
-      }
-    ]
+    "armor": [ { "encumbrance": 10 } ]
   },
   {
     "id": "xl_aketon_canvas_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas aketon vest" },
     "copy-from": "aketon_canvas_vest",
@@ -399,7 +383,6 @@
   },
   {
     "id": "xs_aketon_canvas_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas aketon vest" },
     "copy-from": "aketon_canvas_vest",
@@ -420,15 +403,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 15
-      }
-    ]
+    "armor": [ { "encumbrance": 15 } ]
   },
   {
     "id": "xl_aketon_pants_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas arming pants", "str_pl": "pairs of XL canvas arming pants" },
     "copy-from": "aketon_pants_canvas",
@@ -437,7 +415,6 @@
   },
   {
     "id": "xs_aketon_pants_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas arming pants", "str_pl": "pairs of XS canvas arming pants" },
     "copy-from": "aketon_pants_canvas",
@@ -458,14 +435,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-      }
-    ]
+    "armor": [ {  } ]
   },
   {
     "id": "xl_aketon_hood_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas coif" },
     "copy-from": "aketon_hood_canvas",
@@ -474,7 +447,6 @@
   },
   {
     "id": "xs_aketon_hood_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas coif" },
     "copy-from": "aketon_hood_canvas",
@@ -494,15 +466,10 @@
     "environmental_protection": 3,
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
-    "armor": [
-      {
-        "encumbrance": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 20 } ]
   },
   {
     "id": "xl_aketon_gloves_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas arming gloves", "str_pl": "pairs of XL canvas arming gloves" },
     "copy-from": "aketon_gloves_canvas",
@@ -511,7 +478,6 @@
   },
   {
     "id": "xs_aketon_gloves_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas arming gloves", "str_pl": "pairs of XS canvas arming gloves" },
     "copy-from": "aketon_gloves_canvas",
@@ -536,23 +502,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 20
-      },
-      {
-        "encumbrance": 25,
-        "//warmth": 50
-      },
-      {
-        "encumbrance": 7,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 20 }, { "encumbrance": 25, "//warmth": 50 }, { "encumbrance": 7, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas gambeson" },
     "copy-from": "gambeson_canvas",
@@ -561,7 +514,6 @@
   },
   {
     "id": "xs_gambeson_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas gambeson" },
     "copy-from": "gambeson_canvas",
@@ -586,23 +538,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 20
-      },
-      {
-        "encumbrance": 15,
-        "//warmth": 30
-      },
-      {
-        "encumbrance": 7,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 20 }, { "encumbrance": 15, "//warmth": 30 }, { "encumbrance": 7, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_canvas_thinsleeved",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL thin-sleeved canvas gambeson" },
     "copy-from": "gambeson_canvas_thinsleeved",
@@ -611,7 +550,6 @@
   },
   {
     "id": "xs_gambeson_canvas_thinsleeved",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS thin-sleeved canvas gambeson" },
     "copy-from": "gambeson_canvas_thinsleeved",
@@ -635,19 +573,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 20
-      },
-      {
-        "encumbrance": 7,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 20 }, { "encumbrance": 7, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_canvas_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL sleeveless canvas gambeson" },
     "copy-from": "gambeson_canvas_vest",
@@ -656,7 +585,6 @@
   },
   {
     "id": "xs_gambeson_canvas_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS sleeveless canvas gambeson" },
     "copy-from": "gambeson_canvas_vest",
@@ -677,11 +605,10 @@
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-        "encumbrance": 25
+    "encumbrance": 25
   },
   {
     "id": "xl_gambeson_pants_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas heavy arming pants", "str_pl": "pairs of XL canvas heavy arming pants" },
     "copy-from": "gambeson_pants_canvas",
@@ -706,17 +633,16 @@
     "copy-from": "gambeson_gloves",
     "name": { "str": "canvas arming mittens", "str_pl": "pairs of canvas arming mittens" },
     "description": "Very thick canvas gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
-    "weight": "684 g", // Comment doesn't match previous weight
+    "weight": "684 g",
     "material_thickness": 6.0,
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
     "repairs_with": [ "canvas" ],
     "extend": { "flags": [ "WATERPROOF" ] },
-        "encumbrance": 30
+    "encumbrance": 30
   },
   {
     "id": "xl_gambeson_gloves_canvas",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL canvas arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
     "copy-from": "gambeson_gloves_canvas",
@@ -748,18 +674,10 @@
     "environmental_protection": 3,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 7
-      },
-      {
-        "encumbrance": 10
-      }
-    ]
+    "armor": [ { "encumbrance": 7 }, { "encumbrance": 10 } ]
   },
   {
     "id": "xl_aketon_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon aketon" },
     "copy-from": "aketon_nylon",
@@ -768,7 +686,6 @@
   },
   {
     "id": "xs_aketon_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon aketon" },
     "copy-from": "aketon_nylon",
@@ -788,15 +705,10 @@
     "environmental_protection": 3,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 7
-      }
-    ]
+    "armor": [ { "encumbrance": 7 } ]
   },
   {
     "id": "xl_aketon_nylon_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon aketon vest" },
     "copy-from": "aketon_nylon_vest",
@@ -805,7 +717,6 @@
   },
   {
     "id": "xs_aketon_nylon_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon aketon vest" },
     "copy-from": "aketon_canvas_vest",
@@ -825,15 +736,10 @@
     "environmental_protection": 3,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 10
-      }
-    ]
+    "armor": [ { "encumbrance": 10 } ]
   },
   {
     "id": "xl_aketon_pants_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon arming pants", "str_pl": "pairs of XL nylon arming pants" },
     "copy-from": "aketon_pants_nylon",
@@ -842,7 +748,6 @@
   },
   {
     "id": "xs_aketon_pants_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon arming pants", "str_pl": "pairs of XS nylon arming pants" },
     "copy-from": "aketon_pants_nylon",
@@ -860,12 +765,11 @@
     "weight": "540 g",
     "warmth": 25,
     "environmental_protection": 3,
-    "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" }
-    ]
+    "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
+    "armor": [ {  } ]
   },
   {
     "id": "xl_aketon_hood_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon coif" },
     "copy-from": "aketon_hood_canvas",
@@ -874,7 +778,6 @@
   },
   {
     "id": "xs_aketon_hood_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon coif" },
     "copy-from": "aketon_hood_canvas",
@@ -893,15 +796,10 @@
     "warmth": 25,
     "environmental_protection": 3,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
-    "armor": [
-      {
-        "encumbrance": 15
-      }
-    ]
+    "armor": [ { "encumbrance": 15 } ]
   },
   {
     "id": "xl_aketon_gloves_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon arming gloves", "str_pl": "pairs of XL nylon arming gloves" },
     "copy-from": "aketon_gloves_nylon",
@@ -910,7 +808,6 @@
   },
   {
     "id": "xs_aketon_gloves_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon arming gloves", "str_pl": "pairs of XS nylon arming gloves" },
     "copy-from": "aketon_gloves_nylon",
@@ -934,23 +831,10 @@
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 15
-      },
-      {
-        "encumbrance": 21,
-        "//warmth": 50
-      },
-      {
-        "encumbrance": 5,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 15 }, { "encumbrance": 21, "//warmth": 50 }, { "encumbrance": 5, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon gambeson" },
     "copy-from": "gambeson_nylon",
@@ -959,7 +843,6 @@
   },
   {
     "id": "xs_gambeson_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon gambeson" },
     "copy-from": "gambeson_nylon",
@@ -983,23 +866,10 @@
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 15
-      },
-      {
-        "encumbrance": 10,
-        "//warmth": 30
-      },
-      {
-        "encumbrance": 5,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 15 }, { "encumbrance": 10, "//warmth": 30 }, { "encumbrance": 5, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_nylon_thinsleeved",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL thin-sleeved nylon gambeson" },
     "copy-from": "gambeson_nylon_thinsleeved",
@@ -1008,7 +878,6 @@
   },
   {
     "id": "xs_gambeson_nylon_thinsleeved",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS thin-sleeved nylon gambeson" },
     "copy-from": "gambeson_nylon_thinsleeved",
@@ -1031,19 +900,10 @@
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 15
-      },
-      {
-        "encumbrance": 7,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 15 }, { "encumbrance": 7, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_nylon_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL sleeveless nylon gambeson" },
     "copy-from": "gambeson_nylon_vest",
@@ -1052,7 +912,6 @@
   },
   {
     "id": "xs_gambeson_nylon_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS sleeveless nylon gambeson" },
     "copy-from": "gambeson_nylon_vest",
@@ -1072,15 +931,10 @@
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 21
-      }
-    ]
+    "armor": [ { "encumbrance": 21 } ]
   },
   {
     "id": "xl_gambeson_pants_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon heavy arming pants", "str_pl": "pairs of XL nylon heavy arming pants" },
     "copy-from": "gambeson_pants_nylon",
@@ -1089,7 +943,6 @@
   },
   {
     "id": "xs_gambeson_pants_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon heavy arming pants", "str_pl": "pairs of XS nylon heavy arming pants" },
     "copy-from": "gambeson_pants_nylon",
@@ -1110,19 +963,10 @@
     "environmental_protection": 4,
     "replace_materials": { "cotton_quilted": "nylon_quilted", "cotton": "nylon_quilted_2" },
     "extend": { "flags": [ "WATERPROOF" ] },
-    "armor": [
-      {
-        "encumbrance": 28
-      },
-      {
-      },
-      {
-      }
-    ]
+    "armor": [ { "encumbrance": 28 }, {  }, {  } ]
   },
   {
     "id": "xl_gambeson_gloves_nylon",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL nylon arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
     "copy-from": "gambeson_gloves_nylon",
@@ -1131,7 +975,6 @@
   },
   {
     "id": "xs_gambeson_gloves_nylon",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS nylon arming mittens", "str_pl": "pairs of XS nylon arming mittens" },
     "copy-from": "gambeson_gloves_nylon",
@@ -1153,18 +996,10 @@
     "weight": "4355 g",
     "warmth": 33,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance": 9
-      },
-      {
-        "encumbrance": 13
-      }
-    ]
+    "armor": [ { "encumbrance": 9 }, { "encumbrance": 13 } ]
   },
   {
     "id": "xl_aketon_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool aketon" },
     "copy-from": "aketon_wool",
@@ -1173,7 +1008,6 @@
   },
   {
     "id": "xs_aketon_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool aketon" },
     "copy-from": "aketon_wool",
@@ -1197,7 +1031,6 @@
   },
   {
     "id": "xl_aketon_wool_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool aketon vest" },
     "copy-from": "aketon_wool_vest",
@@ -1206,7 +1039,6 @@
   },
   {
     "id": "xs_aketon_wool_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool aketon vest" },
     "copy-from": "aketon_wool_vest",
@@ -1229,7 +1061,6 @@
   },
   {
     "id": "xl_aketon_pants_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool arming pants", "str_pl": "pairs of XL wool arming pants" },
     "copy-from": "aketon_pants_wool",
@@ -1238,7 +1069,6 @@
   },
   {
     "id": "xs_aketon_pants_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool arming pants", "str_pl": "pairs of XS wool arming pants" },
     "copy-from": "aketon_pants_canvas",
@@ -1261,7 +1091,6 @@
   },
   {
     "id": "xl_aketon_hood_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool coif" },
     "copy-from": "aketon_hood_wool",
@@ -1270,7 +1099,6 @@
   },
   {
     "id": "xs_aketon_hood_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool coif" },
     "copy-from": "aketon_hood_wool",
@@ -1290,11 +1118,10 @@
     "warmth": 28,
     "environmental_protection": 1,
     "replace_materials": { "cotton_quilted": "wool_quilted", "cotton": "wool_quilted_2" },
-        "encumbrance": 18
+    "encumbrance": 18
   },
   {
     "id": "xl_aketon_gloves_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool arming gloves", "str_pl": "pairs of XL wool arming gloves" },
     "copy-from": "aketon_gloves_wool",
@@ -1303,7 +1130,6 @@
   },
   {
     "id": "xs_aketon_gloves_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool arming gloves", "str_pl": "pairs of XS wool arming gloves" },
     "copy-from": "aketon_gloves_wool",
@@ -1327,23 +1153,10 @@
     "warmth": 66,
     "environmental_protection": 1,
     "replace_materials": { "cotton_quilted": "wool_quilted", "cotton": "wool_quilted_2" },
-    "armor": [
-      {
-        "encumbrance": 18
-      },
-      {
-        "encumbrance": 23,
-        "//warmth": 55
-      },
-      {
-        "encumbrance": 6,
-        "//warmth": 22
-      }
-    ]
+    "armor": [ { "encumbrance": 18 }, { "encumbrance": 23, "//warmth": 55 }, { "encumbrance": 6, "//warmth": 22 } ]
   },
   {
     "id": "xl_gambeson_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool gambeson" },
     "copy-from": "gambeson_wool",
@@ -1352,7 +1165,6 @@
   },
   {
     "id": "xs_gambeson_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool gambeson" },
     "copy-from": "gambeson_wool",
@@ -1376,23 +1188,10 @@
     "warmth": 66,
     "environmental_protection": 1,
     "replace_materials": { "cotton_quilted": "wool_quilted", "cotton": "wool_quilted_2" },
-    "armor": [
-      {
-        "encumbrance": 18
-      },
-      {
-        "encumbrance": 23,
-        "//warmth": 33
-      },
-      {
-        "encumbrance": 6,
-        "//warmth": 22
-      }
-    ]
+    "armor": [ { "encumbrance": 18 }, { "encumbrance": 23, "//warmth": 33 }, { "encumbrance": 6, "//warmth": 22 } ]
   },
   {
     "id": "xl_gambeson_wool_thinsleeved",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL thin-sleeved wool gambeson" },
     "copy-from": "gambeson_wool_thinsleeved",
@@ -1401,7 +1200,6 @@
   },
   {
     "id": "xs_gambeson_wool_thinsleeved",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS thin-sleeved wool gambeson" },
     "copy-from": "gambeson_wool_thinsleeved",
@@ -1423,19 +1221,10 @@
     "weight": "7800 g",
     "warmth": 66,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance": 18
-      },
-      {
-        "encumbrance": 6,
-        "//warmth": 20
-      }
-    ]
+    "armor": [ { "encumbrance": 18 }, { "encumbrance": 6, "//warmth": 20 } ]
   },
   {
     "id": "xl_gambeson_wool_vest",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL sleeveless wool gambeson" },
     "copy-from": "gambeson_wool_vest",
@@ -1444,7 +1233,6 @@
   },
   {
     "id": "xs_gambeson_wool_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS sleeveless wool gambeson" },
     "copy-from": "gambeson_wool_vest",
@@ -1464,12 +1252,10 @@
     "warmth": 61,
     "environmental_protection": 1,
     "replace_materials": { "cotton_quilted": "wool_quilted", "cotton": "wool_quilted_2" },
-        "encumbrance": 23
-    ]
+    "armor": [ { "encumbrance": 23 } ]
   },
   {
     "id": "xl_gambeson_pants_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool heavy arming pants", "str_pl": "pairs of XL wool heavy arming pants" },
     "copy-from": "gambeson_pants_wool",
@@ -1478,7 +1264,6 @@
   },
   {
     "id": "xs_gambeson_pants_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool heavy arming pants", "str_pl": "pairs of XS wool heavy arming pants" },
     "copy-from": "gambeson_pants_wool",
@@ -1499,19 +1284,10 @@
     "warmth": 55,
     "environmental_protection": 1,
     "replace_materials": { "cotton_quilted": "wool_quilted", "cotton": "wool_quilted_2" },
-    "armor": [
-      {
-        "encumbrance": 29
-      },
-      {
-      },
-      {
-      }
-    ]
+    "armor": [ { "encumbrance": 29 }, {  }, {  } ]
   },
   {
     "id": "xl_gambeson_gloves_wool",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool arming mittens", "str_pl": "pairs of XL wool arming mittens" },
     "copy-from": "gambeson_gloves_wool",
@@ -1520,7 +1296,6 @@
   },
   {
     "id": "xs_gambeson_gloves_wool",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS wool arming mittens", "str_pl": "pairs of XS wool arming mittens" },
     "copy-from": "gambeson_gloves_wool",
