@@ -621,7 +621,6 @@
     ],
     "emit_fields": [ { "emit_id": "emit_hallucinogenic_spores", "delay": "2 s" } ],
     "death_drops": "default_zombie_death_drops",
-    "corpse_type": "NORMAL",
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
