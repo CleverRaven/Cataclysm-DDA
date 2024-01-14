@@ -336,7 +336,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "120 m",
-    "components": [ [ [ "warptoken", 6 ] ], [ [ "water_clean", 1000 ] ] ],
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "water_clean", 1000 ] ] ],
     "//": "Intention is for decoration, not to give you infinite water early",
     "pre_special": "check_empty",
     "post_terrain": "t_water_sh",

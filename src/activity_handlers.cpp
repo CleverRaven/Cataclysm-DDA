@@ -206,8 +206,6 @@ static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
@@ -846,7 +844,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     std::vector<item> objs;
     while( count > 0 ) {
         item obj( drop, calendar::turn, 1 );
-        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        obj.charges = std::min( count, DEFAULT_TILE_VOLUME / obj.volume() );
         count -= obj.charges;
 
         if( obj.has_temperature() ) {
@@ -2535,7 +2533,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->link || used_tool->has_flag( flag_USE_UPS ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) || used_tool->has_link_data() ) {
             ammo_name = _( "battery" );
             current_ammo = ammo_battery;
         } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {

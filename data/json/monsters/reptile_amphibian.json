@@ -293,7 +293,7 @@
   {
     "abstract": "mon_proxy_tadpole",
     "type": "MONSTER",
-    "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.",
+    "description": "The larval form of some species of frog.  This one is only hypothetical and you shouldn't be seeing it without debug.",
     "name": { "str": "tadpole" },
     "default_faction": "fish",
     "bodytype": "fish",
@@ -313,7 +313,7 @@
     "harvest": "mammal_tiny",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SWARMS" ]
   },
   {
     "id": "mon_leo_tadpole",
@@ -329,6 +329,7 @@
     "type": "MONSTER",
     "copy-from": "mon_leo_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 22, "into": "mon_pattern_frog" }
   },
@@ -340,7 +341,7 @@
     "description": "Every part of this speckled, green-brown tadpole is thick and broad.  It must be from some larger species of frog.",
     "color": "green",
     "volume": "240 ml",
-    "weight": "40 g",
+    "weight": "120 g",
     "hp": 2,
     "upgrades": { "age_grow": 91, "into": "mon_bullfrog_frog" }
   },
@@ -349,6 +350,7 @@
     "type": "MONSTER",
     "copy-from": "mon_bullfrog_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 22, "into": "mon_strange_frog" }
   },
@@ -358,13 +360,15 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" }
+    "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" },
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_foul_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_fowler_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 8, "into": "mon_foul_toad" }
   },
@@ -374,15 +378,17 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" }
+    "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" },
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_freedom_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "volume": "240 ml",
-    "weight": "40 g",
+    "weight": "120 g",
     "hp": 2,
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_odd_toad" }
@@ -401,6 +407,7 @@
     "type": "MONSTER",
     "copy-from": "mon_peeper_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_vocal_frog" }
   },
@@ -418,6 +425,7 @@
     "type": "MONSTER",
     "copy-from": "mon_gray_tadpole",
     "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
   },
@@ -432,7 +440,7 @@
     "volume": "2 L",
     "weight": "1500 g",
     "hp": 10,
-    "speed": 150,
+    "speed": 120,
     "material": [ "flesh" ],
     "symbol": "J",
     "color": "brown",
@@ -474,7 +482,8 @@
     "copy-from": "mon_proxy_bigtad",
     "description": "This big tadpole has already grown some warty bumps on its softball-sized body.  Its nearly whip-thin tail appears to have no trouble propelling its much larger core.",
     "name": { "str": "giant tadpole" },
-    "upgrades": { "age_grow": 8, "into": "mon_foul_bigfrog" }
+    "upgrades": { "age_grow": 8, "into": "mon_foul_bigfrog" },
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_bigtad",
@@ -482,7 +491,8 @@
     "copy-from": "mon_proxy_bigtad",
     "description": "Some kind of giant tadpole.  This speckled one has a body the size of a grapefruit and a thin, tapered tail.  It flits about the water in quick bursts.",
     "name": { "str": "giant tadpole" },
-    "upgrades": { "age_grow": 10, "into": "mon_odd_bigfrog" }
+    "upgrades": { "age_grow": 10, "into": "mon_odd_bigfrog" },
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "abstract": "mon_proxy_frog",
@@ -500,7 +510,7 @@
     "speed": 80,
     "material": [ "flesh" ],
     "symbol": "b",
-    "color": "green",
+    "color": "brown",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
@@ -509,8 +519,8 @@
     "harvest": "mammal_tiny",
     "vision_night": 30,
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE", "SMALL_HIDER", "SWARMS" ]
   },
   {
     "id": "mon_leo_frog",
@@ -527,9 +537,9 @@
     "copy-from": "mon_leo_frog",
     "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
     "name": { "str": "strangely-patterned frog" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -541,6 +551,8 @@
     "volume": "1000 ml",
     "weight": "750 g",
     "hp": 4,
+    "color": "green",
+    "harvest": "bullfrog",
     "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
@@ -550,12 +562,12 @@
     "copy-from": "mon_bullfrog_frog",
     "description": "Based on its vestigial tail, you would surmise that this bullfrog still has some growing to do.  That is if it weren't already larger than any adult frog.",
     "name": { "str": "strange bullfrog" },
+    "categories": [ "NULL" ],
     "volume": "4 L",
     "weight": "3 kg",
     "hp": 12,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_strange_bigfrog" },
-    "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 26 }
+    "upgrades": { "age_grow": 15, "into": "mon_strange_bigfrog" }
   },
   {
     "id": "mon_fowler_toad",
@@ -564,7 +576,8 @@
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
     "name": { "str": "fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_foul_toad",
@@ -572,10 +585,10 @@
     "copy-from": "mon_fowler_toad",
     "description": "You could almost smell it before you saw it.  This toad reeks.  You're not quite sure what like, but it's hot and musky and it sticks in your nose until you're tasting it.",
     "name": { "str": "foul toad" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_foul_bigfrog" },
-    "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 36 },
-    "extend": { "flags": [ "NO_BREATHE" ] },
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "NO_BREATHE flag is to prevent gassing by other 'foul' toads.  When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
   {
@@ -585,7 +598,8 @@
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
     "name": { "str": "american toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_odd_toad",
@@ -593,12 +607,12 @@
     "copy-from": "mon_freedom_toad",
     "description": "Wide as a watermelon and halfway up to your knee, this toad's size is alarming.  So too are its odd proportions.  It's as if it hasn't fully grown.",
     "name": { "str": "odd toad" },
+    "categories": [ "NULL" ],
     "volume": "4 L",
     "weight": "3 kg",
     "hp": 12,
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_odd_bigfrog" },
-    "reproduction": { "baby_egg": "egg_odd_toad", "baby_count": 8, "baby_timer": 36 }
+    "upgrades": { "age_grow": 15, "into": "mon_odd_bigfrog" }
   },
   {
     "id": "mon_peeper_frog",
@@ -609,6 +623,7 @@
     "volume": "20 ml",
     "weight": "4 g",
     "hp": 1,
+    "special_attacks": [ [ "PARROT", 100 ] ],
     "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
@@ -616,11 +631,12 @@
     "id": "mon_vocal_frog",
     "type": "MONSTER",
     "copy-from": "mon_peeper_frog",
-    "description": "Like a powered machine, this frog never seems to stop making noise.  When it calls, its whole torso expands like an inflatable suit.",
+    "description": "A small brown frog with a very big voice.  When it calls, its whole criss-crossed torso expands and trembles like an inflatable suit.  The loud squeaky sound it makes is more charming than troubling.  The frequency can be exhausting.",
     "name": { "str": "vocal treefrog" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
-    "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 8, "baby_timer": 20 },
-    "//": "When possible, add frequent parroting."
+    "special_attacks": [ [ "PARROT", 30 ] ],
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_VOCAL" }
   },
   {
     "id": "mon_gray_frog",
@@ -631,6 +647,7 @@
     "volume": "150 ml",
     "weight": "10 g",
     "hp": 2,
+    "color": "light_gray",
     "reproduction": { "baby_egg": "egg_gray_frog", "baby_count": 8, "baby_timer": 26 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "CAMOUFLAGE" ] }
@@ -641,8 +658,9 @@
     "copy-from": "mon_gray_frog",
     "description": "You've seen it wrinkle its skin into bark and disappear on a tree; settle on a toadstool and take its spots.  It's no trick of the light, this frog's skin shifts not just color but texture.",
     "name": { "str": "shifting treefrog" },
+    "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
-    "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 8, "baby_timer": 26 }
+    "upgrades": { "age_grow": 15, "into": "mon_shift_bigfrog" }
   },
   {
     "abstract": "mon_proxy_bigfrog",
@@ -658,7 +676,8 @@
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "m",
-    "color": "light_green",
+    "color": "brown",
+    "aggression": -10,
     "morale": 20,
     "aggro_character": false,
     "melee_skill": 5,
@@ -684,11 +703,11 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "fear_triggers": [ "FRIEND_DIED", "FIRE" ],
+    "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "zombify_into": "mon_zombullfrog",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
   },
   {
     "id": "mon_strange_bigfrog",
@@ -696,8 +715,11 @@
     "name": { "str": "mutant bullfrog" },
     "description": "A mutant bullfrog larger than most dogs.  It looks unwell, as if this growth spurt was less than comfortable.",
     "copy-from": "mon_proxy_bigfrog",
+    "color": "light_green",
+    "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
-    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "delete": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_odd_bigfrog",
@@ -705,9 +727,11 @@
     "name": { "str": "oversized toad" },
     "description": "This toad seems to have been mutated to absurd size by the Cataclysm.  It's only half your size but that hardly feels comforting.",
     "copy-from": "mon_proxy_bigfrog",
-    "color": "brown",
+    "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
-    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "extend": { "flags": [ "POISON" ] },
+    "delete": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_pattern_bigfrog",
@@ -721,9 +745,8 @@
     "speed": 80,
     "symbol": "x",
     "color": "light_blue",
-    "aggression": -10,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "electric", "amount": 2 }, { "damage_type": "cut", "amount": 1 } ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 3 }, { "damage_type": "cut", "amount": 1 } ],
     "armor": { "bash": 2, "acid": 2, "heat": 1, "electric": 4 },
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "luminance": 3,
@@ -739,10 +762,9 @@
     "copy-from": "mon_proxy_bigfrog",
     "volume": "30 L",
     "weight": "20 kg",
+    "hp": 40,
     "speed": 70,
     "symbol": "g",
-    "color": "brown",
-    "aggression": -10,
     "melee_dice_sides": 4,
     "armor": { "bash": 2, "acid": 4, "heat": 1 },
     "emit_fields": [ { "emit_id": "emit_tear_gas_toad", "delay": "1 s" } ],
@@ -758,8 +780,74 @@
     ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
-    "extend": { "flags": [ "NO_BREATHE" ] },
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add an AOE burst & temporary trail of slippery, toxic grease on several hour cooldown.  The toad can expel grease like a squid with ink.  The grease offgasses into something between tear gas and a blister agent, hence the smell.  NO_BREATHE flag is to prevent self-gassing."
+  },
+  {
+    "id": "mon_jumbo_bigfrog",
+    "type": "MONSTER",
+    "name": { "str": "jumbo treefrog" },
+    "description": "On, thick over-proportioned legs this large treefrog slings its weight with notable force.  It doesn't seem a danger, but its size is still cause for concern.  Even scrunched up, it is as large as a Thanksgiving turkey.",
+    "copy-from": "mon_proxy_bigfrog",
+    "volume": "20 L",
+    "weight": "14 kg",
+    "hp": 20,
+    "speed": 110,
+    "symbol": "k",
+    "morale": 10,
+    "melee_dice_sides": 2,
+    "dodge": 3,
+    "grab_strength": 1,
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "move_cost": 0,
+        "max_range": 12,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
+    ],
+    "fear_triggers": [ "HURT", "FRIEND_DIED", "FIRE", "SOUND" ],
+    "anger_triggers": [ "PLAYER_CLOSE", "MATING_SEASON" ],
+    "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 12, "baby_timer": 20 },
+    "delete": { "flags": [ "SWARMS" ] },
+    "harvest": "bullfrog",
+    "//": "Give climbing (Z axis) ability when available."
+  },
+  {
+    "id": "mon_vocal_bigfrog",
+    "type": "MONSTER",
+    "name": { "str": "wailing treefrog" },
+    "description": "Now the size of a dog, this tan, speckled tree frog will not stop making noise.  Its increased size has only boosted its volume.  It belts out sound in a relentless series of piercing, grinding chirps.",
+    "copy-from": "mon_jumbo_bigfrog",
+    "special_attacks": [
+      [ "PARROT", 30 ],
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "move_cost": 0,
+        "max_range": 12,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
+    ],
+    "//": "Give climbing (Z axis) ability when available."
+  },
+  {
+    "id": "mon_shift_bigfrog",
+    "type": "MONSTER",
+    "name": { "str": "mimic treefrog" },
+    "description": "You've seen enough to gather that this is a frog with some very specialized camouflage.  Its skin appears able to reactively change texture and color to match its surroundings.  Like a morphing ghillie suit it can extend filaments to mimic individual leaves and blades of grass.  It is keen enough to match the swaying of brush in the wind.",
+    "copy-from": "mon_jumbo_bigfrog",
+    "speed": 130,
+    "color": "light_gray",
+    "dodge": 6,
+    "armor": { "bash": 5, "acid": 2, "heat": 5, "electric": 4 },
+    "vision_night": 35,
+    "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 12, "baby_timer": 20 },
+    "extend": { "flags": [ "CAMOUFLAGE" ] },
+    "//": "Give climbing (Z axis) ability when available."
   },
   {
     "abstract": "mon_proxy_giganfrog",
@@ -775,7 +863,7 @@
     "speed": 90,
     "material": [ "flesh" ],
     "symbol": "M",
-    "color": "light_green",
+    "color": "brown",
     "aggression": 10,
     "morale": 100,
     "aggro_character": false,
@@ -818,7 +906,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "zombify_into": "mon_zombullfrog",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
   },
   {
     "id": "mon_strange_giganfrog",
@@ -826,6 +914,7 @@
     "name": { "str": "giant bullfrog" },
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "copy-from": "mon_proxy_giganfrog",
+    "color": "light_green",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_STRANGE_MEGA" },
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 18, "baby_timer": 20 }
   },
@@ -835,10 +924,10 @@
     "name": { "str": "giant toad" },
     "description": "This toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
     "copy-from": "mon_proxy_giganfrog",
-    "color": "brown",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
     "zombify_into": "mon_gastro_bufo",
-    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 },
+    "extend": { "flags": [ "POISON" ] }
   },
   {
     "id": "mon_pattern_giganfrog",
@@ -848,15 +937,13 @@
     "copy-from": "mon_proxy_giganfrog",
     "volume": "200 L",
     "weight": "180 kg",
-    "hp": 80,
-    "speed": 70,
+    "hp": 100,
     "symbol": "P",
     "color": "light_blue",
     "aggression": -1,
-    "morale": 40,
+    "morale": 50,
     "melee_skill": 4,
-    "melee_damage": [ { "damage_type": "electric", "amount": 4 }, { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 1,
+    "melee_damage": [ { "damage_type": "electric", "amount": 6 }, { "damage_type": "cut", "amount": 1 } ],
     "armor": { "bash": 6, "cut": 2, "acid": 3, "heat": 3, "electric": 6 },
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "luminance": 2,
@@ -884,9 +971,10 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "special_when_hit": [ "ZAPBACK", 75 ],
+    "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
+    "extend": { "flags": [ "SWARMS" ] }
   },
   {
     "id": "mon_foul_giganfrog",
@@ -896,7 +984,6 @@
     "copy-from": "mon_proxy_giganfrog",
     "speed": 100,
     "symbol": "G",
-    "color": "brown",
     "melee_dice_sides": 20,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "armor": { "bash": 6, "cut": 3, "acid": 5, "heat": 2, "electric": 2 },
@@ -929,7 +1016,7 @@
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
-    "extend": { "flags": [ "NO_BREATHE" ] },
+    "extend": { "flags": [ "POISON", "NO_BREATHE", "SWARMS" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   },
   {
@@ -947,7 +1034,7 @@
     "speed": 80,
     "material": [ "flesh" ],
     "symbol": "F",
-    "color": "green",
+    "color": "brown",
     "aggression": 5,
     "morale": 100,
     "aggro_character": false,
@@ -989,7 +1076,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "zombify_into": "mon_frog_dad",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
   },
   {
     "id": "mon_strange_megafrog",
@@ -997,6 +1084,7 @@
     "name": { "str": "colossal croaker" },
     "description": "Bloated to titanic size, rivaling a moose, this mutated bullfrog takes several seconds just to blink each vacant eye.  In place of the cognition it has lost, the beast has gained an even more voracious appetite and the might to sustain it.",
     "copy-from": "mon_proxy_megafrog",
+    "color": "green",
     "special_attacks": [
       {
         "id": "ranged_pull",
@@ -1029,10 +1117,10 @@
     "name": { "str": "gargantuan toad" },
     "description": "This toad is of truly enormous stature, larger than many cars.  You can't help but wonder if it could fit as many people inside.",
     "copy-from": "mon_proxy_megafrog",
-    "color": "brown",
     "armor": { "bash": 18, "cut": 18, "bullet": 12, "electric": 4 },
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 32, "baby_timer": 20 },
+    "extend": { "flags": [ "POISON" ] },
     "//": "Simple wallowing, likes to create deep pits and lay in them."
   },
   {
@@ -1047,7 +1135,6 @@
     "regenerates": 2,
     "speed": 90,
     "symbol": "B",
-    "color": "brown",
     "aggression": 0,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -1093,7 +1180,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_gastro_bufo",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 32, "baby_timer": 20 },
-    "extend": { "flags": [ "NO_BREATHE" ] },
+    "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
   }
 ]

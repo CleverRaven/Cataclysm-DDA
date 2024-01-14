@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_tunnel_ravine_edge" ],
-    "weight": 5000000,
     "object": {
       "rows": [
         "##0.................####",

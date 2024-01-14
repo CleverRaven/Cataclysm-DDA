@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [
@@ -44,7 +44,7 @@
     "result": "milkshake_choc",
     "type": "recipe",
     "copy-from": "milkshake",
-    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_choc", 1 ] ],
@@ -78,6 +78,7 @@
     "skill_used": "cooking",
     "time": "12 m 30 s",
     "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
@@ -107,6 +108,7 @@
     "result": "milkshake_deluxe_choc",
     "type": "recipe",
     "copy-from": "milkshake_deluxe",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_choc", 1 ] ],

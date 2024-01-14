@@ -92,8 +92,6 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
-static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
-
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
@@ -1032,7 +1030,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                 sel.use_from = usage_from::both;
                 sel.comp = comp;
                 std::list<item> empty_consumed = player_character.consume_items( sel, 1,
-                                                 is_empty_crafting_component );
+                                                 is_preferred_crafting_component );
 
                 int left_to_consume = 0;
 

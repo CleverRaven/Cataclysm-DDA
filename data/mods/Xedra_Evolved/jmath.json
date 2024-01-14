@@ -69,5 +69,11 @@
     "id": "scaling_factor",
     "num_args": 1,
     "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "paraclesian_passive_spell_exp",
+    "num_args": 1,
+    "return": "u_skill('deduction') * 100 + _0"
   }
 ]

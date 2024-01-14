@@ -343,6 +343,13 @@
     "melee_damage": { "bash": 10 }
   },
   {
+    "id": "hotcut_bronze",
+    "type": "TOOL",
+    "copy-from": "hotcut",
+    "name": { "str": "hotcut" },
+    "material": [ "bronze" ]
+  },
+  {
     "id": "hotcut",
     "type": "TOOL",
     "name": { "str": "hotcut" },
@@ -392,6 +399,13 @@
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 3 },
     "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
+  },
+  {
+    "id": "metalworking_tongs_bronze",
+    "type": "TOOL",
+    "copy-from": "metalworking_tongs",
+    "name": { "str": "pair of flatjaw bronze tongs", "str_pl": "pairs of flatjaw bronze tongs" },
+    "material": [ "bronze" ]
   },
   {
     "id": "metalworking_tongs",

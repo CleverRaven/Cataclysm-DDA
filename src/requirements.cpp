@@ -995,6 +995,9 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
     } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
             return c_magenta;
         }
+        if( inv != nullptr && inv->must_use_hallu_poison( type, count * batch ) ) {
+            return c_magenta;
+        }
         // Will use favorited component
         if( !has( crafting_inv, [&filter]( const item & it ) {
         return filter( it ) && !it.is_favorite;

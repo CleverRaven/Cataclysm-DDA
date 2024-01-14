@@ -249,7 +249,7 @@
     "entries": [
       { "item": "weed", "prob": 40, "count": [ 1, 5 ] },
       { "prob": 40, "group": "coke_bag_zipper_1_8" },
-      { "prob": 40, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 40, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "syringe", "prob": 30 },
       { "prob": 20, "group": "meth_bag_zipper_1_6" },
@@ -372,7 +372,7 @@
       { "item": "weed", "prob": 40, "count": [ 1, 5 ] },
       { "prob": 20, "group": "coke_bag_zipper_1_8" },
       { "prob": 1, "group": "meth_bag_zipper_1_6" },
-      { "prob": 15, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
       [ "mag_porn", 30 ],
       [ "purse", 10 ],
       [ "hairpin", 3 ]
@@ -554,7 +554,7 @@
     "entries": [
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       { "prob": 10, "group": "coke_bag_zipper_1_8" },
-      { "prob": 45, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 45, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_news", "prob": 30 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 25 }
@@ -789,6 +789,9 @@
       { "item": "foodplace_zero_drink", "prob": 3, "container-item": "bottle_plastic", "sealed": false },
       { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "sparkling", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_plastic", "sealed": false },
       { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
       { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
       { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
@@ -798,7 +801,9 @@
       { "item": "zeroorange", "prob": 10, "container-item": "bottle_twoliter" },
       { "item": "zerotropical", "prob": 10, "container-item": "bottle_twoliter" },
       { "item": "zeromdew", "prob": 10, "container-item": "bottle_twoliter" },
-      { "item": "zeromdew", "prob": 2, "container-item": "bottle_twoliter" },
+      { "item": "sparkling", "prob": 7, "container-item": "bottle_twoliter" },
+      { "item": "sparkling_peach", "prob": 7, "container-item": "bottle_twoliter" },
+      { "item": "sparkling_pomegranate", "prob": 7, "container-item": "bottle_twoliter" },
       { "item": "tonic_water", "prob": 2, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
     ]

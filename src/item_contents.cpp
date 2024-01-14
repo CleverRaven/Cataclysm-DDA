@@ -674,7 +674,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                 if( pocket.is_type( pocket_type::MIGRATION ) ||
                     pocket.is_type( pocket_type::CORPSE ) ||
                     pocket.is_type( pocket_type::MAGAZINE ) ||
-                    pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
+                    pocket.is_type( pocket_type::MAGAZINE_WELL ) ||
+                    pocket.is_type( pocket_type::SOFTWARE ) ||
+                    pocket.is_type( pocket_type::EBOOK ) ) {
                     ++pocket_index;
                     for( const item *it : pocket.all_items_top() ) {
                         insert_item( *it, pocket.get_pocket_data()->type, ignore_contents );

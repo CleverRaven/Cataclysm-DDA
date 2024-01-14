@@ -564,7 +564,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -581,7 +581,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -598,7 +598,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -615,7 +615,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -632,7 +632,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -649,7 +649,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -666,7 +666,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -683,7 +683,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -1667,21 +1667,22 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_telepath_invisibility",
-    "name": [ "Obscurity" ],
-    "desc": [ "You are hiding your presence from your enemies." ],
+    "id": "telepathic_ignorance",
+    "name": [ "Ignorance" ],
+    "desc": [ "You're positive that no one is there." ],
     "apply_message": "",
-    "remove_message": "You are again visible and vulnerable.",
-    "decay_messages": [
-      [ "Your veil of obscurity is nearly gone.", "bad" ],
-      [ "You notice nearby enemies glancing in your direction.", "bad" ]
-    ],
+    "remove_message": "Wait a minute, there *is* someone there!",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "hidden effect so the monster knows who to ignore",
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "good",
-    "max_duration": "100 seconds",
-    "max_intensity": 14,
-    "dur_add_perc": 10,
-    "int_dur_factor": "7 s",
-    "flags": [ "INVISIBLE", "NO_SCENT" ]
+    "max_duration": "30 minutes"
   },
   {
     "type": "effect_type",
@@ -1693,7 +1694,17 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 17,
-    "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara", "psi_stunned" ],
+    "removes_effects": [
+      "taint",
+      "tindrift",
+      "hallu",
+      "hallucination_attacks",
+      "visuals",
+      "fearparalyze",
+      "amigara",
+      "psi_stunned",
+      "telepathic_ignorance"
+    ],
     "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
   },
   {

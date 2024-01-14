@@ -168,14 +168,13 @@
     "energy_increment": -190,
     "base_casting_time": 75,
     "final_casting_time": 15,
-    "casting_time_increment": -4.5,
-    "learn_spells": { "biokin_reflex_enhancey": 7, "biokin_combat_dance": 11 }
+    "casting_time_increment": -4.5
   },
   {
     "id": "biokin_change_appearance",
     "type": "SPELL",
     "name": "[Ψ]Flesh of Clay",
-    "description": "You can reshape your physical appearance, changing hair, skin, or eye color.  You own mother wouldn't recognize you when you're done.",
+    "description": "You can reshape your physical appearance, changing hair, skin, or eye color.  Your own mother wouldn't recognize you when you're done.",
     "message": "You physical appearance shifts!",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -254,8 +253,7 @@
     "energy_increment": -165,
     "base_casting_time": 100,
     "final_casting_time": 35,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_reflex_enhance": 7, "biokin_combat_dance": 11 }
+    "casting_time_increment": -5.5
   },
   {
     "id": "biokin_climate_control",
@@ -304,6 +302,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },

@@ -22,7 +22,9 @@ static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_betablock( "betablock" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
@@ -328,7 +330,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_health();
     }
 
-    if( calendar::once_every( 10_minutes ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         update_bloodvol_index();
         update_heartrate_index();
         update_circulation();
@@ -938,6 +940,18 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
+        // For vitamins, normal vitamins go through guts.
+        // However, drug vitamins skip guts and get absorbed directly into the body.
+        for( const auto &vitamin : digested_to_guts.nutr.vitamins() ) {
+            // collect all drug vitamins in a map
+            std::map<vitamin_id, int> drug_vitamins;
+            const vitamin_type &vitamin_type = vitamin.first->type();
+            if( vitamin_type == vitamin_type::DRUG ) {
+                drug_vitamins[vitamin.first] = vitamin.second;
+            }
+            vitamins_mod( effect_vitamin_mod( drug_vitamins ) );
+        }
+
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
@@ -1324,6 +1338,21 @@ float Character::get_heartrate_index() const
     return heart_rate_index;
 }
 
+void Character::set_heartrate_effect_mod( int mod )
+{
+    heart_rate_effect_mod = mod;
+}
+
+void Character::modify_heartrate_effect_mod( int mod )
+{
+    heart_rate_effect_mod += mod;
+}
+
+int Character::get_heartrate_effect_mod() const
+{
+    return heart_rate_effect_mod;
+}
+
 void Character::update_heartrate_index()
 {
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
@@ -1358,23 +1387,72 @@ void Character::update_heartrate_index()
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
             10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
-            hr_nicotine_mod = 0.4f;
+            hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;
         }
     }
-    // Todo: Implement cardio effect (lowers HR?)
-    float hr_health_mod = 0;
+    // ********************
+    // diff ratio goes from 3.0 to 1.0. This should correspond to a natural decrease of around 20% bpm at max fitness.
+    // however this ratio should also increase cardiac output, as the heart is more efficient. So lower bpm, same CO.
+    //const float cardio_fit = get_cardiofit();
+    //const float max_cardio_fit = get_cardio_acc_base();
+    //const float diff = max_cardio_fit / cardio_fit;
+    //const float hr_health_mod = ( diff - 3.0f ) * 0.1f;
+    // ********************
+    //  EDIT: It is a better idea to change the actual avg_nat_bpm that this index is multiplied by, rather than changing this index.
+    //  This way, it won't have any direct health effects, which makes more sense.
+    //  I am leaving the code above commented in case anyone thinks it should be restored.
 
-    //Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
+    // Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
     // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
     const int cur_pain = get_perceived_pain();
     float hr_pain_mod = 0.0f;
     if( cur_pain > 5 ) {
         hr_pain_mod = 0.01 * ( cur_pain - 5 );
     }
-    // TODO: Add support for adrenaline trait
-    const float hr_trait_mod = 0.0f;
+    // clamp to a reasonable 30% increase in heart rate.
+    if( hr_pain_mod > 0.3f ) {
+        hr_pain_mod = 0.3f;
+    }
+
+    float hr_adrenaline_mod = 0.0f;
+    if( has_effect( effect_adrenaline ) ) {
+        const int adrenaline_level = get_effect_int( effect_adrenaline );
+        // at adrenaline level 0, do nothing.
+        // at adrenaline level 1, decrease heart rate by 10% (comedown).
+        // at adrenaline level 2, increase heart rate by 20% (woooo!).
+        if( adrenaline_level == 1 ) {
+            hr_adrenaline_mod = -0.1f;
+        } else if( adrenaline_level == 2 ) {
+            hr_adrenaline_mod = 0.2f;
+        }
+    }
+
+    // if under the effect of a betablocker, decrease hr_adrenaline_mod and hr_pain_mod
+    if( has_effect( effect_betablock ) ) {
+        const int betablock_level = get_effect_int( effect_betablock );
+        // at betablock level 1, reduce by 60%
+        // at betablock level 2, 80%.
+        // at betablock level 3, 100%.
+        float betablock_mod = 1.0f;
+        if( betablock_level == 1 ) {
+            betablock_mod = 0.4f;
+        } else if( betablock_level == 2 ) {
+            betablock_mod = 0.2f;
+        } else if( betablock_level == 3 ) {
+            betablock_mod = 0.0f;
+        }
+        hr_adrenaline_mod *= betablock_mod;
+        hr_pain_mod *= betablock_mod;
+    }
+
+    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 70%.
+    // this means you cannot actually have serious tachycardia by just working out too much while in pain.
+    float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
+    if( hr_activity_mods > 0.7f ) {
+        hr_activity_mods = 0.7f;
+    }
 
     // TODO: implement support for HR increasing to compensate for low BP.
     // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
@@ -1384,9 +1462,13 @@ void Character::update_heartrate_index()
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     const float hr_bp_loss_mod = 0.0f;
 
-    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
-    // update_circulation();
+    const int effect_mod = get_heartrate_effect_mod();
+    // heartrate effect is an integer.  Div by 10000 currently.(HR mod of 200 in JSON becomes 2%).
+    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
+
+    heart_rate_index = 1.0f + hr_temp_mod + hr_activity_mods + hr_stim_mod + hr_nicotine_mod
+                       + hr_bp_loss_mod + hr_effect_mod;
 }
 
 float Character::get_bloodvol_index() const
@@ -1394,12 +1476,12 @@ float Character::get_bloodvol_index() const
     return blood_vol_index;
 }
 
+
 void Character::update_bloodvol_index()
 {
     // vitamin_blood ranges from -50k(death) to 0(no hypovolemia).
     blood_vol_index = 1.0f - ( static_cast<float>( vitamin_get( vitamin_blood ) ) / static_cast<float>
                                ( vitamin_blood->min() ) );
-    // update_circulation();
 }
 
 float Character::get_circulation_resistance() const
@@ -1407,21 +1489,78 @@ float Character::get_circulation_resistance() const
     return circulation_resistance;
 }
 
-void Character::set_circulation_resistance( float ncirculation_resistance )
+void Character::set_bp_effect_mod( int mod )
 {
-    circulation_resistance = ncirculation_resistance;
-    update_circulation();
+    bp_effect_mod = mod;
+}
+
+void Character::modify_bp_effect_mod( int mod )
+{
+    bp_effect_mod += mod;
+}
+
+int Character::get_bp_effect_mod() const
+{
+    return bp_effect_mod;
+}
+
+void Character::update_circulation_resistance()
+{
+    const int bp_effect_mod = get_bp_effect_mod();
+    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    const float bp_item_effect_mod = bp_effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
+
+    // should also be affected by stance.
+    // DOI: 10.1111/j.1365-2702.2005.01494.x
+    // when prone, 8% higher than standing.
+    float bp_stance_mod = 0.0f;
+    if( is_prone() ) {
+        bp_stance_mod = 0.08f;
+    }
+
+    circulation_resistance = 1.0f + bp_item_effect_mod + bp_stance_mod;
 }
 
 void Character::update_circulation()
 {
+    update_circulation_resistance();
     circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
-    // Incredibly annoying debug function - don't forget to comment out before merge!
+    //Incredibly annoying debug function - don't forget to comment out before merge!
     //if( circulation < 0.8 ) {
-    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
+    //    debugmsg( "Low blood pressure: " + std::to_string(circulation_resistance) + " " + std::to_string(
     //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
     //} else if( circulation > 2.0 ) {
-    //    debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
+    //    debugmsg( "High blood pressure" + std::to_string(circulation_resistance) + " " + std::to_string(
     //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
     //}
+
+    //debugmsg( "Blood INFO: " + std::to_string( circulation_resistance ) + " " + std::to_string(
+    //              get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+}
+
+float Character::get_respiration_rate() const
+{
+    return respiration_rate;
+}
+
+int Character::get_respiration_effect_mod() const
+{
+    return resp_rate_effect_mod;
+}
+
+void Character::modify_respiration_effect_mod( int mod )
+{
+    resp_rate_effect_mod += mod;
+}
+
+void Character::set_respiration_effect_mod( int mod )
+{
+    resp_rate_effect_mod = mod;
+}
+
+void Character::update_respiration_rate()
+{
+    const int effect_mod = get_respiration_effect_mod();
+    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
 }

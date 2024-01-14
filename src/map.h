@@ -40,7 +40,6 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
@@ -390,12 +389,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_visitable_zones_cache_dirty( bool dirty = true ) {
-            visitable_cache_dirty = dirty;
-        };
-        bool get_visitable_zones_cache_dirty() const {
-            return visitable_cache_dirty;
-        };
+        void set_pathfinding_cache_dirty( const tripoint &p );
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -416,11 +410,7 @@ class map
          * true, if there might be a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
-        bool has_potential_los( const tripoint &from, const tripoint &to,
-                                bool bounds_check = true ) const;
-
-        int reachability_cache_value( const tripoint &p, bool vertical_cache,
-                                      reachability_cache_quadrant quadrant ) const;
+        bool has_potential_los( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -625,6 +615,7 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -699,10 +690,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+
+        // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
+        // if that is not possible.
+        std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -1499,6 +1494,7 @@ class map
 
         // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
+        const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
@@ -1516,9 +1512,12 @@ class map
          * This functions assumes the character is either on top of the trap,
          * or adjacent to it.
          */
+
         // TODO: fix point types (remove the first overload)
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
         void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid ) const;
+        // Handles triggering a proximity trap. Similar but subtly different.
+        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -2068,7 +2067,9 @@ class map
         }
         submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2080,7 +2081,9 @@ class map
         const submap *unsafe_get_submap_at(
             const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
@@ -2279,13 +2282,6 @@ class map
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
 
-        // Tracks the dirtiness of the visitable zones cache, but that cache does not live here,
-        // it is distributed among the active monsters. This must be flipped when
-        // persistent visibility from terrain or furniture changes
-        // (this excludes vehicles and fields) or when persistent traversability changes,
-        // which means walls and floors.
-        bool visitable_cache_dirty = false;
-
     public:
         void queue_main_cleanup();
         bool is_main_cleanup_queued() const;
@@ -2296,6 +2292,7 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
+        void update_pathfinding_cache( const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );

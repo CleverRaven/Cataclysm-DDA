@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_gas" ],
-    "weight": 350,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [

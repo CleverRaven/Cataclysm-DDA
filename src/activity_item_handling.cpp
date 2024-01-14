@@ -662,7 +662,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
             here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
@@ -736,7 +736,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
@@ -1317,18 +1317,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
+                // do we have the required seed on our person?
+                // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
+                // then it means no further work can be done here
+            } else if( !seed.is_empty() &&
                        // TODO: fix point types
-                       warm_enough_to_plant( src_loc.raw() ) ) {
+                       warm_enough_to_plant( src_loc.raw() ) &&
+                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
                 } else {
-                    // do we have the required seed on our person?
-                    // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
-                    // then it means no further work can be done here
-                    if( seed.is_empty() ) {
-                        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
-                    }
                     if( you.cache_has_item_with( "is_seed", &item::is_seed, [&seed]( const item & it ) {
                     return it.typeId() == itype_id( seed );
                     } ) ) {
@@ -1779,7 +1777,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_empty_crafting_component );
+            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
 
             int left_to_consume = 0;
 
@@ -3519,9 +3517,9 @@ int get_auto_consume_moves( Character &you, const bool food )
     }
 
     if( best_comestible ) {
-        int consume_moves = -Pickup::cost_to_move_item( you,
-                            *best_comestible ) * std::max( rl_dist( you.pos(),
-                                    here.getlocal( best_comestible.position() ) ), 1 );
+        //The moves it takes you to walk there and back.
+        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos(),
+                            here.getlocal( best_comestible.position() ) ), 1 );
         consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
         you.consume( best_comestible );

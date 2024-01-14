@@ -114,7 +114,12 @@
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
     ]
   },
   {
@@ -127,7 +132,12 @@
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
     ]
   },
   {
@@ -140,7 +150,12 @@
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" }
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
     ]
   },
   {

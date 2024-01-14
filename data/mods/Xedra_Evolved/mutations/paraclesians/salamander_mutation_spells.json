@@ -243,8 +243,10 @@
     },
     "energy_source": "MANA",
     "base_energy_cost": 550,
+    "final_energy_cost": 250,
+    "energy_increment": -20,
     "base_casting_time": 250,
-    "final_casting_time": 150,
+    "final_casting_time": 100,
     "casting_time_increment": -4
   },
   {
@@ -266,7 +268,11 @@
     "max_duration": { "math": [ "(45000 + (u_spell_level('salamander_emit_heat') * 9000) * (scaling_factor(u_val('strength') ) ) )" ] },
     "energy_source": "MANA",
     "base_energy_cost": 700,
-    "base_casting_time": 500
+    "final_energy_cost": 450,
+    "energy_increment": -25,
+    "base_casting_time": 500,
+    "final_casting_time": 150,
+    "casting_time_increment": -15
   },
   {
     "id": "salamander_summon_fire_spirit",
@@ -363,7 +369,7 @@
     "id": "salamander_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
-    "description": "You may spin a bit of fae magic into the flames, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
+    "description": "You may spin a bit of fae magick into the flames, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "teachable": false,
