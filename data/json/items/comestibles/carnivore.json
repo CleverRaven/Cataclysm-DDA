@@ -2072,5 +2072,43 @@
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "poultry",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of poultry meat", "str_pl": "chunks of poultry meat" },
+    "description": "A chunk of raw meat from a lean bird.  You could eat it raw, but it carries a risk of bacterial infection.",
+    "weight": "160 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "1 day",
+    "calories": 240,
+    "//": "Scaled from 100g boneless chicken thigh according to USDA database"
+    "fun": -20,
+    "cooks_like": "meat_cooked",
+    "vitamins": [ [ "calcium", "9.6 mg" ], [ "iron", "0.96 mg" ] ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "smoking_result": "poultry_smoked"
+  },
+  {
+    "id": "poultry_fatty",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of fatty poultry meat", "str_pl": "chunks of fatty poultry meat" },
+    "description": "A chunk of raw meat from some waterfowl, with delicious layers of fat running throughout.  You could eat it raw, but it carries a risk of bacterial infection.",
+    "weight": "160 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "1 day",
+    "calories": 594,
+    "//": "Scaled from 100g skin-on goose according to USDA database"
+    "fun": -20,
+    "cooks_like": "meat_cooked",
+    "vitamins": [ [ "calcium", "19.2 mg" ], [ "iron", "4 mg" ] ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "smoking_result": "poultry_smoked"
   }
 ]
