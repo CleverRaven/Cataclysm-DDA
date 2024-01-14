@@ -33,6 +33,10 @@
 #include <utility>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -232,6 +236,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -765,6 +770,8 @@ void game::setup()
 
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
+    calendar::set_location( ::get_option<float>( "LATITUDE" ), ::get_option<float>( "LONGITUDE" ) );
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
@@ -2547,7 +2554,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -3417,6 +3424,11 @@ bool game::save()
                 fout.imbue( std::locale::classic() );
                 fout << total_time_played.count();
             } );
+#if defined(EMSCRIPTEN)
+            // This will allow the window to be closed without a prompt, until do_turn()
+            // is called.
+            EM_ASM( window.game_unsaved = false; );
+#endif
             return true;
         }
     } catch( std::ios::failure & ) {
@@ -11844,7 +11856,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) ) {
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+        !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
@@ -12107,7 +12120,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
-    if( !wall_cling )  {
+    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge &&
+                         !u.has_effect( effect_gliding ) ) )  {
         here.creature_on_trap( u, !force );
     }
 
@@ -12186,7 +12200,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         stairs.emplace( pos + tripoint_above );
     }
     // We did not find stairs directly above or below, so search the map for them
-    if( !stairs.has_value() ) {
+    // If there's empty space right below us, we can just go down that way.
+    if( !stairs.has_value() && get_map().tr_at( u.pos() ) != tr_ledge ) {
         for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
@@ -12249,6 +12264,10 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
 
+        return stairs;
+    }
+
+    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
         return stairs;
     }
 

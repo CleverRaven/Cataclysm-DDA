@@ -12,6 +12,10 @@
 #include <type_traits>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -52,6 +56,12 @@ static const std::array invalid_names = {
 };
 #endif
 
+static void setFsNeedsSync()
+{
+#if defined(EMSCRIPTEN)
+    EM_ASM( window.setFsNeedsSync(); );
+#endif
+}
 
 static const std::string invalid_chars = "\\/:?\"<>|";
 
@@ -67,6 +77,7 @@ bool assure_dir_exist( const cata_path &path )
 
 bool assure_dir_exist( const fs::path &path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     bool exists{false};
     bool created{false};
@@ -140,6 +151,7 @@ bool remove_file( const std::string &path )
 
 bool remove_file( const fs::path &path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     return fs::remove( path, ec );
 }
@@ -151,6 +163,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 
 bool rename_file( const fs::path &old_path, const fs::path &new_path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     fs::rename( old_path, new_path, ec );
     return !ec;
@@ -174,6 +187,7 @@ bool remove_directory( const std::string &path )
 bool remove_directory( const fs::path &path )
 {
     std::error_code ec;
+    setFsNeedsSync();
     return fs::remove( path, ec );
 }
 
@@ -578,12 +592,14 @@ std::string ensure_valid_file_name( const std::string &file_name )
 bool is_lexically_valid( const fs::path &path )
 {
     // Windows has strict rules for file naming
-    fs::path valid = path.root_path();
     fs::path rel = path.relative_path();
     // "Do not end a file or directory name with a space or a period."
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
     for( auto &it : rel ) {
         std::string item = it.generic_u8string();
+        if( item == "." || item == ".." ) {
+            continue;
+        }
         if( !item.empty() && ( item.back() == ' ' || item.back() == '.' ) ) {
             return false;
         }

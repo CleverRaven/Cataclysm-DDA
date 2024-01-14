@@ -126,6 +126,7 @@
     "shape": "blast",
     "flags": [ "LOUD" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
+    "difficulty": 3,
     "min_range": 12,
     "max_range": 24,
     "range_increment": 0.4,

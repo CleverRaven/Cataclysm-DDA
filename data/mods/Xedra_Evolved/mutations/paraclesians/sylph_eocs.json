@@ -2,8 +2,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_GOBLIN_FRUIT",
-    "condition": { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "12" ] } ] },
+    "condition": {
+      "or": [
+        { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "15" ] } ] },
+        { "and": [ "u_is_outside", { "math": [ "u_val('pos_z')", ">=", "1" ] } ] }
+      ]
+    },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
-    "false_effect": [ { "u_message": "You must have a strong enough wind to call forth a goblin fruit.", "type": "bad" } ]
+    "false_effect": [
+      {
+        "u_message": "You must have a strong enough wind or be above ground level to call forth a goblin fruit.",
+        "type": "bad"
+      }
+    ]
   }
 ]

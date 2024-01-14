@@ -1,82 +1,105 @@
 [
   {
-    "id": "gastropod_foot",
-    "type": "body_part",
-    "name": "gastropod foot",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "gastropod foot" },
-    "heading": "gastropod foot",
-    "heading_multiple": "gastropod feet",
-    "hp_bar_ui_text": "G. FOOT",
-    "encumbrance_text": "Running and swimming are slowed.",
-    "encumbrance_threshold": 20,
-    "main_part": "gastropod_foot",
-    "connected_to": "torso",
-    "opposite_part": "gastropod_foot",
-    "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ], [ "tail", 0.2 ] ],
-    "limb_scores": [ [ "move_speed", 0.3 ], [ "crawl", 0.6 ], [ "footing", 0.8 ] ],
-    "hit_size": 30,
-    "hit_difficulty": 1.2,
-    "side": "both",
-    "stylish_bonus": 3,
-    "hot_morale_mod": 2,
-    "cold_morale_mod": 2,
-    "fire_warmth_bonus": 150,
-    "squeamish_penalty": 5,
-    "base_hp": 120,
-    "drench_capacity": 700,
-    "bionic_slots": 58,
-    "flags": [ "LIMB_LOWER" ],
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
-    "encumbrance_per_weight": [
-      { "weight": "1 mg", "encumbrance": 1 },
-      { "weight": "300 g", "encumbrance": 4 },
-      { "weight": "800 g", "encumbrance": 8 },
-      { "weight": "1300 g", "encumbrance": 20 },
-      { "weight": "1600 g", "encumbrance": 30 },
-      { "weight": "2200 g", "encumbrance": 50 },
-      { "weight": "5600 g", "encumbrance": 80 },
-      { "weight": "10000 g", "encumbrance": 160 }
-    ],
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
-        "id": "bouldering",
-        "dmg_threshold": 10,
-        "dmg_scale_increment": 5,
-        "chance": 10,
-        "chance_dmg_scaling": 3,
-        "duration": 3,
-        "max_duration": 15
-      }
-    ]
+    "type": "MIGRATION",
+    "id": "right_arm_prosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_arm_prosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_arm_neuroprosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_arm_neuroprosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_arm_prosthetic_wood",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_arm_prosthetic_wood",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_arm_prosthetic_steel",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_arm_prosthetic_steel",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_leg_prosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_leg_prosthetic",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_leg_prosthetic_steel",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_leg_prosthetic_steel",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "right_peg_leg",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "left_peg_leg",
+    "replace": "2x4"
+  },
+  {
+    "type": "effect_type",
+    "id": "prosthetic_leg_l_fake_blocker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "prosthetic_leg_r_fake_blocker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "prosthetic_arm_l_fake_blocker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "prosthetic_arm_r_fake_blocker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "1 s"
   },
   {
     "id": "arm_stub_l",
+    "//": "Prosthetics moved to WIP Limb Stuff, but missing ids cause load-time errors",
     "type": "body_part",
     "name": "left arm stub",
     "name_multiple": "arm stubs",
@@ -1017,5 +1040,330 @@
     "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
     "bmi_encumbrance_threshold": 0,
     "bmi_encumbrance_scalar": 0
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AMPUTEE_RESET",
+    "condition": { "not": { "u_has_var": "amputee_reset", "type": "traits", "context": "limbs", "value": "yes" } },
+    "effect": [
+      {
+        "u_message": "Resetting character to non-amputated state.  To continue this game unaltered with the WIP limb system exit the game without saving and add WIP Limb Stuff to this world before reloading.",
+        "popup": true
+      },
+      { "u_lose_trait": "NO_LEFT_ARM" },
+      { "u_lose_trait": "LEFT_PROSTHETIC_ARM" },
+      { "u_lose_trait": "LEFT_NEUROPROSTHETIC_ARM" },
+      { "u_lose_trait": "LEFT_COSMETIC_PROSTHETIC_ARM" },
+      { "u_lose_trait": "NO_RIGHT_ARM" },
+      { "u_lose_trait": "RIGHT_PROSTHETIC_ARM" },
+      { "u_lose_trait": "RIGHT_NEUROPROSTHETIC_ARM" },
+      { "u_lose_trait": "RIGHT_COSMETIC_PROSTHETIC_ARM" },
+      { "u_lose_trait": "NO_LEFT_LEG" },
+      { "u_lose_trait": "LEFT_PROSTHETIC_LEG" },
+      { "u_lose_trait": "LEFT_PEG_LEG" },
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_lose_trait": "RIGHT_PROSTHETIC_LEG" },
+      { "u_lose_trait": "RIGHT_PEG_LEG" },
+      { "u_add_trait": "HAS_LEFT_ARM" },
+      { "u_add_trait": "HAS_RIGHT_ARM" },
+      { "u_add_trait": "HAS_LEFT_LEG" },
+      { "u_add_trait": "HAS_RIGHT_LEG" },
+      { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
+      { "u_add_var": "amputee_reset", "type": "traits", "context": "limbs", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_LEFT_LEG",
+    "name": { "str": "left leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_LEFT_LEG" ],
+    "restricts_gear": [ "leg_stub_l" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_RIGHT_LEG",
+    "name": { "str": "right leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_RIGHT_LEG" ],
+    "restricts_gear": [ "leg_stub_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_LEFT_ARM",
+    "name": { "str": "left arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_LEFT_ARM" ],
+    "restricts_gear": [ "arm_stub_l" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_RIGHT_ARM",
+    "name": { "str": "right arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "description": "Dummy mutation that keeps you from wearing prosthetics.",
+    "changes_to": [ "NO_RIGHT_ARM" ],
+    "restricts_gear": [ "arm_stub_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_RIGHT_LEG",
+    "name": { "str": "No Right Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your right leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "restricts_gear": [ "foot_r" ],
+    "prereqs": "HAS_RIGHT_LEG",
+    "allowed_items": [ "LEG_PROSTHETIC" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ],
+    "cancels": [
+      "BADKNEES",
+      "LIGHTSTEP",
+      "STRONGKNEES",
+      "STRONG_LEGS",
+      "PADDED_FEET",
+      "ANIMAL_FEET",
+      "FELINE_LEAP",
+      "LEAPING_LEGS",
+      "LEAPING_LEGS2",
+      "BIRD_LEGS",
+      "FLEET2",
+      "FLEET",
+      "HOOVES",
+      "RABBIT_FEET",
+      "TOUGH_FEET",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_LEFT_LEG",
+    "name": { "str": "No Left Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your left leg.  You can hobble around, but will likely need a wheelchair or other means of locomotion to get somewhere far.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "restricts_gear": [ "foot_l" ],
+    "prereqs": "HAS_LEFT_LEG",
+    "allowed_items": [ "LEG_PROSTHETIC" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ],
+    "cancels": [
+      "BADKNEES",
+      "LIGHTSTEP",
+      "STRONGKNEES",
+      "STRONG_LEGS",
+      "PADDED_FEET",
+      "ANIMAL_FEET",
+      "FELINE_LEAP",
+      "LEAPING_LEGS",
+      "LEAPING_LEGS2",
+      "BIRD_LEGS",
+      "FLEET2",
+      "FLEET",
+      "HOOVES",
+      "RABBIT_FEET",
+      "TOUGH_FEET",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_LEFT_ARM",
+    "name": { "str": "No Left Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your left arm.  As such, you cannot use anything you normally could with it, like lifting with two hands.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_l" ],
+    "restricts_gear": [ "hand_l" ],
+    "prereqs": "HAS_LEFT_ARM",
+    "allowed_items": [ "ARM_PROSTHETIC" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ],
+    "cancels": [
+      "BARBS",
+      "NAILS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT",
+      "CLAWS_TENTACLE",
+      "ARM_FEATHERS",
+      "TALONS",
+      "BENDY1",
+      "PAWS",
+      "PAWS_LARGE",
+      "BURROW",
+      "BURROWLARGE",
+      "PAWS_LITTLE",
+      "SLIME_HANDS",
+      "WEBBED"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_RIGHT_ARM",
+    "name": { "str": "No Right Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "Whether by a serious accident, birth defect, or other means, you have lost your right arm.  As such, you cannot use anything you normally could with it, like lifting with two hands.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_r" ],
+    "restricts_gear": [ "hand_r" ],
+    "prereqs": "HAS_RIGHT_ARM",
+    "allowed_items": [ "ARM_PROSTHETIC" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ],
+    "cancels": [
+      "CRUSTACEAN_CLAW",
+      "BARBS",
+      "NAILS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT",
+      "CLAWS_TENTACLE",
+      "TALONS",
+      "ARM_FEATHERS",
+      "BENDY1",
+      "PAWS",
+      "PAWS_LARGE",
+      "BURROW",
+      "BURROWLARGE",
+      "PAWS_LITTLE",
+      "SLIME_HANDS",
+      "WEBBED"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PROSTHETIC_LEG",
+    "name": { "str": "Right Prosthetic Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right leg.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_prosthetic_r" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PROSTHETIC_LEG",
+    "name": { "str": "Left Prosthetic Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left leg.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_prosthetic_l" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PEG_LEG",
+    "name": { "str": "Right Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right leg.",
+    "no_cbm_on_bp": [ "leg_knee_r", "leg_lower_r", "leg_draped_r", "foot_r" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PEG_LEG",
+    "name": { "str": "Left Peg Leg" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left leg.",
+    "no_cbm_on_bp": [ "leg_knee_l", "leg_lower_l", "leg_draped_l", "foot_l" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_PROSTHETIC_ARM",
+    "name": { "str": "Left Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_PROSTHETIC_ARM",
+    "name": { "str": "Right Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_NEUROPROSTHETIC_ARM",
+    "name": { "str": "Left Neuroprosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_neuroprosthetic_l" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_NEUROPROSTHETIC_ARM",
+    "name": { "str": "Right Neuroprosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_neuroprosthetic_r" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LEFT_COSMETIC_PROSTHETIC_ARM",
+    "name": { "str": "Left Cosmetic Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your left arm.",
+    "no_cbm_on_bp": [ "arm_upper_l", "arm_elbow_l", "arm_lower_l", "hand_prosthetic_l" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RIGHT_COSMETIC_PROSTHETIC_ARM",
+    "name": { "str": "Right Cosmetic Prosthetic Arm" },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "description": "You have a prosthetic on your right arm.",
+    "no_cbm_on_bp": [ "arm_upper_r", "arm_elbow_r", "arm_lower_r", "hand_prosthetic_r" ],
+    "processed_eocs": [ "EOC_AMPUTEE_RESET" ]
   }
 ]

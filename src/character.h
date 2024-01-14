@@ -701,6 +701,7 @@ class Character : public Creature, public visitable
     public:
 
         void gravity_check();
+        void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
@@ -751,6 +752,11 @@ class Character : public Creature, public visitable
         void set_fac_id( const std::string &my_fac_id );
         virtual bool is_ally( const Character &p ) const = 0;
         virtual bool is_obeying( const Character &p ) const = 0;
+
+        //returns character's profession
+        const profession *get_profession() const;
+        //returns the hobbies
+        std::set<const profession *> get_hobbies() const;
 
         // Has item with mission_id
         bool has_mission_item( int mission_id ) const;
@@ -2535,6 +2541,8 @@ class Character : public Creature, public visitable
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
+        /** Checks to see if the character is able to use their wings properly */
+        bool can_fly();
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 

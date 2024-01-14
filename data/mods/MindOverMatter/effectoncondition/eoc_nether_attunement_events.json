@@ -290,7 +290,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(5) + 2" ] }
     ]
   },
   {
@@ -353,7 +353,7 @@
     "effect": [
       { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
-      { "u_set_hp": { "math": [ "u_hp('head') - 1" ] }, "target_part": "head" }
+      { "math": [ "u_hp('head')", "-=", "1" ] }
     ]
   },
   {
@@ -650,7 +650,7 @@
     "effect": [
       { "u_message": "psi_nether_attention_nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 3,9 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 3" ] }
     ]
   },
   {

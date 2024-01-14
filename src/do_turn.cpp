@@ -1,10 +1,15 @@
 #include "do_turn.h"
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
@@ -444,6 +449,11 @@ bool do_turn()
     // Make sure players cant defy gravity by standing still, Looney tunes style.
     u.gravity_check();
 
+    // If you're inside a wall or something and haven't been telefragged, let's get you out.
+    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
+        u.stagger();
+    }
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -711,6 +721,12 @@ bool do_turn()
     // Calculate bionic power balance
     u.power_balance = u.get_power_level() - u.power_prev_turn;
     u.power_prev_turn = u.get_power_level();
+
+#if defined(EMSCRIPTEN)
+    // This will cause a prompt to be shown if the window is closed, until the
+    // game is saved.
+    EM_ASM( window.game_unsaved = true; );
+#endif
 
     return false;
 }
