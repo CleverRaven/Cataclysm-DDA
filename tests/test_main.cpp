@@ -393,15 +393,17 @@ int main( int argc, const char *argv[] )
                                                config
                                            );
         for( TestCase const &tc : tcs ) {
+            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+            needs_game = true;
             for( std::string const &tag : tc.getTestCaseInfo().tags ) {
-                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-                needs_game = true;
                 if( tag == "nogame" ) {
                     // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
                     needs_game = false;
                     break;
                 }
             }
+            if( needs_game )
+                break;
         }
     }
 
