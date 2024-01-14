@@ -1355,7 +1355,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as whispers begin.  First only a murmur, steadily growing louder and louder until they grow into a cacophony of voices.  You hear pleas for mercy, screams of agony, cries of rage and sorrow, all mixed together in an avalache of sound that drives you to your knees as you clutch your ears to shut them out.  It doesn't help."
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as whispers begin.  First only a murmur, steadily growing louder and louder until they grow into a cacophony of voices.  You hear pleas for mercy, screams of agony, cries of rage and sorrow, all mixed together in an avalanche of sound that drives you to your knees as you clutch your ears to shut them out.  It doesn't help."
       },
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
       { "u_add_effect": "nightmares", "duration": { "math": [ "ps_str * u_val('time: 4 h')" ] } },
