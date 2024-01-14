@@ -729,7 +729,7 @@ void worldfactory::load_last_world_info()
 
             throw JsonError( lwmissing );
         }
-        // Using non-specific catch because lastworld.json being empty or missing can cause a lot of different types of exceptions. If this is is bad practice, please help correct it if you can.
+        // Using non-specific catch because lastworld.json being empty or missing data can cause a lot of different types of exceptions. If this is is bad practice, please help correct it if you can.
     } catch( ... ) {
         popup( _( lwmissing ) );
         debugmsg( lwmissing );
