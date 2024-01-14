@@ -4148,6 +4148,7 @@
     "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
+    "flags": [ "PSEUDOPOD_GRASP" ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ]
@@ -4473,13 +4474,14 @@
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your pseudopod-like limbs can fit into anything!  +4 Dexterity, -4 Strength.",
+    "description": "Your pseudopod-like limbs can fit into anything!  You also suffer reduced penalties to attacking while prone.  +4 Dexterity, -4 Strength.",
     "purifiable": false,
     "prereqs": [ "BENDY2" ],
     "prereqs2": [ "AMORPHOUS" ],
     "cancels": [ "HUMAN_ARMS", "HUMAN_LEGS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
+    "flags": [ "PSEUDOPOD_GRASP" ],
     "passive_mods": { "dex_mod": 4, "str_mod": -4 },
     "hp_adjustment": 6
   },
@@ -4576,17 +4578,16 @@
   },
   {
     "type": "mutation",
-    "id": "BAT_FEET",
+    "id": "BAT_LEGS",
     "name": { "str": "Bat Legs" },
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "description": "Your lower limbs have shortened and grown bow-legged, slowing your bipedal movement.  But as long as you're not holding anything in your fingers, you're able to crawl quickly and quietly.",
-    "types": [ "FEET" ],
+    "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "triggers": [
       [
@@ -4637,6 +4638,21 @@
       "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOOKED_TOES",
+    "name": { "str": "Hooked Toes" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Walking on two legs is pretty awkward, but you can climb just about anything thanks to your powerful toe claws.  You can even cling to walls you glide into!",
+    "types": [ "FEET" ],
+    "prereqs": [ "BAT_LEGS" ],
+    "category": [ "CHIROPTERAN" ],
+    "flags": [ "WALL_CLING" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true
   },
   {
     "type": "mutation",
@@ -8287,12 +8303,13 @@
     "visibility": 7,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Reduces penalties for attacking while prone and somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_4" ],
+    "flags": [ "PSEUDOPOD_GRASP" ],
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
@@ -8325,7 +8342,7 @@
     "points": 0,
     "visibility": 8,
     "ugliness": 5,
-    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them, and you suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
@@ -8364,7 +8381,7 @@
     "points": 0,
     "visibility": 9,
     "ugliness": 6,
-    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them, and suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],

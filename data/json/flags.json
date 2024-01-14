@@ -2397,5 +2397,10 @@
     "id": "NATURAL_WEAPON",
     "type": "json_flag",
     "//": "This item is a 'natural' weapon, such as a mutant's fangs or claws. Should not be applied to bionic weapons."
+  },
+  {
+    "id": "PSEUDOPOD_GRASP",
+    "type": "json_flag",
+    "//": "Removes some penalties for melee attacks made while prone or crouching."
   }
 ]

@@ -255,6 +255,7 @@ extern const flag_id flag_PRIMITIVE_RANGED_WEAPON;
 extern const flag_id flag_PROCESSING;
 extern const flag_id flag_PROCESSING_RESULT;
 extern const flag_id flag_PSEUDO;
+extern const flag_id flag_PSEUDOPOD_GRASP;
 extern const flag_id flag_PSYSHIELD_PARTIAL;
 extern const flag_id flag_PULPED;
 extern const flag_id flag_PUMP_ACTION;

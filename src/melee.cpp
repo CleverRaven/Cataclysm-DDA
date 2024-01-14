@@ -120,6 +120,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_NULL( "NULL" );
+static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 static const json_character_flag json_flag_QUADRUPED( "QUADRUPED" );
 
@@ -378,9 +379,9 @@ float Character::hit_roll() const
     // Quadrupeds don't mind as long as they're unarmed
     item_location cur_weapon = used_weapon();
     item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
-    if( is_on_ground() ) {
+    if( is_on_ground() && !has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
         hit -= 8.0f;
-    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
+    } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) || ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) ) {
         hit -= 2.0f;
     }
 
@@ -777,7 +778,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             d.mult_damage( 0.7 );
         }
         // being prone affects how much leverage you can use to deal damage
-        if( is_on_ground() ) {
+        if( is_on_ground() && !has_flag( json_flag_PSEUDOPOD_GRASP ) )  {
             d.mult_damage( 0.3 );
         } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
             d.mult_damage( 0.8 );
@@ -950,7 +951,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
     const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = round( get_skill_level( skill_melee ) );
-    const int stance_malus = is_on_ground() ? 50 : ( ( !has_flag( json_flag_QUADRUPED ) && ( !weap->has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
+    const int stance_malus = ( is_on_ground() && !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ? 50 : (  (!has_flag( json_flag_PSEUDOPOD_GRASP ) || ( !has_flag( json_flag_QUADRUPED ) && ( !weap->has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) && is_crouching() ? 20 : 0 );
 
     return std::min( -50, mod_sta + melee - stance_malus );
 }
@@ -2740,9 +2741,9 @@ int Character::attack_speed( const item &weap ) const
     move_cost += ma_move_cost;
 
     move_cost *= mutation_value( "attackcost_modifier" );
-    if( is_on_ground() ) {
+    if( is_on_ground() && !has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
         move_cost *= 4.0;
-    } else if( is_crouching() && ( !has_flag( json_flag_QUADRUPED ) && ( !weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) {
+    } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) || ( !has_flag( json_flag_QUADRUPED ) && ( !weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ) ) {
         move_cost *= 1.5;
     }
 

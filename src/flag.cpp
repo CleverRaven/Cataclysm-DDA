@@ -248,6 +248,7 @@ const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
 const flag_id flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 const flag_id flag_PSEUDO( "PSEUDO" );
+const flag_id flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 const flag_id flag_PSYSHIELD_PARTIAL( "PSYSHIELD_PARTIAL" );
 const flag_id flag_PULPED( "PULPED" );
 const flag_id flag_PUMP_ACTION( "PUMP_ACTION" );
