@@ -547,7 +547,7 @@
     "category": "spare_parts",
     "name": { "str": "10L aluminum ingot" },
     "description": "A ten-liter ingot of solid aluminum.",
-    "weight": "13500 g",
+    "weight": "27000 g",
     "volume": "10 L",
     "price": 7400,
     "price_postapoc": 150,
