@@ -22,13 +22,7 @@
     "id": "lightning",
     "recurrence": 1,
     "global": true,
-    "condition": {
-      "and": [
-        { "is_weather": "lightning" },
-        { "one_in_chance": 600 },
-        { "math": [ "u_val('pos_z')", ">=", "0" ] }
-      ]
-    },
+    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "math": [ "u_val('pos_z')", ">=", "0" ] } ] },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
     "effect": [
       { "u_message": "A flash of lightning illuminates your surroundings!" },

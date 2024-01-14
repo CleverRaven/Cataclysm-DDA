@@ -4533,7 +4533,7 @@
       {
         "values": [
           {
-            "value": "INTELLIGENCE", 
+            "value": "INTELLIGENCE",
             "add": { "math": [ "u_effect_intensity('VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
           }
         ]
