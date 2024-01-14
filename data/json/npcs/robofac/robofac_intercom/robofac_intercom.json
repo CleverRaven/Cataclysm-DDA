@@ -33,10 +33,7 @@
         "group": "NC_ROBOFAC_INTERCOM_trade_armor",
         "rigid": true,
         "condition": {
-          "or": [
-            { "compare_num": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "==", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
-          ]
+          "or": [ { "math": [ "u_hub01_good_candidate", "==", "1" ] }, { "math": [ "u_hub01_completed_missions", ">=", "2" ] } ]
         },
         "refusal": "You're not yet qualified to buy this"
       },
@@ -46,7 +43,7 @@
         "strict": true,
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "==", { "const": 1 } ] },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
             { "not": { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
         }
@@ -76,9 +73,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "==", { "const": 1 } ]
-            }
+            { "math": [ "hub01_hwp_exotic_researched", "==", "1" ] }
           ]
         }
       },
@@ -188,12 +183,10 @@
           "run_eocs": [
             {
               "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
-              "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 1 } ] },
+              "condition": { "math": [ "free_merchants_hub_trade_route", "==", "1" ] },
               "effect": [
                 { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
-                {
-                  "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 2 } ]
-                },
+                { "math": [ "free_merchants_hub_trade_route", "=", "2" ] },
                 { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
               ],
               "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
