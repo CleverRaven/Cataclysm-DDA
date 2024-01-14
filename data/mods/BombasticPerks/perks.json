@@ -208,6 +208,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_perfect_time",
+    "name": { "str": "Perfect Timing" },
+    "points": 0,
+    "description": "You used to annoy your friends before the Cataclysm by always being *exactly* on time and you've maintained that characteristic to this day.  You always know what time it is and can set alarms even without a watch or a phone.",
+    "category": [ "perk" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tingly",
     "name": { "str": "Tingly" },
     "points": 0,
