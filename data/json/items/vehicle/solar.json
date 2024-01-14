@@ -1,12 +1,12 @@
 [
   {
-    "//": "Assumed to be ~0.5 x 0.5 m to fit in a vehicle tile",
+    "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
     "type": "GENERIC",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
     "//1": [
-      "66 x 40 x 2 in = 68 L solar panels weigh 40 lbs, for density of ~210 g/L",
+      "66 in x 40 in x 2 in = 68 L solar panels weigh 40 lbs, for density of ~210 g/L",
       "If this is 0.5 m x 0.5 m x 5 cm, it has a volume of 12.5 L, and a weight of 2.63 kg",
       "Numbers from https://modernize.com/homeowner-resources/solar/average-solar-panel-dimensions-and-sizes"
     ],
@@ -24,7 +24,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "//": "Four solar panels stuck together to fit in 1 x 1 m",
+    "//": "Four solar panels stuck together to fit in 1 m x 1 m",
     "type": "GENERIC",
     "id": "ground_solar_panel",
     "name": { "str": "solar panel array" },
@@ -74,7 +74,7 @@
     "description": "A large, ready-to-deploy set of solar panels, designed for portable off-the-grid use.",
     "//": [
       "Based on https://www.renogy.com/200-watt-12-volt-monocrystalline-foldable-solar-suitcase",
-      "26.4 x 32.5 x 2.8 inches is 39.4 L, 38.6 lbs = 17.5 kg",
+      "26.4 in x 32.5 in x 2.8 in is 39.4 L, 38.6 lbs = 17.5 kg",
       "Surface area 0.554 m^2, listed 200 W. Half of solar_panel_v2 for half surface area"
     ],
     "weight": "17500 g",
