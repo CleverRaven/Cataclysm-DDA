@@ -3246,47 +3246,6 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 }
 ```
 
-
-#### `u_set_hp`, `npc_set_hp`
-HP of you or NPC would be set to some amount
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_set_hp" / "npc_set_hp" | **mandatory** | int, float or [variable object](##variable-object) | amount of HP to set |
-| "target_part" | optional | string or [variable object](##variable-object) | default whole body; if used, the HP adjustment would be applied only to this body part | 
-| "only_increase" | optional | boolean | default false; if true, the HP could be only increased | 
-| "main_only" | optional | boolean | default false; if true, only main body parts would be affected - arms, legs, head, torso etc.; can't be used with `minor_only` | 
-| "minor_only" | optional | boolean | default false; if true, only minor parts would be affected - eyes, mouth, hands, foots etc.; can't be used with `main_only` | 
-| "max" | optional | boolean | default false; if true, `_set_hp` value would be ignored, and body part would be healed to it's max HP | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-
-HP of whole body would be set to 10
-```json
-{ "u_set_hp": 10 }
-```
-
-Random bodypart would be healed entirely
-```json
-{ "u_set_hp": 0, "max": true, "target_part": "RANDOM" }
-```
-
-You increase the HP of your minor parts to 50, if possible
-```json
-{ "u_set_hp": 50, "minor_only": true, "only_increase": true }
-```
-
-You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
-```json
-{ "u_set_hp": { "math": [ "u_hp('leg_r') + 10" ] }, "target_part": "leg_r" }
-```
-
 #### `u_die`, `npc_die`
 You or NPC will instantly die
 

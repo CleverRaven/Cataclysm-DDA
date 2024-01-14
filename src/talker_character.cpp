@@ -1147,10 +1147,9 @@ std::string talker_character_const::spell_seminar_text( const spell_id &s ) cons
     return s->name.translated();
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
+std::vector<bodypart_id> talker_character::get_all_body_parts( get_body_part_flags flags ) const
 {
-    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
-                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
+    return me_chr->get_all_body_parts( flags );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const

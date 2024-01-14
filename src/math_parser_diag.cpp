@@ -202,6 +202,17 @@ std::function<double( dialogue & )> hp_eval( char scope,
 {
     return[bp_val = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         std::string const bp_str = bp_val.str( d );
+        bool const major = bp_str == "ALL_MAJOR";
+        bool const minor = bp_str == "ALL_MINOR";
+        if( major || minor ) {
+            get_body_part_flags const parts = major ? get_body_part_flags::only_main :
+                                              get_body_part_flags::only_minor;
+            int ret{};
+            for( bodypart_id const &part : d.actor( beta )->get_all_body_parts( parts ) ) {
+                ret += d.actor( beta )->get_cur_hp( part );
+            }
+            return ret;
+        }
         bodypart_id const bp = bp_str == "ALL" ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         return d.actor( beta )->get_cur_hp( bp );
     };
@@ -212,8 +223,16 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
 {
     return [bp_val = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
         std::string const bp_str = bp_val.str( d );
+        bool const major = bp_str == "ALL_MAJOR";
+        bool const minor = bp_str == "ALL_MINOR";
         if( bp_str == "ALL" ) {
             d.actor( beta )->set_all_parts_hp_cur( val );
+        } else if( major || minor ) {
+            get_body_part_flags const parts = major ? get_body_part_flags::only_main :
+                                              get_body_part_flags::only_minor;
+            for( bodypart_id const &part : d.actor( beta )->get_all_body_parts( parts ) ) {
+                d.actor( beta )->set_part_hp_cur( part, val );
+            }
         } else {
             d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
         }
