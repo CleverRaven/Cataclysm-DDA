@@ -452,7 +452,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 2200, minus 95 per level to a minimum of 750<br />
 *Channeling Time*: 600 moves<br />
 *Effects*: The psion attempts to seal one of their bleeding wounds shut.This automatically succeeds if the psion is a physician or has the Burn Care proficiency, otherwise it is a check of the Health Care skill + 1d10 vs 7. If the check is failed, the psion suffers 3 damage to the target location and 1-3 pain and the bleeding continues. If the check succeeds, the psion suffers 1 daamge to the target location and 1-2 pain, but the bleeding stops. Bleeding of Intensity 30 or more cannot be stopped through Cauterize. There is also a 6.67% chance, independently checked per attempt, for the wound to become infected within 24 hours.<br />
-*Prerequisites*: Fountain of Flames 4<br />
+*Prerequisites*: Fountain of Flames 6 AND Quell Fire 6 *or* Incandescent Lance 5 <br />
 
 ## Banked Flames (C)
 *Difficulty*: 3<br />

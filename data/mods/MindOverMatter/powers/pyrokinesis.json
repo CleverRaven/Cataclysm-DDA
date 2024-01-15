@@ -684,7 +684,8 @@
     "casting_time_increment": -8,
     "sound_type": "combat",
     "sound_id": "fire_spell",
-    "sound_description": "the roar of flames!"
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_aoe_blast_immunity",
