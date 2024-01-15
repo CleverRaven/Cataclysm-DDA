@@ -830,7 +830,7 @@
     "id": "arvore_damage_zombies_heal_living",
     "type": "SPELL",
     "name": "Embrace of the Verdant Mother",
-    "description": "While outdoors and not underground, the Arvore can unleash the power of nature against their enemies.  The walking dead and creatures not native to the world suffer the Earthmother's wrath, while animals and humans are healed.\n\nNote that this power is <color_yellow>indiscriminate</color>: if the Arvore has somehow bound a Nether creature to their service, it will be damaged, and hostile humans will be healed.",
+    "description": "While outdoors and not underground, the Arvore can unleash the power of nature against their enemies.  The walking dead and most creatures not native to the world suffer the Earthmother's wrath, while animals and humans are healed.  Triffids, being plants, are healed as well.\n\nNote that this power is <color_yellow>indiscriminate</color>: if the Arvore has somehow bound a Nether creature to their service, it will be damaged, and hostile humans will be healed.",
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE" ],
     "valid_targets": [ "self" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -863,13 +863,13 @@
     "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage" ] },
     "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
     "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
-    "targeted_monster_species": [ "ZOMBIE", "MIGO", "NETHER", "FUNGUS", "PLANT", "LEECH_PLANT" ]
+    "targeted_monster_species": [ "ZOMBIE", "MIGO", "NETHER", "FUNGUS", "LEECH_PLANT" ]
   },
   {
     "id": "arvore_verdant_mother_heal_animals",
     "type": "SPELL",
     "name": "Embrace of the Verdant Mother Heal Animals",
-    "description": "The actual spell that heals animals  as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+    "description": "The actual spell that heals animals and plants as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
     "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile", "ally" ],
     "spell_class": "ARVORE",
@@ -892,7 +892,8 @@
       "MOLLUSK",
       "WORM",
       "INSECT_FLYING",
-      "ARVORE"
+      "ARVORE",
+      "PLANT"
     ]
   },
   {
