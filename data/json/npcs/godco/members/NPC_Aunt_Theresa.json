@@ -99,13 +99,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "1 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('1 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "long_knit_scarf" } ],
@@ -116,13 +110,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "blanket" } ],
@@ -133,13 +121,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "7 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('7 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "quilt" } ],

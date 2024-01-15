@@ -58,12 +58,12 @@
       },
       {
         "text": "I'm here to pick up my order.",
-        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": ">=", "time": "3 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_npc_making_car)", ">=", "time('3 d')" ] },
         "topic": "TALK_VALHALLIST_MECHANIC_Pick_Up_Vehicles"
       },
       {
         "text": "I'm here to pick up my order.",
-        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": "<", "time": "3 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_npc_making_car)", "<", "time('3 d')" ] },
         "topic": "TALK_VALHALLIST_MECHANIC_Not_Ready"
       },
       { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }

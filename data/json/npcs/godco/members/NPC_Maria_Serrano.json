@@ -240,13 +240,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_tshirt", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
@@ -261,13 +255,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_pants", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
@@ -282,13 +270,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_jacket", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
@@ -303,13 +285,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_dress", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
@@ -324,13 +300,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_duster", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
@@ -345,13 +315,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
@@ -366,13 +330,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_backpack", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
@@ -387,13 +345,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_gambeson", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [

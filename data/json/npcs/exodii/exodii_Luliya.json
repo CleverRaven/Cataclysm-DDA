@@ -108,13 +108,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" },
-            {
-              "u_compare_time_since_var": "luliya_music_timer",
-              "type": "timer",
-              "context": "meeting",
-              "op": ">=",
-              "time": "3 days"
-            }
+            { "math": [ "time_since(u_timer_meeting_luliya_music_timer)", ">=", "time('3 d')" ] }
           ]
         },
         "topic": "TALK_LULIYA_MUSIC"

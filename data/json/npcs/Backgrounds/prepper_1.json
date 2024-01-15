@@ -84,13 +84,7 @@
               "not": {
                 "and": [
                   { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "prepper_1_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }

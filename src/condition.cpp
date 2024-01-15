@@ -1095,48 +1095,6 @@ conditional_t::func f_compare_var( const JsonObject &jo, std::string_view member
     };
 }
 
-conditional_t::func f_compare_time_since_var( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &op = jo.get_string( "op" );
-    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                     time_duration::units ) );
-    return [var_name, op, value, is_npc]( dialogue const & d ) {
-        int stored_value = 0;
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( var.empty() ) {
-            return false;
-        } else {
-            stored_value = std::stof( var );
-        }
-        stored_value += value;
-        int now = to_turn<int>( calendar::turn );
-
-        if( op == "==" ) {
-            return stored_value == now;
-
-        } else if( op == "!=" ) {
-            return stored_value != now;
-
-        } else if( op == "<=" ) {
-            return now <= stored_value;
-
-        } else if( op == ">=" ) {
-            return now >= stored_value;
-
-        } else if( op == "<" ) {
-            return now < stored_value;
-
-        } else if( op == ">" ) {
-            return now > stored_value;
-        }
-
-        return false;
-    };
-}
-
 conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view member )
 {
     str_or_var role = get_str_or_var( jo.get_member( member ), member, true );
@@ -3330,7 +3288,6 @@ parsers = {
     {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"u_compare_var", "npc_compare_var", jarg::string, &conditional_fun::f_compare_var },
-    {"u_compare_time_since_var", "npc_compare_time_since_var", jarg::string, &conditional_fun::f_compare_time_since_var },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },
     {"npc_allies_global", jarg::member | jarg::array, &conditional_fun::f_npc_allies_global },

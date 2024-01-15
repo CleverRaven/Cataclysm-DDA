@@ -225,9 +225,7 @@
         "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
           ]
@@ -240,9 +238,7 @@
         "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
           ]

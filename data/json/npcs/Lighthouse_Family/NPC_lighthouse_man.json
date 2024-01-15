@@ -71,12 +71,7 @@
       {
         "text": "Has anyone come recently?",
         "condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" },
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "not": { "npc_compare_time_since_var": "wait", "type": "time", "context": "survivors", "op": "<", "time": "14 days" }
-          }
-        },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [

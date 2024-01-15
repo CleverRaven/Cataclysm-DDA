@@ -671,7 +671,7 @@
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test)", ">", "time('3 d')" ] }
       }
     ]
   },
