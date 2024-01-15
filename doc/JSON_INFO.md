@@ -2067,6 +2067,18 @@ This places no limits on manual input, only on random generation (i.e. Play Now!
 A list of strings, each is the same as a monster id
 player will start with these as tamed pets.
 
+#### `hobbies`
+
+(optional, array of string profession_ids)
+
+A list of hobbies that will be the only hobbies this profession can choose from. If empty, all hobbies will be allowed.
+
+#### `whitelist_hobbies`
+
+(optional, bool)
+
+If this is false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from. This defaults to true.
+
 #### `vehicle`
 
 (optional, string vproto_id )

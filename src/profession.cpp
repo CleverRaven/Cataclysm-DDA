@@ -263,6 +263,9 @@ void profession::load( const JsonObject &jo, const std::string_view )
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
+    optional( jo, was_loaded, "hobbies", _hobby_exclusion );
+    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
+
     optional( jo, was_loaded, "starting_styles", _starting_martialarts );
     optional( jo, was_loaded, "starting_styles_choices", _starting_martialarts_choices );
     optional( jo, was_loaded, "starting_styles_choices_amount", ma_choice_amount, 1 );
@@ -379,6 +382,13 @@ void profession::check_definition() const
     for( const auto &elem : _starting_pets ) {
         if( !elem.is_valid() ) {
             debugmsg( "starting pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+        }
+    }
+    for( const string_id<profession> &hobby : _hobby_exclusion ) {
+        if( !hobby.is_valid() ) {
+            debugmsg( "hobby %s for profession %s does not exist", hobby.str(), id.str() );
+        } else if( !hobby->is_hobby() ) {
+            debugmsg( "hobby %s for profession %s is a profession", hobby.str(), id.str() );
         }
     }
     for( const auto &elem : _starting_skills ) {
@@ -567,6 +577,14 @@ std::vector<matype_id> profession::ma_known() const
 std::vector<matype_id> profession::ma_choices() const
 {
     return _starting_martialarts_choices;
+}
+
+bool profession::allows_hobby( const string_id<profession> &hobby ) const
+{
+    if( hobbies_whitelist && !_hobby_exclusion.empty() ) {
+        return _hobby_exclusion.count( hobby ) == 1;
+    }
+    return _hobby_exclusion.count( hobby ) == 0;
 }
 
 std::vector<trait_and_var> profession::get_locked_traits() const

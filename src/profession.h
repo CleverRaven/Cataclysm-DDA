@@ -76,6 +76,8 @@ class profession
         std::vector<matype_id> _starting_martialarts_choices;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        std::set<string_id<profession>> _hobby_exclusion;
+        bool hobbies_whitelist = true;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
@@ -122,6 +124,7 @@ class profession
         std::vector<recipe_id> recipes() const;
         std::vector<matype_id> ma_known() const;
         std::vector<matype_id> ma_choices() const;
+        bool allows_hobby( const string_id<profession> &hobby )const;
         int ma_choice_amount;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
