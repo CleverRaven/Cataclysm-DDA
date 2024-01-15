@@ -28,7 +28,8 @@
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
       { "item": "hstomach", "prob": 100 },
       { "group": "pocket_cigar", "prob": 15 },
-      { "group": "misc_smoking_legal", "prob": 30 }
+      { "group": "misc_smoking_legal", "prob": 30 },
+      { "item": "dog_tag", "prob": 40 }
     ]
   },
   {
@@ -78,7 +79,8 @@
       },
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
-      { "item": "hstomach", "prob": 100 }
+      { "item": "hstomach", "prob": 100 },
+      { "item": "dog_tag", "prob": 40 }
     ]
   },
   {

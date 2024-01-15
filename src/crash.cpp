@@ -77,7 +77,7 @@ extern "C" {
 #if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
                                       log_text.str().c_str(), nullptr ) != 0 ) {
-            log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
+            log_text << "\nError creating SDL message box: " << SDL_GetError();
         }
 #endif
 #endif

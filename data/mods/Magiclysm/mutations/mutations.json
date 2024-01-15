@@ -220,6 +220,12 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "LARGE_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE_DRAGON",
     "flags": [ "LARGE" ],
     "name": { "str": "Inconvenient Draconic Growth" },
@@ -438,6 +444,18 @@
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
     "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOLLOW_BONES",
+    "copy-from": "HOLLOW_BONES",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_FEATHERS",
+    "copy-from": "ARM_FEATHERS",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",

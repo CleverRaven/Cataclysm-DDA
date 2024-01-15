@@ -102,6 +102,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
+static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
@@ -301,8 +303,16 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        u.vitamin_mod( vitamin_redcells, -intense );
-        u.vitamin_mod( vitamin_blood, -intense );
+        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
+        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
+        } else {
+            u.vitamin_mod( vitamin_redcells, -intense );
+            u.vitamin_mod( vitamin_blood, -intense );
+        }
         if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }

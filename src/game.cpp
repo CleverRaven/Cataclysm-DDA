@@ -33,6 +33,10 @@
 #include <utility>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -232,6 +236,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -285,13 +290,6 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
-
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_CONVERSATION( "CONVERSATION" );
-static const mon_flag_str_id mon_flag_FISHABLE( "FISHABLE" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
@@ -772,6 +770,8 @@ void game::setup()
 
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
+    calendar::set_location( ::get_option<float>( "LATITUDE" ), ::get_option<float>( "LONGITUDE" ) );
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
@@ -2554,7 +2554,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -3424,6 +3424,11 @@ bool game::save()
                 fout.imbue( std::locale::classic() );
                 fout << total_time_played.count();
             } );
+#if defined(EMSCRIPTEN)
+            // This will allow the window to be closed without a prompt, until do_turn()
+            // is called.
+            EM_ASM( window.game_unsaved = false; );
+#endif
             return true;
         }
     } catch( std::ios::failure & ) {
@@ -4410,7 +4415,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-                static const std::set<tripoint> path_avoid = {};
+                static const std::unordered_set<tripoint> path_avoid = {};
 
                 if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
                     return critter;
@@ -5451,6 +5456,11 @@ bool game::is_sheltered( const tripoint &p )
 
 bool game::revive_corpse( const tripoint &p, item &it )
 {
+    return revive_corpse( p, it, 1 );
+}
+
+bool game::revive_corpse( const tripoint &p, item &it, int radius )
+{
     if( !it.is_corpse() ) {
         debugmsg( "Tried to revive a non-corpse." );
         return false;
@@ -5488,7 +5498,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
         }
     }
 
-    return place_critter_at( newmon_ptr, p );
+    return place_critter_around( newmon_ptr, p, radius );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer )
@@ -6290,6 +6300,7 @@ void game::peek( const tripoint &p )
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
     m.build_map_cache( p.z );
+    m.update_visibility_cache( p.z );
 
     look_around_result result;
     const look_around_params looka_params = { true, center, center, false, false, true, true };
@@ -6307,6 +6318,7 @@ void game::peek( const tripoint &p )
         avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
+    m.invalidate_visibility_cache();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -7479,7 +7491,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
     };
     route_t shortest_route;
-    std::set<tripoint> path_avoid;
+    std::unordered_set<tripoint> path_avoid;
     for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
         if( is_dangerous_tile( p.raw() ) ) {
             path_avoid.insert( p.raw() );
@@ -7703,6 +7715,10 @@ look_around_result game::look_around(
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+#if defined(TILES)
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+#endif
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
@@ -7773,10 +7789,6 @@ look_around_result game::look_around(
         } else if( action == "debug_transparency" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_transparency();
-            }
-        } else if( action == "display_reachability_zones" ) {
-            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_reachability_zones();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -11772,9 +11784,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
+    bool adjacent_climb = false;
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
+        for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
+                adjacent_climb = true;
+            }
+        }
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
@@ -11789,7 +11807,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
-        if( !can_climb_here ) {
+        if( !can_climb_here && !adjacent_climb ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
         }
@@ -11840,7 +11858,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) ) {
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+        !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
@@ -12103,7 +12122,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
-    if( !wall_cling )  {
+    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge &&
+                         !u.has_effect( effect_gliding ) ) )  {
         here.creature_on_trap( u, !force );
     }
 
@@ -12182,7 +12202,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         stairs.emplace( pos + tripoint_above );
     }
     // We did not find stairs directly above or below, so search the map for them
-    if( !stairs.has_value() ) {
+    // If there's empty space right below us, we can just go down that way.
+    if( !stairs.has_value() && get_map().tr_at( u.pos() ) != tr_ledge ) {
         for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
@@ -12245,6 +12266,10 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             return std::nullopt;
         }
 
+        return stairs;
+    }
+
+    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
         return stairs;
     }
 
@@ -12803,51 +12828,6 @@ void game::display_transparency()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
-    }
-}
-
-// Debug menu: asks which reachability cache to display
-void game::display_reachability_zones()
-{
-    if( use_tiles ) {
-        display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
-        if( display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
-            const auto &menu_popup = [&]( int prev_value,
-            const std::vector<std::string> &items ) -> std::optional<int> {
-                uilist menu;
-                int count = 0;
-                for( const auto &menu_str : items )
-                {
-                    menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
-                }
-                menu.selected = prev_value;
-                menu.w_y_setup = 0;
-                menu.query();
-                if( menu.ret < 0 )
-                {
-                    return std::nullopt;
-                }
-                return menu.ret;
-            };
-            static_assert(
-                static_cast<int>( enum_traits<reachability_cache_quadrant >::last ) == 3,
-                "Debug menu expects at least 4 elements in the `quadrant` enum."
-            );
-            std::optional<int> cache =
-                menu_popup( debug_rz_display.r_cache_vertical, { "Horizontal", "Vertical (upward)" } );
-            std::optional<int> quadrant;
-            if( cache ) {
-                quadrant =
-                    menu_popup( static_cast<int>( debug_rz_display.quadrant ),
-                                /**/{ "NE", "SE", "SW", "NW" } );
-            }
-            if( cache && quadrant ) {
-                debug_rz_display.r_cache_vertical = *cache;
-                debug_rz_display.quadrant = static_cast<reachability_cache_quadrant>( *quadrant );
-            } else { // user cancelled selection, toggle overlay off
-                display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
-            }
-        }
     }
 }
 

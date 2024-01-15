@@ -219,7 +219,8 @@
     "result": "seed_rose",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "rose_hips", 1 ] ] ]
+    "components": [ [ [ "rose_hips", 1 ] ] ],
+    "byproducts": [ [ "rose_hips_cut", 1 ] ]
   },
   {
     "result": "seed_chili_pepper",

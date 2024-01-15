@@ -315,13 +315,6 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_pigeon",
-    "type": "MONSTER",
-    "copy-from": "mon_pigeon",
-    "name": { "str": "pigeon" },
-    "extend": { "flags": [ "CANPLAY" ] }
-  },
-  {
     "id": "mon_hummingbird",
     "type": "MONSTER",
     "copy-from": "mon_hummingbird",

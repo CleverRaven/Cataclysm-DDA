@@ -96,7 +96,15 @@
       { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "mace_magic", "inventor_fists_plus", "inventor_research_energy_1" ],
+        "u_roll_remainder": [
+          "inventor_backpack",
+          "vision_halo",
+          "sonic_gun",
+          "mace_magic",
+          "inventor_fists_plus",
+          "inventor_plasma_axe_off",
+          "inventor_research_energy_1"
+        ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {

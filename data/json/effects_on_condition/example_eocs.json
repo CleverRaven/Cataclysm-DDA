@@ -156,7 +156,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_spawn_npc_test",
-    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3 } ]
+    "effect": [ { "u_spawn_npc": "NPC_debug", "real_count": 1, "min_radius": 1, "max_radius": 3, "traits": [ "GOODMEMORY" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -447,10 +447,75 @@
         "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
         "then": {
           "run_eoc_with": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
-          "beta_loc": { "context_val": "loc" }
+          "beta_loc": { "context_val": "loc" },
+          "false_eocs": { "id": "EOC_teleport_test_other_do_fail_msg", "effect": { "message": "Please select a creature." } }
         },
         "else": { "u_message": "Canceled" }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_control_npc_test",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_control_npc", "EOC_return_to_player" ],
+        "names": [ "Control a NPC", "Return to Player" ],
+        "keys": [ "a", "b" ],
+        "descriptions": [ "Control a NPC", "Return to Player" ],
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_control_npc",
+    "effect": [
+      { "u_set_talker": { "global_val": "player_id" } },
+      {
+        "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+        "then": {
+          "run_eoc_with": {
+            "id": "_EOC_control_npc_do",
+            "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
+          },
+          "beta_loc": { "context_val": "loc" },
+          "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_to_player",
+    "effect": [
+      {
+        "run_eoc_with": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
+        "alpha_talker": "avatar",
+        "beta_talker": { "global_val": "player_id" },
+        "false_eocs": { "id": "_EOC_return_to_player_fail_msg", "effect": { "message": "Unable to locate your original body." } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_null_talker_test",
+    "effect": [
+      {
+        "run_eoc_with": { "id": "_EOC_hello_world_msg", "effect": { "message": "hello world" } },
+        "alpha_talker": "",
+        "beta_talker": "",
+        "false_eocs": { "id": "_EOC_null_talker_msg", "effect": { "message": "Constructed a EOC with no talkers!" } }
+      }
+    ]
+  },
+  {
+    "id": "EOC_set_talker_test",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_set_talker": { "global_val": "u_character_id" } },
+      { "u_message": "Your character id is <global_val:u_character_id>" }
     ]
   }
 ]

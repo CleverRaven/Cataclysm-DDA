@@ -1,4 +1,5 @@
 #include "cata_catch.h"
+#include "creature_tracker.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -152,11 +153,14 @@ TEST_CASE( "visitable_zone_surface_test" )
         monster &mon = spawn_test_monster( mon_type, rooftop_area[choice] );
         monsters.push_back( &mon );
     }
-    std::set<int> zones;
+    std::unordered_map<int, int> count_by_zone;
     for( monster *mon : monsters ) {
         mon->plan();
-        zones.insert( mon->get_reachable_zone() );
+        const int zone = mon->get_reachable_zone();
+        ++count_by_zone[zone];
     }
+    CHECK( count_by_zone.size() == 3 );
+
     for( monster *mon : monsters ) {
         tripoint mpos = mon->pos();
         std::vector<structure>::iterator it =
@@ -174,6 +178,20 @@ TEST_CASE( "visitable_zone_surface_test" )
         CAPTURE( mon->pos() );
         CAPTURE( mon->get_reachable_zone() );
         CHECK( mon->get_reachable_zone() != 0 );
-        CHECK( zones.size() == 3 );
+    }
+
+    creature_tracker &tracker = get_creature_tracker();
+    for( monster *mon : monsters ) {
+        const int zone = mon->get_reachable_zone();
+        int visited_count = 0;
+        tracker.for_each_reachable( *mon, [zone, &visited_count]( Creature * creature ) {
+            CHECK( zone == creature->get_reachable_zone() );
+            // Don't count the player.
+            if( creature->is_monster() ) {
+                ++visited_count;
+            }
+        } );
+
+        CHECK( visited_count == count_by_zone[zone] );
     }
 }

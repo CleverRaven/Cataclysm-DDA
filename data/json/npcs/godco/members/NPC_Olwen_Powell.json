@@ -58,7 +58,7 @@
             { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
-        "topic": "TALK_GODCO_Firstmeet_Joinee"
+        "topic": "TALK_GODCO_Olwen_Joinee"
       },
       {
         "text": "I'm just a curious traveler.",

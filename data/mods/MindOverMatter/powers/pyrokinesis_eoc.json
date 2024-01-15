@@ -56,7 +56,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_l') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "arm_l" },
-              { "u_set_hp": { "math": [ "u_hp('arm_l') - 1" ] }, "target_part": "arm_l" },
+              { "math": [ "u_hp('arm_l')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,2)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
@@ -74,7 +74,7 @@
                 "target_part": "arm_l",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_l') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('arm_l') - 3" ] }, "target_part": "arm_l" },
+              { "math": [ "u_hp('arm_l')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
@@ -115,7 +115,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_r') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "arm_r" },
-              { "u_set_hp": { "math": [ "u_hp('arm_r') - 1" ] }, "target_part": "arm_r" },
+              { "math": [ "u_hp('arm_r')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,2)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
@@ -133,7 +133,7 @@
                 "target_part": "arm_r",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'arm_r') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('arm_r') - 3" ] }, "target_part": "arm_r" },
+              { "math": [ "u_hp('arm_r')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
@@ -174,7 +174,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'head') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "head" },
-              { "u_set_hp": { "math": [ "u_hp('head') - 1" ] }, "target_part": "head" },
+              { "math": [ "u_hp('head')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,4)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
@@ -192,7 +192,7 @@
                 "target_part": "head",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'head') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('head') - 3" ] }, "target_part": "head" },
+              { "math": [ "u_hp('head')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(2,6)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
@@ -233,7 +233,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_r') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "leg_l" },
-              { "u_set_hp": { "math": [ "u_hp('leg_l') - 1" ] }, "target_part": "leg_l" },
+              { "math": [ "u_hp('leg_l')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,2)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
@@ -251,7 +251,7 @@
                 "target_part": "leg_l",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_l') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('leg_l') - 3" ] }, "target_part": "leg_l" },
+              { "math": [ "u_hp('leg_l')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
@@ -292,7 +292,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_r') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "leg_r" },
-              { "u_set_hp": { "math": [ "u_hp('leg_r') - 1" ] }, "target_part": "leg_r" },
+              { "math": [ "u_hp('leg_r')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,2)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
@@ -310,7 +310,7 @@
                 "target_part": "leg_r",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'leg_r') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('leg_r') - 3" ] }, "target_part": "leg_r" },
+              { "math": [ "u_hp('leg_r')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
@@ -351,7 +351,7 @@
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'torso') + 1" ] }
               },
               { "u_lose_effect": "bleed", "target_part": "torso" },
-              { "u_set_hp": { "math": [ "u_hp('torso') - 1" ] }, "target_part": "torso" },
+              { "math": [ "u_hp('torso')", "-=", "1" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",
@@ -369,7 +369,7 @@
                 "target_part": "torso",
                 "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': 'torso') + 1" ] }
               },
-              { "u_set_hp": { "math": [ "u_hp('torso') - 3" ] }, "target_part": "torso" },
+              { "math": [ "u_hp('torso')", "-=", "3" ] },
               { "math": [ "u_pain()", "+=", "rng(1,3)" ] },
               {
                 "queue_eocs": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",

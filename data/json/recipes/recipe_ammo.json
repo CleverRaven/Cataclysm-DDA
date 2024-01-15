@@ -38,7 +38,11 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "charges": 25,
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ] ] ]
   },
   {
@@ -140,7 +144,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -164,7 +168,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -188,7 +192,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -263,8 +267,73 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
+        [ "bronze_nail", 10 ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wood_atlatl_spear",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 3,
+    "charges": 2,
+    "time": "15 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bronze_atlatl_spear",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 5,
+    "charges": 2,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_redsmithing" } ],
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "bronze_tiny", 2, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "steel_atlatl_spear",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 5,
+    "charges": 2,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 2, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -284,7 +353,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -308,7 +377,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -332,7 +401,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -445,6 +514,7 @@
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
         [ "nail", 10 ],
+        [ "bronze_nail", 10 ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -475,87 +545,6 @@
         [ "gasoline", 250, "NO_RECOVER" ],
         [ "diesel", 250, "NO_RECOVER" ],
         [ "biodiesel", 250, "NO_RECOVER" ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "arrow_exploding",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 4 ] ],
-    "difficulty": 4,
-    "time": "2 m",
-    "reversible": true,
-    "decomp_learn": 6,
-    "//": "you just take the warhead off or put it on, rather than making the warhead",
-    "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exploding_arrow_warhead", 1 ] ],
-      [
-        [ "arrow_field_point_fletched", 1 ],
-        [ "arrow_fire_hardened_fletched", 1 ],
-        [ "arrow_wood", 1 ],
-        [ "arrow_heavy_fire_hardened_fletched", 1 ],
-        [ "arrow_heavy_field_point_fletched", 1 ],
-        [ "arrow_wood_heavy", 1 ],
-        [ "arrow_metal", 1 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "exploding_arrow_warhead",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 5 ], [ "mechanics", 3 ] ],
-    "difficulty": 6,
-    "time": "5 m",
-    "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "//": "Requires to accurately measure powder.",
-    "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
-      [
-        [ "smpistol_primer", 1 ],
-        [ "lgpistol_primer", 1 ],
-        [ "smrifle_primer", 1 ],
-        [ "lgrifle_primer", 1 ],
-        [ "shotgun_primer", 1 ]
-      ],
-      [ [ "gunpowder", 200 ], [ "chem_black_powder", 200 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bolt_explosive",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 3 ] ],
-    "difficulty": 5,
-    "time": "2 m",
-    "book_learn": [ [ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exploding_arrow_warhead", 1 ] ],
-      [
-        [ "bolt_crude", 1 ],
-        [ "bolt_wood", 1 ],
-        [ "bolt_wood_bodkin", 1 ],
-        [ "bolt_steel", 1 ],
-        [ "bolt_makeshift", 1 ],
-        [ "bolt_wood_small_game", 1 ],
-        [ "bolt_metal", 1 ]
       ]
     ]
   },
@@ -639,7 +628,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ] ],
+      [ [ "scrap", 1 ], [ "nail", 8 ], [ "bronze_nail", 8 ], [ "copper", 16 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -677,7 +666,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "nail", 8 ], [ "combatnail", 8 ] ],
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "combatnail", 8 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },

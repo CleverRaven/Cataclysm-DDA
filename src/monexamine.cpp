@@ -61,14 +61,6 @@ static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
-static const mon_flag_str_id mon_flag_CANPLAY( "CANPLAY" );
-static const mon_flag_str_id mon_flag_CAN_BE_CULLED( "CAN_BE_CULLED" );
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_SHEAR( "SHEAR" );
 

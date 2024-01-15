@@ -527,5 +527,55 @@
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "steyr_scout",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "scouting rifle" },
+    "description": "This is a versatile, all-purpose hunting rifle.  To this end, it is exceedingly lightweight, contains an inbuilt polymer bipod, and fits a spare magazine inside the stock for fast reloading.  While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "steyr_scout",
+        "name": { "str": "Steyr Scout rifle" },
+        "description": "The Steyr Scout is Steyr's interpretation of Jeff Cooper's concept of a 'scout rifle', a versatile, all-purpose hunting rifle.  To this end, it is exceedingly lightweight, and contains a built-in polymer bipod, and fits a spare magazine inside the stock for fast reloading.  While these features made for a hunting rifle too universal for widespread adoption, they might yet fulfill a vital scouting niche for survivors in the post-Cataclysm world."
+      }
+    ],
+    "weight": "3000 g",
+    "volume": "4084 ml",
+    "longest_side": "980 mm",
+    "barrel_length": "482 mm",
+    "price": 180000,
+    "price_postapoc": 5000,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "(",
+    "color": "blue",
+    "ammo": [ "308" ],
+    "dispersion": 133,
+    "//": "Has a MOA of ~1.33, while the M24 with 85 dispersion has a MOA of ~1.0. Basically like 50% more dispersion.",
+    "durability": 7,
+    "min_cycle_recoil": 2700,
+    "barrel_volume": "363 ml",
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "scout_bipod", "scout_stock" ],
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "steyr_scout_mag", "steyr_scout_mag_makeshift" ] } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

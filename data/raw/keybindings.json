@@ -1159,6 +1159,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MAP_REVEALS",
+    "category": "OVERMAP",
+    "name": "Toggle highlighting map reveals",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_HORDES",
     "category": "OVERMAP",
     "name": "Toggle hordes",
@@ -2121,8 +2128,7 @@
     "type": "keybinding",
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
-    "name": "Show/hide all contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+    "name": "Show/hide all contents"
   },
   {
     "type": "keybinding",
@@ -3676,6 +3682,13 @@
     "category": "INVENTORY",
     "name": "Auto balance trade using highlighted item",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "BANK_BALANCE",
+    "category": "INVENTORY",
+    "name": "Auto balance trade using bank account",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
   },
   {
     "type": "keybinding",

@@ -86,7 +86,7 @@
     "price": 7500,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": [ "plastic", "nylon" ],
+    "material": [ "hard_plastic_transp", "nylon" ],
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "dark_gray",
@@ -152,7 +152,7 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT" ],
+    "flags": [ "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT", "TRANSPARENT" ],
     "armor": [ { "coverage": 20, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
@@ -485,7 +485,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
@@ -504,7 +504,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
@@ -524,7 +524,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {

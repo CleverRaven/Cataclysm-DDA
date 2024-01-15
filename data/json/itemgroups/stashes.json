@@ -118,6 +118,13 @@
     "items": [ { "group": "small_bugout" } ]
   },
   {
+    "id": "small_bugout_bag_4",
+    "type": "item_group",
+    "container-item": "backpack_denim",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
+  },
+  {
     "id": "small_bugout",
     "type": "item_group",
     "//": "a light bugout, stuff people would have on hand, not super full",
@@ -328,7 +335,8 @@
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ]
+      [ "bondage_mask", 20 ],
+      { "group": "loose_chess_pieces", "prob": 3 }
     ]
   },
   {
@@ -342,6 +350,13 @@
     "id": "child_bugout_bag_2",
     "type": "item_group",
     "container-item": "backpack_leather",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
+    "id": "child_bugout_bag_3",
+    "type": "item_group",
+    "container-item": "backpack_denim",
     "on_overflow": "spill",
     "items": [ { "group": "child_bugout" } ]
   },

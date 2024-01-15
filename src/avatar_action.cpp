@@ -73,9 +73,6 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );

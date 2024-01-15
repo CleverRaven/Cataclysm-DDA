@@ -588,5 +588,15 @@
     "description": "An empty giant brass shotshell, with illegible alien text on the headstamp.  These are rare, so you might want to hold onto them.",
     "weight": "10 g",
     "volume": "10ml"
+  },
+  {
+    "id": "50ae_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".50 AE casing" },
+    "description": "An empty casing from a .50 Action Express round.",
+    "weight": "6 g",
+    "volume": "8ml"
   }
 ]

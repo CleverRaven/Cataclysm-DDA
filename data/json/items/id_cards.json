@@ -62,11 +62,9 @@
     "category": "keys",
     "use_action": {
       "type": "reveal_map",
-      "radius": 90,
+      "radius": 300,
       "message": "You add the facilities to your map.",
       "terrain": [
-        { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
-        "bridge",
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
         "lab_res_8_SWU_ground",
@@ -121,11 +119,9 @@
     "flags": [ "SCIENCE_CARD_TRANSPORT_1", "CREDIT_CARD_SHAPED" ],
     "use_action": {
       "type": "reveal_map",
-      "radius": 90,
+      "radius": 300,
       "message": "You add the facilities to your map",
       "terrain": [
-        { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
-        "bridge",
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
         "lab_res_8_SWU_ground",

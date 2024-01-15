@@ -103,7 +103,7 @@
     "replace": "pistol_mag"
   },
   {
-    "id": [ "deaglemag", "hptjhpmag", "8x40_10_mag" ],
+    "id": [ "deaglemag", "deaglemag_357", "deaglemag_50", "hptjhpmag", "8x40_10_mag" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
   },
@@ -123,6 +123,8 @@
       "thompson_makeshiftmag",
       "ump45mag",
       "ump45_makeshiftmag",
+      "ump40mag",
+      "ump9mag",
       "hk46bigmag",
       "hk46mag",
       "fnp90mag",
@@ -348,6 +350,8 @@
       "ai_308mag_10",
       "mrad_338lapua_mag",
       "ruger_pr_mag",
+      "steyr_scout_mag",
+      "steyr_scout_mag_makeshift",
       "borealmosin_clip",
       "robofac20"
     ],

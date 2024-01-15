@@ -49,7 +49,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": "80 L",
+    "size": "85 L",
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
     "variants": [
@@ -76,9 +76,10 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
+    "//": "reclining and bench seats are roomier than standard and are able to fit Large characters, if not comfortably",
     "description": "A soft seat with an adjustable backrest, making it a reasonably comfortable place to sleep.",
     "durability": 100,
-    "size": "84000 ml",
+    "size": "95 L",
     "floor_bedding_warmth": 350,
     "name": { "str": "reclining bucket seat" },
     "extend": { "flags": [ "BED" ] },
@@ -102,6 +103,7 @@
     "description": "A soft, wide seat with a high back, the kind often used in back seats or older cars.  It might be a decent place to sleep.",
     "floor_bedding_warmth": 500,
     "item": "seat_bench",
+    "size": "95 L",
     "name": { "str": "bench seat" },
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
@@ -180,7 +182,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "size": "62500 ml",
     "type": "vehicle_part"
   }
 ]

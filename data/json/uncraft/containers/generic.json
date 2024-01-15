@@ -1,0 +1,30 @@
+[
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "saline_bag_250_empty",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "saline_bag_500_empty",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "saline_bag_1000_empty",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 4 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "saline_bag_2000_empty",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 8 ] ] ]
+  }
+]

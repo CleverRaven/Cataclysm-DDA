@@ -106,6 +106,23 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 20 } } ]
   },
   {
+    "id": "ump40mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "UMP-40 30-round magazine" },
+    "description": "A straight, double-stack plastic box magazine for the UMP sub-machine gun in .40 S&W.  Holds 30 rounds.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "price": 4000,
+    "price_postapoc": 50,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "40" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 30 } } ]
+  },
+  {
     "id": "bhp40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",

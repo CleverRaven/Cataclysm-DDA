@@ -348,6 +348,7 @@ extern const flag_id flag_UNDERFED;
 extern const flag_id flag_UNDERSIZE;
 extern const flag_id flag_UNDERWATER_GUN;
 extern const flag_id flag_UNRECOVERABLE;
+extern const flag_id flag_UNRESTRICTED;
 extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USE_EAT_VERB;

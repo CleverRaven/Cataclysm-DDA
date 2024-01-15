@@ -12,7 +12,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_RELIC" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -20,7 +20,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_GET_RECORD_ACCOUNTING" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -28,7 +28,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_INHALER" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -36,7 +36,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_ANTIBIOTICS" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -44,7 +44,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_FLAG" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -52,7 +52,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_RECORD_WEATHER" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -60,7 +60,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_SOFTWARE" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -68,7 +68,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_GET_RECORD_PATIENT" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -76,7 +76,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_KILL_JABBERWOCK" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -84,7 +84,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_KILL_ZOMBIE_MOM" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -92,7 +92,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_RESCUE_DOG" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -100,7 +100,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_PROVE_YOU_ARE_A_SURVIVOR" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -108,7 +108,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_LEARN_ABOUT_CATTAIL_JELLY" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -116,7 +116,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_PYROMANIAC" }
             },
-            { "const": 1 }
+            1
           ]
         ]
       },

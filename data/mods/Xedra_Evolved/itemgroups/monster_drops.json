@@ -416,14 +416,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "mon_zombie_flamer",
-    "ammo": 50,
-    "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
-  },
-  {
     "id": "combat_cyborg_harvest",
     "type": "item_group",
     "subtype": "distribution",

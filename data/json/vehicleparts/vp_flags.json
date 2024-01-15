@@ -676,5 +676,23 @@
     "id": "HUGE_OK",
     "type": "json_flag",
     "info": "Even when roofed, this part is roomy enough to comfortably admit very large creatures, like cows and horses."
+  },
+  {
+    "id": "IGNORE_LEG_REQUIREMENT",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEED_LEG",
+    "info": "Operating this part will require at least one working leg.",
+    "type": "json_flag"
+  },
+  {
+    "id": "INOPERABLE_SMALL",
+    "info": "People who are very short may be unable to make use of this part.",
+    "type": "json_flag"
+  },
+  {
+    "id": "IGNORE_HEIGHT_REQUIREMENT",
+    "type": "json_flag"
   }
 ]

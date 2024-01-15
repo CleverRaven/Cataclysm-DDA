@@ -22,7 +22,7 @@
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
     ],
-    "name": { "str": "feral elf" },
+    "name": { "str": "feral elf", "str_pl": "feral elves" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a pipe in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
     "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
@@ -55,7 +55,7 @@
       [ "EAT_FOOD", 100 ]
     ],
     "looks_like": "mon_forgedwarves",
-    "name": { "str": "feral dwarf" },
+    "name": { "str": "feral dwarf", "str_pl": "feral dwarves" },
     "description": "Lacking their normal eye protection, this dwarf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a pipe in one hand and the walking dead leave them alone.",
     "symbol": "D",
     "proportional": { "hp": 1.1, "speed": 0.9, "volume": 0.7, "weight": 0.9 },
@@ -86,7 +86,7 @@
       },
       { "id": "feral_weapon_crowbar" }
     ],
-    "name": { "str": "feral elf" },
+    "name": { "str": "feral elf", "str_pl": "feral elves" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a crowbar in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
     "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
@@ -117,7 +117,7 @@
       { "id": "feral_weapon_crowbar" }
     ],
     "looks_like": "mon_forgedwarves",
-    "name": { "str": "feral dwarf" },
+    "name": { "str": "feral dwarf", "str_pl": "feral dwarves" },
     "description": "Lacking their normal eye protection, this dwarf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a crowbar in one hand and the walking dead leave them alone.",
     "symbol": "D",
     "proportional": { "hp": 1.1, "speed": 0.9, "volume": 0.7, "weight": 0.9 },
@@ -131,7 +131,7 @@
     "id": "mon_feral_elf_axe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_axe",
-    "name": { "str": "feral axe-elf" },
+    "name": { "str": "feral axe-elf", "str_pl": "feral axe-elves" },
     "description": "Dragging a large axe along the ground, this elf's expression is one of twisted glee.  Their movements are more fluid than those of the feral humans, but no less unsettling.",
     "symbol": "E",
     "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
@@ -145,7 +145,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_human_axe",
     "looks_like": "mon_forgedwarves",
-    "name": { "str": "deranged axedwarf" },
+    "name": { "str": "deranged axedwarf", "str_pl": "deranged axedwarves" },
     "description": "This dwarf holds the traditional dwarven weapon with none of the skill and craft of the axedwarves of old.  The axehead is pitted but still looks sharp, and the zombies around them ignore them as they hold it.",
     "symbol": "D",
     "proportional": { "hp": 1.1, "speed": 0.9, "volume": 0.7, "weight": 0.9 },
@@ -205,7 +205,7 @@
   {
     "id": "mon_feral_ravenfolk",
     "type": "MONSTER",
-    "name": { "str": "feral ravenfolk" },
+    "name": { "str_sp": "feral ravenfolk" },
     "description": "Wing-feathers tattered, eyes bloodshot, this ravenfolk walks among the dead as though already one of them.",
     "default_faction": "zombie",
     "looks_like": "chud",
@@ -277,7 +277,7 @@
   {
     "id": "mon_feral_lizardfolk",
     "type": "MONSTER",
-    "name": { "str": "feral lizardfolk" },
+    "name": { "str_sp": "feral lizardfolk" },
     "description": "This lizardfolk's eyes are bloodshot and they walk among the dead as though one of them.  Their tongue repeatedly flickers in and out of their mouth like a snake.",
     "default_faction": "zombie",
     "looks_like": "mon_lizardfolk_warrior",
@@ -323,7 +323,7 @@
         "no_dmg_msg_u": "%1$s's lunges at your %2$s, but its teeth glance off your armor.",
         "no_dmg_msg_npc": "%1$s's lunges at <npcname>, but its teeth glance off their armor.",
         "miss_msg_u": "%s lunges forward to bite you, but you dodge!",
-        "miss_msg_npc": "%s lunges foward to bite <npcname>, but they dodge!"
+        "miss_msg_npc": "%s lunges forward to bite <npcname>, but they dodge!"
       }
     ],
     "vision_day": 30,

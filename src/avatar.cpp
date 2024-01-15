@@ -138,6 +138,7 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
@@ -375,6 +376,16 @@ void avatar::on_mission_finished( mission &cur_mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+bool avatar::has_mission_id( const mission_type_id &miss_id )
+{
+    for( mission *miss : active_missions ) {
+        if( miss->mission_id() == miss_id ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void avatar::remove_active_mission( mission &cur_mission )
@@ -1951,7 +1962,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) ) {
+    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
