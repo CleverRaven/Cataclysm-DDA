@@ -62,6 +62,7 @@ decl_diag_eval hp_eval;
 decl_diag_ass hp_ass;
 decl_diag_eval hp_max_eval;
 decl_diag_eval item_count_eval;
+decl_diag_eval item_rad_eval;
 decl_diag_eval monsters_nearby_eval;
 decl_diag_eval monster_species_nearby_eval;
 decl_diag_eval monster_groups_nearby_eval;
@@ -149,6 +150,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "hp", { "un", 1, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
+    { "item_rad", { "un", 1, item_rad_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
