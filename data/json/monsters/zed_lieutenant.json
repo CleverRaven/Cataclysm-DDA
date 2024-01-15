@@ -346,7 +346,7 @@
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1  }
+      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1 }
     ]
   },
   {
