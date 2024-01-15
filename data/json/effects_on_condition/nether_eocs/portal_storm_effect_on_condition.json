@@ -19,7 +19,7 @@
     "type": "effect_on_condition",
     "id": "scenario_quick_portal_storm",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "math": [ "ps_min_woc", "=", "u_val('time: 1 d')" ] }, { "math": [ "ps_max_woc", "=", "u_val('time: 2 d')" ] } ]
+    "effect": [ { "math": [ "ps_min_woc", "=", "time(' 1 d')" ] }, { "math": [ "ps_max_woc", "=", "time(' 2 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -689,8 +689,8 @@
           {
             "id": "portal_storm_dark_light",
             "condition": "is_day",
-            "effect": { "custom_light_level": 0, "length": [ "1 minutes", { "math": [ "ps_str * u_val('time: 1 m')" ] } ] },
-            "false_effect": { "custom_light_level": 125, "length": [ "1 minutes", { "math": [ "ps_str * u_val('time: 1 m')" ] } ] }
+            "effect": { "custom_light_level": 0, "length": [ "1 minutes", { "math": [ "ps_str * time(' 1 m')" ] } ] },
+            "false_effect": { "custom_light_level": 125, "length": [ "1 minutes", { "math": [ "ps_str * time(' 1 m')" ] } ] }
           },
           {
             "id": "portal_storm_outside_message",
@@ -718,7 +718,7 @@
         "type": "bad",
         "popup": true
       },
-      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } }
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str * time(' 1 s')" ] } }
     ]
   },
   {
@@ -852,7 +852,7 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
-      { "math": [ "u_cell_time", "=", "u_val('time: 5 m') + rand(60)" ] },
+      { "math": [ "u_cell_time", "=", "time(' 5 m') + rand(60)" ] },
       { "math": [ "u_in_portal_cell", "=", "1" ] },
       {
         "revert_location": { "global_val": "cell_loc" },
@@ -1121,26 +1121,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
-    "effect": {
-      "u_add_effect": "weakened_inertia",
-      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
-    }
+    "effect": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
-    "effect": {
-      "u_add_effect": "warped_viewpoint",
-      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
-    }
+    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
-    "effect": {
-      "u_add_effect": "weakened_gravity",
-      "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * u_val('time: 1 d')" ] }
-    }
+    "effect": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
@@ -1168,7 +1159,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_PUNISHMENT",
     "effect": [
-      { "math": [ "ps_effect_length", "=", "u_val('time: 3 h')" ] },
+      { "math": [ "ps_effect_length", "=", "time(' 3 h')" ] },
       {
         "weighted_list_eocs": [
           [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", 10 ],
