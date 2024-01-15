@@ -381,12 +381,6 @@ bool mtype::in_species( const species_id &spec ) const
     return species.count( spec ) > 0;
 }
 
-bool mtype::in_mfaction( const mfaction_str_id &fac ) const
-{
-    // this is a chep ass trick but hey it works
-    return default_faction.str() == fac.str();
-}
-
 std::vector<std::string> mtype::species_descriptions() const
 {
     std::vector<std::string> ret;

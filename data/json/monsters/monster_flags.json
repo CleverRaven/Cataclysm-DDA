@@ -617,11 +617,11 @@
   {
     "id": "GUILT_HUMAN",
     "type": "monster_flag",
-    "//": "Warning: Do not use without death_guilt function. This helps count the non-pc human (e.g civilian/futile fighter etc.) kills before player goes numb."
+    "//": "Warning: Do not use without death_guilt function. This helps count the non-npc human (e.g civilian/futile fighter) kills before player goes numb."
   },
   {
     "id": "GUILT_OTHERS",
     "type": "monster_flag",
-    "//": "Warning: Do not use without death_guilt function. This helps count the all the other kills that do not fit the other two (e.g blood sacrifice) before player goes numb."
+    "//": "Warning: Do not use without death_guilt function. This helps count the all the other kills that do not fit the other three (e.g blood sacrifice) before player goes numb."
   }
 ]
