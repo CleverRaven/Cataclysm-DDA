@@ -179,20 +179,8 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
-Added seasoned fried and scrambled eggs
-Add bronze variants to ingredients for many recipes
-Make diet soda junkfood and add sparkling water
-Eggplants barely can be cooked at all at the moment, so I added a greek eggplant dip.
 Add WIP Limb Stuff Mod
-Made quilts craftable, added fur blanket disassembly
-Adds different flavors of chewing gum in variants form
-add mesoamerican weaponry
-Add scrap and ingot recipes for tin
 Addition of fabric store and audit on thread and yarn recipes
-Adds all things frog legs for those displaced survivors wanting a taste of home.
-Adds a recipe for leather riding jackets, changes their name to 'motorcycle jacket'
-Add Modular H&K UMP
-Adds several new hats, variants and their spawn rates.
 Mutant Salmon rework
 
 
@@ -247,7 +235,6 @@ Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
-Disable number invlets in inventory selectors when numpad nav is enabled
 
 
 ## Mods:
@@ -341,17 +328,8 @@ Paraclesian Map extras
 [Sky Island] Lots of updates
 [MoM] Change success formula for psionic powers
 [DinoMod] plesiosaurus
-[Xedra Evolved] Give Arvore vines (but toggleable)
-[Xedra Evolved] Add Homullus goblin fruit spell
-[Xedra Evolved] Paraclesian natural magical growth
-[Xedra Evolved] Some generic Paraclesian traits
-MoM nightmare typo fix
 [MoM] Power learning revamp: Clairsentience
-[Xedra Evolved] Add Treesinging to Arvore
-[MoM] Switch rng to rand for Nether Attunement
-[Xedra Evolved] Add some Undine traits
-Aftershock: Can trade with NPCs using your bank account.
-[MoM] Add standard check for powers known to apply recipes
+[Xedra Evolved] Add some Undine, Arvorem Homullus and Generic Paraclesian traist.
 
 
 ## Balance:
@@ -402,14 +380,6 @@ Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
 Visitors Passes and Freight Badges no longer reveal roads
-Recipe consistency audit for tallow and boiled stomaches. Added recipes for small and large cans.
-Adjust some values for denim items
-Correct Dimensions/Weight of 22LR Magazines
-Correct dimensions/weight of magazines for Russian calibers, 7.7x58, .38 Special
-Added tanned pelts to the fur foot wraps recipe as alternative components as they are practically the same as patchwork fur sheets for this craft
-Audit .30, .32, .44, .50AE, 5.45, 5.7, 7.62x39 Magazines
-Add crabapples, reduce rose hip yield, reduce cultivated wild fruit tree frequency
-Audit 12g, .30-06, .338LM, .38 Super, .410, .460 Rowland, .50BMG Magazines
 
 
 ## Bugfixes:
@@ -519,19 +489,8 @@ clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Autodrive over bridges
 Stable vehicle speeds with autotravel
-pocket_type::EBOOK loses contents through power on/off
-Fix #67611
-Update and overhaul survivor masks
-Road connections for specials always start on land
 Fixes improper behavior when moving down
-Fix the scrapper's trading mission.
-Fix traps
-[Xedra Evolved] The Forest Offers Shelter bugfix
-Fix the triggers for mutations healing lost limbs.
-Some Iterator Fixes for Crushing Leap
-Scrapper NPCs now call soldering wire solder.
 Avoid duplicates in speed adjustments
-The stone bladed tepoztopili did not have a recipe, it does now
 
 
 ## Performance:
@@ -591,12 +550,7 @@ Allow items to provide martial art techniques when not wielded
 Remove hardcoded mapgen for fields
 Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
-cata-test does not wait for --list-tests anymore
-General refinements to the item link/cable code
-Update for TILESET.md - added links to the tileset repository
-Added WebAssembly build to releases
 Items warn on exceeding max volume, unify max volume as a game constant
-Only init game if we're running tests that need it
 
 
 ## Build:
@@ -611,7 +565,6 @@ Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
-Fix msvc artifact zip name so that release.yml finds it again
 
 
 ## I18N and A11Y:
