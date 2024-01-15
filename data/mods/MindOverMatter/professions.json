@@ -208,10 +208,11 @@
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "metaphysics" } ],
     "traits": [ "PYROMANIA", "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "spells": [
-      { "id": "pyrokinetic_eruption", "level": 4 },
-      { "id": "pyrokinetic_quell_flames", "level": 2 },
+      { "id": "pyrokinetic_eruption", "level": 8 },
+      { "id": "pyrokinetic_call_flames", "level": 4 },
       { "id": "pyrokinetic_flamethrower", "level": 3 },
-      { "id": "pyrokinetic_flash", "level": 3 }
+      { "id": "pyrokinetic_cloak", "level": 7 },
+      { "id": "pyrokinetic_flash", "level": 6 }
     ],
     "items": {
       "both": {
@@ -219,6 +220,7 @@
           { "item": "socks" },
           { "item": "jeans" },
           { "item": "sneakers" },
+          { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "lighter", "charges": 100 },
           { "item": "lighter", "charges": 100 },
