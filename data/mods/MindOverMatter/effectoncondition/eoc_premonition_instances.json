@@ -45,7 +45,11 @@
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "u_message": "You shiver as you suddenly realize you are prey for something far beyond you; the night itself means to kill you.  You need to hide.  Now.", "type": "bad", "popup": true }
+      {
+        "u_message": "You shiver as you suddenly realize you are prey for something far beyond you; the night itself means to kill you.  You need to hide.  Now.",
+        "type": "bad",
+        "popup": true
+      }
     ]
   },
   {
