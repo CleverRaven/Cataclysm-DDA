@@ -35,6 +35,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "test_limb_progress",
+    "condition": { "math": [ "u_val('vitamin', 'name:mutagen')", ">=", "600" ] },
+    "effect": [ { "math": [ "u_this", "++" ] }, { "u_message": "Progress" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "test_changing_limb_progress",
+    "recurrence": [ "1 s", "5 s" ],
+    "condition": { "and": [ { "u_has_flag": "CHANGING_LIMB" }, { "math": [ "u_PRE_FROG_EYES", ">=", "2" ] } ] },
+    "effect": [ { "u_message": "I'm almost there!", "popup": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "test_changing_limb_progress_reset",
+    "effect": [ { "u_message": { "context_val": "this" }, "popup": true, "snippet": true }, { "math": [ "u_this", "=", "0" ] } ]
+  },
+  {
+    "type": "snippet",
+    "category": "PRE_FROG_EYES",
+    "text": [
+      "Your hands seize up for a moment, and you drop your weapon!",
+      "Your arms fall down paralyzed, and your weapon tumbles to the ground!"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "changing_mutate",
     "//": "Time for mutation!",
     "recurrence": [ "1 h", "6 h" ],
