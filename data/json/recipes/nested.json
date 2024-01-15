@@ -4886,6 +4886,28 @@
     "difficulty": 7
   },
   {
+    "id": "nested_aztec_sword",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "macuahuitls",
+    "description": "Recipes for making macuahuitls.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_aztec_sword", "mc_aztec_sword", "hc_aztec_sword", "ch_aztec_sword", "qt_aztec_sword" ]
+  },
+  {
+    "id": "nested_aztec_spear",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "tepoztopilis",
+    "description": "Recipes for making tepoztopilis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_aztec_spear", "mc_aztec_spear", "hc_aztec_spear", "ch_aztec_spear", "qt_aztec_spear" ]
+  },
+  {
     "id": "nested_methanol_tank",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",

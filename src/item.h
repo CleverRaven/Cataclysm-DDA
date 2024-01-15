@@ -3230,11 +3230,13 @@ inline bool is_crafting_component( const item &component )
 }
 
 /**
+ * Filter for crafting components first pass searches excluding undesirable properties.
+ */
+bool is_preferred_component( const item &component );
+
+/**
  * Filter for empty crafting components first pass searches
  */
-inline bool is_empty_crafting_component( const item &component )
-{
-    return component.is_container_empty() && is_crafting_component( component );
-}
+bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H

@@ -205,6 +205,8 @@ augmentations
 auk
 auroral
 ausgegangen
+atlatl
+atlatls
 autoclave
 autoclaving
 autohaul
@@ -653,6 +655,7 @@ countermine
 countertime
 couters
 coverplate
+crabapple
 crablike
 cracklins
 craftable
@@ -1692,6 +1695,7 @@ layin
 lb
 lbs
 leache
+leaper
 leatherbacked
 leatherbound
 leathercrafters
@@ -1785,7 +1789,10 @@ machiner
 macronutrient
 macrophenotypic
 macuahuitl
+macuahuitls
 maculata
+magick
+magicks
 magickal
 magicks
 magwells
@@ -2089,6 +2096,7 @@ nonuniform
 nonverbally
 noone
 nopal
+nopales
 nopalito
 nord
 norvegicus
@@ -3065,6 +3073,8 @@ temaki
 tenderloins
 tenontosaurus
 tequini
+tepoztopili
+tepoztopilis
 teravolt
 terpenes
 terranean
@@ -3150,6 +3160,8 @@ treatin
 treefrog
 treefrogs
 treelines
+treesinging
+treesung
 trenchcoat
 trenchcoats
 trenchgun

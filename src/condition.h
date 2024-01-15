@@ -103,6 +103,7 @@ struct conditional_t {
         void set_u_has_mission( const JsonObject &jo, std::string_view member );
         void set_u_monsters_in_direction( const JsonObject &jo, std::string_view member );
         void set_u_safe_mode_trigger( const JsonObject &jo, std::string_view member );
+        void set_u_profession( const JsonObject &jo, std::string_view member );
         void set_has_strength( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_dexterity( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, std::string_view member, bool is_npc = false );

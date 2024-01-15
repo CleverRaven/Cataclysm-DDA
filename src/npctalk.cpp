@@ -3915,7 +3915,7 @@ void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, std::string_vie
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( dialogue & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
-        translation translated_name = to_translation( _( name.evaluate( d ) ) );
+        translation translated_name = to_translation( name.evaluate( d ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
                                            pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
@@ -4223,39 +4223,6 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, std::string_view 
     function = [is_npc, dov_amount, dov_cap]( dialogue & d ) {
         d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
                                              dov_cap.evaluate( d ) );
-    };
-}
-
-void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
-                                bool is_npc )
-{
-    dbl_or_var new_hp = get_dbl_or_var( jo, member, true );
-    std::optional<str_or_var> target_part;
-    if( jo.has_string( "target_part" ) ) {
-        target_part = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
-    }
-    bool only_increase = jo.get_bool( "only_increase", false );
-    bool max = jo.get_bool( "max", false );
-    bool main_only =  jo.get_bool( "main_only", false );
-    bool minor_only =  jo.get_bool( "minor_only", false );
-    if( main_only && minor_only ) {
-        jo.throw_error( "Can't be main_only and minor_only at the same time." );
-    }
-    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only,
-                   max]( dialogue & d ) {
-        talker *target = d.actor( is_npc );
-        for( const bodypart_id &part : target->get_all_body_parts( ( !main_only &&
-                !minor_only ), main_only ) ) {
-            if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
-                ( !only_increase ||
-                  target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
-                if( max ) {
-                    target->set_part_hp_cur( part, target->get_part_hp_max( part ) );
-                } else {
-                    target->set_part_hp_cur( part, new_hp.evaluate( d ) );
-                }
-            }
-        }
     };
 }
 
@@ -6082,7 +6049,6 @@ parsers = {
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category },
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art },
-    { "u_set_hp", "npc_set_hp", jarg::member | jarg::array, &talk_effect_fun_t::set_hp },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun_t::set_transform_radius },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun_t::set_npc_goal },
@@ -6528,8 +6494,9 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
             // build additional talk responses for failed options with an explanation if details are given
             talk_response tr = talk_response();
-            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
-                                          actual_response.truetext.translated() ) );
+            tr.truetext = no_translation(
+                              string_format( pgettext( "failure_explanation: actual_response", "*%s: %s" ),
+                                             failure_explanation.translated(), actual_response.truetext.translated() ) );
             if( !failure_topic.empty() ) {
                 // Default is TALK_NONE otherwise go to the failure topic provided
                 tr.success.next_topic = talk_topic( failure_topic );
