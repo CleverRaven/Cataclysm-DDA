@@ -3915,7 +3915,7 @@ void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, std::string_vie
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( dialogue & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
-        translation translated_name = to_translation( _( name.evaluate( d ) ) );
+        translation translated_name = to_translation( name.evaluate( d ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
                                            pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
@@ -6494,8 +6494,9 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
             // build additional talk responses for failed options with an explanation if details are given
             talk_response tr = talk_response();
-            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
-                                          actual_response.truetext.translated() ) );
+            tr.truetext = no_translation(
+                              string_format( pgettext( "failure_explanation: actual_response", "*%s: %s" ),
+                                             failure_explanation.translated(), actual_response.truetext.translated() ) );
             if( !failure_topic.empty() ) {
                 // Default is TALK_NONE otherwise go to the failure topic provided
                 tr.success.next_topic = talk_topic( failure_topic );
