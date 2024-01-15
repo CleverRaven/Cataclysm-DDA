@@ -34,15 +34,10 @@ static const damage_type_id damage_cut( "cut" );
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 static const enchantment_id enchantment_ENCH_TEST_TAIL( "ENCH_TEST_TAIL" );
 
-static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
-
 static const itype_id itype_test_tail_encumber( "test_tail_encumber" );
 
 static const limb_score_id limb_score_test( "test" );
 
-static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
-static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
-static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
 static const trait_id trait_TEST_ARMOR_MUTATION( "TEST_ARMOR_MUTATION" );
 
 static void create_char( Character &dude )

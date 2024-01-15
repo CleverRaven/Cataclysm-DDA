@@ -24,7 +24,6 @@ static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
 static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
-static const trait_id trait_TEST_ARMOR_MUTATION( "TEST_ARMOR_MUTATION" );
 
 static void create_bird_char( Character &dude )
 {
