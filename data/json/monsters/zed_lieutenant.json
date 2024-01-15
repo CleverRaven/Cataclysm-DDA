@@ -328,7 +328,7 @@
       "and": [
         { "days_since_cataclysm": 7 },
         { "math": [ "days_since_cataclysm", "<", "10" ] },
-        { "one_in_chance": 6 },
+        { "one_in_chance": 3 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         { "math": [ "Lieutenants_active", ">", "0" ] },
