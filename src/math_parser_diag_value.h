@@ -23,7 +23,9 @@ struct diag_value {
 
     // these functions can be used at parse time if the parameter needs to be of exactly this type
     // with no conversion. These throw so they should *NOT* be used at runtime.
+    bool is_dbl() const;
     double dbl() const;
+    bool is_str() const;
     std::string_view str() const;
     var_info var() const;
     bool is_array() const;

@@ -316,6 +316,11 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
     CHECK( testexp.eval( d ) == 60 );
 
+    // units test
+    CHECK( testexp.parse( "time('1 m')" ) );
+    CHECK( testexp.eval( d ) == 60 );
+    CHECK( testexp.parse( "time('1 m', 'unit':'minutes')" ) );
+    CHECK( testexp.eval( d ) == 1 );
     CHECK( testexp.parse( "energy('25 kJ')" ) );
     CHECK( testexp.eval( d ) == 25000000 );
 

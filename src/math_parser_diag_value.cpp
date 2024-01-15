@@ -57,6 +57,11 @@ constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
 
 } // namespace
 
+bool diag_value::is_dbl() const
+{
+    return std::holds_alternative<double>( data );
+}
+
 double diag_value::dbl() const
 {
     return _diag_value_at_parse_time<double>( data );
@@ -98,6 +103,11 @@ double diag_value::dbl( dialogue const &d ) const
         },
     },
     data );
+}
+
+bool diag_value::is_str() const
+{
+    return std::holds_alternative<std::string>( data );
 }
 
 std::string_view diag_value::str() const
