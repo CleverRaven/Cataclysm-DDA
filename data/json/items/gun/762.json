@@ -4,7 +4,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AKM" },
+    "name": { "str": "AKM rifle" },
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
     "weight": "3402 g",
     "volume": "2167 ml",
@@ -43,7 +43,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "Beretta ARX-160" },
+    "name": { "str": "Beretta ARX-160 rifle" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
     "weight": "3080 g",
@@ -85,7 +85,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "SKS" },
+    "name": { "str": "SKS rifle" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
     "ascii_picture": "sks",
     "weight": "3850 g",
@@ -136,7 +136,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AK-47" },
+    "name": { "str": "AK-47 rifle" },
     "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
     "weight": "3402 g",
     "volume": "2167 ml",
@@ -174,7 +174,7 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Mini Draco" },
+    "name": { "str": "Mini Draco \"pistol\"", "str_pl": "Mini Draco \"pistols\"" },
     "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
     "weight": "2563 g",
     "volume": "1286 ml",
@@ -209,7 +209,7 @@
   {
     "id": "mk47",
     "type": "GUN",
-    "name": { "str": "Mk47 Mutant" },
+    "name": { "str": "Mk47 Mutant rifle" },
     "copy-from": "rifle_semi",
     "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
     "weight": "2540 g",
@@ -259,12 +259,12 @@
     "variants": [
       {
         "id": "vz58_p",
-        "name": { "str": "Samopal vz. 58 P" },
+        "name": { "str": "Samopal vz. 58 P rifle" },
         "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model."
       },
       {
         "id": "vz58_v",
-        "name": { "str": "Samopal VZ 58 V" },
+        "name": { "str": "Samopal VZ 58 V rifle" },
         "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable side-folding buttstock and a 'V' suffixed designation, which both mark it as an original airborne or crew issued model."
       }
     ],
@@ -305,7 +305,7 @@
     "variants": [
       {
         "id": "vz58ts",
-        "name": { "str": "vz. 58 Tactical Sporter" },
+        "name": { "str": "vz. 58 Tactical Sporter rifle" },
         "description": "A modern semi-automatic clone of the Czechoslovak-produced vz. 58 assault rifle, chambered in the Soviet 7.62x39mm cartridge.  Built off of surplus vz. 58 parts, the rifle makes use of additional American made components such as the receiver, barrel, and buttstock to comply with US importation laws.  Featuring an extended 16 inch barrel, an M4 style stock adapter and tube, and an integrated side rail for optics mounting, this Cold War rifle makes for a relatively handy post-apocalyptic companion."
       }
     ],
@@ -326,12 +326,12 @@
     "variants": [
       {
         "id": "bren2_762",
-        "name": { "str": "CZ Bren 2" },
+        "name": { "str": "CZ Bren 2 carbine" },
         "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       },
       {
         "id": "805_bren",
-        "name": { "str": "CZ 805 Bren" },
+        "name": { "str": "CZ 805 Bren rifle" },
         "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic’s formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
       }
     ],

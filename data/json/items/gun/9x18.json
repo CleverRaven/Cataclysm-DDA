@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "makarov",
-        "name": { "str": "Makarov PM" },
+        "name": { "str": "Makarov PM pistol" },
         "//": "10 and 12-round magazines exist, but were made for the newer PMM, and are not compatible with the old PM.",
         "description": "A svelte, Cold War era handgun of Russian heritage, this former military pistol fires the Soviet 9x18mm cartridge.  Constructed completely out of steel components and experiencing relative popularity throughout eastern European countries, it was a favored backup weapon amongst USSR security forces, soldiers, and covert units."
       }
@@ -49,7 +49,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "pipe rifle: 9x18mm", "str_pl": "pipe rifles: 9x18mm" },
+    "name": { "str": "9x18mm pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
