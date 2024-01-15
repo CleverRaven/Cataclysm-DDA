@@ -1129,7 +1129,7 @@
     "variants": [
       {
         "id": "rdb_223",
-        "name": { "str_sp": "Kel-Tec RDB rifle" },
+        "name": { "str": "Kel-Tec RDB rifle" },
         "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
       }
     ],

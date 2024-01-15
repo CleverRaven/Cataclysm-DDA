@@ -115,7 +115,7 @@
   {
     "id": "bikini_bottom_short",
     "type": "ARMOR",
-    "name": { "str": "pair of short bikini bottoms", "str_pl": "pairs of short bikini bottoms" },
+    "name": { "str": "short bikini bottoms", "str_pl": "pairs of short bikini bottoms" },
     "description": "A very short pair of bikini bottoms, commonly called a thong.",
     "weight": "15 g",
     "volume": "150 ml",
@@ -516,7 +516,7 @@
   {
     "id": "swim_briefs",
     "type": "ARMOR",
-    "name": { "str": "pair of swim briefs", "str_pl": "pairs of swim briefs" },
+    "name": { "str": "swim briefs", "str_pl": "pairs of swim briefs" },
     "description": "A pair of blue swim briefs.  Commonly used by male competitive swimmers.",
     "weight": "75 g",
     "volume": "250 ml",

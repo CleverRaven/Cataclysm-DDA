@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "american_180",
-        "name": { "str_sp": "American-180 submachine gun" },
+        "name": { "str": "American-180 submachine gun" },
         "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon."
       }
     ],
@@ -64,7 +64,7 @@
     "variants": [
       {
         "id": "marlin_9a",
-        "name": { "str_sp": "Marlin 39A rifle" },
+        "name": { "str": "Marlin 39A rifle" },
         "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
       }
     ],
@@ -124,7 +124,7 @@
     "variants": [
       {
         "id": "moss_brownie",
-        "name": { "str_sp": "Mossberg Brownie pistol" },
+        "name": { "str": "Mossberg Brownie pistol" },
         "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges."
       }
     ],
@@ -346,7 +346,7 @@
     "variants": [
       {
         "id": "sw_22",
-        "name": { "str_sp": "S&W 22A pistol" },
+        "name": { "str": "S&W 22A pistol" },
         "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a medium sized pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst target shooters."
       }
     ],
