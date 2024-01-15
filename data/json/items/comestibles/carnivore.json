@@ -2088,7 +2088,7 @@
     "//": "Scaled from 100g boneless chicken thigh according to USDA database"
     "fun": -20,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", "9.6 mg" ], [ "iron", "0.96 mg" ] ],
+    "vitamins": [ [ "calcium", "9 mg 6 mcg" ], [ "iron", "960 mcg" ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
@@ -2107,8 +2107,30 @@
     "//": "Scaled from 100g skin-on goose according to USDA database"
     "fun": -20,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", "19.2 mg" ], [ "iron", "4 mg" ] ],
+    "vitamins": [ [ "calcium", "19 mg 200 mcg" ], [ "iron", "4 mg" ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
+  },
+  {
+    "id": "poultry_scrap",
+    "copy-from": "poultry",
+    "type": "COMESTIBLE",
+    "name": { "str": "scrap of poultry", "str_pl": "scraps of poultry" },
+    "description": "A tiny scrap of raw bird meat.  It's not much, but it'll do in a pinch.",
+    "cooks_like": "meat_scrap_cooked",
+    "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [ [ "calcium", "900 mcg" ], [ "iron", "96 mcg" ] ]
+  },
+  {
+    "id": "poultry_fatty_scrap",
+    "copy-from": "poultry_fatty",
+    "type": "COMESTIBLE",
+    "name": { "str": "scrap of fatty poultry", "str_pl": "scraps of fatty poultry" },
+    "description": "A tiny scrap of raw fatty bird meat.  It's not much, but it'll do in a pinch.",
+    "cooks_like": "meat_scrap_cooked",
+    "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [ [ "calcium", "1900 mcg" ], [ "iron", "400 mcg" ] ]
   }
 ]
