@@ -2879,6 +2879,24 @@ void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, std::string_v
     };
 }
 
+void talk_effect_fun_t::set_mutate_towards( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait = get_str_or_var( jo.get_member( member ), member, true, "" );
+    str_or_var mut_cat;
+    if( jo.has_member( "category" ) ) {
+        mut_cat = get_str_or_var( jo.get_member( "category" ), "category", false, "" );
+    } else {
+        mut_cat.str_val = "";
+    }
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+
+    function = [is_npc, trait, mut_cat, use_vitamins]( dialogue const & d ) {
+        d.actor( is_npc )->mutate_towards( trait_id( trait.evaluate( d ) ),
+                                           mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
+    };
+}
+
 void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
@@ -6047,6 +6065,7 @@ parsers = {
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate },
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category },
+    { "u_mutate_towards", "npc_mutate_towards", jarg::member, &talk_effect_fun_t::set_mutate_towards},
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable },

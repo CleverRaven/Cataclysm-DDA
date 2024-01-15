@@ -2264,6 +2264,25 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 { "u_mutate_category": { "global_val": "next_mutation" }
 ```
 
+#### `u_mutate_towards`, `npc_mutate_towards`
+
+Similar to the above, but designates a desired end-point of mutation and uses the normal mutate_towards steps to get there, respecting base traits and `changes_to/cancels/types` restrictions.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mutate_towards" / "npc_mutate_towards" | **mandatory** | string or [variable object](##variable-object) | Trait ID |
+| "category"     | optional | string or [variable object](#variable-object) | default ANY, defines which category to use for the mutation steps - necessary for vitamin usage
+| "use_vitamins" | optional | boolean | same as in `u_mutate`, requires a defined `category` | 
+
+##### Examples
+Mutate towards Tail Stub (removing any incompatibilities) using the category set in the variable, deprecating that vitamin and using the category's base trait removal chance/multiplier.
+```json
+      {
+        "u_mutate_towards": "TAIL_STUB",
+        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "use_vitamins": true
+      },
+```
 
 #### `u_add_effect`, `npc_add_effect`
 

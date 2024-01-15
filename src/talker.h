@@ -226,6 +226,7 @@ class talker
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
+        virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
