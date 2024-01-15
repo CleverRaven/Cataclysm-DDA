@@ -1149,7 +1149,7 @@
       {
         "text": "Highest spell level in school test_trait is 1.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_level", "school": "test_trait" }, "==", { "const": 1 } ] }
+        "condition": { "math": [ "u_school_level(test_trait)", "=", "1" ] }
       },
       {
         "text": "Spell level of Pew, Pew is 4.",
