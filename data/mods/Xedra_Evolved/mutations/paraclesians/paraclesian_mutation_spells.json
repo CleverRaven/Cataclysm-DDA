@@ -193,11 +193,11 @@
     "max_damage": { "math": [ "(u_spell_level('paraclesian_spell_make_gossamer') )" ] }
   },
   {
-    "type": "SPELL",
     "id": "homullus_spell_wish_to_converse",
+    "type": "SPELL",
     "name": { "str": "Wish to Converse" },
     "description": "When this spell is cast, the target will somehow begin to care about you very much and can't not help but talk to.",
-    "valid_targets": [ "hostile", "ally" ],
+    "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "base_casting_time": 75,
