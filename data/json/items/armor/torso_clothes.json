@@ -1670,7 +1670,7 @@
       },
       {
         "id": "swordocracy_tshirt",
-        "name": { "str": "Down with Swordocracy t-shirt" },
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
         "description": "A t-shirt with a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based governments!'",
         "color": "light_red"
       },
@@ -1689,7 +1689,7 @@
       },
       {
         "id": "start_a_cult_tshirt",
-        "name": { "str": "activities for children t-shirt" },
+        "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
         "description": "This t-shirt displays a picture of a hooded child standing behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semicircle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "symbol": "o",
         "color": "dark_gray"
