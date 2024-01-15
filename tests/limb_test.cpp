@@ -43,7 +43,7 @@ static void create_bird_char( Character &dude )
     REQUIRE( !dude.has_part( body_part_foot_r ) );
 }
 
-TEST_CASE( "Gaining and losing a limb", "[limb]" )
+TEST_CASE( "Gaining_losing_limbs", "[limb]" )
 {
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
@@ -71,7 +71,7 @@ TEST_CASE( "Gaining and losing a limb", "[limb]" )
     REQUIRE( !dude.has_part( body_part_head ) );
 }
 
-TEST_CASE( "Limb conditional flags", "[character][encumbrance][limb]" )
+TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
 {
     standard_npc dude( "Test NPC" );
     item wing_cover_left( "test_winglets_left" );
@@ -92,7 +92,7 @@ TEST_CASE( "Limb conditional flags", "[character][encumbrance][limb]" )
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
 }
 
-TEST_CASE( "Limb ugliness calculations", "[character][npc][limb]" )
+TEST_CASE( "Limb_ugliness_calculations", "[character][npc][limb]" )
 {
     standard_npc dude( "Test NPC" );
     standard_npc beholder( "Beholder" );
@@ -110,7 +110,7 @@ TEST_CASE( "Limb ugliness calculations", "[character][npc][limb]" )
     // TODO: fix covered ugliness and test it...
 }
 
-TEST_CASE( "Healing/mending overrides and bonuses", "[character][limb]" )
+TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
