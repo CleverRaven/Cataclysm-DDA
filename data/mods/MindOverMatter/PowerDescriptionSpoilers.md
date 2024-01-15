@@ -145,6 +145,145 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Allows the psion to strike multiple times in less than a second.  Speed is increased by 400 plus 75 per power level and the psion attacks 25% faster and does 10% more melee damage plus 1.5% per power level, but cannot use ranged attacks or other psionic powers, and the power ends immediately if the psion moves.<br />
 *Prerequisites*: Combat Dance 10, Reflex Enhance 14 *or* Adrenaline Trigger 12<br />
 
+# Clairsentience
+
+**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creaturs within a radius of 2 squares plus 1.5 squares times the level of the psion's highest-level clairsentience power.
+
+## Night Eyes (C)
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
+*Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
+*Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
+*Effects*: Allows the psion to see in the dark.  This is a range multiplier on base night vision, beginning at 2x normal night vision, that increases every 3 power levels: 4x normal at level 6, 6x normal at level 9, and so on.<br />
+*Prerequisites*: Starting power<br />
+
+## Speed Reader (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 4 minutes 50 seconds to 16 minutes 20 seconds, plus 2 minutes 30 seconds to 4 minutes 30 seconds minutes per level<br />
+*Stamina Cost*: 2500, minus 125 per level to a minimum of 1000<br />
+*Channeling Time*: 500 moves, minus 12 moves per level to a minimum of 250<br />
+*Effects*: Increases the psion's ability to read and retain information. The psion reads 33% faster and gains 0.15% additional XP per reading increment per power level.<br />
+*Prerequisites*: Starting power<br />
+
+## Premonition (C)
+*Difficulty*: 2<br />
+*Target*: All enemies within 2 squares per power level<br />
+*Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
+*Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Reveal the location of all enemies within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Prerequisites*: None<br />
+
+## Discern Weakness
+*Difficulty*: 3<br />
+*Target*: One enemy within 1 square plus 1.2 squares per power level<br />
+*Duration*: 13 to 30 seconds, plus 1.5 to 2.5 seconds per level<br />
+*Stamina Cost*: 3000, minus 125 per level to a minimum of 1250<br />
+*Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Reduce the armor values of the target, causing them to take +1 damage per two power levels on any hit. Due to engine limitations, at the moment this power only works on NPCs.<br />
+*Prerequisites*: Night Eyes 4, Premonition 4<br />
+
+## Aura Sight (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 10 minutes and 50 seconds to 18 minutes and 50 seconds, plus 1 minute 30 seconds to 3 minutes 10 seconds per level<br />
+*Stamina Cost*: 4000, minus 115 per level to a minimum of 1750<br />
+*Channeling Time*: 300 moves, minus 8.5 moves per level to a minimum of 100<br />
+*Effects*: Reveal others' emotions, increasing the psion's chance to persuade them or lie to them by 1% per power level, to a maximum of 20%.<br />
+*Prerequisites*: Premonition 5, Discern Weakness 5<br />
+
+## Radiation Sense
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: Instant or 30 minutes to 1 hour 15 minutes<br />
+*Stamina Cost*: 4500, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 250 moves, minus 4.5 moves per level to a minimum of 100<br />
+*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absense.<br />
+*Prerequisites*: Special (must be studied from notes)<br />
+
+## Marksman's Eye (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
+*Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
+*Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 2 power levels and reduces weapon dispersion by 2.5% per power level.<br />
+*Prerequisites*: Discern Weakness 7<br />
+
+## Clairyovance
+*Difficulty*: 5<br />
+*Target*: 2 squares plus 1.2 squares per power level to a maximum of 80 squares, with an area of effect of 1.5 squares plus 1.2 squares per power level to a maximum of 50 squares<br />
+*Duration*: 2.5 to 15 seconds, plus 0.5 seconds to 1.1 seconds per power level<br />
+*Stamina Cost*: 6000, minus 195 per level to a minimum of 3500<br />
+*Channeling Time*: 1000 moves, minus 25 moves per level to a minimum of 500<br />
+*Effects*: Reveal the entire area of effect as though the psion were standing and able to see all of it at once. When the power duration expires, the effect will gradually fade over the next few seconds.<br />
+*Prerequisites*: Premonition 6, Aura Sight 6 *or* Night Eyes 10<br />
+
+## Combat Sense (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
+*Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
+*Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants +1 bonus dodge and block, +1 addition bonus dodge and block per 6 power levels, prevents the psion from being grabbed, and applies the UNCANNY_DODGE flag.<br />
+*Prerequisites*: Premonition 10 *or* Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
+
+## Intuitive Artisan (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 20 minutes and 15 seconds to 45 minutes, plus 4 minutes and 10 seconds to 10 minutes per level<br />
+*Stamina Cost*: 6500, minus 145 per level to a minimum of 3250<br />
+*Channeling Time*: 500 moves, minus 3 moves per level to a minimum of 300<br />
+*Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance.<br />
+*Prerequisites*: Speed Reader 8, Discern Weakness 4, Premonition 6<br />
+
+## One Perfect Shot
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 10 seconds or until a shot is fired<br />
+*Stamina Cost*: 7500, minus 160 per level to a minimum of 5000<br />
+*Channeling Time*: 100 moves, minus 4.5 moves per level to a minimum of 35<br />
+*Effects*: Reduce weapon dispersion to 0 and increase ranged damage by 150% for a single attack.<br />
+*Prerequisites*: Marksman's Eye 9<br />
+
+## Satellite View
+*Difficulty*: 7<br />
+*Target*: Overmap between 4 and 11 squares plus 0.5 to 1 per power level <br />
+*Duration*: Instant<br />
+*Stamina Cost*: 9000<br />
+*Channeling Time*: 60 seconds<br />
+*Effects*: The psion gains a bird's eye (or mole's eye) view of surrouding terrain, revealing all locations within the power's radius.<br />
+*Prerequisites*: Clairvoyance 8, Premonition 6 *or* Aura Sight 6<br />
+
+## Clarity (C)
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: 2 minutes and 30 seconds to 7 minutes and 30 seconds, plus 12 seconds to 25 seconds per level<br />
+*Stamina Cost*: 8000, minus 150 per level to a minimum of 4500<br />
+*Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
+*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
+*Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
+
+## Prescient Tactician (C)
+*Difficulty*: 9<br />
+*Target*: All allies within 20 squares<br />
+*Duration*: 1 to 3 minutes, plus 9 seconds to 23 seconds per level<br />
+*Stamina Cost*: 7500, minus 125 per level to a minimum of 4000<br />
+*Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 60<br />
+*Effects*: The psion enters a trance and predicts the flow of an entire group of combatants. While this inhibits their own combat ability, causing a -6 dodge and -5 hit penalty, the prescient orders they call out add a +4 dodge bonus and +1 block and dodge, +1 extra block and dodge to 8 power levels, to all allies who are close enough to hear the orders.<br />
+*Prerequisites*: Combat Sense 8, Marksman's Eye 7, Clarity 5<br />
+
+## Omniscience
+*Difficulty*: 10<br />
+*Target*: A radius of 40 squares around the psion<br />
+*Duration*: 2 to 10 seconds, plus 0.75 to 1.5 seconds per power level<br />
+*Stamina Cost*: 10000, minus 115 per level to a minimum of 7500<br />
+*Channeling Time*: 75 moves, minus 3.5 moves per level to a minimum of 25<br />
+*Effects*: The psion expands their senses to encompass the entire area around them, seeing everything within 40 squares and from Z level 10 to Z level -10 all simultaneously. Their powers allow them to process all the information simultaneously and not suffer any consequences from doing so.<br />
+*Prerequisites*: Clairvoyance 14 *or* Satellite View 8, Clarity 9<br />
+
 # Electrokinesis
 
 **Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 1 per four levels of the psion's highest-leveled electrokinetic power and reduces incoming pain by 0.7% times the level of the psion's highest-level electrokinetic power.

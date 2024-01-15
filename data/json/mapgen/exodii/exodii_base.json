@@ -280,6 +280,7 @@
         "................................................................................................"
       ],
       "palettes": [ "exodii_palette" ],
+      "place_signs": [ { "signage": "<- Traders Hither", "x": 28, "y": 69 } ],
       "place_zones": [
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 0, 23 ], "y": [ 24, 47 ] },

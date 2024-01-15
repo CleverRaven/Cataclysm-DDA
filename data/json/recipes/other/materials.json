@@ -286,31 +286,13 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "thread",
-    "id_suffix": "with_spinningwheel_from_felt",
+    "result": "wool_staple",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "15 s",
-    "charges": 50,
+    "skill_used": "tailor",
+    "time": "10 m",
     "autolearn": true,
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "thread",
-    "id_suffix": "with_electric_spinwheel_from_felt",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "15 s",
-    "charges": 50,
-    "autolearn": true,
-    "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
+    "tools": [ [ [ "carding_paddles", -1 ] ] ],
     "components": [ [ [ "felt_patch", 1 ] ] ]
   },
   {
@@ -370,7 +352,7 @@
     "skills_required": [ "fabrication", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
     "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
@@ -385,7 +367,7 @@
     "skill_used": "tailor",
     "time": "30 s",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
@@ -400,7 +382,7 @@
     "skill_used": "tailor",
     "time": "30 s",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "skill_penalty": 0.5, "time_multiplier": 6 } ],
     "tools": [ [ [ "electric_spinwheel", 2 ] ] ],
     "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
@@ -503,9 +485,9 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "10 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
     "components": [ [ [ "wool_staple", 1 ] ] ]
@@ -521,7 +503,7 @@
     "batch_time_factors": [ 70, 1 ],
     "time": "90 s",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "components": [ [ [ "wool_staple", 1 ] ] ]
@@ -537,7 +519,7 @@
     "batch_time_factors": [ 70, 1 ],
     "time": "90 s",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "proficiencies": [ { "proficiency": "prof_spinning", "time_multiplier": 6 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "electric_spinwheel", 4 ] ] ],
     "components": [ [ [ "wool_staple", 1 ] ] ]
@@ -957,6 +939,45 @@
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
+  },
+  {
+    "result": "10l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "5l_tin", 2 ] ] ]
+  },
+  {
+    "result": "5l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "1l_tin", 5 ] ] ]
+  },
+  {
+    "result": "1l_tin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_tin", 138 ] ] ]
   },
   {
     "result": "tin",

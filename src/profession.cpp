@@ -841,6 +841,11 @@ const
     return ret;
 }
 
+profession_id profession::get_profession_id() const
+{
+    return id;
+}
+
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";

@@ -322,5 +322,32 @@
       "FIRE"
     ],
     "relic_data": { "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ] }
+  },
+  {
+    "id": "undine_waters_map",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "undine waters map" },
+    "description": "The item for .",
+    "weight": "30 g",
+    "volume": "250 ml",
+    "flags": [ "PAPER_SHAPED" ],
+    "price": 1000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "elemental_water" ],
+    "symbol": ";",
+    "color": "blue",
+    "copy-from": "abstractmap",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 150,
+      "terrain": [
+        "lake",
+        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ocean", "om_terrain_match_type": "PREFIX" }
+      ],
+      "message": "The waters reveal themselves to you."
+    }
   }
 ]

@@ -1030,7 +1030,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                 sel.use_from = usage_from::both;
                 sel.comp = comp;
                 std::list<item> empty_consumed = player_character.consume_items( sel, 1,
-                                                 is_empty_crafting_component );
+                                                 is_preferred_crafting_component );
 
                 int left_to_consume = 0;
 

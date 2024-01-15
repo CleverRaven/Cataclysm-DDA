@@ -1545,5 +1545,25 @@
     "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "iron", 2 ] ],
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "melitzanosalata",
+    "name": { "str_sp": "Melitzanosalata" },
+    "weight": "260 g",
+    "color": "brown",
+    "spoils_in": "6 days",
+    "comestible_type": "FOOD",
+    "symbol": "m",
+    "calories": 155,
+    "description": "A greek eggplant dip.  The eggplants are baked until almost falling apart and seasoned with a big help of garlic, then mixed with some oil and acid.",
+    "price": 75,
+    "price_postapoc": 125,
+    "material": [ "veggy" ],
+    "primary_material": "veggy",
+    "volume": "250 ml",
+    "delete": { "flags": [ "RAW" ] },
+    "extend": { "flags": [ "FREEZERBURN" ] },
+    "fun": 3
   }
 ]

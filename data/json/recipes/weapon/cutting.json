@@ -2274,20 +2274,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "glass_macuahuitl",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "50 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "adhesive", 5 ] ],
-    "components": [ [ [ "glass_shard", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "halberd",
     "category": "CC_WEAPON",

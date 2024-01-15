@@ -178,5 +178,23 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_50" } ]
+  },
+  {
+    "id": "modular_ump_9",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_9" } ]
+  },
+  {
+    "id": "modular_ump_40",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_40" } ]
+  },
+  {
+    "id": "modular_ump_45",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_45" } ]
   }
 ]
