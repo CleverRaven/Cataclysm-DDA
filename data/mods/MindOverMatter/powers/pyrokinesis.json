@@ -196,8 +196,7 @@
     "energy_increment": -120,
     "base_casting_time": 125,
     "final_casting_time": 50,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15, "pyrokinetic_flame_immunity": 20 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "pyrokinetic_quell_flames_self",

@@ -964,7 +964,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PYROKIN_LEARNING_AOE_BLAST",
+    "id": "EOC_PYROKIN_LEARNING_INCINERATION",
     "recurrence": [ "96 hours", "168 hours" ],
     "condition": {
       "and": [
