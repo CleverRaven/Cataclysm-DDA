@@ -263,8 +263,8 @@
       [ "recipe_animal", 4 ],
       [ "recipe_maiar", 4 ],
       [ "recipe_labchem", 6 ],
-      [ "mutagen", 8 ],
-      [ "iv_mutagen", 6 ],
+      [ "mutagen", 16 ],
+      [ "iv_mutagen", 20 ],
       [ "iv_mutagen_elfa", 2 ],
       [ "iv_mutagen_alpha", 2 ],
       [ "iv_mutagen_raptor", 2 ],
@@ -310,7 +310,7 @@
     "id": "mutagens",
     "//": "If we ever get themed labs defined by what types of mutagens they worked on this itemgroup may need to be re-evaluated.",
     "items": [
-      [ "mutagen", 8 ],
+      [ "mutagen", 12 ],
       [ "mutagen_elfa", 2 ],
       [ "mutagen_alpha", 2 ],
       [ "mutagen_raptor", 2 ],
@@ -335,7 +335,7 @@
       [ "mutagen_lupine", 2 ],
       [ "mutagen_rabbit", 2 ],
       [ "mutagen_crustacean", 2 ],
-      [ "iv_mutagen", 6 ],
+      [ "iv_mutagen", 16 ],
       [ "iv_mutagen_elfa", 2 ],
       [ "iv_mutagen_alpha", 2 ],
       [ "iv_mutagen_raptor", 2 ],
@@ -371,7 +371,7 @@
     "id": "mut_iv",
     "//": "If we ever get themed labs defined by what types of mutagens they worked on this itemgroup may need to be re-evaluated.",
     "items": [
-      [ "iv_mutagen", 10 ],
+      [ "iv_mutagen", 20 ],
       [ "iv_mutagen_elfa", 2 ],
       [ "iv_mutagen_alpha", 2 ],
       [ "iv_mutagen_raptor", 2 ],
@@ -397,7 +397,7 @@
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
       [ "iv_mutagen_crustacean", 2 ],
-      [ "iv_purifier", 20 ],
+      [ "iv_purifier", 10 ],
       [ "syringe", 10 ]
     ]
   },
