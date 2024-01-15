@@ -1,21 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_POST_THRESH_CUT_TREE",
-    "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "cuts_tree",
-    "condition": { "u_has_trait": "THRESH_ARVORE" },
-    "effect": [
-      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      {
-        "u_message": "You feel a stabbing pain as the tree falls.  One of your own, murdered by your hand.",
-        "type": "bad"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
