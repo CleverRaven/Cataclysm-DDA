@@ -696,7 +696,7 @@
     "type": "effect_type",
     "id": "effect_broke_fae_ban",
     "name": [ "Broken Ban" ],
-    "desc": [ "You've broken one of the ancient rules that bind the fae and are suffering thereby." ],
+    "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
     "rating": "bad",
     "max_intensity": 10,
     "base_mods": {
