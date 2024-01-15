@@ -696,7 +696,7 @@
     "type": "effect_type",
     "id": "effect_broke_fae_ban",
     "name": [ "Broken Ban" ],
-    "desc": [ "You've broken one of the ancient rules that bind the fae and are suffering accordingly." ],
+    "desc": [ "You've broken one of the ancient rules that bind the fae and are suffering thereby." ],
     "rating": "bad",
     "max_intensity": 10,
     "base_mods": {
@@ -722,7 +722,7 @@
       { "limb_score": "grip", "modifier": 1.0, "scaling": -0.08 },
       { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.07 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "vision", "vision": 1.0, "scaling": -0.06 }
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.06 }
     ],
     "enchantments": [
       {
