@@ -4475,7 +4475,7 @@
           { "value": "ARMOR_BASH", "add": 15 },
           { "value": "ARMOR_STAB", "add": 15 },
           { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_HEAT", "add": -5 },
+          { "value": "ARMOR_HEAT", "add": 5 },
           { "value": "ARMOR_COLD", "add": 15 },
           { "value": "ARMOR_ELEC", "add": 15 },
           { "value": "ARMOR_ACID", "add": 15 },
