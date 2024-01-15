@@ -326,7 +326,8 @@
     "run_for_npcs": false,
     "condition": {
       "and": [
-	    [ { "days_since_cataclysm": 7 }, { "math": [ "days_since_cataclysm", "<", "14" ] } ],
+        { "days_since_cataclysm": 7 },
+        { "math": [ "days_since_cataclysm", "<", "10" ] },
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
@@ -356,7 +357,7 @@
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "condition": {
       "and": [
-	    { "days_since_cataclysm": 14 },
+        { "days_since_cataclysm": 10 },
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
