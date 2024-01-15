@@ -1670,7 +1670,7 @@
       },
       {
         "id": "swordocracy_tshirt",
-        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "name": { "str": "Down with Swordocracy t-shirt" },
         "description": "A t-shirt with a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based governments!'",
         "color": "light_red"
       },
@@ -1689,7 +1689,7 @@
       },
       {
         "id": "start_a_cult_tshirt",
-        "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
+        "name": { "str": "activities for children t-shirt" },
         "description": "This t-shirt displays a picture of a hooded child standing behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semicircle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "symbol": "o",
         "color": "dark_gray"
@@ -1945,28 +1945,28 @@
     "variants": [
       {
         "id": "generic_witch_dress",
-        "name": { "str_sp": "black witch dress" },
+        "name": { "str": "black witch dress", "str_pl": "black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress",
-        "name": { "str_sp": "green witch dress" },
+        "name": { "str": "green witch dress", "str_pl": "green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress",
-        "name": { "str_sp": "red witch dress" },
+        "name": { "str": "red witch dress", "str_pl": "red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress",
-        "name": { "str_sp": "purple witch dress" },
+        "name": { "str": "purple witch dress", "str_pl": "purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -2007,28 +2007,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_long",
-        "name": { "str_sp": "long black witch dress" },
+        "name": { "str": "long black witch dress", "str_pl": "long black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_long",
-        "name": { "str_sp": "long green witch dress" },
+        "name": { "str": "long green witch dress", "str_pl": "long green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_long",
-        "name": { "str_sp": "long red witch dress" },
+        "name": { "str": "long red witch dress", "str_pl": "long red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_long",
-        "name": { "str_sp": "long purple witch dress" },
+        "name": { "str": "long purple witch dress", "str_pl": "long purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -2072,28 +2072,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_short",
-        "name": { "str_sp": "short black witch dress" },
+        "name": { "str": "short black witch dress", "str_pl": "short black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_short",
-        "name": { "str_sp": "short green witch dress" },
+        "name": { "str": "short green witch dress", "str_pl": "short green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_short",
-        "name": { "str_sp": "short red witch dress" },
+        "name": { "str": "short red witch dress", "str_pl": "short red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_short",
-        "name": { "str_sp": "short purple witch dress" },
+        "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
