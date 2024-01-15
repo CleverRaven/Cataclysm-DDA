@@ -15,6 +15,7 @@
     "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
+    "regenerates": 1,
     "symbol": "L",
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -86,7 +87,6 @@
       "CLIMBS",
       "BORES",
       "DESTROYS",
-      "FIREPROOF",
       "ALL_SEEING",
       "ALWAYS_SEES_YOU",
       "HAS_MIND",
@@ -320,6 +320,35 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_WARN_SHADOW",
+    "recurrence": [ "3 hours", "6 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "condition": {
+      "and": [
+	    [ { "days_since_cataclysm": 7 }, { "math": [ "days_since_cataclysm", "<", "14" ] } ],
+        { "one_in_chance": 6 },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "Lieutenants_active", ">", "0" ] },
+        { "math": [ "Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "You shiver as you realize you are being hunted, only for that feeling to quickly recede.  Did you just dodge a bullet?",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
     "recurrence": [ "3 hours", "6 hours" ],
     "global": true,
@@ -327,6 +356,7 @@
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
     "condition": {
       "and": [
+	    { "days_since_cataclysm": 14 },
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
@@ -342,7 +372,7 @@
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       {
-        "u_message": "You shiver as you suddenly realize you are prey for something far beyond you; the night itself means to kill you.  You need to hide.  Now.",
+        "u_message": "You shiver as you realize you are being hunted; the night itself means to kill you.",
         "type": "bad",
         "popup": true,
         "popup_w_interrupt_query": true
