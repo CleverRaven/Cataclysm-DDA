@@ -4136,7 +4136,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l" ] } ]
+    "armor": [ { "encumbrance": 100, "coverage": 100, "covers": [ "test_bird_wing_l" ] } ]
   },
   {
     "id": "test_robofac_armor_rig",
