@@ -305,10 +305,7 @@
   {
     "name": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_amalgamation_swarmer", "weight": 20 },
-      { "monster": "mon_amalgamation_corroder", "weight": 4 }
-    ]
+    "monsters": [ { "monster": "mon_amalgamation_swarmer", "weight": 20 }, { "monster": "mon_amalgamation_corroder", "weight": 4 } ]
   },
   {
     "type": "effect_on_condition",
