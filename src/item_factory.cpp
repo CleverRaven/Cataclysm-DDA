@@ -2102,6 +2102,9 @@ void Item_factory::check_definitions() const
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }
+        if( type->volume > MAX_ITEM_VOLUME ) {
+            msg += string_format( "exceeds max volume(%s L)\n", units::to_liter( MAX_ITEM_VOLUME ) );
+        }
         if( type->stack_size <= 0 ) {
             if( type->count_by_charges() ) {
                 msg += string_format( "invalid stack_size %d on type using charges\n", type->stack_size );
@@ -3886,6 +3889,8 @@ std::string enum_to_string<link_state>( link_state data )
             return "no_link";
         case link_state::needs_reeling:
             return "needs_reeling";
+        case link_state::automatic:
+            return "automatic";
         case link_state::vehicle_port:
             return "vehicle_port";
         case link_state::vehicle_battery:

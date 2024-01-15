@@ -286,8 +286,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
     "type": "talk_topic",
-    "dynamic_line": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
-    "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
+    "dynamic_line": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
+    "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
     "responses": [
       {
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
@@ -300,8 +300,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
     "type": "talk_topic",
-    "dynamic_line": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.",
-    "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
+    "dynamic_line": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the Enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.",
+    "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
     "responses": [
       { "text": "What makes your specific armor so great?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad2" },
       { "text": "Why do I have to make it myself?", "topic": "TALK_EXODII_MERCHANT_Stock_Nomad3" },
@@ -415,7 +415,6 @@
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
-      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -423,14 +422,13 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro3a",
     "type": "talk_topic",
-    "dynamic_line": "Neverken.  Right and so, the enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
-    "//~": "No worries.  I mean, the enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
+    "dynamic_line": "Neverken.  Right and so, the Enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
+    "//~": "No worries.  I mean, the Enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again.",
     "responses": [
       {
         "text": "Oh, you mean you got here early in the Cataclysm.  Why is that so good?",
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4a"
       },
-      { "text": "Who is Benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -500,7 +498,6 @@
         "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
-      { "text": "Who is benzete?", "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -562,7 +559,10 @@
     "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.",
     "//~": "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different Earth. You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town.",
     "responses": [
-      { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "OK then, what are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "Tell me about your own world.", "topic": "TALK_EXODII_MERCHANT_Home" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -571,11 +571,14 @@
   {
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
-    "dynamic_line": "*becomes distant for a moment.*  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
+    "dynamic_line": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  This'n… I don't think I want to talk 'bout it.  Too much metal atwixt now an' then.\"",
     "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "What are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "How did you come to be made of metal like this?", "topic": "TALK_EXODII_MERCHANT_Metal" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -601,7 +604,10 @@
         },
         "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" }
       },
-      { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      {
+        "text": "What are you meaning with 'razzing up our green and brown'?",
+        "topic": "TALK_EXODII_MERCHANT_Purpose2"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -609,7 +615,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Robot",
     "type": "talk_topic",
-    "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.",
+    "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"",
     "//~": "Robot?  What does that word mean?  Hang on. …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see.",
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_is_cyborg", "value": "yes" } },
     "responses": [
@@ -636,7 +642,7 @@
         "text": "I don't have any idea what you mean.  You're kind of a robot, but you're also flesh and blood?",
         "topic": "TALK_EXODII_MERCHANT_Robot2"
       },
-      { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      { "text": "What are you meaning 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
@@ -648,7 +654,7 @@
     "dynamic_line": "Yeah, that be the soggy leaves, an I'm ken.  A bit o' both, but Rubik were once as a kin, to you be.",
     "//~": "Yeah, that's the basic explanation.  A bit of both now, but I used to be just like you.",
     "responses": [
-      { "text": "What are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
+      { "text": "What are you meaning 'razzing up our green and brown'?", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "Can we talk about something else?  This is confusing.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -662,7 +668,18 @@
     "//~": "A junker base, obviously.  A jury-rigged mess.  We'll pack it up and leave eventually.",
     "responses": [
       { "text": "Pack it up?  How can you pack up something like this?", "topic": "TALK_EXODII_MERCHANT_Base2" },
+      { "text": "Soon?  How long will you still be here?", "topic": "TALK_EXODII_MERCHANT_BaseTimeLeft" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_BaseTimeLeft",
+    "type": "talk_topic",
+    "dynamic_line": "Yon aforetime otherland, 'twere a right soggy biscuit.  This'n be crisp an' fresh yet.  Us'n'll try as might stay a fair tick.",
+    "//~": "The otherlands we were in before had only little time left, so we can't say for sure.  But this land is as fresh as it can be.",
+    "responses": [
+      { "text": "Good to know you will be here for a while.", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -683,7 +700,7 @@
     "id": "TALK_EXODII_MERCHANT_Zomborgs",
     "type": "talk_topic",
     "dynamic_line": "'Tis a good an' yark, sooth.  Them as can have the metal deep in, can be saved for the risen, but it b'ain't a sure course.  Some as comes back anyway, an' some be too much flesh.  The grander lot are no exodii like ol' Rubik, most be friends more kin to thyself.  Us'll harken out and trundle home the pieces for a scrub-and-bucket.",
-    "//~": "Ah, good question.  Enough cybernetic implants can keep someone from coming back as a zombie, but it's not a sure thing.  Some come back anyway, and some just don't have enough cybernetics.  Most of them aren't full exodii like old Rubik, they're more our friends - like you.  Sooner or later we'll get out there, put them down, and bring their parts back for cleaning.",
+    "//~": "Ah, good question.  Enough cybernetic implants can keep someone from coming back as a zombie, but it's not a sure thing.  Some come back anyway, and some just don't have enough cybernetics.  Most of them aren't full Exodii like old Rubik, they're more our friends - like you.  Sooner or later we'll get out there, put them down, and bring their parts back for cleaning.",
     "responses": [
       {
         "text": "So you use these cybernetics to prevent zombification, but they don't work perfectly?  Why not?",
@@ -698,7 +715,7 @@
     "type": "talk_topic",
     "dynamic_line": "Rubik's not the finest dandy to yark it, an I'm ken, but this'n'll do best as can.  Ol' Rubik an' the stompy-clanker gang be shiny an' fine as can be, for y'see so well, but on the wind-up, the guts be nigh so fleshy as they were afore, twixt as they be with wire and steel.  Ain't none so left as remembers precise how it all goes, and much is boggled from bits and drabs o' a dozen elsewheres.  'Tis a marked fine they work at all, though work they do, and nicely.  Still, 'tis hard to know what'll crumple out from the can.  Those as return, they be… less well made as ol' Rubik.  Some as did work themselves, even, and mayhap against the good old ways.",
     "//": "Lore note: Rubik is an unreliable narrator here, by giving part-truths.  Nothing here is a lie but they're omitting some important details.",
-    "//~": "I don't think I'm the best to explain that, but I'll do my best.  Our technology might seem pretty high-tech and well made to you, but on the inside I'm still mostly human meat bound up in wires and steel.  Nobody's left thar remembers exactly how it all goes, and much of it is cobbled together from a few different dimensions.  It's a miracle they work as well as they do, but somehow it's actually pretty functional.  Still, it can be hard to know exactly what could go wrong.  The ones who come back as zombies, they're generally less well made than me.  Some even did their own cybernetic conversions, and didn't exactly follow best practices.",
+    "//~": "I don't think I'm the best to explain that, but I'll do my best.  Our technology might seem pretty high-tech and well made to you, but on the inside I'm still mostly human meat bound up in wires and steel.  Nobody's left that remembers exactly how it all goes, and much of it is cobbled together from a few different dimensions.  It's a miracle they work as well as they do, but somehow it's actually pretty functional.  Still, it can be hard to know exactly what could go wrong.  The ones who come back as zombies, they're generally less well made than me.  Some even did their own cybernetic conversions, and didn't exactly follow best practices.",
     "responses": [
       {
         "text": "You seem to have a lot of standardized robotic helpers, like those quads.  Is that a different thing?",
@@ -734,7 +751,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Robot_Buy",
     "type": "talk_topic",
-    "dynamic_line": "* sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.",
+    "dynamic_line": "* sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.\"",
     "speaker_effect": { "effect": { "u_add_var": "rubik_offered_robosell", "type": "dialogue", "context": "exodii", "value": "yes" } },
     "//~": "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.",
     "//2": "In the future, Rubik should be able to sell the player a robot.  This is a placeholder until that time arrives.",
@@ -748,7 +765,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.",
+        "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.\"",
         {
           "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
@@ -827,8 +844,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_Exodus2",
     "type": "talk_topic",
-    "dynamic_line": "Same as you will be, an I'm ken.  The enemy.  The dead.",
-    "//~": "Same as you, I'd guess.  The enemy.  The dead.",
+    "dynamic_line": "Same as you will be, an I'm ken.  The Enemy.  The dead.",
+    "//~": "Same as you, I'd guess.  The Enemy.  The dead.",
     "responses": [
       {
         "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" },
@@ -844,15 +861,7 @@
     "type": "talk_topic",
     "dynamic_line": "Just so, aye.  Again an' again, this'n has seen it.  Too many times.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       {
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
@@ -868,11 +877,6 @@
     "//~": "You want to get religious, eh?  I can't tell you for sure, but the people who claim to know, they talk about the Enemy.  Most folks have a fairy tale like that, I think.  A monster from ancient memory, returned.  I don't know much about that, but something makes those bodies walk and moan, and it doesn't seem to be anything human.  How it gets in, well, that's anyone's guess.  It can come the way we came, through a portal, but it doesn't always.  How it was for your world, I can't tell you.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "Wait, it can come like you did?  Did you bring this here?!",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2"
       },
@@ -887,13 +891,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2",
     "type": "talk_topic",
-    "dynamic_line": "No!  Bluster an' clouds, no!  *Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
+    "dynamic_line": "No!  Bluster an' clouds, no!\"  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.  \"We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.\"",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
       {
         "text": "Is it always like this?  What's going to happen to us?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline"
@@ -909,16 +908,11 @@
     "//~": "This is a deadland, you see.  Take a moment and look around, know what I mean?  What's left for you?  The dead will be in the fields, the forests, all over the world.  Anything that walks, they'll make it so it doesn't, and most will come back as undead.  Those that don't, the Enemy will change them as well.  Every deadland is the same.  You've years and more to go, but one way or another, this place is dead.  Though, as far as I can see, you've got quite a few years to go yet.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "What then?  What happens after the whole planet dies?  Could it spread to other worlds from here?",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2"
       },
       {
-        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
+        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'Enemy' too.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough"
       },
       {
@@ -940,11 +934,6 @@
     "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
         "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
       },
@@ -957,10 +946,8 @@
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
       },
       {
-        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
-        "//": "While many people face the possibility of destruction with planning and hope, and the Exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
-        "effect": [ { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "Exodii", "adjustment": 2 } ]
+        "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'Enemy' too.",
+        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough"
       },
       {
         "text": "So what do you do, then?  How do you get out, and how do I do that?",
@@ -980,15 +967,7 @@
     "dynamic_line": "If ye be champed t'try, this'n won't stop ye.  Right so, Rubik'll sell ye the pieces ye might use t'do.",
     "//~": "If you want to try it, I won't stop you.  In fact, I'll sell you equipment that might help.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -996,18 +975,12 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
     "type": "talk_topic",
+    "//": "While many people face the possibility of destruction with planning and hope, and the Exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
+    "speaker_effect": { "effect": { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "Exodii", "adjustment": 2 } },
     "dynamic_line": "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself.",
     "//~": "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself.",
     "responses": [
-      {
-        "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
-        "text": "Who is benzete?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1"
-      },
-      {
-        "text": "Do you know what's going on?  What caused all this?",
-        "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause"
-      },
+      { "text": "Do you know what's going on?  What caused all this?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmCause" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -1097,7 +1070,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose_Dialect",
     "type": "talk_topic",
     "dynamic_line": "Us're here to live and breathe, kennit?  After our last otherland got a li'l too dead an' all.  So, us'n came to a new place.  This'n.  An I'm ken, it's not so long dead round here jus' yet.",
-    "//~": "English: We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet.",
+    "//~": "We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet.",
     "responses": [
       {
         "text": "[INT or PER 7] Otherland?  Are you aliens or something?",
@@ -1113,7 +1086,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
     "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
-    "//~": "English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
+    "//~": "Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
     "responses": [
       {
         "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",
@@ -1127,7 +1100,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose3",
     "type": "talk_topic",
     "dynamic_line": "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas.",
-    "//~": "English: This is a deadland, don't you see?  You've already got an infestation and it's not going away.  There's no cure for the zombies.",
+    "//~": "This is a deadland, don't you see?  You've already got an infestation and it's not going away.  There's no cure for the zombies.",
     "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
       {
@@ -1143,7 +1116,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose4",
     "type": "talk_topic",
     "dynamic_line": "Means what it means.  Your land's a deadun', still kickin' is all.",
-    "//~": "English: It means what it means.  Your land's dead already, it's just still kicking is all.",
+    "//~": "It means what it means.  Your land's dead already, it's just still kicking is all.",
     "responses": [
       {
         "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
@@ -1157,7 +1130,7 @@
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
     "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone.",
-    "//~": "English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
+    "//~": "Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" } },
     "responses": [
       {

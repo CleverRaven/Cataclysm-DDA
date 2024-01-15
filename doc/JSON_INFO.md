@@ -686,7 +686,8 @@ First is when snippet contain multiple fields, mainly `text` and `id` - in this 
       "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
       "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
       "text": "flatbread",                            // Text, that would be used if this snippet category is called
-      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+      "effect_on_examine": [ "effect_on_condition" ], // Examining of this snippet will call effect_on_condition
+      "weight": 10                                    // Weight of this specific snippet, in case of this group the probability to get this one would be 10/13 ~= 76%
     },
     { "id": "bread2", "text": "yeast bread" },
     { "id": "bread3", "text": "cornbread" },

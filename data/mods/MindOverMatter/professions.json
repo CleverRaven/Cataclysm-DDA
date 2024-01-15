@@ -76,13 +76,23 @@
     "name": "Doomseer",
     "description": "You knew the world was going to end, but they never listened.  They never listened!  They couldn't see the things that walked among them!  They didn't know what you had seen, what you knew was coming, and where are they now?  In a zombie's stomach or walking with those corpses themselves, but you're still alive.",
     "points": 0,
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 3, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 5, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES", "SCHIZOPHRENIC" ],
     "spells": [
       { "id": "clair_night_vision", "level": 4 },
-      { "id": "clair_danger_sense", "level": 3 },
-      { "id": "clair_spot_weakness", "level": 3 },
-      { "id": "clair_voyance", "level": 2 }
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 9 },
+      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_spot_weakness", "level": 5 },
+      { "id": "clair_voyance", "level": 6 }
+    ],
+    "recipes": [
+      "practice_clair_night_vision",
+      "practice_clair_danger_sense",
+      "practice_clair_speed_reading",
+      "practice_clair_aura_sight",
+      "practice_clair_spot_weakness",
+      "practice_clair_voyance"
     ],
     "items": {
       "both": {
@@ -91,6 +101,7 @@
           { "item": "socks" },
           { "item": "robe" },
           { "item": "lowtops" },
+          { "item": "matrix_crystal_clairsentience" },
           { "item": "newest_newspaper" },
           { "item": "weeks_old_newspaper" },
           { "item": "months_old_newspaper" },
@@ -197,10 +208,11 @@
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "metaphysics" } ],
     "traits": [ "PYROMANIA", "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "spells": [
-      { "id": "pyrokinetic_eruption", "level": 4 },
-      { "id": "pyrokinetic_quell_flames", "level": 2 },
+      { "id": "pyrokinetic_eruption", "level": 8 },
+      { "id": "pyrokinetic_call_flames", "level": 4 },
       { "id": "pyrokinetic_flamethrower", "level": 3 },
-      { "id": "pyrokinetic_flash", "level": 3 }
+      { "id": "pyrokinetic_cloak", "level": 7 },
+      { "id": "pyrokinetic_flash", "level": 6 }
     ],
     "items": {
       "both": {
@@ -208,6 +220,7 @@
           { "item": "socks" },
           { "item": "jeans" },
           { "item": "sneakers" },
+          { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "lighter", "charges": 100 },
           { "item": "lighter", "charges": 100 },
@@ -223,7 +236,7 @@
     "id": "psi_telekinetic_testsubject",
     "name": "Test Subject, Project ONYX LIGHTNING",
     "description": "Before the Cataclysm, you were 'volunteered' for a top-secret military project.  They never told you what all the injections and EEGs and hours of staring at a quarter on the table were supposed to accomplish, but now that you can move things with your mind you have a pretty good idea what they were aiming at.",
-    "points": 5,
+    "points": 13,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -231,12 +244,20 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_1" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
     "spells": [
-      { "id": "telekinetic_push", "level": 4 },
-      { "id": "telekinetic_pull", "level": 3 },
-      { "id": "telekinetic_momentum", "level": 2 },
-      { "id": "telekinetic_wave", "level": 2 }
+      { "id": "telekinetic_push", "level": 5 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 3 },
+      { "id": "telekinetic_slowfall", "level": 2 },
+      { "id": "telekinetic_momentum", "level": 6 }
+    ],
+    "recipes": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall"
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {
@@ -248,7 +269,8 @@
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_combat", "container-item": "sheath" }
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "matrix_crystal_drained" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },

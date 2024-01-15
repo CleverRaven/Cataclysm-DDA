@@ -72,8 +72,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock_22", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15 },
-      { "item": "glock40mag" },
-      { "item": "glock40mag", "prob": 50 },
+      { "item": "glock40mag", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15 },
+      { "item": "glock40mag", "charges-min": 0, "ammo-item": "40sw", "charges-max": 15, "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -1142,13 +1142,39 @@
     ]
   },
   {
-    "id": "nested_hk_ump45",
+    "id": "nested_modular_ump_9",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "hk_ump45", "charges-min": 0, "charges-max": 25 },
+      { "group": "modular_ump_9", "charges-min": 0, "charges-max": 30 },
+      { "item": "ump9mag" },
+      { "item": "ump9mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_modular_ump_40",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "group": "modular_ump_40", "charges-min": 0, "charges-max": 30 },
+      { "item": "ump40mag" },
+      { "item": "ump40mag", "prob": 50 },
+      { "group": "on_hand_40" }
+    ]
+  },
+  {
+    "id": "nested_modular_ump_45",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "group": "modular_ump_45", "charges-min": 0, "charges-max": 25 },
       { "item": "ump45mag" },
       { "item": "ump45mag", "prob": 50 },
       { "group": "on_hand_45" }

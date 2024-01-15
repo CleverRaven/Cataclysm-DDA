@@ -171,6 +171,7 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
+static const trait_id trait_UNDINE_ABSORB_WATER( "UNDINE_ABSORB_WATER" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_VINES1( "VINES1" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -178,7 +179,7 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_WINGS_INSECT_active( "WINGS_INSECT_active" );
 
 static const vitamin_id vitamin_vitC( "vitC" );
 
@@ -312,6 +313,9 @@ void suffer::while_underwater( Character &you )
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
+        you.mod_thirst( -1 );
+    }
+    if( you.has_trait( trait_UNDINE_ABSORB_WATER ) && you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
 }
@@ -1120,7 +1124,7 @@ void suffer::from_other_mutations( Character &you )
         here.spawn_item( position, "bone", 1 );
     }
 
-    if( you.has_active_mutation( trait_WINGS_INSECT ) ) {
+    if( you.has_trait( trait_WINGS_INSECT_active ) ) {
         //~Sound of buzzing Insect Wings
         sounds::sound( position, 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );

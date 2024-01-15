@@ -1679,7 +1679,7 @@
     "symbol": "[",
     "color": "light_blue",
     "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
-    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "armor": [ { "encumbrance": 8, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "warmth": 50,
     "material_thickness": 1.1
   },
@@ -1700,7 +1700,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "use_action": {
       "type": "transform",

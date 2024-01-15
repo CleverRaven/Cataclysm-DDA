@@ -14,6 +14,7 @@
 #include "clone_ptr.h"
 #include "color.h"
 #include "enum_bitset.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
@@ -316,6 +317,8 @@ enum class ter_furn_flag : int {
     TFLAG_SMALL_HIDE,
     TFLAG_NO_FLOOR_WATER,
     TFLAG_MUTANT_TREE,
+    TFLAG_SINGLE_SUPPORT,
+    TFLAG_CLIMB_ADJACENT,
 
     NUM_TFLAG_FLAGS
 };
@@ -497,7 +500,7 @@ struct map_data_common_t {
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
-        units::volume max_volume = 1000_liter;
+        units::volume max_volume = DEFAULT_TILE_VOLUME;
 
         translation description;
 

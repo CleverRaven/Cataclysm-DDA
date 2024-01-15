@@ -530,6 +530,27 @@ checks is `victim_type` has `zombie` faction
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
 ```
 
+### `u_profession`
+- type: string or [variable object](##variable-object)
+- Return true if player character has the given profession id or its "hobby" subtype
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the character has selected Heist Driver profession at the character creation
+```json
+{ "u_profession": "heist_driver" }
+```
+
+True if the character has selected Fishing background at the character creation
+```json
+{ "u_profession": "fishing" }
+```
+
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
 - type: int or [variable object](##variable-object)
 - Return true if alpha or beta talker stat is at least the value or higher
@@ -1545,7 +1566,29 @@ Use Context Variable as a eoc (A trick for loop)
     }
 ]
 ```
+#### `u_set_talker`, `npc_set_talker`
+Store the character_id of You or NPC into a variable object
 
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_talker" / "npc_set_talker" | **mandatory** | [variable object](#variable-object) | the variable object to store the character_id |
+
+##### Examples
+
+```json
+{
+  "effect": [ 
+    { "u_set_talker": { "global_val": "u_character_id" } }, 
+    { "u_message": "Your character id is <global_val:u_character_id>" }
+  ]
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### `run_eoc_with`
 Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
@@ -1553,7 +1596,9 @@ Same as `run_eocs`, but runs the specific EoC with provided variables as context
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
-| "beta_loc" | optional | [variable object](#variable-object) | `u_location_variable`, where the EoC should be run | 
+| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
+| "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or [u_set_talker](#u_set_talkernpc_set_talker) ) or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
+| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
 | "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
 ##### Valid talkers:
@@ -1611,6 +1656,45 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
     {
       "u_spawn_item": { "context_val": "gun_name" },
       "count": { "context_val": "amount_of_guns" }
+    }
+  ]
+}
+```
+Control a NPC and return to your original body.
+By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
+Then, by using `EOC_return_to_player`, you can return to your original body.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_control_npc",
+  "effect": [
+    { "u_set_talker": { "global_val": "player_id" } },
+    {
+      "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+      "then": {
+        "run_eoc_with": {
+          "id": "_EOC_control_npc_do",
+          "effect": [ { "if": "npc_is_npc", 
+                        "then": [ "follow", "take_control" ], 
+                        "else": { "message": "Please select a NPC." } 
+                        } ]
+        },
+        "beta_loc": { "context_val": "loc" },
+        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+      },
+      "else": { "u_message": "Canceled" }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_return_to_player",
+  "effect": [
+    {
+      "run_eoc_with": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
+      "alpha_talker": "avatar",
+      "beta_talker": { "global_val": "player_id" },
+      "false_eocs": { "id": "_EOC_return_to_player_fail_msg", "effect": { "message": "Unable to locate your original body." } }
     }
   ]
 }
@@ -3181,47 +3265,6 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
   "fail_message": "Something is very wrong!",
   "force": true
 }
-```
-
-
-#### `u_set_hp`, `npc_set_hp`
-HP of you or NPC would be set to some amount
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_set_hp" / "npc_set_hp" | **mandatory** | int, float or [variable object](##variable-object) | amount of HP to set |
-| "target_part" | optional | string or [variable object](##variable-object) | default whole body; if used, the HP adjustment would be applied only to this body part | 
-| "only_increase" | optional | boolean | default false; if true, the HP could be only increased | 
-| "main_only" | optional | boolean | default false; if true, only main body parts would be affected - arms, legs, head, torso etc.; can't be used with `minor_only` | 
-| "minor_only" | optional | boolean | default false; if true, only minor parts would be affected - eyes, mouth, hands, foots etc.; can't be used with `main_only` | 
-| "max" | optional | boolean | default false; if true, `_set_hp` value would be ignored, and body part would be healed to it's max HP | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-
-HP of whole body would be set to 10
-```json
-{ "u_set_hp": 10 }
-```
-
-Random bodypart would be healed entirely
-```json
-{ "u_set_hp": 0, "max": true, "target_part": "RANDOM" }
-```
-
-You increase the HP of your minor parts to 50, if possible
-```json
-{ "u_set_hp": 50, "minor_only": true, "only_increase": true }
-```
-
-You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
-```json
-{ "u_set_hp": { "math": [ "u_hp('leg_r') + 10" ] }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`

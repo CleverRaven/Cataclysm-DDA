@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -32,6 +33,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "vpart_position.h"
 #include "rng.h"
 
 class Character;
@@ -192,9 +194,9 @@ class item : public visitable
 
         item();
 
-        item( item && ) noexcept( map_is_noexcept );
+        item( item && ) noexcept;
         item( const item & );
-        item &operator=( item && ) noexcept( list_is_noexcept );
+        item &operator=( item && ) noexcept;
         item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
@@ -352,6 +354,10 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+    private:
+        bool is_money( const std::set<ammotype> &ammo ) const;
+    public:
+
         bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
@@ -1431,56 +1437,91 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         struct link_data {
-            /// State of the link's source, the end usually represented by the cable item. @ref link_state.
-            link_state s_state = link_state::no_link;
-            /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
-            link_state t_state = link_state::no_link;
-            /// The last turn process_link was called on this cable. Used for time the cable spends outside the bubble.
-            time_point last_processed = calendar::turn;
+            /// State of the link's source connection, the end usually represented by the device/cable item itself. @ref link_state.
+            link_state source = link_state::no_link;
+            /// State of the link's target connection, the end represented by t_abs_pos. @ref link_state.
+            link_state target = link_state::no_link;
+            /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
+            safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
-            /// Reality bubble position of the link's source cable item.
-            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
-            /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
-            safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
             /// The linked part's mount offset on the target vehicle.
             point t_mount = point_zero;
+            /// Reality bubble position of the link's source cable item.
+            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
+            time_point last_processed = calendar::turn;
             /// The current slack of the cable.
             int length = 0;
-            /// The maximum length of the cable. Set during initialization.
+            /// The maximum length of the cable.
             int max_length = 2;
-            /// The cable's power capacity in watts, affects battery charge rate. Set during initialization.
+            /// The cable's power capacity in watts, affects battery charge rate.
             int charge_rate = 0;
             /// (this) out of 1.0 chance to successfully add 1 charge every charge interval.
             float efficiency = 0.0f;
-            /// The turn interval between charges. Set during initialization.
+            /// How long it takes to charge 1 kW, the unit batteries use.
             int charge_interval = 0;
-
-            bool has_state( link_state state ) const {
-                return s_state == state || t_state == state;
-            }
-            bool has_states( link_state s_state_, link_state t_state_ ) const {
-                return s_state == s_state_ && t_state == t_state_;
-            }
-            bool has_no_links() const {
-                return s_state == link_state::no_link && t_state == link_state::no_link;
-            }
 
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
-        /**
-         * @brief Returns true if the item is/has a cable that can link up to other things.
-         */
+        /// Disconnecting a cable beyond this length will leave it unspooled, requiring respooling to be usable again.
+        static const int LINK_RESPOOL_THRESHOLD = 6;
+
+        /// Gets the item's link data, initializing it if needed. Will throw an error if used on items that fail can_link_up().
+        /// To avoid unnecessary link_data initialization, simple boolean link functions should be used instead if possible.
+        item::link_data &link();
+        const item::link_data &link() const;
+        /// Returns true if the item has valid link_data. Does not mean the link actually connects to anything; use has_no_links() for that.
+        bool has_link_data() const;
+        /// Returns true if the item is/has a cable that can link up to other things. Should usually be called before using link().
         bool can_link_up() const;
 
+        /// Returns true if either of the link's ends have the specified state.
+        bool link_has_state( link_state state ) const;
+        /// Returns true if both of the item's link connections match the specified states.
+        /// link_state::automatic will always match.
+        bool link_has_states( link_state source, link_state target ) const;
+        /// Returns true if the item has no active link, or if both link states are link_state::no_link.
+        bool has_no_links() const;
+
+        /// Name to use for describing the link, whether it's its own item, like "extension cord", or secondary, like "smart phone's cable".
+        std::string link_name() const;
+
         /**
-         * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
-         * @brief max_length is set to the sum of all cable lengths.
-         * @brief efficiency is set to the product of all efficiencies multiplied together.
-         * @param assign_t_state If true, set the t_state based on the parts at the connection point. Defaults to false.
+         * @brief Initializes the item's link_data and starts a connection to the specified vehicle position.
+         * @param linked_vp An optional_vpart_position to connect the item to.
+         * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
+         * @return true if the item was successfully connected.
          */
-        void set_link_traits( bool assign_t_state = false );
+        ret_val<void> link_to( const optional_vpart_position &linked_vp,
+                               link_state link_type = link_state::no_link );
+        /**
+         * @brief Initializes the item's link_data and starts a connection between the first specified vehicle position and the second.
+         * @param first_linked_vp An optional_vpart_position to connect the item to first.
+         * @param second_linked_vp An optional_vpart_position to connect the item to second.
+         * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
+         * @return true if the item was successfully connected.
+         */
+        ret_val<void> link_to( const optional_vpart_position &first_linked_vp,
+                               const optional_vpart_position &second_linked_vp,
+                               link_state link_type = link_state::no_link );
+        /**
+         * @brief Initializes the item's link_data and starts a connection to the specified vehicle and mount point.
+         * @param veh The vehicle to connect the item to.
+         * @param mount The mount point of the part being connected to.
+         * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
+         * @return true if the item was successfully connected.
+         */
+        ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+
+        /**
+         * @brief Updates all parts of the item's link_data that don't have to do with its connection. Initializes the link if needed.
+         * @brief * max_length is set to the sum of the cable and all its extensions' lengths.
+         * @brief * efficiency is set to the product of the cable and all its extensions' efficiencies multiplied together.
+         */
+        void update_link_traits();
 
         /**
          * @return The link's current length.
@@ -1501,7 +1542,8 @@ class item : public visitable
         int link_sort_key() const;
 
         /**
-         * Brings a cable item back to its initial state.
+         * Resets a cable item back to its initial state.
+         * @param unspool_if_too_long If true, a long-enough cable will be put into an unspooled state instead of being fully reset.
          * @param p Set to character that's holding the linked item, nullptr if none.
          * @param vpart_index The index of the vehicle part the cable is attached to, so it can have `linked_flag` removed.
          * @param * At -1, the default, this function will look up the index itself. At -2, skip modifying the part's flags entirely.
@@ -1509,13 +1551,13 @@ class item : public visitable
          * @param cable_position Position of the linked item, used to determine if the player can see the link becoming loose.
          * @return True if the cable should be deleted.
          */
-        bool reset_link( Character *p = nullptr, int vpart_index = -1,
+        bool reset_link( bool unspool_if_too_long = true, Character *p = nullptr, int vpart_index = -1,
                          bool loose_message = false, tripoint cable_position = tripoint_zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
-        * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
-        * while a negative link.charge_rate will charge the vehicle at the expense of the item.
+        * @brief A positive link().charge_rate will charge the item at the expense of the vehicle,
+        * while a negative link().charge_rate will charge the vehicle at the expense of the item.
         *
         * @param linked_veh The vehicle the item is connected to.
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
@@ -2375,6 +2417,10 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+    private:
+        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
+                            bool include_linked = false ) const;
+    public:
 
         /**
          * ammo capacity for a specific ammo
@@ -2995,7 +3041,7 @@ class item : public visitable
         const itype *type;
         item_components components;
         /** What faults (if any) currently apply to this item */
-        std::set<fault_id> faults;
+        cata::heap<std::set<fault_id>> faults;
 
     private:
         item_contents contents;
@@ -3003,13 +3049,13 @@ class item : public visitable
          * This flag is reset to `true` if item tags are changed.
          */
         bool requires_tags_processing = true;
-        FlagsSetType item_tags; // generic item specific flags
-        FlagsSetType inherited_tags_cache;
-        safe_reference_anchor anchor;
-        std::map<std::string, std::string> item_vars;
+        cata::heap<FlagsSetType> item_tags; // generic item specific flags
+        cata::heap<FlagsSetType> inherited_tags_cache;
+        lazy<safe_reference_anchor> anchor;
+        cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
-        std::set<matec_id> techniques; // item specific techniques
+        cata::heap<std::set<matec_id>> techniques; // item specific techniques
 
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
@@ -3049,7 +3095,6 @@ class item : public visitable
     public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-        cata::value_ptr<link_data> link;
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
@@ -3116,6 +3161,7 @@ class item : public visitable
         int degradation_ = 0;
         light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
+        mutable cata::value_ptr<link_data> link_;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
@@ -3184,11 +3230,13 @@ inline bool is_crafting_component( const item &component )
 }
 
 /**
+ * Filter for crafting components first pass searches excluding undesirable properties.
+ */
+bool is_preferred_component( const item &component );
+
+/**
  * Filter for empty crafting components first pass searches
  */
-inline bool is_empty_crafting_component( const item &component )
-{
-    return component.is_container_empty() && is_crafting_component( component );
-}
+bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
