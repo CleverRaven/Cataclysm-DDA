@@ -163,6 +163,17 @@ class profession
         std::set<trait_id> get_forbidden_traits() const;
 
         bool is_hobby() const;
+        bool is_blacklisted() const;
+};
+
+struct profession_blacklist {
+    std::set<string_id<profession>> professions;
+    bool whitelist = false;
+
+    static void load_profession_blacklist( const JsonObject &jo, std::string_view src );
+    static void reset();
+    void load( const JsonObject &jo, std::string_view );
+    void finalize();
 };
 
 #endif // CATA_SRC_PROFESSION_H

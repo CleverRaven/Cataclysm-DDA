@@ -412,7 +412,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( p.is_hobby() ) {
+        if( p.is_hobby() || p.is_blacklisted() ) {
             continue;
         }
         const bool present = std::find( professions.begin(), professions.end(),
@@ -454,7 +454,9 @@ std::vector<string_id<profession>> scenario::permitted_hobbies() const
     std::vector<string_id<profession>> all = profession::get_all_hobbies();
     std::vector<string_id<profession>> &res = cached_permitted_hobbies;
     for( const string_id<profession> &hobby : all ) {
-
+        if( hobby->is_blacklisted() ) {
+            continue;
+        }
         if( scenario_traits_conflict_with_profession_traits( *hobby ) ) {
             continue;
         }
