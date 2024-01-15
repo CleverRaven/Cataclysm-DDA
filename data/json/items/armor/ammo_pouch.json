@@ -147,7 +147,7 @@
       },
       {
         "id": "flag_chestrig",
-        "name": { "str": "patriot’s chest rig" },
+        "name": { "str": "patriot's chest rig" },
         "description": "An American flag is proudly embroidered across the front of each pouch, with a tiny, eagle-winged .50-caliber bullet crowning each banner.",
         "append": true
       }
