@@ -198,8 +198,8 @@ class hacksaw_activity_actor : public activity_actor
     private:
         tripoint target;
         item_location tool;
-        std::optional<tripoint> veh_pos;
         std::optional<itype_id> type;
+        std::optional<tripoint> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override;
 };
