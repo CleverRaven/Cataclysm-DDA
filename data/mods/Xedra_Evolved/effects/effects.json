@@ -694,6 +694,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_generic_health_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],

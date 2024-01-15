@@ -8,5 +8,15 @@
     "id": "morale_craving_lotus_blossom",
     "type": "morale_type",
     "text": "A hum at the edge of your thoughts."
+  },
+  {
+    "id": "morale_forest_unity",
+    "type": "morale_type",
+    "text": "Peace of the Forest"
+  },
+  {
+    "id": "morale_arvore_cut_tree",
+    "type": "morale_type",
+    "text": "Murdered a living tree"
   }
 ]
