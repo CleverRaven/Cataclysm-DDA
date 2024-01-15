@@ -1134,7 +1134,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
     "melee_damage": { "bash": 1 }
   },
   {

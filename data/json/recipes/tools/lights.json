@@ -250,11 +250,11 @@
     "components": [
       [ [ "heavy_flashlight", 1 ] ],
       [
-        [ "cotton_patchwork", 2 ],
-        [ "leather", 2 ],
-        [ "cordage", 1, "LIST" ],
-        [ "duct_tape", 10 ],
-        [ "medical_tape", 20 ]
+        [ "cotton_patchwork", 4 ],
+        [ "leather", 4 ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
       ]
     ]
   },
