@@ -46,7 +46,11 @@
     "effect": [
       { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "u_message": "You shiver as you realize you are being hunted; the night itself means to kill you.", "type": "bad", "popup": true }
+      {
+        "u_message": "You shiver as you realize you are being hunted; the night itself means to kill you.",
+        "type": "bad",
+        "popup": true
+      }
     ]
   },
   {
