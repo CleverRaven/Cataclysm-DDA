@@ -15,7 +15,6 @@
     "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
-    "regenerates": 1,
     "symbol": "L",
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
