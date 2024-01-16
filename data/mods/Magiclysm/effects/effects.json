@@ -119,9 +119,16 @@
     "remove_message": "Your body rapidly returns to normal.",
     "rating": "good",
     "max_intensity": 4,
-    "int_add_val": 1,
-    "base_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 5 ], "speed_mod": [ 5, 10 ] },
-    "scaling_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 3 ], "speed_mod": [ 5, 10 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bio_grotesque') / 5) + 1)" ] } },
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bio_grotesque') / 4) + 5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
