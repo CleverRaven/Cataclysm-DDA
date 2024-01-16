@@ -5962,6 +5962,185 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
     };
 }
 
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
+                                        bool no_result )
+{
+    JsonArray objects = jo.get_array( member );
+    std::optional<dbl_or_var_part> min;
+    std::optional<dbl_or_var_part> max;
+    if( jo.has_member( "min" ) ) {
+        min = get_dbl_or_var_part( jo.get_member( "min" ), "min" );
+    } else if( jo.has_member( "min_time" ) ) {
+        dbl_or_var_part value;
+        time_duration min_time;
+        mandatory( jo, false, "min_time", min_time );
+        value.dbl_val = to_turns<int>( min_time );
+        min = value;
+    }
+    if( jo.has_member( "max" ) ) {
+        max = get_dbl_or_var_part( jo.get_member( "max" ), "max" );
+    } else if( jo.has_member( "max_time" ) ) {
+        dbl_or_var_part value;
+        time_duration max_time;
+        mandatory( jo, false, "max_time", max_time );
+        value.dbl_val = to_turns<int>( max_time );
+        max = value;
+    }
+    std::string op = "none";
+    std::string result = "none";
+    std::function<void( dialogue &, double )> set_dbl = conditional_t::get_set_dbl(
+                objects.get_object( 0 ), min,
+                max, no_result );
+    int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
+    // Normal full version
+    if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
+        op = objects.get_string( 3 - no_result_mod );
+        if( !no_result ) {
+            result = objects.get_string( 1 );
+            if( result != "=" ) {
+                jo.throw_error( "invalid result " + op + " in " + jo.str() );
+                function = []( dialogue const & ) {
+                    return false;
+                };
+            }
+        }
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 - no_result_mod ) );
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 4 - no_result_mod ) );
+        if( op == "*" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
+            };
+        } else if( op == "/" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
+            };
+        } else if( op == "+" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
+            };
+        } else if( op == "-" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
+            };
+        } else if( op == "%" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
+            };
+        } else if( op == "^" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        // ~
+    } else if( objects.size() == 4 && !no_result ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 ) );
+        if( op == "~" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, ~static_cast<int>( get_first_dbl( d ) ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+
+        // =, -=, +=, *=, and /=
+    } else if( objects.size() == 3 && !no_result ) {
+        result = objects.get_string( 1 );
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 ) );
+        if( result == "+=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
+            };
+        } else if( result == "-=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
+            };
+        } else if( result == "*=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
+            };
+        } else if( result == "/=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
+            };
+        } else if( result == "%=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
+            };
+        } else if( result == "=" ) {
+            function = [get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_second_dbl( d ) );
+            };
+        } else {
+            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        // ++ and --
+    } else if( objects.size() == 2 && !no_result ) {
+        op = objects.get_string( 1 );
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        if( op == "++" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + 1 );
+            };
+        } else if( op == "--" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - 1 );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+    } else if( objects.size() == 1 && no_result ) {
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        function = [get_first_dbl, set_dbl]( dialogue & d ) {
+            set_dbl( d, get_first_dbl( d ) );
+        };
+    } else {
+        jo.throw_error( "Invalid number of args in " + jo.str() );
+        function = []( dialogue const & ) {
+            return false;
+        };
+        return;
+    }
+}
+
+void talk_effect_fun_t::set_math( const JsonObject &jo, std::string_view member )
+{
+    eoc_math math;
+    math.from_json( jo, member, eoc_math::type_t::assign );
+    function = [math = std::move( math )]( dialogue & d ) {
+        return math.act( d );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
