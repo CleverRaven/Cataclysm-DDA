@@ -626,7 +626,7 @@
       {
         "id": "toy_plush_crab",
         "name": { "str": "crab plushie" },
-        "description": "A amazing crab plushie with soft, textured blue and red bumpy shell and big, curious eyes.",
+        "description": "An amazing crab plushie with soft, textured blue and red bumpy shell and big, curious eyes.",
         "weight": 1
       },
       {
@@ -698,13 +698,23 @@
       {
         "id": "toy_plush_boar",
         "name": { "str": "wild boar plushie" },
-        "description": "This big wild boar plushie features a soft tuft of coarse, dark fur along its spine, with a soft and plushy body.  It also have a pair of soft tusks protruding from its snout and has a fierce expression.",
+        "description": "This big wild boar plushie features a soft tuft of coarse, dark fur along its spine, with a soft and plushy body.  It also has a pair of soft tusks protruding from its snout and has a fierce expression.",
         "weight": 1
       },
       {
         "id": "toy_plush_pig",
         "name": { "str": "pig plushie" },
         "description": "This loving, precious pig plushie has a soft pink fur, with endearing floppy ears and bright eyes.  It also has a plush snout with brown fur on its legs and paws.  Its nose is somewhat long and black, and its eyes are large and expressive."
+      },
+      {
+        "id": "toy_plush_wunicorn",
+        "name": { "str": "white unicorn plushie" },
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round."
+      },
+      {
+        "id": "toy_plush_municorn",
+        "name": { "str": "white unicorn plushie" },
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round.  For some odd reason, this one is wielding a plush knife with its forehooves."
       }
     ]
   },
