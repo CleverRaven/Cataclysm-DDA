@@ -84,7 +84,6 @@
       "CLIMBS",
       "BORES",
       "DESTROYS",
-      "FIREPROOF",
       "ALL_SEEING",
       "ALWAYS_SEES_YOU",
       "HAS_MIND",
@@ -98,7 +97,7 @@
       "PATH_AVOID_DANGER_2"
     ],
     "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
-    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100 }
   },
   {
     "id": "LTNT_LIFE_DRAIN",
