@@ -87,17 +87,22 @@
       "and": [
         { "u_has_trait": "THRESH_IERDE" },
         {
-          "and": [
-            { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
-            { "not": { "u_is_on_terrain": "t_rock_floor" } },
-            { "not": { "u_is_on_terrain": "t_rock_smooth" } },
-            { "not": { "u_is_on_terrain": "t_rock_wall_half" } },
-            { "not": { "u_is_on_terrain": "t_dirt_underground" } },
-            { "not": { "u_is_on_terrain": "t_mud_underground" } },
-            { "not": { "u_is_on_terrain": "t_moss_underground" } },
-            { "not": { "u_is_on_terrain": "t_clay_underground" } },
-            { "not": { "u_is_on_terrain": "t_claymound_underground" } },
-            { "not": { "u_is_on_terrain": "t_sand_underground" } }
+          "or": [
+            "u_is_outside",
+            {
+              "and": [
+                { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
+                { "not": { "u_is_on_terrain": "t_rock_floor" } },
+                { "not": { "u_is_on_terrain": "t_rock_smooth" } },
+                { "not": { "u_is_on_terrain": "t_rock_wall_half" } },
+                { "not": { "u_is_on_terrain": "t_dirt_underground" } },
+                { "not": { "u_is_on_terrain": "t_mud_underground" } },
+                { "not": { "u_is_on_terrain": "t_moss_underground" } },
+                { "not": { "u_is_on_terrain": "t_clay_underground" } },
+                { "not": { "u_is_on_terrain": "t_claymound_underground" } },
+                { "not": { "u_is_on_terrain": "t_sand_underground" } }
+              ]
+            }
           ]
         }
       ]
@@ -123,6 +128,42 @@
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [ { "u_has_trait": "THRESH_HOMULLUS" }, { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] } ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "or": [ { "not": "u_is_outside" }, { "u_is_on_terrain_with_flag": "INDOORS" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You gasp as you awaken, the still air barely moving into your lungs.  You long for the blowing winds.",
         "type": "bad"
       }
     ]
