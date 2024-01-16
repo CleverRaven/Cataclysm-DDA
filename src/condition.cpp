@@ -2037,12 +2037,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [const_value]( dialogue const & ) {
             return const_value;
         };
-    } else if( jo.has_member( "time" ) ) {
-        const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                         time_duration::units ) );
-        return [value]( dialogue const & ) {
-            return value;
-        };
     } else if( jo.has_member( "time_until_eoc" ) ) {
         time_duration given_unit = 1_turns;
         effect_on_condition_id eoc_id = effect_on_condition_id( jo.get_string( "time_until_eoc" ) );
@@ -2689,8 +2683,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         };
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
-    } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant.  In " + jo.str() );
     } else if( jo.has_member( "rand" ) ) {
         jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
     } else if( jo.has_member( "faction_trust" ) ) {

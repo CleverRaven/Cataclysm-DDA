@@ -941,9 +941,7 @@
       {
         "text": "This is a u_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, ">", { "time": "3 days" } ]
-        }
+        "condition": { "math": [ "u_test_var_time_test_test > time('3 days')" ] }
       },
       {
         "text": "time_since_cataclysm > 3_days.",
@@ -1086,9 +1084,7 @@
       {
         "text": "Test Proficiency learning done is 12 hours total.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "==", { "time": "12h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent') == time('12h')" ] }
       },
       {
         "text": "Test Proficiency learning is 50% learnt.",
@@ -1103,16 +1099,12 @@
       {
         "text": "Test Proficiency total learning time is 24 hours.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "total_time_required" }, "==", { "time": "24h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'total_time_required') == time('24h')" ] }
       },
       {
         "text": "Test Proficiency time lest to learn is 12h.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_left') == time('12h')" ] }
       }
     ]
   },
@@ -1232,9 +1224,7 @@
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
@@ -1244,9 +1234,7 @@
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "24h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('24h')" ] }
       }
     ]
   },
