@@ -1698,5 +1698,14 @@
     "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
     "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
     "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_hyper_regeneration",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Rapid Regeneration", "str_pl": "Scrolls of Rapid Regeneration" },
+    "description": "Cuts?  Lacerations?  Torn organs?  Fix all that with this handy spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
   }
 ]

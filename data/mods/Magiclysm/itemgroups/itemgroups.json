@@ -1246,7 +1246,8 @@
           { "item": "biomancer_spellbook", "prob": 10 },
           { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
-          { "item": "spell_scroll_bio_bonespear", "prob": 50 }
+          { "item": "spell_scroll_bio_bonespear", "prob": 50 },
+          { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 10 }
         ],
         "prob": 10
       }

@@ -924,11 +924,34 @@
   {
     "type": "effect_type",
     "id": "effect_biomancer_cure_disease_minor",
-    "name": [ "Cure Disease, Minor" ],
-    "desc": [ "Cold and flu begone." ],
-    "remove_message": "You feel much better.",
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "good",
-    "removes_effects": [ "common_cold", "flu" ]
+    "removes_effects": [
+      "pre_common_cold",
+      "common_cold",
+      "pre_flu",
+      "flu",
+      "pre_conjunctivitis_viral",
+      "conjunctivitis_viral",
+      "pre_conjunctivitis_bacterial",
+      "conjunctivitis_bacterial"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_hyper_regeneration",
+    "name": [ "Rapid Regeneration" ],
+    "desc": [ "You are healing unbelievably quickly" ],
+    "remove_message": "Your rapid regeneration slows and stops",
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ],
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "effect_type",
