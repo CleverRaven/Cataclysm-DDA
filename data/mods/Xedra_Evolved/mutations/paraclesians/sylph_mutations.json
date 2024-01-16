@@ -279,7 +279,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE_ON" ],
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_SPEED_INCREASE2_ON", "msg_transform": "", "active": false, "moves": 0 },
     "category": [ "SYLPH" ]
@@ -292,7 +292,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE_ON" ],
+    "valid": false,
     "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_SPEED_INCREASE2", "msg_transform": "", "active": false, "moves": 0 },
     "category": [ "SYLPH" ],
