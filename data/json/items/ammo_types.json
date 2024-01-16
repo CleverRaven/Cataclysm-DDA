@@ -97,6 +97,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atlatl",
+    "name": "atlatl spears",
+    "default": "steel_atlatl_spear"
+  },
+  {
+    "type": "ammunition_type",
     "id": "pebble",
     "name": "pebbles",
     "default": "pebble"

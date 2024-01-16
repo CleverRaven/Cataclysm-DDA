@@ -1162,8 +1162,8 @@ Example:
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
   "duration": { "global_val": "test2", "default": "2 minutes" },
   {
-    "u_spawn_monster": "mon_absence",
-    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+    "u_spawn_monster": "mon_absence", 
+    "real_count": { "math": [ "1 + rand(2)" ] }
   }
 ]
 ```
@@ -1242,7 +1242,6 @@ Example | Description
 `"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
 `"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
 `"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "dodge"` | Current effective dodge of the character.
@@ -1423,14 +1422,18 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc)", "<=", "50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
+| energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood')", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc)", ">", "5" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Arguemnt is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_trait('FEEBLE') ? 100 : 15" ] }`|
 | has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Arguemnt is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|
-| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special value `ALL`, get hp sum of all bodyparts or set hp of all bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
+| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special values `ALL`, `ALL_MAJOR`, `ALL_MINOR`, get hp sum of all/major/minor bodyparts or set hp of all/major/minor bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
 | hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/>Argument is bodypart ID.<br/> For items, returns max amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/><br/>Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack')", ">=", "1"] }`|
+| item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT')", ">=", "1"] }`|
 | monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
+| mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|

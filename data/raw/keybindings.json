@@ -3685,6 +3685,13 @@
   },
   {
     "type": "keybinding",
+    "id": "BANK_BALANCE",
+    "category": "INVENTORY",
+    "name": "Auto balance trade using bank account",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DECREASE_COUNT",
     "category": "INVENTORY",
     "name": "Decrease selected amount for the highlighted item",

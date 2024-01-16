@@ -149,7 +149,7 @@ you add morale, equal to `ps_str` portal storm strength value
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
 ```
 
-you add morale, equal to `ps_str` portal storm strength value plus 1, using old arithmetic syntax
+you add morale, equal to `ps_str` portal storm strength value plus 1, using **old arithmetic syntax**
 ```json
 { "u_add_morale": "global_val", "bonus":  { "arithmetic": [ { "global_val": "ps_str" }, "+", { "const": 1 } ] } }
 ```
@@ -528,6 +528,27 @@ checks if `victim_type` is `mon_zombie_phase_shrike`
 checks is `victim_type` has `zombie` faction
 ```json
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+```
+
+### `u_profession`
+- type: string or [variable object](##variable-object)
+- Return true if player character has the given profession id or its "hobby" subtype
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the character has selected Heist Driver profession at the character creation
+```json
+{ "u_profession": "heist_driver" }
+```
+
+True if the character has selected Fishing background at the character creation
+```json
+{ "u_profession": "fishing" }
 ```
 
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
@@ -1822,7 +1843,7 @@ Check the value, and, depending on it, pick the case that would be run
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "switch" | **mandatory** | arithmetic/math_expression | the value, that would be read; only numerical values can be used |
+| "switch" | **mandatory** | variable/math_expression | the value, that would be read; only numerical values can be used |
 | "cases" | **mandatory** | `case` and `effect` | effects, that would be run, if the value of switch is higher or equal to this case | 
 
 ##### Valid talkers:
@@ -1832,12 +1853,12 @@ Check the value, and, depending on it, pick the case that would be run
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Checks the level of `some_spell` spell, and, related to this, cast a spell of picked level; if level of spell is 9, `clair_night_vision_4` would be used, if spell level is 8, `clair_night_vision_3` would be casted
+Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
 ```json
 {
   "switch": { "u_val": "spell_level", "spell": "some_spell" },
   "cases": [
-    { "case": 0, "effect": { "u_cast_spell": { "id": "another spell" } } },
+    { "case": 0, "effect": { "u_cast_spell": { "id": "another_spell" } } },
     { "case": 3, "effect": { "u_add_effect": "drunk", "duration": "270 minutes" } },
     { "case": 6, "effect": { "u_lose_bionic": "bio_power_storage" } },
     { "case": 9, "effect": { "run_eocs": [ "EOC_DO_GOOD_THING" ] } },
@@ -2243,6 +2264,25 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 { "u_mutate_category": { "global_val": "next_mutation" }
 ```
 
+#### `u_mutate_towards`, `npc_mutate_towards`
+
+Similar to the above, but designates a desired end-point of mutation and uses the normal mutate_towards steps to get there, respecting base traits and `changes_to/cancels/types` restrictions.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mutate_towards" / "npc_mutate_towards" | **mandatory** | string or [variable object](##variable-object) | Trait ID |
+| "category"     | optional | string or [variable object](#variable-object) | default ANY, defines which category to use for the mutation steps - necessary for vitamin usage
+| "use_vitamins" | optional | boolean | same as in `u_mutate`, requires a defined `category` | 
+
+##### Examples
+Mutate towards Tail Stub (removing any incompatibilities) using the category set in the variable, deprecating that vitamin and using the category's base trait removal chance/multiplier.
+```json
+      {
+        "u_mutate_towards": "TAIL_STUB",
+        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "use_vitamins": true
+      },
+```
 
 #### `u_add_effect`, `npc_add_effect`
 
@@ -3244,47 +3284,6 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
   "fail_message": "Something is very wrong!",
   "force": true
 }
-```
-
-
-#### `u_set_hp`, `npc_set_hp`
-HP of you or NPC would be set to some amount
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_set_hp" / "npc_set_hp" | **mandatory** | int, float or [variable object](##variable-object) | amount of HP to set |
-| "target_part" | optional | string or [variable object](##variable-object) | default whole body; if used, the HP adjustment would be applied only to this body part | 
-| "only_increase" | optional | boolean | default false; if true, the HP could be only increased | 
-| "main_only" | optional | boolean | default false; if true, only main body parts would be affected - arms, legs, head, torso etc.; can't be used with `minor_only` | 
-| "minor_only" | optional | boolean | default false; if true, only minor parts would be affected - eyes, mouth, hands, foots etc.; can't be used with `main_only` | 
-| "max" | optional | boolean | default false; if true, `_set_hp` value would be ignored, and body part would be healed to it's max HP | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-
-HP of whole body would be set to 10
-```json
-{ "u_set_hp": 10 }
-```
-
-Random bodypart would be healed entirely
-```json
-{ "u_set_hp": 0, "max": true, "target_part": "RANDOM" }
-```
-
-You increase the HP of your minor parts to 50, if possible
-```json
-{ "u_set_hp": 50, "minor_only": true, "only_increase": true }
-```
-
-You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
-```json
-{ "u_set_hp": { "math": [ "u_hp('leg_r') + 10" ] }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`

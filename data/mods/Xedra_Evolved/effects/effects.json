@@ -142,16 +142,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "max_intensity": 3,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "LUMINATION",
-            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "u_effect_intensity('foxfire_imbibed') * 50" ] } } ] } ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -694,6 +685,55 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_underground_timer",
+    "name": [ "Underground in Dead Air" ],
+    "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_broke_fae_ban",
+    "name": [ "Broken Ban" ],
+    "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 50 ],
+      "health_tick": [ 600 ],
+      "vomit_chance": [ 1000 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.6 ],
+      "health_chance": [ -3 ],
+      "health_tick": [ -30 ],
+      "vomit_chance": [ -50 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.07 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.06 }
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_MANA", "multiply": { "math": [ "u_effect_intensity('effect_max_mana_penalty') * -0.04" ] } },
+          { "value": "MAX_MANA", "multiply": { "math": [ "u_effect_intensity('effect_max_mana_penalty') * -0.1" ] } }
+        ]
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
@@ -962,6 +1002,23 @@
       "BIO_IMMUNE"
     ],
     "//": "Deliberately vulnerable to electricity damage."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_undine_escape_grabs",
+    "name": [ "Flow Like Water" ],
+    "desc": [ "Your movements are inhumanly fluid." ],
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "dur_add_perc": 1,
+    "removes_effects": [ "grabbed" ],
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "block", "modifier": 1.2 },
+      { "limb_score": "crawl", "modifier": 1.5 }
+    ],
+    "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

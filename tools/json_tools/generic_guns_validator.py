@@ -34,7 +34,8 @@ AMMO_TYPE_WHITELIST = {
     'rock',
     'signal_flare',
     'methanol_fuelcell',
-    'weldgas'
+    'weldgas',
+    'atlatl'
 }
 SKILL_WHITELIST = {
     'archery',

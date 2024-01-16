@@ -1085,7 +1085,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet_fur_patchwork", 2 ] ] ],
+    "components": [ [ [ "sheet_fur_patchwork", 2 ], [ "tanned_pelt", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

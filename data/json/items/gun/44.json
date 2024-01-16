@@ -16,13 +16,13 @@
     "variants": [
       {
         "id": "modular_deagle",
-        "name": { "str": "Desert Eagle Mark XIX" },
+        "name": { "str": "Desert Eagle Mark XIX pistol" },
         "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.",
         "weight": 10000
       },
       {
         "id": "modular_deagle_gold",
-        "name": { "str": "golden Desert Eagle Mark XIX" },
+        "name": { "str": "golden Desert Eagle Mark XIX pistol" },
         "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.  For maximum style points (or tackiness, depending on taste), this one is plated in what appears to be 24-karat gold."
       }
     ],
@@ -48,7 +48,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "Henry Big Boy .44" },
+    "name": { "str": "Henry Big Boy .44 rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": "3937 g",
     "volume": "2310 ml",
@@ -86,7 +86,7 @@
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "pipe rifle: .44 Magnum", "str_pl": "pipe rifles: .44 Magnum" },
+    "name": { "str": ".44 Magnum pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
     "weight": "2114 g",
@@ -127,7 +127,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Ruger Redhawk" },
+    "name": { "str": "Ruger Redhawk revolver" },
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
     "ascii_picture": "redhawk",
     "weight": "1389 g",
@@ -171,7 +171,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "S&W 629" },
+    "name": { "str": "S&W 629 revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "weight": "1267 g",
     "volume": "675 ml",

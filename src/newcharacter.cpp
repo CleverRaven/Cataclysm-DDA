@@ -2657,7 +2657,15 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_hobbies ) {
-            std::vector<profession_id> new_hobbies = profession::get_all_hobbies();
+            std::vector<profession_id> new_hobbies = get_scenario()->permitted_hobbies();
+            new_hobbies.erase( std::remove_if( new_hobbies.begin(), new_hobbies.end(),
+            [&u]( const string_id<profession> &hobby ) {
+                return !u.prof->allows_hobby( hobby );
+            } ), new_hobbies.end() );
+            if( new_hobbies.empty() ) {
+                debugmsg( "Why would you blacklist all hobbies?" );
+                new_hobbies = profession::get_all_hobbies();
+            }
             profession_sorter.male = u.male;
             if( ( hobbies_length = filter_entries( u, cur_id, sorted_hobbies, new_hobbies,
                                                    u.hobbies.empty() ? string_id<profession>() : ( *u.hobbies.begin() )->ident(), filterstring,

@@ -43,16 +43,13 @@
     "dynamic_line": "REFUGEE CENTER FOUND!  IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n 4PM AT 555-0164.\n\nIF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\nTO WRITE US A LETTER PLEASE SEND IT TO…",
     "responses": [
       {
-        "condition": { "not": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] } },
+        "condition": { "math": [ "find_refugee_center", "!=", "1" ] },
         "text": "Make a note of the location.",
         "topic": "COMP_REFUGEE_CENTER_MAIN",
-        "effect": [
-          { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" },
-          { "arithmetic": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] }
-        ]
+        "effect": [ { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }, { "math": [ "find_refugee_center", "=", "1" ] } ]
       },
       {
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] },
+        "condition": { "math": [ "find_refugee_center", "==", "1" ] },
         "text": "Press any key.",
         "topic": "COMP_REFUGEE_CENTER_MAIN"
       }

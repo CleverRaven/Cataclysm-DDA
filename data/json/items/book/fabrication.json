@@ -405,6 +405,29 @@
     "fun": -1
   },
   {
+    "id": "textbook_mesoam",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Art of Warfare in Precolumbian Mesoamericas",
+      "str_pl": "copies of The Art of Warfare in Precolumbian Mesoamericas"
+    },
+    "description": "This intricate history book details the history of Mesoamerican warfare from the sources of the native codices, Spanish records and contemporary historians.  It contains descriptive diagrams and information on few of the weapons used, mainly of the Nahuatl speaking peoples.  You reckon you could craft a few of them with steel instead of obsidian.",
+    "weight": "654 g",
+    "volume": "1250 ml",
+    "price": 6400,
+    "price_postapoc": 3000,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 8,
+    "intelligence": 9,
+    "time": "60 m",
+    "fun": 1
+  },
+  {
     "id": "textbook_fabrication",
     "type": "BOOK",
     "category": "manuals",
