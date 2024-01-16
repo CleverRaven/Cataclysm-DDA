@@ -106,7 +106,7 @@
           "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
           "opinion": { "trust": -2 },
           "effect": [
-            { "u_add_var": "prepper_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }

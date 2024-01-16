@@ -133,7 +133,7 @@ std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val )
 {
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+    if( check_value && !( jo.has_string( "value" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
@@ -148,7 +148,7 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value )
 {
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+    if( check_value && !( jo.has_string( "value" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
@@ -1004,19 +1004,15 @@ conditional_t::func f_has_var( const JsonObject &jo, std::string_view member, bo
     dbl_or_var empty;
     const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
-    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
-    if( !time_check && !jo.has_member( "value" ) ) {
-        jo.throw_error( R"(Missing field: "value" or "time")" );
+    if( !jo.has_member( "value" ) ) {
+        jo.throw_error( R"(Missing field: "value")" );
         return []( dialogue const & ) {
             return false;
         };
     }
 
-    return [var_name, value, time_check, is_npc]( dialogue const & d ) {
+    return [var_name, value, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( time_check ) {
-            return !actor->get_value( var_name ).empty();
-        }
         return actor->get_value( var_name ) == value;
     };
 }

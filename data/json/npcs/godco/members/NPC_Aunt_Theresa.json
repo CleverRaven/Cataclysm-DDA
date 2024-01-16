@@ -198,7 +198,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 5 } },
         "effect": [
           { "npc_add_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 5 }
         ],
         "topic": "TALK_DONE"
@@ -208,7 +208,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 10 } },
         "effect": [
           { "npc_add_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 10 }
         ],
         "topic": "TALK_DONE"
@@ -218,7 +218,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 30 } },
         "effect": [
           { "npc_add_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 30 }
         ],
         "topic": "TALK_DONE"

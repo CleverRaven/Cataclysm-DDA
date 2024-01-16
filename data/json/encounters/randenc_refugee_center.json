@@ -17,7 +17,7 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "evac_center_13" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "time": true },
+      { "math": [ "u_timer_RC_Shoppers_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
@@ -64,7 +64,7 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_JohnBailey_add", "om_terrain": "evac_center_13" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "JohnBailey", "time": true },
+      { "math": [ "u_timer_JohnBailey_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
         "target_params": { "om_terrain": "evac_center_13" }

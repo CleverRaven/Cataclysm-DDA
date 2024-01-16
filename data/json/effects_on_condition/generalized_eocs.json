@@ -21,7 +21,7 @@
     },
     "effect": [
       { "mapgen_update": [ { "context_val": "map_update" } ], "om_terrain": { "context_val": "omt" } },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "caravan", "time": true },
+      { "math": [ "u_timer_caravan_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" } }

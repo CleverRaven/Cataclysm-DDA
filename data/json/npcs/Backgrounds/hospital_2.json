@@ -123,7 +123,7 @@
           "topic": "BGSS_HOSPITAL_2_CABINFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
-            { "u_add_var": "hospital_2_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_hospital_2_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }

@@ -127,7 +127,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
-        { "u_add_var": "luliya_music_timer", "type": "timer", "context": "meeting", "time": true }
+        { "math": [ "u_timer_meeting_luliya_music_timer", "=", "time('now')" ] }
       ]
     },
     "responses": [

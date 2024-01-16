@@ -960,7 +960,7 @@
     "invisible_on_complete": true,
     "start": {
       "effect": [
-        { "u_add_var": "time_of_last_succession", "type": "timer", "time": true },
+        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
         { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
       ]
     }

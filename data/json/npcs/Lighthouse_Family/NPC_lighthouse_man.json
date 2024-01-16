@@ -75,7 +75,7 @@
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
-            { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+            { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
             { "mapgen_update": "lighthouse_man_survivor", "om_terrain": "lighthouse_ground" }
           ]
         },
@@ -467,7 +467,7 @@
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
       },
       "effect": [
-        { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+        { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
         { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" }
       ]
     },

@@ -44,10 +44,7 @@
       {
         "text": "Start working.",
         "topic": "TALK_DONE",
-        "effect": [
-          { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" },
-          { "npc_add_var": "wait", "type": "time", "context": "lighthouse", "time": true }
-        ]
+        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait", "=", "time('now')" ] } ]
       }
     ]
   },

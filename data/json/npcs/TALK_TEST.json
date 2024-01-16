@@ -659,14 +659,14 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a npc_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "n_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
@@ -885,8 +885,8 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "PC strength is five.",

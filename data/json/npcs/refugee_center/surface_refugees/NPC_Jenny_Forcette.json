@@ -343,7 +343,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" },
-        { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true }
+        { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] }
       ]
     },
     "responses": [
@@ -355,7 +355,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
     "dynamic_line": "\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
-    "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -672,7 +672,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
-        { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true },
+        { "math": [ "n_timer_flag_Jenny_project_timer", "=", "time('now')" ] },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }

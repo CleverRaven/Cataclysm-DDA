@@ -17,7 +17,7 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_ruralgas_jotunn", "om_terrain": "s_gas_rural" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "jotunn", "time": true },
+      { "math": [ "u_timer_jotunn_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_jotunn_loc" },
         "target_params": { "om_terrain": "roadstop_a" }
