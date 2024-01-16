@@ -205,8 +205,11 @@ augmentations
 auk
 auroral
 ausgegangen
+atlatl
+atlatls
 autoclave
 autoclaving
+autohaul
 autoinjector
 autoloading
 autologous
@@ -224,6 +227,7 @@ avians
 aving
 avium
 avy
+axedwarves
 axeman
 axolotl
 azide
@@ -392,6 +396,7 @@ brainer
 brandishes
 brazing
 breacher
+breachhead
 breadboard
 breakrooms
 breatharians
@@ -454,6 +459,7 @@ caltrop
 caltrops
 camarasaurus
 camelops
+camo
 camphine
 campin
 camptosaurus
@@ -650,6 +656,7 @@ countermine
 countertime
 couters
 coverplate
+crabapple
 crablike
 cracklins
 craftable
@@ -1153,6 +1160,8 @@ footrest
 forager
 foregrip
 foregrips
+forehoof
+forehooves
 foreleg
 forelegs
 forestalling
@@ -1196,6 +1205,7 @@ fungaloid
 fungaloids
 funggnaloid
 fungicidal
+fungii
 funnelcap
 fursuit
 fusillies
@@ -1242,6 +1252,7 @@ genemod
 genemoded
 generalist
 generically
+geokinesis
 geometries
 gesticulates
 getups
@@ -1578,6 +1589,7 @@ junglefowl
 junipers
 k
 kabuto
+kaleidoscoping
 kalimotxo
 kampuch
 karambit
@@ -1686,6 +1698,7 @@ layin
 lb
 lbs
 leache
+leaper
 leatherbacked
 leatherbound
 leathercrafters
@@ -1772,6 +1785,7 @@ lutefisk
 lutely
 lvl
 lx
+lycra
 lyflode
 lyin
 m
@@ -1779,9 +1793,12 @@ machiner
 macronutrient
 macrophenotypic
 macuahuitl
+macuahuitls
 maculata
+magick
 magicks
 magickal
+magicks
 magwells
 maiasaura
 maintainers
@@ -2083,6 +2100,7 @@ nonuniform
 nonverbally
 noone
 nopal
+nopales
 nopalito
 nord
 norvegicus
@@ -2135,9 +2153,11 @@ ornately
 ornithomimid
 ornithomimus
 orrery
+orthogonally
 oryctodromeus
 oscillated
 osho
+osteokinesis
 oter
 otes
 otherland
@@ -2175,6 +2195,7 @@ overswinging
 overtaxing
 overtop
 ovipositor
+ovipositors
 ovoviviparous
 owlbear
 owww
@@ -2201,6 +2222,7 @@ parabolan
 parachuter
 parasaurolophus
 parasitoid
+parasitoids
 paratronic
 paratrooping
 parboiling
@@ -2391,6 +2413,7 @@ profusive
 promptus
 propellants
 proprietary
+proprioception
 propyl
 prosaurolophus
 prosaurulophus
@@ -2449,6 +2472,7 @@ qianzhousaurus
 qt
 quadcopter
 quadcopters
+quadrilateral
 quadrupedal
 quams
 quantification
@@ -2954,7 +2978,7 @@ subcompact
 subcutis
 subgun
 sublethal
-submachinegun
+submachine
 submap
 submenu
 submersed
@@ -3033,6 +3057,7 @@ tassin
 tastemakers
 tawa
 taxa
+taxying
 tazed
 tazer
 tazers
@@ -3052,6 +3077,8 @@ temaki
 tenderloins
 tenontosaurus
 tequini
+tepoztopili
+tepoztopilis
 teravolt
 terpenes
 terranean
@@ -3137,6 +3164,8 @@ treatin
 treefrog
 treefrogs
 treelines
+treesinging
+treesung
 trenchcoat
 trenchcoats
 trenchgun
@@ -3374,7 +3403,6 @@ warhammers
 warmouth
 warpglass
 warpstream
-wasnt
 wastebread
 watchband
 waterfowl
@@ -3431,9 +3459,9 @@ winglike
 wireframe
 wirey
 wirings
+wist
 witchdoctor
 witchdoctors
-wist
 wizardy
 wk
 wolfish
@@ -3482,14 +3510,12 @@ yelman
 yme
 ynn
 yoroi
-youre
 yourselves
 youthful
 yowl
 yoyos
 yugg
 yukata
-yulecat
 z
 zahir
 zaibatsu
@@ -3507,6 +3533,8 @@ zentai
 zeriatric
 zincite
 zischt
+zorc
+zorcs
 zombaby
 zombear
 zombeaver
@@ -3520,6 +3548,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zowlbear
+zowlbears
 zpzzzzpzz
 zubon
 zucchinis

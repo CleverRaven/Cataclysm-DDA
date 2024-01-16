@@ -228,6 +228,31 @@
     "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
+    "abstract": "mon_fry_mutant",
+    "type": "MONSTER",
+    "name": { "str_sp": "mutant fish fry" },
+    "//": "a default fish type - does not appear in-game",
+    "description": "A half-translucent fish larva… though this one is far larger than the usual.  Impossible to identify which species it belongs to but you can safely tell that it is going to outgrow normal fish you're used to seeing.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "275 g",
+    "hp": 3,
+    "speed": 150,
+    "dodge": 10,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "white",
+    "aggression": -60,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
     "id": "mon_fish_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
@@ -236,7 +261,8 @@
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "18320 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brown_trout",
@@ -254,7 +280,8 @@
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "900 ml",
     "weight": "1650 g",
-    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brook_trout",
@@ -272,7 +299,8 @@
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "6140 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_lake_trout",
@@ -290,7 +318,8 @@
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "10600 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_rainbow_trout",
@@ -307,7 +336,8 @@
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "10600 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_salmon",
@@ -325,7 +355,8 @@
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "4470 ml",
     "weight": "3500 g",
-    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_kokanee_salmon",
@@ -342,7 +373,8 @@
     "description": "A lake whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "7730 ml",
     "weight": "2 kg",
-    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish",
@@ -360,7 +392,8 @@
     "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "850 ml",
     "weight": "355 g",
-    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish_round",
@@ -829,7 +862,7 @@
     "id": "mon_fish_gar_longnose",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "longnose gar" },
+    "name": { "str_sp": "longnose gar" },
     "looks_like": "mon_fish_pike",
     "description": "A large ancient type of fish with a mean jaw and poisonous eggs.",
     "volume": "4820 ml",
@@ -864,7 +897,7 @@
     "id": "mon_fish_sturgeon_lake",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": { "str": "lake sturgeon" },
+    "name": { "str_sp": "lake sturgeon" },
     "description": "A very large armored bottom-feeder, the lake sturgeon is one of the largest unmutated fish one can find in the freshwater regions of New England.",
     "volume": "20220 ml",
     "weight": "14500 g",
@@ -881,7 +914,7 @@
     "id": "mon_fish_sturgeon_shortnose",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "shortnose sturgeon" },
+    "name": { "str_sp": "shortnose sturgeon" },
     "looks_like": "mon_fish_sturgeon_lake",
     "description": "While the shortnose sturgeon is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
     "volume": "2720 ml",
@@ -1175,32 +1208,106 @@
   {
     "id": "mon_mutant_salmon",
     "type": "MONSTER",
-    "name": { "str": "giant salmon" },
-    "description": "A mutated salmon, the size of a large dog and quite dangerous to the inexperienced angler.",
+    "name": { "str_sp": "giant salmon" },
+    "description": "A mutated salmon roughly the size of a person.  Quite dangerous to the inexperienced angler.",
     "default_faction": "mutant",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 180,
-    "speed": 150,
+    "hp": 110,
+    "armor": { "bash": 4, "cut": 3, "bullet": 2 },
+    "speed": 175,
+    "attack_cost": 145,
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "white_magenta",
-    "aggression": 100,
-    "morale": 105,
+    "aggression": 9,
+    "morale": 50,
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 5,
-    "luminance": 0,
     "harvest": "mutant_fish",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+    "upgrades": { "half_life": 30, "into": "mon_mutant_salmon_huge" },
+    "anger_triggers": [ "HURT" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_mutant_salmon_huge",
+    "type": "MONSTER",
+    "name": { "str_sp": "huge salmon" },
+    "description": "A huge mutant salmon grown almost to the size of an alligator.",
+    "default_faction": "mutant",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "312 L",
+    "weight": "265 kg",
+    "hp": 225,
+    "armor": { "bash": 8, "cut": 6, "bullet": 3 },
+    "speed": 175,
+    "attack_cost": 150,
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "color": "white_magenta",
+    "aggression": 9,
+    "morale": 80,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "dodge": 4,
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_large",
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
+    "baby_flags": [ "AUTUMN" ],
+    "upgrades": { "half_life": 42, "into": "mon_mutant_salmon_mega" },
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_fry_mutant_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fry_mutant",
+    "default_faction": "mutant",
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon" }
+  },
+  {
+    "id": "mon_mutant_salmon_mega",
+    "type": "MONSTER",
+    "name": { "str_sp": "leaper salmon" },
+    "description": "A huge mutant salmon, one that outgrows even the other ones present.  On its sides, beneath the fins, are visible two flesh-colored tubes which propel water as it leaps.",
+    "default_faction": "mutant",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "400 L",
+    "weight": "340 kg",
+    "hp": 240,
+    "armor": { "bash": 10, "cut": 9, "bullet": 3 },
+    "speed": 200,
+    "attack_cost": 150,
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "color": "white_magenta",
+    "aggression": 9,
+    "morale": 90,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 30, "max_range": 10, "min_consider_range": 2, "ignore_dest_terrain": true } ],
+    "dodge": 4,
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_large",
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 5, "baby_timer": 50 },
+    "baby_flags": [ "AUTUMN" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_sewer_fish",

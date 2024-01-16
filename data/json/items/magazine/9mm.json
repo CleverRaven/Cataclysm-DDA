@@ -421,6 +421,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "ump9mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "UMP-9 30-round magazine" },
+    "description": "A curved, double-stack plastic box magazine for the UMP sub-machine gun in 9x19mm.  Holds 30 rounds.",
+    "weight": "200 g",
+    "volume": "750 ml",
+    "price": 4950,
+    "price_postapoc": 100,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+  },
+  {
     "id": "p08mag_8rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",

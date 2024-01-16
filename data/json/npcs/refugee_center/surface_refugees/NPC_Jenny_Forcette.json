@@ -385,6 +385,7 @@
         "effect": { "assign_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
         "condition": {
           "and": [
+            { "not": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" } },
             { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
             { "not": { "days_since_cataclysm": 60 } }
           ]

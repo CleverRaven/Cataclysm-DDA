@@ -33,10 +33,7 @@
         "group": "NC_ROBOFAC_INTERCOM_trade_armor",
         "rigid": true,
         "condition": {
-          "or": [
-            { "compare_num": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "==", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
-          ]
+          "or": [ { "math": [ "u_hub01_good_candidate", "==", "1" ] }, { "math": [ "u_hub01_completed_missions", ">=", "2" ] } ]
         },
         "refusal": "You're not yet qualified to buy this"
       },
@@ -46,7 +43,7 @@
         "strict": true,
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "==", { "const": 1 } ] },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
             { "not": { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
         }
@@ -76,9 +73,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "==", { "const": 1 } ]
-            }
+            { "math": [ "hub01_hwp_exotic_researched", "==", "1" ] }
           ]
         }
       },
@@ -188,12 +183,10 @@
           "run_eocs": [
             {
               "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
-              "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 1 } ] },
+              "condition": { "math": [ "free_merchants_hub_trade_route", "==", "1" ] },
               "effect": [
                 { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
-                {
-                  "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 2 } ]
-                },
+                { "math": [ "free_merchants_hub_trade_route", "=", "2" ] },
                 { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
               ],
               "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
@@ -515,7 +508,7 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
       },
       { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
       { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
@@ -530,7 +523,7 @@
       {
         "text": "Look, there must be something we can work out.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
       },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
@@ -779,7 +772,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
     "type": "talk_topic",
     "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
-    "speaker_effect": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "=", { "const": 1 } ] } },
+    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate", "++" ] } },
     "responses": [
       {
         "text": "Thank you.",

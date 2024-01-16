@@ -3485,7 +3485,7 @@
         "effect": [
           { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
           "follow",
-          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+          { "math": [ "n_val('friendly')", "=", "100" ] }
         ]
       }
     ],

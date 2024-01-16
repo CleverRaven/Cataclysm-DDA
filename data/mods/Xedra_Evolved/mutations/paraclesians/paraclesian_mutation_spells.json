@@ -135,7 +135,7 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "max_level": 15,
+    "max_level": 25,
     "effect": "effect_on_condition",
     "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
     "shape": "blast",

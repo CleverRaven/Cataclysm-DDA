@@ -1613,7 +1613,7 @@
       {
         "id": "morion",
         "name": { "str": "morion" },
-        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "description": "The tall crested helmet of a Spanish conquistador.  Heavy rusting implies it might be that many years old.",
         "color": "dark_gray",
         "weight": 0,
         "append": false

@@ -28,6 +28,9 @@ constexpr int EXPLOSION_MULTIPLIER = 7;
 constexpr int MAX_ITEM_IN_SQUARE = 4096;
 // no reason to differ.
 constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
+// Sanity checks for volume
+constexpr units::volume DEFAULT_TILE_VOLUME = units::from_liter( 1000 );
+constexpr units::volume MAX_ITEM_VOLUME = DEFAULT_TILE_VOLUME;
 // only can wear a maximum of two of any type of clothing.
 constexpr int MAX_WORN_PER_TYPE = 2;
 

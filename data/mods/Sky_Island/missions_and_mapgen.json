@@ -358,7 +358,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 0 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "0" ] }
     ]
   },
   {
@@ -378,7 +378,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 1 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "1" ] }
     ]
   },
   {
@@ -398,7 +398,7 @@
           "random": true
         }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 2 } ] }
+      { "math": [ "location_difficulty_bonus", "=", "2" ] }
     ]
   },
   {
@@ -447,15 +447,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 3 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "3 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -483,15 +475,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 4 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "4 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -527,15 +511,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 4 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "4 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -571,15 +547,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 5 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "5 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -623,15 +591,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 5 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "5 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -675,15 +635,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 8 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "8 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -709,15 +661,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 10 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "10 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -745,15 +689,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 10 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "10 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -789,15 +725,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 12 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -833,15 +761,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 12 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -867,15 +787,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 9 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "9 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -904,15 +816,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 12 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -936,15 +840,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 9 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "9 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -968,15 +864,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 6 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "6 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -1006,15 +894,7 @@
     "end": {
       "effect": [
         { "u_adjust_var": "missionswon", "adjustment": 1 },
-        {
-          "arithmetic": [
-            { "global_val": "var", "var_name": "totalbonus" },
-            "=",
-            { "const": 12 },
-            "+",
-            { "global_val": "var", "var_name": "location_difficulty_bonus" }
-          ]
-        },
+        { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
