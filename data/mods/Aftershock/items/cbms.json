@@ -9,6 +9,17 @@
     "difficulty": 4
   },
   {
+    "id": "bn_bio_trickle",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Trickle Charger CBM" },
+    "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
+    "weight": "500 g",
+    "price": 120000,
+    "price_postapoc": 1500,
+    "difficulty": 3
+  },
+  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
