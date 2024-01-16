@@ -1905,15 +1905,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [value]( dialogue const & ) {
             return value;
         };
-    } else if( jo.has_member( "power" ) ) {
-        units::energy power;
-        if constexpr( std::is_same_v<JsonObject, J> ) {
-            assign( jo, "power", power, false, 0_kJ );
-        }
-        const int power_value = units::to_millijoule( power );
-        return [power_value]( dialogue const & ) {
-            return power_value;
-        };
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
         time_duration given_unit = 1_turns;
         if( jo.has_string( "time_since_cataclysm" ) ) {

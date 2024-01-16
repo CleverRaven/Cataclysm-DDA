@@ -227,6 +227,7 @@ avians
 aving
 avium
 avy
+axedwarves
 axeman
 axolotl
 azide
@@ -3513,7 +3514,6 @@ yowl
 yoyos
 yugg
 yukata
-yulecat
 z
 zahir
 zaibatsu
@@ -3531,6 +3531,8 @@ zentai
 zeriatric
 zincite
 zischt
+zorc
+zorcs
 zombaby
 zombear
 zombeaver
@@ -3544,6 +3546,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zowlbear
+zowlbears
 zpzzzzpzz
 zubon
 zucchinis

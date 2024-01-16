@@ -6300,6 +6300,7 @@ void game::peek( const tripoint &p )
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
     m.build_map_cache( p.z );
+    m.update_visibility_cache( p.z );
 
     look_around_result result;
     const look_around_params looka_params = { true, center, center, false, false, true, true };
@@ -6317,6 +6318,7 @@ void game::peek( const tripoint &p )
         avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
+    m.invalidate_visibility_cache();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

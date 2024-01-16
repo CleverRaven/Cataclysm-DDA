@@ -69,6 +69,7 @@ decl_diag_eval num_input_eval;
 decl_diag_eval option_eval;
 decl_diag_eval pain_eval;
 decl_diag_ass pain_ass;
+decl_diag_eval energy_eval;
 decl_diag_eval school_level_eval;
 decl_diag_eval school_level_adjustment_eval;
 decl_diag_ass school_level_adjustment_ass;
@@ -142,6 +143,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
+    { "energy", { "g", 1, energy_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
