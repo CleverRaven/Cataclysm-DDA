@@ -168,7 +168,7 @@
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } },
         "ignore_dest_danger": true,
-        "message": "The five-pointed horror takes a long step."
+        "message": "The zombie strider takes a long step!"
       }
     ],
     "flags": [
