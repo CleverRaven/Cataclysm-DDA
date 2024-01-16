@@ -2067,6 +2067,18 @@ This places no limits on manual input, only on random generation (i.e. Play Now!
 A list of strings, each is the same as a monster id
 player will start with these as tamed pets.
 
+#### `hobbies`
+
+(optional, array of string profession_ids)
+
+A list of hobbies that will be the only hobbies this profession can choose from. If empty, all hobbies will be allowed.
+
+#### `whitelist_hobbies`
+
+(optional, bool)
+
+If this is false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from. This defaults to true.
+
 #### `vehicle`
 
 (optional, string vproto_id )
@@ -5770,6 +5782,16 @@ The name that is shown for the starting location. This is useful if the scenario
 (optional, array of strings)
 
 A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+
+## `hobbies`
+(optional, array of strings)
+
+A list of allowed hobbies that can be chosen when using this scenario. If this is empty, all hobbies are allowed.
+
+## `whitelist_hobbies`
+(optional, bool)
+
+When set to false, the hobbies in `hobbies` are hobbies that _cannot_ be chosen when using this scenario. This value defaults to true.
 
 ## `map_special`
 (optional, string)
