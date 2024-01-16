@@ -912,8 +912,7 @@
     "weight": "500 g",
     "price": 120000,
     "price_postapoc": 1500,
-    "difficulty": 3,
-    "flags": [ "OBSOLETE" ]
+    "difficulty": 3
   },
   {
     "id": "waterproof_smart_phone_case_migration",
