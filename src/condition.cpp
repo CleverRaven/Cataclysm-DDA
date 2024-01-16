@@ -2033,43 +2033,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [const_value]( dialogue const & ) {
             return const_value;
         };
-    } else if( jo.has_member( "time_until_eoc" ) ) {
-        time_duration given_unit = 1_turns;
-        effect_on_condition_id eoc_id = effect_on_condition_id( jo.get_string( "time_until_eoc" ) );
-        if( jo.has_string( "unit" ) ) {
-            std::string given_unit_str = jo.get_string( "unit" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [eoc_id, given_unit]( dialogue const & ) {
-            queued_eocs copy_queue =
-                g->queued_global_effect_on_conditions;
-            time_point turn;
-            bool found = false;
-            while( !copy_queue.empty() ) {
-                if( copy_queue.top().eoc == eoc_id ) {
-                    turn = copy_queue.top().time;
-                    found = true;
-                    break;
-                }
-                copy_queue.pop();
-            }
-            if( !found ) {
-                return -1;
-            } else {
-                return to_turns<int>( turn - calendar::turn ) / to_turns<int>( given_unit );
-            }
-        };
     } else if( jo.has_member( "rand" ) ) {
         int max_value = jo.get_int( "rand" );
         return [max_value]( dialogue const & ) {

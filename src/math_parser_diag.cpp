@@ -833,6 +833,26 @@ std::function<double( dialogue & )> time_since_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [eoc_val = params[0], unit_val]( dialogue const & d ) -> double {
+        effect_on_condition_id eoc_id( eoc_val.str( d ) );
+        auto const &list = g->queued_global_effect_on_conditions.list;
+        auto const it = std::find_if( list.cbegin(), list.cend(), [&eoc_id]( queued_eoc const & eoc )
+        {
+            return eoc.eoc == eoc_id;
+        } );
+
+        return it != list.end() ? _time_in_unit( to_turn<double>( it->time ), unit_val.str( d ) ) : -1;
+    };
+}
+
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1087,6 +1107,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },
     { "time_since", { "g", 1, time_since_eval } },
+    { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", -1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
