@@ -970,7 +970,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_biomancer_slow_bleeding_03",
+    "id": "effect_biomancer_slow_bleeding_02",
     "name": [ "Halt Bleeding" ],
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
