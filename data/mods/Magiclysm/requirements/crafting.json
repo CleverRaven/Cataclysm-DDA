@@ -9,5 +9,11 @@
     "type": "requirement",
     "//": "Pickaxe tools",
     "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ] ], [ [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
+  },
+  {
+    "id": "mining_standard",
+    "type": "requirement",
+    "//": "Pickaxe tools",
+    "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ] ], [ [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
   }
 ]
