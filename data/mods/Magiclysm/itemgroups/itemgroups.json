@@ -1231,6 +1231,7 @@
       {
         "distribution": [
           { "item": "wizard_utility", "prob": 20 },
+          { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
           { "item": "spell_scroll_pain_split", "prob": 50 },
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },

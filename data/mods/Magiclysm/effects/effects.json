@@ -942,8 +942,8 @@
     "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
     "name": [ "Rapid Regeneration" ],
-    "desc": [ "You are healing unbelievably quickly" ],
-    "remove_message": "Your rapid regeneration slows and stops",
+    "desc": [ "You are healing unbelievably quickly." ],
+    "remove_message": "Your rapid regeneration slows and stops.",
     "rating": "good",
     "removes_effects": [ "bleed" ],
     "enchantments": [
@@ -952,6 +952,31 @@
       }
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_01",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_03",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_03",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You do not bleed.  At all." ],
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "effect_type",

@@ -1707,5 +1707,14 @@
     "name": { "str": "Scroll of Rapid Regeneration", "str_pl": "Scrolls of Rapid Regeneration" },
     "description": "Cuts?  Lacerations?  Torn organs?  Fix all that with this handy spell.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_slow_bleeding",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Halt Bleeding", "str_pl": "Scrolls of Halt Bleeding" },
+    "description": "Keep all that blood in your body.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_slow_bleeding" ] }
   }
 ]
