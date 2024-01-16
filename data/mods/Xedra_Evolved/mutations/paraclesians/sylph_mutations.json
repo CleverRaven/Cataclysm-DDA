@@ -226,7 +226,24 @@
   },
   {
     "type": "mutation",
-    "id": "SLYPH_SPEED_INCREASE",
+    "id": "SYLPH_BONUS_RANGE",
+    "name": { "str": "Wind-Carried Weapons" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The winds surge around the Sylph as they attack, guiding their projectiles to the target.  The range of the Sylph's weapons is increased.",
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH) * 0.1)" ] } } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SPEED_INCREASE",
     "name": { "str": "Winds Guide Me" },
     "points": 4,
     "visibility": 0,
@@ -239,13 +256,13 @@
   },
   {
     "type": "mutation",
-    "id": "SLYPH_SPEED_INCREASE",
+    "id": "SYLPH_SPEED_INCREASE2",
     "name": { "str": "Outrunning the Gale" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "changes_to": "SLYPH_SPEED_INCREASE2",
+    "changes_to": "SYLPH_SPEED_INCREASE",
     "enchantments": [
       {
         "condition": "u_is_outdoors",
@@ -309,6 +326,31 @@
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_INT_BONUS_1",
+    "name": { "str": "Ice-Clear Thoughts" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "SYLPH_INT_BONUS_2" ],
+    "prereqs": [ "SYLPH_SKIN_2" ],
+    "description": "The Sylph's mind has the clarity of pure frozen water. +2 Intelligence.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "int_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_INT_BONUS_2",
+    "name": { "str": "Lightning Mind" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_INT_BONUS_1" ],
+    "description": "The Sylph's thoughts move as quickly as a bolt of lightning. +4 Intelligence.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "int_mod": 4 }
   },
   {
     "type": "mutation",
