@@ -64,6 +64,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_MASSIVE_LIGHTNING_BOLT",
+    "condition": "u_is_outside",
+    "effect": [ { "u_cast_spell": { "id": "sylph_massive_lightning_bolt_spell_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outdoors to cast Fist of Heaven's Fury.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_GOBLIN_FRUIT",
     "condition": {
       "or": [
