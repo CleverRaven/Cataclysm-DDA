@@ -16,13 +16,13 @@
     "//": "mining",
     "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ] ], [ [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
   },
-    {
+  {
     "id": "concrete_removal_standard",
     "type": "requirement",
     "//": "Tools for removing concrete",
     "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ] ], [ [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
   },
-    {
+  {
     "id": "road_removal_standard",
     "type": "requirement",
     "//": "Tools for removing road / sidewalk",
