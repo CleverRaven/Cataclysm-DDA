@@ -1,5 +1,17 @@
 [
   {
+    "type": "enchantment",
+    "id": "encht_sylph_speed_increase",
+    "condition": "u_is_outside",
+    "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "encht_sylph_speed_increase_2",
+    "condition": "u_is_outside",
+    "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
+  },
+  {
     "id": "zap_electrical_emission",
     "type": "SPELL",
     "name": "Zap",
@@ -448,6 +460,28 @@
       ]
     },
     "max_range": 50
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_start_fire",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Monster Push",
+    "description": "The actual spell that casts the Fist of Heaven's Fury fire.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
   },
   {
     "id": "sylph_massive_lightning_bolt_spell_real_push_enemies",

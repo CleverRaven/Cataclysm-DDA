@@ -128,7 +128,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to rush forward in a burst of wind.",
-    "prereqs": [ "SLYPH_SPEED_INCREASE", "SLYPH_SPEED_INCREASE2" ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "sylph_charge_dash_spell", 1 ] ]
   },
@@ -169,7 +169,7 @@
     "prereqs2": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "category": [ "SYLPH" ],
     "active": true,
-    "activated_is_setup": true,
+    "activated_is_setup": false,
     "activated_eocs": [ "EOC_SYLPH_JUMP_HIGH_ON" ]
   },
   {
@@ -236,7 +236,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH) * 0.1)" ] } } ]
+        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -249,9 +249,9 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster.",
-    "changes_to": "SLYPH_SPEED_INCREASE2",
+    "changes_to": "SYLPH_SPEED_INCREASE2",
     "prereqs": [ "PUSHING_WIND" ],
-    "enchantments": [ { "condition": "u_is_outdoors", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ],
+    "enchantments": [ "encht_sylph_speed_increase" ],
     "category": [ "SYLPH" ]
   },
   {
@@ -262,13 +262,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "changes_to": "SYLPH_SPEED_INCREASE",
-    "enchantments": [
-      {
-        "condition": "u_is_outdoors",
-        "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
-      }
-    ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "enchantments": [ "encht_sylph_speed_increase_2" ],
     "category": [ "SYLPH" ]
   },
   {
@@ -389,8 +384,7 @@
     "valid": false,
     "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
-    "flag": [ "SUBTLE_SPELL" ]
+    "casting_time_multiplier": 0.8
   },
   {
     "type": "mutation",
@@ -418,7 +412,7 @@
     "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
     "casting_time_multiplier": 0.8,
-    "flag": [ "SUBTLE_SPELL" ]
+    "flags": [ "SUBTLE_SPELL" ]
   },
   {
     "type": "mutation",

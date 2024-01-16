@@ -64,7 +64,7 @@
         { "math": [ "u_spell_level('pushing_wind')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('zap_electrical_emission')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('summon_air_sprite')", "<", "35" ] },
-        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1" ] },
+        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('cloud_of_steam_sylph')", "<", "35" ] },
         { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] },
         { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] },
