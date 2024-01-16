@@ -685,6 +685,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_underground_timer",
+    "name": [ "Underground in Dead Air" ],
+    "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_broke_fae_ban",
     "name": [ "Broken Ban" ],
     "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
