@@ -111,7 +111,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
-        std::string get_value( const std::string &var_name ) const override;
+        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
 
         // stats, skills, traits, bionics, magic, and proficiencies
         std::vector<skill_id> skills_teacheable() const override;

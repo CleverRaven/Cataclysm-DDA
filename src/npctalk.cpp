@@ -2269,8 +2269,13 @@ void dialogue::remove_value( const std::string &key )
 
 std::string dialogue::get_value( const std::string &key ) const
 {
+    return maybe_get_value( key ).value_or( std::string{} );
+}
+
+std::optional<std::string> dialogue::maybe_get_value( const std::string &key ) const
+{
     auto it = context->find( key );
-    return ( it == context->end() ) ? "" : it->second;
+    return it == context->end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
 void dialogue::set_conditional( const std::string &key,
