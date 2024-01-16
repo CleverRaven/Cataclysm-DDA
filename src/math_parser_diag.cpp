@@ -29,6 +29,26 @@ bool is_beta( char scope )
     }
 }
 
+template<typename T>
+constexpr std::string_view _str_type_of()
+{
+    if constexpr( std::is_same_v<T, units::energy> ) {
+        return "energy";
+    } else if constexpr( std::is_same_v<T, time_duration> ) {
+        return "time";
+    }
+    return "cookies";
+}
+
+template<typename T>
+T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
+{
+    auto const error = [s]( char const * suffix, size_t /* offset */ ) {
+        debugmsg( R"(Failed to convert "%s" to a %s value: %s)", s, _str_type_of<T>(), suffix );
+    };
+    return detail::read_from_json_string_common<T>( s, units, error );
+}
+
 } // namespace
 
 std::function<double( dialogue & )> u_val( char scope,
@@ -335,6 +355,22 @@ std::function<double( dialogue & )> item_count_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> item_rad_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value agg_val( std::string{ "min" } );
+    if( kwargs.count( "aggregate" ) != 0 ) {
+        agg_val = *kwargs.at( "aggregate" );
+    }
+
+    return [beta = is_beta( scope ), flag = params[0], agg_val]( dialogue const & d ) {
+        std::optional<aggregate_type> const agg =
+            io::string_to_enum_optional<aggregate_type>( agg_val.str( d ) );
+        return d.actor( beta )->item_rads( flag_id( flag.str( d ) ),
+                                           agg.value_or( aggregate_type::MIN ) );
+    };
+}
+
 std::function<double( dialogue & )> num_input_eval( char /*scope*/,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -469,6 +505,16 @@ std::function<void( dialogue &, double )> pain_ass( char scope,
 {
     return [beta = is_beta( scope )]( dialogue const & d, double val ) {
         d.actor( beta )->set_pain( val );
+    };
+}
+
+std::function<double( dialogue & )> energy_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+
+    return [val = params[0]]( dialogue const & d ) {
+        return units::to_millijoule(
+                   _read_from_string<units::energy>( val.str( d ), units::energy_units ) );
     };
 }
 

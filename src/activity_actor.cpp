@@ -1244,7 +1244,22 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    const int qual = tool->get_quality( qual_SAW_M );
+    int qual;
+    if( type.has_value() ) {
+        item veh_tool = item( type.value(), calendar::turn );
+        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = quality.second;
+            }
+        }
+        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = std::max( qual, quality.second );
+            }
+        }
+    } else {
+        qual = tool->get_quality( qual_SAW_M );
+    }
     if( qual < 2 ) {
         if( !testing ) {
             debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
@@ -1266,27 +1281,52 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     std::string method = "HACKSAW";
 
-    if( tool->ammo_sufficient( &who, method ) ) {
-        int ammo_consumed = tool->ammo_required();
-        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
-        if( iter != tool->type->ammo_scale.end() ) {
-            ammo_consumed *= iter->second;
-        }
+    if( !veh_pos.has_value() ) {
+        if( tool->ammo_sufficient( &who, method ) ) {
+            int ammo_consumed = tool->ammo_required();
+            std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
+            if( iter != tool->type->ammo_scale.end() ) {
+                ammo_consumed *= iter->second;
+            }
 
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
-        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
-        if( calendar::once_every( 1_minutes ) ) {
-            //~ Sound of a metal sawing tool at work!
-            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), tool->tname() );
+            }
+            who.cancel_activity();
         }
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
+        map &here = get_map();
+        const optional_vpart_position vp = here.veh_at( veh_pos.value() );
+        if( !vp ) {
+            debugmsg( "Lost ACT_HACKSAW vehicle tool" );
+            return;
         }
-        who.cancel_activity();
+        vehicle &veh = vp->vehicle();
+        if( vehicle::use_vehicle_tool( veh, veh_pos.value(), type.value(), true ) ) {
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), type.value()->nname( 1 ) );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), type.value()->nname( 1 ) );
+            }
+            who.cancel_activity();
+        }
     }
 }
 
@@ -1374,7 +1414,8 @@ bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &oth
 {
     const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                           ( other );
-    return actor.target == target && actor.tool.operator == ( tool );
+    return actor.target == target && ( ( veh_pos.has_value() &&
+                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_max ) ) || actor.tool.operator == ( tool ) );
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const

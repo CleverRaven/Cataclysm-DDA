@@ -10,13 +10,13 @@
     "variants": [
       {
         "id": "type99",
-        "name": { "str_sp": "Arisaka Type 99" },
+        "name": { "str": "Arisaka Type 99 rifle" },
         "description": "The standard service arm of the imperial Japanese army during the Second World War, chambered for the powerful 7.7x58mm cartridge and built to replace the weaker Type 38, the Type 99 is a sturdy and formidable bolt-action rifle with a Mauser-inspired action renowned for its strength.  Though the rifle was historically sneered at in the US due to extensive anti-Japanese propaganda and the lower quality of later-production guns, the weapon is, by most metrics, a finely produced and effective shoulder arm.  This particular Arisaka is an early-war example with anti-aircraft sights and an intact 6-petal chrysanthemum seal.",
         "weight": 1
       },
       {
         "id": "type99ld",
-        "name": { "str_sp": "Arisaka Type 99" },
+        "name": { "str": "Arisaka Type 99 rifle" },
         "description": "Standing as a clear example of what happens when a country losing a war realises that it’s running out of resources and its rifles are ripe for corner-cutting, this Type 99 Arisaka, the standard service arm of imperial Japan from 1939, is a crewed end-of-war example.  Coated in machining marks, lacking an upper handguard, and with the early production anti-aircraft sights long since done away with, where early production Arisaka rifles are a feat in elegant engineering, this one is a last-ditch bang stick hammered together in a mostly bombed-out factory.  Aesthetics not withstanding, this weapon is still an effective and powerful shoulder arm, just… not the prettiest."
       }
     ],
@@ -70,7 +70,7 @@
     "variants": [
       {
         "id": "type99_sniper",
-        "name": { "str_sp": "Arisaka Type 99 Sniper" },
+        "name": { "str": "Arisaka Type 99 sniper rifle" },
         "description": "The standard sniper’s weapon of Imperial Japan, this rifle is essentially an early production Type 99 Arisaka fitted with an offset optical sight and a bent bolt handle to facilitate stripper clip loading and easy manipulation despite the skope's presence.  While its 7.7x58mm chambering resulted in a muzzle flash and report that were significantly greater than those of the Type 97, which it sought to replace, the rifle’s man-stopping potential is nothing to be trifled with.",
         "weight": 1
       }

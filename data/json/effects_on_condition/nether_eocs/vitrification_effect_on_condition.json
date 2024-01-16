@@ -6,7 +6,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_near_om_location": "unvitrified_farm_0" }, { "u_near_om_location": "unvitrified_orchard" } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "vitri_glass_entered" }, "<", { "const": 1 } ] }
+        { "math": [ "vitri_glass_entered", "<", "1" ] }
       ]
     },
     "effect": [
@@ -33,7 +33,7 @@
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
-            { "compare_num": [ { "global_val": "var", "var_name": "vitri_glass_entered" }, "<", { "const": 2 } ] }
+            { "math": [ "vitri_glass_entered", "<", "2" ] }
           ]
         }
       ]

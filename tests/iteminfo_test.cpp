@@ -185,7 +185,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( axe, category ) ==
-               "Category: <color_c_magenta>TOOLS</color>\n" );
+               "Category: <color_c_magenta>Tools</color>\n" );
 
         CHECK( item_info_str( axe, description ) ==
                "--\n"
@@ -200,7 +200,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( plank, category ) ==
-               "Category: <color_c_magenta>SPARE PARTS</color>\n" );
+               "Category: <color_c_magenta>Spare parts</color>\n" );
 
         CHECK( item_info_str( plank, description ) ==
                "--\n"

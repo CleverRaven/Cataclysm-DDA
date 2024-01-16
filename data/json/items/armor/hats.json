@@ -1131,7 +1131,7 @@
       },
       {
         "id": "camo_hat_chef",
-        "name": { "str": "camo chef's jacket" },
+        "name": { "str": "camo toque" },
         "description": "It has camouflage dye.",
         "color": "green",
         "weight": 2,
@@ -2358,7 +2358,7 @@
       },
       {
         "id": "purple_pointed_hat",
-        "name": { "str": "purple pointed_hat" },
+        "name": { "str": "purple pointed hat" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true

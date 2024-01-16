@@ -141,6 +141,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_IRON_ARMOR",
+    "name": { "str": "Invulnerable Iron Skin" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Stone endures but armor is made of metal.  While standing on natural earth or stone, the Ierde can infuse their skin with metal, slowing their movement and encumbering them but rendering them much harder to damage.",
+    "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_iron_armor_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CARDIO",
     "name": { "str": "Tireless Strength of the Earth" },
     "points": 2,
