@@ -3080,7 +3080,8 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
-        std::vector<std::string> flags_str( flags.size() );
+        std::vector<std::string> flags_str;
+        flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
@@ -3124,7 +3125,8 @@ void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view m
             return;
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        std::vector<std::string> flags_str( flags.size() );
+        std::vector<std::string> flags_str;
+        flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
@@ -5005,7 +5007,8 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     if( local ) {
         function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( dialogue const & d ) {
             tripoint actor_pos = d.actor( is_npc )->pos();
-            std::vector<std::string> ids( unique_ids.size() );
+            std::vector<std::string> ids;
+            ids.reserve( unique_ids.size() );
             for( const str_or_var &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
