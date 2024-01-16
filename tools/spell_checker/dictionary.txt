@@ -459,6 +459,7 @@ caltrop
 caltrops
 camarasaurus
 camelops
+camo
 camphine
 campin
 camptosaurus
@@ -1782,6 +1783,7 @@ lutefisk
 lutely
 lvl
 lx
+lycra
 lyflode
 lyin
 m
@@ -2974,7 +2976,7 @@ subcompact
 subcutis
 subgun
 sublethal
-submachinegun
+submachine
 submap
 submenu
 submersed
@@ -3399,7 +3401,6 @@ warhammers
 warmouth
 warpglass
 warpstream
-wasnt
 wastebread
 watchband
 waterfowl
@@ -3507,7 +3508,6 @@ yelman
 yme
 ynn
 yoroi
-youre
 yourselves
 youthful
 yowl

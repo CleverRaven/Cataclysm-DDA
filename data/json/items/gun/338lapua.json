@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "tac338",
-        "name": { "str_sp": "McMillan Tac-338" },
+        "name": { "str": "McMillan Tac-338 rifle" },
         "description": "Chambering the .338 Lapua cartridge, the Tac-338 is a high-precision, bolt-action sniper rifle that, before the Cataclysm, complemented the arsenal of the US Navy Special Warfare unit.  Providing Navy SEAL marksmen with the capability to land effective shots on targets at a typical range of 1600 meters, a valuable capability for the long-distance engagements prevalent during the US army’s war on terror, the rifle comes kitted with an adjustable cheek pad, butt hook, and muzzle break."
       }
     ],
@@ -43,7 +43,7 @@
     "variants": [
       {
         "id": "savage112",
-        "name": { "str_sp": "Savage 112 Magnum Target" },
+        "name": { "str": "Savage 112 Magnum Target rifle" },
         "description": "A highly-accurate precision rifle chambered for the powerful .338 Lapua cartridge, the Savage 112 Magnum Target is a classically designed bolt-action rifle in both its fit and finish, with a heavy barrel, a hardwood stock, and an attached muzzle brake.  Unfortunately for the weapon and its users, a traditional veneer, no matter how admittedly swanky, isn’t conducive to tactical effectiveness, as demonstrated by the 112 Magnum Target’s mighty magazine size of one entire cartridge and lack of any factory-attached sights."
       }
     ],
@@ -91,7 +91,7 @@
     "variants": [
       {
         "id": "mrad_smr",
-        "name": { "str_sp": "Barrett MRAD SMR" },
+        "name": { "str": "Barrett MRAD SMR rifle" },
         "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD’s caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-Cataclysmic precision shooter, didn’t require a second mortgage to purchase."
       }
     ],
@@ -137,7 +137,7 @@
     "variants": [
       {
         "id": "axmc",
-        "name": { "str_sp": "Accuracy International AXMC" },
+        "name": { "str": "Accuracy International AXMC rifle" },
         "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion."
       }
     ],
