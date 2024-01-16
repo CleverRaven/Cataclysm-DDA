@@ -3,10 +3,8 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-
     "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
-
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
       { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
