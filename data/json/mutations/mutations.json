@@ -329,15 +329,8 @@
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
-    "enchantments": [
-      {
-        "values": [
-          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "hunger" }, "/", { "const": 10 } ] } },
-          { "value": "LUMINATION", "add": { "arithmetic": [ { "u_val": "morale" } ] } }
-        ]
-      }
-    ],
-    "//": "First enchantment increase lumnation the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), second luminate the more you happy (1 tile of lumination for each +10 morale)"
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "(u_val('hunger')/10) + max(u_val('morale'), 0)" ] } } ] } ],
+    "//": "Increases the lumination the more you hunger (max hunger = 300, max lumination when you hunger = 30, ie 3 tile of light), and the more you happy (1 tile of lumination for each +10 morale, negative morage excluded)"
   },
   {
     "type": "mutation",
@@ -419,7 +412,7 @@
     "triggers": [
       [
         {
-          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },
+          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
@@ -563,7 +556,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "compare_num": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
+        "condition": { "math": [ "u_val('pos_z')", "<", "0" ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -673,12 +666,7 @@
     "description": "You always sleep better surrounded by earth.",
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "enchantments": [
-      {
-        "condition": { "compare_num": [ { "u_val": "pos_z" }, "<", { "const": 0 } ] },
-        "values": [ { "value": "SLEEPY", "add": 20 } ]
-      }
-    ]
+    "enchantments": [ { "condition": { "math": [ "u_val('pos_z')", "<", "0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
   },
   {
     "type": "mutation",

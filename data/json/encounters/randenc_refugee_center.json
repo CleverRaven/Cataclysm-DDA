@@ -24,7 +24,7 @@
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "=", { "const": 1 } ] }
+      { "math": [ "RC_Shoppers_visiting", "=", "1" ] }
     ]
   },
   {
@@ -40,7 +40,7 @@
             "is_night"
           ]
         },
-        { "compare_num": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "==", { "const": 1 } ] },
+        { "math": [ "RC_Shoppers_visiting", "==", "1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },
@@ -50,7 +50,7 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_shoppers_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "=", { "const": 0 } ] }
+      { "math": [ "RC_Shoppers_visiting", "=", "0" ] }
     ]
   },
   {
@@ -78,7 +78,7 @@
         "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "=", { "const": 1 } ] }
+      { "math": [ "RC_JohnBailey_visiting", "=", "1" ] }
     ]
   },
   {
@@ -94,7 +94,7 @@
             "is_night"
           ]
         },
-        { "compare_num": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "==", { "const": 1 } ] },
+        { "math": [ "RC_JohnBailey_visiting", "==", "1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },
@@ -104,7 +104,7 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_johnbailey_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "=", { "const": 0 } ] }
+      { "math": [ "RC_JohnBailey_visiting", "=", "0" ] }
     ]
   },
   {

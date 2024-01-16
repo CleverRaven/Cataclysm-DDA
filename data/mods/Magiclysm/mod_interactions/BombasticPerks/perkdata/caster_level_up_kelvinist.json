@@ -5,6 +5,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "perk_caster_level_up_kelvinist" },
-    "effect": [ { "arithmetic": [ { "u_val": "spell_level_adjustment", "school": "KELVINIST" }, "+=", { "const": 1 } ] } ]
+    "effect": { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'KELVINIST' )", "=", "1" ] }
   }
 ]

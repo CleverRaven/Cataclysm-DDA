@@ -16,12 +16,12 @@
     "variants": [
       {
         "id": "mosin44",
-        "name": { "str_sp": "Mosin-Nagant M44" },
+        "name": { "str": "Mosin-Nagant M44 carbine" },
         "description": "The Model 44 is the carbine-sized variant of the standard 1891/30.  It has a shorter barrel, making it weaker than the 1891/30, but easier to carry.  This weapon also comes with an integrated side-folding bayonet."
       },
       {
         "id": "mosin44_ebr",
-        "name": { "str_sp": "Mosin-Nagant M44-EBR" },
+        "name": { "str": "Mosin-Nagant M44-EBR carbine" },
         "description": "This carbine packs the classic Mosin-Nagant Model 44 action in a modern-day stock capable of accepting modifications."
       }
     ],
@@ -74,12 +74,12 @@
     "variants": [
       {
         "id": "mosin91_30",
-        "name": { "str_sp": "Mosin-Nagant 1891/30" },
+        "name": { "str": "Mosin-Nagant 1891/30 rifle" },
         "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed military rifle, developed by the Russian Empire and later used and perfected by the Soviet Union."
       },
       {
         "id": "mosin91_30_ebr",
-        "name": { "str_sp": "Mosin-Nagant 1891/30-EBR" },
+        "name": { "str": "Mosin-Nagant 1891/30-EBR rifle" },
         "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling, to allow support for modern accessories."
       }
     ],
@@ -119,7 +119,7 @@
     "looks_like": "modular_ar15",
     "//": "Mom can we have a McDragunov? Mom: we have McDragunov at home. The McDragunov at home:",
     "type": "GUN",
-    "name": { "str": "PSL" },
+    "name": { "str": "PSL rifle" },
     "description": "The Romanian PSL is a designated marksman's rifle developed by Romania after political tensions with Soviet Russia forced them to develop their own alternative to the SVD.",
     "weight": "4100 g",
     "volume": "7339 ml",

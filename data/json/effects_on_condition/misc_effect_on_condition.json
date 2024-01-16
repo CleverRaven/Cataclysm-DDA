@@ -2,12 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP",
-    "effect": [ { "u_message": "You feel very sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 40 } ] } ]
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('fatigue')", "+=", "40" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
-    "effect": [ { "u_message": "You feel sleepy…" }, { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 20 } ] } ]
+    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('fatigue')", "+=", "20" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -89,7 +89,7 @@
               "u_spawn_monster": "GROUP_YOUR_FEARS",
               "group": true,
               "real_count": 0,
-              "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
+              "hallucination_count": { "math": [ "rand(2) + 1" ] },
               "outdoor_only": false,
               "min_radius": 10,
               "max_radius": 40,

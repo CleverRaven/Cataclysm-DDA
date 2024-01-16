@@ -145,7 +145,7 @@
   {
     "id": "mon_nightmare_sheep",
     "type": "MONSTER",
-    "name": { "str_sp": "hunllef rams" },
+    "name": { "str": "hunllef ram" },
     "description": "Hunllef rams, also known as Nightmare Sheep, are a particularly vicious breed of sheep suspected to be from another plane of existence.  Both males and females display deadly horns and a willingness to use them on most other creatures that come near them.  They are the most biddable source of parabolan wool and often take a protective stance towards other sheep, so some farmers will risk life and limb to keep them.",
     "default_faction": "hunllef",
     "bodytype": "dog",

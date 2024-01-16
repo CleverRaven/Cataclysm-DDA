@@ -1957,10 +1957,6 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_flag( json_flag_MEND_ALL ) ) {
-        needs_splint = false;
-    }
-
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
@@ -1969,6 +1965,7 @@ void Character::mend( int rate_multiplier )
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const bool broken = is_limb_broken( bp );
+        needs_splint = !has_flag( json_flag_MEND_ALL );
         if( !broken ) {
             continue;
         }
