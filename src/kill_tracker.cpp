@@ -71,7 +71,6 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
     } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
         return others;
     }
-    
     // worst case scenario when no guilt flags are found
     auto noflag = kills.find( mon );
     if( noflag != kills.end() ) {
