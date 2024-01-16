@@ -93,6 +93,7 @@
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
       "PHOTOPHOBIC",
+      "NOT_HALLUCINATION",
       "PATH_AVOID_DANGER_2"
     ],
     "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
