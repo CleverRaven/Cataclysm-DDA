@@ -80,7 +80,6 @@
       "NO_BREATHE",
       "HARDTOSHOOT",
       "CAN_OPEN_DOORS",
-      "SUNDEATH",
       "CLIMBS",
       "BORES",
       "DESTROYS",
@@ -405,7 +404,7 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen.",
     "condition": {
       "and": [
         { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
