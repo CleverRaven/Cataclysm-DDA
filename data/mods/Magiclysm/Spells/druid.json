@@ -544,6 +544,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
@@ -658,6 +665,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
