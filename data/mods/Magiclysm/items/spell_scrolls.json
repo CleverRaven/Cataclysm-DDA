@@ -1725,5 +1725,14 @@
     "name": { "str": "Scroll of Flensing Fingers", "str_pl": "Scrolls of Flensing Fingers" },
     "description": "Turn your fingers into myriad bone knives.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_scalpel_fingers" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_caustic_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Caustic Blood", "str_pl": "Scrolls of Caustic Blood" },
+    "description": "Turn your blood into acid, just like that movie you used to watch all that time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_blood" ] }
   }
 ]

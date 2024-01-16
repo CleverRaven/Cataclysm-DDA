@@ -662,5 +662,49 @@
     "energy_source": "MANA",
     "base_energy_cost": 450,
     "base_casting_time": 500
+  },
+  {
+    "id": "biomancer_caustic_blood",
+    "type": "SPELL",
+    "name": "Caustic Blood",
+    "description": "Transmute your blood to magically-enhanced acid, making you immune to acid and also splashing anyone who spills your blood.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": 20,
+    "min_duration": 360000,
+    "max_duration": 9000000,
+    "duration_increment": 360000,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "base_casting_time": 600
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "condition": { "and": [ { "not": { "u_has_trait": "ACIDBLOOD" } }, { "not": { "u_has_trait": "ACIDPROOF" } } ] },
+    "effect": [
+      { "u_message": "Your entire body burns for a moment", "type": "mixed" },
+      { "u_add_trait": "ACIDBLOOD" },
+      { "u_add_trait": "ACIDPROOF" },
+      {
+        "queue_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 3600 ) + 3600 )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Your body is already inured to acid!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The faint burning sensation fades.", "type": "bad" },
+      { "u_lose_trait": "ACIDBLOOD" },
+      { "u_lose_trait": "ACIDPROOF" }
+    ]
   }
 ]

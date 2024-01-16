@@ -1238,7 +1238,8 @@
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
-          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
+          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
         ],
         "prob": 35
       },
