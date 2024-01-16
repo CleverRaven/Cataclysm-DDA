@@ -1716,5 +1716,14 @@
     "name": { "str": "Scroll of Halt Bleeding", "str_pl": "Scrolls of Halt Bleeding" },
     "description": "Keep all that blood in your body.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_slow_bleeding" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_scalpel_fingers",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Flensing Fingers", "str_pl": "Scrolls of Flensing Fingers" },
+    "description": "Turn your fingers into myriad bone knives.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_scalpel_fingers" ] }
   }
 ]
