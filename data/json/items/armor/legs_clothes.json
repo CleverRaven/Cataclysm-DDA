@@ -590,7 +590,7 @@
   {
     "id": "leggings",
     "type": "ARMOR",
-    "name": { "str_sp": "leggings" },
+    "name": { "str": "leggings", "str_pl": "pairs of leggings" },
     "description": "Skin-tight nylon leggings, sometimes used when exercising, that keep your legs nice and warm.",
     "weight": "155 g",
     "volume": "500 ml",
@@ -608,7 +608,7 @@
     "variants": [
       {
         "id": "leggings_red",
-        "name": { "str_sp": "red leggings" },
+        "name": { "str": "red leggings", "str_pl": "pairs of red leggings" },
         "description": "This pair is red.",
         "color": "red",
         "append": true,
@@ -616,7 +616,7 @@
       },
       {
         "id": "leggings_blue",
-        "name": { "str_sp": "blue leggings" },
+        "name": { "str": "blue leggings", "str_pl": "pairs of blue leggings" },
         "description": "This pair is blue.",
         "color": "blue",
         "append": true,
@@ -624,7 +624,7 @@
       },
       {
         "id": "leggings_purple",
-        "name": { "str_sp": "purple leggings" },
+        "name": { "str": "purple leggings", "str_pl": "pairs of purple leggings" },
         "description": "This pair is a vibrant purple.",
         "color": "magenta",
         "append": true,
@@ -632,7 +632,7 @@
       },
       {
         "id": "leggings_olive",
-        "name": { "str_sp": "olive leggings" },
+        "name": { "str": "olive leggings", "str_pl": "pairs of olive leggings" },
         "description": "This pair is a muted olive green.",
         "color": "green",
         "append": true,
@@ -640,7 +640,7 @@
       },
       {
         "id": "leggings_brown",
-        "name": { "str_sp": "brown leggings" },
+        "name": { "str": "brown leggings", "str_pl": "pairs of brown leggings" },
         "description": "This pair is brown.",
         "color": "brown",
         "append": true,
@@ -648,7 +648,7 @@
       },
       {
         "id": "leggings_black",
-        "name": { "str_sp": "black leggings" },
+        "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
         "description": "This pair is black.",
         "color": "black",
         "append": true,
@@ -656,7 +656,7 @@
       },
       {
         "id": "leggings_fire",
-        "name": { "str_sp": "fire leggings" },
+        "name": { "str": "fire leggings", "str_pl": "pairs of fire leggings" },
         "description": "This pair has a printed flame pattern.",
         "color": "red",
         "append": true,
@@ -664,7 +664,7 @@
       },
       {
         "id": "leggings_zerba",
-        "name": { "str_sp": "zebra leggings" },
+        "name": { "str": "zebra leggings", "str_pl": "pairs of zebra leggings" },
         "description": "This pair has a zebra stripe pattern.",
         "color": "light_gray",
         "append": true,
@@ -672,7 +672,7 @@
       },
       {
         "id": "leggings_leopard",
-        "name": { "str_sp": "leopard print leggings" },
+        "name": { "str": "leopard print leggings", "str_pl": "pairs of leopard print leggings" },
         "description": "This pair has a leopard print pattern.",
         "color": "yellow",
         "append": true,
@@ -680,7 +680,7 @@
       },
       {
         "id": "leggings_tiger",
-        "name": { "str_sp": "tiger stripe leggings" },
+        "name": { "str": "tiger stripe leggings", "str_pl": "pairs of tiger stripe leggings" },
         "description": "This pair has a tiger stripe pattern.",
         "color": "yellow",
         "append": true,
@@ -688,7 +688,7 @@
       },
       {
         "id": "leggings_geometric",
-        "name": { "str_sp": "geometric leggings" },
+        "name": { "str": "geometric leggings", "str_pl": "pairs of geometric leggings" },
         "description": "This pair has a simple geometric pattern.",
         "color": "dark_gray",
         "append": true,

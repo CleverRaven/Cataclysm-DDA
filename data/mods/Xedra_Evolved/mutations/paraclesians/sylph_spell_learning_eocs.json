@@ -68,7 +68,7 @@
         { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] },
         { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "15" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] },
         { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
