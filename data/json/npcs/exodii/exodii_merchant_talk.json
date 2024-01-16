@@ -152,10 +152,8 @@
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": {
-          "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
-        },
-        "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
+        "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
@@ -191,7 +189,7 @@
         "condition": { "and": [ { "u_has_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
         "effect": [
           { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
-          { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+          { "math": [ "exodii_knows_hub01", "=", "1" ] }
         ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
@@ -200,7 +198,7 @@
         "condition": { "and": [ { "u_has_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
         "effect": [
           { "u_lose_var": "u_found_warehouse", "type": "mission", "context": "completed" },
-          { "arithmetic": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "=", { "const": 1 } ] }
+          { "math": [ "warehouse_was_found", "=", "1" ] }
         ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
@@ -267,10 +265,8 @@
     "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ],
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
-      "condition": {
-        "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
-      },
-      "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
+      "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
@@ -771,10 +767,10 @@
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
           "no": [
             {
-              "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ],
+              "math": [ "exodii_knows_hub01", "==", "1" ],
               "yes": [
                 {
-                  "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ],
+                  "math": [ "warehouse_was_found", "==", "1" ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
                   "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
                 }
@@ -789,14 +785,7 @@
     "responses": [
       {
         "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
-        "condition": {
-          "and": [
-            { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
-            {
-              "not": { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
-            }
-          ]
-        },
+        "condition": { "and": [ { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } } ] },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
       {
@@ -804,10 +793,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
-            {
-              "not": { "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ] }
-            },
-            { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
+            { "math": [ "warehouse_was_found", "!=", "1" ] },
+            { "math": [ "exodii_knows_hub01", "==", "1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"

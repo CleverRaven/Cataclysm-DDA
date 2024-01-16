@@ -134,7 +134,7 @@ std::optional<int> granade_act( Character *, item *, const tripoint & );
 std::optional<int> grenade_inc_act( Character *, item *, const tripoint & );
 std::optional<int> gun_repair( Character *, item *, const tripoint & );
 std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
-std::optional<int> hacksaw( Character *, item *, const tripoint & );
+std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
 std::optional<int> hairkit( Character *, item *, const tripoint & );
 std::optional<int> hammer( Character *, item *, const tripoint & );
 std::optional<int> hand_crank( Character *, item *, const tripoint & );
