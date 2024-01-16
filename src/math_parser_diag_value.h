@@ -27,6 +27,7 @@ struct diag_value {
     double dbl() const;
     bool is_str() const;
     std::string_view str() const;
+    bool is_var() const;
     var_info var() const;
     bool is_array() const;
     diag_array const &array() const;

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "condition.h"
 #include "dialogue.h"
 #include "field.h"
@@ -808,6 +809,30 @@ std::function<void( dialogue &, double )> time_ass( char /* scope */,
         string_format( "Only time('now') is a valid time() assignment target" ) );
 }
 
+std::function<double( dialogue & )> time_since_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [val = params[0], unit_val]( dialogue const & d ) {
+        double ret{};
+        std::string const val_str = val.str( d );
+        if( val_str == "cataclysm" ) {
+            ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
+        } else if( val_str == "midnight" ) {
+            ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+            return -1.0;
+        } else {
+            ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+        }
+        return _time_in_unit( ret, unit_val.str( d ) );
+    };
+}
+
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1061,6 +1086,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "spell_level", { "un", 1, spell_level_eval}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },
+    { "time_since", { "g", 1, time_since_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", -1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },

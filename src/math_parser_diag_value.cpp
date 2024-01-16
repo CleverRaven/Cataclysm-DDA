@@ -145,6 +145,11 @@ std::string diag_value::str( dialogue const &d ) const
     data );
 }
 
+bool diag_value::is_var() const
+{
+    return std::holds_alternative<var_info>( data );
+}
+
 var_info diag_value::var() const
 {
     return _diag_value_at_parse_time<var_info>( data );
