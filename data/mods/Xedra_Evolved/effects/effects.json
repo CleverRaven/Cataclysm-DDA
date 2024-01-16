@@ -694,6 +694,48 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_broke_fae_ban",
+    "name": [ "Broken Ban" ],
+    "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 50 ],
+      "health_tick": [ 600 ],
+      "vomit_chance": [ 1000 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.6 ],
+      "health_chance": [ -3 ],
+      "health_tick": [ -30 ],
+      "vomit_chance": [ -50 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.07 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.06 }
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_MANA", "multiply": { "math": [ "u_effect_intensity('effect_max_mana_penalty') * -0.04" ] } },
+          { "value": "MAX_MANA", "multiply": { "math": [ "u_effect_intensity('effect_max_mana_penalty') * -0.1" ] } }
+        ]
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
