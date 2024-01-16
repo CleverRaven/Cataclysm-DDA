@@ -170,6 +170,53 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_sylph_underground_timer", "duration": "61 minutes" },
+      {
+        "queue_eocs": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+        "time_in_future": [ "60 minutes", "60 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "math": [ "u_val('pos_z')", ">=", "0" ] },
+        { "u_has_effect": "effect_sylph_underground_timer" },
+        "u_is_outside"
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_sylph_underground_timer" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+    "condition": { "and": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_effect": "effect_sylph_underground_timer" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "The walls seem like they're closing in on you.  You were born to fly free, to dance on the winds, not to cower underground like a worm.  You have to get out to the open sky.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNDINE_FAE_BAN_SLEEP_ON_LAND",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
