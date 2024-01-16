@@ -2532,10 +2532,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 }
             }
         }
-    } else if( jo.has_member( "moon" ) ) {
-        return []( dialogue const & ) {
-            return static_cast<int>( get_moon_phase( calendar::turn ) );
-        };
     } else if( jo.has_array( "distance" ) ) {
         JsonArray objects = jo.get_array( "distance" );
         if( objects.size() != 2 ) {
@@ -2592,18 +2588,11 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
     };
 }
 
-std::function<double( dialogue & )> conditional_t::get_get_dbl( const std::string &value,
-        const JsonObject &jo )
+std::function<double( dialogue & )> conditional_t::get_get_dbl[[noreturn]](
+    const std::string &value,
+    const JsonObject &jo )
 {
-    if( value == "moon" ) {
-        return []( dialogue const & ) {
-            return static_cast<int>( get_moon_phase( calendar::turn ) );
-        };
-    }
     jo.throw_error( "unrecognized number source in " + value );
-    return []( dialogue const & ) {
-        return 0.0;
-    };
 }
 
 static double handle_min_max( dialogue &d, double input, std::optional<dbl_or_var_part> min,

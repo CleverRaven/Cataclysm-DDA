@@ -528,6 +528,14 @@ std::function<double( dialogue & )> monster_groups_nearby_eval( char scope,
     return _monsters_nearby_eval( scope, params, kwargs, mon_check_group );
 }
 
+std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return []( dialogue const & /* d */ ) {
+        return static_cast<int>( get_moon_phase( calendar::turn ) );
+    };
+}
+
 std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
@@ -1095,6 +1103,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
+    { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
