@@ -904,7 +904,7 @@
     "description": "Precise step-by-step instructions and other required data for installation of a Throwing Assist CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
-      "id": "bio_trickle",
+    "id": "bio_trickle",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Trickle Charger CBM" },
