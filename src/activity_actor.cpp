@@ -1244,7 +1244,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    int qual;
+    int qual = 0;
     if( type.has_value() ) {
         item veh_tool = item( type.value(), calendar::turn );
         for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
