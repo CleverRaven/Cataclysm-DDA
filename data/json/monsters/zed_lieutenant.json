@@ -358,12 +358,12 @@
     "id": "EOC_LIEUTENANT_SHADOW_WARN",
     "eoc_type": "ACTIVATION",
     "//1": "Same conditions as EOC_LIEUTENANT_SPAWN_SHADOW, minus the RNG check and the warnings check.",
+    "//2": "We also use a modified check regarding Lieutenants_active and Shadow_Lurking so that we can get warnings before the normal spawn time (7 days).",
     "condition": {
       "and": [
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "Lieutenants_active", ">", "0" ] },
-        { "math": [ "Shadow_Lurking", ">", "0" ] },
+        { "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "days_since_cataclysm": 7 } } ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
