@@ -1,17 +1,5 @@
 [
   {
-    "type": "enchantment",
-    "id": "encht_sylph_speed_increase",
-    "condition": "u_is_outside",
-    "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "encht_sylph_speed_increase_2",
-    "condition": "u_is_outside",
-    "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
-  },
-  {
     "id": "zap_electrical_emission",
     "type": "SPELL",
     "name": "Zap",
