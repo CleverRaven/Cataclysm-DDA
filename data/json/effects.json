@@ -3631,7 +3631,7 @@
     "max_intensity": 3,
     "base_mods": {
       "pain_max_val": [ 35 ],
-      "pain_chance": [ 900 ],
+      "pain_chance": [ 9000 ],
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
       "fatigue_chance": [ 900 ],
