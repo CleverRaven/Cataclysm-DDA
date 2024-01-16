@@ -274,9 +274,9 @@ an exhaustive example...
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
     "travel_cost_type": "field",
     "eoc": {
-      "id": "EOC_REFUGEE_CENTER_GENERATE",
-      "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
-      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
+      "id": "EOC_REFUGEE_CENTER_GENERATE", 
+      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }
 ```

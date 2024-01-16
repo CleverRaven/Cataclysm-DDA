@@ -920,24 +920,16 @@ Addictions are defined in JSON using `"addiction_type"`:
 Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
 
 ```JSON
-{
-  "type": "effect_on_condition",
-  "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
-  "effect": [
-    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
-    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-    {
-      "run_eocs": [
-        {
-          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-        }
-      ]
-    }
-  ]
-}
+  {
+    "type": "effect_on_condition", 
+    "id": "EOC_MARLOSS_R_ADDICTION",
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "effect": [
+      { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+      { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+    ]
+  },
 ```
 
 Current hardcoded builtins:

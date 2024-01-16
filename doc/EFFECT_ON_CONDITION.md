@@ -149,7 +149,7 @@ you add morale, equal to `ps_str` portal storm strength value
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
 ```
 
-you add morale, equal to `ps_str` portal storm strength value plus 1, using old arithmetic syntax
+you add morale, equal to `ps_str` portal storm strength value plus 1, using **old arithmetic syntax**
 ```json
 { "u_add_morale": "global_val", "bonus":  { "arithmetic": [ { "global_val": "ps_str" }, "+", { "const": 1 } ] } }
 ```
@@ -1843,7 +1843,7 @@ Check the value, and, depending on it, pick the case that would be run
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "switch" | **mandatory** | arithmetic/math_expression | the value, that would be read; only numerical values can be used |
+| "switch" | **mandatory** | variable/math_expression | the value, that would be read; only numerical values can be used |
 | "cases" | **mandatory** | `case` and `effect` | effects, that would be run, if the value of switch is higher or equal to this case | 
 
 ##### Valid talkers:
@@ -1853,12 +1853,12 @@ Check the value, and, depending on it, pick the case that would be run
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Checks the level of `some_spell` spell, and, related to this, cast a spell of picked level; if level of spell is 9, `clair_night_vision_4` would be used, if spell level is 8, `clair_night_vision_3` would be casted
+Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
 ```json
 {
   "switch": { "u_val": "spell_level", "spell": "some_spell" },
   "cases": [
-    { "case": 0, "effect": { "u_cast_spell": { "id": "another spell" } } },
+    { "case": 0, "effect": { "u_cast_spell": { "id": "another_spell" } } },
     { "case": 3, "effect": { "u_add_effect": "drunk", "duration": "270 minutes" } },
     { "case": 6, "effect": { "u_lose_bionic": "bio_power_storage" } },
     { "case": 9, "effect": { "run_eocs": [ "EOC_DO_GOOD_THING" ] } },

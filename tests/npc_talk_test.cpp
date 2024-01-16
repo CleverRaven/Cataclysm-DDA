@@ -1313,7 +1313,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 42 ].text == "Spell level of Pew, Pew is 4." );
     CHECK( d.responses[ 43 ].text == "Spell level of highest spell is 12." );
     CHECK( d.responses[ 44 ].text == "Exp of Pew, Pew is 11006." );
-    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 5 out of 10." );
+    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 50% out of 100%." );
     CHECK( d.responses[ 46 ].text == "Test Proficiency learning done is 12 hours total." );
     CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 50% learnt." );
     CHECK( d.responses[ 48 ].text == "Test Proficiency learning is 500 permille learnt." );

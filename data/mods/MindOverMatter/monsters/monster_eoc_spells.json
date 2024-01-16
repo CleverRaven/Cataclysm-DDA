@@ -19,14 +19,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN",
-    "condition": { "compare_num": [ { "u_val": "mana" }, ">=", { "const": 150 } ] },
+    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
     "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
     "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_2",
-    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 200 } ] },
+    "condition": { "math": [ "u_val('stamina')", ">=", "200" ] },
     "effect": [
       { "u_cast_spell": { "id": "eater_drain_stamina" } },
       { "u_message": "For a moment, you feel exhausted.", "type": "bad" }
@@ -98,14 +98,6 @@
     "type": "effect_on_condition",
     "id": "pigeon_aura",
     "condition": "u_is_character",
-    "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "passenger_pigeon_aura" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
-        ]
-      }
-    ]
+    "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
   }
 ]

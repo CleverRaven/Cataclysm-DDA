@@ -63,7 +63,7 @@
         "math": [
           "u_level_boost",
           "=",
-          "max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) + u_val('charge_count', 'item: technomancer_booster_2_active') / 5"
+          "max( 0, u_effect_intensity('technomancer_cl_booster_effect') ) + u_val('charge_count', 'item: technomancer_booster_2_active') / 5"
         ]
       },
       {
@@ -77,7 +77,7 @@
         "math": [
           "u_doodad_boost",
           "=",
-          "max( 0, limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') ) - max( 0, u_val('effect_intensity', 'effect: technomancer_cl_booster_effect') ) )"
+          "max( 0, limit_caster_level_boost(u_level_boost, u_val('spell_level', 'school: TECHNOMANCER') ) - max( 0, u_effect_intensity('technomancer_cl_booster_effect') ) )"
         ]
       }
     ]
@@ -103,7 +103,7 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "BIOMANCER" },
     "effect": [
-      { "math": [ "u_level_boost", "=", "max( 0, u_val('effect_intensity', 'effect: biomancer_cl_booster_effect') )" ] },
+      { "math": [ "u_level_boost", "=", "max( 0, u_effect_intensity('biomancer_cl_booster_effect') )" ] },
       {
         "math": [
           "u_val('spell_level_adjustment', 'school: BIOMANCER')",
