@@ -6,14 +6,14 @@
     "responses": [
       {
         "text": "How did you survive after that?",
-        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') < 90" ] },
         "effect": { "npc_add_effect": "BGSS_EVACUEE_3_earlymeeting", "duration": "PERMANENT" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
         "topic": "BGSS_EVACUEE_3_STORY2"
       },
       {
         "text": "How did you survive after that?",
-        "condition": { "days_since_cataclysm": 90 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ] },
         "topic": "BGSS_EVACUEE_3_STORY2"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

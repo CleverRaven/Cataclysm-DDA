@@ -1199,14 +1199,6 @@ conditional_t::func f_npc_override( const JsonObject &jo, std::string_view membe
     };
 }
 
-conditional_t::func f_days_since( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    return [dov]( dialogue & d ) {
-        return calendar::turn >= calendar::start_of_cataclysm + 1_days * dov.evaluate( d );
-    };
-}
-
 conditional_t::func f_is_season( const JsonObject &jo, std::string_view member )
 {
     str_or_var season_name = get_str_or_var( jo.get_member( member ), member, true );
@@ -3232,7 +3224,6 @@ parsers = {
     {"u_cbm_recharge_rule", "npc_cbm_recharge_rule", jarg::member, &conditional_fun::f_npc_cbm_recharge_rule },
     {"u_rule", "npc_rule", jarg::member, &conditional_fun::f_npc_rule },
     {"u_override", "npc_override", jarg::member, &conditional_fun::f_npc_override },
-    {"days_since_cataclysm", jarg::member | jarg::array, &conditional_fun::f_days_since },
     {"is_season", jarg::member, &conditional_fun::f_is_season },
     {"u_mission_goal", "mission_goal", jarg::member, &conditional_fun::f_mission_goal },
     {"u_mission_goal", "npc_mission_goal", jarg::member, &conditional_fun::f_mission_goal },

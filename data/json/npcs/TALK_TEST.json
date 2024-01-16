@@ -271,7 +271,7 @@
       {
         "text": "This is a days since Cataclysm 30 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 30 }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ] }
       },
       {
         "text": "This is a season summer test response.",
@@ -281,7 +281,7 @@
       {
         "text": "This is a days since Cataclysm 120 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 120 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('120 days')" ] }
       },
       {
         "text": "This is a season autumn test response.",
@@ -291,7 +291,7 @@
       {
         "text": "This is a days since Cataclysm 210 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 210 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('210 day')" ] }
       },
       {
         "text": "This is a season winter test response.",
@@ -301,7 +301,7 @@
       {
         "text": "This is a days since Cataclysm 300 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 300 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('300 d')" ] }
       }
     ]
   },

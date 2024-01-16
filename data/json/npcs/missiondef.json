@@ -818,7 +818,7 @@
     "name": { "str": "Prove You're A Survivor" },
     "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 10 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 10" ] },
     "difficulty": 1,
     "value": 0,
     "origins": [ "ORIGIN_OPENER_NPC" ],

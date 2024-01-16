@@ -9,7 +9,7 @@
         { "u_near_om_location": "s_gas_rural", "range": 30 },
         "is_day",
         { "one_in_chance": 10 },
-        { "days_since_cataclysm": 7 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         { "math": [ "time_since(u_timer_jotunn_RandEnc)", ">=", "time('1 d')" ] },
         { "not": { "u_near_om_location": "s_gas_rural", "range": 2 } },
         { "not": { "is_season": "winter" } }

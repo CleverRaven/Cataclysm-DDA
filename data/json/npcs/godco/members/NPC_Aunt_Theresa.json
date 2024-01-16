@@ -17,7 +17,7 @@
       { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
       {
         "text": "How've things been since <the_cataclysm>?",
-        "condition": { "days_since_cataclysm": 60 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
         "topic": "TALK_GODCO_Theresa_Cataclysm"
       },
       { "text": "Do you knit at all?  I noticed you have sewing needles.", "topic": "TALK_GODCO_Theresa_Knit" }

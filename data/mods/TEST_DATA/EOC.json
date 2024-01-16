@@ -517,12 +517,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_math_var",
-    "condition": { "days_since_cataclysm": { "math": [ "math_test_result" ] } },
-    "effect": [ { "u_message": "test var math" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_math_duration",
     "recurrence": { "math": [ "math_test_result" ] },
     "global": true,

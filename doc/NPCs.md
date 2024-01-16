@@ -553,7 +553,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
   "no": "<neutralchitchat>"
 }
 {
-  "days_since_cataclysm": 30,
+  "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ],
   "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
   "no": "<neutralchitchat>"
 }
@@ -996,7 +996,6 @@ Condition | Type | Description
 
 Condition | Type | Description
 --- | --- | ---
-`"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime (sun is at or above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point)
 `"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.

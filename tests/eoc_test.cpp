@@ -73,8 +73,6 @@ effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_incr
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_inline_condition( "EOC_math_test_inline_condition" );
 static const effect_on_condition_id
-effect_on_condition_EOC_math_var( "EOC_math_var" );
-static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id
 effect_on_condition_EOC_meta_test_message( "EOC_meta_test_message" );
@@ -208,7 +206,6 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     globvars.clear_global_values();
     REQUIRE( globvars.get_global_value( "npctalk_var_math_test" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_math_test_result" ).empty() );
-    CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
     calendar::turn = calendar::start_of_cataclysm;
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_greater_increment->test_condition( d ) );
@@ -217,9 +214,7 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     effect_on_condition_EOC_math_switch_math->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test_result" ) ) == Approx( 1 ) );
     CHECK( effect_on_condition_EOC_math_duration->recurrence.evaluate( d ) == 1_turns );
-    CHECK_FALSE( effect_on_condition_EOC_math_var->test_condition( d ) );
     calendar::turn += 1_days;
-    CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
     CHECK_FALSE( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
