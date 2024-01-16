@@ -4588,7 +4588,7 @@
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
-    "movecost_modifier": 1.2,
+    "movecost_modifier": 1.32,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "destroys_gear": true,
     "triggers": [
@@ -4602,12 +4602,12 @@
     "enchantments": [
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
 
       },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ]
       }
     ]
   },
