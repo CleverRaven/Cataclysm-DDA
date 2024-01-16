@@ -256,13 +256,9 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_LENGTHEN",
     "effect": [
+      { "math": [ "ps_min_length", "=", "min( time('4 h'), value_or( ps_min_length, time('2 h') ) + time('15 minutes') )" ] },
       {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length", "default_time": "2 hours" }, "+=", { "time": "15 minutes" } ],
-        "max_time": "4 hours"
-      },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length", "default_time": "4 hours" }, "+=", { "time": "15 minutes" } ],
-        "max_time": "6 hours"
+        "math": [ "ps_max_length", "=", "min( time('6 h'), value_or( ps_max_length, time('4 h') ) + time('15 minutes') )" ]
       }
     ]
   },

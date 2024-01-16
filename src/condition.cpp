@@ -141,13 +141,6 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_dbl_or_var( jo, "default", false );
-    if( jo.has_member( "default_time" ) ) {
-        dbl_or_var value;
-        time_duration max_time;
-        mandatory( jo, false, "default_time", max_time );
-        value.min.dbl_val = to_turns<int>( max_time );
-        default_val = std::move( value );
-    }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
@@ -337,10 +330,6 @@ var_info read_var_info( const JsonObject &jo )
                                       ( jo.get_member( "default" ), time_duration::units ) ) );
     } else if( jo.has_float( "default" ) ) {
         default_val = std::to_string( jo.get_float( "default" ) );
-    } else if( jo.has_member( "default_time" ) ) {
-        time_duration max_time;
-        mandatory( jo, false, "default_time", max_time );
-        default_val = std::to_string( to_turns<int>( max_time ) );
     }
 
     if( jo.has_string( "var_name" ) ) {
