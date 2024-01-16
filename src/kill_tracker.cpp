@@ -50,7 +50,7 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
     int children = 0;
     int humans = 0;
     int others = 0;
-    for( auto &it : kills ) {
+    for( const auto &it : kills ) {
         if( it.first->has_flag( mon_flag_GUILT_ANIMAL ) ) {
             animals += it.second;
         } else if( it.first->has_flag( mon_flag_GUILT_CHILD ) ) {
