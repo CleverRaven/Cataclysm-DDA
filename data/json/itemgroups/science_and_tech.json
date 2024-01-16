@@ -319,7 +319,8 @@
           { "item": "iv_mutagen_lupine", "prob": 2 },
           { "item": "iv_mutagen_mouse", "prob": 2 },
           { "item": "iv_mutagen_rabbit", "prob": 2 },
-          { "item": "iv_mutagen_crustacean", "prob": 2 }
+          { "item": "iv_mutagen_crustacean", "prob": 2 },
+          { "item": "iv_purifier", "prob": 2 }
         ]
       },
       { "item": "iv_mutagen", "prob": 100, "count": 1 },
