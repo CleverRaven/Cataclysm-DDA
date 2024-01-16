@@ -948,12 +948,12 @@
       {
         "text": "time_since_cataclysm > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "turns" }, ">", { "time": "3 days" } ] }
+        "condition": { "math": [ "time_since('cataclysm') > time('3 d')" ] }
       },
       {
         "text": "time_since_cataclysm in days > 3",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "days" }, ">", { "const": 3 } ] }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') > 3" ] }
       },
       {
         "text": "This is a time since u_var test response for > 3_days.",
@@ -1118,90 +1118,13 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_TEST_ARITHMETIC_OP",
-    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [
-      {
-        "text": "Sets time since cataclysm to 2 * 5 turns.  (10)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "*", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 / 5 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "/", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 + 5 turns.  (7)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "+", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 - 2 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "-", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 % 10 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (32)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to *= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "*=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to /= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "/=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to += 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "+=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to -= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "-=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to %= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "%=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm++.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "++" ] }
-      },
-      {
-        "text": "Sets time since cataclysm--.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "--" ] }
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_TEST_ARITHMETIC",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 1 } ] }
+        "effect": { "math": [ "time('now')", "=", "time('cataclysm') + 1" ] }
       },
       {
         "text": "Sets temperature to 2.",

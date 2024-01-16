@@ -2062,27 +2062,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [value]( dialogue const & ) {
             return value;
         };
-    } else if( jo.has_member( "time_since_cataclysm" ) ) {
-        time_duration given_unit = 1_turns;
-        if( jo.has_string( "time_since_cataclysm" ) ) {
-            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [given_unit]( dialogue const & ) {
-            return ( to_turn<int>( calendar::turn ) - to_turn<int>( calendar::start_of_cataclysm ) ) /
-                   to_turns<int>( given_unit );
-        };
     } else if( jo.has_member( "time_until_eoc" ) ) {
         time_duration given_unit = 1_turns;
         effect_on_condition_id eoc_id = effect_on_condition_id( jo.get_string( "time_until_eoc" ) );
@@ -2730,29 +2709,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
     } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm?  In "
-                        + jo.str() );
-    } else if( jo.has_member( "time_since_cataclysm" ) ) {
-        time_duration given_unit = 1_turns;
-        if( jo.has_string( "time_since_cataclysm" ) ) {
-            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [given_unit, min, max]( dialogue & d, double input ) {
-            calendar::turn = time_point( handle_min_max( d, input, min,
-                                         max ) * to_turns<int>( given_unit ) );
-        };
+        jo.throw_error( "can not alter a time constant.  In " + jo.str() );
     } else if( jo.has_member( "rand" ) ) {
         jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
     } else if( jo.has_member( "faction_trust" ) ) {
