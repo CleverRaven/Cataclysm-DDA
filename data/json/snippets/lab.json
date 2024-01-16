@@ -336,7 +336,7 @@
       },
       {
         "id": "mutation_testing_3",
-        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull the weapon from a security guard's holster."
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull a sidearm from a security guard's holster."
       },
       {
         "id": "mutation_testing_4",
@@ -352,7 +352,7 @@
       },
       {
         "id": "mutation_testing_7",
-        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in its own strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
       }
     ]
   },
