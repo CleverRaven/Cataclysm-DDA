@@ -50,23 +50,34 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
     int children = 0;
     int humans = 0;
     int others = 0;
-    auto it = kills.find( mon );
-    if( it != kills.end() ) {
-        if( it->first->has_flag( mon_flag_GUILT_ANIMAL ) ) {
-            animals += it->second;
-            return animals;
-        } else if( it->first->has_flag( mon_flag_GUILT_CHILD ) ) {
-            children += it->second;
-            return children;
-        } else if( it->first->has_flag( mon_flag_GUILT_HUMAN ) ) {
-            humans += it->second;
-            return humans;
-        } else if( it->first->has_flag( mon_flag_GUILT_OTHERS ) ) {
-            others += it->second;
-            return others;
+    for( auto &it : kills ) {
+        if( it.first->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+            animals += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_CHILD ) ) {
+            children += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_HUMAN ) ) {
+            humans += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_OTHERS ) ) {
+            others += it.second;
         }
     }
-    return it->second;
+
+    if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+        return animals;
+    } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
+        return children;
+    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
+        return humans;
+    } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
+        return others;
+    }
+    
+    // worst case scenario when no guilt flags are found
+    auto noflag = kills.find( mon );
+    if( noflag != kills.end() ){
+        return noflag->second;
+    }
+    return 0;
 }
 
 int kill_tracker::monster_kill_count() const
