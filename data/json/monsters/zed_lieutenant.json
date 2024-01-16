@@ -41,8 +41,7 @@
       {
         "type": "melee",
         "id": "LTNT_ILLUMINATE_YOU",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, "npc_is_character" ] },
         "range": 30,
         "dodgeable": false,
         "blockable": false,
@@ -56,8 +55,7 @@
       {
         "type": "spell",
         "id": "LTNT_LIFE_DRAIN",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, "npc_is_character" ] },
         "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
         "monster_message": "The ground blackens before you.",
         "cooldown": 20
@@ -65,8 +63,7 @@
       {
         "type": "spell",
         "id": "LTNT_attract_nearby",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "or": [ "npc_male", "npc_female" ] },
+        "condition": "npc_is_character",
         "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
         "monster_message": "Your hearing is overwhelmed by a booming sound!",
         "cooldown": 30
