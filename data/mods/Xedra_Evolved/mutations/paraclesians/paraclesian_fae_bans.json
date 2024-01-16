@@ -151,6 +151,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FAE_BAN_GET_WET",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SALAMANDER" },
+        { "u_has_trait": "SALAMANDER_SKIN_2" },
+        { "compare_string": [ "wet", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "Accursed water!  The touch of it burns you like acid, reminding you of your nature.  Your flames must not be dowsed.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
