@@ -306,6 +306,9 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
     CHECK( testexp.eval( d ) == 60 );
 
+    CHECK( testexp.parse( "energy('25 kJ')" ) );
+    CHECK( testexp.eval( d ) == 25000000 );
+
     // evaluating string variables in dialogue functions
     globvars.set_global_value( "npctalk_var_someskill", "survival" );
     CHECK( testexp.parse( "u_skill(someskill)" ) );
