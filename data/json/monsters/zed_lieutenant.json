@@ -343,6 +343,7 @@
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
       {
         "u_message": "You shiver as the night closes in…",
         "type": "bad",
@@ -404,11 +405,19 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen.",
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
     "condition": {
       "and": [
-        { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
-        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+	          { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
+        {
+          "or": [
+            { "npc_allies": 3 },
+            { "u_at_om_location": "FACTION_CAMP_ANY" },
+            { "not": "u_is_outside" },
+            "is_day",
+            { "math": [ "distance('u', shadow_encounter_XYZ_pos)", ">=", "180" ] }
+          ]
+        }
       ]
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
