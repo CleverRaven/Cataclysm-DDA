@@ -7850,19 +7850,19 @@
     "cancels": [ "VEGAN" ],
     "category": [ "CHIROPTERAN" ],
     "changes_to": [ "BLOODFEEDER" ],
-    "vitamin_rates": [ [ "iron", 800 ] ]
+    "vitamin_rates": [ [ "iron", 1800 ] ]
   },
   {
     "type": "mutation",
     "id": "BLOODFEEDER",
     "name": { "str": "Bloodfeeder" },
-    "points": -4,
+    "points": -5,
     "description": "Your craving for blood borders on obsession.  You don't care if it's human or animal, all you know is that you've got to have it, and other foods just don't taste as good.",
     "types": [ "DIET" ],
-    "flags": [ "HEMOVORE" ],
+    "flags": [ "BLOODFEEDER" ],
     "cancels": [ "VEGAN", "HEMOVORE" ],
     "category": [ "CHIROPTERAN" ],
-    "vitamin_rates": [ [ "iron", 1200 ] ]
+    "vitamin_rates": [ [ "iron", 2400 ] ]
   },
   {
     "type": "mutation",

@@ -514,13 +514,13 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     // Cooked blood is OK, but it's really better raw.
     if( comest.has_flag( flag_HEMOVORE_FUN ) ) {
         if( has_flag( json_flag_BLOODFEEDER ) ) {
-            if( fun <= 0 && comest.made_of( phase_id::LIQUID ) ) {
+            if( fun <= 0) {
             fun += 25;
             } else {
                 fun *= 1.2;
             }
         } else if( has_flag( json_flag_HEMOVORE ) ) {
-            if( fun <= 0 && comest.made_of( phase_id::LIQUID ) ) {
+            if( fun <= 0 ) {
             fun += 13;
             } else {
                 fun *= 1.1;
@@ -1358,7 +1358,7 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( numb ) {
             add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-        } else if( bloodfeeder ) && food.has_flag( flag_HEMOVORE_FUN ) {
+        } else if( bloodfeeder && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player( _( "The human blood is as sweet as any other." ) );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
