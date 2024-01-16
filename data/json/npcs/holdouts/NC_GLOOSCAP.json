@@ -103,22 +103,22 @@
     "dynamic_line": "And stuff sure.  How can I help you stranger?  They say I'm the nice one.  See this smile?  Nice smile right?",
     "responses": [
       {
-        "text": "[HAS BEER] I am extremely into your smile yes.  I have some drinks with me, want to have some?",
+        "text": "[Offer Beer] I am extremely into your smile yes.  I have some drinks with me, want to have some?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "beer" }
       },
       {
-        "text": "[HAS IPA] I am extremely into your smile yes.  I have some drinks with me, want to have some?",
+        "text": "[Offer India Pale Ale] I am extremely into your smile yes.  I have some drinks with me, want to have some?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "india_pale_ale" }
       },
       {
-        "text": "[HAS CIGARETTES] I am extremely into your smile yes.  I have some cigarettes, want one with me?",
+        "text": "[Offer Cigarettes] I am extremely into your smile yes.  I have some cigarettes, want one with me?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "cig" }
       },
       {
-        "text": "[HAS JOINT] I am extremely into your smile yes.  I have something to smoke, want to have some with me?",
+        "text": "[Offer Joint] I am extremely into your smile yes.  I have something to smoke, want to have some with me?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "joint" }
       },
@@ -134,7 +134,7 @@
       {
         "text": "[GLORIOUS] Worship my beauty.",
         "topic": "TALK_GLOOSCAP_WORSHIP",
-        "condition": { "u_has_trait": "GLORIUS" }
+        "condition": { "u_has_trait": "BEAUTIFUL3" }
       },
       {
         "text": "[TERRIFYING] Fear me!  I am disgusting!",
@@ -313,22 +313,22 @@
     "dynamic_line": "Among other things, sure.  I have some extra I might be willing to trade, but I only trade with my friends and I don't have a lot of those left.",
     "responses": [
       {
-        "text": "[HAS BEER] I don't know about friends, but I have some drinks with me, want to have some?",
+        "text": "[Offer Beer] I don't know about friends, but I have some drinks with me, want to have some?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "beer" }
       },
       {
-        "text": "[HAS IPA] I don't know about friends, but I have some drinks with me, want to have some?",
+        "text": "[Offer India Pale Ale] I don't know about friends, but I have some drinks with me, want to have some?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "india_pale_ale" }
       },
       {
-        "text": "[HAS CIGARETTES] I don't know about friends, but I have some cigarettes, want one with me?",
+        "text": "[Offer Cigarettes] I don't know about friends, but I have some cigarettes, want one with me?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "cig" }
       },
       {
-        "text": "[HAS JOINT] I don't know about friends, but I have something to smoke, want to have some with me?",
+        "text": "[Offer Joint] I don't know about friends, but I have something to smoke, want to have some with me?",
         "topic": "TALK_GLOOSCAP_SOCIAL",
         "condition": { "u_has_item": "joint" }
       },
@@ -344,7 +344,7 @@
       {
         "text": "[GLORIOUS] Worship my beauty.",
         "topic": "TALK_GLOOSCAP_WORSHIP",
-        "condition": { "u_has_trait": "GLORIUS" }
+        "condition": { "u_has_trait": "BEAUTIFUL3" }
       },
       {
         "text": "[TERRIFYING] Fear me!  I am disgusting!",
