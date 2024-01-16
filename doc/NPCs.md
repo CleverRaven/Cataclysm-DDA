@@ -1294,7 +1294,6 @@ Example | Description
 `"u_val": "volume"` | Current volume in ml. read only. Cullently, doesn't work for characters, but for monsters and items.
 `"u_val": "weight"` | Current weight in mg. read only.
 `"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
-`"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
 `"mod_load_order"` | This should be a string with the name of the mod.  It will return the order it was loaded in or -1 if its not loaded.
 `"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>

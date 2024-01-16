@@ -2573,10 +2573,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return []( dialogue const & ) {
             return static_cast<int>( get_moon_phase( calendar::turn ) );
         };
-    } else if( jo.has_member( "hour" ) ) {
-        return []( dialogue const & ) {
-            return to_hours<int>( time_past_midnight( calendar::turn ) );
-        };
     } else if( jo.has_array( "distance" ) ) {
         JsonArray objects = jo.get_array( "distance" );
         if( objects.size() != 2 ) {
@@ -2639,10 +2635,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( const std::strin
     if( value == "moon" ) {
         return []( dialogue const & ) {
             return static_cast<int>( get_moon_phase( calendar::turn ) );
-        };
-    } else if( value == "hour" ) {
-        return []( dialogue const & ) {
-            return to_hours<int>( time_past_midnight( calendar::turn ) );
         };
     }
     jo.throw_error( "unrecognized number source in " + value );

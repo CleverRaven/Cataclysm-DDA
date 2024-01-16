@@ -330,7 +330,7 @@
     "recurrence": "1 hours",
     "effect": [
       {
-        "switch": "hour",
+        "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },
         "cases": [
           { "case": 0, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
           { "case": 2, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },

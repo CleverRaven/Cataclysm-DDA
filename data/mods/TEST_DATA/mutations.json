@@ -70,7 +70,12 @@
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "and": [ { "compare_num": [ "hour", ">", { "const": 1 } ] }, { "compare_num": [ "hour", "<", { "const": 3 } ] } ] },
+          "condition": {
+            "and": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 1" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 3" ] }
+            ]
+          },
           "msg_on": { "text": "It's 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -111,7 +116,12 @@
           "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "or": [ { "compare_num": [ "hour", "<", { "const": 1 } ] }, { "compare_num": [ "hour", ">", { "const": 2 } ] } ] },
+          "condition": {
+            "or": [
+              { "math": [ "time_since('midnight') < time('1 hours')" ] },
+              { "math": [ "time_since('midnight') > time('2 hours')" ] }
+            ]
+          },
           "msg_on": { "text": "It's no longer 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
