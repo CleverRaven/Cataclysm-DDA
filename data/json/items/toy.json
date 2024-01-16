@@ -709,12 +709,12 @@
       {
         "id": "toy_plush_wunicorn",
         "name": { "str": "white unicorn plushie" },
-        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail. Its black eyes are adorably large and round.",
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail. Its black eyes are adorably large and round."
       },
       {
         "id": "toy_plush_municorn",
         "name": { "str": "white unicorn plushie" },
-        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail. Its black eyes are adorably large and round. For some odd reason, this one is wielding a plush knife with its forehooves.",
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail. Its black eyes are adorably large and round. For some odd reason, this one is wielding a plush knife with its forehooves."
       }
     ]
   },
