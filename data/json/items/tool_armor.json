@@ -1135,7 +1135,8 @@
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "looks_like": "wearable_light"
   },
   {
     "id": "wearable_atomic_light",
