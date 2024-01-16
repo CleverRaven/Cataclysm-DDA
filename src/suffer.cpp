@@ -171,6 +171,7 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
+static const trait_id trait_UNDINE_ABSORB_WATER( "UNDINE_ABSORB_WATER" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_VINES1( "VINES1" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -312,6 +313,9 @@ void suffer::while_underwater( Character &you )
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
+        you.mod_thirst( -1 );
+    }
+    if( you.has_trait( trait_UNDINE_ABSORB_WATER ) && you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
 }
@@ -1953,10 +1957,6 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_flag( json_flag_MEND_ALL ) ) {
-        needs_splint = false;
-    }
-
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
@@ -1965,6 +1965,7 @@ void Character::mend( int rate_multiplier )
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const bool broken = is_limb_broken( bp );
+        needs_splint = !has_flag( json_flag_MEND_ALL );
         if( !broken ) {
             continue;
         }

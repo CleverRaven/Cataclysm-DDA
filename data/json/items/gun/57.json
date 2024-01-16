@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "fn57",
-        "name": { "str": "FN Five-seveN" },
+        "name": { "str": "FN Five-seveN pistol" },
         "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-seveN is a lightweight pistol with a very high capacity, best used against armored opponents."
       }
     ],
@@ -59,7 +59,7 @@
     "variants": [
       {
         "id": "fn_p90",
-        "name": { "str": "FN P90" },
+        "name": { "str": "FN P90 submachine gun" },
         "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary high-velocity 5.7x28mm ammunition.  Made to fulfill NATO requests for a weapon chambered in a more suitable cartridge for defeating body armor than standard 9x19mm submachine guns, the FN P90 is excellent at firing short and controllable bursts manageably.  The PDW’s small and high-speed 5.7mm ammunition, of which 50 rounds fit in the P90’s top mounted magazine, packs quite the lethal payload for any armored opponent, whilst the firearm’s bullpup design makes it commendably compact to boot."
       }
     ],
@@ -105,7 +105,7 @@
     "variants": [
       {
         "id": "p50",
-        "name": { "str": "Kel-Tec P50" },
+        "name": { "str": "Kel-Tec P50 pistol" },
         "description": "Unique, adaptable, and extremely retro, the Kel-Tec P50 is a truly bizarre semi-automatic pistol.  Having been regarded as possibly one of the most innovative firearms from Kel-Tec’s entire line-up of guns, the P50 makes use of the high velocity 5.7x28mm cartridge, and feeds from standard FN P90 magazines.  Boasting ambidextrous controls, an AR-15-like T-shaped charging handle, and a reload which involves swinging the receiver and barrel assemblies up and away from the frame to insert the magazine horizontally over the grip, this weapon lends a decidedly retro-futuristic touch to almost any situation."
       }
     ],
@@ -153,7 +153,7 @@
     "variants": [
       {
         "id": "ruger_57",
-        "name": { "str": "Ruger-57" },
+        "name": { "str": "Ruger-57 handgun" },
         "description": "A full-sized polymer framed handgun chambered in the unusual 5.7x28mm cartridge, the Ruger-57 was one of the first commercially available 5.7mm pistols on the market, with its main competitor being FN’s decades-old, and far pricier, Five-seveN pistol.  Featuring a lightweight ergonomic design, 1911-style thumb-safety, a high visibility green front-sight with adjustable black rear iron-sights, and a price point which hovered a good 500 dollars below its competition, the Ruger-57 made the comparatively niche 5.7x28mm round far more accessible to a wider margin of potential shooters."
       }
     ],
@@ -206,7 +206,7 @@
     "variants": [
       {
         "id": "fn_ps90",
-        "name": { "str": "FN PS90" },
+        "name": { "str": "FN PS90 carbine" },
         "description": "Originally introduced in 2005, the PS90 is the civilian clone of the venerable FN P90, sharing much of the same characteristics and features as its fully-automatic older brother.  Chambering the same 5.7x28mm cartridge as its predecessor, in order to make it a legally distributable carbine in the eyes of the law the PS90 was manufactured to only be capable of semi-automatic fire, with a fitted-on 16-inch long barrel to sidestep NFA regulations on short-barreled rifles."
       }
     ],

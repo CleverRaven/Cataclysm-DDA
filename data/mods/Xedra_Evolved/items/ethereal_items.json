@@ -322,5 +322,102 @@
       "FIRE"
     ],
     "relic_data": { "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ] }
+  },
+  {
+    "id": "undine_waters_map",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "undine waters map" },
+    "description": "The item for .",
+    "weight": "30 g",
+    "volume": "250 ml",
+    "flags": [ "PAPER_SHAPED" ],
+    "price": 1000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "elemental_water" ],
+    "symbol": ";",
+    "color": "blue",
+    "copy-from": "abstractmap",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 150,
+      "terrain": [
+        "lake",
+        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ocean", "om_terrain_match_type": "PREFIX" }
+      ],
+      "message": "The waters reveal themselves to you."
+    }
+  },
+  {
+    "id": "arvore_preservation_container",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "vegetal sphere" },
+    "looks_like": "art_sphere",
+    "description": "A large, hollow sphere of plant matter, bark, and wood.  Food placed inside will rot one-fifth as fast as it would if left out in the open air.",
+    "weight": "3 kg",
+    "volume": "92 L",
+    "longest_side": "550 mm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "veggy", "wood" ],
+    "symbol": "o",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "70 L",
+        "max_contains_weight": "70 kg",
+        "spoil_multiplier": 0.2
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
+    },
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "item_ierde_iron_armor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "invulnerable iron skin" },
+    "description": "The essence of iron.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "iron" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ATTACK_SPEED", "multiply": -0.2 },
+            { "value": "FORCEFIELD", "add": 0.1 },
+            { "value": "PAIN_REMOVE", "add": 45 },
+            { "value": "ITEM_DAMAGE_BASH", "add": 10 }
+          ]
+        }
+      ]
+    }
   }
 ]

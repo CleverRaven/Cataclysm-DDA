@@ -110,7 +110,7 @@
     "tools": [
       [ [ "forge", 4 ], [ "oxy_torch", 4 ] ],
       [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ] ]
+      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ]
     ]
   },
   {

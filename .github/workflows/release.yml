@@ -66,6 +66,7 @@ jobs:
             sound: 1
           - name: Windows Tiles x64
             mxe: x86_64
+            libbacktrace: 1
             artifact: windows-tiles-x64
             os: ubuntu-latest
             ext: zip
@@ -73,6 +74,7 @@ jobs:
             sound: 0
           - name: Windows Tiles Sounds x64
             mxe: x86_64
+            libbacktrace: 1
             artifact: windows-tiles-sounds-x64
             os: ubuntu-latest
             ext: zip
@@ -89,6 +91,7 @@ jobs:
             os: ubuntu-20.04
             mxe: none
             android: none
+            libbacktrace: 1
             tiles: 1
             sound: 0
             artifact: linux-tiles-x64
@@ -98,6 +101,7 @@ jobs:
             os: ubuntu-20.04
             mxe: none
             android: none
+            libbacktrace: 1
             tiles: 1
             sound: 1
             artifact: linux-tiles-sounds-x64
@@ -107,6 +111,7 @@ jobs:
             os: ubuntu-20.04
             mxe: none
             android: none
+            libbacktrace: 1
             tiles: 0
             sound: 0
             artifact: linux-curses-x64
@@ -156,6 +161,14 @@ jobs:
             artifact: android-bundle
             ext: aab
             content: application/aap
+          - name: WebAssembly Bundle
+            os: ubuntu-latest
+            mxe: none
+            artifact: wasm
+            ext: zip
+            content: application/zip
+            sound: 0
+            wasm: true
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     permissions: write-all
@@ -199,15 +212,15 @@ jobs:
           curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz
           shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256
           sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12 --strip-components=2 SDL2-2.26.2/${{ matrix.mxe }}-w64-mingw32
-          curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
-          shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
-          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc12
       - name: Install dependencies (Linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
         run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+      - name: Install Emscripten (WebAssembly)
+        if: matrix.wasm
+        uses: mymindstorm/setup-emsdk@v13
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
         uses: BrettDong/setup-sdl2-frameworks@v1
@@ -235,11 +248,28 @@ jobs:
         shell: bash
         run: |
           lang/compile_mo.sh all
-      - name: Build CDDA (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && matrix.artifact != 'linux-objectcreator-x64'
+      - name: Build libbacktrace
+        if: matrix.libbacktrace == 1
         run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 bindist
+          git clone https://github.com/ianlancetaylor/libbacktrace.git
+          cd libbacktrace
+          git checkout 14818b7783eeb9a56c3f0fca78cefd3143f8c5f6
+          ./configure
+          make -j$((`nproc`+0))
+          cp LICENSE ${{ github.workspace }}/LICENSE-libbacktrace.txt
+          sudo make install
+      - name: Build CDDA (linux)
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && matrix.artifact != 'linux-objectcreator-x64' && !matrix.wasm
+        run: |
+          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
           mv cataclysmdda-0.I.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+      - name: Build CDDA (WebAssembly)
+        if: matrix.wasm
+        run: |
+          ./build-scripts/prepare-web-data.sh
+          ./build-scripts/build-emscripten.sh
+          ./build-scripts/prepare-web.sh
+          (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
       - name: Login to GitHub Container Registry
         if: matrix.artifact == 'windows-objectcreator-x64' || matrix.artifact == 'linux-objectcreator-x64'
         uses: docker/login-action@v2 
@@ -280,7 +310,7 @@ jobs:
         env:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc12-
         run: |
-          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 PCH=0 bindist
+          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
           mv cataclysmdda-0.I.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (windows msvc)
         if: runner.os == 'Windows'
