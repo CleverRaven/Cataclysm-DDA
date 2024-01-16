@@ -129,7 +129,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_BUTTON",
-    "dynamic_line": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing. \"ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!\"",
+    "dynamic_line": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing.  \"ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!\"",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
@@ -191,7 +191,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_MUSIC",
-    "dynamic_line": "&She nods enthusiastically and strums a few notes on her krar. \"Awo muzika iwedalehu.\"",
+    "dynamic_line": "&She nods enthusiastically and strums a few notes on her krar.  \"Awo muzika iwedalehu.\"",
     "responses": [
       {
         "text": "[Use Guitar] I happen to have a nice guitar, want to play with me?",
