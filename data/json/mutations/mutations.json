@@ -4594,7 +4594,13 @@
     "triggers": [
       [
         {
-          "condition": { "and": [ { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
+          "condition": {
+            "and": [
+              { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] },
+              { "not": "u_can_drop_weapon" },
+              { "u_has_trait": "WINGS_BAT" }
+            ]
+          },
           "msg_on": { "text": "You hunch forward and crawl quickly on folded wings." }
         }
       ]
@@ -4603,7 +4609,6 @@
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
-
       },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
@@ -7833,6 +7838,31 @@
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HEMOVORE",
+    "name": { "str": "Hemovore" },
+    "points": -4,
+    "description": "You can still eat other food, but you crave the taste of blood.  If you choose not to drink blood or can't find any, you'd better hope you can find some iron supplements.",
+    "types": [ "DIET" ],
+    "flags": [ "HEMOVORE" ],
+    "cancels": [ "VEGAN" ],
+    "category": [ "CHIROPTERAN" ],
+    "changes_to": [ "BLOODFEEDER" ],
+    "vitamin_rates": [ [ "iron", 800 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODFEEDER",
+    "name": { "str": "Bloodfeeder" },
+    "points": -4,
+    "description": "Your craving for blood borders on obsession.  You don't care if it's human or animal, all you know is that you've got to have it, and other foods just don't taste as good.",
+    "types": [ "DIET" ],
+    "flags": [ "HEMOVORE" ],
+    "cancels": [ "VEGAN", "HEMOVORE" ],
+    "category": [ "CHIROPTERAN" ],
+    "vitamin_rates": [ [ "iron", 1200 ] ]
   },
   {
     "type": "mutation",

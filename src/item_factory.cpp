@@ -3614,7 +3614,9 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
-            { material_honey, flag_URSINE_HONEY }
+            { material_honey, flag_URSINE_HONEY },
+            { material_blood, flag_HEMOVORE_FUN },
+            { material_hblood, flag_HEMOVORE_FUN }
         }
     };
 

@@ -100,6 +100,8 @@ static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
+static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
@@ -507,6 +509,27 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
             fun = -fun;
             fun /= 2;
         }
+    }
+
+    // Cooked blood is OK, but it's really better raw.
+    if( comest.has_flag( flag_HEMOVORE_FUN ) ) {
+        if( has_flag( json_flag_BLOODFEEDER ) ) {
+            if( fun <= 0 && comest.made_of( phase_id::LIQUID ) ) {
+            fun += 25;
+            } else {
+                fun *= 1.2;
+            }
+        } else if( has_flag( json_flag_HEMOVORE ) ) {
+            if( fun <= 0 && comest.made_of( phase_id::LIQUID ) ) {
+            fun += 13;
+            } else {
+                fun *= 1.1;
+            }
+        }
+    }
+
+    if( has_flag( json_flag_BLOODFEEDER ) && !comest.has_flag( flag_HEMOVORE_FUN ) && fun > 0 ) {
+        fun *= 0.5;
     }
 
     if( has_trait( trait_GOURMAND ) ) {
@@ -1295,11 +1318,13 @@ void Character::modify_morale( item &food, const int nutr )
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
+        // Hemovores feel weird about human blood, bloodfeeders don't care unless they're also cannibals or w/e
         const bool cannibal = has_flag( json_flag_CANNIBAL );
         const bool psycho = has_flag( json_flag_PSYCHOPATH );
         const bool sapiovore = has_flag( json_flag_SAPIOVORE );
         const bool spiritual = has_flag( json_flag_SPIRITUAL );
         const bool numb = has_flag( json_flag_NUMB );
+        const bool bloodfeeder = has_flag( json_flag_BLOODFEEDER );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
@@ -1333,6 +1358,8 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( numb ) {
             add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        } else if( bloodfeeder ) && food.has_flag( flag_HEMOVORE_FUN ) {
+            add_msg_if_player( _( "The human blood is as sweet as any other." ) );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );

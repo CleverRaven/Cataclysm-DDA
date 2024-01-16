@@ -151,6 +151,7 @@ const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+const flag_id flag_HEMOVORE_FUN( "HEMOVORE_FUN" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );
 const flag_id flag_HOOD( "HOOD" );

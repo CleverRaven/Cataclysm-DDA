@@ -2402,5 +2402,20 @@
     "id": "PSEUDOPOD_GRASP",
     "type": "json_flag",
     "//": "Removes some penalties for melee attacks made while prone or crouching."
+  },
+  {
+    "id": "HEMOVORE",
+    "type": "json_flag",
+    "//": "You eat blood to survive."
+  },
+  {
+    "id": "BLOODFEEDER",
+    "type": "json_flag",
+    "//": "You really like blood, and get less enjoyment out of other foods."
+  },
+  {
+    "id": "HEMOVORE_FUN",
+    "type": "json_flag",
+    "//": "This item contains blood and satisfies a hemovore's requirements."
   }
 ]
