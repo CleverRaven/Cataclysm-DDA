@@ -183,6 +183,22 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "fish_mutant_passive",
+    "//": "This is for fish mutants that are either herbivores or carnivores but not aggressive enough to where they'd attack fish of similar size as them. They don't hate anyone because I don't want them all to blindly flail around the rivers murdering things if they're not predators.",
+    "base_faction": "fish",
+    "by_mood": [
+      "fish",
+      "strider",
+      "aquatic_predator",
+      "zombie_aquatic",
+      "mutant_piscivores",
+      "crayfish",
+      "beetle_diving",
+      "water_scorpion"
+    ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "nether",
     "friendly": [ "attack_player_only" ],
     "neutral": [ "cult", "small_animal", "fish", "slime", "passive_machine" ],
