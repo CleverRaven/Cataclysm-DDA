@@ -323,10 +323,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "recurrence": [ "3 hours", "6 hours" ],
+    "recurrence": [ "15 minutes", "9 hours" ],
     "global": true,
     "run_for_npcs": false,
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
+    "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
     "condition": {
       "and": [
         { "one_in_chance": 6 },
@@ -334,6 +335,7 @@
         { "not": { "u_has_effect": "sleep" } },
         { "math": [ "Lieutenants_active", ">", "0" ] },
         { "math": [ "Shadow_Lurking", ">", "0" ] },
+        { "math": [ "Shadow_Warnings", ">=", "1" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -348,6 +350,33 @@
         "type": "bad",
         "popup": true,
         "popup_w_interrupt_query": true
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WARN",
+    "eoc_type": "ACTIVATION",
+    "//1": "Same conditions as EOC_LIEUTENANT_SPAWN_SHADOW, minus the RNG check and the warnings check.",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "math": [ "Lieutenants_active", ">", "0" ] },
+        { "math": [ "Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Warnings", "+=", "1" ] },
+      {
+        "if": { "days_since_cataclysm": 7 },
+        "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
+        "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true }
       }
     ]
   },
@@ -429,6 +458,23 @@
         "success_message": "You can't outrun your own shadow!",
         "force": true
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "Shadow_Warnings_Snippets_early",
+    "text": [
+      "Even out here you can still see the burning cities lighting up the horizon. What scares you most is not the gunshots you sometimes hear in the far distance, but the idea of what people keep shooting at. Tonight you hear automatic gunfire winding down into single shots. \n\nJust what could make them shoot that much, all the way out here?",
+      "You suddenly realize this area seems almost devoid of life. The few bits of blackened grass you can see are barely recognizeable as grass, even discounting the night. Sure the zombies might be tearing people apart, but what happened to the grass? What, is the grass coming to life to eat people too? \nYou snort at the idea, but it doesn't feel safe out here."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "Shadow_Warnings_Snippets_late",
+    "text": [
+      "The nights are mostly calm and lonely nowadays, but you could almost swear it's been getting darker since the Cataclysm. Every once in a while you feel like the darkness is creeping up on you when you turn your back.",
+      "The wind sure is howling tonight. It almost sounds like something is out there. Out here. With you.",
+      "In the distance you think you saw something …skitter? Crawl? It didn't move like anything you've seen before. Whatever it was, it's probably a bad idea to let it surprise you in unfamiliar terrain in the darkness."
     ]
   }
 ]
