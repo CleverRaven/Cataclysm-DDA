@@ -2239,20 +2239,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 }
                 return 0.0;
             };
-        } else if( checked_value == "time_since_var" ) {
-            dbl_or_var empty;
-            std::string var_name;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                var_name = get_talk_varname( jo, "var_name", false, empty );
-            }
-            return [is_npc, var_name]( dialogue const & d ) {
-                int stored_value = 0;
-                const std::string &var = d.actor( is_npc )->get_value( var_name );
-                if( !var.empty() ) {
-                    stored_value = std::stof( var );
-                }
-                return to_turn<int>( calendar::turn ) - stored_value;
-            };
         } else if( checked_value == "allies" ) {
             if( is_npc ) {
                 jo.throw_error( "allies count not supported for NPCs.  In " + jo.str() );
@@ -2744,7 +2730,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
     } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm or time_since_var?  In "
+        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm?  In "
                         + jo.str() );
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
         time_duration given_unit = 1_turns;
@@ -2859,17 +2845,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), &d,
                                  handle_min_max( d, input, min, max ) );
-            };
-        } else if( checked_value == "time_since_var" ) {
-            // This is a strange thing to want to adjust. But we allow it nevertheless.
-            dbl_or_var empty;
-            std::string var_name;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                var_name = get_talk_varname( jo, "var_name", false, empty );
-            }
-            return [is_npc, var_name, min, max]( dialogue & d, double input ) {
-                int storing_value = to_turn<int>( calendar::turn ) - handle_min_max( d, input, min, max );
-                d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
             };
         } else if( checked_value == "allies" ) {
             // It would be possible to make this work by removing allies and spawning new ones as needed.
