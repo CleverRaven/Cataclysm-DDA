@@ -1609,6 +1609,6 @@
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "pierce": 20 }
+    "melee_damage": { "stab": 20 }
   }
 ]

@@ -2282,7 +2282,8 @@
       "RAT",
       "CHIMERA",
       "SPIDER",
-      "CRUSTACEAN"
+      "CRUSTACEAN",
+      "CHIROPTERAN"
     ],
     "cancels": [ "VANITY" ]
   },
@@ -2716,7 +2717,7 @@
     "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
     "types": [ "TEETH" ],
     "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s!",
@@ -4587,55 +4588,26 @@
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
+    "movecost_modifier": 1.2,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "destroys_gear": true,
     "triggers": [
       [
         {
-          "condition": {
-            "and": [
-              { "u_has_move_mode": "run" },
-              { "not": "u_can_drop_weapon" },
-              { "u_has_trait": "WINGS_BAT" }
-            ]
-          },
-          "msg_on": { "text": "You hunch down, using your wings to crawl." },
-          "msg_off": { "text": "You rise up to walk on your hind feet." }
+          "condition": { "and": [ { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
+          "msg_on": { "text": "You hunch forward and crawl quickly on folded wings." }
         }
       ]
     ],
     "enchantments": [
       {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "crouch" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_trait": "WINGS_BAT" }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
-      },
-      {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "run" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_trait": "WINGS_BAT" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
+
       },
       {
-        "condition": {
-          "or": [
-            "u_can_drop_weapon",
-            { "u_has_move_mode": "walk" },
-            {
-              "and": [ { "not": { "u_has_trait": "WINGS_BAT" } } ]
-             }
-            ]
-      },
-      "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+        "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ]
       }
     ]
   },
@@ -4646,7 +4618,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Walking on two legs is pretty awkward, but you can climb just about anything thanks to your powerful toe claws.  You can even cling to walls you glide into!",
+    "description": "Your feet have grown into strong, curved claws.  They won't fit into normal shoes and are not much help in combat, but they're perfect for climbing.  You can even cling to walls you glide into!",
     "types": [ "FEET" ],
     "prereqs": [ "BAT_LEGS" ],
     "category": [ "CHIROPTERAN" ],
@@ -6303,7 +6275,21 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP" ],
     "changes_to": [ "DEX_UP_3", "DEX_ALPHA" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "ALPHA", "CHIROPTERAN" ],
+    "category": [
+      "LIZARD",
+      "SPIDER",
+      "CHIMERA",
+      "RAPTOR",
+      "MOUSE",
+      "RABBIT",
+      "BIRD",
+      "ELFA",
+      "FELINE",
+      "CEPHALOPOD",
+      "FISH",
+      "ALPHA",
+      "CHIROPTERAN"
+    ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
