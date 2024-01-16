@@ -119,6 +119,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_USED_TOOLS_ON_THE_EARTH",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stabbing pain as your tools dig into the living earth.  Tools made of material torn from the earth by humans.  You should not be using them.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN",
     "eoc_type": "EVENT",
     "required_event": "character_kills_character",
