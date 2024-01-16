@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_1",
-    "name": { "str": "sylph skin" },
+    "name": { "str": "Sylph Skin" },
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_2",
-    "name": { "str": "cloud skin" },
+    "name": { "str": "Cloud Skin" },
     "points": 2,
     "visibility": 5,
     "ugliness": 3,
@@ -40,7 +40,7 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_3",
-    "name": { "str": "storm skin" },
+    "name": { "str": "Storm Skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -128,7 +128,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to rush forward in a burst of wind.",
-    "prereqs": [ "SYLPH_SKIN_1" ],
+    "prereqs": [ "SLYPH_SPEED_INCREASE", "SLYPH_SPEED_INCREASE2" ],
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "sylph_charge_dash_spell", 1 ] ]
   },
@@ -226,6 +226,36 @@
   },
   {
     "type": "mutation",
+    "id": "SLYPH_SPEED_INCREASE",
+    "name": { "str": "Winds Guide Me" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When outdoors, the Sylph moves 10% faster.",
+    "changes_to": "SLYPH_SPEED_INCREASE2",
+    "prereqs": [ "PUSHING_WIND" ],
+    "enchantments": [ { "condition": "u_is_outdoors", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SLYPH_SPEED_INCREASE",
+    "name": { "str": "Outrunning the Gale" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
+    "changes_to": "SLYPH_SPEED_INCREASE2",
+    "enchantments": [
+      {
+        "condition": "u_is_outdoors",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -279,5 +309,21 @@
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FLY_AT_WILL",
+    "name": { "str": "Surmounting the Clouds" },
+    "points": 10,
+    "description": "Born of the winds, the Sylph can walk on them as easily as the ground.  While this trait is active, the Sylph will not fall and may walk on the air as they like.  It requires 3 mana per turn to fuel their steps.",
+    "prereqs": [ "SYLPH_JUMP_HIGH" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
+    "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
+    "time": "1 s",
+    "//": "This should have a mana cost here instead of within the EoC once that's possible."
   }
 ]
