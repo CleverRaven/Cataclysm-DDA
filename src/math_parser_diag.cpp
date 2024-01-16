@@ -209,6 +209,14 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> has_var_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [var = params[0].var() ]( dialogue const & d ) {
+        return maybe_read_var_value( var, d ).has_value();
+    };
+}
+
 std::function<double( dialogue & )> knows_proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -810,6 +818,19 @@ std::function<double( dialogue & )> test_str_len( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     return _test_func( params, kwargs, _test_len );
+}
+
+std::function<double( dialogue & )> value_or_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[var = params[0].var(),
+        vor = params[1]]( dialogue const & d ) -> double {
+        if( std::optional<std::string> has = maybe_read_var_value( var, d ); has )
+        {
+            return diag_value{ *has }.dbl( d );
+        }
+        return vor.dbl( d );
+    };
 }
 
 std::function<double( dialogue & )> vitamin_eval( char scope,
