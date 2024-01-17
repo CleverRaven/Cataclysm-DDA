@@ -5690,7 +5690,6 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
-        bool hallu_group = false;
 
         if( group ) {
             if( monster_id.evaluate( d ).empty() ) {
@@ -5734,7 +5733,6 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
                 } else {
-                    hallu_group = true;
                     target_monsters = monsters_in_range;
                 }
             }
@@ -5762,7 +5760,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
                                                   monster_id.evaluate( d ) ) ) );
-                } else if( hallu_group ) {
+                } else {
                     Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
                     target_monster = *copy->as_monster();
                 }
@@ -5793,7 +5791,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
                                                   monster_id.evaluate( d ) ) ) );
-                } else if( hallu_group ) {
+                } else {
                     Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
                     target_monster = *copy->as_monster();
                 }
