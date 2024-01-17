@@ -342,8 +342,11 @@ class talker
         virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
-        virtual std::string get_value( const std::string & ) const {
-            return "";
+        virtual std::string get_value( const std::string &key ) const {
+            return maybe_get_value( key ).value_or( std::string{} );
+        }
+        virtual std::optional<std::string> maybe_get_value( const std::string & ) const {
+            return std::nullopt;
         }
         virtual void set_value( const std::string &, const std::string & ) {}
         virtual void remove_value( const std::string & ) {}
