@@ -252,7 +252,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "ANIMAL_EMPATHY", "ATTITUDE", "HUMAN_EMPATHY", "MASOCHISM", "MEMORY", "SLEEPINESS", "WANDERLUST" ],
+    "types": [ "ANIMAL_EMPATHY", "SOCIAL", "ATTITUDE", "HUMAN_EMPATHY", "MASOCHISM", "MEMORY", "SLEEPINESS", "WANDERLUST" ],
     "cancels": [
       "ADDICTIVE",
       "ADRENALINE",
@@ -1140,6 +1140,7 @@
     "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
     "description": "You are a social creature.  Without occasionally seeing a friendly face, you'll start to feel unhappy.",
     "starting_trait": true,
+    "mixed_effect": true,
     "flags": [ "SOCIAL2" ],
     "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
   },
@@ -1165,6 +1166,7 @@
     "cancels": [ "SOCIAL1", "SOCIAL2" ],
     "description": "You'd really rather be by yourself.  Spending time around other people will bring your mood down.",
     "starting_trait": true,
+    "mixed_effect": true,
     "flags": [ "ASOCIAL2" ],
     "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ]
   },
@@ -9728,7 +9730,7 @@
     "points": 0,
     "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
     "purifiable": false,
-    "types": [ "HUMAN_EMPATHY" ],
+    "types": [ "SOCIAL" ],
     "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
     "category": [ "ALPHA" ],
     "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
