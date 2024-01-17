@@ -2990,7 +2990,7 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
         item_group::ItemList new_items;
         new_items = item_group::items_from( item_group_id( item_name.c_str() ) );
         std::string popup_message;
-        for( auto &new_item : new_items ) {
+        for( item &new_item : new_items ) {
             for( const std::string &flag : flags ) {
                 new_item.set_flag( flag_id( flag ) );
             }
