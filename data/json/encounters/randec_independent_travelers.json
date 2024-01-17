@@ -35,7 +35,7 @@
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -45,7 +45,7 @@
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -55,7 +55,7 @@
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -65,7 +65,7 @@
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
-            { "const": 1 }
+            1
           ]
         ]
       }

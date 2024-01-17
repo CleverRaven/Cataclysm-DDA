@@ -63,9 +63,7 @@
           ]
         },
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
           { "npc_add_var": "gave_directions", "type": "dialogue", "context": "camper_van_traveler", "value": "yes" }
         ],
         "switch": true
@@ -173,19 +171,19 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
     "dynamic_line": {
-      "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
       "yes": "I haven't found anything out of the ordinary, just a bunch of <zombies> and the ruins of our old lives.",
       "no": {
-        "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
         "yes": "Actually, I came across a group of farmers on my way here.  They were a little suspicious, but turned out to be pretty nice.  Good place to buy some food, if they're still around.",
         "no": {
-          "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
           "yes": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
           "no": {
-            "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
             "no": {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
               "yes": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
@@ -199,9 +197,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             {
               "not": { "npc_has_var": "directions", "type": "camper_van_traveler", "context": "mission", "value": "isherwood" }
             }
@@ -218,9 +214,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
             {
               "not": { "npc_has_var": "directions", "type": "camper_van_traveler", "context": "mission", "value": "chem_chabin" }
             }
@@ -237,9 +231,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
             {
               "not": { "npc_has_var": "directions", "type": "camper_van_traveler", "context": "mission", "value": "cowboy" }
             }
@@ -256,9 +248,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
             {
               "not": { "npc_has_var": "directions", "type": "camper_van_traveler", "context": "mission", "value": "bunker_shop" }
             }
