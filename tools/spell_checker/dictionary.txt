@@ -227,6 +227,7 @@ avians
 aving
 avium
 avy
+axedwarves
 axeman
 axolotl
 azide
@@ -458,6 +459,7 @@ caltrop
 caltrops
 camarasaurus
 camelops
+camo
 camphine
 campin
 camptosaurus
@@ -1159,6 +1161,8 @@ footrest
 forager
 foregrip
 foregrips
+forehoof
+forehooves
 foreleg
 forelegs
 forestalling
@@ -1782,6 +1786,7 @@ lutefisk
 lutely
 lvl
 lx
+lycra
 lyflode
 lyin
 m
@@ -2974,7 +2979,7 @@ subcompact
 subcutis
 subgun
 sublethal
-submachinegun
+submachine
 submap
 submenu
 submersed
@@ -3399,7 +3404,6 @@ warhammers
 warmouth
 warpglass
 warpstream
-wasnt
 wastebread
 watchband
 waterfowl
@@ -3507,14 +3511,12 @@ yelman
 yme
 ynn
 yoroi
-youre
 yourselves
 youthful
 yowl
 yoyos
 yugg
 yukata
-yulecat
 z
 zahir
 zaibatsu
@@ -3532,6 +3534,8 @@ zentai
 zeriatric
 zincite
 zischt
+zorc
+zorcs
 zombaby
 zombear
 zombeaver
@@ -3545,6 +3549,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zowlbear
+zowlbears
 zpzzzzpzz
 zubon
 zucchinis

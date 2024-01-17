@@ -151,7 +151,7 @@
         {
           "arithmetic": [ { "npc_val": "var", "var_name": "zkc_john" }, "=", { "const": 2 }, "*", { "time_since_cataclysm": "days" } ]
         },
-        { "arithmetic": [ { "npc_val": "var", "var_name": "zkc_john" }, "+=", { "rand": 10 } ] }
+        { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
       ]
     },
     "responses": [

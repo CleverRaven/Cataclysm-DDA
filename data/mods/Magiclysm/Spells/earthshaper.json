@@ -780,7 +780,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_MAP",
-    "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
+    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
     "effect": [ { "u_cast_spell": { "id": "earthshaper_map_real" } } ],
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
   },

@@ -4,11 +4,11 @@
     "copy-from": "mon_cougar",
     "type": "MONSTER",
     "looks_like": "mon_cougar",
-    "name": { "str": "hidebehind" },
-    "//~": "Named after the American folkloric monster. Extended flags are from telepathic suggestion that the hidebehind is not there.",
+    "name": { "//~": "Named after the American folkloric monster.", "str": "hidebehind" },
     "description": "Even looking directly at this cougar and knowing that it is there, a part of your brain simply refuses to see it.  It flickers in and out of sight in a way that makes your eyes hurt, and if you turn your attention away from it even for a moment, it disappears completely.",
     "vision_night": 18,
     "morale": 80,
+    "//": "Extended flags are from telepathic suggestion that the hidebehind is not there.",
     "extend": { "flags": [ "CAMOUFLAGE", "NIGHT_INVISIBILITY" ] }
   },
   {

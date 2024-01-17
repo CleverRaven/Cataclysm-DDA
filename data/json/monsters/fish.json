@@ -250,6 +250,8 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_single",
     "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -1234,7 +1236,7 @@
     "dissect": "dissect_fish_sample_small",
     "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "upgrades": { "half_life": 30, "into": "mon_mutant_salmon_huge" },
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon_huge" },
     "anger_triggers": [ "HURT" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
@@ -1266,7 +1268,7 @@
     "dissect": "dissect_fish_sample_large",
     "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "upgrades": { "half_life": 42, "into": "mon_mutant_salmon_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mutant_salmon_mega" },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
