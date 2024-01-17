@@ -1160,6 +1160,8 @@ footrest
 forager
 foregrip
 foregrips
+forehoof
+forehooves
 foreleg
 forelegs
 forestalling
