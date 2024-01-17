@@ -3714,7 +3714,7 @@
     "id": "social_satisfied",
     "name": [ "Good Company" ],
     "desc": [
-      "It feels good to spend time with others."
+      "It feels good to spend time around others."
     ],
     "max_intensity": 1,
     "rating": "good"

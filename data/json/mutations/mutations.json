@@ -1128,6 +1128,7 @@
     "changes_to": [ "SOCIAL2" ],
     "description": "You don't mind being alone, but you get a slight mood boost from being around friends.",
     "starting_trait": true,
+    "flags": [ "SOCIAL1" ],
     "category": [ "CATTLE", "ELFA", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "BIRD", "FISH" ]
   },
   {
@@ -1137,8 +1138,9 @@
     "points": 1,
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
-    "description": "You are a social creature.  Without occasional friendly human contact, you'll start to feel unhappy.",
+    "description": "You are a social creature.  Without occasionally seeing a friendly face, you'll start to feel unhappy.",
     "starting_trait": true,
+    "flags": [ "SOCIAL2" ],
     "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
   },
   {
@@ -1151,6 +1153,7 @@
     "changes_to": [ "ASOCIAL2" ],
     "description": "You can tolerate others, but you prefer to be alone.  Spending time by yourself will boost your mood slightly.",
     "starting_trait": true,
+    "flags": [ "ASOCIAL1" ],
     "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA" ]
   },
   {
@@ -1162,6 +1165,7 @@
     "cancels": [ "SOCIAL1", "SOCIAL2" ],
     "description": "You'd really rather be by yourself.  Spending time around other people will bring your mood down.",
     "starting_trait": true,
+    "flags": [ "ASOCIAL2" ],
     "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ]
   },
   {
