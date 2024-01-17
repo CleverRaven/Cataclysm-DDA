@@ -170,6 +170,7 @@ struct talk_effect_fun_t {
 };
 
 std::string read_var_value( const var_info &info, const dialogue &d );
+std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
 

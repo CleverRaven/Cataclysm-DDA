@@ -96,9 +96,10 @@ void talker_monster::mod_pain( int amount )
     me_mon->mod_pain( amount );
 }
 
-std::string talker_monster_const:: get_value( const std::string &var_name ) const
+std::optional<std::string> talker_monster_const::maybe_get_value( const std::string &var_name )
+const
 {
-    return me_mon_const->get_value( var_name );
+    return me_mon_const->maybe_get_value( var_name );
 }
 
 bool talker_monster_const::has_flag( const flag_id &f ) const
