@@ -5659,15 +5659,12 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
 {
     bool group = jo.get_bool( "group", false );
     bool single_target = jo.get_bool( "single_target", false );
-    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
+    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member, "" );
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
     dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
     dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 1 );
     dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
-
-    //Default ""?
-    //Don't allow "" + group
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
@@ -5696,6 +5693,9 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         bool hallu_group = false;
 
         if( group ) {
+            if( monster_id.evaluate( d ).empty() ) {
+                debugmsg( "Cannot use group without a valid monstergroup.  %s", d.get_callstack() );
+            }
             if( single_target ) {
                 target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
                                               monster_id.evaluate( d ) ) ) );
@@ -5740,7 +5740,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
             }
         } else {
             if( single_target ) {
-                //error
+                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                          d.get_callstack() );
             }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
         }

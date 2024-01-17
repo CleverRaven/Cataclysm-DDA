@@ -3688,7 +3688,7 @@ Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster that would be spawned, set to "" for random nearby monsters |
+| "u_spawn_monster", "npc_spawn_monster" | optional | string or [variable object](##variable-object) | default ""; monster or monstergroup that would be spawned, if ommited defaults to picking from nearby monsters |
 | "real_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of monsters, that would be spawned | 
 | "hallucination_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of hallucination versions of the monster that would be spawned |
 | "group" | optional | boolean | default false; if true, `_spawn_monster` will spawn a monster from `monstergroup` |
