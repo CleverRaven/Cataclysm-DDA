@@ -1,6 +1,12 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_NONE",
+    "//": "Empty EoC, use it if you need to run EoC with no effect for any reason",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RandEnc",
     "condition": {
       "and": [
@@ -22,7 +28,7 @@
         "u_location_variable": { "global_val": "randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" } }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc" }, "=", { "const": 1 } ] },
+      { "math": [ "RandEnc", "=", "1" ] },
       { "set_string_var": { "context_val": "omt" }, "target_var": { "global_val": "random_encounter_omt" } },
       {
         "set_string_var": { "context_val": "map_removal" },
@@ -39,7 +45,7 @@
       "and": [
         { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
         { "not": { "u_near_om_location": { "global_val": "random_encounter_omt" }, "range": 2 } },
-        { "compare_num": [ { "global_val": "var", "var_name": "RandEnc" }, "==", { "const": 1 } ] }
+        { "math": [ "RandEnc", "==", "1" ] }
       ]
     },
     "effect": [
@@ -48,7 +54,7 @@
         "om_terrain": { "global_val": "random_encounter_omt" },
         "target_var": { "global_val": "randenc_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc" }, "=", { "const": 0 } ] }
+      { "math": [ "RandEnc", "=", "0" ] }
     ]
   }
 ]

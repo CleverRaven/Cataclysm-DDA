@@ -132,6 +132,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "WINNOW",
+    "name": { "str": "winnowing" }
+  },
+  {
+    "type": "tool_quality",
     "id": "STRAIN",
     "name": { "str": "straining" }
   },
@@ -430,11 +435,6 @@
     "type": "tool_quality",
     "id": "MOP",
     "name": { "str": "mopping" }
-  },
-  {
-    "type": "tool_quality",
-    "id": "BLOW_AIR",
-    "name": { "str": "air blowing" }
   },
   {
     "type": "tool_quality",

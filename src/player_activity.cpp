@@ -119,9 +119,9 @@ int player_activity::get_value( size_t index, int def ) const
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::is_suspendable() const
+bool player_activity::can_resume() const
 {
-    return type->suspendable();
+    return type->can_resume();
 }
 
 bool player_activity::is_multi_type() const
@@ -246,6 +246,7 @@ void player_activity::do_turn( Character &you )
                 !no_food_nearby_for_auto_consume ) {
                 int consume_moves = get_auto_consume_moves( you, true );
                 moves_left += consume_moves;
+                moves_total += consume_moves;
                 if( consume_moves == 0 ) {
                     no_food_nearby_for_auto_consume = true;
                 }
@@ -253,6 +254,7 @@ void player_activity::do_turn( Character &you )
             if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
                 int consume_moves = get_auto_consume_moves( you, false );
                 moves_left += consume_moves;
+                moves_total += consume_moves;
                 if( consume_moves == 0 ) {
                     no_drink_nearby_for_auto_consume = true;
                 }
@@ -297,6 +299,10 @@ void player_activity::do_turn( Character &you )
         } else {
             debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
         }
+        // We may have canceled this via a message interrupt.
+        if( type.is_null() ) {
+            return;
+        }
     }
 
     // This might finish the activity (set it to null)
@@ -340,12 +346,13 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
-                    set_to_null();
+                    you.cancel_activity();
                     break;
                 case 3:
                     ignoreQuery = true;
                     break;
                 default:
+                    canceled( you );
                     break;
             }
         }
@@ -423,7 +430,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    if( !*this || !other || type->no_resume() ) {
+    if( !*this || !other || !type->can_resume() ) {
         return false;
     }
 

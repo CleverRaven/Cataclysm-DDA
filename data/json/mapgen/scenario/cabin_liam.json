@@ -1,0 +1,70 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin_liam" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "...%.......~~...........",
+        "**######w##++#########**",
+        "**#R  d#sT#  #A DBBD #**",
+        "**#R  c#  #  #A  BB  w**",
+        "**wR   #  =  =       w**",
+        "**wR   #  #  #########**",
+        "**#R   ####  =  DBBD #**",
+        "**#Ŗ   L##A  #A  BB  w**",
+        "**####=####  #A      w**",
+        "**#ttb  uu#  #########**",
+        "**wttb   u#  #  OOOť w**",
+        "**wbb     =  =  87rrrw**",
+        "**#      u#  #   6rSr#**",
+        "**#1F5S234#  #a $9rrŔ#**",
+        "**###ww####++####ww###**",
+        "..o bbbb     =~~~~~~~o..",
+        "..-          #~~~~~~~#..",
+        "..-          #~~~Ɣ~~~#..",
+        "..o-------o  o~~~~~~~o..",
+        "...........~~.~~~~~~~...",
+        "...........~~.~~~.~~~...",
+        "...........~~~~~~~~~...."
+      ],
+      "palettes": [ "cabin_palette", "cabin_palette_common" ],
+      "item": {
+        "7": { "item": "shotgun_d" },
+        "8": { "item": "shot_hull" },
+        "9": { "item": "quilt" },
+        "Ŗ": [ { "item": "compbow" }, { "item": "arrow_cf", "amount": 12 }, { "item": "quiver" } ]
+      },
+      "items": {
+        "6": { "item": "chris_body", "chance": 100 },
+        "Ŕ": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
+        "$": { "item": "used_1st_aid", "chance": 100 },
+        "ť": { "item": "ammo_can_shot_part", "chance": 100 }
+      },
+      "fields": {
+        "6": { "field": "fd_blood", "intensity": 1 },
+        "7": { "field": "fd_blood", "intensity": 3 },
+        "9": { "field": "fd_blood", "intensity": 2 },
+        "$": { "field": "fd_blood", "intensity": 1 }
+      },
+      "furniture": { "9": "f_floor_mattress", "ť": "f_table", "Ŕ": "f_rack", "Ŗ": "f_utility_shelf" },
+      "terrain": {
+        "-": "t_railing",
+        "+": "t_door_c",
+        "Ɣ": "t_region_groundcover_barren",
+        "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 2 ] ]
+      },
+      "vehicles": { "Ɣ": { "vehicle": "car_hatch", "chance": 100, "fuel": 20, "rotation": 90, "status": 0 } }
+    }
+  },
+  {
+    "id": "chris_body",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "ax" }, { "item": "corpse_gunned", "damage": 4 } ]
+  }
+]

@@ -2,12 +2,14 @@ name: Code Style Reviewer
 
 on:
   pull_request_target:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
     paths:
       - '**.json'
       - '**.cpp'
       - '**.h'
       - '**.c'
   pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
     paths:
       - '**.json'
       - '**.cpp'
@@ -20,7 +22,7 @@ concurrency:
 
 jobs:
   style-code:
-    if: ${{ github.event_name == 'pull_request_target' }}
+    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.draft == false }}
 
     runs-on: ubuntu-latest
 

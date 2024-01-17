@@ -39,6 +39,7 @@
         "]": "t_door_glass_c",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "q": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -67,7 +68,10 @@
       },
       "furniture": { "!": "f_region_flower", ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "hose", "x": 19, "y": 18, "chance": 35 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 6, "chance": 35, "rotation": 270 } ]
+      "place_vehicles": [
+        { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "car", "x": 4, "y": 6, "chance": 35, "rotation": 270 }
+      ]
     }
   },
   {

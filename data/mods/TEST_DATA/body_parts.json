@@ -30,6 +30,29 @@
     "sub_parts": [ "sub_limb_debug_tail" ]
   },
   {
+    "id": "test_lizard_tail",
+    "type": "body_part",
+    "//": "Test tail to check mend rate and heal bonus",
+    "name": "test lizard tail",
+    "name_multiple": "test lizard tails",
+    "heading": "TST LZD Tail",
+    "heading_multiple": "Tails",
+    "encumbrance_text": "Your testing tail feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "test_tail",
+    "hit_difficulty": 0.8,
+    "limb_type": "tail",
+    "opposite_part": "test_lizard_tail",
+    "side": "both",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "test lizard tail" },
+    "hp_bar_ui_text": "TST LZD TAIL",
+    "base_hp": 20,
+    "heal_bonus": 1,
+    "flags": [ "HEAL_OVERRIDE", "ALWAYS_HEAL", "MEND_LIMB" ],
+    "sub_parts": [ "sub_limb_debug_tail" ]
+  },
+  {
     "id": "test_corvid_beak",
     "type": "body_part",
     "name": "corvid beak",
@@ -95,6 +118,11 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 99,
+    "conditional_flags": [ "WALL_CLING" ],
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
   },
   {
@@ -126,6 +154,11 @@
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 99,
+    "conditional_flags": [ "WALL_CLING" ],
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
   },
   {
@@ -213,6 +246,12 @@
     "id": "ENCH_TEST_TAIL",
     "condition": "ALWAYS",
     "modified_bodyparts": [ { "gain": "test_tail" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TEST_LIZARD_TAIL",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "test_lizard_tail" } ]
   },
   {
     "type": "enchantment",

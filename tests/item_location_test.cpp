@@ -6,11 +6,11 @@
 #include "character.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -80,7 +80,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     REQUIRE( dummy.has_item( *backpack ) );
 
-    backpack->put_in( jeans, item_pocket::pocket_type::CONTAINER );
+    backpack->put_in( jeans, pocket_type::CONTAINER );
 
     item_location backpack_loc( dummy, & **dummy.wear_item( *backpack ) );
 

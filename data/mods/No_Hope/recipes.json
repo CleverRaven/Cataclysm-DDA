@@ -21,6 +21,7 @@
   {
     "result": "broken_laserturret",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",

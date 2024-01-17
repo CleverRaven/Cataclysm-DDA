@@ -991,8 +991,11 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
-        return d.type == item_pocket::pocket_type::CONTAINER && d.watertight;
+        return d.type == pocket_type::CONTAINER && d.watertight;
     } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
+            return c_magenta;
+        }
+        if( inv != nullptr && inv->must_use_hallu_poison( type, count * batch ) ) {
             return c_magenta;
         }
         // Will use favorited component
@@ -1493,6 +1496,15 @@ void requirement_data::dump( JsonOut &jsout ) const
     dump_req_vec( components, jsout );
 
     jsout.end_object();
+}
+
+uint64_t requirement_data::make_hash() const
+{
+    std::ostringstream stream;
+    JsonOut json( stream );
+    dump( json );
+    std::hash<std::string> hasher;
+    return hasher( stream.str() );
 }
 
 /// Helper function for deduped_requirement_data constructor below.

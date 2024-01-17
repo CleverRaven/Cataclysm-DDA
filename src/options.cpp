@@ -1334,7 +1334,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
-            { "uk_UA", R"(український)" },
+            { "uk_UA", R"(Українська)" },
             { "zh_CN", R"(中文 (天朝))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
@@ -3574,7 +3574,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             trim_and_print( w_options, point( value_col, line_pos ), value_width,
                             name_value.second.col, name_value.second.s );
 
-            opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
+            opt_line_map.emplace( visible_items[i], inclusive_rectangle<point>( point( name_col, line_pos ),
                                   point( value_col + value_width - 1, line_pos ) ) );
         }
 
@@ -3648,6 +3648,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
+
+#if defined(LOCALIZE)
+            if( current_opt.getName() == "USE_LANG" ) {
+                current_opt.setValue( select_language() );
+                return;
+            }
+#endif
 
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
@@ -3923,7 +3930,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
-#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
+#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );

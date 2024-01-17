@@ -95,7 +95,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC only has an m16a4" ) {
-            arm_shooter( main_npc, "m16a4" );
+            arm_shooter( main_npc, "modular_m16a4" );
 
             WHEN( "NPC is allowed to use loud ranged weapons" ) {
                 main_npc.rules.set_flag( ally_rule::use_guns );
@@ -164,7 +164,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 item battery( "heavy_plus_battery_cell" );
                 battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammo_battery ) );
 
-                ps.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                ps.put_in( battery, pocket_type::MAGAZINE_WELL );
 
                 item_location stored_ps = main_npc.try_add( ps );
                 REQUIRE( stored_ps != item_location::nowhere );

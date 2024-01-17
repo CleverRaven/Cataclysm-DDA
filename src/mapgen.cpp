@@ -43,7 +43,6 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "level_cache.h"
@@ -59,13 +58,13 @@
 #include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
-#include "name.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -1939,7 +1938,6 @@ class jmapgen_sign : public jmapgen_piece
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
-            replace_name_tags( signtext );
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1990,7 +1988,6 @@ class jmapgen_graffiti : public jmapgen_piece
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
-            replace_name_tags( graffiti );
             return graffiti;
         }
 };
@@ -2261,6 +2258,7 @@ class jmapgen_loot : public jmapgen_piece
             } else {
                 result_group.add_group_entry( group, 100 );
             }
+            result_group.finalize( itype_id::NULL_ID() );
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2436,16 +2434,11 @@ class jmapgen_monster : public jmapgen_piece
             std::string chosen_name = name;
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
-                    chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
+                    chosen_name = SNIPPET.expand( "<female_given_name>" );
                 } else if( random_name_str == "male" ) {
-                    chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
+                    chosen_name = SNIPPET.expand( "<male_given_name>" );
                 } else if( random_name_str == "random" ) {
-                    // I want to use IsUnisexName, but that always gives "Tom"
-                    if( one_in( 2 ) ) {
-                        chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
-                    } else {
-                        chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
-                    }
+                    chosen_name = SNIPPET.expand( "<given_name>" );
                 } else if( random_name_str == "snippet" ) {
                     chosen_name = SNIPPET.expand( name );
                 }
@@ -4490,10 +4483,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
-            std::vector<map_key> row_keys;
-            for( const std::string &key : utf8_display_split( row ) ) {
-                row_keys.emplace_back( key );
-            }
+            static std::vector<std::string_view> row_keys;
+            row_keys.clear();
+            row_keys.reserve( total_size.x );
+            utf8_display_split_into( row, row_keys );
             if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
@@ -4506,7 +4499,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const map_key key = row_keys[i];
+                const map_key key{ std::string( row_keys[i] ) };
                 const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
@@ -5408,10 +5401,14 @@ void map::draw_lab( mapgendata &dat )
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-            rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-            bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-            lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+            tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+            rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+            bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+            lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
             int boarders = 0;
             if( tw == 0 ) {
@@ -5963,10 +5960,14 @@ void map::draw_lab( mapgendata &dat )
             set_temperature_mod( p2 + point( SEEX, SEEY ), temperature_d );
         }
 
-        tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-        rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-        bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-        lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+        tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+        rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+        bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+        lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
         // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
@@ -6509,7 +6510,7 @@ std::vector<item *> map::place_items(
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
                 !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
+                e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );

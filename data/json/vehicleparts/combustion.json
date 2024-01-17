@@ -213,6 +213,32 @@
     "damage_reduction": { "all": 40 }
   },
   {
+    "id": "engine_1cyl_diesel_large",
+    "type": "vehicle_part",
+    "copy-from": "diesel_engine",
+    "item": "engine_1cyl_diesel_large",
+    "description": "A 200cc engine, suitable for a dirt bike, scooter, or generator.",
+    "durability": 150,
+    "power": "22000 W",
+    "energy_consumption": "27500 W",
+    "folded_volume": "42 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 8 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 4, 8 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 2 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 40 }
+  },
+  {
     "id": "engine_1cyl_small",
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",

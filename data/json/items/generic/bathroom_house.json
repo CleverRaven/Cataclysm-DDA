@@ -304,15 +304,8 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
+    "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
     "to_hit": -1,
     "melee_damage": { "bash": 3 }
   },

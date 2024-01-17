@@ -42,7 +42,7 @@
     "energy_source": "MANA",
     "components": "spell_components_rune_animist",
     "base_casting_time": 500,
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
+    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS", "CONSUMES_RUNES" ],
     "difficulty": 3
   },
   {
@@ -84,7 +84,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 400,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "CONSUMES_RUNES" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -226,7 +226,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 600,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "CONSUMES_RUNES" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -390,7 +390,7 @@
     "shape": "line",
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "NO_HANDS" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "CONSUMES_RUNES" ],
     "components": "spell_components_rune_animist",
     "min_damage": 10,
     "max_damage": 160,
@@ -434,7 +434,7 @@
     "name": "Domination",
     "description": "Force the undead creature you pick to obey your command, making it ally for a short time.  It's an expensive spell, so use it wisely.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "SILENT" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "SILENT", "CONSUMES_RUNES" ],
     "effect": "charm_monster",
     "targeted_monster_species": [ "ZOMBIE" ],
     "components": "spell_components_rune_animist_3",

@@ -301,6 +301,7 @@
       [ "humvee", 600 ],
       [ "humvee_gl", 150 ],
       [ "military_cargo_truck", 300 ],
+      [ "military_cargo_truck_b", 300 ],
       [ "policecar", 400 ],
       [ "policecar_k9", 2 ],
       [ "policesuv", 400 ],
@@ -416,6 +417,7 @@
       [ "pickup", 300 ],
       [ "4seat_pickup", 125 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -468,6 +470,7 @@
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -594,6 +597,7 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
+      [ "portable_diesel_generator", 25 ],
       [ "4x4_car", 100 ],
       [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
@@ -638,6 +642,7 @@
       [ "motorcycle", 10 ],
       [ "motorcycle_chassis", 20 ],
       [ "portable_generator", 20 ],
+      [ "portable_diesel_generator", 20 ],
       [ "motorcycle_3wheel", 5 ],
       [ "motorcycle_3wheel_super", 5 ],
       [ "quad_bike", 10 ],
@@ -652,6 +657,7 @@
     "id": "military_vehicles",
     "vehicles": [
       [ "military_cargo_truck", 1000 ],
+      [ "military_cargo_truck_b", 1000 ],
       [ "humvee", 500 ],
       [ "humvee_gl", 250 ],
       [ "humvee_tow", 125 ],
@@ -663,6 +669,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "military_cargo_trucks",
+    "vehicles": [ [ "military_cargo_truck", 500 ], [ "military_cargo_truck_b", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "farm_vehicles",
     "vehicles": [
       [ "tractor_plow", 1000 ],
@@ -671,7 +682,8 @@
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
       [ "excavator", 500 ],
-      [ "wheelbarrow", 100 ]
+      [ "wheelbarrow", 100 ],
+      [ "portable_diesel_generator", 75 ]
     ]
   },
   {
@@ -1078,7 +1090,7 @@
   {
     "type": "vehicle_group",
     "id": "workshop_vehicles",
-    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ], [ "portable_diesel_generator", 20 ] ]
   },
   {
     "type": "vehicle_group",
@@ -1606,6 +1618,7 @@
       [ "flatbed_truck", 800 ],
       [ "semi_truck", 800 ],
       [ "military_cargo_truck", 800 ],
+      [ "military_cargo_truck_b", 800 ],
       [ "humvee_gl", 800 ],
       [ "humvee", 800 ],
       [ "security_van", 800 ],

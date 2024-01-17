@@ -111,6 +111,17 @@
   },
   {
     "type": "furniture",
+    "id": "test_f_bash_persist",
+    "name": "Bash persistence furniture",
+    "description": "Testing that bashing data does not persist when furniture changes",
+    "symbol": "f",
+    "color": "blue",
+    "bash": { "str_min": 4, "str_max": 100, "sound": "Tests testing!", "sound_fail": "Tests testing!" },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
     "id": "test_f_eoc",
     "name": "EoC Test Furniture 1",
     "description": "Prying furniture with valid data.",

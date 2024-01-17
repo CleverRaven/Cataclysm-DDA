@@ -1,8 +1,42 @@
 [
   {
     "type": "furniture",
+    "id": "f_transporter_beacon",
+    "name": "Transporter Beacon",
+    "symbol": "A",
+    "looks_like": "tr_telepad",
+    "description": "A transporter beacon, placed on the ground with a stable set of coordinates.  (e)xamine to finish the setup.",
+    "color": "blue",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [ { "item": "psionic_transporter_beacon" } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "matrix_shard", "count": [ 1, 5 ] },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "matrix_crystal_drained_dust", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_telepathic_amplifier",
-    "name": "strange electronic chair",
+    "name": "telepathic amplifier",
     "description": "A bulky machine with a chair and a hat-like mechanism designed to fit over the wearer's head, like something you would find in a hair salon.  You have no idea how to operate it, but you could scavenge it for parts.",
     "symbol": "#",
     "color": "white",
@@ -48,6 +82,51 @@
   },
   {
     "type": "furniture",
+    "id": "f_portal_stabilizer",
+    "name": "portal stabilizer",
+    "description": "A strange machine that looks a little like a large gyroscope.  Multiple concentric rings are built around a central matrix crystal, all connected to an antenna.  How it was used is unclear, since there doesn't seem to be a keyboard or any input device.",
+    "symbol": "#",
+    "color": "blue",
+    "looks_like": "f_MRI",
+    "move_cost_mod": -1,
+    "coverage": 25,
+    "required_str": 13,
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 3, 4 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 12, 18 ] },
+        { "item": "matrix_crystal_teleport_dust", "count": [ 5, 15 ] },
+        { "item": "matrix_crystal_teleportation", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 6, 12 ], "prob": 50 },
+        { "item": "matrix_crystal_teleport_dust", "count": [ 10, 25 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_nether_crystal_structure",
     "name": "glowing crystal",
     "description": "An irregular chunk of glowing crystal.  The fitful glow sheds no illumination on the nearby terrain.",
@@ -69,6 +148,8 @@
         { "item": "matrix_shard", "count": [ 4, 20 ] },
         { "item": "matrix_crystal_biokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_clair_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_electrokin_dust", "count": [ 0, 3 ] },
+        { "item": "matrix_crystal_photokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_pyrokin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telekin_dust", "count": [ 0, 3 ] },
         { "item": "matrix_crystal_telepath_dust", "count": [ 0, 3 ] },

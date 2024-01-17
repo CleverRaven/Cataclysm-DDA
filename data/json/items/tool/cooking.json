@@ -20,14 +20,6 @@
     "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_plus_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -283,7 +275,7 @@
     "id": "coffeemaker",
     "type": "TOOL",
     "name": { "str": "coffeemaker" },
-    "description": "A heating element with a pot and a frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
+    "description": "A heating element with a pot and a frame for holding coffee or other powders.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "1000 g",
     "volume": "7 L",
     "longest_side": "25 cm",
@@ -298,21 +290,13 @@
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 2 }
   },
   {
     "id": "dehydrator",
     "type": "TOOL",
     "name": { "str": "food dehydrator" },
-    "description": "A portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
+    "description": "An electric food dehydrator, invaluable in preserving food.  Can be connected to the electric grid using cord.",
     "weight": "2500 g",
     "volume": "13 L",
     "price": 6000,
@@ -324,14 +308,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -426,14 +402,6 @@
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "450 W" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -492,7 +460,7 @@
     "id": "hotplate",
     "type": "TOOL",
     "name": { "str": "hotplate" },
-    "description": "A small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
+    "description": "A small heating element on a stand, powered by your electric grid.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "795 g",
     "volume": "2 L",
     "longest_side": "35 cm",
@@ -506,14 +474,6 @@
     "ammo": [ "battery" ],
     "charges_per_use": 35,
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -535,14 +495,6 @@
     "ammo": [ "battery" ],
     "charges_per_use": 25,
     "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_plus_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -655,7 +607,7 @@
     "id": "multi_cooker",
     "type": "TOOL",
     "name": { "str": "multi-cooker" },
-    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
+    "description": "A professional-grade multi-cooker, with a short electric cord.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "weight": "11339 g",
     "volume": "3750 ml",
     "price": 20000,
@@ -671,12 +623,6 @@
     "tick_action": "MULTICOOKER_TICK",
     "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      },
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
@@ -732,14 +678,6 @@
     "color": "green",
     "ammo": [ "battery" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -899,7 +837,7 @@
     "price_postapoc": 10,
     "material": [ "paper" ],
     "symbol": ";",
-    "qualities": [ [ "SIEVE", 1 ] ],
+    "qualities": [ [ "SIEVE", 1 ], [ "WINNOW", 1 ] ],
     "color": "light_gray",
     "melee_damage": { "bash": 1 }
   },
@@ -916,7 +854,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ], [ "WINNOW", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -932,7 +870,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ]
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ], [ "WINNOW", 1 ] ]
   },
   {
     "id": "still",
@@ -1082,7 +1020,8 @@
     "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1107,7 +1046,8 @@
       }
     ],
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1116,7 +1056,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "microwave" },
-    "description": "A home microwave, has probably seen its share of baked beans.  While usually meant to be plugged in, it can run on a backup battery too.",
+    "description": "A home microwave, has probably seen its share of baked beans.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
@@ -1126,15 +1066,7 @@
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
-    "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ]
+    "ammo": [ "battery" ]
   },
   {
     "id": "makeshift_pressure_cooker",

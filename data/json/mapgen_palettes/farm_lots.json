@@ -3,13 +3,13 @@
     "type": "palette",
     "id": "fm_corn",
     "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "cattlefodder", "repeat": [ 1, 20 ] } }
+    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
   },
   {
     "type": "palette",
     "id": "fm_wheat",
     "sealed_item": { "#": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "cattlefodder", "repeat": [ 1, 20 ] } }
+    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
   },
   {
     "type": "palette",

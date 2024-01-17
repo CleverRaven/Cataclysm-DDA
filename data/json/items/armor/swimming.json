@@ -2,91 +2,91 @@
   {
     "id": "bikini_bottom",
     "type": "ARMOR",
-    "name": { "str": "bikini bottom" },
-    "description": "A simple bikini bottom.",
+    "name": { "str": "bikini bottoms", "str_pl": "pairs of bikini bottoms" },
+    "description": "Simple bikini bottoms.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_bikini_bottom",
-        "name": { "str": "bikini bottom" },
-        "description": "A simple bikini bottom.",
+        "name": { "str": "bikini bottoms", "str_pl": "pairs of bikini bottoms" },
+        "description": "Simple bikini bottoms.",
         "weight": 30
       },
       {
         "id": "black_bikini_bottom",
-        "name": { "str": "black bikini bottom" },
-        "description": "It's colored black.",
+        "name": { "str": "black bikini bottoms", "str_pl": "pairs of black bikini bottoms" },
+        "description": "They're colored black.",
         "color": "dark_gray",
         "weight": 10,
         "append": true
       },
       {
         "id": "white_bikini_bottom",
-        "name": { "str": "white bikini bottom" },
-        "description": "It's colored white.",
+        "name": { "str": "white bikini bottoms", "str_pl": "pairs of white bikini bottoms" },
+        "description": "They're colored white.",
         "color": "white",
         "weight": 10,
         "append": true
       },
       {
         "id": "red_bikini_bottom",
-        "name": { "str": "red bikini bottom" },
-        "description": "It's colored red.",
+        "name": { "str": "red bikini bottoms", "str_pl": "pairs of red bikini bottoms" },
+        "description": "They're colored red.",
         "color": "red",
         "weight": 10,
         "append": true
       },
       {
         "id": "blue_bikini_bottom",
-        "name": { "str": "blue bikini bottom" },
-        "description": "It's colored blue.",
+        "name": { "str": "blue bikini bottoms", "str_pl": "pairs of blue bikini bottoms" },
+        "description": "They're colored blue.",
         "color": "blue",
         "weight": 10,
         "append": true
       },
       {
         "id": "flag_bikini_bottom",
-        "name": { "str": "flag bikini bottom" },
-        "description": "It's printed with an American flag pattern.",
+        "name": { "str": "flag bikini bottoms", "str_pl": "pairs of flag bikini bottoms" },
+        "description": "They're printed with an American flag pattern.",
         "weight": 7,
         "append": true
       },
       {
         "id": "pink_bikini_bottom",
-        "name": { "str": "pink bikini bottom" },
-        "description": "It's colored neon pink.  Pretty flashy.",
+        "name": { "str": "pink bikini bottoms", "str_pl": "pairs of pink bikini bottoms" },
+        "description": "They're colored neon pink.  Pretty flashy.",
         "color": "pink",
         "weight": 6,
         "append": true
       },
       {
         "id": "tropical_bikini_bottom",
-        "name": { "str": "tropical bikini bottom" },
-        "description": "It's green and has a tropical design.",
+        "name": { "str": "tropical bikini bottoms", "str_pl": "pairs of tropical bikini bottoms" },
+        "description": "They're green and has a tropical design.",
         "color": "light_green",
         "weight": 5,
         "append": true
       },
       {
         "id": "floral_bikini_bottom",
-        "name": { "str": "floral bikini bottom" },
-        "description": "It's colored yellow and has a floral design.",
+        "name": { "str": "floral bikini bottoms", "str_pl": "pairs of floral bikini bottoms" },
+        "description": "They're colored yellow and has a floral design.",
         "color": "yellow",
         "weight": 5,
         "append": true
       },
       {
         "id": "camo_bikini_bottom",
-        "name": { "str": "camo bikini bottom" },
-        "description": "It has a camouflage pattern, perfect for a soldier on beach leave.",
+        "name": { "str": "camo bikini bottoms", "str_pl": "pairs of camo bikini bottoms" },
+        "description": "They're has a camouflage pattern, perfect for a soldier on beach leave.",
         "color": "green",
         "weight": 4,
         "append": true
       },
       {
         "id": "skull_bikini_bottom",
-        "name": { "str": "skull bikini bottom" },
-        "description": "It's colored black and printed with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "name": { "str": "skull bikini bottoms", "str_pl": "pairs of skull bikini bottoms" },
+        "description": "They're colored black and printed with a skull pattern.  Works wonders to communicate your happiness on the beach.",
         "symbol": "S",
         "color": "dark_gray",
         "weight": 2,
@@ -94,8 +94,8 @@
       },
       {
         "id": "maid_bikini_bottom",
-        "name": { "str": "maid bikini bottom" },
-        "description": "It's colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
+        "name": { "str": "maid bikini bottoms", "str_pl": "pairs of maid bikini bottoms" },
+        "description": "They're colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
         "color": "dark_gray",
         "append": true
       }
@@ -115,8 +115,8 @@
   {
     "id": "bikini_bottom_short",
     "type": "ARMOR",
-    "name": { "str": "short bikini bottom" },
-    "description": "A very short bikini bottom, commonly called a thong.",
+    "name": { "str": "short bikini bottoms", "str_pl": "pairs of short bikini bottoms" },
+    "description": "A very short pair of bikini bottoms, commonly called a thong.",
     "weight": "15 g",
     "volume": "150 ml",
     "price": 1000,
@@ -516,7 +516,7 @@
   {
     "id": "swim_briefs",
     "type": "ARMOR",
-    "name": { "str_sp": "swim briefs" },
+    "name": { "str": "swim briefs", "str_pl": "pairs of swim briefs" },
     "description": "A pair of blue swim briefs.  Commonly used by male competitive swimmers.",
     "weight": "75 g",
     "volume": "250 ml",

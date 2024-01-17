@@ -9,7 +9,7 @@
     "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR" ],
+    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
@@ -209,7 +209,7 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "extend": { "flags": [ "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE" ] },
     "damage_reduction": { "all": 8 }
   },
   {
@@ -237,7 +237,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "extend": { "flags": [ "LOW_FINAL_AIR_DRAG", "SIMPLE_PART", "NO_ROOF_NEEDED" ] },
-    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO" ] }
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO" ] }
   },
   {
     "type": "vehicle_part",
@@ -272,7 +272,7 @@
     },
     "breaks_into": "ig_vp_sheet_metal",
     "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
     "damage_reduction": { "all": 7 }
   },
   {

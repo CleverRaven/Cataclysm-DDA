@@ -87,6 +87,7 @@
         "........................"
       ],
       "terrain": {
+        "#": "t_concrete_wall",
         "_": "t_linoleum_gray",
         "%": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
         "[": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
@@ -101,6 +102,7 @@
         "G": "t_sidewalk"
       },
       "furniture": { "≠": "f_piano", "$": "f_stool", "&": "f_table" },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 } ],
       "items": { "&": { "item": "table_foyer", "chance": 50 } }
     }
   },
@@ -139,6 +141,7 @@
         "........................"
       ],
       "terrain": {
+        "#": "t_concrete_wall",
         ".": "t_open_air",
         "_": "t_linoleum_gray",
         "(": "t_shingle_flat_roof",

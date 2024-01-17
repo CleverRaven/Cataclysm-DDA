@@ -42,7 +42,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
@@ -57,6 +56,7 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -86,6 +86,7 @@ static const ammotype ammo_84x246mm( "84x246mm" );
 static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
@@ -129,10 +130,6 @@ static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
-
-static const mon_flag_str_id mon_flag_HARDTOSHOOT( "HARDTOSHOOT" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
@@ -593,10 +590,9 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
+    const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
+        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1708,7 +1704,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
-    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+    const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
     const int throw_moves = throw_cost( you, weapon );
 
@@ -2135,11 +2131,11 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
             weap.force_insert_item( casing.set_flag( flag_CASING ),
-                                    item_pocket::pocket_type::MAGAZINE );
+                                    pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
-                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
+                brass_catcher->put_in( casing, pocket_type::CONTAINER );
             } else if( ovp_cargo ) {
                 ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
@@ -2156,7 +2152,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
-               brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+               brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
                 ovp_cargo->items().insert( linkage );
             } else {
@@ -2213,6 +2209,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
+    } else if( at.count( ammo_atlatl ) ) {
+        return { noise, _( "swoosh!" ) };
     }
 
     auto fx = ammo_effects();
@@ -2410,7 +2408,7 @@ double Character::gun_value( const item &weap, int ammo ) const
             { 10.0f, 4.0f },
             { 25.0f, 3.0f },
             { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
+            { 500.0f, 0.5f },
         }
     };
 

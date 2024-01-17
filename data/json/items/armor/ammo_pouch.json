@@ -18,7 +18,7 @@
       {
         "ammo_restriction": {
           "pebble": 60,
-          "700nx": 60,
+          "458wm": 60,
           "50": 60,
           "4570": 60,
           "BB": 60,
@@ -49,6 +49,7 @@
           "450": 60,
           "338lapua": 60,
           "303": 60,
+          "77mm_arisaka": 60,
           "270win": 60,
           "308": 60,
           "12mm": 60,
@@ -134,19 +135,19 @@
   {
     "id": "chestrig",
     "type": "ARMOR",
-    "name": { "str_sp": "chest rig" },
+    "name": { "str": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_chestrig",
-        "name": { "str_sp": "chest rig" },
+        "name": { "str": "chest rig" },
         "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
         "weight": 30
       },
       {
         "id": "flag_chestrig",
-        "name": { "str_sp": "patriot’s chest rig" },
+        "name": { "str": "patriot's chest rig" },
         "description": "An American flag is proudly embroidered across the front of each pouch, with a tiny, eagle-winged .50-caliber bullet crowning each banner.",
         "append": true
       }

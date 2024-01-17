@@ -64,7 +64,7 @@
       {
         "group": "no_sell",
         "rigid": true,
-        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -111,7 +111,7 @@
       { "item": "gold_ring" },
       { "item": "tool_belt" },
       { "item": "spearsling" },
-      { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
+      { "group": "modular_ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
     ]
   },
   {

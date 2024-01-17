@@ -126,6 +126,7 @@ enum class mod : int {
     EVASION,
     OVERKILL_DAMAGE,
     RANGE,
+    AVOID_FRIENDRY_FIRE,
     NUM_MOD
 };
 } // namespace enchant_vals

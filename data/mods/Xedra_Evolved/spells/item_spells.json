@@ -55,23 +55,6 @@
     "damage_type": "biological"
   },
   {
-    "id": "rip_ticket",
-    "type": "SPELL",
-    "name": "Rip",
-    "description": "Something or someone was cut in half.",
-    "effect": "attack",
-    "shape": "blast",
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "NO_LEGS", "RANDOM_DAMAGE" ],
-    "min_damage": 15,
-    "max_damage": 35,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "min_range": 9,
-    "max_range": 9,
-    "damage_type": "cut"
-  },
-  {
     "id": "ion_shot_1",
     "type": "SPELL",
     "name": "Ion Shot",

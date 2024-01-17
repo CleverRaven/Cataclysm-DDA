@@ -254,7 +254,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_num": [ { "u_val": "sold" }, ">=", { "const": 100 } ],
+      "math": [ "u_val('sold')", ">=", "100" ],
       "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.\"\n\n[TRANSLATE:] \"Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
       "no": {
         "u_has_faction_trust": 5,

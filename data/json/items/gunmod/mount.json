@@ -133,5 +133,24 @@
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "underbarrel", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+  },
+  {
+    "id": "rail_bayonet_lug",
+    "type": "GUNMOD",
+    "name": { "str": "rail bayonet mount" },
+    "description": "A one-piece mount for attaching a bayonet to a firearm's accessory rail, in case that was a thing you wanted.  Ideal for making newer guns pointier.",
+    "weight": "162 g",
+    "volume": "40 ml",
+    "price": 15000,
+    "price_postapoc": 150,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "install_time": "5 m",
+    "min_skills": [ [ "gun", 1 ] ],
+    "blacklist_slot": [ "bayonet lug" ],
+    "add_mod": [ [ "bayonet lug", 1 ] ]
   }
 ]

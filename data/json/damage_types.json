@@ -58,6 +58,7 @@
     "magic_color": "light_red",
     "name": "pierce",
     "skill": "stabbing",
+    "mon_difficulty": true,
     "//2": "derived from cut only for monster defs",
     "derived_from": [ "cut", 0.8 ],
     "immune_flags": { "character": [ "STAB_IMMUNE" ] }
@@ -79,6 +80,7 @@
     "type": "damage_type",
     "physical": true,
     "magic_color": "light_red",
+    "mon_difficulty": true,
     "name": "ballistic",
     "material_required": true,
     "immune_flags": { "character": [ "BULLET_IMMUNE" ] }

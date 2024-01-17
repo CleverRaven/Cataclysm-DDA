@@ -3,6 +3,7 @@
     "type": "recipe_category",
     "id": "CC_XEDRA",
     "recipe_subcategories": [
+      "CSC_ALL",
       "CSC_XEDRA_RESEARCH",
       "CSC_XEDRA_WEAPONS",
       "CSC_XEDRA_ARMOR",

@@ -121,7 +121,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         int const num = GENERATE( 1, 2 );
         bool ret = true;
         for( int i = 0; i < num; i++ ) {
-            ret &= bag.put_in( multitool, item_pocket::pocket_type::CONTAINER ).success();
+            ret &= bag.put_in( multitool, pocket_type::CONTAINER ).success();
         }
         CAPTURE( num, bag.display_name() );
         REQUIRE( ret );

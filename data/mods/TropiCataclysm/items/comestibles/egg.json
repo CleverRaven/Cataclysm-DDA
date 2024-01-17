@@ -223,7 +223,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fish_alien",
-    "name": "alien roe",
+    "name": { "str_sp": "alien roe" },
     "copy-from": "egg_fish",
     "description": "Common roe from an unknown alien creature."
   },

@@ -28,7 +28,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "game_inventory.h"
@@ -44,6 +43,7 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -87,6 +87,7 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -96,9 +97,6 @@ static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
-
-static const mon_flag_str_id mon_flag_PET_HARNESSABLE( "PET_HARNESSABLE" );
-static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
 
 static const quality_id qual_SCREW( "SCREW" );
 
@@ -551,69 +549,23 @@ void vehicle::toggle_tracking()
     }
 }
 
-item vehicle::init_cord( const tripoint &pos )
-{
-    item cord( "power_cord" );
-    cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle_port;
-    cord.link->t_veh_safe = get_safe_reference();
-    cord.link->t_abs_pos = get_map().getglobal( pos );
-    cord.set_link_traits();
-    cord.link->max_length = 2;
-
-    return cord;
-}
-
-void vehicle::plug_in( const tripoint &pos )
-{
-    item cord = init_cord( pos );
-
-    if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
-    }
-}
-
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-    item cord = init_cord( source_pos );
     map &here = get_map();
-
     const optional_vpart_position sel_vp = here.veh_at( target_pos );
     const optional_vpart_position prev_vp = here.veh_at( source_pos );
 
     if( !sel_vp ) {
         return;
     }
-    vehicle *const sel_veh = &sel_vp->vehicle();
-    vehicle *const prev_veh = &prev_vp->vehicle();
-    if( prev_veh == sel_veh ) {
+    if( &sel_vp->vehicle() == &prev_vp->vehicle() ) {
         return ;
     }
 
-    const vpart_id vpid( cord.typeId().str() );
-
-    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                here.getabs( target_pos ),
-                sel_veh->global_square_location().raw() );
-    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                ( cord.link->t_abs_pos + prev_veh->coord_translate( cord.link->t_mount ) ).raw(),
-                cord.link->t_abs_pos.raw() );
-
-    const point vcoords1 = cord.link->t_mount;
-    const point vcoords2 = sel_vp->mount();
-
-    vehicle_part prev_veh_part( vpid, item( cord ) );
-    prev_veh_part.target.first = prev_part_target.first;
-    prev_veh_part.target.second = prev_part_target.second;
-    prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
-    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
-
-    vehicle_part sel_veh_part( vpid, item( cord ) );
-    sel_veh_part.target.first = sel_part_target.first;
-    sel_veh_part.target.second = sel_part_target.second;
-    sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
-    sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
+    item cord( "power_cord" );
+    if( !cord.link_to( prev_vp, sel_vp, link_state::vehicle_port ).success() ) {
+        debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cord.tname() );
+    }
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
@@ -677,9 +629,9 @@ bool vehicle::start_engine( vehicle_part &vp )
         return false;
     }
 
+    Character &player_character = get_player_character();
     const bool out_of_fuel = !auto_select_fuel( vp );
     if( out_of_fuel ) {
-        Character &player_character = get_player_character();
         if( vpi.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
             if( vpi.has_flag( "MUSCLE_ARMS" ) && !player_character.has_two_arms_lifting() ) {
@@ -694,6 +646,20 @@ bool vehicle::start_engine( vehicle_part &vp )
                      item::nname( vpi.fuel_type ) );
             return false;
         }
+    }
+
+    if( has_part( player_character.pos(), "NEED_LEG" ) &&
+        player_character.get_working_leg_count() < 1 &&
+        !has_part( player_character.pos(), "IGNORE_LEG_REQUIREMENT" ) ) {
+        add_msg( _( "You need at least one leg to control the %s." ), vp.name() );
+        return false;
+    }
+    if( has_part( player_character.pos(), "INOPERABLE_SMALL" ) &&
+        ( player_character.get_size() == creature_size::small ||
+          player_character.get_size() == creature_size::tiny ) &&
+        !has_part( player_character.pos(), "IGNORE_HEIGHT_REQUIREMENT" ) ) {
+        add_msg( _( "You are too short to reach the pedals!" ) );
+        return false;
     }
 
     const double dmg = vp.damage_percent();
@@ -1779,13 +1745,19 @@ int vehicle::prepare_tool( item &tool ) const
     }
     item mag_mod( "pseudo_magazine_mod" );
     mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
-    if( !tool.put_in( mag_mod, item_pocket::pocket_type::MOD ).success() ) {
+    if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
                   tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
-    item mag( tool.magazine_default() );
+    itype_id mag_type;
+    if( tool.can_link_up() ) {
+        mag_type = itype_pseudo_magazine;
+    } else {
+        mag_type = tool.magazine_default();
+    }
+    item mag( mag_type );
     mag.clear_items(); // no initial ammo
-    if( !tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+    if( !tool.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
         debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
                   mag.typeId().str(), tool.typeId().str() );
         return 0;
@@ -1802,7 +1774,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+                                bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
     const auto &[ammo_type_id, avail_ammo_amount] = veh.tool_ammo_available( tool_type );
@@ -1811,7 +1784,9 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     if( tool.ammo_required() > avail_ammo_amount ) {
         return false;
     }
-    get_player_character().invoke_item( &tool );
+    if( !no_invoke ) {
+        get_player_character().invoke_item( &tool, vp_pos );
+    }
 
     // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;

@@ -26,16 +26,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_overcome_pain_2",
@@ -50,16 +42,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_overcome_pain_3",
@@ -74,16 +58,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_overcome_pain_4",
@@ -98,16 +74,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 210000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 120000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 210000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_overcome_pain_5",
@@ -122,16 +90,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 240000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 240000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_overcome_pain_6",
@@ -146,16 +106,8 @@
     "shape": "blast",
     "max_level": 20,
     "min_damage": 0,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 270000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('biokin_overcome_pain') * 2000) + 270000) * (scaling_factor(u_val('intelligence') ) )" ] }
   },
   {
     "id": "biokin_enhance_mobility_1",

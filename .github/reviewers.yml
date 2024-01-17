@@ -36,6 +36,8 @@ files:
     - Night-Pryanik
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
+  'data/mods/Limb_WIP/**':
+    - Venera3
 
   '**/.clang-tidy':
     - jbytheway
@@ -55,3 +57,5 @@ files:
     - Qrox
   'data/raw/keybindings{.json,/**}':
     - Qrox
+  'src/math_parser*':
+    - andrei8l

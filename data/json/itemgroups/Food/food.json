@@ -37,6 +37,8 @@
     "entries": [
       { "prob": 40, "group": "flour_bag_paper_powder_1_70" },
       { "prob": 10, "group": "flour_bag_plastic_1_175" },
+      { "prob": 10, "group": "potato_bag_plastic_1" },
+      { "prob": 10, "group": "onion_bag_plastic_1" },
       { "prob": 50, "group": "yeast_bag_plastic_25" },
       { "prob": 8, "group": "yogurt_starter_culture_bag_plastic_4" },
       { "prob": 40, "group": "cornmeal_box_small_10" },
@@ -454,7 +456,15 @@
       { "item": "rootbeer", "prob": 40 },
       { "item": "crispycran", "prob": 35 },
       { "item": "purple_drink", "prob": 35 },
-      { "item": "choc_drink", "prob": 25 }
+      { "item": "zerocola", "prob": 35 },
+      { "item": "zeroorange", "prob": 35 },
+      { "item": "zerotropical", "prob": 35 },
+      { "item": "zeromdew", "prob": 35 },
+      { "item": "foodplace_zero_drink", "prob": 10 },
+      { "item": "choc_drink", "prob": 25 },
+      { "item": "sparkling", "prob": 20 },
+      { "item": "sparkling_peach", "prob": 20 },
+      { "item": "sparkling_pomegranate", "prob": 20 }
     ]
   },
   {
@@ -470,7 +480,15 @@
       { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
       { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
       { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
-      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
+      { "item": "zerocola", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zeroorange", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zerotropical", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "zeromdew", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "foodplace_zero_drink", "prob": 10, "container-item": "bottle_plastic" },
+      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" },
+      { "item": "sparkling", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "sparkling_peach", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "sparkling_pomegranate", "prob": 20, "container-item": "bottle_plastic" }
     ]
   },
   {
@@ -528,7 +546,10 @@
       { "group": "candy_chocolate", "prob": 620 },
       { "group": "salty_snacks", "prob": 595 },
       { "item": "foodplace_snack_bar", "prob": 5 },
+      { "item": "foodplace_zero_drink", "prob": 5, "container-item": "bottle_plastic" },
+      { "item": "foodplace_zero_drink", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
+      { "item": "candycane", "prob": 1 },
       { "prob": 10, "group": "granola_bag_plastic_4" },
       { "prob": 80, "group": "cookies_box_snack_4" },
       { "prob": 10, "group": "tea_raw_bag_plastic_33" },
@@ -814,9 +835,9 @@
       { "item": "chili_pepper", "prob": 30, "count": 3 },
       { "item": "corn", "prob": 20 },
       { "prob": 20, "group": "irradiated_lettuce_bag_plastic_5" },
-      { "item": "irradiated_tomato", "prob": 20 },
-      { "item": "irradiated_onion", "prob": 5 },
-      { "item": "irradiated_corn", "prob": 10 },
+      { "item": "tomato", "prob": 20, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "onion", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "corn", "prob": 10, "custom-flags": [ "IRRADIATED" ] },
       { "prob": 20, "group": "bacon_bag_plastic_2" },
       { "item": "potato_baked", "prob": 15 },
       { "prob": 40, "group": "bread_bag_plastic_14" },
@@ -861,6 +882,7 @@
     "entries": [
       { "item": "lemonade", "count": [ 0, 3 ] },
       { "item": "cola", "count": [ 0, 3 ] },
+      { "item": "zerocola", "count": [ 0, 3 ] },
       { "item": "sports_drink", "count": [ 0, 3 ] },
       { "item": "rootbeer", "count": [ 0, 3 ] },
       { "item": "pickle", "count": [ 0, 3 ] },
@@ -1007,7 +1029,8 @@
       { "group": "sandwiches", "prob": 75 },
       { "group": "lunchbox_fruit", "prob": 25 },
       { "item": "cheeseburger", "prob": 5 },
-      { "item": "hamburger", "prob": 5 }
+      { "item": "hamburger", "prob": 5 },
+      { "item": "candycane", "prob": 1 }
     ]
   },
   {

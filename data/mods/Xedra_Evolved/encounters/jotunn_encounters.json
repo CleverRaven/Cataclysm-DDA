@@ -24,7 +24,7 @@
         "u_location_variable": { "global_val": "randenc_jotunn_loc" },
         "target_params": { "om_terrain": "roadstop_a" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "=", { "const": 1 } ] }
+      { "math": [ "RandEnc_Jotunn", "=", "1" ] }
     ]
   },
   {
@@ -36,7 +36,7 @@
       "and": [
         { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "jotunn", "op": ">", "time": "3 h" },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "compare_int": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "==", { "const": 1 } ] }
+        { "math": [ "RandEnc_Jotunn", "==", "1" ] }
       ]
     },
     "effect": [
@@ -45,7 +45,7 @@
         "om_terrain": "roadstop_a",
         "target_var": { "global_val": "randenc_jotunn_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Jotunn" }, "=", { "const": 0 } ] }
+      { "math": [ "RandEnc_Jotunn", "=", "0" ] }
     ]
   },
   {

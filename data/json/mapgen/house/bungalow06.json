@@ -39,6 +39,7 @@
         "........................"
       ],
       "terrain": {
+        "#": "t_rock_wall",
         "_": "t_linoleum_gray",
         ",": "t_floor_noroof",
         ")": "t_railing_v",
@@ -52,6 +53,7 @@
       },
       "furniture": { "$": "f_exercise", "&": "f_table" },
       "items": { "&": { "item": "table_foyer", "chance": 50 } },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
       "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
     }
   },

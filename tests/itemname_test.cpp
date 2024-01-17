@@ -7,8 +7,8 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -148,7 +148,7 @@ TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents
            "test quiver (0)" );
 
     // Insert one arrow
-    quiver.put_in( arrow, item_pocket::pocket_type::CONTAINER );
+    quiver.put_in( arrow, pocket_type::CONTAINER );
     // Expect 1 arrow remaining and displayed
     CHECK( quiver.ammo_remaining() == 10 );
     std::string const arrow_color = get_tag_from_color( arrow.color_in_inventory() );
@@ -179,15 +179,15 @@ TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
     REQUIRE_FALSE( butter_std.stacks_with( butter_rot1 ) );
     REQUIRE( butter_rot1.stacks_with( butter_rot2 ) );
 
-    REQUIRE( wrapper.put_in( butter_rot1, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_rot1, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
            "paper wrapper > " + butter_rot_tname + " hidden" );
 
-    REQUIRE( wrapper.put_in( butter_rot2, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_rot2, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
            "paper wrapper > " + butter_rot_tname + " (2) hidden" );
 
-    REQUIRE( wrapper.put_in( butter_std, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( wrapper.put_in( butter_std, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
            "paper wrapper > 3 hidden items" );
 }

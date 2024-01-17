@@ -11,11 +11,11 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "creature.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
-class Creature;
 class game;
 class JsonArray;
 class JsonOut;
@@ -24,29 +24,6 @@ class npc;
 
 class creature_tracker
 {
-        friend game;
-    private:
-
-        void add_to_faction_map( const shared_ptr_fast<monster> &critter );
-
-        class weak_ptr_comparator
-        {
-            public:
-                bool operator()( const weak_ptr_fast<monster> &lhs,
-                                 const weak_ptr_fast<monster> &rhs ) const {
-                    return lhs.lock().get() < rhs.lock().get();
-                }
-        };
-
-        using MonstersByZ = std::map<int, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>;
-        std::unordered_map<mfaction_id, MonstersByZ> monster_faction_map_; // NOLINT(cata-serialize)
-
-        /**
-         * Creatures that get removed via @ref remove are stored here until the end of the turn.
-         * This keeps the objects valid and they can still be accessed instead of causing UB.
-         */
-        std::vector<shared_ptr_fast<monster>> removed_; // NOLINT(cata-serialize)
-
     public:
         creature_tracker();
         ~creature_tracker();
@@ -56,6 +33,44 @@ class creature_tracker
          * Dead monsters are ignored and not returned.
          */
         shared_ptr_fast<monster> find( const tripoint_abs_ms &pos ) const;
+
+        /**
+         * Returns the reachable creature matching the given predicate.
+         *  - CreaturePredicateFn: bool(Creature*)
+         * If there is no creature, it returns a `nullptr`.
+         * Dead monsters are ignored and not returned.
+         */
+        template <typename PredicateFn>
+        Creature *find_reachable( const Creature &origin, PredicateFn &&predicate_fn );
+
+        /**
+         * Returns the reachable creature matching the given predicates.
+         *  - FactionPredicateFn: bool(const mfaction_id&)
+         *  - CreaturePredicateFn: bool(Creature*)
+         * If there is no creature, it returns a `nullptr`.
+         * Dead monsters are ignored and not returned.
+         */
+        template <typename FactionPredicateFn, typename CreaturePredicateFn>
+        Creature *find_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+                                  CreaturePredicateFn &&creature_fn );
+        /**
+         * Visits all reachable creatures using the given functor.
+         *  - VisitFn: void(Creature*)
+         * Dead monsters are ignored and not visited.
+         */
+        template <typename VisitFn>
+        void for_each_reachable( const Creature &origin, VisitFn &&visit_fn );
+
+        /**
+         * Visits all reachable creatures using the given functor matching the given predicate.
+         *  - FactionPredicateFn: bool(const mfaction_id&)
+         *  - CreatureVisitFn: void(Creature*)
+         * Dead monsters are ignored and not visited.
+         */
+        template <typename FactionPredicateFn, typename CreatureVisitFn>
+        void for_each_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+                                 CreatureVisitFn &&creature_fn );
+
         /**
          * Returns a temporary id of the given monster (which must exist in the tracker).
          * The id is valid until monsters are added or removed from the tracker.
@@ -118,20 +133,106 @@ class creature_tracker
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonArray &ja );
 
-        const decltype( monster_faction_map_ ) &factions() const {
-            return monster_faction_map_;
+        // This must be called when persistent visibility from terrain or furniture changes
+        // (this excludes vehicles and fields) or when persistent traversability changes,
+        // which means walls and floors.
+        void invalidate_reachability_cache() {
+            dirty_ = true;
         }
 
     private:
-        std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
-        std::vector<shared_ptr_fast<monster>> monsters_list;
-        void rebuild_cache();
-        // NOLINTNEXTLINE(cata-serialize)
-        std::unordered_map<tripoint_abs_ms, shared_ptr_fast<monster>> monsters_by_location;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );
+
+        void flood_fill_zone( const Creature &origin );
+
+        void rebuild_cache();
+
+        // If the creature is in the tracker.
+        bool is_present( Creature *creature ) const;
+
+        std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
+        std::vector<shared_ptr_fast<monster>> monsters_list;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::unordered_map<tripoint_abs_ms, shared_ptr_fast<monster>> monsters_by_location;
+
+        /**
+         * Creatures that get removed via @ref remove are stored here until the end of the turn.
+         * This keeps the objects valid and they can still be accessed instead of causing UB.
+         */
+        std::unordered_set<shared_ptr_fast<monster>> removed_this_turn_;  // NOLINT(cata-serialize)
+
+        // Tracks the dirtiness of the visitable zones cache. This must be flipped when
+        // persistent visibility from terrain or furniture changes (this excludes vehicles and fields)
+        // or when persistent traversability changes, which means walls and floors.
+        bool dirty_ = true;  // NOLINT(cata-serialize)
+        int zone_tick_ = 1;  // NOLINT(cata-serialize)
+        int zone_number_ = 0;  // NOLINT(cata-serialize)
+        std::unordered_map<int, std::unordered_map<mfaction_id, std::vector<shared_ptr_fast<Creature>>>>
+        creatures_by_zone_and_faction_;  // NOLINT(cata-serialize)
+
+        friend game;
 };
 
 creature_tracker &get_creature_tracker();
+
+// Implementation Details
+
+template <typename PredicateFn>
+Creature *creature_tracker::find_reachable( const Creature &origin, PredicateFn &&predicate_fn )
+{
+    return find_reachable( origin, []( const mfaction_id & ) {
+        return true;
+    }, std::forward<PredicateFn>( predicate_fn ) );
+}
+
+template <typename FactionPredicateFn, typename CreaturePredicateFn>
+Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+        CreaturePredicateFn &&creature_fn )
+{
+    flood_fill_zone( origin );
+
+    const auto map_iter = creatures_by_zone_and_faction_.find( origin.get_reachable_zone() );
+    if( map_iter != creatures_by_zone_and_faction_.end() ) {
+        for( auto& [faction, creatures] : map_iter->second ) {
+            if( !faction_fn( faction ) ) {
+                continue;
+            }
+            for( std::size_t i = 0; i < creatures.size(); ) {
+                if( Creature *other = creatures[i].get(); is_present( other ) ) {
+                    if( creature_fn( other ) ) {
+                        return other;
+                    }
+                    ++i;
+                } else {
+                    using std::swap;
+                    swap( creatures[i], creatures.back() );
+                    creatures.pop_back();
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+template <typename VisitFn>
+void creature_tracker::for_each_reachable( const Creature &origin, VisitFn &&visit_fn )
+{
+    find_reachable( origin, [&visit_fn]( Creature * other ) {
+        visit_fn( other );
+        return false;
+    } );
+}
+
+template <typename FactionPredicateFn, typename CreatureVisitFn>
+void creature_tracker::for_each_reachable( const Creature &origin, FactionPredicateFn &&faction_fn,
+        CreatureVisitFn &&creature_fn )
+{
+    find_reachable( origin, std::forward<FactionPredicateFn>( faction_fn ), [&creature_fn](
+    Creature * other ) {
+        creature_fn( other );
+        return false;
+    } );
+}
 
 #endif // CATA_SRC_CREATURE_TRACKER_H

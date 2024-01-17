@@ -164,7 +164,7 @@ class test_scenario
 void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
-    for( item *it : root->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : root->all_items_top( pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
@@ -190,7 +190,7 @@ item initialize( const initialization &init )
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
         } else {
-            ret_val<void> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = it.put_in( content, pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
         }
@@ -285,7 +285,7 @@ void match( item_location loc, const final_result &result )
     INFO( "match: id = " << result.id.str() );
     REQUIRE( loc->typeId() == result.id );
     CHECK( result.sealed == loc->any_pockets_sealed() );
-    match( loc, loc->all_items_top( item_pocket::pocket_type::CONTAINER ), result.contents );
+    match( loc, loc->all_items_top( pocket_type::CONTAINER ), result.contents );
 }
 
 void test_scenario::run()
@@ -416,7 +416,7 @@ void test_scenario::run()
             std::optional<std::list<item>::iterator> worn = guy.wear_item( item(
                         itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
-            ret_val<void> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = ( **worn ).put_in( it, pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );

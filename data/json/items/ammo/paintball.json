@@ -4,7 +4,7 @@
     "id": "paintball",
     "price": 1000,
     "price_postapoc": 50,
-    "name": { "str_sp": "paintball" },
+    "name": { "str": "paintball" },
     "symbol": "=",
     "color": "red",
     "description": "A small paintball for recreational shooting.  Getting shot with one stings a little, but you'd be hard-pressed to kill anything with it.",

@@ -282,6 +282,7 @@
     "id": "mon_zap_rat",
     "copy-from": "mon_zap_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -291,6 +292,7 @@
     "id": "mon_tunnel_rat",
     "copy-from": "mon_tunnel_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -300,6 +302,7 @@
     "id": "mon_pack_rat",
     "copy-from": "mon_pack_rat",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -309,6 +312,7 @@
     "id": "mon_teke_mouse",
     "copy-from": "mon_teke_mouse",
     "type": "MONSTER",
+    "aggro_character": true,
     "vision_day": 99,
     "vision_night": 99,
     "aggression": 100,
@@ -317,6 +321,304 @@
   {
     "id": "mon_mausketeer",
     "copy-from": "mon_mausketeer",
+    "type": "MONSTER",
+    "aggro_character": true,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie",
+    "copy-from": "mon_zombie",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fat",
+    "copy-from": "mon_zombie_fat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_tough",
+    "copy-from": "mon_zombie_tough",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_child",
+    "copy-from": "mon_zombie_child",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_rot",
+    "copy-from": "mon_zombie_rot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_crawler",
+    "copy-from": "mon_zombie_crawler",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_dog",
+    "copy-from": "mon_zombie_dog",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_dog_zombie_cop",
+    "copy-from": "mon_dog_zombie_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_dog_zombie_rot",
+    "copy-from": "mon_dog_zombie_rot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_cop",
+    "copy-from": "mon_zombie_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fursuit",
+    "copy-from": "mon_zombie_fursuit",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_swat",
+    "copy-from": "mon_zombie_swat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_medical",
+    "copy-from": "mon_zombie_medical",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_hazmat",
+    "copy-from": "mon_zombie_hazmat",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_fireman",
+    "copy-from": "mon_zombie_fireman",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_swimmer_base",
+    "copy-from": "mon_zombie_swimmer_base",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_static",
+    "copy-from": "mon_zombie_static",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_paramilitary",
+    "copy-from": "mon_zombie_paramilitary",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_survivor",
+    "copy-from": "mon_zombie_survivor",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_survivor_elite",
+    "copy-from": "mon_zombie_survivor_elite",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_beekeeper",
+    "copy-from": "mon_beekeeper",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_technician",
+    "copy-from": "mon_zombie_technician",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_runner",
+    "copy-from": "mon_zombie_runner",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_soldier",
+    "copy-from": "mon_zombie_soldier",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_milbase_personnel",
+    "copy-from": "mon_zombie_milbase_personnel",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_military_pilot",
+    "copy-from": "mon_zombie_military_pilot",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "copy-from": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_cop",
+    "copy-from": "mon_feral_cop",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "copy-from": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "copy-from": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_tool",
+    "copy-from": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_sapien_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "type": "MONSTER",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_soldier",
+    "copy-from": "mon_feral_soldier",
     "type": "MONSTER",
     "vision_day": 99,
     "vision_night": 99,

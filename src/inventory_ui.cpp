@@ -355,6 +355,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_land_use_codes", overmap_show_land_use_codes );
     json.member( "overmap_show_city_labels", overmap_show_city_labels );
     json.member( "overmap_show_hordes", overmap_show_hordes );
+    json.member( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
@@ -434,6 +435,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_land_use_codes", overmap_show_land_use_codes );
     jo.read( "overmap_show_city_labels", overmap_show_city_labels );
     jo.read( "overmap_show_hordes", overmap_show_hordes );
+    jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
@@ -1999,7 +2001,7 @@ bool inventory_selector::add_contained_items( item_location &container, inventor
         return false;
     }
 
-    std::list<item *> const items = preset.get_pocket_type() == item_pocket::pocket_type::LAST
+    std::list<item *> const items = preset.get_pocket_type() == pocket_type::LAST
                                     ? container->all_items_top()
                                     : container->all_items_top( preset.get_pocket_type() );
 
@@ -2329,10 +2331,11 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
+        bool use_num_invlet = uistate.numpad_navigation ? false : use_invlet;
+        int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
-            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
+            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
         }
     } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
         const std::string all_pickup_chars = use_invlet ?
@@ -2943,6 +2946,7 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_categorize_contained();
     } else if( input.action == "TOGGLE_NUMPAD_NAVIGATION" ) {
         uistate.numpad_navigation = !uistate.numpad_navigation;
+        reassign_custom_invlets();
     } else if( input.action == "EXAMINE_CONTENTS" ) {
         const inventory_entry &selected = get_active_column().get_highlighted();
         if( selected ) {
@@ -3409,12 +3413,14 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
     } else {
+        size_t size_before = to_use.size();
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
+            auto iter = find_if( to_use.begin(),
+            to_use.begin() + size_before, [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
-            if( iter == to_use.end() ) {
+            if( iter == to_use.begin() + size_before ) {
                 to_use.emplace_back( it, static_cast<int>( entry.chosen_count ) );
             }
         } else {
@@ -3422,10 +3428,11 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
+                auto iter = find_if( to_use.begin(),
+                to_use.begin() + size_before, [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
-                if( iter == to_use.end() ) {
+                if( iter == to_use.begin() + size_before ) {
                     to_use.emplace_back( loc, 1 );
                 }
                 count--;
@@ -3518,7 +3525,7 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
     on_toggle();
 }
 
-drop_locations inventory_multiselector::execute()
+drop_locations inventory_multiselector::execute( bool allow_empty )
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     debug_print_timer( tp_start );
@@ -3528,7 +3535,7 @@ drop_locations inventory_multiselector::execute()
         const inventory_input input = get_input();
 
         if( input.action == "CONFIRM" ) {
-            if( to_use.empty() ) {
+            if( to_use.empty() && !allow_empty ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
@@ -3759,6 +3766,50 @@ void inventory_multiselector::on_input( const inventory_input &input )
     } else {
         inventory_selector::on_input( input );
     }
+}
+
+static const haul_selector_preset haul_preset {};
+
+inventory_haul_selector::inventory_haul_selector( Character &p ) :
+    inventory_multiselector( p, haul_preset, _( "ITEMS TO HAUL" ) ) {}
+
+void inventory_haul_selector::apply_selection( std::vector<item_location> &items )
+{
+    // Finding an entry is cheap, changing it is expensive, so find everything first then modify once
+    std::unordered_map<inventory_entry *, int> counts;
+    for( item_location &item : items ) {
+        inventory_entry *entry = find_entry_by_location( item );
+        if( counts.count( entry ) ) {
+            counts.at( entry ) += 1;
+        } else {
+            counts.emplace( entry, 1 );
+        }
+    }
+    for( std::pair<inventory_entry *, int> count : counts ) {
+        // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better
+        if( count.first->locations.size() == 1 && count.first->locations[0]->count_by_charges() ) {
+            set_chosen_count( *count.first, inventory_multiselector::max_chosen_count );
+        } else {
+            set_chosen_count( *count.first, count.second );
+        }
+    }
+}
+
+bool haul_selector_preset::is_shown( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return false;
+    }
+
+    return true;
+}
+
+std::string haul_selector_preset::get_denial( const item_location &item ) const
+{
+    if( item.where() == item_location::type::container ) {
+        return _( "Cannot haul contents of containers" );
+    }
+    return "";
 }
 
 drop_locations inventory_drop_selector::execute()
@@ -4286,11 +4337,13 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
     _ctxt_trade.register_action( ACTION_TRADE_OK );
     _ctxt_trade.register_action( ACTION_AUTOBALANCE );
+    _ctxt_trade.register_action( ACTION_BANKBALANCE );
     _ctxt_trade.register_action( "ANY_INPUT" );
     // duplicate this action in the parent ctxt so it shows up in the keybindings menu
     // CANCEL and OK are already set in inventory_selector
     ctxt.register_action( ACTION_SWITCH_PANES );
     ctxt.register_action( ACTION_AUTOBALANCE );
+    ctxt.register_action( ACTION_BANKBALANCE );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
     set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
@@ -4324,6 +4377,8 @@ void trade_selector::execute()
             exit = true;
         } else if( action == ACTION_AUTOBALANCE ) {
             _parent->autobalance();
+        } else if( action == ACTION_BANKBALANCE ) {
+            _parent->bank_balance();
         } else {
             input_event const iev = _ctxt_trade.get_raw_input();
             inventory_input const input =

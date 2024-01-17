@@ -243,7 +243,9 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
+is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
+the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
+(An insanely high value like 10000000 is useful for testing.)
 
 Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
@@ -833,7 +835,7 @@ Example:
 
 ### Place signs with "signs"
 
-Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
+Places a sign with a message written on it. Either "signage" or "snippet" must be defined.  The
 message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
 name, or `<city>` that will insert the nearest city name.
 
@@ -885,7 +887,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`). Default is 1 in 100 chance.
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 

@@ -1015,18 +1015,23 @@
     "category": "<cramped_vehicle>",
     "//": "NPC complaint if a HUGE NPC is taking pain from being inside a vehicle.  Key points are that the NPC is HUGE and they're in a confined vehicle, along with some hints on how to resolve it.",
     "text": [
-      "Can I get out and walk?  This vehicle is too small.",
+      "Can I get out and walk?  This spot is too cramped.",
       "How about we make the next vehicle a convertible?",
       "This vehicle is too small.",
+      "Argh, I don't fit!",
       "I'm not a contortionist!",
-      "I can't fit in your tiny human vehicle.",
-      "This sucks.  I'm too big.",
+      "There's not enough room for me here.",
+      "This spot is squeezing the life out of me.",
+      "I can hardly breathe, crammed in like this.",
+      "I'm like a sardine over here!.",
+      "Ugh, I'm getting squashed.",
+      "How about we stop and stretch our legs?",
+      "I could use a break from being wedged in like this.",
+      "This is like being in a trash compactor.",
+      "<swear>, I can barely move!",
       "This space was not designed for big boned people.",
-      "So the fact I am huge isn't an issue to you?  As it is to me.",
-      "I don't like being a mutant crammed into your tiny little vehicle.",
-      "Getting awfully cramped in here.",
-      "I don't think this vehicle was designed for someone like me.",
-      "It's tighter than a nun's cunt in here!'"
+      "I don't like being crammed in like this.",
+      "Getting awfully cramped in here."
     ]
   },
   {

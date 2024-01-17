@@ -23,10 +23,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -117,6 +117,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
     { "CARGO", VPFLAG_CARGO },
+    { "CARGO_PASSABLE", VPFLAG_CARGO_PASSABLE },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
@@ -137,7 +138,12 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
     { "BATTERY", VPFLAG_BATTERY },
-    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER }
+    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER },
+    { "HUGE_OK", VPFLAG_HUGE_OK },
+    { "NEED_LEG", VPFLAG_NEED_LEG },
+    { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
+    { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
+    { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -1016,7 +1022,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             } else if( !base.magazine_default().is_null() ) {
                 class::item tmp_mag( base.magazine_default() );
                 tmp_mag.ammo_set( tmp_mag.ammo_default() );
-                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                base.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
             }
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),

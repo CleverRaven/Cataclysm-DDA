@@ -38,6 +38,7 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
@@ -76,6 +77,10 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id
+effect_on_condition_EOC_meta_test_message( "EOC_meta_test_message" );
+static const effect_on_condition_id
+effect_on_condition_EOC_meta_test_talker_type( "EOC_meta_test_talker_type" );
+static const effect_on_condition_id
 effect_on_condition_EOC_mon_nearby_test( "EOC_mon_nearby_test" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
 static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
@@ -87,6 +92,7 @@ static const effect_on_condition_id effect_on_condition_EOC_run_inv_test1( "EOC_
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test2( "EOC_run_inv_test2" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test3( "EOC_run_inv_test3" );
 static const effect_on_condition_id effect_on_condition_EOC_run_inv_test4( "EOC_run_inv_test4" );
+static const effect_on_condition_id effect_on_condition_EOC_run_inv_test5( "EOC_run_inv_test5" );
 static const effect_on_condition_id effect_on_condition_EOC_run_until_test( "EOC_run_until_test" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
@@ -118,6 +124,7 @@ static const itype_id itype_test_knife_combat( "test_knife_combat" );
 static const matype_id style_aikido( "style_aikido" );
 static const matype_id style_none( "style_none" );
 
+static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
@@ -603,6 +610,7 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
 
     g->place_critter_at( mon_zombie, a.pos() + tripoint_east );
     g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
+    g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint_north );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 3, 0 } );
@@ -613,7 +621,9 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
 
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mons" ) ) == 7 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mons" ) ) == 8 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_triffs" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_group" ) ) == 4 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 2 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust" ) ) == 5 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust_adj" ) ) == 2 );
@@ -692,6 +702,82 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     d3_copy.set_value( "suppress", "1" );
     CHECK( d3_copy.actor( false )->get_monster() != nullptr );
     CHECK( d3_copy.actor( true )->get_character() == nullptr );
+}
+
+TEST_CASE( "EOC_meta_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    standard_npc dude;
+    monster zombie( mon_zombie );
+    item hammer( "hammer" ) ;
+    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    computer comp( "test_computer", 0, tripoint_zero );
+
+    dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
+    dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    dialogue d_npc( get_talker_for( dude ), std::make_unique<talker>() );
+    dialogue d_monster( get_talker_for( zombie ), std::make_unique<talker>() );
+    dialogue d_item( get_talker_for( hloc ), std::make_unique<talker>() );
+    dialogue d_furniture( get_talker_for( comp ), std::make_unique<talker>() );
+
+    CHECK( effect_on_condition_EOC_meta_test_message->activate( d_empty ) );
+
+    std::vector<std::pair<std::string, std::string>> messages = Messages::recent_messages( 0 );
+
+    REQUIRE( !messages.empty() );
+    CHECK( messages.back().second == "message ok." );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_avatar ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_npc ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_monster ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_item ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ) == "yes" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+
+    globvars.clear_global_values();
+
+    CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_furniture ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ) == "yes" );
 }
 
 TEST_CASE( "EOC_increment_var_var", "[eoc]" )
@@ -891,6 +977,15 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     CHECK( items_after.size() == 1 );
 
+    // Test search_data: excluded flags
+    CHECK( effect_on_condition_EOC_run_inv_test5->activate( d ) );
+
+    items_after = get_avatar().items_with( []( const item & it ) {
+        return it.get_var( "npctalk_var_general_run_inv_test_key5" ) == "yes";
+    } );
+
+    CHECK( items_after.size() == 3 );
+
     // Flag test for item
     CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
 
@@ -1070,6 +1165,15 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
            "character_ranged_attacks_monster" );
     CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
     CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+
+    // character_kills_monster
+    clear_map();
+    monster &victim = spawn_test_monster( "mon_zombie", target_pos );
+    victim.die( &get_avatar() );
+
+    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_kills_monster" );
+    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "npctalk_var_test_exp" ) == "4" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
@@ -1125,6 +1229,14 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
     CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+
+    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
+
+    CHECK( effect_on_condition_EOC_map_test->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

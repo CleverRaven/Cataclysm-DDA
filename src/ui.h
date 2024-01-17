@@ -587,6 +587,7 @@ class pointmenu_cb : public uilist_callback
 };
 
 void kill_advanced_inv();
+void temp_hide_advanced_inv();
 
 /**
  * Helper for typical UI list navigation with wrap-around

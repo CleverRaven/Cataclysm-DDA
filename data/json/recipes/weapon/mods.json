@@ -127,62 +127,6 @@
     "components": [ [ [ "u_shotgun", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "knife_combat_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "knife_combat_army_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat_army", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "knife_combat_marine_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat_marine", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "sword_bayonet_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 2 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "sword_bayonet", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "offset_sight_rail_mod",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -677,6 +621,7 @@
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
     "time": "10 m",
+    "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
@@ -713,7 +658,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "shoulder_strap",
+    "result": "shoulder_strap_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -722,6 +667,21 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ], [ "cotton_patchwork", 3 ], [ "cordage", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "shoulder_strap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "//": "This should be using plastic sliders, but we don't have any.",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -841,12 +801,12 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "barrel_ported",
+    "result": "compensator",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
-    "difficulty": 6,
+    "difficulty": 4,
     "time": "30 m",
     "book_learn": [
       [ "textbook_mechanics", 3 ],
@@ -855,7 +815,12 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "tools": [ [ [ "small_repairkit", 75 ], [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
@@ -1037,6 +1002,27 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "rail_bayonet_lug",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "tools": [ [ [ "knife_combat", -1 ], [ "knife_combat_army", -1 ], [ "knife_combat_marine", -1 ], [ "sword_bayonet", -1 ] ] ],
+    "components": [ [ [ "nuts_bolts", 2 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "dias",
     "category": "CC_WEAPON",
@@ -1050,20 +1036,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
-        [ "ar15_223medium", -1 ],
-        [ "ar15_223short", -1 ],
-        [ "ar15_300", -1 ],
-        [ "ar15_300medium", -1 ],
-        [ "ar15_300short", -1 ],
-        [ "ar15_50", -1 ],
-        [ "ar15_50medium", -1 ],
-        [ "ar15_50short", -1 ],
-        [ "ar15_450", -1 ],
-        [ "ar15_450medium", -1 ],
-        [ "ar15_450short", -1 ],
-        [ "ar15_762", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
@@ -1091,24 +1064,7 @@
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
-      [
-        [ "ar15_223long", -1 ],
-        [ "modular_ar15", -1 ],
-        [ "ar15_223medium", -1 ],
-        [ "ar15_223short", -1 ],
-        [ "ar15_300", -1 ],
-        [ "ar15_300medium", -1 ],
-        [ "ar15_300short", -1 ],
-        [ "ar15_50", -1 ],
-        [ "ar15_50medium", -1 ],
-        [ "ar15_50short", -1 ],
-        [ "ar15_450", -1 ],
-        [ "ar15_450medium", -1 ],
-        [ "ar15_450short", -1 ],
-        [ "ar15_762", -1 ],
-        [ "ar_pistol", -1 ],
-        [ "oa93", -1 ]
-      ],
+      [ [ "modular_ar15", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]

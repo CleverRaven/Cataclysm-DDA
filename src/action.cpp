@@ -193,6 +193,8 @@ std::string action_ident( action_id act )
             return "grab";
         case ACTION_HAUL:
             return "haul";
+        case ACTION_HAUL_TOGGLE:
+            return "haul_toggle";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -339,8 +341,6 @@ std::string action_ident( action_id act )
             return "debug_visibility";
         case ACTION_DISPLAY_TRANSPARENCY:
             return "debug_transparency";
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
-            return "display_reachability_zones";
         case ACTION_DISPLAY_LIGHTING:
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
@@ -471,7 +471,6 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_RADIATION:
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -926,7 +925,6 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_TRANSPARENCY );
-            REGISTER_ACTION( ACTION_DISPLAY_REACHABILITY_ZONES );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
@@ -943,6 +941,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
+            REGISTER_ACTION( ACTION_HAUL_TOGGLE );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -1098,6 +1097,7 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     //~ %s: "Close where?" "Pry where?" etc.
     popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
+    temp_hide_advanced_inv();
     std::string action;
     do {
         ui_manager::redraw();
@@ -1186,5 +1186,10 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( pos, message, allow_vertical );
+    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
 }

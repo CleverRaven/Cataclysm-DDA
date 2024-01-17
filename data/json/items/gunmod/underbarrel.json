@@ -119,7 +119,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "gun_data": {
+      "barrel_length": "508 mm",
+      "ammo": "shot",
+      "skill": "shotgun",
+      "range": 2,
+      "dispersion": 345,
+      "durability": 10,
+      "clip_size": 2
+    },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
@@ -211,8 +219,9 @@
       "moves": 120
     },
     "location": "underbarrel",
+    "//": "underbarrel to interfere with other stuff in the underbarrel slot on the SKS.",
     "mod_targets": [ "shotgun", "rifle" ],
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "stab": 10 }
@@ -253,6 +262,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
+      "barrel_length": "775 mm",
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
@@ -281,6 +291,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
+      "barrel_length": "775 mm",
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "bullet", "amount": 5 },
@@ -310,6 +321,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
+      "barrel_length": "470 mm",
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
@@ -340,6 +352,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
+      "barrel_length": "470 mm",
       "ammo": "shot",
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "stab", "amount": 1 },
@@ -405,7 +418,7 @@
     "id": "m203",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",
-    "name": { "str_sp": "M203" },
+    "name": { "str_sp": "M203A1" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "1360 g",
     "volume": "500 ml",
@@ -417,7 +430,9 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
+      "barrel_length": "305 mm",
       "ammo": "40x46mm",
       "skill": "launcher",
       "dispersion": 300,
@@ -454,7 +469,9 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "gun_data": {
+      "barrel_length": "280 mm",
       "ammo": "40x46mm",
       "skill": "launcher",
       "dispersion": 270,
@@ -490,7 +507,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "gun_data": {
+      "barrel_length": "470 mm",
+      "ammo": "shot",
+      "skill": "shotgun",
+      "range": 1,
+      "dispersion": 320,
+      "durability": 10,
+      "clip_size": 1
+    },
     "flags": [ "RELOAD_EJECT", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
@@ -505,7 +530,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -526,7 +552,8 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "gun_data": { "barrel_length": "254 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
@@ -555,8 +582,9 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
+    "gun_data": { "barrel_length": "197 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   },
@@ -583,8 +611,10 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": {
+      "barrel_length": "370 mm",
       "ammo": "40x46mm",
       "skill": "launcher",
       "dispersion": 450,
@@ -635,8 +665,9 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
+    "gun_data": { "barrel_length": "419 mm", "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
@@ -664,8 +695,9 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
+    "gun_data": { "barrel_length": "419 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
@@ -677,5 +709,93 @@
     "name": { "str": "modified underslung shotgun" },
     "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
+    "id": "arisaka_monopod",
+    "type": "GUNMOD",
+    "name": { "str": "wire monopod, collapsed" },
+    "description": "A folding wire monopod designed to attach to a Type 99 Arisaka’s front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently stowed in the folded position and cannot aid you while firing.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "120 g",
+    "price": 20000,
+    "price_postapoc": 50,
+    "install_time": "2 m",
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "type99" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You flip out the monopod and lock it into position.",
+      "menu_text": "Fold out",
+      "target": "arisaka_monopod_deployed",
+      "moves": 120
+    },
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "arisaka_monopod_deployed",
+    "type": "GUNMOD",
+    "name": { "str": "wire monopod, deployed" },
+    "description": "A folding wire monopod designed to attach to a Type 99 Arisaka’s front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently locked in the unfolded position and will provide a measure of stability while firing.",
+    "copy-from": "arisaka_monopod",
+    "integral_volume": "250 ml",
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You unlock the monopod and stow it in its folded position.",
+      "menu_text": "Put away",
+      "target": "arisaka_monopod",
+      "moves": 120
+    },
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
+  },
+  {
+    "id": "scout_bipod",
+    "type": "GUNMOD",
+    "name": { "str": "integral polymer bipod" },
+    "description": "The Steyr Scout's integral bipod is effectively part of the rifle's housing, causing its added weight to practically be zero.  However, the polymer construction and awkward design prevent it from being as useful as a normal bipod.",
+    "volume": "0 ml",
+    "//": "The bipod is straight-up part of the rifle's housing, so it doesn't take up any space or weigh anything.",
+    "price": 0,
+    "price_postapoc": 0,
+    "install_time": "1 m",
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "blue",
+    "location": "underbarrel",
+    "mod_targets": [ "steyr_scout" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You flip the bipod out from the rifle housing and lock it into position.",
+      "menu_text": "Fold out",
+      "target": "scout_bipod_deployed",
+      "moves": 90
+    },
+    "flags": [ "IRREMOVABLE", "ZERO_WEIGHT" ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "scout_bipod_deployed",
+    "type": "GUNMOD",
+    "name": { "str": "integral polymer bipod, deployed", "str_pl": "integral polymer bipods, deployed" },
+    "//": "The bipod is straight-up part of the rifle's housing, so it doesn't take up any space or weigh anything.",
+    "copy-from": "scout_bipod",
+    "integral_volume": "250 ml",
+    "handling_modifier": 12,
+    "use_action": {
+      "type": "transform",
+      "msg": "With an ugly snap, you crack the bipod legs back into the rifle.",
+      "menu_text": "Fold",
+      "target": "scout_bipod",
+      "moves": 150
+    },
+    "flags": [ "BIPOD", "SLOW_WIELD", "ZERO_WEIGHT" ]
   }
 ]

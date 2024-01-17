@@ -107,11 +107,11 @@
       },
       "place_item": [
         { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_large", "x": 38, "y": 6, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_large", "x": 38, "y": 13, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_medium", "x": 39, "y": 8, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
       ],
       "place_vehicles": [
@@ -166,12 +166,12 @@
       "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] },
       "place_item": [
         { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_large", "x": 38, "y": 6, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_large", "x": 38, "y": 10, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder_medium", "x": 39, "y": 5, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
+        { "item": "cattlefodder_large", "x": 39, "y": 17, "amount": [ 0, 4 ] }
       ]
     }
   },

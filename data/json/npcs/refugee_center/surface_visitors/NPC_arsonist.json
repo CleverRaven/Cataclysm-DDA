@@ -29,7 +29,7 @@
     "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
-      { "trait": "long_over_eye", "variant": "brown" },
+      { "trait": "hair_long_over_eye", "variant": "brown" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "QUICK" },
@@ -41,6 +41,8 @@
     "bonus_dex": { "rng": [ 2, 2 ] },
     "bonus_int": { "rng": [ 1, 1 ] },
     "bonus_per": { "rng": [ 2, 2 ] },
+    "bonus_aggression": { "rng": [ 0, 1 ] },
+    "bonus_collector": { "rng": [ 0, 2 ] },
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
     "carry_override": "NC_ARSONIST_STOCK",
     "worn_override": "NC_ARSONIST_worn",

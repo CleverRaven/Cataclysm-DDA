@@ -105,9 +105,9 @@ class item_contents
         const;
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+        std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_top( pocket_type pk_type ) const;
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
@@ -256,9 +256,9 @@ class item_contents
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<item *> insert_item( const item &it, item_pocket::pocket_type pk_type,
+        ret_val<item *> insert_item( const item &it, pocket_type pk_type,
                                      bool ignore_contents = false, bool unseal_pockets = false );
-        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        void force_insert_item( const item &it, pocket_type pk_type );
         bool can_unload_liquid() const;
 
         /**
@@ -326,10 +326,10 @@ class item_contents
         void remove_items_if( const std::function<bool( item & )> &filter );
 
         // whether the contents has a pocket with the associated type
-        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_pocket_type( pocket_type pk_type ) const;
         bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
-                           item_pocket::pocket_type pk_type ) const;
+                           pocket_type pk_type ) const;
 
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
@@ -371,10 +371,10 @@ class item_contents
         // this will be where the algorithm picks the best pocket in the contents
         // returns nullptr if none is found
         ret_val<item_pocket *> find_pocket_for( const item &it,
-                                                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                                                pocket_type pk_type = pocket_type::CONTAINER );
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
-                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
+                pocket_type pk_type = pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
 

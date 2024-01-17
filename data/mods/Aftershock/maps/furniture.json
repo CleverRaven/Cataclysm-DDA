@@ -1116,7 +1116,7 @@
         { "item": "steel_lump", "count": [ 3, 6 ] },
         { "item": "steel_chunk", "count": [ 3, 6 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "welder", "charges": 0, "prob": 50 }
+        { "item": "welder", "prob": 50 }
       ]
     }
   },

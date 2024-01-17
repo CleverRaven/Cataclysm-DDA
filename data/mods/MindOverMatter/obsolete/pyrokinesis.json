@@ -9,15 +9,9 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
+    "min_range": { "math": [ "( (u_spell_level('pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) )" ] },
     "max_range": 70,
-    "min_aoe": {
-      "math": [
-        "( (u_val('spell_level', 'spell: pyrokinetic_quell_flames') * 0.25) + 0) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
+    "min_aoe": { "math": [ "( (u_spell_level('pyrokinetic_quell_flames') * 0.25) + 0) * (scaling_factor(u_val('intelligence') ) )" ] },
     "max_aoe": 50,
     "field_id": "fd_extinguisher",
     "min_field_intensity": 2,
@@ -67,8 +61,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "((u_val('spell_level', 'spell: pyrokinetic_call_flames') * 1500) + 30000)" ] },
-    "max_duration": { "math": [ "((u_val('spell_level', 'spell: pyrokinetic_call_flames') * 3000) + 60000)" ] }
+    "min_duration": { "math": [ "((u_spell_level('pyrokinetic_call_flames') * 1500) + 30000)" ] },
+    "max_duration": { "math": [ "((u_spell_level('pyrokinetic_call_flames') * 3000) + 60000)" ] }
   },
   {
     "id": "pyrokin_call_flame_long_term",
@@ -85,8 +79,8 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "((u_val('spell_level', 'spell: pyrokinetic_call_flames') * 6000) + 360000)" ] },
-    "max_duration": { "math": [ "((u_val('spell_level', 'spell: pyrokinetic_call_flames') * 6000) + 540000)" ] }
+    "min_duration": { "math": [ "((u_spell_level('pyrokinetic_call_flames') * 6000) + 360000)" ] },
+    "max_duration": { "math": [ "((u_spell_level('pyrokinetic_call_flames') * 6000) + 540000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -95,7 +89,7 @@
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
       { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
     ]
   },
   {
@@ -105,7 +99,7 @@
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
       { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
     ]
   }
 ]

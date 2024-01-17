@@ -17,6 +17,7 @@
 #include <set>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -39,11 +40,14 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+
+#if defined(TILES)
+#include "cata_tiles.h"
+#endif
 
 struct scent_block;
 
@@ -276,6 +280,41 @@ struct drawsq_params {
         //@}
 };
 
+struct tile_render_info {
+    struct common {
+        const tripoint pos;
+        // accumulator for 3d tallness of sprites rendered here so far;
+        int height_3d = 0;
+
+        common( const tripoint &pos, const int height_3d )
+            : pos( pos ), height_3d( height_3d ) {}
+    };
+
+    struct vision_effect {
+        visibility_type vis;
+
+        explicit vision_effect( const visibility_type vis )
+            : vis( vis ) {}
+    };
+
+    struct sprite {
+        lit_level ll;
+        std::array<bool, 5> invisible;
+
+        sprite( const lit_level ll, const std::array<bool, 5> &inv )
+            : ll( ll ), invisible( inv ) {}
+    };
+
+    common com;
+    std::variant<vision_effect, sprite> var;
+
+    tile_render_info( const common &com, const vision_effect &var )
+        : com( com ), var( var ) {}
+
+    tile_render_info( const common &com, const sprite &var )
+        : com( com ), var( var ) {}
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -350,12 +389,7 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_visitable_zones_cache_dirty( bool dirty = true ) {
-            visitable_cache_dirty = dirty;
-        };
-        bool get_visitable_zones_cache_dirty() const {
-            return visitable_cache_dirty;
-        };
+        void set_pathfinding_cache_dirty( const tripoint &p );
         /*@}*/
 
         void invalidate_map_cache( int zlev );
@@ -376,11 +410,7 @@ class map
          * true, if there might be a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
-        bool has_potential_los( const tripoint &from, const tripoint &to,
-                                bool bounds_check = true ) const;
-
-        int reachability_cache_value( const tripoint &p, bool vertical_cache,
-                                      reachability_cache_quadrant quadrant ) const;
+        bool has_potential_los( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -585,6 +615,7 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -659,10 +690,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+
+        // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
+        // if that is not possible.
+        std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -808,6 +843,9 @@ class map
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
+
+        int get_map_damage( const tripoint_bub_ms &p ) const;
+        void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,
@@ -1456,6 +1494,7 @@ class map
 
         // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
+        const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
@@ -1473,9 +1512,12 @@ class map
          * This functions assumes the character is either on top of the trap,
          * or adjacent to it.
          */
+
         // TODO: fix point types (remove the first overload)
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
         void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid ) const;
+        // Handles triggering a proximity trap. Similar but subtly different.
+        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1774,7 +1816,7 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        virtual bool pl_sees( const tripoint &t, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
         /**
          * Uses the map cache to tell if the player could see the given square.
          * pl_sees implies pl_line_of_sight
@@ -2025,7 +2067,9 @@ class map
         }
         submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2037,7 +2081,9 @@ class map
         const submap *unsafe_get_submap_at(
             const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
+            point_sm_ms_ib l;
+            std::tie( sm, l ) = project_remain<coords::sm>( p );
+            offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
@@ -2236,59 +2282,7 @@ class map
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
 
-        // Tracks the dirtiness of the visitable zones cache. This must be flipped when
-        // persistent visibility from terrain or furniture changes
-        // (this excludes vehicles and fields) or when persistent traversability changes,
-        // which means walls and floors.
-        bool visitable_cache_dirty = false;
-        int zone_number = 1;
-        int zone_tick = 1;
-        std::unordered_map<int, std::vector<Creature *>> creatures_by_zone;
-        std::unordered_set<Creature *> to_remove;
-
-        void flood_fill_zone( const Creature &origin );
-
-        void flood_fill_if_needed( const Creature &origin ) {
-            if( get_visitable_zones_cache_dirty() ) {
-                creatures_by_zone.clear();
-                to_remove.clear();
-                zone_tick = zone_tick > 0 ? -1 : 1;
-                set_visitable_zones_cache_dirty( false );
-                zone_number = 1;
-            }
-            // This check insures we only flood fill when the target monster has an uninitialized zone,
-            // or if it has a zone from last turn.  In other words it only triggers on
-            // the first monster in a zone each turn. We can detect this because the sign
-            // of the zone numbers changes on every invalidation.
-            int old_zone = origin.get_reachable_zone();
-            // Compare with zone_tick == old_zone && old_zone != 0
-            if( old_zone * zone_tick <= 0 ) {
-                flood_fill_zone( origin );
-            }
-        }
-
     public:
-        // Only call from the Creature destructor.
-        void remove_creature_from_reachability( Creature *creature ) {
-            to_remove.insert( creature );
-        }
-
-        template <typename Functor>
-        void visit_reachable_creatures( const Creature &origin, Functor f ) {
-            flood_fill_if_needed( origin );
-            const auto map_iter = creatures_by_zone.find( origin.get_reachable_zone() );
-            if( map_iter != creatures_by_zone.end() ) {
-                auto vector_iter = map_iter->second.begin();
-                const auto vector_end = map_iter->second.end();
-                for( ; vector_iter != vector_end; ++vector_iter ) {
-                    Creature *other = *vector_iter;
-                    if( to_remove.count( other ) == 0 ) {
-                        f( *other );
-                    }
-                }
-            }
-        }
-
         void queue_main_cleanup();
         bool is_main_cleanup_queued() const;
         void main_cleanup_override( bool over );
@@ -2298,6 +2292,7 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
+        void update_pathfinding_cache( const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
@@ -2351,7 +2346,15 @@ class map
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
 
-        std::map<tripoint, std::pair<lit_level, std::array<bool, 5>>> ll_invis_cache;
+#if defined(TILES)
+        bool draw_points_cache_dirty = true;
+        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
+        point prev_top_left;
+        point prev_bottom_right;
+        point prev_o;
+        std::multimap<point, formatted_text> overlay_strings_cache;
+        color_block_overlay_container color_blocks_cache;
+#endif
 };
 
 map &get_map();
@@ -2368,8 +2371,6 @@ class tinymap : public map
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
-        // @returns false
-        bool pl_sees( const tripoint &t, int max_range ) const override;
 };
 
 class fake_map : public tinymap

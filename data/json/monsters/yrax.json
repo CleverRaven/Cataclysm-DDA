@@ -165,7 +165,7 @@
             { "is_weather": "close_portal_storm" }
           ]
         },
-        "monster_message": "The %s unfolds into an alien robot",
+        "monster_message": "The %s unfolds into an alien robot!",
         "cooldown": 5
       },
       {

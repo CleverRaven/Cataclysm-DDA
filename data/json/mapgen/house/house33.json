@@ -37,6 +37,7 @@
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
@@ -67,7 +68,8 @@
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 4, "y": 4, "chance": 35, "rotation": 270 },
-        { "vehicle": "tricycle", "x": 6, "y": 22, "chance": 40, "status": 0 }
+        { "vehicle": "tricycle", "x": 6, "y": 22, "chance": 40, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 22, "y": 1, "chance": 80, "status": 0 }
       ]
     }
   },

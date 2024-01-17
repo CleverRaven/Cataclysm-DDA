@@ -109,6 +109,6 @@
     "cooling_value": 5,
     "heat_per_shot": 21,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed."
   }
 ]

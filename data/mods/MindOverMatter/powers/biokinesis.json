@@ -2,73 +2,114 @@
   {
     "id": "biokin_physical_enhance",
     "type": "SPELL",
-    "name": "[Ψ]Physical Enhancement",
-    "description": "You can improve your strength and agility with your powers.",
-    "message": "You enhance your physical prowess.",
+    "name": "[Ψ]Physical Enhancement (C)",
+    "description": "You can improve your strength and agility with your powers.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_physical",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
-    "shape": "blast",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_PHYSICAL_ENHANCE_INITIATE",
+    "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_physical_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_casting_time": 120,
-    "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_enhance_mobility": 7, "biokin_hammerhand": 12, "biokin_reflex_enhance": 15, "biokin_combat_dance": 20 }
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max((3500 - (u_spell_level('biokin_physical_enhance') * 175)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_physical') > -1 ? 10 : max((120 -(u_spell_level('biokin_physical_enhance') * 5.5)), 75)"
+      ]
+    }
   },
   {
     "id": "biokin_overcome_pain",
     "type": "SPELL",
-    "name": "[Ψ]Overcome Pain (toggle)",
-    "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>",
+    "name": "[Ψ]Overcome Pain (C)",
+    "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_PAIN_INITIATE",
     "shape": "blast",
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_damage": 0,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 1750,
-    "final_energy_cost": 850,
-    "energy_increment": -75,
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_overcome_pain') * 7500) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_casting_time": 125,
-    "final_casting_time": 50,
-    "casting_time_increment": -7,
-    "learn_spells": { "biokin_armor_skin": 9, "biokin_climate_control": 12, "biokin_sealed_system": 18 }
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_spell_level('biokin_overcome_pain') * 75)), 850)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 10 : max((125 -(u_spell_level('biokin_overcome_pain') * 7)), 50)"
+      ]
+    }
+  },
+  {
+    "id": "biokin_breathe_skin",
+    "type": "SPELL",
+    "name": "[Ψ]Oxygen Absorption (C)",
+    "description": "You can make the entire surface of your skin selectively permeable, allowing you to 'breathe' through it.  You can breathe in low-oxygen environments or underwater, but are more vulnerable to toxic gas.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Oxygen Absorption <color_red>cannot be active</color> with Sealed System.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_BREATHE_SKIN_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('biokin_breathe_skin') * 3600) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_breathe_skin') * 85)), 1200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 10 : max((70 -(u_spell_level('biokin_breathe_skin') * 6)), 25)"
+      ]
+    }
   },
   {
     "id": "biokin_flexibility",
@@ -80,13 +121,13 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_flexibility",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
@@ -95,8 +136,64 @@
     "max_duration": 500,
     "base_casting_time": 50,
     "final_casting_time": 15,
-    "casting_time_increment": -2.5,
-    "learn_spells": { "biokin_enhance_mobility": 6, "biokin_hammerhand": 9, "biokin_reflex_enhance": 12, "biokin_combat_dance": 18 }
+    "casting_time_increment": -2.5
+  },
+  {
+    "id": "biokin_dash",
+    "type": "SPELL",
+    "name": "[Ψ]Burst of Speed",
+    "description": "Like a cheetah, you can run with incredible speed for a short distance.",
+    "message": "You move faster than the eye can see.",
+    "teachable": false,
+    "valid_targets": [ "ground", "ally", "hostile" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "dash",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": 0,
+    "damage_type": "biological",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
+      ]
+    },
+    "max_range": 12,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1500,
+    "energy_increment": -190,
+    "base_casting_time": 75,
+    "final_casting_time": 15,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "biokin_change_appearance",
+    "type": "SPELL",
+    "name": "[Ψ]Flesh of Clay",
+    "description": "You can reshape your physical appearance, changing hair, skin, or eye color.  Your own mother wouldn't recognize you when you're done.",
+    "message": "You physical appearance shifts!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_CHANGE_APPEARANCE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
+    "energy_increment": -115,
+    "base_casting_time": 360000,
+    "final_casting_time": 90000,
+    "casting_time_increment": -2500
   },
   {
     "id": "biokin_armor_skin",
@@ -108,198 +205,247 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_armor_skin",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 1750,
-    "energy_increment": -200,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_armor_skin') * 1000) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('biokin_armor_skin') * 800) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_armor_skin') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('biokin_armor_skin') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 750,
+    "energy_increment": -125,
     "base_casting_time": 150,
     "final_casting_time": 50,
-    "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_climate_control": 5, "biokin_hammerhand": 9, "biokin_sealed_system": 12 }
+    "casting_time_increment": -8.5
+  },
+  {
+    "id": "biokin_adrenaline",
+    "type": "SPELL",
+    "name": "[Ψ]Adrenaline Trigger",
+    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a .",
+    "message": "Your heartbeat surges as your body floods with adrenaline.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_ADRENALINE_TRIGGER",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1800,
+    "energy_increment": -165,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -5.5
   },
   {
     "id": "biokin_climate_control",
     "type": "SPELL",
-    "name": "[Ψ]Temperature Adaptability (toggle)",
-    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Temperature Adaptability (C)",
+    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.  Temperature Adaptability and Sealed System <color_red>will cancel each other</color>.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_CLIMATE_CONTROL_INITIATE",
     "shape": "blast",
-    "difficulty": 4,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
-    "base_casting_time": 250,
-    "final_casting_time": 150,
-    "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_sealed_system": 6 }
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_spell_level('biokin_climate_control') * 175)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_climate_control') > 0 ? 10 : max((250 -(u_spell_level('biokin_climate_control') * 8.5)), 150)"
+      ]
+    }
   },
   {
     "id": "biokin_enhance_mobility",
     "type": "SPELL",
-    "name": "[Ψ]Enhance Mobility (toggle)",
-    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Enhance Mobility (C)",
+    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) )"
+        "( ( (u_spell_level('biokin_enhance_mobility') * 4500 ) + 30000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 9000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) )"
+        "( ( (u_spell_level('biokin_enhance_mobility') * 12000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 2500,
-    "energy_increment": -150,
-    "base_casting_time": 275,
-    "final_casting_time": 50,
-    "casting_time_increment": -15,
-    "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_spell_level('biokin_enhance_mobility') * 150)), 2500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 10 : max((275 -(u_spell_level('biokin_enhance_mobility') * 15)), 50)"
+      ]
+    }
   },
   {
     "id": "biokin_hammerhand",
     "type": "SPELL",
-    "name": "[Ψ]Hammerhand (toggle)",
-    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools.\n\nThis power <color_yellow>may be maintained by concentration</color> and <color_red>causes Drain</color> <color_yellow>at intervals</color>.",
+    "name": "[Ψ]Hammerhand (C)",
+    "description": "Who needs tools?  You can apply enough raw force or torque with your bare hands to substitute for many simple tools.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_HAMMERHAND_INITIATE",
     "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 2250,
-    "energy_increment": -225,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('biokin_hammerhand') * 45000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
-    "base_casting_time": 350,
-    "final_casting_time": 150,
-    "casting_time_increment": -12.5
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_spell_level('biokin_hammerhand') * 225)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 10 : max((350 -(u_spell_level('biokin_hammerhand') * 12.5)), 150)"
+      ]
+    }
   },
   {
     "id": "biokin_reflex_enhance",
     "type": "SPELL",
-    "name": "[Ψ]Heightened Reflexes",
-    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.",
-    "message": "You enhance your speed and sensory prowess.",
+    "name": "[Ψ]Heightened Reflexes (C)",
+    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_reflex",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
-    "shape": "blast",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 5500,
-    "final_energy_cost": 2250,
-    "energy_increment": -205,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_REFLEX_ENHANCE_INITIATE",
+    "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_reflex_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_casting_time": 175,
-    "final_casting_time": 100,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_combat_dance": 8, "biokin_hammerhand": 12, "biokin_perfected_motion": 15 }
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_reflex') > -1 ? 0 : max((5500 - (u_spell_level('biokin_reflex_enhance') * 205)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_reflex') > -1 ? 10 : max((175 -(u_spell_level('biokin_reflex_enhance') * 5.5)), 100)"
+      ]
+    }
   },
   {
     "id": "biokin_sealed_system",
     "type": "SPELL",
     "name": "[Ψ]Sealed System",
-    "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.\n\nSealed System and Temperature Adaptability cannot be activate at the same time.",
+    "description": "With a deep breath, you lock your body off from the outside world.  Gas, poison, blood, bile, electricity--nothing gets in, nothing gets out.\n\nSealed System <color_red>cannot be active</color> with either Temperature Adaptability or Oxygen Absorption.",
     "message": "You take a deep breath and seal your lips.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_sealed",
     "extra_effects": [
       { "id": "biokin_sealed_remove_climate", "hit_self": true },
+      { "id": "biokin_sealed_remove_breathe_skin", "hit_self": true },
       { "id": "psionic_drained_difficulty_seven", "hit_self": false }
     ],
     "shape": "blast",
-    "difficulty": 7,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('biokin_sealed_system') * 2500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2750,
     "energy_increment": -175,
-    "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
     "base_casting_time": 200,
     "final_casting_time": 100,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "biokin_overcome_pain": 4 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "biokin_sealed_remove_climate",
@@ -309,11 +455,63 @@
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "biokin_climate_control",
+    "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
     "shape": "blast",
     "max_level": 1
+  },
+  {
+    "id": "biokin_sealed_remove_breathe_skin",
+    "type": "SPELL",
+    "name": "[Ψ]Sealed System Cancel Oxygen Absorption",
+    "description": "The part of Sealed System that cancels Oxygen Absorption.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
+    "id": "biokin_metabolism_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Metabolic Hyperefficiency (C)",
+    "description": "You can supercharge your metabolism, allowing you to eat, drink, and sleep much less than normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_METABOLISM_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('biokin_metabolism_enhance') * 25000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('biokin_metabolism_enhance') * 50000) + 675000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 0 : max((8000 - (u_spell_level('biokin_metabolism_enhance') * 250)), 4000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 10 : max((250 -(u_spell_level('biokin_metabolism_enhance') * 13)), 50)"
+      ]
+    }
   },
   {
     "id": "biokin_combat_dance",
@@ -325,59 +523,106 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_combat_dance",
     "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 8,
-    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('biokin_combat_dance') * 1100) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2250,
     "energy_increment": -125,
-    "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_combat_dance') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
     "base_casting_time": 100,
     "final_casting_time": 40,
-    "casting_time_increment": -4,
-    "learn_spells": { "biokin_perfected_motion": 6 }
+    "casting_time_increment": -4
   },
   {
     "id": "biokin_perfected_motion",
     "type": "SPELL",
     "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
     "message": "The world around you slows down to a crawl.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_perfected_motion",
     "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 9,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 6000,
-    "final_energy_cost": 3500,
-    "energy_increment": -175,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_spell_level('biokin_perfected_motion') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+        "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 3500,
+    "energy_increment": -175,
     "base_casting_time": 75,
     "final_casting_time": 15,
     "casting_time_increment": -4
+  },
+  {
+    "id": "biokin_hurricane_blows",
+    "type": "SPELL",
+    "name": "[Ψ]Hurricane Blows",
+    "description": "You can now strike so quickly that you don't even seem to move at all.  Before an opponent can even finish blinking, you can strike them multiple times, executing your final blow before they feel the pain of the first.  Moving while using Hurricane Blows will disrupt your concentration, ending the effect.\n\nHurricane Blows <color_red>cannot be active</color> with Perfected Motion.",
+    "message": "The world around you slows down to a stop.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_biokin_hurricane_blows",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true }, { "id": "biokin_hurricane_blows_2", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2500,
+    "energy_increment": -75,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "biokin_hurricane_blows_2",
+    "type": "SPELL",
+    "name": "[Ψ]Hurricane Blows 2",
+    "description": "Makes sure the extra effects of Hurricane Blows last through the power's duration.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_hurricane_blows_2",
+    "shape": "blast",
+    "min_duration": 200,
+    "max_duration": 200
   }
 ]

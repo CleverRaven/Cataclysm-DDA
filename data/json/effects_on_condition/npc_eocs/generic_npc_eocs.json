@@ -12,7 +12,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_RELIC" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -20,7 +20,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_GET_RECORD_ACCOUNTING" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -28,7 +28,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_INHALER" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -36,7 +36,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_ANTIBIOTICS" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -44,7 +44,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_FLAG" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -52,7 +52,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_RECORD_WEATHER" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -60,7 +60,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_GET_SOFTWARE" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -68,7 +68,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_GET_RECORD_PATIENT" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -76,7 +76,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_KILL_JABBERWOCK" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -84,7 +84,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_KILL_ZOMBIE_MOM" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -92,7 +92,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_RESCUE_DOG" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -100,7 +100,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_PROVE_YOU_ARE_A_SURVIVOR" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -108,7 +108,7 @@
               "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
               "effect": { "offer_mission": "MISSION_LEARN_ABOUT_CATTAIL_JELLY" }
             },
-            { "const": 1 }
+            1
           ],
           [
             {
@@ -116,7 +116,7 @@
               "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
               "effect": { "offer_mission": "MISSION_PYROMANIAC" }
             },
-            { "const": 1 }
+            1
           ]
         ]
       },
@@ -234,9 +234,9 @@
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -40 } ] },
-        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -60 } ] },
-        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-40" ] },
+        { "math": [ "u_val('faction_like: hells_raiders')", ">", "-60" ] },
+        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "days_since_cataclysm": 9 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -248,7 +248,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 1, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+      { "math": [ "u_bandit_assassins_sent", "++" ] }
     ]
   },
   {
@@ -257,9 +257,9 @@
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -60 } ] },
-        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -90 } ] },
-        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-60" ] },
+        { "math": [ "u_val('faction_like: hells_raiders')", ">", "-90" ] },
+        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "days_since_cataclysm": 15 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -271,7 +271,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "u_bandit_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -280,8 +280,8 @@
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
-        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
+        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-90" ] },
+        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "days_since_cataclysm": 21 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -293,7 +293,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 3, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 3 } ] }
+      { "math": [ "u_bandit_assassins_sent", "+=", "3" ] }
     ]
   },
   {
@@ -302,8 +302,8 @@
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "faction_like": "old_guard" }, "<", { "const": -45 } ] },
-        { "compare_num": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "<=", { "const": 6 } ] },
+        { "math": [ "u_val('faction_like: old_guard')", "<", "-45" ] },
+        { "math": [ "government_assassins_sent", "<=", "6" ] },
         { "days_since_cataclysm": 9 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -315,7 +315,7 @@
     },
     "effect": [
       { "u_spawn_npc": "old_guard_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -372,6 +372,44 @@
         ],
         "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DIVING_INTO_WATER_CHECK",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": "u_is_underwater",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_REMOVE_HARD_THINGS_CHECK",
+          "global": false,
+          "eoc_type": "EVENT",
+          "required_event": "avatar_moves",
+          "condition": { "x_in_y_chance": { "x": 1, "y": 10 } },
+          "//": "I would assume that Mycus spores are a bit sticky to keep them from coming off, so this has a chance to be removed instead of a garuntee.",
+          "effect": [ { "u_lose_effect": "spores" } ]
+        }
+      },
+      { "u_lose_effect": "boomered" },
+      { "u_lose_effect": "corroding" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_OLD_GUARD_REP_3_CHECK",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [ { "math": [ "old_guard_rep_scouting", "==", "1" ] }, { "u_near_om_location": "exodii_base_x0y3z0", "range": 0 } ]
+    },
+    "effect": [
+      { "math": [ "old_guard_rep_scouting", "=", "0" ] },
+      { "u_add_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" }
     ]
   }
 ]

@@ -16,12 +16,12 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -305,7 +305,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
             const int limit = ammo_capacity( ammo_itype->ammo->type );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
             const int amount = qty > 0 ? std::min( qty, limit ) : limit;
-            base.put_in( item( ammo, calendar::turn, amount ), item_pocket::pocket_type::CONTAINER );
+            base.put_in( item( ammo, calendar::turn, amount ), pocket_type::CONTAINER );
             return amount;
         }
     }
@@ -318,7 +318,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         if( mag_type ) {
             item mag( mag_type );
             mag.ammo_set( ammo, qty );
-            base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            base.put_in( mag, pocket_type::MAGAZINE_WELL );
             return base.ammo_remaining();
         }
     }

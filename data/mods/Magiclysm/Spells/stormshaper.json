@@ -482,25 +482,6 @@
     "duration_increment": 72000
   },
   {
-    "id": "stormshaper_stormglove_zap",
-    "type": "SPELL",
-    "name": "Stormglove Zap",
-    "description": "This casts when you hit people with the stormglove.",
-    "valid_targets": [ "hostile" ],
-    "effect": "attack",
-    "shape": "blast",
-    "damage_type": "electric",
-    "min_damage": 1,
-    "max_damage": {
-      "math": [ "(5 + (1 * u_val('spell_level', 'spell: stormfist')) + (1 * u_val('spell_level', 'spell: stormfist_plus')))" ]
-    },
-    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
-    "sound_type": "combat",
-    "sound_description": "arcing electricity!",
-    "min_range": 1,
-    "max_range": 1
-  },
-  {
     "id": "create_electric_lighter",
     "type": "SPELL",
     "name": "Fire Spark",
@@ -1007,8 +988,8 @@
     "effect": "attack",
     "extra_effects": [ { "id": "stormshaper_cloak_fog_random", "max_level": 20 } ],
     "shape": "blast",
-    "min_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_fog') * 0.5) + 2)" ] },
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_fog') * 0.5) + 2)" ] }
+    "min_damage": { "math": [ "( (u_spell_level('stormshaper_cloak_of_fog') * 0.5) + 2)" ] },
+    "max_damage": { "math": [ "( (u_spell_level('stormshaper_cloak_of_fog') * 0.5) + 2)" ] }
   },
   {
     "id": "stormshaper_cloak_fog_random",
@@ -1064,7 +1045,7 @@
     "effect": "directed_push",
     "shape": "blast",
     "min_damage": 1,
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_heart_of_hurricane') / 2) + 1)" ] },
+    "max_damage": { "math": [ "( (u_spell_level('stormshaper_heart_of_hurricane') / 2) + 1)" ] },
     "min_range": 1
   },
   {
@@ -1113,8 +1094,8 @@
       {
         "queue_eocs": "EOC_LOSE_CLOAK_OF_FROG_MUTATIONS",
         "time_in_future": [
-          { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_frog') * 3750) + 15000)" ] },
-          { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_frog') * 3750) + 15000)" ] }
+          { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 3750) + 15000)" ] },
+          { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 3750) + 15000)" ] }
         ]
       }
     ],
@@ -1140,8 +1121,8 @@
     "effect": "attack",
     "extra_effects": [ { "id": "stormshaper_cloak_frog_summon", "max_level": 20 } ],
     "shape": "blast",
-    "min_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_frog') * 1) + 1)" ] },
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_frog') * 1) + 1)" ] }
+    "min_damage": { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 1) + 1)" ] },
+    "max_damage": { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 1) + 1)" ] }
   },
   {
     "id": "stormshaper_cloak_frog_summon",
@@ -1162,6 +1143,6 @@
     "min_aoe": 4,
     "max_aoe": 20,
     "aoe_increment": 0.65,
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: stormshaper_cloak_of_frog') * 3750) + 15000)" ] }
+    "min_duration": { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 3750) + 15000)" ] }
   }
 ]

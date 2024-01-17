@@ -71,11 +71,39 @@ finally there's the opportunity cost issue.  for the effort of multithreading ke
 
 that's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code
 
-#### We should be able to turn off z-levels: No.
+#### Bringing charges back: No.
 
-Z-levels became a mandatory feature in 0.E experimental in order to support ground vehicles moving up and down ramps.  Having z-levels be optional was a large maintenance burden on the developers, and turning off z-levels breaks vehicle ramps.
+We are in the process of removing charges, that's a fact that won't be changed.  We should have made this decision much earlier or never started implementing them in the first place, but it is what it is.
 
-There has been an extensive optimization effort in the fall of 2020 to bring back performance, and it's been mostly successful.  Current experimentals should run faster with z-levels on than 0.E runs with z-levels off.
+The main reason we are doing this, contrary to popular belief, is to resolve technical debt. To handle both items and charges, every function of the code that interacts with them in any way needs to be effectively duplicated - each function in the code works by their own rules, each interacts with items in their own way, and usually have to be maintained separately. It introduces a tremendous amount of difficulty for any contributor, for even the most basic of tasks.
+
+Some examples:
+If you define an item without charges, its weight and volume would be equal according to the `weight` and `volume` fields:
+
+```
+"weight": "800 g", "volume": "200ml" = 1 item weight 800 g and has volume of 200 ml
+```
+
+But if you add charges, the volume would be divided by it's `count`:
+
+```
+"weight": "800 g", "volume": "200ml", "count": 50 = 1 item has weight 800g, and volume of 4 ml
+```
+(The same applies to the price, by the way)
+
+
+> Wolfram Alpha tells me that the current density of bean seeds is greater than that of our sun. I do not think beans are denser than a star. (1L beans = 77.6kg) - RenechCDDA
+
+
+It sounds like an issue that is easy to fix, but it is very difficult to properly fix if you don't know about this "feature".
+
+Next, when you use charges in item definitions, you can't properly use `count` in item group spawns, instead you should stick to the `charges` field, that is there only and specifically for charges. Trying to use `charges` to spawn item? Only `count` of it would be spawned.  Trying to not use `count` to spawn charged items? nothing will spawn, because `count` is zero, therefore no item will spawn. Do you remember that the game spawns an amount of `charges` by default, if nothing else is specified? There are many, many instances of bugs, too many to count, that occurred simply because someone forgot to specify amount of charges in item groups.
+
+Crafting is also one of the mechanics that has more issues than it should because of this: By default the game crafts `count` amount of item, which is trivial to miss when you edit a lot of recipes at once.
+
+In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
+
+Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
 
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
@@ -109,12 +137,12 @@ I’m 100% fine having a game mode available where this happens.  However, at le
 #### Psychic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, we’d be happy to have support for it in the code so that a mod can have psychic powers.
+However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Magic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic.
+However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
@@ -254,9 +282,6 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
 
-#### Saline infusions: yes, just waiting to be added.
-
-This is a realistic and sensible way to help with hypovolemia that circumvents all the previously mentioned issues. Though, it should still require someone with medical training and wouldn't be an immediate cure, and would require scavenging, it would not be player-craftable.
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
@@ -276,12 +301,6 @@ The plan is to extend this by building “appliances” that you can hook into t
 In addition to "appliances", there may also be "facilities".  Again, under the hood, facilities are going to be related to vehicles (admittedly, stationary vehicles) but are going to be built via the construction menu and interacted with as collections of terrain and furniture.  Facilities will hopefully allow for medium sized, powered buildings.
 
 ### User interface
-
-#### Nestable container model for inventory: Will go in as soon an there’s a good implementation/someone is working on it.
-
-KorGgenT implemented this in spring 2020 and although there are still some teething issues, it's working fairly well and will be a headline feature for the 0.F release.
-
-~~This is a really old and good one, the problem being the most straightforward implementation of it where you manually manage all those containers is a terrible interface. (see DF adventure mode) For this to go in, it must default to the inventory system doing all the work for the player, and the player only specifies what goes where occasionally.~~
 
 #### The ability to select MP3s to play while listening to music: Too complicated
 
@@ -305,9 +324,9 @@ For a better outline on what we DO want to do, see https://github.com/CleverRave
 
 From a game balance perspective zombies are very abundant and should only be used under limited lore-friendly circumstances in consumables, trivial early items or with lasting risks and drawbacks.
 
-#### Conversations with monsters and other things: yes, planned for 0.G
+#### Conversations with monsters and other things: Partially implemented
 
-There is an extensive and sophisticated system for talking with NPCs, but you can't have a conversation with your genetically modified, super-intelligent dog, nor with your intelligent sword from Magiclysm, nor with your car.
+This is partially implemented already with monsters, items, furniture, as the player character can have conversations with them via NPC-style dialogue. However, support for dialogue functions is limited; you can't trade with monsters, and a significant quantity of edge cases for oddball functions remain unsupported for non-NPC talkers. Conversations with vehicles are entirely unsupported, meaning you can't talk with your car or some super-intelligent AI inside it.
 
 Work is being done to enable all these conversations.  It's not hard work at this point, it's just tedious bits that need to get done.
 
@@ -383,6 +402,10 @@ The old implementation of acid rain had a massive world consistency flaw, given 
 ## Failed Rationalizations
 
 These aren’t suggestions, but arguments that comes up in support of suggestions or alterations to the game. They come up constantly so I’m putting a note about them here.
+
+In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
+The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honestly shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
+More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
 

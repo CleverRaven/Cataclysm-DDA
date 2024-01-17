@@ -110,6 +110,7 @@ static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
+static const activity_id ACT_GLIDE( "ACT_GLIDE" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
 static const activity_id ACT_HACKING( "ACT_HACKING" );
@@ -157,6 +158,8 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
@@ -197,10 +200,6 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
-static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -222,6 +221,8 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
@@ -296,12 +297,13 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
-        if( !load_RAS_weapon() ) {
-            aborted = true;
-            act.moves_left = 0;
-            return;
-        }
+    // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
+    // therefore the order of evaluation matters here
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
+        first_turn ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -877,7 +879,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         p.consume_tools( writing_tools, pages );
         book_binder->put_in( item( itype_paper, calendar::turn, pages ),
-                             item_pocket::pocket_type::MAGAZINE );
+                             pocket_type::MAGAZINE );
     } else {
         debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
     }
@@ -1242,7 +1244,22 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    const int qual = tool->get_quality( qual_SAW_M );
+    int qual = 0;
+    if( type.has_value() ) {
+        item veh_tool = item( type.value(), calendar::turn );
+        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = quality.second;
+            }
+        }
+        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = std::max( qual, quality.second );
+            }
+        }
+    } else {
+        qual = tool->get_quality( qual_SAW_M );
+    }
     if( qual < 2 ) {
         if( !testing ) {
             debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
@@ -1264,27 +1281,52 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     std::string method = "HACKSAW";
 
-    if( tool->ammo_sufficient( &who, method ) ) {
-        int ammo_consumed = tool->ammo_required();
-        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
-        if( iter != tool->type->ammo_scale.end() ) {
-            ammo_consumed *= iter->second;
-        }
+    if( !veh_pos.has_value() ) {
+        if( tool->ammo_sufficient( &who, method ) ) {
+            int ammo_consumed = tool->ammo_required();
+            std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
+            if( iter != tool->type->ammo_scale.end() ) {
+                ammo_consumed *= iter->second;
+            }
 
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
-        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
-        if( calendar::once_every( 1_minutes ) ) {
-            //~ Sound of a metal sawing tool at work!
-            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), tool->tname() );
+            }
+            who.cancel_activity();
         }
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
+        map &here = get_map();
+        const optional_vpart_position vp = here.veh_at( veh_pos.value() );
+        if( !vp ) {
+            debugmsg( "Lost ACT_HACKSAW vehicle tool" );
+            return;
         }
-        who.cancel_activity();
+        vehicle &veh = vp->vehicle();
+        if( vehicle::use_vehicle_tool( veh, veh_pos.value(), type.value(), true ) ) {
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), type.value()->nname( 1 ) );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), type.value()->nname( 1 ) );
+            }
+            who.cancel_activity();
+        }
     }
 }
 
@@ -1372,7 +1414,8 @@ bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &oth
 {
     const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                           ( other );
-    return actor.target == target && actor.tool.operator == ( tool );
+    return actor.target == target && ( ( veh_pos.has_value() &&
+                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_max ) ) || actor.tool.operator == ( tool ) );
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
@@ -1461,6 +1504,167 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
     data.read( "racks", actor.racks );
 
     return actor.clone();
+}
+
+void glide_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    tripoint heading;
+    if( jump_direction == 0 ) {
+        heading = tripoint_south;
+    }
+    if( jump_direction == 1 ) {
+        heading = tripoint_south_west;
+    }
+    if( jump_direction == 2 ) {
+        heading = tripoint_west;
+    }
+    if( jump_direction == 3 ) {
+        heading = tripoint_north_west;
+    }
+    if( jump_direction == 4 ) {
+        heading = tripoint_north;
+    }
+    if( jump_direction == 5 ) {
+        heading = tripoint_north_east;
+    }
+    if( jump_direction == 6 ) {
+        heading = tripoint_east;
+    }
+    if( jump_direction == 7 ) {
+        heading = tripoint_south_east;
+    }
+    const tripoint_abs_ms newpos = you.get_location() + heading;
+    const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
+    if( get_map().tr_at( you.pos() ) != tr_ledge || heading == tripoint_zero ) {
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You come to a gentle landing." ),
+                                   _( "<npcname> comes to a gentle landing." ) );
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }   // Have we crashed into a wall?
+    if( get_map().impassable( checknewpos ) ) {
+        you.add_msg_player_or_npc( m_bad,
+                                   _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                   _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                   get_map().tername( checknewpos.raw() ) );
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }
+    if( !you.can_fly() ) {
+        you.remove_effect( effect_gliding );
+        you.gravity_check();
+        act.set_to_null();
+        return;
+    }
+    Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
+    if( creature_ahead && creature_ahead->get_size() >= creature_size::medium &&
+        you.get_size() >= creature_size::medium ) {
+        // Zombies are too stupid to avoid midair collision
+        if( !you.dodge_check( 15, true ) || ( !creature_ahead->in_species( species_ZOMBIE ) &&
+                                              !creature_ahead->dodge_check( 15, true ) ) ) {
+            you.add_msg_player_or_npc( m_bad,
+                                       _( "You collide with %s, bringing an abrupt halt to your glide." ),
+                                       _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
+                                       creature_ahead->disp_name() );
+            if( creature_ahead->get_size() < creature_size::huge ) {
+                creature_ahead->add_effect( effect_downed, 2_turns, false );
+            }
+            you.remove_effect( effect_gliding );
+            you.gravity_check();
+            act.set_to_null();
+            return;
+        }
+        you.add_msg_player_or_npc( m_good,
+                                   _( "You deftly maneuver around %s." ),
+                                   _( "<npcname> deftly maneuvers around %s." ), creature_ahead->disp_name() );
+    }
+    you.move_to( newpos );
+    moved_tiles ++;
+    if( moved_tiles >= glide_distance ) {
+        g->vertical_move( -1, false, false );
+        moved_tiles = 0;
+    }
+    you.moves -= 50;
+    get_map().update_visibility_cache( you.pos().z );
+    get_map().update_visibility_cache( you.pos().x );
+    get_map().update_visibility_cache( you.pos().y );
+    if( you.is_avatar() ) {
+        g->update_map( you );
+    }
+}
+
+glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, int glide_distance )
+    : jump_direction( jump_direction ), glide_distance( glide_distance )
+{
+    you->add_effect( effect_gliding, 1_turns, true );
+    tripoint heading;
+    if( jump_direction == 0 ) {
+        heading = tripoint_south;
+    }
+    if( jump_direction == 1 ) {
+        heading = tripoint_south_west;
+    }
+    if( jump_direction == 2 ) {
+        heading = tripoint_west;
+    }
+    if( jump_direction == 3 ) {
+        heading = tripoint_north_west;
+    }
+    if( jump_direction == 4 ) {
+        heading = tripoint_north;
+    }
+    if( jump_direction == 5 ) {
+        heading = tripoint_north_east;
+    }
+    if( jump_direction == 6 ) {
+        heading = tripoint_east;
+    }
+    if( jump_direction == 7 ) {
+        heading = tripoint_south_west;
+    }
+}
+
+void glide_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moved_tiles", moved_tiles );
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "jump_direction", jump_direction );
+    jsout.member( "glide_distance", glide_distance );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> glide_activity_actor::deserialize( JsonValue &jsin )
+{
+    glide_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "moved_tiles", actor.moved_tiles );
+    data.read( "moves_total", actor.moves_total );
+    data.read( "jump_direction", actor.jump_direction );
+    data.read( "glide_distance", actor.glide_distance );
+    return actor.clone();
+}
+void glide_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void glide_activity_actor::finish( player_activity &act, Character &you )
+{
+    g->update_map( you );
+    you.add_msg_player_or_npc( m_good,
+                               _( "You come to a gentle landing." ),
+                               _( "<npcname> comes to a gentle landing." ) );
+    you.remove_effect( effect_gliding );
+    you.gravity_check();
+    act.set_to_null();
 }
 
 bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
@@ -2107,7 +2311,11 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+                std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
+                        dest );
+                if( hauling_mode ) {
+                    who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
+                }
             }
             // If we picked up a whole stack, remove the leftover item
             if( leftovers.charges <= 0 ) {
@@ -2119,8 +2327,17 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
-        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
-            who.stop_hauling();
+        if( hauling_mode ) {
+            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos() );
+            bool overflow = who.trim_haul_list( haulable_items );
+            if( who.is_hauling() && haulable_items.empty() ) {
+                who.stop_hauling();
+            }
+
+            if( overflow ) {
+                add_msg( m_warning,
+                         _( "You lose track of some hauled items as they didn't fit on the current tile." ) );
+            }
         }
     }
 }
@@ -2133,6 +2350,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
     jsout.member( "relative_destination", relative_destination );
+    jsout.member( "hauling_mode", hauling_mode );
 
     jsout.end_object();
 }
@@ -2147,6 +2365,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValu
     data.read( "quantities", actor.quantities );
     data.read( "to_vehicle", actor.to_vehicle );
     data.read( "relative_destination", actor.relative_destination );
+    data.read( "hauling_mode", actor.hauling_mode );
 
     return actor.clone();
 }
@@ -2727,7 +2946,7 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
     item_location scanned_book = books.back();
     books.pop_back();
     if( scanned_book ) {
-        ereader->put_in( *scanned_book, item_pocket::pocket_type::EBOOK );
+        ereader->put_in( *scanned_book, pocket_type::EBOOK );
         if( who.is_avatar() ) {
             if( !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
@@ -3188,8 +3407,11 @@ void unload_activity_actor::start( player_activity &act, Character & )
 
 void unload_activity_actor::finish( player_activity &act, Character &who )
 {
+    // Need to copy `target` here because `::unload` is static and `this` might be invalidated
+    // after `act.set_to_null()` has been called (so `this.target` might also be invalidated)
+    item_location target_copy = target;
     act.set_to_null();
-    unload( who, target );
+    unload( who, target_copy );
 }
 
 void unload_activity_actor::unload( Character &who, item_location &target )
@@ -3202,10 +3424,10 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         contents_change_handler handler;
         bool changed = false;
 
-        for( item_pocket::pocket_type ptype : {
-                 item_pocket::pocket_type::CONTAINER,
-                 item_pocket::pocket_type::MAGAZINE_WELL,
-                 item_pocket::pocket_type::MAGAZINE
+        for( pocket_type ptype : {
+                 pocket_type::CONTAINER,
+                 pocket_type::MAGAZINE_WELL,
+                 pocket_type::MAGAZINE
              } ) {
 
             for( item *contained : it.all_items_top( ptype, true ) ) {
@@ -4306,7 +4528,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
             return ret;
         }
 
-        return holster->put_in( it, item_pocket::pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
+        return holster->put_in( it, pocket_type::CONTAINER, /*unseal_pockets=*/true, carrier );
     }
 
     ret = holster->can_contain_partial_directly( it );
@@ -4375,7 +4597,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
         if( !ret.success() ) {
             success = false;
-            std::string error = !ret.str().empty() ?
+            std::string error = ret.str().empty() ?
                                 //~ %1$s: item we failed to put in the container, %2$s: container to put item in
                                 string_format( _( "Could not put %1$s into %2$s." ),
                                                it.tname(), holster->tname() ) :
@@ -4616,8 +4838,26 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_left = total_moves;
 }
 
+void milk_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( monster_coords.empty() ) {
+        debugmsg( "milking activity with no position of monster stored" );
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        // We might end up here if the creature dies while being milked
+        who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
+        act.set_to_null();
+    }
+}
+
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
+    act.set_to_null();
     if( monster_coords.empty() ) {
         debugmsg( "milking activity with no position of monster stored" );
         return;
@@ -4653,8 +4893,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     if( !string_values.empty() && string_values[0] == "temp_tie" ) {
         source_mon->remove_effect( effect_tied );
     }
-
-    act.set_to_null();
 }
 
 void milk_activity_actor::serialize( JsonOut &jsout ) const
@@ -5232,13 +5470,8 @@ void reel_cable_activity_actor::start( player_activity &act, Character & )
 
 void reel_cable_activity_actor::finish( player_activity &act, Character &who )
 {
-    cable->link->length = 0;
-    cable->link->s_state = link_state::no_link;
-    cable->link->t_state = link_state::no_link;
-    cable->reset_link( &who, -2 );
-    who.add_msg_if_player( m_info,
-                           string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :
-                                          _( "You reel in the %s's cable and wind it up." ), cable->type_name() ) );
+    cable->reset_link( false, &who, -2 );
+    who.add_msg_if_player( m_info, _( "You reel in the %s and wind it up." ), cable->link_name() );
     if( cable->has_flag( flag_NO_DROP ) ) {
         cable.remove_item();
     }
@@ -6139,6 +6372,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     here.ter_set( pos, t_stump );
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
+    here.collapse_at( pos, false, true, false );
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act.placement ) ) );
     get_event_bus().send<event_type::cuts_tree>( who.getID() );
@@ -6512,7 +6746,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.put_in( who.i_rem( &mod ), pocket_type::MOD );
         gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
@@ -6956,13 +7190,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<itype_id, int> item_counts;
                     if( unload_sparse_only ) {
-                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 item_counts[contained->typeId()]++;
                             }
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( unload_sparse_only &&
@@ -6976,7 +7210,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( it->first->is_ammo_belt() ) {
@@ -7006,7 +7240,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                    for( item *contained : it->first->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
@@ -7415,6 +7649,7 @@ deserialize_functions = {
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
+    { ACT_GLIDE, &glide_activity_actor::deserialize },
     { ACT_GUNMOD_ADD, &gunmod_add_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },
     { ACT_HACKING, &hacking_activity_actor::deserialize },
