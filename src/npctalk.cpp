@@ -5659,7 +5659,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
 {
     bool group = jo.get_bool( "group", false );
     bool single_target = jo.get_bool( "single_target", false );
-    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member, "" );
+    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
     dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
