@@ -9654,7 +9654,6 @@ units::energy Character::available_ups() const
     cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
         if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
-            break;
         }
     } );
     if( has_active_bionic( bio_ups ) || has_bio_powered_ups ) {
