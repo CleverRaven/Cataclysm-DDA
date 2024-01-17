@@ -5704,7 +5704,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         } else if( monster_id.evaluate( d ).empty() ) {
             int target_range = dov_target_range.evaluate( d );
             if( single_target ) {
-                // Grab a random nearby hostile creature to create a hallucination or copy of
+                // Find a hostile creature in range to be used to create a hallucination or a copy of
                 Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
                     bool not_self = get_player_character().pos() != critter.pos();
                     bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
@@ -5717,7 +5717,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 }
                 target_monster = *copy->as_monster();
             } else {
-                // Grab all hostile creatures to create hallucinations or copies of
+                // Find all hostile creatures in range to be used to create hallucinations or copies of
                 std::vector<Creature *> monsters_in_range = g->get_creatures_if( [target_range](
                 const Creature & critter ) -> bool {
                     bool not_self = get_player_character().pos() != critter.pos();
