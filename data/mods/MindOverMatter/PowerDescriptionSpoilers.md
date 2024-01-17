@@ -683,6 +683,46 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
 *Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
 
+# Telepathy
+
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+
+## Concentration Trance (C)
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 9 minutes and 20 seconds to 17 minutes and 13 seconds, plus 2 minutes and 12 seconds to 10 minutes and 5 seconds per power level<br />
+*Stamina Cost*: 4000, minus 175 per level to a minimum of 1500<br />
+*Channeling Time*: 300 moves, minus 12 moves per level to a minimum of 150<br />
+*Effects*: The psion enters a trance that facilitates learning, adding learning focus equal to 2.5 * the power level. The trance takes up most of the psion's concentration, however, increasing movement cost by 3x and reducing vision range the same as the nearsighted trait. The trance requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Starting power<br />
+
+## Sense Minds (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 1 minute 30 seconds to 10 minutes, plus 26 seconds to 2 minutes and 11 seconds per power level<br />
+*Stamina Cost*: 3500, minus 115 per level to a minimum of 1500<br />
+*Channeling Time*: 500 moves<br />
+*Effects*: Sense all sapient living beings within 2 squares per power level around the psion.  This includes all humans, sapient aliens such as mi-go or triffids (but not the triffids' vegetal defense biotechnology), most mutants who are not too far gone, Nether beings, and cyborgs, and excludes animals and robots.<br />
+*Prerequisites*: Starting power<br />
+
+## Telepathic Shield (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
+*Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
+*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damag and most telepathy-related effects while this power is active.<br />
+*Prerequisites*: Concentration Trance 5<br />
+
+## Mood Stabilization (C)
+*Difficulty*: 3<br />
+*Target*: Self (or dialogue)<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
+*Effects*: Further edit the psion's mind, removing negatie thoughts and improving moods. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
+
 # Teleportation
 
 **Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
