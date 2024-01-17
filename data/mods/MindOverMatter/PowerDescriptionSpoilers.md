@@ -423,6 +423,136 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
 *Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />
 
+# Pyrokinesis
+
+**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
+
+## Brilliant Flash
+*Difficulty*: 1<br />
+*Target*: An area of effect with radius 1 square, plus 1 square per 4 power levels to a maximum of 8 squares, at a range of 3 squares plus 1.2 squares per power level to a maximum of 50 squares<br />
+*Duration*: 1 to 8 seconds, plus 0.5 to 1 seconds per power level<br />
+*Stamina Cost*: 1750, minus 80 per level to a minimum of 550<br />
+*Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 50<br />
+*Effects*: Excite air molecules and unleash a flash of light, blinding nearby targets for the power's duration.<br />
+*Prerequisites*: Starting power<br />
+
+## Fountain of Flames
+*Difficulty*: 2<br />
+*Target*: One target within 1 square plus 1 square per 10 power levels, to a maximum of 5 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 1950, minus 75 per level to a minimum of 700<br />
+*Channeling Time*: 100 moves, minus 4 moves per level to a minimum of 35<br />
+*Effects*: The pyrokinetic unleashes a blast of flame at a close-range target, doing 6 to 26 heat damage plus 1.5 to 3 heat damage per power level. This power also has a 50% chance of leaving a fire field of intensity 1 to 2 in the target square.<br />
+*Prerequisites*: Starting power<br />
+
+## Cauterize
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2200, minus 95 per level to a minimum of 750<br />
+*Channeling Time*: 600 moves<br />
+*Effects*: The psion attempts to seal one of their bleeding wounds shut.This automatically succeeds if the psion is a physician or has the Burn Care proficiency, otherwise it is a check of the Health Care skill + 1d10 vs 7. If the check is failed, the psion suffers 3 damage to the target location and 1-3 pain and the bleeding continues. If the check succeeds, the psion suffers 1 daamge to the target location and 1-2 pain, but the bleeding stops. Bleeding of Intensity 30 or more cannot be stopped through Cauterize. There is also a 6.67% chance, independently checked per attempt, for the wound to become infected within 24 hours.<br />
+*Prerequisites*: Fountain of Flames 6 AND Quell Fire 6 *or* Incandescent Lance 5 <br />
+
+## Banked Flames (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 8 minutes and 30 seconds to 30 minutes, plus 50 seconds to 20 minutes and 40 seconds per level<br />
+*Stamina Cost*: 2500, minus 150 per level to a minimum of 800<br />
+*Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 75 moves<br />
+*Effects*: Summon a controlled fire in the palm of the psion's hand or nearby. The fire sheds a small amount of light and can be used for anything fire can normally be used for; heating food, cooking, lightning other fires, and so on. The banked flame requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Fountain of Flames 4<br />
+
+## Quell Fire
+*Difficulty*: 3<br />
+*Target*: An area of effect with a radius of 1 square plus 1 square per 2 power levels to a maximum of 50 squares, at a range of 3 squares plus 0.8 squares per power level to a maximum of 70 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 120 per level to a minimum of 1000<br />
+*Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 50 moves<br />
+*Effects*: As the psion can control fire, they can also extinguish it. Harmlessly disperses all flamees within the area of effect. The aftereffects of the fire (burned locations or people) are not reversed.<br />
+*Prerequisites*: Banked Flames 5<br />
+
+## Cloak of Warmth (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 3 minutes to 24 minutes, plus 29 seconds to 3 minutes and 12 seconds seconds per power level<br />
+*Stamina Cost*: 4500, minus 160 per level to a minimum of 2000<br />
+*Channeling Time*: 250 moves, minus 11 moves per level to a minimum of 75 moves<br />
+*Effects*: Heat the air around the psion to a more comfortable temperature, providing 1 point of armor against heat and 3 points of armor against heat per power level, as well as heating the air 10 degrees toward comfortable per power level (or cooling it 3 degrees per power level, if necessary). The cloak also heats the air around the psion by 26 degrees.<br />
+*Prerequisites*: Banked Flames 6 *or* Fountain of Flames 6<br />
+
+## Flamethrower
+*Difficulty*: 5<br />
+*Target*: A cone out to 3 squares plus 0.3 squares per power level to a maximum of 20 squares, with an arc length of 27 degrees plus 3 degrees per power level, to a maximum of 120 degrees<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4500, minus 150 per level to a minimum of 1600<br />
+*Channeling Time*: 100 moves, minus 6 moves per level to a minimum of 35 moves<br />
+*Effects*: Unleash a blast of flame, burning the psion's enemies for 15 to 40 heat damage, plus 1.5 to 2.5 damage per power level. There is a 20% chance that an affected square will be set on fire with a fire field of intensity 1 to 2.<br />
+*Prerequisites*: Fountain of Flames 7, Brilliant Flash 5<br />
+
+## Incandescent Lance (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 3 minutes 25 seconds to 41 minutes, plus 1 minute and 54 seconds to 8 minutes and 12 seconds per power level<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 650 moves, minus 12 moves per level to a minimum of 320 moves<br />
+*Effects*: Create a thin line of extremely hot fire, useful for welding or breaching metal doors. The lance requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Banked Flames 6 *or* Fountain of Flames 9 AND Quell Fire 6<br />
+
+## Thermogenesis
+*Difficulty*: 5<br />
+*Target*: A space within 3 squares<br />
+*Duration*: 1 to 2 hours, plus 2 minutes 30 seconds to 5 minutes per level<br />
+*Stamina Cost*: 8000, minus 200 per level to a minimum of 4000<br />
+*Channeling Time*: 1500 moves, minus 10 moves per level to a minimum of 1200 moves<br />
+*Effects*: Heat nearby air to produce warmth. The spot chosen will shed heat for the duration of the power. Four different intensities are selectable: 6 degrees, 16 degrees, 40 degrees, and 75 degrees.<br />
+*Prerequisites*: Banked Flames 10 *or* Cloak of Warmth 6, Brilliant Flash 7<br />
+
+## Blazing Aura (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 45 seconds to 3 minutes, plus 7 to 19 seconds per power level<br />
+*Stamina Cost*: 6500, minus 175 per level to a minimum of 3500<br />
+*Channeling Time*: 125 moves, minus 6.5 moves per level to a minimum of 50 moves<br />
+*Effects*: Kindle the air around the psion, doing 5 to 20 heat damage to anyone attacking them in melee and causing 5 to 15 heat damage to anyone the psion attacks. The cloak also sheds light and heats the nearby air by 45 degrees.<br />
+*Prerequisites*: Cloak of Warmth 8, Thermogenesis 5 *or* Flamethrower 6, Fountain of Flames 7<br />
+
+## Flameshield (C)
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 90 seconds to 9 minutes and 30 seconds, plus 11 to 47 seconds per power level<br />
+*Stamina Cost*: 7750, minus 165 per level to a minimum of 4000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 75 moves<br />
+*Effects*: The psion becomes totally immune to heat and flame for the power's duration.  They could walk through a burning house or into a blast furnace without injury.<br />
+*Prerequisites*: Cloak of Warmth 10 *or* Blazing Aura 6, Quell Fire 9, <br />
+
+## Conflagration
+*Difficulty*: 7<br />
+*Target*: A radius of 2 squares plus 0.4 squares per power level to a maximum of 25 squares, to a range of 4 squares plus 0.9 squares per power level to a maximum range of 70 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7500, minus 125 per level to a minimum of 3500<br />
+*Channeling Time*: 150 moves, minus 7 moves per level to a minimum of 35 moves<br />
+*Effects*: The psion unleashes an explosion of flames in the target area, doing 37 to 115 heat damage to all targets in the power's area of effect, plus 2.5 to 5 heat damage per power level, with a 25% chance to set each affected square on fire with a fire field of intensity 1 to 2.<br />
+*Prerequisites*: Flamethrower 8 *or* Fountain of Flames 13, Thermogenesis 6 *or* Blazing Aura 6<br />
+
+## Hellfire
+*Difficulty*: 9<br />
+*Target*: A radius of 4 squares plus 0.9 squares per power level around the psion to a maximum of 35 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 9000, minus 220 per level to a minimum of 6000<br />
+*Channeling Time*: 175 moves, minus 8 moves per level to a minimum of 55 moves<br />
+*Effects*: Flames roar outward from the psion's position, engulfing the entire nearby area in flames. Does 65 to 169 heat damage to all targets in the power's area of effect, plus 5 to 8 heat damage per power level, with a 50% chance to set each affected square on fire with a fire field of intensity 1 to 3.<br />
+*Prerequisites*: Flamethrower 12 *or* Conflagration 6, Thermogenesis 10 *or* Flameshield 6<br />
+
+## Crucible
+*Difficulty*: 10<br />
+*Target*: One target within 2 squares plus 1 square per 2 power levels, to a maximum of 20 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 12000, minus 150 per level to a minimum of 8000<br />
+*Channeling Time*: 200 moves, minus 4 moves per level to a minimum of 75<br />
+*Effects*: The pyrokinetic concentrates all of their power onto a single point, heating it white-hot and incinerating whatever they are focusing on. Does 150 to 400 heat damage plus 10 to 25 heat damage per power level and has a 100% chance to leave a fire field of intensity 3 at the target location.<br />
+*Prerequisites*: Conflagration 10, Hellfire 6, Flamethrower 10 *or* Fountain of Flames 14<br />
+
 # Telekinesis
 
 **Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, thogh they must use the recipe Contemplate Lifting Field to increase it.

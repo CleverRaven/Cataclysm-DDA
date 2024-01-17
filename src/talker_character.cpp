@@ -250,6 +250,12 @@ void talker_character::mutate_category( const mutation_category_id &mut_cat,
     me_chr->mutate_category( mut_cat, use_vitamins );
 }
 
+void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
+                                       const bool &use_vitamins )
+{
+    me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
 void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
 {
     me_chr->set_mutation( new_trait, variant );

@@ -1774,7 +1774,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+                                bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
     const auto &[ammo_type_id, avail_ammo_amount] = veh.tool_ammo_available( tool_type );
@@ -1783,7 +1784,9 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     if( tool.ammo_required() > avail_ammo_amount ) {
         return false;
     }
-    get_player_character().invoke_item( &tool );
+    if( !no_invoke ) {
+        get_player_character().invoke_item( &tool, vp_pos );
+    }
 
     // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;

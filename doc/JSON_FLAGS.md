@@ -26,6 +26,7 @@
     - [Firing modes](#firing-modes)
     - [Gun Faults](#gun-faults)
   - [Magazines](#magazines)
+  - [Magic](#magic)
   - [Mapgen](#mapgen)
   - [Map Specials](#map-specials)
   - [Material Phases](#material-phases)
@@ -948,9 +949,15 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```SPEEDLOADER_CLIP``` Acts like a `SPEEDLOADER`, except the target gun or magazine don't have to be emptied to oocur the transferments.
 
 
+## Magic
+
+See [Spell flags](MAGIC.md#spell-flags).
+
+
 ## Mapgen
 
 See [Mapgen flags](MAPGEN.md#mapgen-flags).
+
 
 ## Map Specials
 

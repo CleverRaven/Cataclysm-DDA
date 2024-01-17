@@ -4913,7 +4913,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
     return std::nullopt;
 }
 
-std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
+std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt )
 {
     if( !p ) {
         debugmsg( "%s called action hacksaw that requires character but no character is present",
@@ -4952,8 +4952,11 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
         }
         return std::nullopt;
     }
-
-    p->assign_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) );
+    if( p->pos() == it_pnt ) {
+        p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
+    } else {
+        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
 
     return std::nullopt;
 }

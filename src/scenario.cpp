@@ -86,6 +86,9 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "add_professions", extra_professions );
     optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
+    optional( jo, was_loaded, "hobbies", hobby_exclusion );
+    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
+
     optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
@@ -231,6 +234,14 @@ void scenario::check_definition() const
     for( const auto &p : professions ) {
         if( !p.is_valid() ) {
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
+        }
+    }
+
+    for( const string_id<profession> &hobby : hobby_exclusion ) {
+        if( !hobby.is_valid() ) {
+            debugmsg( "hobby %s for scenario %s does not exist", hobby.str(), id.str() );
+        } else if( !hobby->is_hobby() ) {
+            debugmsg( "hobby %s for scenario %s is a profession", hobby.str(), id.str() );
         }
     }
 
@@ -401,7 +412,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( p.is_hobby() ) {
+        if( p.is_hobby() || p.is_blacklisted() ) {
             continue;
         }
         const bool present = std::find( professions.begin(), professions.end(),
@@ -431,6 +442,39 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         debugmsg( "Why would you blacklist every profession?" );
         res.push_back( profession::generic()->ident() );
     }
+    return res;
+}
+
+std::vector<string_id<profession>> scenario::permitted_hobbies() const
+{
+    if( !cached_permitted_hobbies.empty() ) {
+        return cached_permitted_hobbies;
+    }
+
+    std::vector<string_id<profession>> all = profession::get_all_hobbies();
+    std::vector<string_id<profession>> &res = cached_permitted_hobbies;
+    for( const string_id<profession> &hobby : all ) {
+        if( hobby->is_blacklisted() ) {
+            continue;
+        }
+        if( scenario_traits_conflict_with_profession_traits( *hobby ) ) {
+            continue;
+        }
+        if( !hobbies_whitelist && hobby_exclusion.count( hobby ) != 0 ) {
+            continue;
+        }
+        if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
+            continue;
+        }
+
+        res.push_back( hobby );
+    }
+
+    if( res.empty() ) {
+        debugmsg( "Why would you blacklist every hobby?" );
+        res.insert( res.end(), all.begin(), all.end() );
+    }
+
     return res;
 }
 

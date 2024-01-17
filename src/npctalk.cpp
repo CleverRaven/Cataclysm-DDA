@@ -2879,6 +2879,24 @@ void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, std::string_v
     };
 }
 
+void talk_effect_fun_t::set_mutate_towards( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait = get_str_or_var( jo.get_member( member ), member, true, "" );
+    str_or_var mut_cat;
+    if( jo.has_member( "category" ) ) {
+        mut_cat = get_str_or_var( jo.get_member( "category" ), "category", false, "" );
+    } else {
+        mut_cat.str_val = "";
+    }
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+
+    function = [is_npc, trait, mut_cat, use_vitamins]( dialogue const & d ) {
+        d.actor( is_npc )->mutate_towards( trait_id( trait.evaluate( d ) ),
+                                           mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
+    };
+}
+
 void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
@@ -3915,7 +3933,7 @@ void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, std::string_vie
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( dialogue & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
-        translation translated_name = to_translation( _( name.evaluate( d ) ) );
+        translation translated_name = to_translation( name.evaluate( d ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
                                            pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
@@ -6047,6 +6065,7 @@ parsers = {
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate },
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category },
+    { "u_mutate_towards", "npc_mutate_towards", jarg::member, &talk_effect_fun_t::set_mutate_towards},
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable },
@@ -6494,8 +6513,9 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
             // build additional talk responses for failed options with an explanation if details are given
             talk_response tr = talk_response();
-            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
-                                          actual_response.truetext.translated() ) );
+            tr.truetext = no_translation(
+                              string_format( pgettext( "failure_explanation: actual_response", "*%s: %s" ),
+                                             failure_explanation.translated(), actual_response.truetext.translated() ) );
             if( !failure_topic.empty() ) {
                 // Default is TALK_NONE otherwise go to the failure topic provided
                 tr.success.next_topic = talk_topic( failure_topic );

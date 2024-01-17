@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
       { "queue_eocs": [ "EOC_EYEGLEAM_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" } ]
@@ -26,10 +26,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAMINAFORBLOOD_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
       { "queue_eocs": [ "EOC_STAMINAFORBLOOD_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to recover any stamina.", "type": "bad" } ]
@@ -53,7 +53,7 @@
     "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "0" ] }, { "not": "is_day" }, "u_is_outside" ] },
     "effect": [
       { "u_cast_spell": { "id": "vampire_map_real" } },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
       { "u_message": "The children of the night tell you what features of the map are nearby." }
     ],
     "false_effect": [ { "u_message": "Without the ability to howl into the wilds of the night, there is no response." } ]
@@ -61,10 +61,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COAGULANTWEAVE_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 500 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
       { "queue_eocs": [ "EOC_COAGULANTWEAVE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
@@ -85,10 +85,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-9500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
       { "queue_eocs": [ "EOC_BLOODHEAL_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
@@ -106,10 +106,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 150 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
       { "queue_eocs": [ "EOC_HYPNOTIC_GAZE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to hypnotize your foes.", "type": "bad" } ]
@@ -127,10 +127,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHASTE_activated",
-    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-1500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
       { "queue_eocs": [ "EOC_BLOODHASTE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You lack the stolen lifeforce to accelerate your own.", "type": "bad" } ]

@@ -70,6 +70,10 @@ def parse_response(json, origin):
         write_text(json["truefalsetext"]["false"], origin, c_format=False,
                    comment="Negative response to NPC dialogue")
 
+    if "failure_explanation" in json:
+        write_text(json["failure_explanation"], origin, c_format=False,
+                   comment="Failure explanation for NPC dialogue response")
+
     if "success" in json:
         parse_response(json["success"], origin)
 

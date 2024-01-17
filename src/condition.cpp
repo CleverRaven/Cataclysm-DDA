@@ -1905,15 +1905,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [value]( dialogue const & ) {
             return value;
         };
-    } else if( jo.has_member( "power" ) ) {
-        units::energy power;
-        if constexpr( std::is_same_v<JsonObject, J> ) {
-            assign( jo, "power", power, false, 0_kJ );
-        }
-        const int power_value = units::to_millijoule( power );
-        return [power_value]( dialogue const & ) {
-            return power_value;
-        };
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
         time_duration given_unit = 1_turns;
         if( jo.has_string( "time_since_cataclysm" ) ) {
@@ -2268,15 +2259,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->get_rad();
             };
-        } else if( checked_value == "item_rad" ) {
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                const std::string flag = jo.get_string( "flag" );
-                const aggregate_type agg = jo.template get_enum_value<aggregate_type>( "aggregate",
-                                           aggregate_type::FIRST );
-                return [is_npc, flag, agg]( dialogue const & d ) {
-                    return d.actor( is_npc )->item_rads( flag_id( flag ), agg );
-                };
-            }
         } else if( checked_value == "focus" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->focus_cur();

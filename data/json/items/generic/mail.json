@@ -48,12 +48,12 @@
       },
       {
         "id": "letter_home_soldier_2",
-        "name": { "str": "angry letter home" },
+        "name": { "str": "angry letter home", "str_pl": "angry letters home" },
         "description": "A written message from a soldier to their partner, stuffed angrily into its envelope.  They know, they know she knows, and don't even pretend you don't know.  This letter is full of expletives you don't dare read aloud."
       },
       {
         "id": "letter_home_soldier_3",
-        "name": { "str": "sad letter home" },
+        "name": { "str": "sad letter home", "str_pl": "sad letters home" },
         "description": "A written message from a soldier to their parents.  Their deployment has been extended and they won't be home for the holidays.  This sad letter makes you feel homesick."
       },
       {
@@ -63,17 +63,17 @@
       },
       {
         "id": "letter_home_student_1",
-        "name": { "str": "sad letter home" },
+        "name": { "str": "sad letter home", "str_pl": "sad letters home" },
         "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a really bad time at college and want to come home, nothing seems to be going well, their grades and heart are in the dumps."
       },
       {
         "id": "letter_home_student_2",
-        "name": { "str": "letter home" },
+        "name": { "str": "letter home", "str_pl": "letters home" },
         "description": "A written message from a student to their parents scrawled on notebook paper.  They're having a great time at college and can't wait to introduce you to their new lover.  Coincidently they have run out of money for gas again and it sure would be great if you could send some."
       },
       {
         "id": "letter_home_immigrant",
-        "name": { "str": "letter home" },
+        "name": { "str": "letter home", "str_pl": "letters home" },
         "description": "A written message home in a foreign tongue, carefully folded into its envelope."
       },
       {
@@ -89,7 +89,7 @@
       },
       {
         "id": "letter_overdue",
-        "name": { "str": "letter from the bank" },
+        "name": { "str": "letter from the bank", "str_pl": "letters from the bank" },
         "description": "A letter from the bank stating the homeowners account is overdrawn and they owe quite a bit of money.",
         "weight": 2
       },
