@@ -772,6 +772,42 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: The psion erases their presence from the target's mind. For the power's duration, the target will not be able to see the psion at all; they will react to any companions or allies the psion has as normal. Attacking the target will immediately cancel the power.<br />
 *Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 12 *or* Telepathic Shield 8<br />
 
+## Psychic Scream
+*Difficulty*: 7<br />
+*Target*: Everything within a radius of 2 squares plus 1.1 squares per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7000, minus 275 per level to a minimum of 3250<br />
+*Channeling Time*: 75 moves, minus 6.5 moves per level to a minimum of 30<br />
+*Effects*: Unleash an undirected telepathic shriek, doing 3% of maximum health as damage plus 1% to 2% per power level, +1 flat damage. This second flat damage counts as an additional attack for the purposes of the side effects of telepathic damage.<br />
+*Prerequisites*: Synaptic Blast 10, Telepathic Shield 5<br />
+
+## Beast Tamer
+*Difficulty*: 7<br />
+*Target*: One friendly mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 28 days to 56 days, plus 1 day to 3 days per power level<br />
+*Stamina Cost*: 8000, minus 185 per level to a minimum of 5500<br />
+*Channeling Time*: 2 minutes<br />
+*Effects*: Deepen the psion's influence over a friendly animal, making it well-disposed toward the them. The animal counts as tamed and may be tied up, played with, ridden, and all other functions available to tame animals.<br />
+*Prerequisites*: Beastmaster 10<br />
+
+## Mind Control
+*Difficulty*: 8<br />
+*Target*: One target within 3 squares plus 1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br /><br />
+*Duration*: 6 to 52 seconds, plus 1.5 to 6.5 seconds per power level<br />
+*Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 65<br />
+*Effects*: Take over the mind of your target.  The target will not be hostile to you or run while the power is active, and may fight to defend you, subject to its normal behaviors; mind controlling a salmon is unlikely to provide a significant edge in battle.  Due to engine limitations, does not currently work on NPCs.<br />
+*Prerequisites*: Mood Stabilization 12 *or* Obscurity 6, Primal Terror 5 *or* Beastmaster 8 *or* Sensory Deprivation 7<br />
+
+## Network Effect
+*Difficulty*: 9<br />
+*Target*: All nearby NPC allies<br /><br />
+*Duration*: 1 minute and 40 seconds to 5 minutes, plus 7 to 34 seconds per power level<br />
+*Stamina Cost*: 6500, minus 135 per level to a minimum of 3750<br />
+*Channeling Time*: 500 moves, minus 9 moves per level to a minimum of 250<br />
+*Effects*: Forge a telepathic connection between nearby allies, allowing immediate reaction to threats and better coordination against danger. This provides a large array of bonuses: +1 dodge and block and another +1 per 12 power levels, +1 Perception and another +1 per 5 power levels, +3 ranged weapon range and another +1 per 4 power levels, a 5% chance to evade incoming attacks and another +1% per 2 power levels, 5% increased damage and another +1% per 2 power levels, increased combat skill gain, and the UNCANNY DODGE flag. It applies to all targets, but may only be used when at least 1 NPC ally is nearby.<br />
+*Prerequisites*: Mood Stabilization 12 *or* Obscurity 6, Primal Terror 5 *or* Beastmaster 8 *or* Sensory Deprivation 7<br />
+
 # Teleportation
 
 **Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
