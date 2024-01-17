@@ -1126,7 +1126,7 @@
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
     "changes_to": [ "SOCIAL2" ],
-    "description": "You don't mind being alone, but you get a slight mood boost from being around people.",
+    "description": "You don't mind being alone, but you get a slight mood boost from being around friends.",
     "starting_trait": true,
     "category": [ "CATTLE", "ELFA", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "BIRD", "FISH" ]
   },
@@ -1137,9 +1137,9 @@
     "points": 1,
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
-    "description": "You are a social creature.  Without occasional human contact, you'll start to feel unhappy.",
+    "description": "You are a social creature.  Without occasional friendly human contact, you'll start to feel unhappy.",
     "starting_trait": true,
-    "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN" ]
+    "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
   },
   {
     "type": "mutation",

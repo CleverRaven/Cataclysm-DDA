@@ -432,11 +432,11 @@
   {
     "id": "morale_social",
     "type": "morale_type",
-    "text": "Spent time around others"
+    "text": "Spent time around allies"
   },
   {
     "id": "morale_asocial",
     "type": "morale_type",
-    "text": "Spent time around others"
+    "text": "Spent time alone"
   }
 ]

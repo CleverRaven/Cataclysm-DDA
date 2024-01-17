@@ -502,6 +502,35 @@ void conditional_t::set_has_trait( const JsonObject &jo, std::string_view member
     condition = [trait_to_check, is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
     };
+}        
+
+
+void conditional_t::set_can_see_friends( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    condition = [ dov, is_npc ]( dialogue & d ) {
+        Character &player_character = get_player_character();
+        const Character *ch = d.actor( is_npc )->get_character();
+        int seen = 0;
+            if( is_npc ) {
+                    if( ch->sees( player_character ) && ch->as_npc()->is_friendly( player_character ) ) {
+                    seen += 1;
+                    }
+                    for( npc &guy : g->all_npcs() ) {
+                        if( ch->sees( guy ) && guy.is_friendly( *ch ) ) {
+                        seen += 1;
+                        }
+                    }
+            } else if( !is_npc ) {
+                int seen = 0;
+                for( npc &guy : g->all_npcs() ) {
+                    if( get_player_view().sees( guy ) && guy.is_friendly( player_character ) ) {
+                    seen += 1;
+                    }
+                }
+            }
+        return seen >= dov.evaluate( d );
+    };
 }
 
 void conditional_t::set_has_visible_trait( const JsonObject &jo, std::string_view member,
@@ -3522,6 +3551,7 @@ parsers = {
     {"compare_string", jarg::member, &conditional_t::set_compare_string },
     {"get_condition", jarg::member, &conditional_t::set_get_condition },
     {"get_game_option", jarg::member, &conditional_t::set_get_option },
+    {"u_can_see_friends", "npc_can_see_friends", jarg::member | jarg::array, &conditional_t::set_can_see_friends },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
@@ -3582,7 +3612,7 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_t::set_is_monster },
     {"u_is_item", "npc_is_item", &conditional_t::set_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_t::set_is_furniture },
-    {"player_see_u", "player_see_npc", &conditional_t::set_player_see },
+    {"player_see_u", "player_see_npc", &conditional_t::set_player_see }
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

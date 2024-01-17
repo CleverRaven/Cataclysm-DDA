@@ -157,6 +157,7 @@ struct conditional_t {
         void set_mod_is_loaded( const JsonObject &jo, std::string_view member );
         void set_mission_goal( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_has_faction_trust( const JsonObject &jo, std::string_view member );
+        void set_can_see_friends( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
