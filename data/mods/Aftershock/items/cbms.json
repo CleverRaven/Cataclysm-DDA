@@ -12,7 +12,7 @@
     "id": "bn_bio_trickle",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Trickle Charger CBM" },
+    "name": { "str": "Microfusion Generator CBM" },
     "description": "A miniaturized fusion reactor.  It has modest output, but will run continuously for over two hundred years thanks to its internal nuclear fuel reservoir.",
     "weight": "500 g",
     "price": 120000,
