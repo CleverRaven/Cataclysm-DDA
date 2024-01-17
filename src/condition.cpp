@@ -1455,7 +1455,7 @@ void conditional_t::set_is_day()
 void conditional_t::set_is_outside( bool is_npc )
 {
     condition = [is_npc]( dialogue const & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_creature() );
+        return is_creature_outside( *static_cast<talker const *>( d.actor( is_npc ) )->get_creature() );
     };
 }
 
