@@ -9651,7 +9651,7 @@ units::energy Character::available_ups() const
     }
 
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
         if( it.has_flag( flag_USES_BIONIC_POWER ) ) {
             has_bio_powered_ups = true;
             break;
@@ -9681,7 +9681,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from bionic
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
         if( it.has_flag( flag_USES_BIONIC_POWER ) ) {
             has_bio_powered_ups = true;
             break;
