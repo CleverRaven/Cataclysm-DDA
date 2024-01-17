@@ -251,25 +251,8 @@
     "description": "When outdoors, the Sylph moves 10% faster.",
     "changes_to": "SYLPH_SPEED_INCREASE2",
     "prereqs": [ "PUSHING_WIND" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_SPEED_INCREASE_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "category": [ "SYLPH" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_SPEED_INCREASE_ON",
-    "name": { "str": "Winds Guide Me (active)" },
-    "points": 4,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "When outdoors, the Sylph moves 10% faster.",
-    "changes_to": "SYLPH_SPEED_INCREASE2",
-    "valid": false,
-    "prereqs": [ "PUSHING_WIND" ],
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_SPEED_INCREASE", "msg_transform": "", "active": false, "moves": 0 },
     "category": [ "SYLPH" ],
-    "movecost_modifier": 0.9
+    "enchantments": [ { "condition": "u_is_outside", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -279,26 +262,14 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE_ON" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_SPEED_INCREASE2_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "category": [ "SYLPH" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_SPEED_INCREASE2_ON",
-    "name": { "str": "Outrunning the Gale" },
-    "points": 4,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
-    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE_ON" ],
-    "valid": false,
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_SPEED_INCREASE2", "msg_transform": "", "active": false, "moves": 0 },
+    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
     "category": [ "SYLPH" ],
-    "movecost_modifier": 0.9,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.1 } ] } ]
+    "enchantments": [
+      {
+        "condition": "u_is_outside",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
