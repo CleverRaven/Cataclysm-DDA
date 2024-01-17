@@ -107,7 +107,6 @@
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
   },
   {
-
     "id": "ench_wings_insect_active",
     "type": "enchantment",
     "name": { "str": "Insect Wings (Buzzing)" },
