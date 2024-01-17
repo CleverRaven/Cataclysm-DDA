@@ -5725,11 +5725,11 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                     bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
                     return not_self && in_range && valid_target;
                 } );
-                if( monsters_in_range.size() == 0 ) {
+                int valid_monsters = monsters_in_range.size();
+                if( valid_monsters == 0 ) {
                     run_eoc_vector( false_eocs, d );
                     return;
-                }
-                if( monsters_in_range.size() == 1 ) {
+                } else if( valid_monsters == 1 ) {
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
                 } else {
