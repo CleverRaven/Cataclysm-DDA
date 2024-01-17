@@ -567,7 +567,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "LUPINE_FUR" },
       { "u_add_trait": "LUPINE_FUR_SUMMER" }
     ]
@@ -589,7 +589,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "URSINE_FUR" },
       { "u_add_trait": "URSINE_FUR_SUMMER" }
     ]
@@ -690,9 +690,7 @@
     "type": "effect_on_condition",
     "id": "EOC_insect_wings_shutoff",
     "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": {
-      "and": [ { "compare_num": [ { "u_val": "stamina" }, "<", { "const": 3000 } ] }, { "u_has_trait": "WINGS_INSECT_active" } ]
-    },
+    "condition": { "and": [ { "math": [ "u_val('stamina')", "<", "3000" ] }, { "u_has_trait": "WINGS_INSECT_active" } ] },
     "effect": [
       { "u_activate_trait": "WINGS_INSECT_active" },
       { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }

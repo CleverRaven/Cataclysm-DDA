@@ -2076,7 +2076,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorous", 16 ] ], [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous", 16 ] ], [ [ "copper", 5 ] ] ]
   },
   {
     "result": "matchhead_50ae_fmj",
@@ -2094,6 +2094,6 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorous", 16 ] ], [ [ "copper", 6 ] ] ]
+    "components": [ [ [ "50ae_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous", 16 ] ], [ [ "copper", 6 ] ] ]
   }
 ]

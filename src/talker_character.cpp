@@ -250,6 +250,12 @@ void talker_character::mutate_category( const mutation_category_id &mut_cat,
     me_chr->mutate_category( mut_cat, use_vitamins );
 }
 
+void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
+                                       const bool &use_vitamins )
+{
+    me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
 void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
 {
     me_chr->set_mutation( new_trait, variant );
@@ -1147,10 +1153,9 @@ std::string talker_character_const::spell_seminar_text( const spell_id &s ) cons
     return s->name.translated();
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
+std::vector<bodypart_id> talker_character::get_all_body_parts( get_body_part_flags flags ) const
 {
-    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
-                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
+    return me_chr->get_all_body_parts( flags );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const

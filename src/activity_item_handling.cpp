@@ -1777,7 +1777,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_empty_crafting_component );
+            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
 
             int left_to_consume = 0;
 

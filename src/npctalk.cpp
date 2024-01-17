@@ -2879,6 +2879,24 @@ void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, std::string_v
     };
 }
 
+void talk_effect_fun_t::set_mutate_towards( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait = get_str_or_var( jo.get_member( member ), member, true, "" );
+    str_or_var mut_cat;
+    if( jo.has_member( "category" ) ) {
+        mut_cat = get_str_or_var( jo.get_member( "category" ), "category", false, "" );
+    } else {
+        mut_cat.str_val = "";
+    }
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+
+    function = [is_npc, trait, mut_cat, use_vitamins]( dialogue const & d ) {
+        d.actor( is_npc )->mutate_towards( trait_id( trait.evaluate( d ) ),
+                                           mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
+    };
+}
+
 void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
@@ -3062,7 +3080,8 @@ void talk_effect_fun_t::set_spawn_item( const JsonObject &jo, std::string_view m
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
-        std::vector<std::string> flags_str( flags.size() );
+        std::vector<std::string> flags_str;
+        flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
@@ -3106,7 +3125,8 @@ void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, std::string_view m
             return;
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        std::vector<std::string> flags_str( flags.size() );
+        std::vector<std::string> flags_str;
+        flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
@@ -3915,7 +3935,7 @@ void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, std::string_vie
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( dialogue & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
-        translation translated_name = to_translation( _( name.evaluate( d ) ) );
+        translation translated_name = to_translation( name.evaluate( d ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
                                            pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
@@ -4223,39 +4243,6 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, std::string_view 
     function = [is_npc, dov_amount, dov_cap]( dialogue & d ) {
         d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
                                              dov_cap.evaluate( d ) );
-    };
-}
-
-void talk_effect_fun_t::set_hp( const JsonObject &jo, std::string_view member,
-                                bool is_npc )
-{
-    dbl_or_var new_hp = get_dbl_or_var( jo, member, true );
-    std::optional<str_or_var> target_part;
-    if( jo.has_string( "target_part" ) ) {
-        target_part = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
-    }
-    bool only_increase = jo.get_bool( "only_increase", false );
-    bool max = jo.get_bool( "max", false );
-    bool main_only =  jo.get_bool( "main_only", false );
-    bool minor_only =  jo.get_bool( "minor_only", false );
-    if( main_only && minor_only ) {
-        jo.throw_error( "Can't be main_only and minor_only at the same time." );
-    }
-    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only,
-                   max]( dialogue & d ) {
-        talker *target = d.actor( is_npc );
-        for( const bodypart_id &part : target->get_all_body_parts( ( !main_only &&
-                !minor_only ), main_only ) ) {
-            if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
-                ( !only_increase ||
-                  target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
-                if( max ) {
-                    target->set_part_hp_cur( part, target->get_part_hp_max( part ) );
-                } else {
-                    target->set_part_hp_cur( part, new_hp.evaluate( d ) );
-                }
-            }
-        }
     };
 }
 
@@ -5020,7 +5007,8 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     if( local ) {
         function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( dialogue const & d ) {
             tripoint actor_pos = d.actor( is_npc )->pos();
-            std::vector<std::string> ids( unique_ids.size() );
+            std::vector<std::string> ids;
+            ids.reserve( unique_ids.size() );
             for( const str_or_var &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
@@ -5974,6 +5962,185 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
     };
 }
 
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
+                                        bool no_result )
+{
+    JsonArray objects = jo.get_array( member );
+    std::optional<dbl_or_var_part> min;
+    std::optional<dbl_or_var_part> max;
+    if( jo.has_member( "min" ) ) {
+        min = get_dbl_or_var_part( jo.get_member( "min" ), "min" );
+    } else if( jo.has_member( "min_time" ) ) {
+        dbl_or_var_part value;
+        time_duration min_time;
+        mandatory( jo, false, "min_time", min_time );
+        value.dbl_val = to_turns<int>( min_time );
+        min = value;
+    }
+    if( jo.has_member( "max" ) ) {
+        max = get_dbl_or_var_part( jo.get_member( "max" ), "max" );
+    } else if( jo.has_member( "max_time" ) ) {
+        dbl_or_var_part value;
+        time_duration max_time;
+        mandatory( jo, false, "max_time", max_time );
+        value.dbl_val = to_turns<int>( max_time );
+        max = value;
+    }
+    std::string op = "none";
+    std::string result = "none";
+    std::function<void( dialogue &, double )> set_dbl = conditional_t::get_set_dbl(
+                objects.get_object( 0 ), min,
+                max, no_result );
+    int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
+    // Normal full version
+    if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
+        op = objects.get_string( 3 - no_result_mod );
+        if( !no_result ) {
+            result = objects.get_string( 1 );
+            if( result != "=" ) {
+                jo.throw_error( "invalid result " + op + " in " + jo.str() );
+                function = []( dialogue const & ) {
+                    return false;
+                };
+            }
+        }
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 - no_result_mod ) );
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 4 - no_result_mod ) );
+        if( op == "*" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
+            };
+        } else if( op == "/" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
+            };
+        } else if( op == "+" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
+            };
+        } else if( op == "-" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
+            };
+        } else if( op == "%" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
+            };
+        } else if( op == "^" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        // ~
+    } else if( objects.size() == 4 && !no_result ) {
+        op = objects.get_string( 3 );
+        result = objects.get_string( 1 );
+        if( result != "=" ) {
+            jo.throw_error( "invalid result " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 ) );
+        if( op == "~" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, ~static_cast<int>( get_first_dbl( d ) ) );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+
+        // =, -=, +=, *=, and /=
+    } else if( objects.size() == 3 && !no_result ) {
+        result = objects.get_string( 1 );
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 2 ) );
+        if( result == "+=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
+            };
+        } else if( result == "-=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
+            };
+        } else if( result == "*=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
+            };
+        } else if( result == "/=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
+            };
+        } else if( result == "%=" ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
+            };
+        } else if( result == "=" ) {
+            function = [get_second_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_second_dbl( d ) );
+            };
+        } else {
+            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+        // ++ and --
+    } else if( objects.size() == 2 && !no_result ) {
+        op = objects.get_string( 1 );
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        if( op == "++" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) + 1 );
+            };
+        } else if( op == "--" ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
+                set_dbl( d, get_first_dbl( d ) - 1 );
+            };
+        } else {
+            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
+            function = []( dialogue const & ) {
+                return false;
+            };
+        }
+    } else if( objects.size() == 1 && no_result ) {
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
+                    objects.get_object( 0 ) );
+        function = [get_first_dbl, set_dbl]( dialogue & d ) {
+            set_dbl( d, get_first_dbl( d ) );
+        };
+    } else {
+        jo.throw_error( "Invalid number of args in " + jo.str() );
+        function = []( dialogue const & ) {
+            return false;
+        };
+        return;
+    }
+}
+
+void talk_effect_fun_t::set_math( const JsonObject &jo, std::string_view member )
+{
+    eoc_math math;
+    math.from_json( jo, member, eoc_math::type_t::assign );
+    function = [math = std::move( math )]( dialogue & d ) {
+        return math.act( d );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -6080,9 +6247,9 @@ parsers = {
     { "u_activate_trait", "npc_activate_trait", jarg::member, &talk_effect_fun_t::set_activate_trait },
     { "u_mutate", "npc_mutate", jarg::member | jarg::array, &talk_effect_fun_t::set_mutate },
     { "u_mutate_category", "npc_mutate_category", jarg::member, &talk_effect_fun_t::set_mutate_category },
+    { "u_mutate_towards", "npc_mutate_towards", jarg::member, &talk_effect_fun_t::set_mutate_towards},
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun_t::set_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun_t::set_forget_martial_art },
-    { "u_set_hp", "npc_set_hp", jarg::member | jarg::array, &talk_effect_fun_t::set_hp },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun_t::set_location_variable },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun_t::set_transform_radius },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun_t::set_npc_goal },
@@ -6528,8 +6695,9 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
             // build additional talk responses for failed options with an explanation if details are given
             talk_response tr = talk_response();
-            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
-                                          actual_response.truetext.translated() ) );
+            tr.truetext = no_translation(
+                              string_format( pgettext( "failure_explanation: actual_response", "*%s: %s" ),
+                                             failure_explanation.translated(), actual_response.truetext.translated() ) );
             if( !failure_topic.empty() ) {
                 // Default is TALK_NONE otherwise go to the failure topic provided
                 tr.success.next_topic = talk_topic( failure_topic );
