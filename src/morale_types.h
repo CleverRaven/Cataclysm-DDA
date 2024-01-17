@@ -120,5 +120,7 @@ extern const morale_type MORALE_FUNERAL;
 extern const morale_type MORALE_TREE_COMMUNION;
 extern const morale_type MORALE_ACCOMPLISHMENT;
 extern const morale_type MORALE_FAILURE;
+extern const morale_type MORALE_SOCIAL;
+extern const morale_type MORALE_ASOCIAL;
 
 #endif // CATA_SRC_MORALE_TYPES_H

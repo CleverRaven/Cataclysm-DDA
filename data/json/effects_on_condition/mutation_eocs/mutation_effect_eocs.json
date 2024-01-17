@@ -695,5 +695,47 @@
       { "u_activate_trait": "WINGS_INSECT_active" },
       { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social1_bonus",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SOCIAL1" }, { "player_see_NPC": true }, { "NPC_friend": true }, { "not": { "u_has_effect": "social1_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "social_satisfied", "duration": "3 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_bonus",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SOCIAL2" }, { "player_see_NPC": true }, { "NPC_friend": true }, { "not": { "u_has_effect": "social2_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "social_satisfied", "duration": "3 hours" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_penalty",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SOCIAL2" }, { "player_see_NPC": false }, { "not": { "u_has_effect": "social_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "social_dissatisfied", "duration": "3 hours" }, { "u_lose_effect": "social_satisfied" }, { "u_message": "You could use some company.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial1_bonus",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "ASOCIAL1" }, { "player_see_NPC": false }, { "not": { "u_has_effect": "asocial1_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "asocial_satisfied", "duration": "3 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_bonus",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "ASOCIAL2" }, { "player_see_NPC": false }, { "not": { "u_has_effect": "asocial2_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "asocial_satisfied", "duration": "3 hours" }, { "u_lose_effect": "asocial_dissatisfied" }, { "u_message": "You'd really rather be by yourself.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_penalty",
+    "recurrence": [ "30 minutes", "1 hours" ],
+    "condition": { "and": [ { "u_has_trait": "ASOCIAL2" }, { "player_see_NPC": true }, { "not": { "u_has_effect": "asocial_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_add_effect": "asocial_dissatisfied", "duration": "3 hours" }, { "u_lose_effect": "asocial_satisfied" } ]
   }
 ]

@@ -92,6 +92,8 @@ const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 const morale_type MORALE_VEGETARIAN( "morale_vegetarian" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_WET( "morale_wet" );
+const morale_type MORALE_SOCIAL( "morale_social" );
+const morale_type MORALE_ASOCIAL( "morale_asocial" );
 static const morale_type morale_accomplishment( "morale_accomplishment" );
 static const morale_type morale_antifruit( "morale_antifruit" );
 static const morale_type morale_antijunk( "morale_antijunk" );
@@ -166,6 +168,8 @@ static const morale_type morale_sweettooth( "morale_sweettooth" );
 static const morale_type morale_vegetarian( "morale_vegetarian" );
 static const morale_type morale_vomited( "morale_vomited" );
 static const morale_type morale_wet( "morale_wet" );
+static const morale_type morale_social( "morale_social" );
+static const morale_type morale_asocial( "morale_asocial" );
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {

@@ -495,8 +495,11 @@
     "id": "LEAFNOSE",
     "name": { "str": "Leaf Nose" },
     "points": 2,
+    "prereqs": [ "SLIT_NOSTRILS" ],
     "flags": [ "INFRARED" ],
+    "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
+    "active": true,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as your face is uncovered."
   },
   {
@@ -1114,6 +1117,52 @@
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL1",
+    "name": { "str": "Extrovert" },
+    "points": 1,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
+    "changes_to": [ "SOCIAL2" ],
+    "description": "You don't mind being alone, but you get a slight mood boost from being around people.",
+    "starting_trait": true,
+    "category": [ "CATTLE", "ELFA", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "BIRD", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL2",
+    "name": { "str": "Sociable" },
+    "points": 1,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
+    "description": "You are a social creature.  Without occasional human contact, you'll start to feel unhappy.",
+    "starting_trait": true,
+    "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ASOCIAL1",
+    "name": { "str": "Introvert" },
+    "points": 1,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "SOCIAL1", "SOCIAL2" ],
+    "changes_to": [ "ASOCIAL2" ],
+    "description": "You can tolerate others, but you prefer to be alone.  Spending time by yourself will boost your mood slightly.",
+    "starting_trait": true,
+    "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ASOCIAL2",
+    "name": { "str": "Loner" },
+    "points": 1,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "SOCIAL1", "SOCIAL2" ],
+    "description": "You'd really rather be by yourself.  Spending time around other people will bring your mood down.",
+    "starting_trait": true,
+    "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -1995,7 +2044,7 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -2 },
     "types": [ "DURABILITY" ],
-    "category": [ "MOUSE", "ELFA", "RABBIT" ],
+    "category": [ "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
     "changes_to": [ "FLIMSY2" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
     "hp_modifier": -0.25
@@ -4275,7 +4324,7 @@
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
-    "movecost_modifier": 1.32,
+    "movecost_modifier": 1.35,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "destroys_gear": true,
     "triggers": [
@@ -4310,7 +4359,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your feet have grown into strong, curved claws.  They won't fit into normal shoes and are not much help in combat, but they're perfect for climbing.  You can even cling to walls you glide into!",
+    "description": "Your feet have grown into strong, curved claws.  They won't fit into normal shoes and are not much help in combat, but they allow you to climb most vertical surfaces with ease.  You can even cling to walls you glide into!",
     "types": [ "FEET" ],
     "prereqs": [ "BAT_LEGS" ],
     "category": [ "CHIROPTERAN" ],
