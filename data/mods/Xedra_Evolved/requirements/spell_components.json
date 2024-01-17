@@ -35,5 +35,20 @@
     "id": "spell_components_cable_whip",
     "type": "requirement",
     "components": [ [ [ "cable", 15 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_ward_off_rain",
+    "type": "requirement",
+    "components": [
+      [ [ "leaves", 2 ], [ "grape_leaves", 2 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "wintergreen_leaves", 2 ] ],
+      [
+        [ "cotton_patchwork", 1 ],
+        [ "scrap_cotton", 7 ],
+        [ "felt_patch", 1 ],
+        [ "scrap_felt", 7 ],
+        [ "canvas_patch", 1 ],
+        [ "scrap_canvas", 7 ]
+      ]
+    ]
   }
 ]

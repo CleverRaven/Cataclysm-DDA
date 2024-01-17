@@ -1,0 +1,37 @@
+[
+  {
+    "id": "aura_ward_off_rain",
+    "type": "ARMOR",
+    "name": "Rain Ward",
+    "description": "You won't get wet.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "material": [ "air" ],
+    "symbol": "x",
+    "color": "white",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "WATERPROOF"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  }
+]

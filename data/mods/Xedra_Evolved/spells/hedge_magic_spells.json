@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hedge_ward_off_rain",
+    "type": "SPELL",
+    "name": "Ward Off Rain",
+    "description": "Keep yourself from getting wet in the rain.  The charm will fail if you enter any water deeper than your ankles.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "effect": "spawn_item",
+    "effect_str": "aura_ward_off_rain",
+    "shape": "blast",
+    "components": "spell_components_hedge_ward_off_rain",
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "base_casting_time": 30000,
+    "min_duration": 720000,
+    "max_duration": 2880000
+  }
+]
