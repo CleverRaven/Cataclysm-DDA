@@ -5758,8 +5758,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
             tripoint spawn_point;
             if( !single_target ) {
                 if( group ) {
-                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
-                                                  monster_id.evaluate( d ) ) ) );
+                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
                     Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
                     target_monster = *copy->as_monster();
@@ -5789,8 +5788,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
             tripoint spawn_point;
             if( !single_target ) {
                 if( group ) {
-                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
-                                                  monster_id.evaluate( d ) ) ) );
+                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
                     Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
                     target_monster = *copy->as_monster();
