@@ -699,43 +699,50 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_social1_bonus",
-    "recurrence": [ "30 minutes", "1 hours" ],
-    "condition": { "and": [ { "u_has_flag": "SOCIAL1" }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "social1_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "social_satisfied", "duration": "3 hours" } ]
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": { "and": [ { "u_has_flag": "SOCIAL1" }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_lose_effect": "social_dissatisfied" }, { "u_add_effect": "social_satisfied", "duration": "2 hours" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_bonus",
-    "recurrence": [ "30 minutes", "1 hours" ],
-    "condition": { "and": [ { "u_has_flag": "SOCIAL2" }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "social2_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "social_satisfied", "duration": "3 hours" }, { "u_lose_effect": "social_dissatisfied" } ]
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": { "and": [ { "u_has_flag": "SOCIAL2" }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_lose_effect": "social_dissatisfied" }, { "u_add_effect": "social_satisfied", "duration": "6 hours" }, { "u_lose_effect": "social_dissatisfied" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_penalty",
     "recurrence": [ "12 hours", "48 hours" ],
     "condition": { "and": [ { "u_has_flag": "SOCIAL2" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "social_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "social_dissatisfied", "duration": "3 hours", "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] } }, { "u_lose_effect": "social_satisfied" }, { "u_message": "You could use some friendly company.", "type": "bad" } ]
+    "effect": [ { "u_add_effect": "social_dissatisfied", "duration": "PERMANENT", "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] } }, { "u_lose_effect": "social_satisfied" }, { "u_message": "You could use some friendly company.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial1_bonus",
-    "recurrence": [ "30 minutes", "1 hours" ],
-    "condition": { "and": [ { "u_has_flag": "ASOCIAL1" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "asocial1_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "asocial_satisfied", "duration": "3 hours" } ]
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": { "and": [ { "u_has_flag": "ASOCIAL1" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "2 hours" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial2_bonus",
-    "recurrence": [ "30 minutes", "1 hours" ],
-    "condition": { "and": [ { "u_has_flag": "ASOCIAL2" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "asocial2_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "asocial_satisfied", "duration": "3 hours" }, { "u_lose_effect": "asocial_dissatisfied" }, { "u_message": "You'd really rather be by yourself.", "type": "bad" } ]
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": { "and": [ { "u_has_flag": "ASOCIAL2" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "6 hours" }, { "u_lose_effect": "asocial_dissatisfied" }, { "u_message": "You'd really rather be by yourself.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial2_penalty",
     "recurrence": [ "12 hours", "48 hours" ],
     "condition": { "and": [ { "u_has_flag": "ASOCIAL2" }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "asocial_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "asocial_dissatisfied", "duration": "3 hours", "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] } }, { "u_lose_effect": "asocial_satisfied" } ]
+    "effect": [ { "u_add_effect": "asocial_dissatisfied", "duration": "PERMANENT", "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] } }, { "u_lose_effect": "asocial_satisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_sleep",
+    "recurrence": [ "30 minutes", "45 minutes" ],
+    "condition": { "and": { "u_has_effect": "narcosis" }, "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   }
 ]
