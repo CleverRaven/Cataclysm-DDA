@@ -5789,12 +5789,14 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( group ) {
-                target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
-                                              monster_id.evaluate( d ) ) ) );
-            } else if( hallu_group ) {
-                Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
-                target_monster = *copy->as_monster();
+            if( !single_target ) {
+                if( group ) {
+                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
+                                                  monster_id.evaluate( d ) ) ) );
+                } else if( hallu_group ) {
+                    Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
+                    target_monster = *copy->as_monster();
+                }
             }
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
