@@ -163,7 +163,7 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
-    "by_mood": [ "bear", "big_cat", "kraken" ],
+    "by_mood": [ "bear", "big_cat", "kraken", "fish_mutant_passive" ],
     "neutral": [
       "zombie",
       "bot",
@@ -178,8 +178,7 @@
       "mutant",
       "fungus",
       "yrax",
-      "passive_machine",
-      "fish_mutant_passive"
+      "passive_machine"
     ]
   },
   {
