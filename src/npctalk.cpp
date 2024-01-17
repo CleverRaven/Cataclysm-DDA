@@ -6743,7 +6743,15 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
     } else if( jo.has_object( member_name ) ) {
-        return dynamic_line_t( jo.get_object( member_name ) );
+        JsonObject dl = jo.get_object( member_name );
+        if( dl.has_member( "str" ) ) {
+            dl.allow_omitted_members();
+            translation line;
+            jo.read( member_name, line );
+            return dynamic_line_t( line );
+        } else {
+            return dynamic_line_t( dl );
+        }
     } else if( jo.has_string( member_name ) ) {
         translation line;
         jo.read( member_name, line );
@@ -6772,7 +6780,15 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             } else if( entry.test_array() ) {
                 lines.emplace_back( entry.get_array() );
             } else if( entry.test_object() ) {
-                lines.emplace_back( entry.get_object() );
+                JsonObject dl = entry.get_object();
+                if( dl.has_member( "str" ) ) {
+                    dl.allow_omitted_members();
+                    translation line;
+                    entry.read( line );
+                    lines.emplace_back( line );
+                } else {
+                    lines.emplace_back( dl );
+                }
             } else {
                 entry.throw_error( "invalid format: must be string, array or object" );
             }
@@ -6873,7 +6889,15 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
         } else if( entry.test_array() ) {
             lines.emplace_back( entry.get_array() );
         } else if( entry.test_object() ) {
-            lines.emplace_back( entry.get_object() );
+            JsonObject dl = entry.get_object();
+            if( dl.has_member( "str" ) ) {
+                dl.allow_omitted_members();
+                translation line;
+                entry.read( line );
+                lines.emplace_back( line );
+            } else {
+                lines.emplace_back( dl );
+            }
         } else {
             entry.throw_error( "invalid format: must be string, array or object" );
         }
