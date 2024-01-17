@@ -160,7 +160,7 @@
   },
   {
     "id": "gambeson_hood",
-    "//": "Preexisting",
+    "//-1": "Preexisting",
     "//": "made of double layer cotton, so based off the canvas coif",
     "//1": "human head total is about 2.5 sq. feet.  76g (canvas) x 8 (layers) x 1.25 (surface area) = 760g",
     "type": "ARMOR",
@@ -257,7 +257,7 @@
   },
   {
     "id": "gambeson",
-    "//": "Preexisting",
+    "//-1": "Preexisting",
     "type": "ARMOR",
     "name": { "str": "padded gambeson" },
     "description": "A padded greatcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
@@ -275,9 +275,8 @@
     "armor": [
       {
         "material": [
-          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 }
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 5.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -285,9 +284,8 @@
       },
       {
         "material": [
-          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -397,7 +395,7 @@
   },
   {
     "id": "gambeson_vest",
-    "//": "Preexisting",
+    "//-1": "Preexisting",
     "type": "ARMOR",
     "name": { "str": "padded gambeson vest" },
     "description": "A thick padded surcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered gambeson its sheer thickness is still quite protective.",
@@ -446,14 +444,13 @@
     "id": "gambeson_vest_xs",
     "type": "ARMOR",
     "copy-from": "gambeson_vest",
-    "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson_pants",
-    "//": "Preexisting but doubled in thickness as the old ones were aketon pants",
+    "//-1": "Preexisting but doubled in thickness as the old ones were aketon pants",
     "type": "ARMOR",
     "name": { "str_sp": "padded heavy arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
