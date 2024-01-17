@@ -163,7 +163,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_TRADE",
-    "dynamic_line": "I don't have a whole lot, but I've got a few things that I could stand to be rid of, too much weight tanks the gas milage.  I could always use more fuel, food, and clean water if you have any to spare.  Entertainment is also appreciated, it's pretty <swear> boring looking at nothing but road for 10 hours a day.",
+    "dynamic_line": "I don't have a whole lot, but I've got a few things that I could stand to be rid of, too much weight tanks the gas mileage.  I could always use more fuel, food, and clean water if you have any to spare.  Entertainment is also appreciated, it's pretty <swear> boring looking at nothing but road for 10 hours a day.",
     "responses": [
       { "text": "Let's take a look.", "topic": "TALK_NPC_CAMPER_VAN_TRAVELER", "effect": "start_trade" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -186,7 +186,7 @@
             "yes": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
             "no": {
               "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
-              "yes": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneth the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
+              "yes": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
           }
