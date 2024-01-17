@@ -209,19 +209,11 @@
     "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
     "effect": [
       {
-        "if": { "math": [ "u_i", "<", "rng(50, 100)" ] },
-        "then": [
-          {
-            "u_spawn_monster": "",
-            "hallucination_count": 1,
-            "target_range": 50,
-            "max_radius": 50,
-            "lifespan": [ "2 hours", "9 hours" ]
-          },
-          { "math": [ "u_i", "++" ] },
-          { "run_eocs": "hallucination_swarm" }
-        ],
-        "else": { "math": [ "u_i", "=", "0" ] }
+        "u_spawn_monster": "",
+        "hallucination_count": [ 50, 100 ],
+        "target_range": 50,
+        "max_radius": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
       }
     ]
   }
