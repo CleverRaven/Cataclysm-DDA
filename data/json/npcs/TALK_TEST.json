@@ -682,84 +682,84 @@
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
-        "text": "This is a u_adjust_var test response that increments by 1.",
+        "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
+        "effect": { "math": [ "u_test_var_adjust_test_test", "++" ] }
       },
       {
-        "text": "This is a u_adjust_var test response that decrements by 1.",
+        "text": "This is a math test response that decrements by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
+        "effect": { "math": [ "u_test_var_adjust_test_test", "--" ] }
       },
       {
-        "text": "This is a npc_adjust_var test response that increments by 1.",
+        "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
+        "effect": { "math": [ "npc_test_var_adjust_test_test", "++" ] }
       },
       {
-        "text": "This is a npc_adjust_var test response that decrements by 1.",
+        "text": "This is a math test response that decrements by 1.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
+        "effect": { "math": [ "npc_test_var_adjust_test_test", "--" ] }
       },
       {
-        "text": "This is a u_compare_var test response for == 0.",
+        "text": "This is a math test response for == 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "==", "0" ] }
       },
       {
-        "text": "This is a u_compare_var test response for != 0.",
+        "text": "This is a math test response for != 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "!=", "0" ] }
       },
       {
-        "text": "This is a u_compare_var test response for <= 0.",
+        "text": "This is a math test response for <= 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "<=", "0" ] }
       },
       {
-        "text": "This is a u_compare_var test response for >= 0.",
+        "text": "This is a math test response for >= 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", ">=", "0" ] }
       },
       {
-        "text": "This is a u_compare_var test response for < 0.",
+        "text": "This is a math test response for < 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "<", "0" ] }
       },
       {
-        "text": "This is a u_compare_var test response for > 0.",
+        "text": "This is a math test response for > 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", ">", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for == 0.",
+        "text": "This is a math test response for == 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "==", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for != 0.",
+        "text": "This is a math test response for != 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "!=", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for <= 0.",
+        "text": "This is a math test response for <= 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "<=", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for >= 0.",
+        "text": "This is a math test response for >= 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", ">=", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for < 0.",
+        "text": "This is a math test response for < 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", "<", "0" ] }
       },
       {
-        "text": "This is a npc_compare_var test response for > 0.",
+        "text": "This is a math test response for > 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
+        "condition": { "math": [ "npc_test_var_adjust_test_test", ">", "0" ] }
       }
     ]
   },
@@ -961,14 +961,14 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "text": "This is a u_adjust_var test response that increments by 1.",
+        "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 1 }
+        "effect": { "math": [ "u_test_var_adjust_test_test", "++" ] }
       },
       {
-        "text": "This is an npc_adjust_var test response that increments by 2.",
+        "text": "This is an math test response that increments by 2.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 2 }
+        "effect": { "math": [ "u_test_var_adjust_test_test", "+=", "2" ] }
       },
       {
         "text": "This is a u_add_var time test response.",
