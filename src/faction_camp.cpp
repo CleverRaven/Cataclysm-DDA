@@ -4637,7 +4637,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
-            if( i.typeId() != itype_id( "water" ) && !i.made_of( phase_id::LIQUID ) ) {
+            if( !i.made_of_from_type( phase_id::LIQUID ) ) {
                 total_m += i.weight( true );
                 total_v += i.volume( true );
                 total_num += 1;
