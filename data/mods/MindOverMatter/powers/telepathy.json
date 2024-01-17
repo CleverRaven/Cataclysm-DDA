@@ -195,10 +195,9 @@
     "final_energy_cost": 900,
     "energy_increment": -125,
     "base_casting_time": 75,
-    "final_casting_time": 30,
+    "final_casting_time": 25,
     "casting_time_increment": -2.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_animal_mind_control",
@@ -234,7 +233,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_animal_mind_control') * 2500) + 36000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_animal_mind_control') * 2800) + 47000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -244,15 +243,14 @@
     },
     "max_range": 70,
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 1500,
-    "energy_increment": -185,
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2000,
+    "energy_increment": -155,
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -3.5,
     "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "telepathic_beast_taming": 7, "telepathic_mind_control": 12 }
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_confusion",
@@ -281,7 +279,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_confusion') * 100) + 800) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_confusion') * 150) + 800) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -291,14 +289,13 @@
     },
     "max_range": 80,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 900,
+    "base_energy_cost": 3750,
+    "final_energy_cost": 1500,
     "energy_increment": -150,
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_confusion_blind",
@@ -328,7 +325,7 @@
         "( (u_spell_level('telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
   },
   {
     "id": "telepathic_fear",
@@ -370,10 +367,10 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 6000,
-    "final_energy_cost": 2500,
+    "final_energy_cost": 3500,
     "energy_increment": -100,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
     "casting_time_increment": -5,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
@@ -397,7 +394,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_fear') * 150) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_fear') * 175) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -435,12 +432,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 1200) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 1300) + 12700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 5200) + 52300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -456,11 +453,11 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
-    "final_energy_cost": 1750,
-    "energy_increment": -125,
+    "final_energy_cost": 2250,
+    "energy_increment": -115,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5,
+    "casting_time_increment": -6.5,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
