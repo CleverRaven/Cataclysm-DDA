@@ -176,9 +176,8 @@
     "id": "creature_hallucinations",
     "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
     "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
-    "condition": { "and": [ { "math": [ "rand(3)", "==", "3" ] }, { "not": { "math": [ "u_monsters_nearby()", ">", "1" ] } } ] },
-    "effect": { "run_eocs": "creature_hallucinations_fears" },
-    "false_effect": [
+    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] } ] },
+    "effect": [
       {
         "u_spawn_monster": "",
         "hallucination_count": { "math": [ "1 + rand(4)" ] },
@@ -186,7 +185,8 @@
         "lifespan": [ "2 hours", "9 hours" ]
       },
       { "weighted_list_eocs": [ [ "creature_hallucinations", 1 ], [ "EOC_NONE", 1 ] ] }
-    ]
+    ],
+    "false_effect": { "run_eocs": "creature_hallucinations_fears" }
   },
   {
     "type": "effect_on_condition",
