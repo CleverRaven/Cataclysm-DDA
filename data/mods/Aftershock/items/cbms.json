@@ -9,7 +9,7 @@
     "difficulty": 4
   },
   {
-    "id": "bn_bio_trickle",
+    "id": "bio_microgen",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Microfusion Generator CBM" },

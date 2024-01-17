@@ -11,10 +11,10 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
-    "id": "bn_bio_trickle",
+    "id": "bio_microgen",
     "type": "bionic",
-    "name": { "str": "Trickle Charger" },
-    "description": "You have been equipped with a CBM that slowly recharges your power reserves at all times.  Provides extremely low power but has no cost and will last several years.",
+    "name": { "str": "Microfusion Generator" },
+    "description": "An implanted fusion reactor with its own internal nuclear fuel resevoir.  It will last over a century without servicing.",
     "occupied_bodyparts": [ [ "torso", 7 ] ],
     "dupes_allowed": true,
     "power_trickle": "6 J",
