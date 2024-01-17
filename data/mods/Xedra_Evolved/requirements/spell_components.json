@@ -50,5 +50,10 @@
         [ "scrap_canvas", 7 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_witchlight",
+    "type": "requirement",
+    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "crude_lamp_oil", 4 ] ] ]
   }
 ]

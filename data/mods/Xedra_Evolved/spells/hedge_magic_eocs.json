@@ -1,6 +1,43 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_EFFECTS",
+    "effect": [ { "u_remove_item_with": "hedge_witchlight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_RAIN_WARD_FAIL",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
