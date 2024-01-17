@@ -9509,8 +9509,8 @@
     "threshreq": [ "THRESH_ALPHA" ]
   },
   {
-    "id": "NOT_GLASS",
     "type": "mutation",
+    "id": "NOT_GLASS",
     "name": { "str": "Comfortably Fluid" },
     "player_display": true,
     "points": 1,
