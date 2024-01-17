@@ -1535,7 +1535,7 @@ conditional_t::func f_is_day()
 conditional_t::func f_is_outside( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
-        return is_creature_outside( *d.actor( is_npc )->get_creature() );
+        return is_creature_outside( *static_cast<talker const *>( d.actor( is_npc ) )->get_creature() );
     };
 }
 
