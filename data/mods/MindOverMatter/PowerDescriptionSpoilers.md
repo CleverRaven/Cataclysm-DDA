@@ -555,7 +555,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, thogh they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+
+Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
 ## Far Hand 
 *Difficulty*: 1<br />
@@ -687,6 +689,8 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 **Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
 
+Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
+
 ## Concentration Trance (C)
 *Difficulty*: 1<br />
 *Target*: Self<br />
@@ -720,8 +724,53 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
-*Effects*: Further edit the psion's mind, removing negatie thoughts and improving moods. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
 *Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
+
+## Synaptic Blast
+*Difficulty*: 4<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 125 per level to a minimum of 900<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, causing damage equal to a percentage of their current health, beginning at 5% and adding 1.5% to 3% per power level.  As such, Synaptic Blast is almost never capable of killing the target.<br />
+*Prerequisites*: Sense Minds 7, Mood Stabilization 4<br />
+
+## Beastmaster
+*Difficulty*: 4<br />
+*Target*: One mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 3 minutes to 7 minutes and 50 seconds, plus 11.25 seconds to 28 seconds per power level<br />
+*Stamina Cost*: 4500, minus 155 per level to a minimum of 2000<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 75<br />
+*Effects*: Take over the mind of an animal, making it friendly to you.  While still an animal and subject to its instincts, it will not be hostile to you or run while the power is active, and may fight to defend you, again subject to its instincts (a wolf is a much better battle companion than a lemming).<br />
+*Prerequisites*: Mood Stabilization 8<br />
+
+## Sensory Deprivation
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 to 8 seconds, plus 0.5 to 1.5 seconds per power level<br />
+*Stamina Cost*: 3750, minus 150 per level to a minimum of 1500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, disconnecting their senses. Blinds and stuns the target for the duration.<br />
+*Prerequisites*: Synaptic Blast 6, Telepathic Shield 5<br />
+
+## Primal Terror
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
+*Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
+*Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
+
+## Obscurity
+*Difficulty*: 6<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 minutes and 7 seconds to 8 minutes and 43 seconds, plus 13 to 52 seconds per power level<br />
+*Stamina Cost*: 4500, minus 115 per level to a minimum of 2250<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 25<br />
+*Effects*: The psion erases their presence from the target's mind. For the power's duration, the target will not be able to see the psion at all; they will react to any companions or allies the psion has as normal. Attacking the target will immediately cancel the power.<br />
+*Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 12 *or* Telepathic Shield 8<br />
 
 # Teleportation
 
