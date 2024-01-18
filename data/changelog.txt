@@ -95,6 +95,12 @@ Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
 Adds treetops and makes trees climbable
 Allow bird wings to glide
+[Mods] Non NE region mods have different day/night times dependant on their setting
+add a profession condition for EOCs
+Did you know we didn't have any hallucinations for a while? now they're back, baby!
+Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
+EoCs support mutate_towards directly
+make `u_spawn_item` to support the item group whose subtype is `collection`
 
 
 ## Content:
@@ -182,6 +188,23 @@ Addition of many new books, from religious texts to magazines, mainly for fluff 
 Modularize Desert Eagle, add .50 AE
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
 Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
+Make diet soda junkfood and add sparkling water
+Eggplants barely can be cooked at all at the moment, so I added a greek eggplant dip.
+Add WIP Limb Stuff Mod
+Made quilts craftable, added fur blanket disassembly
+Adds different flavors of chewing gum in variants form
+add mesoamerican weaponry
+Add scrap and ingot recipes for tin
+Addition of fabric store and audit on thread and yarn recipes
+Adds all things frog legs for those displaced survivors wanting a taste of home.
+Adds a recipe for leather riding jackets, changes their name to 'motorcycle jacket'
+Add Modular H&K UMP
+Adds several new hats, variants and their spawn rates.
+Mutant Salmon rework
+2 unicorn variants for plush toy item
+Previously Innawoods-only stream mutables are now in the main game
+Heavy-duty headlamp
+A few fixes I wanted to clear up before Christmas
 
 
 ## Interface:
@@ -330,6 +353,21 @@ Paraclesian Map extras
 [DinoMod] plesiosaurus
 [MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
+MoM nightmare typo fix
+[MoM] Power learning revamp: Clairsentience
+[Xedra Evolved] Add Treesinging to Arvore
+[MoM] Switch rng to rand for Nether Attunement
+[Xedra Evolved] Add some Undine traits
+Aftershock: Can trade with NPCs using your bank account.
+[MoM] Add standard check for powers known to apply recipes
+[MoM] Power learning revamp: Pyrokinesis
+[Xedra Evolved] More Paraclesian spells
+[Magiclysm] Scale Magus stat buffs with spell level
+[Xedra Evolved] Add more fae bans for post-threshold Paraclesians
+[Xedra Evolved] More Sylph traits
+Aftershock: Add the Port Augustmoon Station
+[Magiclysm] Require druid to be in natural surroundings to cast Restoration
+[Magiclysm] Add new Biomancer spells 
 
 
 ## Balance:
@@ -382,6 +420,14 @@ Activity suit is actually waterproof, soft surfaces are less slippery, boomer on
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
+Audit .30, .32, .44, .50AE, 5.45, 5.7, 7.62x39 Magazines
+Add crabapples, reduce rose hip yield, reduce cultivated wild fruit tree frequency
+Audit 12g, .30-06, .338LM, .38 Super, .410, .460 Rowland, .50BMG Magazines
+added sublimbs and changed protective values for studded gloves
+Audit .357, .45, .454, 4.6, .500S&W Magazines
+Some mutagen tweaks
+Balance the energy consumption of 1-cylinder diesel engine
+Made brick constructions need smoothing 1, and concrete ones smoothing 2
 
 
 ## Bugfixes:
@@ -491,6 +537,25 @@ clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
+Fixes improper behavior when moving down
+Fix the scrapper's trading mission.
+Fix traps
+[Xedra Evolved] The Forest Offers Shelter bugfix
+Fix the triggers for mutations healing lost limbs.
+Some Iterator Fixes for Crushing Leap
+Scrapper NPCs now call soldering wire solder.
+Avoid duplicates in speed adjustments
+The stone bladed tepoztopili did not have a recipe, it does now
+[MoM] Check each body part for poison and badpoison
+[MoM] Fix Telekinesis Contemplation recipes
+In npctalk.cpp, some vectors' initializations are wrong
+Prevent uninitialized int
+Fix u_is_outside mutation condition crashing the game
+Fixed makeshift sieve recipe
+Remove the by-product steel blocks from the tin recipes
+[MoM] Fix Doomseer error
+fixes guilt spell to use flags
+Do not attempt initialize audio if built without
 
 
 ## Performance:
@@ -558,6 +623,10 @@ Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
 Migrate names to snippets & add weighted snippets
 Add `_ib` variants of coord.
+Added WebAssembly build to releases
+Items warn on exceeding max volume, unify max volume as a game constant
+Only init game if we're running tests that need it
+Migrate reload ammo selection menu to inventory_selector
 
 
 ## Build:
@@ -571,11 +640,13 @@ add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
+Fix msvc artifact zip name so that release.yml finds it again
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
+Add check to ensure translator comments are correctly located and extracted
 
 
 # 0.G (Gaiman)
