@@ -881,6 +881,8 @@ class Character : public Creature, public visitable
 
         // true if the character produces electrical radiation
         bool is_electrical() const override;
+        // true if the character is a faerie creature (has the FAE_CREATURE flag or the trait FAERIECREATURE)
+        bool is_fae() const override;
         // true if the character is from the nether
         bool is_nether() const override;
         // true if the character has a sapient mind
