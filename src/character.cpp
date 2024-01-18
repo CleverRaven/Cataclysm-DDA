@@ -12306,7 +12306,7 @@ bool Character::is_electrical() const
 
 bool Character::is_fae() const
 {
-    if ( has_trait( trait_FAERIECREATURE ) ) {
+    if( has_trait( trait_FAERIECREATURE ) ) {
         return true;
     }
     return false;
