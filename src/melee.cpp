@@ -807,9 +807,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             std::string specialmsg;
             // Handles speed penalties to monster & us, etc
             if( !t.is_hallucination() ) {
-                if( technique.attack_override ) {
-                    specialmsg = melee_special_effects( t, d, null_item_reference() );
-                } else {
+                if( !technique.attack_override ) {
                     specialmsg = melee_special_effects( t, d, cur_weap );
                 }
             }

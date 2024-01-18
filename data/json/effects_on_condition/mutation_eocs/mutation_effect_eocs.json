@@ -742,7 +742,7 @@
     "type": "effect_on_condition",
     "id": "EOC_social_reset_sleep",
     "recurrence": [ "30 minutes", "45 minutes" ],
-    "condition": { "and": { "u_has_effect": "narcosis" }, "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] },
+    "condition": { "and": [ { "u_has_effect": "narcosis" }, { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] } ] },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   }
 ]

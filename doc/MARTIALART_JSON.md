@@ -145,6 +145,7 @@ List of attack vectors is currently hardcoded, and contain:
 - `WEAPON` - Any technique the requires a held item to perform (see any weapon style). Can be used if the user is holding a valid style weapon for their martial art and at least one hand/arm is not broken.
 - `THROW` - Any technique that forcefully moves an opponent (judo throws, suplex). Can be used only if both hands/arms are not broken.
 - `GRAPPLE` - Any technique that maintains contact with an opponent and squeezes (chock, headlock), bends (Krav Maga's Arm Breaker), or twists (arm twist) some part of the opponent. Can be used only if both hands/arms are not broken.
+- `MOUTH` - Any technique that uses the mouth, such as biting or spitting acid. Can be used if the mouth is uncovered. Integrated items do not count as cover for determining eligibility of this attack vector.
 
 ### Tech effects
 ```C++

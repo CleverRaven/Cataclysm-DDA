@@ -3498,10 +3498,16 @@
     "melee_allowed": true,
     "messages": [ "You bite %s!", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
-    "weighting": -30,
+    "weighting": -4,
     "reach_ok": false,
     "attack_override": true,
     "crit_ok": true,
-    "attack_vectors": [ "MOUTH" ]
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
   }
 ]
