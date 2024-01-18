@@ -84,7 +84,8 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
-    "volume": "1100 L",
+    "//": "Former volume: 1100 L. Adjusted to 1000L so it can actually be placed. TODO(?): Re-add old volume with some sort of flag",
+    "volume": "1000 L",
     "to_hit": -3,
     "use_action": {
       "type": "place_monster",

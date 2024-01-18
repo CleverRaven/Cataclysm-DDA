@@ -196,6 +196,12 @@
     "contents": [ { "id": "retool_deagle_44", "count": 1 } ]
   },
   {
+    "id": "hk_ump45",
+    "type": "MIGRATION",
+    "replace": "modular_ump",
+    "contents": [ { "id": "retool_ump_45", "count": 1 } ]
+  },
+  {
     "id": "mobile_memory_card_used",
     "type": "MIGRATION",
     "replace": "memory_card"

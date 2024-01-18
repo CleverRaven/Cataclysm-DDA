@@ -296,8 +296,7 @@
   {
     "id": "photokinetic_camouflage",
     "type": "SPELL",
-    "name": "[Ψ]Chameleoflage (C)",
-    "//~": "Combination of chameleon and camouflage",
+    "name": { "//~": "Combination of chameleon and camouflage", "str": "[Ψ]Chameleoflage (C)" },
     "description": "By blending the light reflecting from you with the light reflecting from nearby surfaces, you can make yourself much harder to spot from a distance.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,

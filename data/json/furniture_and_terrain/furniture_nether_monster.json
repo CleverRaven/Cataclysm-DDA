@@ -30,7 +30,7 @@
     "type": "furniture",
     "id": "f_nm_nether_lily",
     "name": "beautiful nether lily",
-    "//~": "Its thing is making itself irresistible to the PC. TODO: Make this effect more obvious",
+    "//": "Its thing is making itself irresistible to the PC. TODO: Make this effect more obvious",
     "description": "A very tall, mesmerizing blood red flower.  Its beautiful, pristine form is rooted firmly on the innards of the beast.  The flesh around it is decayed, being consumed to feed its ornate, magnanimous body.  You feel an urge to sit and admire this priceless miracle of life.",
     "looks_like": "f_black_eyed_susan",
     "symbol": "P",

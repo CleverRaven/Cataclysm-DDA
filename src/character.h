@@ -753,6 +753,11 @@ class Character : public Creature, public visitable
         virtual bool is_ally( const Character &p ) const = 0;
         virtual bool is_obeying( const Character &p ) const = 0;
 
+        //returns character's profession
+        const profession *get_profession() const;
+        //returns the hobbies
+        std::set<const profession *> get_hobbies() const;
+
         // Has item with mission_id
         bool has_mission_item( int mission_id ) const;
 
@@ -1820,12 +1825,8 @@ class Character : public Creature, public visitable
          * @param prompt force display of the menu even if only one choice
          * @param empty allow selection of empty magazines
          */
-        item::reload_option select_ammo( const item_location &base, bool prompt = false,
-                                         bool empty = true ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item_location &base, std::vector<item::reload_option> opts,
-                                         const std::string &name_override = std::string() ) const;
+        virtual item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                bool empty = true ) = 0;
 
         void process_items();
         void leak_items();

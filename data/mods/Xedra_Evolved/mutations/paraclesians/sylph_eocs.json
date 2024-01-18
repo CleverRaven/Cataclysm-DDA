@@ -1,9 +1,89 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_JUMP_HIGH_ON",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_SYLPH_JUMP_HIGH_SELECTOR_TWO",
+          "EOC_SYLPH_JUMP_HIGH_SELECTOR_FOUR",
+          "EOC_SYLPH_JUMP_HIGH_SELECTOR_SIX",
+          "EOC_NULL"
+        ],
+        "names": [ "Leap two stories up", "Leap four stories up", "Leap six stories up", "Cancel" ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [ "Leap straight up two stories.", "Leap straight up four stories.", "Leap straight up six stories.", "Do nothing." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_JUMP_HIGH_SELECTOR_TWO",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_add_effect": "effect_sylph_levitation", "duration": 5 },
+      { "u_location_variable": { "u_val": "sylph_jump_high_jump_location" }, "z_adjust": 2, "outdoor_only": true },
+      { "u_message": "With a burst of wind, you leap into the air.", "type": "good" },
+      { "u_teleport": { "u_val": "sylph_jump_high_jump_location" } }
+    ],
+    "false_effect": [ { "u_message": "You cannot jump with a ceiling above you!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_JUMP_HIGH_SELECTOR_FOUR",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_add_effect": "effect_sylph_levitation", "duration": 5 },
+      { "u_location_variable": { "u_val": "sylph_jump_high_jump_location" }, "z_adjust": 4, "outdoor_only": true },
+      { "u_message": "With a burst of wind, you leap into the air.", "type": "good" },
+      { "u_teleport": { "u_val": "sylph_jump_high_jump_location" } }
+    ],
+    "false_effect": [ { "u_message": "You cannot jump with a ceiling above you!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_JUMP_HIGH_SELECTOR_SIX",
+    "condition": { "and": [ "u_is_outside", { "u_has_trait": "THRESH_SYLPH" } ] },
+    "effect": [
+      { "u_add_effect": "effect_sylph_levitation", "duration": 5 },
+      { "u_location_variable": { "u_val": "sylph_jump_high_jump_location" }, "z_adjust": 6, "outdoor_only": true },
+      { "u_message": "With a burst of wind, you leap into the air.", "type": "good" },
+      { "u_teleport": { "u_val": "sylph_jump_high_jump_location" } }
+    ],
+    "false_effect": [ { "u_message": "You cannot jump with a ceiling above you!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FLY_AT_WILL",
+    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
+    "effect": [ { "math": [ "u_val('mana')", "-=", "3" ] }, { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" } ],
+    "false_effect": [
+      { "u_message": "You do not have enough mana to fly!", "type": "bad" },
+      { "u_lose_effect": "effect_sylph_levitation" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_MASSIVE_LIGHTNING_BOLT",
+    "condition": "u_is_outside",
+    "effect": [ { "u_cast_spell": { "id": "sylph_massive_lightning_bolt_spell_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outdoors to cast Fist of Heaven's Fury.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_GOBLIN_FRUIT",
-    "condition": { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "12" ] } ] },
+    "condition": {
+      "or": [
+        { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "15" ] } ] },
+        { "and": [ "u_is_outside", { "math": [ "u_val('pos_z')", ">=", "1" ] } ] }
+      ]
+    },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
-    "false_effect": [ { "u_message": "You must have a strong enough wind to call forth a goblin fruit.", "type": "bad" } ]
+    "false_effect": [
+      {
+        "u_message": "You must have a strong enough wind or be above ground level to call forth a goblin fruit.",
+        "type": "bad"
+      }
+    ]
   }
 ]

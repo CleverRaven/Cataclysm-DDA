@@ -26,7 +26,8 @@
       { "point": [ -1, 1, -4 ], "overmap": "mine_spiral_finale_ne_north" },
       { "point": [ -3, 2, -4 ], "overmap": "mine_spiral_finale_sw_north" },
       { "point": [ -2, 2, -4 ], "overmap": "mine_spiral_finale_s_north" },
-      { "point": [ -1, 2, -4 ], "overmap": "mine_spiral_finale_se_north" }
+      { "point": [ -1, 2, -4 ], "overmap": "mine_spiral_finale_se_north" },
+      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [
       { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
@@ -59,7 +60,8 @@
       { "point": [ -3, 1, -3 ], "overmap": "mine_amigara_-1_west_north" },
       { "point": [ -1, 1, -4 ], "overmap": "mine_amigara_finale_east_north" },
       { "point": [ -2, 1, -4 ], "overmap": "mine_amigara_finale_central_north" },
-      { "point": [ -3, 1, -4 ], "overmap": "mine_amigara_finale_west_north" }
+      { "point": [ -3, 1, -4 ], "overmap": "mine_amigara_finale_west_north" },
+      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [
       { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
@@ -87,7 +89,8 @@
       { "point": [ -1, 1, -2 ], "overmap": "mine_wyrms_east_north" },
       { "point": [ -2, 1, -2 ], "overmap": "mine_wyrms_central_north" },
       { "point": [ -3, 1, -2 ], "overmap": "mine_wyrms_west_north" },
-      { "point": [ -3, 1, -3 ], "overmap": "mine_wyrms_finale_north" }
+      { "point": [ -3, 1, -3 ], "overmap": "mine_wyrms_finale_north" },
+      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [
       { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },

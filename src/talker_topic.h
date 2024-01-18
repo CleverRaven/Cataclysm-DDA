@@ -33,7 +33,6 @@ class talker_topic: public talker_cloner<talker_topic>
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
-        std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
 

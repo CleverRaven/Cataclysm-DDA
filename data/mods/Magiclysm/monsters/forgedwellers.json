@@ -2,7 +2,7 @@
   {
     "id": "mon_forgeborn",
     "type": "MONSTER",
-    "name": { "str": "forge born" },
+    "name": { "str_sp": "forge born" },
     "description": "The most elaborate, gaudy and overwrought clockwork creature that you've ever seen.  Each one has its face designed in a mask displaying a single emotion.  Blades extend from the wrists in combat.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
@@ -181,7 +181,7 @@
   {
     "id": "mon_forgehounds",
     "type": "MONSTER",
-    "name": { "str_sp": "forge hounds" },
+    "name": { "str": "forge hound" },
     "description": "A metallic hound steps out of a nearby angle and growls at you.  Run!!!",
     "default_faction": "wonder_forge",
     "copy-from": "mon_hound_tindalos"

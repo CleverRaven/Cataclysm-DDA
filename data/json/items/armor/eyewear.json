@@ -86,7 +86,7 @@
     "price": 7500,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": [ "plastic", "nylon" ],
+    "material": [ "hard_plastic_transp", "nylon" ],
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "dark_gray",

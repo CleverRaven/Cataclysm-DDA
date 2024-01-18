@@ -1077,7 +1077,7 @@
     "price": 32500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "material": [ "plastic", "epoxy", "plastic_pad" ],
+    "material": [ "plastic", "hard_plastic_transp", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
@@ -1104,7 +1104,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "eyes" ],
@@ -1115,7 +1115,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "mouth" ],
@@ -1138,7 +1138,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "plastic_pad", "covered_by_mat": 50, "thickness": 16 }
         ],
@@ -1175,6 +1175,7 @@
     "armor": [
       {
         "material": [
+          { "type": "hard_plastic_transp", "covered_by_mat": 40, "thickness": 2.0 },
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
@@ -1612,7 +1613,7 @@
       {
         "id": "morion",
         "name": { "str": "morion" },
-        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "description": "The tall crested helmet of a Spanish conquistador.  Heavy rusting implies it might be that many years old.",
         "color": "dark_gray",
         "weight": 0,
         "append": false

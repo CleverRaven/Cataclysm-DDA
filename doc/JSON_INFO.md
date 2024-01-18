@@ -69,6 +69,8 @@ Use the `Home` key to return to the top.
       - [`age_lower`](#age_lower)
       - [`age_upper`](#age_upper)
       - [`pets`](#pets)
+      - [`hobbies`](#hobbies)
+      - [`whitelist_hobbies`](#whitelist_hobbies)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
       - [`cbms`](#cbms)
@@ -253,6 +255,8 @@ Use the `Home` key to return to the top.
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
+  - [`hobbies`](#hobbies-1)
+  - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`reveal_locale`](#reveal_locale)
@@ -920,24 +924,16 @@ Addictions are defined in JSON using `"addiction_type"`:
 Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
 
 ```JSON
-{
-  "type": "effect_on_condition",
-  "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
-  "effect": [
-    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
-    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-    {
-      "run_eocs": [
-        {
-          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-        }
-      ]
-    }
-  ]
-}
+  {
+    "type": "effect_on_condition", 
+    "id": "EOC_MARLOSS_R_ADDICTION",
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "effect": [
+      { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+      { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+    ]
+  },
 ```
 
 Current hardcoded builtins:
@@ -2066,6 +2062,18 @@ This places no limits on manual input, only on random generation (i.e. Play Now!
 
 A list of strings, each is the same as a monster id
 player will start with these as tamed pets.
+
+#### `hobbies`
+
+(optional, array of string profession_ids)
+
+A list of hobbies that will be the only hobbies this profession can choose from. If empty, all hobbies will be allowed.
+
+#### `whitelist_hobbies`
+
+(optional, bool)
+
+If this is false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from. This defaults to true.
 
 #### `vehicle`
 
@@ -5770,6 +5778,16 @@ The name that is shown for the starting location. This is useful if the scenario
 (optional, array of strings)
 
 A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+
+## `hobbies`
+(optional, array of strings)
+
+A list of allowed hobbies that can be chosen when using this scenario. If this is empty, all hobbies are allowed.
+
+## `whitelist_hobbies`
+(optional, bool)
+
+When set to false, the hobbies in `hobbies` are hobbies that _cannot_ be chosen when using this scenario. This value defaults to true.
 
 ## `map_special`
 (optional, string)

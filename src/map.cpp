@@ -6099,7 +6099,7 @@ const trap &map::tr_at( const tripoint &p ) const
 
 const trap &map::tr_at( const tripoint_abs_ms &p ) const
 {
-    return tr_at( p.raw() );
+    return tr_at( bub_from_abs( p ) );
 }
 
 const trap &map::tr_at( const tripoint_bub_ms &p ) const
@@ -9715,7 +9715,7 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
     // gliding or boarded in a vehicle means the player is above the trap
     // like a flying monster and can never trigger the trap.
     const Character *const you = c.as_character();
-    if( you != nullptr && ( you->in_vehicle || !you->has_effect( effect_gliding ) ) ) {
+    if( you != nullptr && ( you->in_vehicle || you->has_effect( effect_gliding ) ) ) {
         return;
     }
 

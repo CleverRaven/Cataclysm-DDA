@@ -994,8 +994,6 @@ class vehicle
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
 
-        item init_cord( const tripoint &pos );
-        void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
@@ -1114,8 +1112,7 @@ class vehicle
          * Useful for, e.g. power cables that have a vehicle part on both sides.
          * @param vp_local Vehicle part that is connected to the remote part.
          */
-        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part(
-                    const vehicle_part &vp_local ) const;
+        std::optional<vpart_reference> get_remote_part( const vehicle_part &vp_local ) const;
         /**
          * Remove the part on a targeted remote vehicle that a part is targeting.
          */
@@ -1217,6 +1214,16 @@ class vehicle
         *  @returns part index or -1
         */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has link connection
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param to_ports if true, look for part with CABLE_PORTS flag. If false, BATTERY.
+        *  Either way, will also look for APPLIANCE
+        *  @returns part index or -1
+        */
+        int avail_linkable_part( const point &pt, bool to_ports ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
@@ -1767,6 +1774,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
+        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+                                      bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
         * @param tool the item to examine
