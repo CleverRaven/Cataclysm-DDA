@@ -389,7 +389,7 @@
   {
     "type": "overmap_terrain",
     "id": "salamander_tunnel",
-    "name": "salamder tunnels",
+    "name": "salamander tunnels",
     "color": "red_cyan",
     "see_cost": 5,
     "spawns": { "group": "GROUP_SALAMANDER_ERUPTION", "population": [ 1, 2 ], "chance": 100 },
@@ -398,7 +398,7 @@
   {
     "type": "overmap_terrain",
     "id": "salamander_finale",
-    "name": "salamder tunnels",
+    "name": "salamander tunnels",
     "sym": "E",
     "color": "red_cyan",
     "see_cost": 5
