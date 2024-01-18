@@ -264,7 +264,7 @@
   },
   {
     "id": "ppq45mag",
-    "//": "Audited with ImageJ.  Weight estimated.",
+    "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "PPQ .45 12-round magazine" },
@@ -310,7 +310,7 @@
   },
   {
     "id": "glock_21mag",
-    "//": "Audited with ImageJ.  Weight of a 15rd 9mm magazine.",
+    "//": "Audited with ImageJ.  Weight from Manufacturer.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 13-round magazine" },
@@ -323,7 +323,7 @@
         "description": "A standard capacity magazine for use with the Glock 21."
       }
     ],
-    "weight": "70 g",
+    "weight": "85 g",
     "volume": "114 ml",
     "longest_side": "125 mm",
     "price": 4000,
@@ -337,7 +337,7 @@
   },
   {
     "id": "glock_21mag26",
-    "//": "Audited with ImageJ.  Weight from 13rd mag ratio.",
+    "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 26-round magazine" },
@@ -350,8 +350,9 @@
         "description": "A double-capacity magazine for use with the Glock 21."
       }
     ],
-    "weight": "126 g",
+    "weight": "159 g",
     "volume": "205 ml",
+    "longest_side": "225 mm",
     "price": 4000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
