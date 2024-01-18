@@ -152,17 +152,6 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
             + var_context ) + "_" + var_basename;
 }
 
-std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
-                                   bool check_value )
-{
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
-                          jo.has_array( "possible_values" ) ) ) {
-        jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
-    }
-    const std::string &var_basename = jo.get_string( std::string( member ) );
-    return var_basename;
-}
-
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member, bool required,
                                      double default_val )
 {

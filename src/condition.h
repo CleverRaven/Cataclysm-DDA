@@ -54,8 +54,6 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
                       double value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
-std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
-                                   bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( dialogue & )> &condition, bool default_val );

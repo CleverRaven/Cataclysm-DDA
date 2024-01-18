@@ -1,7 +1,6 @@
 #include "math_parser.h"
 
 #include <algorithm>
-#include <array>
 #include <cstddef>
 #include <locale>
 #include <map>
@@ -22,6 +21,8 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "event.h"
+#include "event_bus.h"
 #include "global_vars.h"
 #include "math_parser_diag_value.h"
 #include "math_parser_func.h"
@@ -212,6 +213,28 @@ void _validate_unused_kwargs( diag_kwargs const &kwargs )
     }
 }
 
+std::string _var_scope_to_string( var const &v )
+{
+    switch( v.varinfo.type ) {
+        case var_type::u:
+            return "u";
+        case var_type::npc:
+            return "n";
+        case var_type::global:
+            return "g";
+        case var_type::context:
+            return "_";
+        case var_type::var:
+            return "v";
+        case var_type::faction:
+        case var_type::party:
+            return "why do these exist if they're not implemented anywhere";
+        case var_type::last:
+            break;
+    }
+    return {};
+}
+
 } // namespace
 
 func::func( std::vector<thingie> &&params_, math_func::f_t f_ ) : params( params_ ),
@@ -306,6 +329,8 @@ class math_exp::math_exp_impl
                     write_var_value( v.varinfo.type, v.varinfo.name,
                                      d.actor( v.varinfo.type == var_type::npc ),
                                      &d, val );
+                    get_event_bus().send<event_type::u_var_changed>(
+                        _var_scope_to_string( v ), v.varinfo.name.substr( 12 ), std::to_string( val ) );
                 },
                 []( auto &/* v */ ) {
                     debugmsg( "Assignment called on eval tree" );

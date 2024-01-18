@@ -2455,7 +2455,7 @@
     "id": "portal_storm_happened",
     "type": "event_transformation",
     "event_type": "u_var_changed",
-    "value_constraints": { "var": { "equals": [ "string", "portal_storm_counter" ] } }
+    "value_constraints": { "scope": { "equals": [ "string", "u" ] }, "var": { "equals": [ "string", "counter_portal_storm_counter" ] } }
   },
   {
     "id": "witnessed_portal_storm",

@@ -861,7 +861,8 @@ struct event_spec<event_type::uses_debug_menu> {
 
 template<>
 struct event_spec<event_type::u_var_changed> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "scope", cata_variant_type::string },
             { "var", cata_variant_type::string },
             { "value", cata_variant_type::string },
         }
