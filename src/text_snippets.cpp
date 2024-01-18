@@ -8,7 +8,9 @@
 
 #include "debug.h"
 #include "generic_factory.h"
+#include "itype.h"
 #include "json.h"
+#include "mutation.h"
 #include "path_info.h"
 #include "rng.h"
 
@@ -232,32 +234,112 @@ bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
     return snippets_by_id.find( id ) != snippets_by_id.end();
 }
 
-std::string snippet_library::expand( const std::string &str, bool with_tags ) const
+std::string snippet_library::expand( const std::string &str,
+                                     std::function<void( std::string & )> unrecognized_callback ) const
 {
+    // Find the first complete tag from '<' to '>', with possibly nested tags
     size_t tag_begin = str.find( '<' );
-    if( tag_begin == std::string::npos ) {
-        return str;
+    size_t tag_end = str.find( '>' );
+    size_t nested_begin;
+    if( tag_begin != std::string::npos ) {
+        size_t nest = 0;
+        nested_begin = str.find( '<', tag_begin + 1 );
+        while( nested_begin < tag_end && nested_begin != std::string::npos ) {
+            nest++;
+            nested_begin = str.find( '<', nested_begin + 1 );
+        }
+        while( nest > 0 && tag_end != std::string::npos ) {
+            nest--;
+            tag_end = str.find( '>', tag_end + 1 );
+        }
     }
-    size_t tag_end = str.find( '>', tag_begin + 1 );
-    if( tag_end == std::string::npos ) {
+    // Brackets did not exist or match
+    if( tag_begin == std::string::npos || tag_end == std::string::npos ) {
         return str;
     }
 
     std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
     std::optional<translation> replacement = random_from_category( symbol );
-    if( !replacement.has_value() ) {
-        if( with_tags ) {
-            parse_basic_tags( symbol );
-            return str.substr( 0, tag_end + 1 )
-                   + expand( symbol )
-                   + expand( str.substr( tag_end + 1 ) );
-        }
-        return str.substr( 0, tag_end + 1 )
+    if( replacement.has_value() ) {
+        return str.substr( 0, tag_begin )
+               + expand( replacement.value().translated() )
                + expand( str.substr( tag_end + 1 ) );
     }
     return str.substr( 0, tag_begin )
-           + expand( replacement.value().translated() )
+           + expand( parse_tag( symbol, unrecognized_callback ) )
            + expand( str.substr( tag_end + 1 ) );
+}
+
+std::string snippet_library::parse_tag( std::string &tag,
+                                        std::function<void( std::string & )> unrecognized_callback ) const
+{
+    if( tag.find( "<global_val:" ) == 0 ) {
+        //adding a global variable to the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        global_variables &globvars = get_globals();
+        return globvars.get_global_value( "npctalk_var_" + var );
+    } else if( tag.find( "<item_name:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as an item id
+        return itype_id( var )->nname( 1 );
+    } else if( tag.find( "<item_description:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as an item id
+        return itype_id( var )->description.translated();
+    } else if( tag.find( "<trait_name:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as a trait id
+        return trait_id( var )->name();
+    } else if( tag.find( "<trait_description:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as a trait id
+        return trait_id( var )->desc();
+    } else if( tag.find( "<spell_name:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as a spell id
+        return spell_id( var )->name.translated();
+    } else if( tag.find( "<spell_description:" ) == 0 ) {
+        //embedding an items name in the string
+        std::string var = tag.substr( tag.find( ':' ) + 1 );
+        // remove the trailing >
+        var.pop_back();
+        // resolve nest
+        var = expand( var, unrecognized_callback );
+        // Try the variable as a spell id
+        return spell_id( var )->description.translated();
+    } else {
+        unrecognized_callback( tag );
+        return tag;
+    }
 }
 
 snippet_id snippet_library::random_id_from_category( const std::string &cat ) const

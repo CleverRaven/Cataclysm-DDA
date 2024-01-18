@@ -395,6 +395,15 @@
   },
   {
     "type": "snippet",
+    "category": "<punc>",
+    "text": [
+      { "weight": 1, "text": { "str": ".", "ctxt": "punctuation" } },
+      { "weight": 1, "text": { "str": "!", "ctxt": "punctuation" } },
+      { "weight": 1, "text": { "str": "…", "ctxt": "punctuation" } }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "pyromania_withdrawal",
     "text": [
       "You feel cold.  You need the warmth of a fire.",

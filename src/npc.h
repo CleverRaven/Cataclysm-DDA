@@ -86,7 +86,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const dialogue &d, const itype_id &item_type = itype_id::NULL_ID() );
 
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
-                 const itype_id &item_type = itype_id::NULL_ID() );
+                 const itype_id &item_type = itype_id::NULL_ID(), bool expand_snippets = true );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter

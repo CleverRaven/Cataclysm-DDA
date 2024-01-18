@@ -2040,141 +2040,16 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
     parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
 }
 
-static bool parse_static_tags( std::string &phrase, const std::string &tag, size_t fa, size_t fb,
-                               const std::function<void( std::string & )> &recurse )
-{
-    int l = fb - fa + 1;
-
-    if( tag == "<punc>" ) {
-        switch( rng( 0, 2 ) ) {
-            case 0:
-                phrase.replace( fa, l, pgettext( "punctuation", "." ) );
-                break;
-            case 1:
-                phrase.replace( fa, l, pgettext( "punctuation", "…" ) );
-                break;
-            case 2:
-                phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
-                break;
-        }
-    } else if( tag.find( "<global_val:" ) == 0 ) {
-        //adding a global variable to the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        global_variables &globvars = get_globals();
-        phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
-    } else if( tag.find( "<item_name:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as an item id
-        phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
-    } else if( tag.find( "<item_description:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as an item id
-        phrase.replace( fa, l, itype_id( var )->description.translated() );
-    } else if( tag.find( "<trait_name:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as a trait id
-        phrase.replace( fa, l, trait_id( var )->name() );
-    } else if( tag.find( "<trait_description:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as a trait id
-        phrase.replace( fa, l, trait_id( var )->desc() );
-    } else if( tag.find( "<spell_name:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as a spell id
-        phrase.replace( fa, l, spell_id( var )->name.translated() );
-    } else if( tag.find( "<spell_description:" ) == 0 ) {
-        //embedding an items name in the string
-        std::string var = tag.substr( tag.find( ':' ) + 1 );
-        // remove the trailing >
-        var.pop_back();
-        // resolve nest
-        recurse( var );
-        // Try the variable as a spell id
-        phrase.replace( fa, l, spell_id( var )->description.translated() );
-    } else if( tag.find( "<city>" ) == 0 ) {
-        std::string cityname = "nowhere";
-        // Gets the closest city to the avatar, who the map is centered around
-        tripoint_abs_sm abs_sub = get_map().get_abs_sub();
-        const city *c = overmap_buffer.closest_city( abs_sub ).city;
-        if( c != nullptr ) {
-            cityname = c->name;
-        }
-        phrase.replace( fa, l, cityname );
-    } else {
-        return false;
-    }
-    return true;
-}
-
-void parse_basic_tags( std::string &phrase )
-{
-    phrase = SNIPPET.expand( remove_color_tags( phrase ), false );
-
-    size_t fa;
-    size_t fb;
-    size_t fa_;
-    std::string tag;
-    do {
-        fa = phrase.find( '<' );
-        fb = phrase.find( '>' );
-        if( fa != std::string::npos ) {
-            size_t nest = 0;
-            fa_ = phrase.find( '<', fa + 1 );
-            while( fa_ < fb && fa_ != std::string::npos ) {
-                nest++;
-                fa_ = phrase.find( '<', fa_ + 1 );
-            }
-            while( nest > 0 && fb != std::string::npos ) {
-                nest--;
-                fb = phrase.find( '>', fb + 1 );
-            }
-        }
-        if( fa != std::string::npos && fb != std::string::npos ) {
-            tag = phrase.substr( fa, fb - fa + 1 );
-        } else {
-            return;
-        }
-
-        if( !parse_static_tags( phrase, tag, fa, fb, parse_basic_tags ) && !tag.empty() ) {
-            debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
-            phrase.replace( fa, fb - fa + 1, "????" );
-        }
-    } while( fa != std::string::npos && fb != std::string::npos );
-}
-
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
-                 const itype_id &item_type )
+                 const itype_id &item_type, bool expand_snippets )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ), false );
+
+    if( expand_snippets ) {
+        const auto recursive = [&u, &me, &d, &item_type]( std::string & new_phrase ) {
+            parse_tags( new_phrase, u, me, d, item_type, false );
+        };
+        phrase = SNIPPET.expand( remove_color_tags( phrase ), recursive );
+    }
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2203,10 +2078,6 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
         } else {
             return;
         }
-
-        const auto recursive = [&u, &me, &d, &item_type]( std::string & new_phrase ) {
-            parse_tags( new_phrase, u, me, d, item_type );
-        };
 
         const item_location u_weapon = u_chr ? u_chr->get_wielded_item() : item_location();
         const item_location me_weapon = me_chr ? me_chr->get_wielded_item() : item_location();
@@ -2283,7 +2154,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             phrase.replace( fa, l, d.get_value( "npctalk_var_" + var ) );
-        } else if( !parse_static_tags( phrase, tag, fa, fb, recursive ) && !tag.empty() ) {
+        } else if( tag.find( "<city>" ) == 0 ) {
+            std::string cityname = "nowhere";
+            // Gets the closest city to the avatar, who the map is centered around
+            tripoint_abs_sm abs_sub = get_map().get_abs_sub();
+            const city *c = overmap_buffer.closest_city( abs_sub ).city;
+            if( c != nullptr ) {
+                cityname = c->name;
+            }
+            phrase.replace( fa, l, cityname );
+        } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
         }
