@@ -328,7 +328,7 @@ class recipe
 
         /** What does the item spawn contained in? Unset ("null") means default container. */
         itype_id container = itype_id::NULL_ID();
-        
+
         /** What does the item spawn contained in? Unset ("null") means default container. */
         std::string container_variant = "";
 
