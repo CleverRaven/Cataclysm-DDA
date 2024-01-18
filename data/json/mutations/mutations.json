@@ -4078,10 +4078,10 @@
     "name": { "str": "Mammal Pheromones" },
     "points": 2,
     "description": "Your body produces low-level pheromones which put mammals at ease.  They will be less likely to attack or flee from you.",
-    "prereqs": [ "SMELLY2" ],
+    "prereqs": [ "SMELLY2", "BAT_LEGS" ],
     "types": [ "PHEROMONE" ],
-    "category": [ "BEAST", "CATTLE" ],
-    "threshreq": [ "THRESH_BEAST", "THRESH_CATTLE" ]
+    "category": [ "BEAST", "CATTLE", "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_BEAST", "THRESH_CATTLE", "THRESH_CHIROPTERAN" ]
   },
   {
     "type": "mutation",
