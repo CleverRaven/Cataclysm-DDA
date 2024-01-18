@@ -4699,5 +4699,11 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "natural_stance",
+    "name": [ "Natural Stance" ],
+    "desc": [ "You are positioned to take advantage of your mutated anatomy, and will favor any natural attacks you may have." ]
   }
 ]

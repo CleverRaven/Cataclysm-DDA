@@ -2456,44 +2456,11 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
+    "description": "Your teeth have grown into long, sharp fangs.  If your mouth is uncovered, you'll sometimes bite your enemies.",
     "types": [ "TEETH" ],
-    "changes_to": [ "SABER_TEETH", "SHARKTEETH" ],
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
     "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE" ],
-        "body_part": "mouth",
-        "chance": 18,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE_LONG" ],
-        "body_part": "mouth",
-        "chance": 15,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 19,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      }
-    ]
+    "integrated_armor": [ "integrated_fangs" ]
   },
   {
     "type": "mutation",
@@ -2517,7 +2484,7 @@
   },
   {
     "type": "mutation",
-    "id": "VAMPIRE_FANGS",
+    "id": "FANGS_VAMPIRE",
     "name": { "str": "Vampire Fangs" },
     "points": 2,
     "visibility": 3,
@@ -4078,7 +4045,7 @@
     "name": { "str": "Mammal Pheromones" },
     "points": 2,
     "description": "Your body produces low-level pheromones which put mammals at ease.  They will be less likely to attack or flee from you.",
-    "prereqs": [ "SMELLY2", "BAT_LEGS" ],
+    "prereqs": [ "SMELLY2", "LEGS_BAT" ],
     "types": [ "PHEROMONE" ],
     "category": [ "BEAST", "CATTLE", "CHIROPTERAN" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_CATTLE", "THRESH_CHIROPTERAN" ]
@@ -4321,12 +4288,12 @@
   },
   {
     "type": "mutation",
-    "id": "BAT_LEGS",
-    "name": { "str": "Bat Legs" },
+    "id": "LEGS_BAT",
+    "name": { "str": "Bow-legged" },
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your lower limbs have shortened and grown bow-legged, slowing your bipedal movement.  But as long as you're not holding anything in your fingers, you're able to crawl quickly and quietly.",
+    "description": "Your lower limbs have shortened and splayed, slowing your bipedal movement.  As long as you're not wielding anything, you're able to crawl quickly and quietly when you run or crouch.",
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
@@ -4343,20 +4310,34 @@
               { "u_has_trait": "WINGS_BAT" }
             ]
           },
-          "msg_on": { "text": "You hunch forward and crawl quickly on folded wings." }
+          "msg_on": { "text": "You hunch forward to crawl quickly on folded wings." },
+          "msg_off": { "text": "You rise up to walk like a human." }
         }
       ]
     ],
     "enchantments": [
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ]
-      },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+        },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ]
-      }
-    ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      },
+      {
+      "condition": {
+        "or": [
+          "u_can_drop_weapon",
+          { "u_has_move_mode": "walk" },
+          { "not": { "u_has_trait": "LEGS_BAT" } },
+          { "not": { "u_has_trait": "WINGS_BAT" } }
+        ]
+      },
+      "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+    }
+  ]
   },
   {
     "type": "mutation",
@@ -4367,7 +4348,7 @@
     "ugliness": 2,
     "description": "Your feet have grown into strong, curved claws.  They won't fit into normal shoes and are not much help in combat, but they allow you to climb most vertical surfaces with ease.  You can even cling to walls you glide into!",
     "types": [ "FEET" ],
-    "prereqs": [ "BAT_LEGS" ],
+    "prereqs": [ "LEGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "flags": [ "WALL_CLING" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
@@ -4415,7 +4396,8 @@
             { "u_has_trait": "PAWS" }
           ]
         },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       },
       {
         "condition": {
@@ -4426,7 +4408,8 @@
             { "u_has_trait": "PAWS" }
           ]
         },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       },
       {
         "condition": {

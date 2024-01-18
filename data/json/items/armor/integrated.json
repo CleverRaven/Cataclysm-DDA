@@ -1584,6 +1584,34 @@
     }
   },
   {
+    "id": "integrated_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fangs" },
+    "description": "A pair of fangs sharp and sturdy enough to use in combat.",
+    "weight": "100 g",
+    "volume": "112 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "to_hit": 1,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 16 }
+  },
+  {
     "id": "integrated_vampire_fangs",
     "type": "ARMOR",
     "category": "armor",
@@ -1599,7 +1627,7 @@
     "warmth": 5,
     "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "VAMPIRE_BITE" ],
+    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL", "VAMPIRE_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
