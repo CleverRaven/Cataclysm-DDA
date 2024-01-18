@@ -770,7 +770,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 4500, minus 115 per level to a minimum of 2250<br />
 *Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 25<br />
 *Effects*: The psion erases their presence from the target's mind. For the power's duration, the target will not be able to see the psion at all; they will react to any companions or allies the psion has as normal. Attacking the target will immediately cancel the power.<br />
-*Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 12 *or* Telepathic Shield 8<br />
+*Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 11 *or* Telepathic Shield 8<br />
 
 ## Psychic Scream
 *Difficulty*: 7<br />
@@ -806,7 +806,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 6500, minus 135 per level to a minimum of 3750<br />
 *Channeling Time*: 500 moves, minus 9 moves per level to a minimum of 250<br />
 *Effects*: Forge a telepathic connection between nearby allies, allowing immediate reaction to threats and better coordination against danger. This provides a large array of bonuses: +1 dodge and block and another +1 per 12 power levels, +1 Perception and another +1 per 5 power levels, +3 ranged weapon range and another +1 per 4 power levels, a 5% chance to evade incoming attacks and another +1% per 2 power levels, 5% increased damage and another +1% per 2 power levels, increased combat skill gain, and the UNCANNY DODGE flag. It applies to all targets, but may only be used when at least 1 NPC ally is nearby.<br />
-*Prerequisites*: Mood Stabilization 12 *or* Obscurity 6, Primal Terror 5 *or* Beastmaster 8 *or* Sensory Deprivation 7<br />
+*Prerequisites*: Mind Sense 10, Telepathic Concentration 10 *or* Mood Stabilization 8, Psychic Scream 6<br />
 
 # Teleportation
 

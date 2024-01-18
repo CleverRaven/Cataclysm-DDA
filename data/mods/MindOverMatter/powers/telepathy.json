@@ -75,7 +75,7 @@
       ]
     }
   },
-   {
+  {
     "id": "telepathic_mind_sense",
     "type": "SPELL",
     "name": "[Ψ]Sense Minds (C)",
@@ -325,7 +325,7 @@
         "( (u_spell_level('telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear",
@@ -747,7 +747,7 @@
     "min_aoe": 60,
     "max_aoe": 60,
     "//": "Ideally range would scale with power level, but there would need to be a way to detect nearby allies first instead of just any ally in the bubble.",
-        "min_duration": {
+    "min_duration": {
       "math": [
         "( (u_spell_level('telepathic_network') * 700) + 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
