@@ -358,7 +358,7 @@
       "effect": [
         "follow_only",
         { "npc_first_topic": "TALK_lighthouse_man_cleaning" },
-        { "npc_add_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "0" }
+        { "math": [ "npc_count_cleaning_lighthouse_man", "=", "0" ] }
       ]
     },
     "end": {
