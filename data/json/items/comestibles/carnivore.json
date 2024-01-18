@@ -2080,16 +2080,11 @@
     "name": { "str": "chunk of poultry meat", "str_pl": "chunks of poultry meat" },
     "description": "A chunk of raw meat from a lean bird.  You could eat it raw, but it carries a risk of bacterial infection.",
     "weight": "160 g",
-    "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 50,
-    "spoils_in": "1 day",
     "calories": 240,
-    "//": "Scaled from 100g boneless chicken thigh according to USDA database"
+    "//": "Scaled from 100g boneless chicken thigh according to USDA database",
     "fun": -20,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", "9 mg 6 mcg" ], [ "iron", "960 mcg" ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
   {
@@ -2099,16 +2094,11 @@
     "name": { "str": "chunk of fatty poultry meat", "str_pl": "chunks of fatty poultry meat" },
     "description": "A chunk of raw meat from some waterfowl, with delicious layers of fat running throughout.  You could eat it raw, but it carries a risk of bacterial infection.",
     "weight": "160 g",
-    "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 50,
-    "spoils_in": "1 day",
     "calories": 594,
-    "//": "Scaled from 100g skin-on goose according to USDA database"
+    "//": "Scaled from 100g skin-on goose according to USDA database",
     "fun": -20,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", "19 mg 200 mcg" ], [ "iron", "4 mg" ] ],
-    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "poultry_smoked"
   },
   {
@@ -2132,5 +2122,69 @@
     "proportional": { "weight": 0.1, "volume": 0.1, "price_postapoc": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [ [ "calcium", "1900 mcg" ], [ "iron", "400 mcg" ] ]
+  },
+  {
+    "id": "poultry_cooked",
+    "copy-from": "poultry",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked chicken" },
+    "description": "A chunk of cooked bird.  It's filling and nutritious, but unseasoned and a bit bland.",
+    "price": 750,
+    "price_postapoc": 100,
+    "parasites": 0,
+    "calories": 240,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "poultry_scrap_cooked",
+    "copy-from": "meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked scrap of chicken", "str_pl": "cooked scraps of chicken" },
+    "description": "A tiny scrap of cooked bird.  It's not much, but it'll do in a pinch.",
+    "parasites": 0,
+    "fun": 0,
+    "flags": [ ],
+    "calories": 24
+  },
+  {
+    "id": "poultry_pepper",
+    "copy-from": "flesh",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked pepper chicken" },
+    "description": "A piece of cooked bird, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
+    "price": 800,
+    "price_postapoc": 150,
+    "fun": 2,
+    "parasites": 0,
+    "calories": 240,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "poultry_scrap_pepper",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper scrap of chicken", "str_pl": "cooked pepper scraps of chicken" },
+    "description": "A cooked scrap of bird that has been properly seasoned with pepper and salt.  Yet small, they have a good taste.",
+    "parasites": 0,
+    "fun": 1,
+    "flags": [  ],
+    "calories": 51
+  },
+  {
+    "id": "poultry_smoked",
+    "copy-from": "meat_smoked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "smoked chicken" },
+    "description": "Strip of bird meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "spoils_in": "24 days",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 5,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_poultry"
   }
 ]

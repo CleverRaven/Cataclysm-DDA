@@ -450,7 +450,7 @@
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ], ["poultry", 1 ], ["poultry_fatty", 1 ] ] ]
   },
   {
     "id": "meat_red_raw",
@@ -1338,5 +1338,17 @@
     "id": "tortilla_any",
     "type": "requirement",
     "components": [ [ [ "tortilla_corn", 1 ], [ "tortilla_flour", 1 ] ] ]
+  },
+  {
+    "id": "poultry_raw_any",
+    "type": "requirement",
+    "//": "Any bird meat, chunks or scraps",
+    "components": [ [ [ "poultry", 1 ], [ "poultry_fatty", 1 ], [ "poultry_scrap", 10 ], [ "poultry_fatty_scrap", 10 ] ] ]
+  },
+  {
+    "id": "poultry_raw_steak",
+    "type": "requirement",
+    "//": "Any bird meat, chunks only",
+    "components": [ [ [ "poultry", 1 ], [ "poultry_fatty", 1 ] ] ]
   }
 ]

@@ -885,7 +885,7 @@
     "abstract": "mon_generic_waterfowl_chick",
     "type": "MONSTER",
     "name": { "str": "fuzzy brown chick" },
-    "description": "A tiny darkly-colored chick with lots of fuzzy down feathers, it could be from a number of different species.",
+    "description": "A tiny darkly-colored waterfowl chick with lots of fuzzy down feathers, it could be from a number of different species.",
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
