@@ -393,10 +393,10 @@
     "//": "Tools to mark a hard surface.",
     "tools": [
       [
-        [ "ink_standard", 2, "LIST" ],
-        [ "medical_tape", 1 ],
-        [ "duct_tape", 1 ],
-        [ "permanent_marker", 1 ],
+        [ "ink_standard", 50, "LIST" ],
+        [ "medical_tape", 25 ],
+        [ "duct_tape", 25 ],
+        [ "permanent_marker", 25 ],
         [ "survival_marker", -1 ],
         [ "paint", 1, "LIST" ]
       ]
@@ -406,7 +406,7 @@
     "id": "marking_soft",
     "type": "requirement",
     "//": "Tools to mark a soft, rough surface.",
-    "tools": [ [ [ "duct_tape", 1 ], [ "survival_marker", -1 ], [ "paint", 1, "LIST" ] ] ]
+    "tools": [ [ [ "duct_tape", 25 ], [ "survival_marker", -1 ], [ "paint", 1, "LIST" ] ] ]
   },
   {
     "id": "ppe_gloves",
