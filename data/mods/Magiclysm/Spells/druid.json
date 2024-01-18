@@ -544,6 +544,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
@@ -631,10 +638,10 @@
     "id": "druid_healing",
     "type": "SPELL",
     "name": "Restoration",
-    "description": "Directed magical energy that slowly heals your body from wounds.",
+    "description": "Slowly heal your wounds by drawing on the power of nature.\n\nYou must be <color_yellow>outdoors and in a natural area</color> away from civilization to cast Restoration.",
     "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "flask_regeneration",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RESTORATION",
     "shape": "blast",
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "energy_source": "MANA",
@@ -651,6 +658,40 @@
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RESTORATION",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "flask_regeneration",
+        "duration": { "math": [ "( 15000 + (u_spell_level('druid_healing') * 3000)) " ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to use its power to heal.", "type": "bad" } ]
   },
   {
     "id": "druid_healing_herb",
