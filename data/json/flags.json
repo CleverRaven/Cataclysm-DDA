@@ -2417,21 +2417,21 @@
     "id": "HEMOVORE_FUN",
     "type": "json_flag",
     "//": "This item contains blood and satisfies a hemovore's requirements."
-  }
+  },
   {
     "id": "SOCIAL1",
-    "type": "json_flag",
+    "type": "json_flag"
   },
   {
     "id": "SOCIAL2",
-    "type": "json_flag",
+    "type": "json_flag"
   },
   {
     "id": "ASOCIAL1",
-    "type": "json_flag",
+    "type": "json_flag"
   },
   {
     "id": "ASOCIAL2",
-    "type": "json_flag",
+    "type": "json_flag"
   }
 ]
