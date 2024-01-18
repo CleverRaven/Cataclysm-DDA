@@ -108,7 +108,7 @@ static pocket_type guess_pocket_for( const item &container, const item &payload 
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const std::optional<itype_id> &container_type, const bool sealed,
+    const std::optional<itype_id> &container_type, const std::optional<std::string> &container_variant, const bool sealed,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -122,8 +122,8 @@ static void put_into_container(
     std::shuffle( items.end() - num_items, items.end(), rng_get_engine() );
 
     item ctr( *container_type, birthday );
-    if( variant != "" ) {
-        ctr.set_itype_variant ( variant );
+    if( !container_variant ) {
+        ctr.set_itype_variant ( *container_variant );
     }
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
@@ -283,7 +283,7 @@ std::size_t Single_item_creator::create( ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() ); //needs changing?
+    put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday, on_overflow, context() ); //needs changing?
     return list.size() - prev_list_size;
 }
 
@@ -833,7 +833,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() ); //needs changing?
+    put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday, on_overflow, context() ); //needs changing?
 
     return list.size() - prev_list_size;
 }
@@ -869,17 +869,6 @@ void Item_group::check_consistency() const
         elem->check_consistency();
     }
     Item_spawn_data::check_consistency();
-}
-
-void Item_spawn_data::set_container_item( const itype_id &container )
-{
-    container_item = container;
-}
-
-void Item_spawn_data::set_container_item( const itype_id &container, const std::string &variant )
-{
-    container_item = container;
-    container_item_variant = variant;
 }
 
 int Item_spawn_data::get_probability( bool skip_event_check ) const

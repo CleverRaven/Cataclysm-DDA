@@ -174,8 +174,6 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
-        void set_container_item( const itype_id &container );
-        void set_container_item( const itype_id &container, const std::string &variant );
 
         virtual std::set<const itype *> every_item() const = 0;
 
