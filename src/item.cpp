@@ -1221,7 +1221,7 @@ item item::in_its_container( int qty ) const
                          type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, int qty, const bool sealed, const std::string &variant ) const
+item item::in_container( const itype_id &cont, int qty, bool sealed, const std::string &variant ) const
 {
     if( cont.is_null() ) {
         return *this;
@@ -1231,8 +1231,8 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed, const
         qty = count();
     }
     item container( cont, birthday() );
-    if( container_variant ) {
-        container.set_itype_variant( *container_variant );
+    if( !( variant == "" ) ) {
+        container.set_itype_variant( variant );
     }
     if( container.is_container() ) {
         container.fill_with( *this, qty );

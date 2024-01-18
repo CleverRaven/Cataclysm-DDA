@@ -949,7 +949,7 @@ class item : public visitable
          * of the container will be ignored.
          */
         item in_its_container( int qty = 0 ) const;
-        item in_container( const itype_id &container_type, const std::optional<std::string> &container_variant, int qty = 0, bool sealed = true ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true, const std::string &container_variant = "" ) const;
         void add_automatic_whitelist();
         void clear_automatic_whitelist();
 
