@@ -555,8 +555,8 @@
     "id": "ch_mitten_gaunt_metal_sheets",
     "type": "ARMOR",
     "copy-from": "mitten_gaunt_metal_sheets",
-    "name": { "str": "pair of case hardened sheet metal gauntlets", "str_pl": "pairs of case hardened sheet metal gauntlets" },
-    "description": "These crude mitten gauntlets have been case hardened to keep the zombie dogs from biting your fingers off.",
+    "name": { "str": "pair of hardened steel sheet metal gauntlets", "str_pl": "pairs of hardened steel sheet metal gauntlets" },
+    "description": "These crude mitten gauntlets have been hardened to keep the zombie dogs from biting your fingers off.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] },
     "armor": [

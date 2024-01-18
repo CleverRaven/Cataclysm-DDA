@@ -82,7 +82,7 @@
       { "id": "clair_night_vision", "level": 4 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 9 },
-      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_spot_weakness", "level": 5 },
       { "id": "clair_voyance", "level": 6 }
     ],

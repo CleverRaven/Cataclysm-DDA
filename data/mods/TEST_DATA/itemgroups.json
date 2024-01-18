@@ -47,5 +47,29 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "test_battery_disposable", "prob": 100 } ]
+  },
+  {
+    "id": "test_EOC_spawn_item_group_collection",
+    "type": "item_group",
+    "//": "This is for testing u_spawn_item",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bodysuit_lycra", "variant": "superhero_suit_purple" },
+      { "item": "mask_bal", "prob": 50 },
+      { "item": "long_patchwork_scarf", "count": [ 2, 4 ] },
+      { "item": "rock", "charges": [ 2, 4 ] }
+    ]
+  },
+  {
+    "id": "test_EOC_spawn_item_group_distribution",
+    "type": "item_group",
+    "//": "This is for testing u_spawn_item",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bodysuit_lycra", "variant": "superhero_suit_purple" },
+      { "item": "mask_bal", "prob": 50 },
+      { "item": "long_patchwork_scarf", "count": [ 2, 4 ] },
+      { "item": "rock", "charges": [ 2, 4 ] }
+    ]
   }
 ]

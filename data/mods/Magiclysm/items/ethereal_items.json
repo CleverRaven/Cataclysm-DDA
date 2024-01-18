@@ -1480,5 +1480,27 @@
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "item_biomancer_scalpel_fingers",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "flensing fingers" },
+    "description": "Your fingers are a series of knives made of bone and flesh.  Enemies beware.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": ",",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "ZERO_WEIGHT", "UNBREAKABLE", "PERSONAL", "PADDED", "TRANSPARENT" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
+    "melee_damage": { "stab": 12 },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
+      ]
+    }
   }
 ]

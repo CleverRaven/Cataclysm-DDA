@@ -425,8 +425,8 @@
     "id": "ch_armguard_metal",
     "type": "ARMOR",
     "copy-from": "armguard_metal",
-    "name": { "str": "pair of case hardened sheet metal arm guards", "str_pl": "pairs of case hardened sheet metal arm guards" },
-    "description": "A pair of arm guards hammered out from sheet metal, case hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
+    "name": { "str": "pair of hardened steel sheet metal arm guards", "str_pl": "pairs of hardened steel sheet metal arm guards" },
+    "description": "A pair of arm guards hammered out from sheet metal, hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -434,7 +434,7 @@
     "id": "armguard_metal_sheets_bracer",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of sheet metal bracers", "str_pl": "pairs of sheet metal bracers" },
+    "name": { "str": "pair of mild steel sheet metal bracers", "str_pl": "pairs of mild steel sheet metal bracers" },
     "description": "A pair of arm guards hammered out from metal, only covering your forearms.",
     "weight": "1150 g",
     "//": "The weight assumes two sheets of about 25cm x 20cm x 1.5mm.",
@@ -467,8 +467,8 @@
     "id": "ch_armguard_metal_sheets_bracer",
     "type": "ARMOR",
     "copy-from": "armguard_metal_sheets_bracer",
-    "name": { "str": "pair of hardened sheet metal bracers", "str_pl": "pairs of hardened sheet metal bracers" },
-    "description": "A pair of forearm guards hammered out from sheet metal, case hardened for extra protection.",
+    "name": { "str": "pair of hardened steel sheet metal bracers", "str_pl": "pairs of hardened steel sheet metal bracers" },
+    "description": "A pair of forearm guards hammered out from sheet metal, hardened for extra protection.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -476,7 +476,7 @@
     "id": "armguard_metal_sheets_shoulders",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of sheet metal pauldrons", "str_pl": "pairs of sheet metal pauldrons" },
+    "name": { "str": "pair of mild steel sheet metal pauldrons", "str_pl": "pairs of mild steel sheet metal pauldrons" },
     "description": "Two half-cylinders of sheet metal jutting out over your shoulders and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
     "weight": "1400 g",
     "//": "The weight assumes four sheets of about 15cm x 15cm x 1.5mm.",
@@ -506,8 +506,8 @@
     "id": "ch_armguard_metal_sheets_shoulders",
     "type": "ARMOR",
     "copy-from": "armguard_metal_sheets_shoulders",
-    "name": { "str": "pair of case hardened sheet metal pauldrons", "str_pl": "pairs of case hardened sheet metal pauldrons" },
-    "description": "A pair of crude pauldrons made out of sheet metal and case hardened for reinforcement.",
+    "name": { "str": "pair of hardened sheet metal pauldrons", "str_pl": "pairs of hardened sheet metal pauldrons" },
+    "description": "A pair of crude pauldrons made out of sheet metal and hardened for reinforcement.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -515,7 +515,7 @@
     "id": "armguard_metal_sheets_elbows",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of sheet metal elbow guards", "str_pl": "pairs of sheet metal elbow guards" },
+    "name": { "str": "pair of mild steel sheet metal elbow guards", "str_pl": "pairs of mild steel sheet metal elbow guards" },
     "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over your elbows.  Very brutal, just needs spikes.",
     "weight": "700 g",
     "//": "The weight assumes two sheets of about 15cm x 15cm x 1.5mm.",
@@ -546,8 +546,8 @@
     "id": "ch_armguard_metal_sheets_elbows",
     "type": "ARMOR",
     "copy-from": "armguard_metal_sheets_elbows",
-    "name": { "str": "pair of case hardened sheet metal elbow guards", "str_pl": "pairs of case hardened sheet metal elbow guards" },
-    "description": "Elbow guards of sheet metal, case hardened to make sure you never bang your funny bone on the table again.",
+    "name": { "str": "pair of hardened sheet metal elbow guards", "str_pl": "pairs of hardened sheet metal elbow guards" },
+    "description": "Elbow guards of sheet metal, hardened to make sure you never bang your funny bone on the table again.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -1361,7 +1361,7 @@
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "A light armguard, 1.25mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1389,8 +1389,8 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened steel light arm guard" },
+    "description": "A light armguard, 1.25mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1408,7 +1408,7 @@
   {
     "id": "xl_armor_ch_lightarmguard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened light arm guard" },
+    "name": { "str": "XL hardened light arm guard" },
     "copy-from": "armor_ch_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1418,7 +1418,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str": "tempered light arm guard" },
+    "name": { "str": "tempered steel light arm guard" },
     "description": "A light armguard, 1.25mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
@@ -1520,7 +1520,7 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel arm guard" },
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "description": "An armguard, 1.75mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "An armguard, 1.75mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1548,8 +1548,8 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_armguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened arm guard" },
-    "description": "An armguard, 1.75mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened steel arm guard" },
+    "description": "An armguard, 1.75mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1567,7 +1567,7 @@
   {
     "id": "xl_armor_ch_armguard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened arm guard" },
+    "name": { "str": "XL hardened arm guard" },
     "copy-from": "armor_ch_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1676,7 +1676,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "A heavy armguard, 2.25mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1703,8 +1703,8 @@
     "id": "armor_ch_heavyarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
-    "name": { "str": "case hardened heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened steel heavy arm guard" },
+    "description": "A heavy armguard, 2.25mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1722,7 +1722,7 @@
   {
     "id": "xl_armor_ch_heavyarmguard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened heavy arm guard" },
+    "name": { "str": "XL hardened steel heavy arm guard" },
     "copy-from": "armor_ch_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1731,7 +1731,7 @@
     "id": "armor_qt_heavyarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
-    "name": { "str": "tempered heavy arm guard" },
+    "name": { "str": "tempered steel heavy arm guard" },
     "description": "A heavy armguard, 2.25mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
