@@ -1231,8 +1231,8 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed, const
         qty = count();
     }
     item container( cont, birthday() );
-    if( variant != "" ) {
-        container.set_itype_variant( variant );
+    if( container_variant ) {
+        container.set_itype_variant( *container_variant );
     }
     if( container.is_container() ) {
         container.fill_with( *this, qty );

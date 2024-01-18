@@ -122,7 +122,7 @@ static void put_into_container(
     std::shuffle( items.end() - num_items, items.end(), rng_get_engine() );
 
     item ctr( *container_type, birthday );
-    if( !container_variant ) {
+    if( container_variant ) {
         ctr.set_itype_variant ( *container_variant );
     }
     Item_spawn_data::ItemList excess;
@@ -177,7 +177,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 {
     item tmp = create_single_without_container( birthday, rec );
     if( container_item ) {
-            tmp = tmp.in_container( *container_item, tmp.count(), sealed, *container_item_variant );
+            tmp = tmp.in_container( *container_item, *container_item_variant, tmp.count(), sealed );
     }
     return tmp;
 }
