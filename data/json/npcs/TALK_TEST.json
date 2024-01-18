@@ -875,12 +875,12 @@
       {
         "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_adjust_test_test", "++" ] }
+        "effect": { "math": [ "u_test_var_compare_test_test", "++" ] }
       },
       {
         "text": "This is an math test response that increments by 2.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_adjust_test_test", "+=", "2" ] }
+        "effect": { "math": [ "n_test_var_compare_test_test", "+=", "2" ] }
       },
       {
         "text": "This is a u_add_var time test response.",
