@@ -70,7 +70,7 @@
     "id": "bronze_book",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "The Bronze Age encyclopedia" },
+    "name": { "str": "The Bronze Age Encyclopedia", "str_pl": "copies of The Bronze Age Encyclopedia" },
     "description": "A huge textbook with information about the historic use of bronze around the world, with well illustrated instructions of the manufacturing process of armor, weapons and bronze tools.",
     "weight": "1500 g",
     "volume": "1250 ml",

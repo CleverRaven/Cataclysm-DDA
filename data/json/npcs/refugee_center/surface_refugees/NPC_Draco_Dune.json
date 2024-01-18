@@ -471,7 +471,7 @@
         "switch": true
       },
       {
-        "text": "[Perform an masterful dance]",
+        "text": "[Perform a masterful dance]",
         "topic": "TALK_REFUGEE_Draco_Dance_5",
         "condition": { "math": [ "u_val('dodge')", "<", "20" ] },
         "switch": true

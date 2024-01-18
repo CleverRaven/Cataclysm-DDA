@@ -58,7 +58,7 @@
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[3 weeks, great protection] High carbon steel sounds great.",
+        "text": "[3 weeks, great protection] High steel sounds great.",
         "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       },
@@ -95,7 +95,7 @@
       "context": "artisans",
       "op": "==",
       "value": 3,
-      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
+      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
       "no": {
         "u_compare_var": "blacksmith_wait",
         "type": "number",

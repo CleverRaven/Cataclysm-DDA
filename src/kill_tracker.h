@@ -29,6 +29,8 @@ class kill_tracker : public event_subscriber
         int kill_count( const mtype_id & ) const;
         /** Returns the number of kills of the given monster species by the player. */
         int kill_count( const species_id & ) const;
+        /** Returns the number of  of kills of the given mfaction_id. Not to be confused with species. Used for death_guilt.*/
+        int guilt_kill_count( const mtype_id & ) const;
         int monster_kill_count() const;
         int npc_kill_count() const;
         // TEMPORARY until 0.G

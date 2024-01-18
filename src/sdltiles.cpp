@@ -173,7 +173,10 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#if defined(SOUND)
+    init_flags |= SDL_INIT_AUDIO;
+#endif
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)

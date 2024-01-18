@@ -384,7 +384,7 @@
     "repairs_like": "hsurvivor_jumpsuit",
     "name": { "str": "mild ESAPI plate" },
     "//": "Similar to scrap plates, except made with higher quality steel. A goal for blacksmithing.",
-    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "Mild steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "weight": "1300 g",
     "volume": "262 ml",
     "longest_side": "30 cm",
@@ -410,7 +410,7 @@
     "copy-from": "lc_esapi_plate",
     "looks_like": "scrap_esapi_plate",
     "name": { "str": "medium ESAPI plate" },
-    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "Medium steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "mc_steel" },
     "repairs_with": [ "mc_steel" ]
   },
@@ -420,7 +420,7 @@
     "copy-from": "lc_esapi_plate",
     "looks_like": "scrap_esapi_plate",
     "name": { "str": "high ESAPI plate" },
-    "description": "High carbon steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "High steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "hc_steel" },
     "repairs_with": [ "hc_steel" ]
   },
@@ -531,7 +531,7 @@
     "repairs_like": "hsurvivor_jumpsuit",
     "name": { "str": "mild ESBI plate" },
     "//": "These will probably be in higher demand since there is no steel version of ESBI plates.",
-    "description": "A hexagonal piece of mild carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of mild steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "weight": "1300 g",
     "volume": "262 ml",
     "longest_side": "20 cm",
@@ -557,7 +557,7 @@
     "copy-from": "lc_esbi_plate",
     "looks_like": "scrap_esbi_plate",
     "name": { "str": "medium ESBI plate" },
-    "description": "A hexagonal piece of medium carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of medium steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "mc_steel" },
     "repairs_with": [ "mc_steel" ]
   },
@@ -567,7 +567,7 @@
     "copy-from": "lc_esbi_plate",
     "looks_like": "scrap_esbi_plate",
     "name": { "str": "high ESBI plate" },
-    "description": "A hexagonal piece of high carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of high steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "hc_steel" },
     "repairs_with": [ "hc_steel" ]
   },
