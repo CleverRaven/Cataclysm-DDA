@@ -6164,6 +6164,29 @@ void talk_effect_fun_t::set_math( const JsonObject &jo, std::string_view member 
     };
 }
 
+void talk_effect_fun_t::set_trigger_event( const JsonObject &jo, std::string_view member )
+{
+    std::string const type_str = jo.get_string( member.data() );
+    JsonArray const &jargs = jo.get_array( "args" );
+
+    event_type type = io::string_to_enum<event_type>( type_str );
+    std::vector<str_or_var> args;
+    args.reserve( jargs.size() );
+    for( JsonValue const &jv : jargs ) {
+        args.emplace_back( get_str_or_var( jv, "args" ) );
+    }
+
+    function = [type, args]( dialogue & d ) {
+        std::vector<std::string> args_str;
+        args_str.reserve( args.size() );
+        std::transform( args.cbegin(), args.cend(),
+        std::back_inserter( args_str ), [&d]( str_or_var const & sov ) {
+            return sov.evaluate( d );
+        } );
+        get_event_bus().send( cata::event::make_dyn( type, args_str ) );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -6358,6 +6381,7 @@ parsers = {
     { "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
     { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
+    { "trigger_event", jarg::member, &talk_effect_fun_t::set_trigger_event },
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker}
 };
 
