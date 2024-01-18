@@ -2469,18 +2469,12 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
-    "description": "Your big teeth have grown in.  Folks had best show some more respect.",
+    "description": "Your big teeth have grown in.  Folks had best show some more respect.  If your mouth is uncovered, you'll sometimes deliver a vicious bite in combat.",
     "types": [ "TEETH" ],
     "prereqs": [ "MUZZLE_RAT", "RABBIT_NOSE" ],
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
     "category": [ "RAT", "RABBIT" ],
-    "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors!",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "integrated_armor": [ "integrated_incisors" ]
   },
   {
     "type": "mutation",
@@ -4734,14 +4728,7 @@
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 1 }
-    }
+    "integrated_armor": [ "integrated_saber_teeth" ]
   },
   {
     "type": "mutation",
@@ -5482,22 +5469,14 @@
     "butchering_quality": 4,
     "consume_time_modifier": 0.5,
     "mixed_effect": true,
-    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack.  Slightly reduces wet effects.",
+    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and, if uncovered, will allow you to sometimes bite your enemies.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
     "leads_to": [ "PROBOSCIS" ],
-    "category": [ "INSECT", "SPIDER" ],
+    "category": [ "INSECT" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "integrated_armor": [ "integrated_mandibles" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "FANGS_SPIDER" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "cut", "amount": 12 }
-    }
+    "integrated_armor": [ "integrated_mandibles" ]
   },
   {
     "type": "mutation",
@@ -5506,7 +5485,7 @@
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
-    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
+    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Just make sure you keep them uncovered if you intend to use them.",
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "MANDIBLES" ],
@@ -5514,15 +5493,7 @@
     "category": [ "SPIDER" ],
     "consume_time_modifier": 2.0,
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "integrated_armor": [ "integrated_fangs_spider" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "MANDIBLES" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    }
+    "integrated_armor": [ "integrated_fangs_spider" ]
   },
   {
     "type": "mutation",
@@ -7325,20 +7296,14 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
+    "description": "You have a beak for a mouth, and it's hard to find gear that fits over it.  If you keep it uncovered, you will sometimes use it to bite in combat.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
-    "attacks": {
-      "attack_text_u": "You peck %s!",
-      "attack_text_npc": "%1$s pecks %2$s!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    }
+    "integrated_armor": [ "integrated_beak" ]
   },
   {
     "type": "mutation",
