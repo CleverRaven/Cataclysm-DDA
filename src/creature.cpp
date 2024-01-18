@@ -292,12 +292,6 @@ bool Creature::has_mind() const
     return false;
 }
 
-// Detects whether a target is a faerie creature)
-bool Creature::is_fae() const
-{
-    return false;
-}
-
 bool Creature::is_ranged_attacker() const
 {
     if( has_flag( mon_flag_RANGED_ATTACKER ) ) {
