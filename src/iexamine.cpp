@@ -215,6 +215,7 @@ static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
+static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -1343,8 +1344,8 @@ bool iexamine::can_hack( Character &you )
         add_msg( _( "You cannot read!" ) );
         return false;
     }
-    const bool has_item = you.has_charges( itype_electrohack, 25 );
-    if( !has_item ) {
+    item &best_hacking = you.best_item_with_quality( qual_HACK );
+    if (best_hacking.is_null() || !(item_location{you, &best_hacking}->ammo_sufficient( &you))) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
