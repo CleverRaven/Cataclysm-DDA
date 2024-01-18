@@ -322,7 +322,7 @@
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
-    "prereqs": [ "ARVORE_EYES", "IERDE_EYES", "SALAMANDER_EYES", "SYLPH_EYES", "UNDINE_EYES" ],
+    "prereqs": [ "ARVORE_EYES", "HOMULLUS_SKIN_1", "IERDE_EYES", "SALAMANDER_EYES", "SYLPH_EYES", "UNDINE_EYES" ],
     "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.  It has a small chance to cost some of your mana each turn it is in use.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "activated_is_setup": true,
