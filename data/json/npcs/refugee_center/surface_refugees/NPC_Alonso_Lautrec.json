@@ -95,7 +95,7 @@
       },
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
-        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "text": "[PER 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
         "topic": "TALK_REFUGEE_Alonso_CalledOut1",
         "condition": {
           "and": [

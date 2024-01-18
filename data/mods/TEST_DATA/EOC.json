@@ -823,5 +823,40 @@
     "//": "tests forgetting a martial art from the player",
     "condition": { "not": { "u_using_martial_art": "style_aikido" } },
     "effect": { "u_forget_martial_art": "style_aikido" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spawn_item_group_test",
+    "//": "tests for spawning item group (collection / distribution). Alpha and beta talker is for showing the popup message",
+    "effect": [
+      { "message": "collection: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_collection",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_collection",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      },
+      { "message": "distribution: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_distribution",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_distribution",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      }
+    ]
   }
 ]

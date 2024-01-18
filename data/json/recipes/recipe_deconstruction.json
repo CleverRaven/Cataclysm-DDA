@@ -5213,6 +5213,15 @@
     "components": [ [ [ "flashlight", 1 ] ], [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
+    "result": "wearable_big_light",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "heavy_flashlight", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ]
+  },
+  {
     "result": "miner_hat",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
