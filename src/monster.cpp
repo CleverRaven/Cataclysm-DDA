@@ -181,7 +181,6 @@ static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
-static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_KILLER( "KILLER" );
@@ -3404,7 +3403,7 @@ bool monster::is_electrical() const
 
 bool monster::is_fae() const
 {
-    return ( has_flag( mon_flag_FAE_CREATURE ) || has_trait( trait_FAERIECREATURE ) );
+    return has_flag( mon_flag_FAE_CREATURE );
 }
 
 bool monster::is_nether() const
