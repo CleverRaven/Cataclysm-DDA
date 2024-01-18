@@ -3579,6 +3579,522 @@
   },
   {
     "type": "technique",
+    "id": "SABER_TEETH_BITE",
+    "name": "Saber Teeth Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "SABER_TEETH_BITE_NATURAL",
+    "name": "Saber Teeth Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "SABER_TEETH_BITE_CRIT",
+    "name": "Saber Teeth Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BITE",
+    "name": "Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BITE_NATURAL",
+    "name": "Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BITE_CRIT",
+    "name": "Muzzle Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAPTOR_BITE",
+    "name": "Raptor Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAPTOR_BITE_NATURAL",
+    "name": "Raptor Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAPTOR_BITE_CRIT",
+    "name": "Raptor Muzzle Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_LONG_BITE",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_LONG_BITE_NATURAL",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_LONG_BITE_CRIT",
+    "name": "Reptilian Muzzle Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BEAR_BITE",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BEAR_BITE_NATURAL",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_BEAR_BITE_CRIT",
+    "name": "Reptilian Muzzle Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAT_BITE",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAT_BITE_NATURAL",
+    "name": "Reptilian Muzzle Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MUZZLE_RAT_BITE_CRIT",
+    "name": "Reptilian Muzzle Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 16 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 50 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "VAMPIRE_BITE",
     "name": "Vampire Bite",
     "melee_allowed": true,
@@ -3785,7 +4301,7 @@
   },
   {
     "type": "technique",
-    "id": "SHARKTEETHBITE_NATURAL",
+    "id": "SHARKTEETH_BITE_NATURAL",
     "name": "Shark Teeth Bite",
     "melee_allowed": true,
     "messages": [ "You chomp on %s!", "<npcname> chomps on %s!" ],
@@ -3938,6 +4454,107 @@
   },
   {
     "type": "technique",
+    "id": "MOUTH_TENTACLES_BITE",
+    "name": "Mouth Tentacles Bite",
+    "melee_allowed": true,
+    "messages": [ "You grab %s with your tentacles and bite down hard!", "<npcname> grabs %s with their tentacles and bites down hard!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 22 },
+      { "stat": "damage", "type": "bash", "scale": 8 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 66 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MOUTH_TENTACLES_BITE_NATURAL",
+    "name": "Beak Bite",
+    "melee_allowed": true,
+    "messages": [ "You grab %s with your tentacles and bite down hard!", "<npcname> grabs %s with their tentacles and bites down hard!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 22 },
+      { "stat": "damage", "type": "bash", "scale": 8 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 66 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "MOUTH_TENTACLES_BITE_CRIT",
+    "name": "Incisor Bite (crit)",
+    "melee_allowed": true,
+    "messages": [ "You grab %s with your tentacles and deliver a vicious bite!", "<npcname> grabs %s with their tentacles and delivers a vicious bite!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 24 },
+      { "stat": "damage", "type": "bash", "scale": 10 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.4 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.3 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 66 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "MANDIBLES_BITE",
     "name": "Mandible Bite",
     "melee_allowed": true,
@@ -3977,7 +4594,7 @@
   },
   {
     "type": "technique",
-    "id": "MANDIBLE_BITE_NATURAL",
+    "id": "MANDIBLES_BITE_NATURAL",
     "name": "Mandible Bite",
     "melee_allowed": true,
     "messages": [ "You bite %s with your mandibles!", "<npcname> bites %s with their mandibles!" ],
@@ -4010,7 +4627,7 @@
   },
   {
     "type": "technique",
-    "id": "MANDIBLE_BITE_CRIT",
+    "id": "MANDIBLES_BITE_CRIT",
     "name": "Mandible Bite (crit)",
     "melee_allowed": true,
     "messages": [ "You tear into %s with your mandibles!", "<npcname> tears into %s with their mandibles!" ],
@@ -4035,6 +4652,92 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.2 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.2 },
       { "stat": "movecost", "scale": 66 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FOLDING_FANGS_BITE",
+    "name": "Folding Fangs Bite",
+    "melee_allowed": true,
+    "messages": [ "You deliver a quick bite to %s!", "<npcname> delivers a quick bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        {
+          "and": [
+            { "not": { "npc_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "GRAB" } }
+          ]
+        }
+    ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 40 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FOLDING_FANGS_BITE_NATURAL",
+    "name": "Folding Fangs Bite",
+    "melee_allowed": true,
+    "messages": [ "You deliver a quick bite to %s!", "<npcname> delivers a quick bite to %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": false,
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
+      { "stat": "movecost", "scale": 40 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FOLDING_FANGS_BITE_CRIT",
+    "name": "Folding Fangs Bite",
+    "melee_allowed": true,
+    "messages": [ "You plunge your fangs deep into %s!", "<npcname> plunges their fangs deep into %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 24 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.2 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.4 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "movecost", "scale": 40 }
     ]
   }
 ]
