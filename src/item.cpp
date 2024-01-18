@@ -1221,7 +1221,8 @@ item item::in_its_container( int qty ) const
                          type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, int qty, bool sealed, const std::string &variant ) const
+item item::in_container( const itype_id &cont, int qty, bool sealed,
+                         const std::string &variant ) const
 {
     if( cont.is_null() ) {
         return *this;
