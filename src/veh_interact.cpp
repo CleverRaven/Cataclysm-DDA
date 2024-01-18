@@ -3128,7 +3128,7 @@ void veh_interact::complete_vehicle( Character &you )
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name() );
+                add_msg( m_info, _( "%1$s don't meet the requirements to remove the %2$s." ), you.disp_name() , vpi.name() );
                 break;
             }
 
@@ -3332,8 +3332,8 @@ void veh_interact::complete_vehicle( Character &you )
                             it.charges *= rng_float( charges_min, charges_max );
                             const int charges_destroyed = charges_befor - it.charges;
                             if( charges_destroyed > 0 ) {
-                                add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), charges_destroyed,
-                                         it.type_name( charges_destroyed ) );
+                                add_msg( m_bad, _( "%1$s fail to recover %2$d %3$s." ), you.disp_name(), charges_destroyed,
+                                          it.type_name( charges_destroyed ) );
                             }
                             if( it.charges > 0 ) {
                                 resulting_items.push_back( it );
@@ -3341,7 +3341,7 @@ void veh_interact::complete_vehicle( Character &you )
                         } else if( component_success_chance > rng_float( 0, 1 ) ) {
                             resulting_items.push_back( it );
                         } else {
-                            add_msg( m_bad, _( "You fail to recover %1$s." ), it.type_name() );
+                            add_msg( m_bad, _( "%1$s fail to recover %2$s." ), you.disp_name() ,it.type_name() );
                         }
                     }
                 }
