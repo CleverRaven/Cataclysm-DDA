@@ -5998,7 +5998,7 @@ void talk_effect_fun_t::set_wants_to_talk( bool is_npc )
             }
             p->set_attitude( NPCATT_TALK );
         }
-    }
+    };
 }
 
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
