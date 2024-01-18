@@ -113,7 +113,7 @@
     "charges_per_use": 2,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS", "BELT_CLIP" ],
     "gun_data": {
       "dispersion": 1500,
       "ammo_to_fire": 2,
