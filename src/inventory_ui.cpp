@@ -2282,14 +2282,14 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
     bool const front_only = prev_entry.is_collation_entry();
-    if( is_overflown( client_width ) && !own_gear_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !own_gear_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
         }
         own_gear_column.move_entries_to( own_inv_column );
         own_inv_column.reset_width( {} );
     }
-    if( is_overflown( client_width ) && !map_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !map_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( map_column.indent_entries() );
         }
@@ -2874,6 +2874,33 @@ bool inventory_selector::has_available_choices() const
     } );
 }
 
+uint64_t inventory_selector::item_entry_count() const
+{
+    uint64_t count = 0;
+    for( const inventory_column *col : columns ) {
+        count += col->get_entries( return_item, true ).size();
+    }
+
+    return count;
+}
+
+drop_location inventory_selector::get_only_choice() const
+{
+    if( item_entry_count() != 1 ) {
+        debugmsg( "inventory_selector::get_only_choice called with more that one choice" );
+        return drop_location();
+    }
+
+    for( const inventory_column *col : columns ) {
+        const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
+        if( !ent.empty() ) {
+            return { ent.front()->any_item(), ent.front()->get_available_count() };
+        }
+    }
+
+    return drop_location();
+}
+
 inventory_input inventory_selector::get_input()
 {
     std::string const &action = ctxt.handle_input();
@@ -3295,6 +3322,108 @@ inventory_selector::stats container_inventory_selector::get_raw_stats() const
             loc->max_containable_length(), loc->max_containable_volume(),
             loc->get_total_holster_volume() - loc->get_used_holster_volume(),
             loc->get_used_holsters(), loc->get_total_holsters() );
+}
+
+ammo_inventory_selector::ammo_inventory_selector( Character &you,
+        const item_location &reload_loc, const inventory_selector_preset &preset ) :
+    inventory_selector( you, preset ), reload_loc( reload_loc )
+{
+    ctxt.register_action( "INCREASE_COUNT" );
+    ctxt.register_action( "DECREASE_COUNT" );
+
+    force_single_column = true;
+}
+
+std::vector<item_location> get_possible_reload_targets( const item_location &target )
+{
+    std::vector<item_location> opts;
+    opts.emplace_back( target );
+
+    if( target->magazine_current() ) {
+        opts.emplace_back( target, const_cast<item *>( target->magazine_current() ) );
+    }
+
+    for( const item *mod : target->gunmods() ) {
+        item_location mod_loc( target, const_cast<item *>( mod ) );
+        opts.emplace_back( mod_loc );
+        if( mod->magazine_current() ) {
+            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
+        }
+    }
+
+    return opts;
+}
+
+// todo: this should happen when the entries are created, but that's a different refactoring
+void ammo_inventory_selector::set_all_entries_chosen_count()
+{
+    for( inventory_column *col : columns ) {
+        for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
+            for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+                if( loc->can_reload_with( *entry->any_item(), true ) ) {
+                    item::reload_option tmp_opt( &u, loc, entry->any_item() );
+                    tmp_opt.qty( entry->get_available_count() );
+                    entry->chosen_count = tmp_opt.qty();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
+{
+    for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+            item::reload_option tmp_opt( &u, loc, entry.any_item() );
+            tmp_opt.qty( entry.chosen_count + value );
+            entry.chosen_count = tmp_opt.qty();
+            break;
+        }
+    }
+
+    entry.make_entry_cell_cache( preset );
+    on_change( entry );
+}
+
+drop_location ammo_inventory_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
+    while( true ) {
+        ui_manager::redraw();
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) {
+            if( input.action == "MOUSE_MOVE" ) {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+            } else if( input.action == "ANY_INPUT" || input.action == "SELECT" ) {
+                return { input.entry->any_item(), static_cast<int>( input.entry->chosen_count ) };
+            } else {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+                on_input( input );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_location();
+        } else if( input.action == "CONFIRM" ) {
+            const inventory_entry &highlighted = get_active_column().get_highlighted();
+            if( highlighted && highlighted.is_selectable() ) {
+                return { highlighted.any_item(), static_cast<int>( highlighted.chosen_count ) };
+            }
+        } else if( input.action == "INCREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, 1 );
+        } else if( input.action == "DECREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, -1 );
+        } else {
+            on_input( input );
+        }
+    }
 }
 
 void inventory_selector::action_examine( const item_location &sitem )

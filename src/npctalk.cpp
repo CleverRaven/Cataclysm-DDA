@@ -2991,59 +2991,83 @@ static void receive_item( itype_id &item_name, int count, std::string_view conta
                           bool add_talker = true,
                           const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
 {
-    item new_item;
     if( use_item_group ) {
-        new_item = item_group::item_from( item_group_id( item_name.c_str() ) );
-    } else {
-        new_item = item( item_name, calendar::turn );
-    }
-    for( const std::string &flag : flags ) {
-        new_item.set_flag( flag_id( flag ) );
-    }
-
-    if( container_name.empty() ) {
-        if( new_item.count_by_charges() ) {
-            new_item.charges = count;
+        item_group::ItemList new_items;
+        new_items = item_group::items_from( item_group_id( item_name.c_str() ) );
+        std::string popup_message;
+        for( item &new_item : new_items ) {
+            for( const std::string &flag : flags ) {
+                new_item.set_flag( flag_id( flag ) );
+            }
             if( add_talker ) {
                 d.actor( false )->i_add_or_drop( new_item, force_equip );
             } else {
                 map_add_item( new_item, p );
             }
-        } else {
-            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                if( !new_item.ammo_default().is_null() ) {
-                    new_item.ammo_set( new_item.ammo_default() );
+            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+                if( new_item.count() == 1 ) {
+                    //~ %1%s is the NPC name, %2$s is an item
+                    popup_message += string_format( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(),
+                                                    new_item.tname() ) + "\n";
+                } else {
+                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                    popup_message += string_format( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(),
+                                                    new_item.count(), new_item.tname() ) + "\n";
                 }
+            }
+        }
+        if( !popup_message.empty() ) {
+            popup( popup_message );
+        }
+    } else {
+        item new_item = item( item_name, calendar::turn );
+        for( const std::string &flag : flags ) {
+            new_item.set_flag( flag_id( flag ) );
+        }
+        if( container_name.empty() ) {
+            if( new_item.count_by_charges() ) {
+                new_item.charges = count;
                 if( add_talker ) {
                     d.actor( false )->i_add_or_drop( new_item, force_equip );
                 } else {
                     map_add_item( new_item, p );
                 }
-            }
-        }
-        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
-            if( count == 1 ) {
-                //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
             } else {
-                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
-                       new_item.tname() );
+                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    if( !new_item.ammo_default().is_null() ) {
+                        new_item.ammo_set( new_item.ammo_default() );
+                    }
+                    if( add_talker ) {
+                        d.actor( false )->i_add_or_drop( new_item, force_equip );
+                    } else {
+                        map_add_item( new_item, p );
+                    }
+                }
             }
-        }
-    } else {
-        item container( std::string( container_name ), calendar::turn );
-        new_item.charges = count;
-        container.put_in( new_item,
-                          pocket_type::CONTAINER );
-        if( add_talker ) {
-            d.actor( false )->i_add_or_drop( container, force_equip );
+            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+                if( count == 1 ) {
+                    //~ %1%s is the NPC name, %2$s is an item
+                    popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
+                } else {
+                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                    popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
+                           new_item.tname() );
+                }
+            }
         } else {
-            map_add_item( container, p );
-        }
-        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
-            //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
+            item container( std::string( container_name ), calendar::turn );
+            new_item.charges = count;
+            container.put_in( new_item,
+                              pocket_type::CONTAINER );
+            if( add_talker ) {
+                d.actor( false )->i_add_or_drop( container, force_equip );
+            } else {
+                map_add_item( container, p );
+            }
+            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+                //~ %1%s is the NPC name, %2$s is an item
+                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
+            }
         }
     }
 }
