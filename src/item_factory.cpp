@@ -4922,7 +4922,13 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     if( obj.has_string( "entry-wrapper" ) ) {
         sptr->container_item = itype_id( obj.get_string( "entry-wrapper" ) );
     }
-    use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    if( obj.has_object( "container-item" ) ) {
+        JsonObject jo = obj.get_object( "container-item" );
+        sptr->container_item = itype_id( jo.get_string( "item" ) );
+        sptr->container_item_variant = jo.get_string( "variant" );
+    } else {
+        use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
     if( obj.has_member( "sealed" ) ) {
