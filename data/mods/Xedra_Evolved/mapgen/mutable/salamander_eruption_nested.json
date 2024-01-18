@@ -149,7 +149,7 @@
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "mine_tunnel_bounds_v",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rows": [
@@ -175,7 +175,7 @@
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "mine_tunnel_bounds_v1",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rows": [
@@ -201,7 +201,7 @@
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "mine_tunnel_bounds_v2",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
       "rows": [
