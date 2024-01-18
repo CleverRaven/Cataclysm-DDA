@@ -1218,7 +1218,7 @@ bool item::is_worn_by_player() const
 item item::in_its_container( int qty ) const
 {
     return in_container( type->default_container.value_or( itype_null ), qty,
-                         type->default_container_sealed );
+                         type->default_container_sealed, type->default_container_variant.value_or( "" ) );
 }
 
 item item::in_container( const itype_id &cont, int qty, bool sealed,

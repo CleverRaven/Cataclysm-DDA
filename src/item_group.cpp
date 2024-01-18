@@ -511,6 +511,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             cont = container->create_single( new_item.birthday() );
         } else if( new_item.type->default_container.has_value() ) {
             cont = item( *new_item.type->default_container, new_item.birthday() );
+            if( new_item.type->default_container_variant.has_value() ) {
+                cont.set_itype_variant( *new_item.type->default_container_variant );
+            }
         }
 
         int max_capacity = -1;
