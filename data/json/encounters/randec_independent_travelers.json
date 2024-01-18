@@ -25,13 +25,12 @@
     "condition": { "not": { "u_has_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" } },
     "effect": [
       {
-        "//": "Most people aren't going east because of the big cities with lots of zombies, so that response isn't as likely to come up.",
         "weighted_list_eocs": [
           [
             {
               "id": "going_north",
               "effect": [
-                { "u_add_var": "going_north", "type": "dialogue", "context": "travel_direction", "value": "yes" },
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "north" },
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
@@ -41,7 +40,7 @@
             {
               "id": "going_south",
               "effect": [
-                { "u_add_var": "going_south", "type": "dialogue", "context": "travel_direction", "value": "yes" },
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "south" },
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
@@ -51,7 +50,7 @@
             {
               "id": "going_east",
               "effect": [
-                { "u_add_var": "going_east", "type": "dialogue", "context": "travel_direction", "value": "yes" },
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "east" },
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
@@ -61,7 +60,7 @@
             {
               "id": "going_west",
               "effect": [
-                { "u_add_var": "going_west", "type": "dialogue", "context": "travel_direction", "value": "yes" },
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "west" },
                 { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
               ]
             },
