@@ -3870,6 +3870,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_LONG" },
         { "not": { "u_has_effect": "natural_stance" } },
         {
           "and": [
@@ -3903,6 +3904,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_LONG" },
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
@@ -3928,6 +3930,11 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "MUZZLE_LONG" }
+      ]
+    },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 20 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.4 },
@@ -4511,7 +4518,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
-        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+        { "or": [ { "u_has_effect": "natural_stance" }, { "u_is_underwater": "true" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
     "flat_bonuses": [
