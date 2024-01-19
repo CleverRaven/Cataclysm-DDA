@@ -65,7 +65,6 @@
     "type": "TOOL",
     "name": { "str": "pseudo butter churn" },
     "copy-from": "fake_item",
-    "material": [ "wood" ],
     "qualities": [ [ "CHURN", 1 ] ],
     "symbol": "H",
     "color": "light_cyan",
