@@ -1177,6 +1177,13 @@ void monster::move()
                     can_z_move = false;
                 }
 
+                if (can_climb()) {
+                    add_msg_debug(debugmode::DF_MONMOVE, "%s can climb", name());
+                }
+                else {
+                    add_msg_debug(debugmode::DF_MONMOVE, "%s cannot climb", name());
+                }
+
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
@@ -1194,16 +1201,21 @@ void monster::move()
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
+                    add_msg_debug(debugmode::DF_MONMOVE, "%s is attempting zlvl teleport", name());
                     const tripoint upper = candidate.z > posz() ? candidate : pos();
                     const tripoint lower = candidate.z > posz() ? pos() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;
+                        add_msg_debug(debugmode::DF_MONMOVE, "%s can z move for some reason", name());
                     }
                 }
 
                 if( !can_z_move ) {
                     continue;
+                }
+                else {
+                    add_msg_debug(debugmode::DF_MONMOVE, "%s is attempting vertical movement", name());
                 }
             }
 
