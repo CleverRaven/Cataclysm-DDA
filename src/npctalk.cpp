@@ -5756,6 +5756,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 } else if( valid_monsters == 1 ) {
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
+                    single_target = true;
                 } else {
                     target_monsters = monsters_in_range;
                 }
