@@ -67,5 +67,44 @@
       ]
     },
     "effect": [ { "u_remove_item_with": "aura_ward_off_rain" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL",
+    "effect": [ { "u_message": "The witchlight vanishes without a sound." }, { "u_remove_item_with": "item_hedge_witchlight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW",
+    "condition": { "or": [ { "u_is_on_terrain": "t_dirt" }, { "u_is_on_terrain": "t_dirtmound" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_MAKE_PLANTS_GROW_2",
+            "condition": {
+              "and": [
+                { "math": [ "time_since('midnight', 'unit': 'hours') > 11" ] },
+                { "math": [ "time_since('midnight', 'unit': 'hours') < 13" ] }
+              ]
+            },
+            "effect": [
+              { "u_spawn_item": "item_hedge_make_plants_grow" },
+              {
+                "u_message": "As you finish the words of the charm, the magic takes hold. (E)xamine a nearby crop to fertilize it.",
+                "type": "good"
+              },
+              { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
+            ],
+            "false_effect": [ { "u_message": "You complete the charm within one hour of need for it to be effective.", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on soil for the charm to be effective.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE"
   }
 ]

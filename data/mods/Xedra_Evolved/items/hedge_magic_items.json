@@ -3,11 +3,10 @@
     "id": "aura_ward_off_rain",
     "type": "ARMOR",
     "name": "Rain Ward",
-    "description": "You won't get wet.",
+    "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "material": [ "air" ],
     "symbol": "x",
     "color": "white",
     "flags": [
@@ -35,14 +34,13 @@
     ]
   },
   {
-    "id": "hedge_witchlight",
+    "id": "item_hedge_witchlight",
     "type": "ARMOR",
     "name": "Witchlight",
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "material": [ "air" ],
     "symbol": "x",
     "color": "yellow",
     "flags": [
@@ -60,6 +58,70 @@
       "NONCONDUCTIVE",
       "TRANSPARENT"
     ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Dismiss the witchlight",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS",
+          "effect": [ { "queue_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "item_hedge_make_plants_grow",
+    "name": { "str_sp": "life of the crops" },
+    "weight": "0 g",
+    "color": "green",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "Use this to fertilize your crops.",
+    "material": [ "powder" ],
+    "volume": "0 ml",
+    "category": "chems",
+    "fun": -15
+  },
+  {
+    "id": "item_hedge_see_fae_necklace",
+    "type": "TOOL_ARMOR",
+    "name": "Fae Warding Charm",
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
+    "use_action": { "type": "transform", "target": "item_hedge_see_fae_necklace_on", "need_worn": true }
+  },
+  {
+    "id": "item_hedge_see_fae_necklace_on",
+    "type": "TOOL_ARMOR",
+    "name": "Fae Warding Charm (active)",
+    "copy-from": "item_hedge_see_fae_necklace",
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
+    "rand_charges": [ 100, 200, 300 ],
+    "turns_per_charge": 25,
+    "revert_to": "item_hedge_see_fae_necklace_done",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "item_hedge_see_fae_necklace_done",
+    "type": "TOOL_ARMOR",
+    "name": "Fae Warding Charm",
+    "copy-from": "item_hedge_see_fae_necklace",
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
+    "extend": { "flags": [ "MUNDANE" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]
