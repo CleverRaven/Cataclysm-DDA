@@ -160,5 +160,27 @@
     "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "item_hedge_nether_eye_paste",
+    "name": { "str_sp": "Blood-and-Ash Paste" },
+    "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherwordly creatures even through walls or in darkness.",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 100,
+    "spoils_in": "10 days",
+    "fun": -5,
+    "symbol": "q",
+    "color": "blue",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Rub the paste on your eyes.",
+      "effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
+    }
   }
 ]

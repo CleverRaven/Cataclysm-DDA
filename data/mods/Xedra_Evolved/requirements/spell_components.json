@@ -61,7 +61,7 @@
     "type": "requirement",
     "tools": [ [ [ "needle_wood", -1 ], [ "needle_bone", -1 ], [ "needle_steel", -1 ] ] ],
     "components": [
-      [ [ "cordage_36_leather", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
+      [ [ "cordage_36_leather", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ],
       [ [ "wild_herbs", 30 ] ],
       [ [ "hawthorn_berries", 3 ] ],
       [ [ "leather", 1 ] ],
@@ -116,5 +116,12 @@
         [ "seed_chili_pepper", 3 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_nether_eye_paste",
+    "type": "requirement",
+    "tools": [  ],
+    "components": [ [ [ "corpse_ash", 50 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
   }
 ]
