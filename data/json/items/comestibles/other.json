@@ -15,7 +15,7 @@
     "id": "gum",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "chewing gum" },
+    "name": { "str_sp": "chewing gum" },
     "description": "Sugar-free chewing gum.",
     "category": "food",
     "weight": "3 g",
