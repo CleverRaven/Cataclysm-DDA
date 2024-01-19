@@ -55,5 +55,61 @@
     "id": "spell_components_hedge_witchlight",
     "type": "requirement",
     "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "crude_lamp_oil", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_see_fae_necklace",
+    "type": "requirement",
+    "components": [
+      [ [ "cordage_36_leather", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
+      [ [ "wild_herbs", 30 ] ],
+      [ [ "hawthorn_berries", 3 ] ],
+      [ [ "leather", 1 ] ],
+      [
+        [ "thread", 3 ],
+        [ "sinew", 3 ],
+        [ "plant_fibre", 3 ],
+        [ "yarn", 3 ],
+        [ "thread_canvas", 3 ],
+        [ "thread_nomex", 6 ],
+        [ "thread_kevlar", 6 ]
+      ],
+      [ [ "needle_wood", 1 ], [ "needle_bone", 1 ], [ "needle_steel", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_make_plants_grow",
+    "type": "requirement",
+    "//": "1 seeds for staple grain crops (or tobacco), 3 seeds for other crops, no seeds of non-farmed crops",
+    "components": [
+      [
+        [ "seed_oats", 1 ],
+        [ "seed_tobacco", 1 ],
+        [ "seed_corn", 1 ],
+        [ "seed_beans", 1 ],
+        [ "seed_wheat", 1 ],
+        [ "seed_lentils", 1 ],
+        [ "seed_barley", 1 ],
+        [ "soybean_seed", 1 ],
+        [ "seed_buckwheat", 1 ],
+        [ "seed_onion", 3 ],
+        [ "seed_grapes", 3 ],
+        [ "seed_garlic", 3 ],
+        [ "seed_tomato", 3 ],
+        [ "seed_celery", 3 ],
+        [ "seed_carrot", 3 ],
+        [ "seed_lettuce", 3 ],
+        [ "seed_spinach", 3 ],
+        [ "seed_mustard", 3 ],
+        [ "seed_cabbage", 3 ],
+        [ "seed_pumpkin", 3 ],
+        [ "seed_broccoli", 3 ],
+        [ "seed_zucchini", 3 ],
+        [ "seed_eggplant", 3 ],
+        [ "seed_cucumber", 3 ],
+        [ "seed_sugar_beet", 3 ],
+        [ "seed_bell_pepper", 3 ],
+        [ "seed_chili_pepper", 3 ]
+      ]
+    ]
   }
 ]
