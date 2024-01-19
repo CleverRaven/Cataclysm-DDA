@@ -1391,7 +1391,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
     bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
     bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
-    bool mouth_ok = ( av == "MOUTH" ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) );
+    bool mouth_ok = ( av == "MOUTH" ) && !user.natural_attack_restricted_on( bodypart_id( "mouth" ) );
     bool always_ok = av == "HEAD" || av == "TORSO";
     bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
     bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||

@@ -3850,9 +3850,11 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
-    "and": [
-      { "u_has_trait": "MUZZLE_RAPTOR" }
-    ],
+    "condition": {
+        "and": [
+          { "u_has_trait": "MUZZLE_RAPTOR" }
+       ]
+    },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 16 },
       { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.2 },
@@ -4724,7 +4726,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
-        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+        { "or": [ { "u_has_effect": "natural_stance" }, { "npc_has_effect": "webbed" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
     "flat_bonuses": [

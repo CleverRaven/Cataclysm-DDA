@@ -475,27 +475,28 @@
     "id": "BATEARS",
     "name": { "str": "Bat Ears" },
     "points": 1,
-    "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance.",
+    "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and most loud noises don't seem to bother you.",
     "types": [ "HEARING" ],
     "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
-    "hearing_modifier": 2.0
+    "hearing_modifier": 2.5
   },
   {
     "type": "mutation",
     "id": "ECHOLOCATION",
     "name": { "str": "Echolocation" },
     "points": 3,
-    "description": "You've learned how to hunt without sight.  As long as you're awake and able to hear, you'll never suffer penalties for fighting enemies you can't see.",
+    "description": "You've learned how to hunt without sight.  Activate this mutation to make an ultrasonic sound that can reveal obstacles and enemies nearby.",
     "prereqs": [ "BATEARS" ],
-    "category": [ "CHIROPTERAN" ]
+    "category": [ "CHIROPTERAN" ],
+    "active": true
   },
   {
     "type": "mutation",
     "id": "LEAFNOSE",
     "name": { "str": "Leaf Nose" },
     "points": 2,
-    "prereqs": [ "SLIT_NOSTRILS" ],
+    "prereqs": [ "SLIT_NOSTRILS", "BLOODFEEDER" ],
     "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
@@ -5477,7 +5478,7 @@
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
-    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.  Just make sure you keep them uncovered if you intend to use them.",
+    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, especially if your victim is caught in a web.  Just make sure you keep them uncovered if you intend to use them.",
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "MANDIBLES" ],

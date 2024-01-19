@@ -218,6 +218,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     switch ( data ) {
     case sounds::sound_t::background: return "background";
     case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::sensory: return "sensory";
     case sounds::sound_t::music: return "music";
     case sounds::sound_t::movement: return "movement";
     case sounds::sound_t::speech: return "speech";
@@ -288,6 +289,7 @@ static bool is_provocative( sounds::sound_t category )
     switch( category ) {
         case sounds::sound_t::background:
         case sounds::sound_t::weather:
+        case sounds::sound_t::sensory:
         case sounds::sound_t::music:
         case sounds::sound_t::activity:
         case sounds::sound_t::destructive_activity:
@@ -509,6 +511,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
                 return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
@@ -527,6 +530,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
         switch( category ) {
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
@@ -707,8 +711,8 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos() || you->sees( pos ) ) {
-            // If we are or can see the source, don't draw a marker.
+        if( pos == you->pos() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+            // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
 

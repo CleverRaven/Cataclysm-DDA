@@ -3652,6 +3652,9 @@ class Character : public Creature, public visitable
         /** Creates an auditory hallucination */
         void sound_hallu();
 
+        /** All nearby obstacles make a very quiet sound */
+        void echo_pulse();
+
         /** Checks if a Character is driving */
         bool is_driving() const;
 
