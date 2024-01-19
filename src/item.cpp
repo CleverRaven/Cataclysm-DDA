@@ -1759,6 +1759,12 @@ std::string item::get_var( const std::string &name ) const
     return get_var( name, "" );
 }
 
+std::optional<std::string> item::maybe_get_var( const std::string &name ) const
+{
+    const auto it = item_vars.find( name );
+    return it == item_vars.end() ? std::nullopt : std::optional<std::string> { it->second };
+}
+
 bool item::has_var( const std::string &name ) const
 {
     return item_vars.count( name ) > 0;

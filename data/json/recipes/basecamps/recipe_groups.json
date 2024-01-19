@@ -566,7 +566,7 @@
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
-      { "id": "lc_steel_lump", "description": " Craft: Mild Carbon Steel, Lump" }
+      { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
   },
   {
@@ -586,10 +586,10 @@
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" },
-      { "id": "lc_wire", "description": " Craft: Mild Carbon Steel, Wire" },
-      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Carbon Steel, Link" },
-      { "id": "lc_link_sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
-      { "id": "mc_steel_lump", "description": " Craft: Medium Carbon Steel, Lump" }
+      { "id": "lc_wire", "description": " Craft: Mild Steel, Wire" },
+      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Steel, Link" },
+      { "id": "lc_link_sheet", "description": " Craft: Mild Steel, Link Sheet" },
+      { "id": "mc_steel_lump", "description": " Craft: Medium Steel, Lump" }
     ]
   },
   {
@@ -599,13 +599,13 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
+      { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
-      { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
-      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
-      { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
+      { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
+      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
+      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" }
     ]
   },
   {
@@ -624,9 +624,9 @@
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
-      { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
-      { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
-      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
+      { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
+      { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
+      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
       { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
       { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
@@ -648,10 +648,10 @@
       { "id": "crowbar", "description": " Craft: Crowbar" },
       { "id": "pot", "description": " Craft: Pot" },
       { "id": "hoe", "description": " Craft: Hoe" },
-      { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
-      { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
-      { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
-      { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
+      { "id": "hc_steel_lump", "description": " Craft: High Steel, Lump" },
+      { "id": "hc_wire", "description": " Craft: High Steel, Wire" },
+      { "id": "hc_chain_link_fabrication", "description": " Craft: High Steel, Link" },
+      { "id": "hc_link_sheet", "description": " Craft: High Steel, Link Sheet" }
     ]
   },
   {

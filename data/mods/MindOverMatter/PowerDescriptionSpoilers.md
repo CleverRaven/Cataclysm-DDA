@@ -555,7 +555,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, thogh they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+
+Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
 ## Far Hand 
 *Difficulty*: 1<br />
@@ -682,6 +684,129 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 45<br />
 *Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
 *Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
+
+# Telepathy
+
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+
+Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
+
+## Concentration Trance (C)
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 9 minutes and 20 seconds to 17 minutes and 13 seconds, plus 2 minutes and 12 seconds to 10 minutes and 5 seconds per power level<br />
+*Stamina Cost*: 4000, minus 175 per level to a minimum of 1500<br />
+*Channeling Time*: 300 moves, minus 12 moves per level to a minimum of 150<br />
+*Effects*: The psion enters a trance that facilitates learning, adding learning focus equal to 2.5 * the power level. The trance takes up most of the psion's concentration, however, increasing movement cost by 3x and reducing vision range the same as the nearsighted trait. The trance requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Starting power<br />
+
+## Sense Minds (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 1 minute 30 seconds to 10 minutes, plus 26 seconds to 2 minutes and 11 seconds per power level<br />
+*Stamina Cost*: 3500, minus 115 per level to a minimum of 1500<br />
+*Channeling Time*: 500 moves<br />
+*Effects*: Sense all sapient living beings within 2 squares per power level around the psion.  This includes all humans, sapient aliens such as mi-go or triffids (but not the triffids' vegetal defense biotechnology), most mutants who are not too far gone, Nether beings, and cyborgs, and excludes animals and robots.<br />
+*Prerequisites*: Starting power<br />
+
+## Telepathic Shield (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
+*Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
+*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damag and most telepathy-related effects while this power is active.<br />
+*Prerequisites*: Concentration Trance 5<br />
+
+## Mood Stabilization (C)
+*Difficulty*: 3<br />
+*Target*: Self (or dialogue)<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
+*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
+
+## Synaptic Blast
+*Difficulty*: 4<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 125 per level to a minimum of 900<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, causing damage equal to a percentage of their current health, beginning at 5% and adding 1.5% to 3% per power level.  As such, Synaptic Blast is almost never capable of killing the target.<br />
+*Prerequisites*: Sense Minds 7, Mood Stabilization 4<br />
+
+## Beastmaster
+*Difficulty*: 4<br />
+*Target*: One mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 3 minutes to 7 minutes and 50 seconds, plus 11.25 seconds to 28 seconds per power level<br />
+*Stamina Cost*: 4500, minus 155 per level to a minimum of 2000<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 75<br />
+*Effects*: Take over the mind of an animal, making it friendly to you.  While still an animal and subject to its instincts, it will not be hostile to you or run while the power is active, and may fight to defend you, again subject to its instincts (a wolf is a much better battle companion than a lemming).<br />
+*Prerequisites*: Mood Stabilization 8<br />
+
+## Sensory Deprivation
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 to 8 seconds, plus 0.5 to 1.5 seconds per power level<br />
+*Stamina Cost*: 3750, minus 150 per level to a minimum of 1500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, disconnecting their senses. Blinds and stuns the target for the duration.<br />
+*Prerequisites*: Synaptic Blast 6 *or* Mood Stabilization 6, Telepathic Shield 5<br />
+
+## Primal Terror
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
+*Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
+*Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
+
+## Obscurity
+*Difficulty*: 6<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 minutes and 7 seconds to 8 minutes and 43 seconds, plus 13 to 52 seconds per power level<br />
+*Stamina Cost*: 4500, minus 115 per level to a minimum of 2250<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 25<br />
+*Effects*: The psion erases their presence from the target's mind. For the power's duration, the target will not be able to see the psion at all; they will react to any companions or allies the psion has as normal. Attacking the target will immediately cancel the power.<br />
+*Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 11 *or* Telepathic Shield 8<br />
+
+## Psychic Scream
+*Difficulty*: 7<br />
+*Target*: Everything within a radius of 2 squares plus 1.1 squares per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7000, minus 275 per level to a minimum of 3250<br />
+*Channeling Time*: 75 moves, minus 6.5 moves per level to a minimum of 30<br />
+*Effects*: Unleash an undirected telepathic shriek, doing 3% of maximum health as damage plus 1% to 2% per power level, +1 flat damage. This second flat damage counts as an additional attack for the purposes of the side effects of telepathic damage.<br />
+*Prerequisites*: Synaptic Blast 11 *or* Primal Fear 7, Telepathic Shield 5<br />
+
+## Beast Tamer
+*Difficulty*: 7<br />
+*Target*: One friendly mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 28 days to 56 days, plus 1 day to 3 days per power level<br />
+*Stamina Cost*: 8000, minus 185 per level to a minimum of 5500<br />
+*Channeling Time*: 2 minutes<br />
+*Effects*: Deepen the psion's influence over a friendly animal, making it well-disposed toward the them. The animal counts as tamed and may be tied up, played with, ridden, and all other functions available to tame animals.<br />
+*Prerequisites*: Beastmaster 10<br />
+
+## Mind Control
+*Difficulty*: 8<br />
+*Target*: One target within 3 squares plus 1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br /><br />
+*Duration*: 6 to 52 seconds, plus 1.5 to 6.5 seconds per power level<br />
+*Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 65<br />
+*Effects*: Take over the mind of your target.  The target will not be hostile to you or run while the power is active, and may fight to defend you, subject to its normal behaviors; mind controlling a salmon is unlikely to provide a significant edge in battle.  Due to engine limitations, does not currently work on NPCs.<br />
+*Prerequisites*: Mood Stabilization 12 *or* Obscurity 6, Primal Terror 5 *or* Beastmaster 8 *or* Sensory Deprivation 7<br />
+
+## Network Effect
+*Difficulty*: 9<br />
+*Target*: All nearby NPC allies<br /><br />
+*Duration*: 1 minute and 40 seconds to 5 minutes, plus 7 to 34 seconds per power level<br />
+*Stamina Cost*: 6500, minus 135 per level to a minimum of 3750<br />
+*Channeling Time*: 500 moves, minus 9 moves per level to a minimum of 250<br />
+*Effects*: Forge a telepathic connection between nearby allies, allowing immediate reaction to threats and better coordination against danger. This provides a large array of bonuses: +1 dodge and block and another +1 per 12 power levels, +1 Perception and another +1 per 5 power levels, +3 ranged weapon range and another +1 per 4 power levels, a 5% chance to evade incoming attacks and another +1% per 2 power levels, 5% increased damage and another +1% per 2 power levels, increased combat skill gain, and the UNCANNY DODGE flag. It applies to all targets, but may only be used when at least 1 NPC ally is nearby.<br />
+*Prerequisites*: Mind Sense 10, Telepathic Concentration 10 *or* Mood Stabilization 8, Psychic Scream 6<br />
 
 # Teleportation
 
