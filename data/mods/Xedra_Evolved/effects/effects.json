@@ -1108,6 +1108,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_paraclesian_see_fae",
+    "name": [ "Wyrd Sight" ],
+    "desc": [ "You can sense nearby creatures that come from under the hill." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_FAE",
+            "add": {
+              "math": [
+                "(u_val('perception') * 2) * max(( 1.5 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE'))),1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [

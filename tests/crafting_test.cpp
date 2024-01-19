@@ -619,7 +619,7 @@ static std::pair<float, float> scen_fail_chance( const recipe_id &rid, int offse
                                     player_character.item_destruction_chance( *rid ) * 100.f );
 }
 
-TEST_CASE( "synthetic_recipe_fail_chances", "[synthetic][.][crafting]" )
+TEST_CASE( "synthetic_recipe_fail_chances", "[.]" )
 {
     std::vector<std::pair<int, bool>> scens = {
         { -MAX_SKILL, false },

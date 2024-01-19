@@ -844,6 +844,7 @@ Character status value  | Description
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
+`SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.

@@ -1428,6 +1428,8 @@ void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "target", target );
     jsout.member( "tool", tool );
+    jsout.member( "type", type );
+    jsout.member( "veh_pos", veh_pos );
     jsout.end_object();
 }
 
@@ -1437,6 +1439,8 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     JsonObject data = jsin.get_object();
     data.read( "target", actor.target );
     data.read( "tool", actor.tool );
+    data.read( "type", actor.type );
+    data.read( "veh_pos", actor.veh_pos );
     return actor.clone();
 }
 
