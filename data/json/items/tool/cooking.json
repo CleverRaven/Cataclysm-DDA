@@ -38,23 +38,6 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
-    "id": "butter_churn",
-    "type": "TOOL",
-    "name": { "str": "pseudo butter churn" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
-    "weight": "6464 g",
-    "volume": "9 L",
-    "price": 20000,
-    "price_postapoc": 100,
-    "to_hit": -2,
-    "material": [ "wood" ],
-    "qualities": [ [ "CHURN", 1 ] ],
-    "symbol": "H",
-    "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "id": "screw_press",
     "type": "TOOL",
     "name": { "str": "screw press", "str_pl": "screw presses" },
