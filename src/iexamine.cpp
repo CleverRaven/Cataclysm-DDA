@@ -1358,7 +1358,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     } else {
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
         hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.position(), &you );
-        you.assign_activity( hacking_activity_actor() );
+        you.assign_activity( hacking_activity_actor( hacking_tool ) );
         you.activity.placement = get_map().getglobal( examp );
         return true;
     }

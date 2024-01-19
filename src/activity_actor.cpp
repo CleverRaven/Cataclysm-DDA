@@ -187,7 +187,6 @@ static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
@@ -721,7 +720,7 @@ static int hack_level( const Character &who )
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, item_location &tool )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
@@ -734,10 +733,10 @@ static hack_result hack_attempt( Character &who )
     int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        who.use_charges( itype_electrohack, 25 );
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
 
         if( success <= -5 ) {
-            who.use_charges( itype_electrohack, 50 );
+        tool->ammo_consume( (tool->ammo_required() * 2), tool.position(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -770,7 +769,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     // TODO: fix point types
     tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, tool ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -827,9 +826,11 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &jsin )
 {
-    hacking_activity_actor actor;
+    hacking_activity_actor actor ( {} );
+    JsonObject data = jsin.get_object();
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
