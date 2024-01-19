@@ -3130,7 +3130,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 you.add_msg_player_or_npc( m_info, 
                     _( "You don't meet the requirements to install the %s." ), 
-                    _("<npcname> don't meet the requirements to install the %s."), 
+                    _( "<npcname> doesn't meet the requirements to install the %s." ), 
                     vpinfo.name() );
                 break;
             }
@@ -3337,7 +3337,7 @@ void veh_interact::complete_vehicle( Character &you )
                             if( charges_destroyed > 0 ) {
                                 you.add_msg_player_or_npc( m_bad, 
                                     _( "You fail to recover %1$d %2$s." ), 
-                                    _("<npcname> fail to recover %1$d %2$s."), 
+                                    _( "<npcname> fails to recover %1$d %2$s." ), 
                                     charges_destroyed,
                                     it.type_name( charges_destroyed ) );
                             }
@@ -3349,7 +3349,7 @@ void veh_interact::complete_vehicle( Character &you )
                         } else {
                             you.add_msg_player_or_npc( m_bad, 
                                     _( "You fail to recover %1$s." ), 
-                                    _("<npcname> fail to recover %1$s."), 
+                                    _( "<npcname> fails to recover %1$s." ), 
                                     it.type_name());
                         }
                     }
