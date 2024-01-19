@@ -2425,8 +2425,22 @@ ______
     "type": "ascii_art",
     "id": "large_stomach_sealed",
     "picture": [
+      "         <color_yellow>.<color_white>*:-.</color>",
+      "        /   '.<color_white>\\</color>",
+      " .<color_white>*</color>._.-'      \\<color_white>'</color>",
+      "/   '         │",
+      "|             |",
+      "'.           /",
+      "  '~-──────-'"
     ]
 /*
+         .*:-.
+        /   '.\
+ .*._.-'      \'
+/   '         │
+|             |
+'.           /
+  '~-──────-'
 */
   },
   {
