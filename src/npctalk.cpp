@@ -2040,10 +2040,38 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
     parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
 }
 
+void replace_color_tags( std::string &str, std::string from_tag_left, std::string from_tag_right,
+                         std::string to_tag_left, std::string to_tag_right )
+{
+    // replace </color>
+    std::string from_tag = from_tag_left + "/color" + from_tag_right;
+    std::string to_tag = to_tag_left + "/color" + to_tag_right;
+    size_t pos = str.find( from_tag );
+    while( pos != std::string::npos ) {
+        str.replace( pos, 8, to_tag );
+        pos = str.find( from_tag, pos + 1 );
+    }
+    from_tag = from_tag_left + "color_";
+    // replace <color_XXX>
+    pos = str.find( from_tag );
+    while( pos != std::string::npos ) {
+        size_t endPos = str.find( from_tag_right, pos + 7 );
+        if( endPos != std::string::npos ) {
+            std::string colorTag = str.substr( pos + 1, endPos - pos - 1 );
+            std::string replacement = to_tag_left + colorTag + to_tag_right;
+            str.replace( pos, endPos - pos + 1, replacement );
+            pos = str.find( from_tag, pos + replacement.length() );
+        } else {
+            break;
+        }
+    }
+}
+
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
+    replace_color_tags( phrase, "<", ">", "[", "]" ); // temporarily replace the color tag
+    phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2070,7 +2098,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
         if( fa != std::string::npos && fb != std::string::npos ) {
             tag = phrase.substr( fa, fb - fa + 1 );
         } else {
-            return;
+            break;
         }
 
         const item_location u_weapon = u_chr ? u_chr->get_wielded_item() : item_location();
@@ -2236,6 +2264,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
             phrase.replace( fa, fb - fa + 1, "????" );
         }
     } while( fa != std::string::npos && fb != std::string::npos );
+    replace_color_tags( phrase, "[", "]", "<", ">" ); // recover the color tags
 }
 
 void dialogue::add_topic( const std::string &topic_id )

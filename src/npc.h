@@ -79,6 +79,12 @@ using overmap_location_str_id = string_id<overmap_location>;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+// This function is used to convert the tags </color> and <color_XXX> into[/color] and [color_XXX]
+// and restore the color tags during tag parsing.
+// In the parse_tags function, the color tag affects the parsing of other <> forms.
+// To avoid this issue, it is necessary to temporarily remove it.
+void replace_color_tags( std::string &str, std::string from_tag_left, std::string from_tag_right,
+                         std::string to_tag_left, std::string to_tag_right );
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = itype_id::NULL_ID() );
 
