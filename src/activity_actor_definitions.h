@@ -207,7 +207,7 @@ class hacksaw_activity_actor : public activity_actor
 class hacking_activity_actor : public activity_actor
 {
     public:
-        hacking_activity_actor(const item_location &tool ): tool( tool ) {};
+        explicit hacking_activity_actor(const item_location &tool ): tool( tool ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
