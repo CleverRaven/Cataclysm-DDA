@@ -88,7 +88,7 @@
     "fun": -15
   },
   {
-    "id": "lighter",
+    "id": "hedge_fire_starter",
     "type": "TOOL",
     "name": { "str": "To Kindle the Flames" },
     "description": "The item that starts fires when using To Kindle the Flames.  This should be summoned and deleted as part of the spell, so you should never actually see it.",
