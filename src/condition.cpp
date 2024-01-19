@@ -1734,14 +1734,6 @@ conditional_t::func f_get_condition( const JsonObject &jo, std::string_view memb
     };
 }
 
-conditional_t::func f_get_option( const JsonObject &jo, std::string_view member )
-{
-    str_or_var optionToGet = get_str_or_var( jo.get_member( member ), member, true );
-    return [optionToGet]( dialogue & d ) {
-        return get_option<bool>( optionToGet.evaluate( d ) );
-    };
-}
-
 conditional_t::func f_compare_num( const JsonObject &jo, const std::string_view member )
 {
     JsonArray objects = jo.get_array( member );
@@ -3370,7 +3362,6 @@ parsers = {
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
-    {"get_game_option", jarg::member, &conditional_fun::f_get_option },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
