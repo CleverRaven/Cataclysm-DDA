@@ -5682,6 +5682,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
+    bool single_target = jo.get_bool( "single_target", false );
     str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
@@ -5707,29 +5708,63 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
-                            dov_max_radius, outdoor_only, indoor_only, group, dov_lifespan, target_var,
+                            dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
                             spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
                 friendly, is_npc]( dialogue & d ) {
         monster target_monster;
+        std::vector<Creature *> target_monsters;
+        mongroup_id target_mongroup;
 
         if( group ) {
-            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
-                                          monster_id.evaluate( d ) ) ) );
+            if( monster_id.evaluate( d ).empty() ) {
+                debugmsg( "Cannot use group without a valid monstergroup.  %s", d.get_callstack() );
+            }
+            if( single_target ) {
+                target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
+                                              monster_id.evaluate( d ) ) ) );
+            } else {
+                target_mongroup = mongroup_id( monster_id.evaluate( d ) );
+            }
         } else if( monster_id.evaluate( d ).empty() ) {
             int target_range = dov_target_range.evaluate( d );
-            //grab a random nearby hostile creature to create a hallucination or copy of
-            Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
-                bool not_self = get_player_character().pos() != critter.pos();
-                bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
-                bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
-                return not_self && in_range && valid_target;
-            } );
-            if( copy == nullptr ) {
-                run_eoc_vector( false_eocs, d );
-                return;
+            if( single_target ) {
+                // Find a hostile creature in range to be used to create a hallucination or a copy of
+                Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
+                    bool not_self = get_player_character().pos() != critter.pos();
+                    bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                    bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
+                    return not_self && in_range && valid_target;
+                } );
+                if( copy == nullptr ) {
+                    run_eoc_vector( false_eocs, d );
+                    return;
+                }
+                target_monster = *copy->as_monster();
+            } else {
+                // Find all hostile creatures in range to be used to create hallucinations or copies of
+                std::vector<Creature *> monsters_in_range = g->get_creatures_if( [target_range](
+                const Creature & critter ) -> bool {
+                    bool not_self = get_player_character().pos() != critter.pos();
+                    bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                    bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
+                    return not_self && in_range && valid_target;
+                } );
+                int valid_monsters = monsters_in_range.size();
+                if( valid_monsters == 0 ) {
+                    run_eoc_vector( false_eocs, d );
+                    return;
+                } else if( valid_monsters == 1 ) {
+                    Creature *copy = monsters_in_range[0];
+                    target_monster = *copy->as_monster();
+                } else {
+                    target_monsters = monsters_in_range;
+                }
             }
-            target_monster = *copy->as_monster();
         } else {
+            if( single_target ) {
+                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                          d.get_callstack() );
+            }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
         }
         int min_radius = dov_min_radius.evaluate( d );
@@ -5745,6 +5780,14 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
+            if( !single_target ) {
+                if( group ) {
+                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
+                } else {
+                    Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
+                    target_monster = *copy->as_monster();
+                }
+            }
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
@@ -5767,6 +5810,14 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
+            if( !single_target ) {
+                if( group ) {
+                    target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
+                } else {
+                    Creature *copy = target_monsters[ rng( 0, target_monsters.size() - 1 ) ];
+                    target_monster = *copy->as_monster();
+                }
+            }
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
