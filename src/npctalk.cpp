@@ -6039,6 +6039,22 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
     };
 }
 
+void talk_effect_fun_t::set_wants_to_talk( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        npc *p = d.actor( is_npc )->get_npc();
+        if( p ) {
+            if( p->get_attitude() == NPCATT_TALK ) {
+                return;
+            }
+            if( p->sees( get_player_character() ) ) {
+                add_msg( _( "%s wants to talk to you." ), p->get_name() );
+            }
+            p->set_attitude( NPCATT_TALK );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, std::string_view member,
                                         bool no_result )
 {
@@ -6624,6 +6640,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "u_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "npc_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( true );
         set_effect( subeffect_fun );
         return;
     }
