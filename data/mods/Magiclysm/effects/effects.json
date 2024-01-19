@@ -1006,6 +1006,16 @@
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to heat and fire." ],
+    "rating": "good",
+    "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1053,6 +1063,9 @@
       "effect_magus_spiderclimb",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
+      "effect_biomancer_slow_bleeding_01",
+      "effect_biomancer_slow_bleeding_02",
+      "effect_biomancer_slow_bleeding_03",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1115,6 +1128,9 @@
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
+      "effect_biomancer_slow_bleeding_01",
+      "effect_biomancer_slow_bleeding_02",
+      "effect_biomancer_slow_bleeding_03",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
@@ -1125,9 +1141,11 @@
       "ice_energy",
       "ice_age_eff",
       "effect_biomancer_remove_instability",
+      "effect_biomancer_hyper_regeneration",
       "effect_terra_armor",
       "gravity_mage_melee",
-      "eff_storm_elemental_electric_melee"
+      "eff_storm_elemental_electric_melee",
+      "effect_flame_immunity"
     ]
   }
 ]
