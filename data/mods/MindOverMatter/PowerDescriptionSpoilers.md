@@ -752,7 +752,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 3750, minus 150 per level to a minimum of 1500<br />
 *Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
 *Effects*: Assault the target's mind, disconnecting their senses. Blinds and stuns the target for the duration.<br />
-*Prerequisites*: Synaptic Blast 6, Telepathic Shield 5<br />
+*Prerequisites*: Synaptic Blast 6 *or* Mood Stabilization 6, Telepathic Shield 5<br />
 
 ## Primal Terror
 *Difficulty*: 5<br />

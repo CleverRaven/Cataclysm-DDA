@@ -332,7 +332,12 @@
             { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_blast')", ">=", "6" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] }
+                  ]
+                },
                 { "math": [ "u_spell_level('telepathic_morale')", ">=", "4" ] }
               ]
             }
