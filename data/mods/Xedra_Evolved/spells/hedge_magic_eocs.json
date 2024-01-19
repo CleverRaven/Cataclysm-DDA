@@ -77,7 +77,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_LIGHT_FIRE",
     "effect": [
-      { "u_spawn_item": "hedge_fire_starter" },
+      { "u_spawn_item": "hedge_fire_starter", "suppress_message": true },
       {
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "hedge_fire_starter" } ],

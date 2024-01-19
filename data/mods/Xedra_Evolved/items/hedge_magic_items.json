@@ -90,7 +90,7 @@
   {
     "id": "hedge_fire_starter",
     "type": "TOOL",
-    "name": { "str": "To Kindle the Flames" },
+    "name": { "str_sp": "To Kindle the Flames" },
     "description": "The item that starts fires when using To Kindle the Flames.  This should be summoned and deleted as part of the spell, so you should never actually see it.",
     "weight": "0 g",
     "volume": "0 ml",
@@ -102,12 +102,12 @@
   {
     "id": "item_hedge_see_fae_necklace",
     "type": "TOOL_ARMOR",
-    "name": "Fae Warding Charm",
+    "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
-    "rand_charges": [ 100, 200, 300 ],
+    "rand_charges": [ 120, 240, 360 ],
     "turns_per_charge": 25,
     "ammo": "glamour_charge",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 300 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
     "price": 5000,
@@ -115,7 +115,7 @@
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
-    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
     "use_action": {
       "type": "transform",
       "need_charges": 1,
@@ -123,16 +123,19 @@
       "target": "item_hedge_see_fae_necklace_on",
       "msg": "You recite that last part of the charm.",
       "need_worn": true
+    },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
     }
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
     "type": "TOOL_ARMOR",
-    "name": "Fae Warding Charm (active)",
+    "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
     "ammo": "glamour_charge",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 300 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
     "material": [ "leather", "veggy" ],
@@ -142,13 +145,13 @@
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
     }
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
     "type": "TOOL_ARMOR",
-    "name": "Fae Warding Charm",
+    "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
     "weight": "100 g",
     "volume": "50 ml",
