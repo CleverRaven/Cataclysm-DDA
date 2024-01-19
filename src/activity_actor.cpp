@@ -720,7 +720,8 @@ static int hack_level( const Character &who, item_location &tool )
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking
     // tool_quality_modifier may increase or reduce the success chance of hacking
-    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier + static_cast<float>
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
+                  static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
@@ -740,7 +741,7 @@ static hack_result hack_attempt( Character &who, item_location &tool )
         tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
 
         if( success <= -5 ) {
-        tool->ammo_consume( (tool->ammo_required() * 2), tool.position(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -832,7 +833,7 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &jsin )
 {
-    hacking_activity_actor actor ( {} );
+    hacking_activity_actor actor( {} );
     JsonObject data = jsin.get_object();
     data.read( "tool", actor.tool );
     return actor.clone();
