@@ -1391,14 +1391,15 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
     bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
     bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
-    bool always_ok = av == "HEAD" || av == "MOUTH" || av == "TORSO";
+    bool mouth_ok = ( av == "MOUTH" ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) );
+    bool always_ok = av == "HEAD" || av == "TORSO";
     bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
     bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
                     av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
     bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
     bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
 
-    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+    return always_ok || weapon_ok || mouth_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

@@ -1296,6 +1296,8 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                               ( !u.natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "head" ) );
+        } else if( attack_vector == "MOUTH" ) {
+            bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "mouth" ) );
         } else if( attack_vector == "TORSO" ) {
             bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "torso" ) );
         } else {

@@ -3677,6 +3677,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+            { "u_has_trait": "MUZZLE" },
             { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
             { "not": { "u_has_effect": "natural_stance" } },
             { "not": { "npc_has_effect": "downed" } },
@@ -3714,6 +3715,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+            { "u_has_trait": "MUZZLE" },
             { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
             { "u_has_effect": "natural_stance" },
             { "not": { "npc_has_effect": "downed" } },
@@ -3751,6 +3753,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+            { "u_has_trait": "MUZZLE" },
             { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
             { "not": { "npc_has_effect": "downed" } },
             { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" }, { "npc_bodytype": "bear" }, { "npc_bodytype": "kangoroo" }, { "npc_bodytype": "horse" }, { "npc_bodytype": "pig" }, { "npc_bodytype": "migo" }, { "npc_bodytype": "flying_insect" }, { "npc_bodytype": "crab" }, { "npc_bodytype": "spider" }, { "npc_bodytype": "bird" } ] },
@@ -3787,6 +3790,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_RAPTOR" },
         { "not": { "u_has_effect": "natural_stance" } },
         {
           "and": [
@@ -3820,6 +3824,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_RAPTOR" },
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
@@ -3845,6 +3850,9 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
+    "and": [
+      { "u_has_trait": "MUZZLE_RAPTOR" }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 16 },
       { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.2 },
@@ -4028,7 +4036,7 @@
       "and": [
         { "u_has_trait": "MUZZLE_BEAR" },
         { "or": [ { "npc_has_effect": "downed" }, { "and": [ { "npc_has_effect": "stunned" } ] } ] }
-      ],
+      ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 38 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
@@ -4507,7 +4515,7 @@
   {
     "type": "technique",
     "id": "MOUTH_TENTACLES_BITE_NATURAL",
-    "name": "Beak Bite",
+    "name": "Mouth Tentacles Bite",
     "melee_allowed": true,
     "messages": [ "You grab %s with your tentacles and bite down hard!", "<npcname> grabs %s with their tentacles and bites down hard!" ],
     "unarmed_allowed": true,
@@ -4541,7 +4549,7 @@
   {
     "type": "technique",
     "id": "MOUTH_TENTACLES_BITE_CRIT",
-    "name": "Incisor Bite (crit)",
+    "name": "Mouth Tentacles Bite (crit)",
     "melee_allowed": true,
     "messages": [ "You grab %s with your tentacles and deliver a vicious bite!", "<npcname> grabs %s with their tentacles and delivers a vicious bite!" ],
     "unarmed_allowed": true,
@@ -4652,7 +4660,6 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
-
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 24 },
       { "stat": "damage", "type": "bash", "scale": 14 },
