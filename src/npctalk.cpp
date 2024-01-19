@@ -5714,6 +5714,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
+        bool use_target_monster = single_target;
 
         if( group ) {
             if( monster_id.evaluate( d ).empty() ) {
@@ -5756,16 +5757,18 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 } else if( valid_monsters == 1 ) {
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
+                    use_target_monster = true;
                 } else {
                     target_monsters = monsters_in_range;
                 }
             }
         } else {
             if( single_target ) {
-                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                debugmsg( "single_target doesn't need to be defined for a singlular monster_id.  %s",
                           d.get_callstack() );
             }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
+            use_target_monster = true;
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -5780,7 +5783,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
@@ -5810,7 +5813,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
