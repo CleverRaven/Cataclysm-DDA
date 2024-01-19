@@ -528,6 +528,7 @@ chausses
 cheapshot
 checkerboard
 checkerboards
+checkmarks
 cheescutter
 chelator
 chested

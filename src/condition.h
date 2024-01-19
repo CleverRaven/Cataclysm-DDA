@@ -70,10 +70,9 @@ void finalize_conditions();
  * returns whether the response is allowed.
  */
 struct conditional_t {
-    private:
-        std::function<bool( dialogue & )> condition;
-
     public:
+        using func = std::function<bool( dialogue & )>;
+
         conditional_t() = default;
         explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
@@ -213,6 +212,7 @@ struct conditional_t {
         void set_get_condition( const JsonObject &jo, std::string_view member );
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
+  
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
@@ -229,6 +229,9 @@ struct conditional_t {
             }
             return condition( d );
         }
+
+    private:
+        func condition;
 };
 
 extern template std::function<double( dialogue & )>

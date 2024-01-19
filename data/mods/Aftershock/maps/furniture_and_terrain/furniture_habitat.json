@@ -143,5 +143,48 @@
         { "item": "circuit", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_screenmirror_working",
+    "name": "screen mirror",
+    "symbol": "{",
+    "light_emitted": 20,
+    "description": "The screen wall is awash with rolling advertisements.",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 5,
+    "crafting_pseudo_item": "mirror",
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
   }
 ]

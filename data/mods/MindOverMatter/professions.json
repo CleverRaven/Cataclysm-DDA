@@ -82,7 +82,7 @@
       { "id": "clair_night_vision", "level": 4 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 9 },
-      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_spot_weakness", "level": 5 },
       { "id": "clair_voyance", "level": 6 }
     ],
@@ -286,12 +286,22 @@
     "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
     "spells": [
-      { "id": "telepathic_concentration", "level": 4 },
-      { "id": "telepathic_shield", "level": 2 },
-      { "id": "telepathic_morale", "level": 4 },
-      { "id": "telepathic_confusion", "level": 2 }
+      { "id": "telepathic_concentration", "level": 6 },
+      { "id": "telepathic_mind_sense", "level": 11 },
+      { "id": "telepathic_shield", "level": 8 },
+      { "id": "telepathic_morale", "level": 7 },
+      { "id": "telepathic_confusion", "level": 8 },
+      { "id": "telepathic_invisibility", "level": 6 }
     ],
     "proficiencies": [ "prof_concentration_basic" ],
+    "recipes": [
+      "practice_telepathic_concentration",
+      "practice_telepathic_shield",
+      "practice_telepathic_mind_sense",
+      "practice_telepathic_morale",
+      "practice_telepathic_confusion",
+      "practice_telepathic_invisibility"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -299,6 +309,7 @@
           { "item": "dress_shirt" },
           { "item": "socks" },
           { "item": "dress_shoes" },
+          { "item": "matrix_crystal_drained" },
           { "item": "water_clean", "container-item": "canteen" },
           { "group": "charged_smart_phone" },
           { "item": "lighter", "charges": 100 }

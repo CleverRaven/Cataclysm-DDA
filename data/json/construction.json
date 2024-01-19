@@ -1107,7 +1107,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_brick_wall_halfway"
@@ -1120,7 +1120,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_brick_wall"
@@ -1134,7 +1134,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_concrete"
@@ -1323,7 +1323,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "180 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_sconc_wall_halfway"
@@ -1337,7 +1337,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "180 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_sconc_wall"
@@ -1489,7 +1489,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
     "tools": [ [ [ "con_mix", 50 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_ov_smreb_cage",
     "post_terrain": "t_thconc_floor"
@@ -1914,7 +1914,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_embrasure_brick"
@@ -2028,7 +2028,7 @@
     "time": "180 m",
     "//": "The frame is used to keep the shape of the hole until the concrete is solid",
     "tools": [ [ [ "con_mix", 50 ] ], [ [ "frame_wood", -1 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_embrasure_sconc"
@@ -2522,7 +2522,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "brick", 30 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_fireplace"
@@ -5003,7 +5003,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
     "tools": [ [ [ "con_mix", 125 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
     "pre_special": "check_ramp_low",
     "post_terrain": "t_ramp_up_low",
@@ -5019,7 +5019,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
     "tools": [ [ [ "con_mix", 125 ] ] ],
-    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
     "pre_special": "check_ramp_high",
     "post_terrain": "t_ramp_up_high",

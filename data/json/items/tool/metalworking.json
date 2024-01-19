@@ -287,7 +287,7 @@
     "id": "lc_link_sheet",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "low steel chainmail sheet" },
+    "name": { "str": "mild steel chainmail sheet" },
     "description": "A sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
     "weight": "1000 g",
     "volume": "500 ml",
