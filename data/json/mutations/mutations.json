@@ -5474,7 +5474,7 @@
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
     "leads_to": [ "PROBOSCIS" ],
-    "category": [ "INSECT" ],
+    "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "integrated_armor": [ "integrated_mandibles" ]
   },
@@ -8618,14 +8618,7 @@
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "social_modifiers": { "intimidate": 5 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
-      "body_part": "mouth",
-      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 }
-    },
+    "integrated_armor": [ "integrated_sharkteeth" ],
     "purifiable": false
   },
   {
