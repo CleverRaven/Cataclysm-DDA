@@ -3,7 +3,7 @@
     "id": "burning_trail",
     "type": "SPELL",
     "name": "Burning Trail",
-    "description": "Speak a short phrase and transform your footsteps into burning pits of flame, leaving a trail of fire behind you.  Each step will consume mana, but you will be immune to fire while the spell is in effect. ",
+    "description": "Speak a short phrase and transform your footsteps into burning pits of flame, leaving a trail of fire behind you.  Each step will consume mana, but you will be immune to fire while the spell is in effect.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_FAIL" ],
     "effect": "effect_on_condition",

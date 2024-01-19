@@ -1022,7 +1022,7 @@
     "rating": "good",
     "show_in_info": true,
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [ "ench_heat_and_fire_immunity" ]
   },
   {
     "id": "effect_dispel_magic",
