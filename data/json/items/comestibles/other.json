@@ -352,7 +352,7 @@
         "name": { "str": "chewing gum, absinthe flavored" },
         "description": "Commune with your muse while chewing this absinthe-flavored gumball.",
         "weight": 1
-        },
+      },
       {
         "id": "gum_cat",
         "name": { "str": "chewing gum, cat hairball flavored" },
