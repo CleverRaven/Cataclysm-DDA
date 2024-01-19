@@ -910,6 +910,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_burning_trail",
+    "name": [ "Burning Trail" ],
+    "desc": [ "Fire trails in your wake." ],
+    "apply_message": "",
+    "remove_message": "The flames you leave behind die down.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_cloak_of_fog",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],
@@ -1145,7 +1154,8 @@
       "effect_terra_armor",
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
-      "effect_flame_immunity"
+      "effect_flame_immunity",
+      "effect_burning_trail"
     ]
   }
 ]
