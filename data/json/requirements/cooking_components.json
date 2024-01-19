@@ -1342,7 +1342,7 @@
   {
     "id": "poultry_raw_any",
     "type": "requirement",
-    "//": "Any bird meat, chunks or scraps",
+    "//": "Any bird meat, 1 chunk or 10 scraps",
     "components": [ [ [ "poultry", 1 ], [ "poultry_fatty", 1 ], [ "poultry_scrap", 10 ], [ "poultry_fatty_scrap", 10 ] ] ]
   },
   {
@@ -1350,5 +1350,11 @@
     "type": "requirement",
     "//": "Any bird meat, chunks only",
     "components": [ [ [ "poultry", 1 ], [ "poultry_fatty", 1 ] ] ]
+  },
+  {
+    "id": "poultrys_smoked_any",
+    "type": "requirement",
+    "//": "Any smoked bird meat",
+    "components": [ [ [ "poultry_smoked", 1 ], [ "poultry_fatty_smoked", 1 ] ] ]
   }
 ]
