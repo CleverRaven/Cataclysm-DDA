@@ -104,6 +104,10 @@
     "type": "TOOL_ARMOR",
     "name": "Fae Warding Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
+    "rand_charges": [ 100, 200, 300 ],
+    "turns_per_charge": 25,
+    "ammo": "glamour_charge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 300 } } ],
     "weight": "100 g",
     "volume": "50 ml",
     "price": 5000,
@@ -112,19 +116,31 @@
     "color": "green",
     "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": { "type": "transform", "target": "item_hedge_see_fae_necklace_on", "need_worn": true }
+    "use_action": {
+      "type": "transform",
+      "need_charges": 1,
+      "active": true,
+      "target": "item_hedge_see_fae_necklace_on",
+      "msg": "You recite that last part of the charm.",
+      "need_worn": true
+    }
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
     "type": "TOOL_ARMOR",
     "name": "Fae Warding Charm (active)",
-    "copy-from": "item_hedge_see_fae_necklace",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
-    "rand_charges": [ 100, 200, 300 ],
     "turns_per_charge": 25,
+    "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 300 } } ],
+    "weight": "100 g",
+    "volume": "50 ml",
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
+    "revert_msg": "Your otherworldly senses fade.",
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
     }
@@ -133,8 +149,12 @@
     "id": "item_hedge_see_fae_necklace_done",
     "type": "TOOL_ARMOR",
     "name": "Fae Warding Charm",
-    "copy-from": "item_hedge_see_fae_necklace",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
