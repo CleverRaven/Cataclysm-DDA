@@ -1686,7 +1686,7 @@
     "volume": "170 ml",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "symbol": ",",
     "quench": -20,
     "calories": 350,
@@ -1694,7 +1694,7 @@
     "price": 330,
     "price_postapoc": 100,
     "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CARNIVORE_OK" ],
     "fun": -24
   },
   {
