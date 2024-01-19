@@ -219,7 +219,7 @@ volume cylinder r120 h477 mm
     "type": "ascii_art",
     "id": "bag_canvas_small",
     "picture": [
-      "<color_brown.=<color_white>*.</color>",
+      "<color_brown>.=<color_white>*.</color>",
       "/ \\<color_white>'</color>",
       "'~'"
     ]
@@ -1434,15 +1434,15 @@ explosives box
     "picture": [
       "<color_light_gray>(<color_yellow>1:2</color>)</color>",
       "<color_brown>┌─────────────────────────────┐",
-      "│:                           :│",
+      "│<color_light_gray>:                           :</color>│",
       "│=============================│",
-      "│:                           :│",
+      "│<color_light_gray>:                           :</color>│",
       "│=============================│",
-      "│:                           :│",
+      "│<color_light_gray>:                           :</color>│",
       "│=============================│",
-      "│:                           :│",
+      "│<color_light_gray>:                           :</color>│",
       "│=============================│",
-      "│:                           :│",
+      "│<color_light_gray>:                           :</color>│",
       "└─────────────────────────────┘"
     ]
 /*
@@ -1588,7 +1588,7 @@ explosives box
       " |                |",
       "'┤________________├'",
       " |                |",
-      " \\────────────────/",
+      " \\================/",
       "  |              |",
       "  \\              /",
       "   |            |",
@@ -1603,7 +1603,7 @@ explosives box
  |                |
 '┤________________├'
  |                |
- \────────────────/
+ \================/
   |              |
   \              /
    |            |
@@ -2746,6 +2746,26 @@ case for refernece
   },
   {
     "type": "ascii_art",
+    "id": "brown_smart_phone_case",
+    "picture": [
+      "<color_brown>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+/*
+.════.
+║()  ║
+║    ║
+║    ║
+║    ║
+'════'
+*/
+  },
+  {
+    "type": "ascii_art",
     "id": "white_smart_phone_case",
     "picture": [
       "<color_white>.════.",
@@ -3637,132 +3657,132 @@ https://i.etsystatic.com/24090247/r/il/b28dea/4451907827/il_794xN.4451907827_5kv
     "type": "ascii_art",
     "id": "condom",
     "picture": [
-      "<color_dark_gray>╔═══╗",
+      "<color_dark_gray>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
 /*
 50 mm ish
-╔═══╗
+╔↔↔↔╗
 ║( )║
-╚═══╝
+╚↔↔↔╝
 */
   },
   {
     "type": "ascii_art",
     "id": "condom_plain",
     "picture": [
-      "<color_dark_gray>╔═══╗",
+      "<color_dark_gray>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_blue",
     "picture": [
-      "<color_light_blue>╔═══╗",
+      "<color_light_blue>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_red",
     "picture": [
-      "<color_red>╔═══╗",
+      "<color_red>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_green",
     "picture": [
-      "<color_light_green>╔═══╗",
+      "<color_light_green>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_yellow",
     "picture": [
-      "<color_yellow>╔═══╗",
+      "<color_yellow>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_pink",
     "picture": [
-      "<color_light_red>╔═══╗",
+      "<color_light_red>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_ribbed",
     "picture": [
-      "<color_light_gray>╔═══╗",
+      "<color_light_gray>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_cherry",
     "picture": [
-      "<color_red>╔═══╗",
+      "<color_red>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_banana",
     "picture": [
-      "<color_yellow>╔═══╗",
+      "<color_yellow>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_strawberry",
     "picture": [
-      "<color_red>╔═══╗",
+      "<color_red>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_orange",
     "picture": [
-      "<color_yellow>╔═══╗",
+      "<color_yellow>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_foodplace",
     "picture": [
-      "<color_magenta>╔═══╗",
+      "<color_magenta>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
     "type": "ascii_art",
     "id": "condom_flavored_jalapeno",
     "picture": [
-      "<color_light_green>╔═══╗",
+      "<color_light_green>╔↔↔↔╗",
       "║( )║",
-      "╚═══╝"
+      "╚↔↔↔╝"
     ]
   },
   {
