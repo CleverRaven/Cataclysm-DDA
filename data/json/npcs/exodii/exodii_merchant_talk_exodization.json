@@ -107,10 +107,7 @@
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
-        "effect": [
-          { "u_add_faction_trust": -2 },
-          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
-        ],
+        "effect": [ { "u_add_faction_trust": -2 }, { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "+=", "4" ] } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
       },
       {
@@ -163,10 +160,7 @@
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
-        "effect": [
-          { "u_add_faction_trust": -2 },
-          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
-        ],
+        "effect": [ { "u_add_faction_trust": -2 }, { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "+=", "4" ] } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
       },
       {
@@ -256,7 +250,7 @@
         "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
         "effect": [
           { "u_add_faction_trust": 2 },
-          { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": -2 },
+          { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
           { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
           { "u_add_var": "u_declined_exodization", "type": "timer", "context": "blobpsychosis", "time": true }
         ]
