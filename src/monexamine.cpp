@@ -171,7 +171,7 @@ void attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_total_capacity() > 0_ml && !it.has_flag(flag_INTEGRATED);
+        return it.is_armor() && it.get_total_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
     };
 
     avatar &player_character = get_avatar();
