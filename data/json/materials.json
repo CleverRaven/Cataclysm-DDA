@@ -2189,6 +2189,20 @@
   },
   {
     "type": "material",
+    "id": "quicklime",
+    "name": "Quicklime",
+    "copy-from": "stone",
+    "density": 3.34
+  },
+  {
+    "type": "material",
+    "id": "cement",
+    "name": "Cement",
+    "copy-from": "stone",
+    "density": 1.44
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2861,7 +2875,7 @@
     "id": "sand",
     "name": "Sand",
     "copy-from": "soil",
-    "density": 1.52
+    "density": 1.6
   },
   {
     "type": "material",
