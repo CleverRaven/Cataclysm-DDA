@@ -3401,6 +3401,11 @@ bool monster::is_electrical() const
     return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG );
 }
 
+bool monster::is_fae() const
+{
+    return has_flag( mon_flag_FAE_CREATURE );
+}
+
 bool monster::is_nether() const
 {
     return in_species( species_HORROR ) || in_species( species_NETHER ) ||

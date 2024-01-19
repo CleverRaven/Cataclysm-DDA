@@ -110,6 +110,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
   }
 ]
