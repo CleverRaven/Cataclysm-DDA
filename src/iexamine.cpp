@@ -158,7 +158,6 @@ static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
@@ -1357,7 +1356,8 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     if( !can_hack( you ) ) {
         return false;
     } else {
-        you.use_charges( itype_electrohack, 25 );
+        item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
+        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.position(), &you );
         you.assign_activity( hacking_activity_actor() );
         you.activity.placement = get_map().getglobal( examp );
         return true;
@@ -4856,8 +4856,6 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !you.has_trait( trait_ILLITERATE ) && you.has_charges( itype_electrohack, 25 ) );
-
     uilist amenu;
     amenu.selected = 1;
     amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
@@ -4879,7 +4877,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
                     +
                     format_money( pricePerUnit ) );
 
-    if( can_hack ) {
+    if( can_hack( you ) ) {
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
     }
 
