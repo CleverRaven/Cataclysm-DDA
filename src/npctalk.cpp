@@ -2040,33 +2040,6 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
     parse_tags( phrase, *get_talker_for( u ), *get_talker_for( me ), d, item_type );
 }
 
-void replace_color_tags( std::string &str, std::string from_tag_left, std::string from_tag_right,
-                         std::string to_tag_left, std::string to_tag_right )
-{
-    // replace </color>
-    std::string from_tag = from_tag_left + "/color" + from_tag_right;
-    std::string to_tag = to_tag_left + "/color" + to_tag_right;
-    size_t pos = str.find( from_tag );
-    while( pos != std::string::npos ) {
-        str.replace( pos, 8, to_tag );
-        pos = str.find( from_tag, pos + 1 );
-    }
-    from_tag = from_tag_left + "color_";
-    // replace <color_XXX>
-    pos = str.find( from_tag );
-    while( pos != std::string::npos ) {
-        size_t endPos = str.find( from_tag_right, pos + 7 );
-        if( endPos != std::string::npos ) {
-            std::string colorTag = str.substr( pos + 1, endPos - pos - 1 );
-            std::string replacement = to_tag_left + colorTag + to_tag_right;
-            str.replace( pos, endPos - pos + 1, replacement );
-            pos = str.find( from_tag, pos + replacement.length() );
-        } else {
-            break;
-        }
-    }
-}
-
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
@@ -2081,6 +2054,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
+        // Skip the <color_XXX> tag
+        if( fa != std::string::npos && phrase.compare( fa + 1, 6, "color_" ) == 0 ) {
+            fa = phrase.find( '<', fa + 7 );
+            fb = phrase.find( '>', fa );
+        }
+        // Skip the </color> tag
+        if( fa != std::string::npos && phrase.compare( fa + 1, 7, "/color>" ) == 0 ) {
+            fa = phrase.find( '<', fa + 8 );
+            fb = phrase.find( '>', fa );
+        }
         if( fa != std::string::npos ) {
             size_t nest = 0;
             fa_ = phrase.find( '<', fa + 1 );
@@ -2258,19 +2241,11 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
                 cityname = c->name;
             }
             phrase.replace( fa, l, cityname );
-        } else if( tag.find( "</color>" ) == 0 ) {
-            // temporary replace the color tags
-            phrase.replace( fa, l, "[/color]" );
-        } else if( tag.find( "<color_" ) == 0 ) {
-            std::string var = "[" + tag.substr( 1, tag.length() - 2 ) + "]";
-            phrase.replace( fa, l, var );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
         }
     } while( fa != std::string::npos && fb != std::string::npos );
-    // This is for recover the color tags
-    replace_color_tags( phrase, "[", "]", "<", ">" );
 }
 
 void dialogue::add_topic( const std::string &topic_id )
