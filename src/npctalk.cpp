@@ -2070,7 +2070,6 @@ void replace_color_tags( std::string &str, std::string from_tag_left, std::strin
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    replace_color_tags( phrase, "<", ">", "[", "]" ); // temporarily replace the color tag
     phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
@@ -2259,12 +2258,19 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
                 cityname = c->name;
             }
             phrase.replace( fa, l, cityname );
+        } else if( tag.find( "</color>" ) == 0 ) {
+            // temporary replace the color tags
+            phrase.replace( fa, l, "[/color]" );
+        } else if( tag.find( "<color_" ) == 0 ) {
+            std::string var = "[" + tag.substr( 1, tag.length() - 2 ) + "]";
+            phrase.replace( fa, l, var );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
         }
     } while( fa != std::string::npos && fb != std::string::npos );
-    replace_color_tags( phrase, "[", "]", "<", ">" ); // recover the color tags
+    // This is for recover the color tags
+    replace_color_tags( phrase, "[", "]", "<", ">" );
 }
 
 void dialogue::add_topic( const std::string &topic_id )
