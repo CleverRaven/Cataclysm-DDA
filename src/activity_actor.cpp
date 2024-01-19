@@ -208,6 +208,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
@@ -710,13 +711,16 @@ enum class hack_type : int {
     NONE
 };
 
-static int hack_level( const Character &who )
+static int hack_level( const Character &who, item_location &tool )
 {
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    // Quality of 2 is a base electrohack, which results in no modifier
+    int tool_quality_modifier = tool->get_quality( qual_HACK ) - 2;
+    ///\EFFECT_COMPUTER increases success chance of hacking
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + static_cast<float>
+    ///\EFFECT_INT increases success chance of hacking
+    // tool_quality_modifier may increase or reduce the success chance of hacking
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier + static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
@@ -730,7 +734,7 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
         tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
