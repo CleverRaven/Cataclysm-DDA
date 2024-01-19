@@ -182,10 +182,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [
-      [ [ "2x4", 6 ], [ "stick", 6 ], [ "stick_long", 3 ], [ "wood_panel", 1 ] ],
-      [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
-    ],
+    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "stick_long", 3 ], [ "wood_panel", 1 ] ], [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
@@ -1546,14 +1543,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [
       [ [ "log", 3 ] ],
-      [
-        [ "wire", 6 ],
-        [ "wire_barbed", 4 ],
-        [ "rope_6", 2 ],
-        [ "rope_makeshift_6", 2 ],
-        [ "chain", 1 ],
-        [ "vine_30", 1 ]
-      ]
+      [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_natural_short", 2, "LIST" ], [ "chain", 1 ], [ "vine_30", 1 ] ]
     ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade"
@@ -1724,7 +1714,7 @@
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade_gate"
@@ -2011,7 +2001,7 @@
         [ "wire", 6 ],
         [ "wire_barbed", 4 ],
         [ "rope_6", 2 ],
-        [ "rope_makeshift_6", 2 ],
+        [ "rope_natural_short", 2, "LIST" ],
         [ "chain", 1 ],
         [ "vine_30", 1 ]
       ]
@@ -2564,12 +2554,7 @@
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 14 ] ],
-      [ [ "stick_long", 6 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "cordage_6", 180 ] ],
-      [ [ "splinter", 2 ] ]
-    ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "stick_long", 6 ] ], [ [ "rope_natural", 1, "LIST" ] ], [ [ "splinter", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_fvat_wood_empty"
   },
@@ -2728,11 +2713,7 @@
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-      [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ],
-      [ [ "2x4", 4 ], [ "stick", 4 ] ]
-    ],
+    "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ] ],
     "pre_terrain": "t_covered_well",
     "post_terrain": "t_wooden_well"
   },
@@ -2743,7 +2724,7 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
-    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_hay",
     "activity_level": "LIGHT_EXERCISE"
@@ -4828,7 +4809,7 @@
     ],
     "tools": [
       [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
-      [ "rope_30", "vine_30", "rope_makeshift_30" ]
+      [ [ "rope_natural", 1, "LIST" ] ]
     ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nail", 90 ], [ "bronze_nail", 90 ], [ "nuts_bolts", 90 ] ] ],
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
@@ -4852,7 +4833,7 @@
     ],
     "tools": [
       [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
-      [ "rope_30", "vine_30", "rope_makeshift_30" ]
+      [ [ "rope_natural", 1, "LIST" ] ]
     ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nail", 90 ], [ "bronze_nail", 90 ], [ "nuts_bolts", 90 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
@@ -4954,7 +4935,7 @@
         "tac_helmet",
         "miner_hat_on"
       ],
-      [ "rope_30", "vine_30", "rope_makeshift_30" ]
+      [ [ "rope_natural", 1, "LIST" ] ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nail", 90 ], [ "bronze_nail", 90 ], [ "nuts_bolts", 90 ] ] ],
@@ -5772,7 +5753,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_dp",
@@ -5790,7 +5771,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
     "pre_terrain": "t_water_moving_dp",
@@ -8049,7 +8030,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [
       [ [ "long_pole", 2 ] ],
-      [ [ "rope_makeshift_6", 3 ], [ "rope_6", 3 ], [ "vine_6", 3 ] ],
+      [ [ "rope_natural_short", 1, "LIST" ] ],
       [ [ "nail", 6 ], [ "bronze_nail", 6 ], [ "string_36", 2 ], [ "cordage_36", 2 ] ]
     ],
     "pre_flags": "DIGGABLE",
