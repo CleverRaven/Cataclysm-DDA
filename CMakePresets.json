@@ -19,7 +19,7 @@
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "DYNAMIC_LINKING": "False", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "DYNAMIC_LINKING": "False",
         "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
@@ -31,7 +31,7 @@
       "description": "Target Linux (64-bit) with the GCC development environment.",
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "DYNAMIC_LINKING": "True", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "DYNAMIC_LINKING": "True",
         "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "True",
         "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
