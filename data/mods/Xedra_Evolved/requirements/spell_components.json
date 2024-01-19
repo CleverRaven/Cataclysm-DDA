@@ -59,6 +59,7 @@
   {
     "id": "spell_components_hedge_see_fae_necklace",
     "type": "requirement",
+    "tools": [ [ [ "needle_wood", -1 ], [ "needle_bone", -1 ], [ "needle_steel", -1 ] ] ],
     "components": [
       [ [ "cordage_36_leather", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
       [ [ "wild_herbs", 30 ] ],
@@ -72,9 +73,13 @@
         [ "thread_canvas", 3 ],
         [ "thread_nomex", 6 ],
         [ "thread_kevlar", 6 ]
-      ],
-      [ [ "needle_wood", 1 ], [ "needle_bone", 1 ], [ "needle_steel", 1 ] ]
+      ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_light_fire",
+    "type": "requirement",
+    "components": [ [ [ "ash", 12 ], [ "corpse_ash", 12 ] ] ]
   },
   {
     "id": "spell_components_hedge_make_plants_grow",

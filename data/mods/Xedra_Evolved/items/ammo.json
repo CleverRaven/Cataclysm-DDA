@@ -100,5 +100,17 @@
     "recoil": 900,
     "effects": [ "INCENDIARY" ],
     "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "glamour_charge",
+    "type": "AMMO",
+    "name": { "str_sp": "glamour charge" },
+    "description": "Power used to fuel hedge magic.",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "=",
+    "ammo_type": "glamour_charge",
+    "color": "magenta",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

@@ -88,14 +88,26 @@
     "fun": -15
   },
   {
+    "id": "lighter",
+    "type": "TOOL",
+    "name": { "str": "To Kindle the Flames" },
+    "description": "The item that starts fires when using To Kindle the Flames.  This should be summoned and deleted as part of the spell, so you should never actually see it.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": ",",
+    "color": "red",
+    "use_action": { "type": "firestarter", "moves": 5, "moves_slow": 5 },
+    "flags": [ "FIRE", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "item_hedge_see_fae_necklace",
     "type": "TOOL_ARMOR",
     "name": "Fae Warding Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
-    "weight": "50 g",
-    "volume": "25 ml",
+    "weight": "100 g",
+    "volume": "50 ml",
     "price": 5000,
-    "price_postapoc": 100,
+    "price_postapoc": 50,
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",
@@ -110,6 +122,8 @@
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "rand_charges": [ 100, 200, 300 ],
     "turns_per_charge": 25,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 300 } } ],
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
@@ -121,7 +135,7 @@
     "name": "Fae Warding Charm",
     "copy-from": "item_hedge_see_fae_necklace",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
-    "extend": { "flags": [ "MUNDANE" ] },
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]
