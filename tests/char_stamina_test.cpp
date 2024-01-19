@@ -8,8 +8,8 @@
 #include "type_id.h"
 #include "units.h"
 
-static const bionic_id bio_limb_leg_l( "bio_limb_leg_l" );
-static const bionic_id bio_limb_leg_r( "bio_limb_leg_r" );
+static const bionic_id bio_limb_leg_l( "test_bio_limb_leg_l" );
+static const bionic_id bio_limb_leg_r( "test_bio_limb_leg_r" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const character_modifier_id
@@ -148,9 +148,12 @@ static int one_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
 {
     clear_avatar();
     dummy.add_bionic( bio_power_storage );
-    dummy.add_bionic( bio_limb_leg_l );
+    dummy.add_bionic( test_bio_limb_leg_l );
     dummy.set_power_level( dummy.get_max_power_level() );
 
+    // confirm that we have the bionic and that our limb is missing
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
+    REQUIRE( dummy.get_cached_organic_size() = 0.87 );
     return actual_burn_rate( dummy, move_mode );
 }
 
@@ -158,10 +161,14 @@ static int two_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
 {
     clear_avatar();
     dummy.add_bionic( bio_power_storage );
-    dummy.add_bionic( bio_limb_leg_l );
-    dummy.add_bionic( bio_limb_leg_r );
+    dummy.add_bionic( test_bio_limb_leg_l );
+    dummy.add_bionic( test_bio_limb_leg_r );
     dummy.set_power_level( dummy.get_max_power_level() );
 
+    // confirm that we have the bionics and that our limbs are missing
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_r ) );
+    REQUIRE( dummy.get_cached_organic_size() = 0.74 );
     return actual_burn_rate( dummy, move_mode );
 }
 
