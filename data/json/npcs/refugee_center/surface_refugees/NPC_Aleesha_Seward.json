@@ -86,7 +86,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1",
-    "dynamic_line": "*seems impossibly young at first glance, her dark face nervous when she sees you looking her way.  On closer inspection as you approach, you see that she is likely in her early teens, but the contrast to the weary faces around makes her age stand out.  \"Oh, uh… hi.  You look new.  I'm Aleesha.\"",
+    "dynamic_line": {
+      "gendered_line": "*seems impossibly young at first glance, her dark face nervous when she sees you looking her way.  On closer inspection as you approach, you see that she is likely in her early teens, but the contrast to the weary faces around makes her age stand out.  \"Oh, uh… hi.  You look new.  I'm Aleesha.\"",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
@@ -108,7 +111,7 @@
           "Hey there.",
           "Oh, hey, it's you again.",
           "What's up?",
-          "You're back, and still alive!  Whoa.",
+          { "gendered_line": "You're back, and still alive!  Whoa.", "relevant_genders": [ "u" ] },
           "Aw hey, look who's back."
         ],
         "\""

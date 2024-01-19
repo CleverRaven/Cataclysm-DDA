@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_1",
-    "dynamic_line": "Who are you to come before me?",
+    "dynamic_line": { "gendered_line": "Who are you to come before me?", "relevant_genders": [ "u" ] },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_LEADER_2" } },
     "responses": [
       { "text": "I don't know, who are you?", "topic": "TALK_VALHALLIST_LEADER_WHO" },
