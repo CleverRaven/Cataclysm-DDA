@@ -2070,8 +2070,32 @@ void basecamp::start_upgrade( const mission_id &miss_id )
             return;
         }
         components.consume_components();
+        const point dir = miss_id.dir.value();  //  Will always have a value
+
         update_in_progress( miss_id.parameters,
-                            miss_id.dir.value() );  //  Dir should always have a value for upgrades.
+                            dir );
+
+        bool mirror_horizontal;
+        bool mirror_vertical;
+        int rotation;
+
+        auto e = expansions.find( dir );
+        if( e == expansions.end() ) {
+            return;
+        }
+        const tripoint_abs_omt upos = e->second.pos;
+
+        extract_and_check_orientation_flags( making.ident(),
+                                             dir,
+                                             mirror_horizontal,
+                                             mirror_vertical,
+                                             rotation,
+                                             "%s failed to build the %s upgrade",
+                                             "" );
+
+        apply_construction_marker( making.get_blueprint(), upos,
+                                   miss_id.mapgen_args, nullptr, true, mirror_horizontal,
+                                   mirror_vertical, rotation, true );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
@@ -3661,6 +3685,11 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
                making.get_blueprint().str() );
         return false;
     }
+
+    apply_construction_marker( making.get_blueprint(), upos,
+                               miss_id.mapgen_args, nullptr, true, mirror_horizontal,
+                               mirror_vertical, rotation, false );
+
     update_provides( bldg, e->second );
     update_resources( bldg );
     if( oter_str_id( bldg ).is_valid() ) {
