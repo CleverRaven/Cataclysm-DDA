@@ -43,8 +43,7 @@
     "name": "Newly-Awakened Biokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run ten miles and climb a mountain and then wake up and do it again.  You'll probably need it.",
     "points": 3,
-    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
-    "recipes": [ "practice_biokin_overcome_pain", "practice_biokin_physical_enhance" ]
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
   },
   {
     "type": "profession",
@@ -58,52 +57,11 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "mid_clairsentient",
-    "name": "Arising Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can see auras around people that tell you what they're feeling, and you've already used it to avoid someone who was feigning being injured with the hope of stealing your gear.  You can see through walls, and tell where the best place to hit something is to take it down for good.  That last ability will definitely get plenty of use.",
-    "points": 8,
-    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
-    "skills": [ { "level": 4, "name": "metaphysics" } ],
-    "spells": [
-      { "id": "clair_night_vision", "level": 6 },
-      { "id": "clair_danger_sense", "level": 10 },
-      { "id": "clair_speed_reading", "level": 7 },
-      { "id": "clair_aura_sight", "level": 8 },
-      { "id": "clair_spot_weakness", "level": 7 },
-      { "id": "clair_voyance", "level": 6 }
-    ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "late_clairsentient",
-    "name": "Ascended Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can finish books in a few hours and remember almost everything you read, you had to fix a bicycle a few weeks ago and even though you've never tried to do that before in your life, everything you needed to do just…came to you.  What's more, last time the Zs attacked you, you never got a scratch.  Three of them came at you at once and you dodged every attack because you could see what they were going to do before they did it.  If only you could see where you needed to go to be safe.",
-    "points": 14,
-    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
-    "skills": [ { "level": 7, "name": "metaphysics" } ],
-    "spells": [
-      { "id": "clair_night_vision", "level": 6 },
-      { "id": "clair_danger_sense", "level": 10 },
-      { "id": "clair_speed_reading", "level": 7 },
-      { "id": "clair_aura_sight", "level": 8 },
-      { "id": "clair_ranged_enhance", "level": 6 },
-      { "id": "clair_spot_weakness", "level": 7 },
-      { "id": "clair_voyance", "level": 8 },
-      { "id": "clair_dodge_power", "level": 7 },
-      { "id": "clair_craft_bonus", "level": 7 },
-      { "id": "clair_clear_sight", "level": 5 }
-    ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
     "id": "newly_electrokinetic",
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
-    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
-    "recipes": [ "practice_electrokinetic_see_electric", "practice_electrokinetic_shock_touch" ]
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
   },
   {
     "type": "profession",

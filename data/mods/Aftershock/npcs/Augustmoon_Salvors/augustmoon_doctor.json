@@ -1,0 +1,153 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_doctor",
+    "name_unique": "Mercurial Medical Agent",
+    "gender": "male",
+    "class": "NC_MERCURIAL_DOCTOR",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_MERCURIAL_DOCTOR",
+    "faction": "UICA"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_MERCURIAL_DOCTOR",
+    "name": { "str": "Mercurial Medical Agent" },
+    "job_description": "I try to keep this gang in one piece.  It's a full time job.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_int": { "rng": [ 5, 7 ] },
+    "worn_override": "NC_AUGUSTMOON_DOCTOR_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_DOCTOR_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "NC_AUGUSTMOON_DOCTOR_stock", "fixed_adj": 0 } ],
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "firstaid", "bonus": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_DOCTOR_worn",
+    "subtype": "collection",
+    "items": [ { "item": "boots" }, { "item": "boxer_briefs" }, { "item": "spacer_jumpsuit" }, { "item": "afs_company_jacket" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_DOCTOR_stock",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_medigel", "prob": 100, "count": [ 4, 10 ] },
+      { "item": "afs_stimpack", "prob": 100, "count": [ 3, 10 ] },
+      { "item": "afs_painkiller", "prob": 100, "count": [ 3, 10 ] },
+      { "item": "medical_tape", "charges": 30 },
+      { "group": "quikclot_bag_plastic_5", "count": [ 4, 8 ] },
+      { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MERCURIAL_DOCTOR",
+    "dynamic_line": {
+      "u_has_var": "first_meet",
+      "type": "dialogue",
+      "context": "augustmoon_doctor",
+      "value": "yes",
+      "yes": [
+        "Try not to touch anything.  Keeping this place clean is a full time job.",
+        "I'm free at the moment if you need something."
+      ],
+      "no": "Clinic is open, yes.  If you need medical assistance, this is the place."
+    },
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "augustmoon_doctor", "value": "yes" } ],
+      "sentinel": "mercurial_doctor_meet"
+    },
+    "responses": [
+      { "text": "Could you help me with some bionics?", "topic": "TALK_MERCURIAL_DOCTOR_BIONICS" },
+      { "text": "I could use your medical assistance.", "topic": "TALK_MERCURIAL_DOCTOR_AID" },
+      { "text": "I need to trade some medical supplies.", "topic": "TALK_MERCURIAL_DOCTOR", "effect": "start_trade" },
+      { "text": "I should be fine.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MERCURIAL_DOCTOR_AID",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "currently_busy",
+      "yes": "Come back later, I need to take care of a few things first.",
+      "no": "I can take a look at you or your companions if you have any injuries.  It'll cost you, of course."
+    },
+    "responses": [
+      {
+        "text": "[4 HGC, 30m] I need you to patch me up.",
+        "topic": "TALK_MERCURIAL_DOCTOR_AID_DONE",
+        "effect": [ { "u_spend_cash": 120000, "true_eocs": { "id": "give_a_aid", "effect": "give_aid" } } ],
+        "condition": { "npc_service": 120000 }
+      },
+      {
+        "text": "[8 HGC, 1h] I need you to patch my friends up.",
+        "topic": "TALK_MERCURIAL_DOCTOR_AID_DONE",
+        "effect": { "u_spend_cash": 240000, "true_eocs": { "id": "give_a_all_aid", "effect": "give_all_aid" } },
+        "condition": { "npc_service": 240000 }
+      },
+      { "text": "I should be fine.", "topic": "TALK_MERCURIAL_DOCTOR" }
+    ]
+  },
+  {
+    "id": "TALK_MERCURIAL_DOCTOR_BIONICS",
+    "type": "talk_topic",
+    "dynamic_line": "Sure, what are you looking for?",
+    "responses": [
+      {
+        "text": "I was wondering if you could install a cybernetic implant…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_install",
+        "condition": { "npc_service": 0 }
+      },
+      {
+        "text": "I was wondering if you could install a cybernetic implant in my friend here…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_install_allies",
+        "condition": { "npc_service": 0 }
+      },
+      {
+        "text": "I need help removing an implant…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove",
+        "condition": { "npc_service": 0 }
+      },
+      {
+        "text": "I need help removing an implant from one of my friends…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove_allies",
+        "condition": { "npc_service": 0 }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MERCURIAL_DOCTOR_BIONICS_DONE",
+    "dynamic_line": [
+      "Now some protocol tests for brain damage.  Please stare at the light over there…",
+      "It might take some days for your nervous system to adapt.  Come back if you experience any concerning symptoms like…",
+      "I suggest you take it easy for a few days now."
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MERCURIAL_DOCTOR_AID_DONE",
+    "dynamic_line": [
+      "Take it easy now, or come back soon.  All the same to me.",
+      "Now try not to do whatever you did again.  No, don't tell me more."
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

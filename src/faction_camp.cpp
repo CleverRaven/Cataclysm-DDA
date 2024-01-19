@@ -4637,16 +4637,18 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
-            total_m += i.weight( true );
-            total_v += i.volume( true );
-            total_num += 1;
-            if( take && x_in_y( chance, 100 ) ) {
-                if( comp ) {
-                    comp->companion_mission_inv.push_back( i );
+            if( !i.made_of_from_type( phase_id::LIQUID ) ) {
+                total_m += i.weight( true );
+                total_v += i.volume( true );
+                total_num += 1;
+                if( take && x_in_y( chance, 100 ) ) {
+                    if( comp ) {
+                        comp->companion_mission_inv.push_back( i );
+                    }
+                    harvested_m += i.weight( true );
+                    harvested_v += i.volume( true );
+                    harvested_num += 1;
                 }
-                harvested_m += i.weight( true );
-                harvested_v += i.volume( true );
-                harvested_num += 1;
             }
         }
         if( take ) {

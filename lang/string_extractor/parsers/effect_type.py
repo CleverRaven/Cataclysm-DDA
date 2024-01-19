@@ -1,38 +1,43 @@
+from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_effect_type(json, origin):
-    effect_name = ""
+    # Using a list to reserve order and ensure stability across runs
+    effect_name = []
 
     if "name" in json:
-        names = set()
         for name in json["name"]:
-            if type(name) is str:
-                names.add(("", name))
-            elif type(name) is dict:
-                names.add((name["ctxt"], name["str"]))
-        for (ctxt, name) in sorted(list(names), key=lambda x: x[1]):
-            write_text(name, origin, context=ctxt,
+            write_text(name, origin,
                        comment="Name of effect type id \"{}\""
                        .format(json["id"]))
-            if effect_name == "":
-                effect_name = name
-            else:
-                effect_name = effect_name + ", " + name
-    if effect_name == "":
+            singular = get_singular_name(name)
+            if len(singular) > 0 and singular not in effect_name:
+                effect_name.append(singular)
+
+    if len(effect_name) > 0:
+        effect_name = ", ".join(effect_name)
+    else:
         effect_name = json["id"]
 
     if "desc" in json:
-        descs = set()
-        for desc in json["desc"]:
-            if type(desc) is str:
-                descs.add(("", desc))
-            elif type(desc) is dict:
-                descs.add((desc["ctxt"], desc["str"]))
-        for (ctxt, desc) in sorted(list(descs), key=lambda x: x[1]):
-            write_text(desc, origin, context=ctxt,
+        # See effect.cpp
+        use_desc_ints = json.get("max_intensity", 1) <= len(json["desc"])
+        for idx, desc in enumerate(json["desc"]):
+            if use_desc_ints:
+                names = json.get("name", [])
+                if len(names) > 0:
+                    singular = get_singular_name(
+                        names[min(len(names) - 1, idx)])
+                    if len(singular) == 0:
+                        singular = json["id"]
+                else:
+                    singular = json["id"]
+            else:
+                singular = effect_name
+            write_text(desc, origin,
                        comment="Description of effect type \"{}\""
-                       .format(effect_name))
+                       .format(singular))
 
     if "speed_name" in json:
         write_text(json["speed_name"], origin,

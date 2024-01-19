@@ -143,7 +143,7 @@
     "charges_per_use": 1,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -521,6 +521,30 @@
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]
+  },
+  {
+    "type": "TOOL",
+    "id": "afs_shuttle_radiobeacon",
+    "name": { "str": "drone shuttle beacon" },
+    "description": "A portable high-power radiobeacon.  Signals a drone shuttle from Port Augustmoon, which will make landfall in about 30 minutes and leave 4 hours later, wether you board it or not.  Single use, all expenses paid in advance, and non refundable.",
+    "weight": "340 g",
+    "volume": "1 L",
+    "category": "tools",
+    "price": "55 kUSD",
+    "price_postapoc": "55 kUSD",
+    "to_hit": -1,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow",
+    "melee_damage": { "bash": 6 },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Call a shuttle.",
+      "effect_on_conditions": [ "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE" ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "afs_shuttle_beacon": 1 }, "rigid": true } ],
+    "ammo": "afs_shuttle_beacon",
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "vr_laptop_holosuite",

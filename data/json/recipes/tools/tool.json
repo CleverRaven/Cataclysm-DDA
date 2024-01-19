@@ -1039,7 +1039,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wire_mesh", 1 ], [ "wire", 1 ] ] ]
+    "components": [ [ [ "wire_mesh", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "result": "sieve_primitive",

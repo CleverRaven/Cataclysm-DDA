@@ -149,7 +149,7 @@ you add morale, equal to `ps_str` portal storm strength value
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
 ```
 
-you add morale, equal to `ps_str` portal storm strength value plus 1, using old arithmetic syntax
+you add morale, equal to `ps_str` portal storm strength value plus 1, using **old arithmetic syntax**
 ```json
 { "u_add_morale": "global_val", "bonus":  { "arithmetic": [ { "global_val": "ps_str" }, "+", { "const": 1 } ] } }
 ```
@@ -1843,7 +1843,7 @@ Check the value, and, depending on it, pick the case that would be run
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "switch" | **mandatory** | arithmetic/math_expression | the value, that would be read; only numerical values can be used |
+| "switch" | **mandatory** | variable/math_expression | the value, that would be read; only numerical values can be used |
 | "cases" | **mandatory** | `case` and `effect` | effects, that would be run, if the value of switch is higher or equal to this case | 
 
 ##### Valid talkers:
@@ -1853,12 +1853,12 @@ Check the value, and, depending on it, pick the case that would be run
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 ##### Examples
-Checks the level of `some_spell` spell, and, related to this, cast a spell of picked level; if level of spell is 9, `clair_night_vision_4` would be used, if spell level is 8, `clair_night_vision_3` would be casted
+Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
 ```json
 {
   "switch": { "u_val": "spell_level", "spell": "some_spell" },
   "cases": [
-    { "case": 0, "effect": { "u_cast_spell": { "id": "another spell" } } },
+    { "case": 0, "effect": { "u_cast_spell": { "id": "another_spell" } } },
     { "case": 3, "effect": { "u_add_effect": "drunk", "duration": "270 minutes" } },
     { "case": 6, "effect": { "u_lose_bionic": "bio_power_storage" } },
     { "case": 9, "effect": { "run_eocs": [ "EOC_DO_GOOD_THING" ] } },
@@ -2264,6 +2264,25 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 { "u_mutate_category": { "global_val": "next_mutation" }
 ```
 
+#### `u_mutate_towards`, `npc_mutate_towards`
+
+Similar to the above, but designates a desired end-point of mutation and uses the normal mutate_towards steps to get there, respecting base traits and `changes_to/cancels/types` restrictions.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mutate_towards" / "npc_mutate_towards" | **mandatory** | string or [variable object](##variable-object) | Trait ID |
+| "category"     | optional | string or [variable object](#variable-object) | default ANY, defines which category to use for the mutation steps - necessary for vitamin usage
+| "use_vitamins" | optional | boolean | same as in `u_mutate`, requires a defined `category` | 
+
+##### Examples
+Mutate towards Tail Stub (removing any incompatibilities) using the category set in the variable, deprecating that vitamin and using the category's base trait removal chance/multiplier.
+```json
+      {
+        "u_mutate_towards": "TAIL_STUB",
+        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "use_vitamins": true
+      },
+```
 
 #### `u_add_effect`, `npc_add_effect`
 
@@ -3457,7 +3476,8 @@ Spawn and place the item
 | "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
 | "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
 | "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
-| "use_item_group" | optional | bool | default false; If true, it will instead pull an item from the item group given. |
+| "use_item_group" | optional | bool | default false; If true, it will instead create items from the item group given. ("count" and "containter" will be ignored since they are defined in the item group.) |
+| "flags" | optional | array of string or [variable object](#variable-object) | The item will have all the flags from the array `flags` |
 
 ##### Examples
 Spawn a plastic bottle on ground
@@ -3669,10 +3689,11 @@ Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster that would be spawned |
+| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster or monstergroup that would be spawned, using "" picks randomly from nearby monsters |
 | "real_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of monsters, that would be spawned | 
 | "hallucination_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of hallucination versions of the monster that would be spawned |
-| "group" | optional | boolean | default false; if true, `_spawn_monster` would spawn a monster from `monstergroup`; the game pick only one monster from group, so to create mix from different monsters from monstergroup, multiple `u_spawn_monster` should be used | 
+| "group" | optional | boolean | default false; if true, `_spawn_monster` will spawn a monster from `monstergroup` |
+| "single_target" | optional | boolean | default false; if true, `_spawn_monster` the game pick only one monster from the provided `monstergroup` or from nearby monsters | 
 | "min_radius", "max_radius" | optional | int, [variable object](##variable-object) or value between two | default 1 and 10 respectively; range around the target, where the monster would spawn | 
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, monsters would be able to spawn only outside or only inside buildings | 
 | "open_air_allowed" | optional | boolean | default false; if true, monsters can spawn in the open air | 
