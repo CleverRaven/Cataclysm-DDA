@@ -1639,15 +1639,15 @@
     "volume": "125 ml",
     "color": "pink",
     "spoils_in": "1 day 12 hours",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "symbol": ",",
     "quench": -2,
     "calories": 350,
-    "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning.",
     "price": 330,
     "price_postapoc": 20,
     "material": [ "flesh" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "CARNIVORE_OK" ],
     "fun": -12
   },
   {
@@ -1666,7 +1666,7 @@
     "id": "raw_hleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw human skin" },
-    "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning.",
     "material": [ "hflesh" ]
   },
   {
@@ -1674,7 +1674,7 @@
     "id": "raw_demihumanleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw demihuman skin" },
-    "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning.",
     "material": [ "flesh" ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
@@ -1691,7 +1691,7 @@
     "symbol": ",",
     "quench": -20,
     "calories": 350,
-    "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning.",
     "price": 330,
     "price_postapoc": 100,
     "material": [ "fur", "flesh" ],
@@ -1713,7 +1713,7 @@
     "id": "raw_hfur",
     "copy-from": "raw_fur",
     "name": { "str_sp": "raw human pelt" },
-    "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning.",
     "material": [ "fur", "hflesh" ]
   },
   {
