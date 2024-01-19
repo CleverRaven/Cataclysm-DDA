@@ -348,7 +348,7 @@
     "ugliness": 0,
     "changes_to": [ "SYLPH_INT_BONUS_2" ],
     "prereqs": [ "SYLPH_SKIN_2" ],
-    "description": "The Sylph's mind has the clarity of pure frozen water. +2 Intelligence.",
+    "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 2 }
   },
@@ -360,7 +360,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SYLPH_INT_BONUS_1" ],
-    "description": "The Sylph's thoughts move as quickly as a bolt of lightning. +4 Intelligence.",
+    "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 4 }
   },
@@ -382,7 +382,7 @@
     "id": "SYLPH_FAST_CAST_ON",
     "name": { "str": "Zephyr Chant (active)" },
     "points": 7,
-    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.   -20% spell casting speed when outdoors.",
+    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
     "prereqs": [ "SYLPH_INT_BONUS_2" ],
     "changes_to": [ "SYLPH_FAST_CAST2" ],
     "category": [ "SYLPH" ],

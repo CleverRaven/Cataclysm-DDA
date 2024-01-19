@@ -552,7 +552,7 @@
       "effect": [
         { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_effect": "dana_sourdough_revival", "duration": "7 d" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

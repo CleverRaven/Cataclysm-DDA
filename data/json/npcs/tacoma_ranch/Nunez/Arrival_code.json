@@ -11,7 +11,7 @@
     },
     "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
     "effect": [
-      { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+      { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
       { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
       { "mapgen_update": "refcenter_nunez_departure", "om_terrain": "evac_center_7" },
       { "math": [ "nunez_travel_stage", "++" ] }

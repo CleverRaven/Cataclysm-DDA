@@ -77,6 +77,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_ELECTRIC,
             mon_flag_ELECTRIC_FIELD,
             mon_flag_ELECTRONIC,
+            mon_flag_FAE_CREATURE,
             mon_flag_FILTHY,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
@@ -199,6 +200,7 @@ void set_mon_flag_ids()
     mon_flag_ELECTRIC = mon_flag_id( "ELECTRIC" );
     mon_flag_ELECTRIC_FIELD = mon_flag_id( "ELECTRIC_FIELD" );
     mon_flag_ELECTRONIC = mon_flag_id( "ELECTRONIC" );
+    mon_flag_FAE_CREATURE = mon_flag_id( "FAE_CREATURE" );
     mon_flag_FILTHY = mon_flag_id( "FILTHY" );
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
