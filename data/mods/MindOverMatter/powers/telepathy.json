@@ -474,12 +474,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 1300) + 12700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 5200) + 52300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
   },

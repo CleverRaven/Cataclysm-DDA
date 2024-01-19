@@ -588,7 +588,12 @@
             { "x_in_y_chance": { "x": 1, "y": 80 } },
             {
               "and": [
-                { "math": [ "u_spell_level('telepathic_blast')", ">=", "10" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "11" ] },
+                    { "math": [ "u_spell_level('telepathic_fear')", ">=", "7" ] }
+                  ]
+                },
                 { "math": [ "u_spell_level('telepathic_shield')", ">=", "5" ] }
               ]
             }

@@ -779,7 +779,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 7000, minus 275 per level to a minimum of 3250<br />
 *Channeling Time*: 75 moves, minus 6.5 moves per level to a minimum of 30<br />
 *Effects*: Unleash an undirected telepathic shriek, doing 3% of maximum health as damage plus 1% to 2% per power level, +1 flat damage. This second flat damage counts as an additional attack for the purposes of the side effects of telepathic damage.<br />
-*Prerequisites*: Synaptic Blast 10, Telepathic Shield 5<br />
+*Prerequisites*: Synaptic Blast 11 *or* Primal Fear 7, Telepathic Shield 5<br />
 
 ## Beast Tamer
 *Difficulty*: 7<br />
