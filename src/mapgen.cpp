@@ -7787,7 +7787,7 @@ void set_queued_points()
 
 bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
                                 const tripoint_abs_omt &omt_pos,
-                                const mapgen_arguments &args, mission *miss, bool cancel_on_collision, bool mirror_horizontal,
+                                const mapgen_arguments &args, bool mirror_horizontal,
                                 bool mirror_vertical, int rotation, bool apply )
 {
 

@@ -2094,7 +2094,7 @@ void basecamp::start_upgrade( const mission_id &miss_id )
                                              "" );
 
         apply_construction_marker( making.get_blueprint(), upos,
-                                   miss_id.mapgen_args, nullptr, true, mirror_horizontal,
+                                   miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, true );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
@@ -3687,7 +3687,7 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     }
 
     apply_construction_marker( making.get_blueprint(), upos,
-                               miss_id.mapgen_args, nullptr, true, mirror_horizontal,
+                               miss_id.mapgen_args, mirror_horizontal,
                                mirror_vertical, rotation, false );
 
     update_provides( bldg, e->second );
