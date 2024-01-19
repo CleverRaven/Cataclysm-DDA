@@ -60,6 +60,10 @@
     {
       "name": "linux-tiles-sounds-x64-vcpkg",
       "configurePreset": "linux-tiles-sounds-x64-vcpkg"
+    },
+    {
+      "name": "windows-tiles-sounds-x64-msvc",
+      "configurePreset": "windows-tiles-sounds-x64-msvc"
     }
   ],
   "testPresets": [
