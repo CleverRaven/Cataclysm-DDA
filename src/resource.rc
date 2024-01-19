@@ -3,6 +3,8 @@
 
 #include <windows.h>
 0  ICON  "../data/cataicon.ico"
+#ifndef CMAKE
 1  RT_MANIFEST "../data/application_manifest.xml"
+#endif // CMAKE
 
 #endif // RESOURCE_RC_INCLUDED

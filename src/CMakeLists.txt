@@ -51,6 +51,10 @@ if (TILES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        set_property(TARGET cataclysm-tiles PROPERTY 
+        LINK_OPTIONS
+            /MANIFESTINPUT:${CMAKE_SOURCE_DIR}/data/application_manifest.xml
+        )
     else ()
         add_executable(cataclysm-tiles
                 ${MAIN_CPP}

@@ -71,7 +71,6 @@ add_link_options(
     /OPT:REF
     /OPT:ICF
     /LTCG:OFF
-    /MANIFEST:NO
     /INCREMENTAL:NO
     /DYNAMICBASE
     /NXCOMPAT
