@@ -215,7 +215,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
-- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.

@@ -165,9 +165,8 @@
       {
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
-        "//": "This always spawns 6 of the same type, which is not ideal (6 soldiers is way too deadly). Consider revising the weights if/when talk_effect_fun_t::set_spawn_monster can pick each individual spawn from the group.",
         "real_count": 6,
-        "//2": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
+        "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },

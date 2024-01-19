@@ -28,7 +28,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] }
       ]
     },
     "responses": [

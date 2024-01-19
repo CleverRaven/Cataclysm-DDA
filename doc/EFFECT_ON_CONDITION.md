@@ -3689,10 +3689,11 @@ Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster that would be spawned |
+| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster or monstergroup that would be spawned, using "" picks randomly from nearby monsters |
 | "real_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of monsters, that would be spawned | 
 | "hallucination_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of hallucination versions of the monster that would be spawned |
-| "group" | optional | boolean | default false; if true, `_spawn_monster` would spawn a monster from `monstergroup`; the game pick only one monster from group, so to create mix from different monsters from monstergroup, multiple `u_spawn_monster` should be used | 
+| "group" | optional | boolean | default false; if true, `_spawn_monster` will spawn a monster from `monstergroup` |
+| "single_target" | optional | boolean | default false; if true, `_spawn_monster` the game pick only one monster from the provided `monstergroup` or from nearby monsters | 
 | "min_radius", "max_radius" | optional | int, [variable object](##variable-object) or value between two | default 1 and 10 respectively; range around the target, where the monster would spawn | 
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, monsters would be able to spawn only outside or only inside buildings | 
 | "open_air_allowed" | optional | boolean | default false; if true, monsters can spawn in the open air | 
