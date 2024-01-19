@@ -2080,7 +2080,7 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
         if( fa != std::string::npos && fb != std::string::npos ) {
             tag = phrase.substr( fa, fb - fa + 1 );
         } else {
-            break;
+            return;
         }
 
         const item_location u_weapon = u_chr ? u_chr->get_wielded_item() : item_location();
