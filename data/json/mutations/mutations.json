@@ -2459,7 +2459,7 @@
     "description": "Your teeth have grown into long, sharp fangs.  If your mouth is uncovered, you'll sometimes bite your enemies.",
     "types": [ "TEETH" ],
     "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN", "URSINE", "BEAST" ],
     "integrated_armor": [ "integrated_fangs" ]
   },
   {
@@ -2469,7 +2469,7 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
-    "description": "Your big teeth have grown in.  Folks had best show some more respect.  If your mouth is uncovered, you'll sometimes deliver a vicious bite in combat.",
+    "description": "Your big teeth have grown in.  Folks had best show some more respect, because as long as your mouth is uncovered, you'll sometimes deliver a vicious bite in combat.",
     "types": [ "TEETH" ],
     "prereqs": [ "MUZZLE_RAT", "RABBIT_NOSE" ],
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
@@ -4979,20 +4979,12 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face has drastically mutated, with the bones of your jaws having extended forth into a long, tapered snout.  The palate of your mouth is considerably vaulted, with curved, serrated teeth lining your saurian maw and reptilian scales covering your muzzle’s exterior.  While paleobiology has evidently not evolved with mouth gear in mind (making such items unwearable), the bite wounds you can now inflict promise the ferocity of long-dead beasts.",
+    "description": "Your face has drastically mutated, with the bones of your jaws having extended forth into a long, tapered snout.  The palate of your mouth is considerably vaulted, with curved, serrated teeth lining your saurian maw.  While modern-day gas masks mostly don't account for paleobiology, if you manage to evolve a set of fangs, you will bite with the ferocity of long-dead beasts.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You dart your head and snap at %s!",
-      "attack_text_npc": "%1$s darts their head and snaps at %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "social_modifiers": { "intimidate": 20 }
   },
   {
     "type": "mutation",
@@ -5453,7 +5445,7 @@
     "visibility": 8,
     "ugliness": 5,
     "consume_time_modifier": 0.5,
-    "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
+    "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast, and if you have a beak, will sometimes help you bite your prey.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "category": [ "CEPHALOPOD" ],
@@ -6708,7 +6700,7 @@
     "visibility": 5,
     "ugliness": 6,
     "mixed_effect": true,
-    "description": "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents wearing mouthgear.",
+    "description": "Your face resembles that of a bull, with a significant snout.  It looks fearsome but makes it difficult to find gear that covers your face.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "CATTLE" ],
@@ -6723,20 +6715,12 @@
     "visibility": 5,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents wearing mouthgear.",
+    "description": "Your jaw and nose have extended into a wolfish muzzle, making it difficult to find masks that fit.  If you have a set of fangs, you'll be able to trip enemies in combat by biting them.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 6 },
-    "attacks": {
-      "attack_text_u": "You nip at %s!",
-      "attack_text_npc": "%1$s nips and harries %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "social_modifiers": { "intimidate": 6 }
   },
   {
     "type": "mutation",
@@ -6746,19 +6730,11 @@
     "visibility": 5,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents wearing mouthgear.",
+    "description": "Your jaw and nose have extended into a bearish muzzle, which interferes with most face-covering gear.  If you also have a set of fangs, you'll be able to maul downed enemies with your powerful jaws.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "URSINE" ],
-    "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s!",
-      "attack_text_npc": "%1$s bites %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "restricts_gear": [ "mouth" ]
   },
   {
     "type": "mutation",
@@ -6767,7 +6743,7 @@
     "points": -2,
     "visibility": 6,
     "ugliness": 4,
-    "description": "Your face and jaw have extended, giving you an alert and attentive appearance.",
+    "description": "Your face and jaw have extended, giving you an alert and attentive appearance.  If you have a pair of matching incisors, you can bite much faster with them than any human ever could.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RAT", "MOUSE" ],
@@ -6781,20 +6757,12 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face and jaws are a shorter version of those found on alligators.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
+    "description": "You have a long, powerful set of jaws, like a monitor or a crocodilian.  This makes it hard to find a mask that fits, but with a set of fangs, you could really do some damage.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "LIZARD" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You bite a chunk out of %s!",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "social_modifiers": { "intimidate": 20 }
   },
   {
     "type": "mutation",
@@ -6804,7 +6772,7 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face and jaws have widened like a frogs.  It looks hideous but it allows you to eat food whole.",
+    "description": "You have an unsettlingly wide mouth, like a frog.  This looks hideous, but allows you to swallow your food whole.",
     "types": [ "MUZZLE" ],
     "category": [ "BATRACHIAN" ],
     "wet_protection": [ { "part": "mouth", "good": 6 } ],
@@ -7297,7 +7265,8 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have a beak for a mouth, and it's hard to find gear that fits over it.  If you keep it uncovered, you will sometimes use it to bite in combat.  Slightly reduces wet effects.",
-    "types": [ "TEETH", "MUZZLE" ],
+    "types": [ "TEETH" ],
+    "cancels": [ "MUZZLE", "MUZZLE_RAT", "MUZZLE_BEAR" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
@@ -7314,8 +7283,8 @@
     "ugliness": 5,
     "description": "Pecking at prey is part of your daily routine now.  Slightly reduces wet effects.",
     "purifiable": false,
-    "types": [ "TEETH", "MUZZLE" ],
-    "cancels": [ "MOUTH_TENTACLES" ],
+    "types": [ "TEETH" ],
+    "cancels": [ "MOUTH_TENTACLES", "MUZZLE", "MUZZLE_RAT", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_BEAR" ],
     "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
@@ -7342,7 +7311,7 @@
     "consume_time_modifier": 1.8,
     "description": "Though your beak's not suitable for pecking, those flowers out there are a good source of energy.  Examine them to feed.",
     "purifiable": false,
-    "types": [ "TEETH", "MUZZLE" ],
+    "types": [ "TEETH" ],
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_BIRD" ],

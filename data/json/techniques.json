@@ -3953,6 +3953,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_BEAR" },
         { "or": [ { "npc_has_effect": "downed" }, { "and": [ { "npc_has_effect": "stunned" } ] } ] },
         { "not": { "u_has_effect": "natural_stance" } },
         {
@@ -3988,7 +3989,9 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
-        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+        { "u_has_trait": "MUZZLE_BEAR" },
+        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] },
+        { "or": [ { "npc_has_effect": "downed" }, { "and": [ { "npc_has_effect": "stunned" } ] } ] }
       ]
     },
     "flat_bonuses": [
@@ -4014,6 +4017,11 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "MUZZLE_BEAR" },
+        { "or": [ { "npc_has_effect": "downed" }, { "and": [ { "npc_has_effect": "stunned" } ] } ] }
+      ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 38 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
@@ -4040,6 +4048,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_RAT" },
         { "not": { "u_has_effect": "natural_stance" } },
         {
           "and": [
@@ -4074,6 +4083,7 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
+        { "u_has_trait": "MUZZLE_RAT" },
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
