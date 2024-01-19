@@ -5763,10 +5763,11 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
             }
         } else {
             if( single_target ) {
-                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                debugmsg( "single_target doesn't need to be defined for a singlular monster_id.  %s",
                           d.get_callstack() );
             }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
+            single_target = true;
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
