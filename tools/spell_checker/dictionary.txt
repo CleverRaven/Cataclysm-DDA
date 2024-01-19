@@ -205,6 +205,8 @@ augmentations
 auk
 auroral
 ausgegangen
+atlatl
+atlatls
 autoclave
 autoclaving
 autohaul
@@ -225,6 +227,7 @@ avians
 aving
 avium
 avy
+axedwarves
 axeman
 axolotl
 azide
@@ -456,6 +459,7 @@ caltrop
 caltrops
 camarasaurus
 camelops
+camo
 camphine
 campin
 camptosaurus
@@ -525,6 +529,7 @@ chausses
 cheapshot
 checkerboard
 checkerboards
+checkmarks
 cheescutter
 chelator
 chested
@@ -653,6 +658,7 @@ countermine
 countertime
 couters
 coverplate
+crabapple
 crablike
 cracklins
 craftable
@@ -1156,6 +1162,8 @@ footrest
 forager
 foregrip
 foregrips
+forehoof
+forehooves
 foreleg
 forelegs
 forestalling
@@ -1692,6 +1700,7 @@ layin
 lb
 lbs
 leache
+leaper
 leatherbacked
 leatherbound
 leathercrafters
@@ -1778,6 +1787,7 @@ lutefisk
 lutely
 lvl
 lx
+lycra
 lyflode
 lyin
 m
@@ -1785,7 +1795,10 @@ machiner
 macronutrient
 macrophenotypic
 macuahuitl
+macuahuitls
 maculata
+magick
+magicks
 magickal
 magicks
 magwells
@@ -2089,6 +2102,7 @@ nonuniform
 nonverbally
 noone
 nopal
+nopales
 nopalito
 nord
 norvegicus
@@ -2966,7 +2980,7 @@ subcompact
 subcutis
 subgun
 sublethal
-submachinegun
+submachine
 submap
 submenu
 submersed
@@ -3065,6 +3079,8 @@ temaki
 tenderloins
 tenontosaurus
 tequini
+tepoztopili
+tepoztopilis
 teravolt
 terpenes
 terranean
@@ -3150,6 +3166,8 @@ treatin
 treefrog
 treefrogs
 treelines
+treesinging
+treesung
 trenchcoat
 trenchcoats
 trenchgun
@@ -3387,7 +3405,6 @@ warhammers
 warmouth
 warpglass
 warpstream
-wasnt
 wastebread
 watchband
 waterfowl
@@ -3495,14 +3512,12 @@ yelman
 yme
 ynn
 yoroi
-youre
 yourselves
 youthful
 yowl
 yoyos
 yugg
 yukata
-yulecat
 z
 zahir
 zaibatsu
@@ -3520,6 +3535,8 @@ zentai
 zeriatric
 zincite
 zischt
+zorc
+zorcs
 zombaby
 zombear
 zombeaver
@@ -3533,6 +3550,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zowlbear
+zowlbears
 zpzzzzpzz
 zubon
 zucchinis

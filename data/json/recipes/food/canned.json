@@ -1279,7 +1279,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water_clean", 12 ], [ "juice_pulp", 24 ] ],
+    "byproducts": [ [ "water_clean", 12 ], [ "juice_pulp", 192 ] ],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1294,7 +1294,7 @@
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "orange", 24 ] ], [ [ "water_clean", 6 ] ] ]
+    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "orange", 48 ] ], [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1338,7 +1338,7 @@
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "apple", 4 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "apple", 4 ], [ "crabapple", 20 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1361,7 +1361,11 @@
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "apple", 24 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
+    "components": [
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "apple", 24 ], [ "crabapple", 120 ] ],
+      [ [ "water", 16 ], [ "water_clean", 16 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1420,7 +1424,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water_clean", 2 ], [ "juice_pulp", 4 ] ],
+    "byproducts": [ [ "water_clean", 2 ], [ "juice_pulp", 32 ] ],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1435,7 +1439,7 @@
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "orange", 4 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "orange", 8 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "//0": "--------------------Tin can recipes begin here--------------------",
@@ -2490,7 +2494,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 4 ], [ "crabapple", 20 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2512,7 +2516,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 2 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 2 ], [ "crabapple", 10 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2534,7 +2538,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "apple", 24 ] ] ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "apple", 24 ], [ "crabapple", 120 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
@@ -2543,7 +2547,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 32 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2556,7 +2560,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 8 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2565,7 +2569,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 16 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2578,7 +2582,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 2 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 4 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2587,7 +2591,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
+    "byproducts": [ [ "juice_pulp", 192 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2600,7 +2604,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "STRAIN", "level": 2 } ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "orange", 24 ] ] ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "orange", 48 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },

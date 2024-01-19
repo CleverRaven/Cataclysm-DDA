@@ -28,7 +28,7 @@
     "harvest": "stoneling",
     "dissect": "dissect_ierde_single",
     "special_attacks": [ [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "FAE_CREATURE", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
   {
     "id": "mon_monstrous_badger",
@@ -57,7 +57,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fae_furred",
     "dissect": "dissect_ierde_single",
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
+    "flags": [ "DIGS", "HEARS", "FAE_CREATURE", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
     "type": "MONSTER",
@@ -96,7 +96,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_undine_single",
     "vision_day": 20,
@@ -128,7 +128,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
     "harvest": "water_elemental",
     "dissect": "dissect_undine_single",
     "special_attacks": [ { "id": "ice_spray" } ],
@@ -163,7 +163,7 @@
     "dissect": "dissect_arvore_single",
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "anger_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "WARM" ]
   },
   {
     "id": "mon_vineling",
@@ -192,7 +192,7 @@
     "bleed_rate": 10,
     "harvest": "triffid_small",
     "dissect": "dissect_arvore_single",
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "FAE_CREATURE", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "type": "MONSTER",
@@ -222,7 +222,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
     "description": "A small dog-sized furry lizard colored in fiery reds.  It hisses and then spits napalm-like fluid at whatever attracts its ire.",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_salamander_glob", "min_level": 1 }, "cooldown": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "vision_day": 20,
@@ -254,7 +254,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
@@ -287,7 +287,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "id": "slam" } ],
-    "flags": [ "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREATHE" ]
+    "flags": [ "HEARS", "WARM", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "NO_BREATHE" ]
   },
   {
     "id": "mon_zoomorphic_figure_small",
@@ -328,7 +328,7 @@
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
@@ -381,7 +381,7 @@
     "dissect": "dissect_sylph_single",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FAE_CREATURE", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_skyglass_butterflies",
@@ -412,7 +412,7 @@
     "material": [ "iflesh" ],
     "harvest": "fae_flying",
     "dissect": "dissect_sylph_single",
-    "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "SWARMS" ],
+    "flags": [ "SEES", "HEARS", "NOHEAD", "FAE_CREATURE", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "SWARMS" ],
     "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   }
 ]

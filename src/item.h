@@ -1894,6 +1894,7 @@ class item : public visitable
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
         std::string get_var( const std::string &name ) const;
+        std::optional<std::string> maybe_get_var( const std::string &name ) const;
         /** Whether the variable is defined at all. */
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
@@ -3230,11 +3231,13 @@ inline bool is_crafting_component( const item &component )
 }
 
 /**
+ * Filter for crafting components first pass searches excluding undesirable properties.
+ */
+bool is_preferred_component( const item &component );
+
+/**
  * Filter for empty crafting components first pass searches
  */
-inline bool is_empty_crafting_component( const item &component )
-{
-    return component.is_container_empty() && is_crafting_component( component );
-}
+bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H

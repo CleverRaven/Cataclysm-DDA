@@ -2322,6 +2322,64 @@
   },
   {
     "type": "effect_type",
+    "id": "hallucinogenic_acid_light",
+    "name": [ "Bad High" ],
+    "desc": [ "You've been exposed to fungal acid fumes!" ],
+    "apply_message": "You inhale a lungful of hallucinogenic acid fumes.",
+    "rating": "bad",
+    "miss_messages": [ [ "The world spins.", 2 ] ],
+    "harmful_cough": true,
+    "max_duration": "40 m",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -2 ],
+      "per_mod": [ -3 ],
+      "int_mod": [ -2 ],
+      "speed_mod": [ -5 ],
+      "cough_chance": [ 30 ],
+      "vomit_chance": [ 3000 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.6 },
+      { "limb_score": "night_vis", "modifier": 0.7 },
+      { "limb_score": "reaction", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true,
+    "resist_traits": [ "M_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucinogenic_acid_heavy",
+    "name": [ "Really Bad High" ],
+    "desc": [ "You've been exposed to thick fungal acid fumes!" ],
+    "apply_message": "You inhale a lungful of thick hallucinogenic acid fumes.",
+    "rating": "bad",
+    "miss_messages": [ [ "The world fractals.", 2 ] ],
+    "harmful_cough": true,
+    "max_duration": "40 m",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "per_mod": [ -6 ],
+      "int_mod": [ -4 ],
+      "speed_mod": [ -7 ],
+      "cough_chance": [ 50 ],
+      "vomit_chance": [ 4000 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.45 },
+      { "limb_score": "night_vis", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.7 },
+      { "limb_score": "breathing", "modifier": 0.7 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true,
+    "resist_traits": [ "M_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "taint",
     "name": [ "Touched Mind", "Touched Mind", "Tainted Mind", "Badly Tainted Mind" ],
     "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
@@ -3631,7 +3689,7 @@
     "max_intensity": 3,
     "base_mods": {
       "pain_max_val": [ 35 ],
-      "pain_chance": [ 900 ],
+      "pain_chance": [ 9000 ],
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
       "fatigue_chance": [ 900 ],
@@ -4534,7 +4592,7 @@
         "values": [
           {
             "value": "INTELLIGENCE",
-            "add": { "math": [ "u_val('effect_intensity','effect:VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
+            "add": { "math": [ "u_effect_intensity('VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
           }
         ]
       }

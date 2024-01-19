@@ -29,6 +29,26 @@ bool is_beta( char scope )
     }
 }
 
+template<typename T>
+constexpr std::string_view _str_type_of()
+{
+    if constexpr( std::is_same_v<T, units::energy> ) {
+        return "energy";
+    } else if constexpr( std::is_same_v<T, time_duration> ) {
+        return "time";
+    }
+    return "cookies";
+}
+
+template<typename T>
+T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
+{
+    auto const error = [s]( char const * suffix, size_t /* offset */ ) {
+        debugmsg( R"(Failed to convert "%s" to a %s value: %s)", s, _str_type_of<T>(), suffix );
+    };
+    return detail::read_from_json_string_common<T>( s, units, error );
+}
+
 } // namespace
 
 std::function<double( dialogue & )> u_val( char scope,
@@ -189,6 +209,14 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> has_var_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [var = params[0].var() ]( dialogue const & d ) {
+        return maybe_read_var_value( var, d ).has_value();
+    };
+}
+
 std::function<double( dialogue & )> knows_proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -202,6 +230,17 @@ std::function<double( dialogue & )> hp_eval( char scope,
 {
     return[bp_val = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         std::string const bp_str = bp_val.str( d );
+        bool const major = bp_str == "ALL_MAJOR";
+        bool const minor = bp_str == "ALL_MINOR";
+        if( major || minor ) {
+            get_body_part_flags const parts = major ? get_body_part_flags::only_main :
+                                              get_body_part_flags::only_minor;
+            int ret{};
+            for( bodypart_id const &part : d.actor( beta )->get_all_body_parts( parts ) ) {
+                ret += d.actor( beta )->get_cur_hp( part );
+            }
+            return ret;
+        }
         bodypart_id const bp = bp_str == "ALL" ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         return d.actor( beta )->get_cur_hp( bp );
     };
@@ -212,8 +251,16 @@ std::function<void( dialogue &, double )> hp_ass( char scope,
 {
     return [bp_val = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
         std::string const bp_str = bp_val.str( d );
+        bool const major = bp_str == "ALL_MAJOR";
+        bool const minor = bp_str == "ALL_MINOR";
         if( bp_str == "ALL" ) {
             d.actor( beta )->set_all_parts_hp_cur( val );
+        } else if( major || minor ) {
+            get_body_part_flags const parts = major ? get_body_part_flags::only_main :
+                                              get_body_part_flags::only_minor;
+            for( bodypart_id const &part : d.actor( beta )->get_all_body_parts( parts ) ) {
+                d.actor( beta )->set_part_hp_cur( part, val );
+            }
         } else {
             d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
         }
@@ -313,6 +360,22 @@ std::function<double( dialogue & )> item_count_eval( char scope,
 {
     return[beta = is_beta( scope ), item_value = params[0]]( dialogue const & d ) {
         return d.actor( beta )->get_amount( itype_id( item_value.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> item_rad_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value agg_val( std::string{ "min" } );
+    if( kwargs.count( "aggregate" ) != 0 ) {
+        agg_val = *kwargs.at( "aggregate" );
+    }
+
+    return [beta = is_beta( scope ), flag = params[0], agg_val]( dialogue const & d ) {
+        std::optional<aggregate_type> const agg =
+            io::string_to_enum_optional<aggregate_type>( agg_val.str( d ) );
+        return d.actor( beta )->item_rads( flag_id( flag.str( d ) ),
+                                           agg.value_or( aggregate_type::MIN ) );
     };
 }
 
@@ -450,6 +513,16 @@ std::function<void( dialogue &, double )> pain_ass( char scope,
 {
     return [beta = is_beta( scope )]( dialogue const & d, double val ) {
         d.actor( beta )->set_pain( val );
+    };
+}
+
+std::function<double( dialogue & )> energy_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+
+    return [val = params[0]]( dialogue const & d ) {
+        return units::to_millijoule(
+                   _read_from_string<units::energy>( val.str( d ), units::energy_units ) );
     };
 }
 
@@ -761,6 +834,19 @@ std::function<double( dialogue & )> test_str_len( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     return _test_func( params, kwargs, _test_len );
+}
+
+std::function<double( dialogue & )> value_or_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[var = params[0].var(),
+        vor = params[1]]( dialogue const & d ) -> double {
+        if( std::optional<std::string> has = maybe_read_var_value( var, d ); has )
+        {
+            return diag_value{ *has }.dbl( d );
+        }
+        return vor.dbl( d );
+    };
 }
 
 std::function<double( dialogue & )> vitamin_eval( char scope,

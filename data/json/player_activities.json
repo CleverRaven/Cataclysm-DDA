@@ -1142,6 +1142,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "infusing saline",
     "based_on": "time",
-    "completion_eoc": "SALINE_INFUSION_eff"
+    "do_turn_eoc": "SALINE_INFUSION_eff"
   }
 ]

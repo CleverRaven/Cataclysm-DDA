@@ -10,9 +10,7 @@
         "condition": {
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
-            },
+            { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
@@ -23,9 +21,7 @@
         "condition": {
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
-            },
+            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
@@ -378,7 +374,7 @@
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "!=", { "const": 1 } ] },
+            { "math": [ "hub01_hwp_exotic_researched", "!=", "1" ] },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
             {
@@ -451,7 +447,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
-        { "arithmetic": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "=", { "const": 1 } ] }
+        { "math": [ "hub01_uhmwpe_researched", "=", "1" ] }
       ]
     },
     "responses": [
@@ -1112,9 +1108,7 @@
     "//": "creating EXODII barrel",
     "type": "talk_topic",
     "dynamic_line": "The project was a success!  The ammo is fairly rudimentary, but ultimately proved simple to manufacture, and has lended itself well to large magazines.  We will transfer a copy of the conversion kit in a moment; it is capable of accepting the standard magazines that Exodii weapons usually use, and we have also begun production of specialized magazines ourselves.  Thank you for allowing us this opportunity.",
-    "speaker_effect": {
-      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "=", { "const": 1 } ] } ]
-    },
+    "speaker_effect": { "effect": [ { "math": [ "hub01_hwp_exotic_researched", "=", "1" ] } ] },
     "responses": [
       {
         "text": "Thanks.",

@@ -3361,7 +3361,8 @@ void overmap::generate( const overmap *north, const overmap *east,
                         overmap_special_batch &enabled_specials )
 {
     dbg( D_INFO ) << "overmap::generate start…";
-
+    const oter_id omt_outside_defined_omap = static_cast<oter_id>
+            ( get_option<std::string>( "OUTSIDE_DEFINED_OMAP_OMT" ) );
     const std::string overmap_pregenerated_path =
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
@@ -3379,11 +3380,10 @@ void overmap::generate( const overmap *north, const overmap *east,
         } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
-            const oter_id lake_surface( "lake_surface" );
             for( int j = 0; j < OMAPY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < OMAPX; i++ ) {
-                    layer[z + OVERMAP_DEPTH].terrain[i][j] = lake_surface;
+                    layer[z + OVERMAP_DEPTH].terrain[i][j] = omt_outside_defined_omap;
                 }
             }
         }

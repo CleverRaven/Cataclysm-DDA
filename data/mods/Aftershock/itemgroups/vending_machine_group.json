@@ -12,6 +12,28 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "afs_vending_energy_ammo",
+    "entries": [ { "group": "afs_civilian_laser_mag", "prob": 66, "count-min": 5, "count-max": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "afs_vending_ballistic_ammo",
+    "entries": [
+      { "group": "afs_civilian_ballistic_s_ammo", "count-min": 5, "count-max": 20, "container-item": "ammo_box_2" },
+      { "group": "afs_civilian_ballistic_m_ammo", "count-min": 5, "count-max": 20, "container-item": "ammo_box_4" },
+      {
+        "group": "afs_civilian_ballistic_h_ammo",
+        "prob": 40,
+        "count-min": 5,
+        "count-max": 20,
+        "container-item": "ammunition_can_30"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "afs_vending_medicine",
     "entries": [
       { "group": "drugs_pharmacy", "count-min": 5, "count-max": 20 },

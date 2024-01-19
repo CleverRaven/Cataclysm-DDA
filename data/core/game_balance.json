@@ -456,10 +456,24 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OUTSIDE_DEFINED_OMAP_OMT",
+    "info": "If .omap s are being used this is the overmap terrain used outside of the defined overmaps.",
+    "stype": "string_input",
+    "value": "lake_surface"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "EMP_DISABLE_ELECTRONICS",
     "info": "Whether EMP effects will permanently disable items.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CAPITALISM",
+    "info": "NPCs will accept your bank balance as payment in trades.",
+    "stype": "bool",
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",

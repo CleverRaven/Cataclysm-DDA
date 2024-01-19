@@ -434,6 +434,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -5248,6 +5249,16 @@ item Character::reduce_charges( item *it, int quantity )
     return result;
 }
 
+const profession *Character::get_profession() const
+{
+    return prof;
+}
+
+std::set<const profession *> Character::get_hobbies() const
+{
+    return hobbies;
+}
+
 bool Character::has_mission_item( int mission_id ) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
@@ -6080,11 +6091,16 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_fae = calculate_by_enchantment( 0.0,
+                                   enchant_vals::mod::SIGHT_RANGE_FAE );
     const double sight_range_nether = calculate_by_enchantment( 0.0,
                                       enchant_vals::mod::SIGHT_RANGE_NETHER );
     const double sight_range_minds = calculate_by_enchantment( 0.0,
                                      enchant_vals::mod::SIGHT_RANGE_MINDS );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_fae() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_fae ) {
         return true;
     }
     if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
@@ -12285,6 +12301,14 @@ bool Character::is_hallucination() const
 bool Character::is_electrical() const
 {
     // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_fae() const
+{
+    if( has_trait( trait_FAERIECREATURE ) ) {
+        return true;
+    }
     return false;
 }
 

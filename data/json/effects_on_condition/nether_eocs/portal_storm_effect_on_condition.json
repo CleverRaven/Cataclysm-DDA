@@ -235,7 +235,11 @@
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
       { "math": [ "u_counter_portal_storm_counter", "++" ] },
-      { "math": [ "talked_to_storm", "=", "0" ] }
+      { "math": [ "talked_to_storm", "=", "0" ] },
+      {
+        "trigger_event": "u_var_changed",
+        "args": [ "portal_storm_counter", { "u_val": "counter_portal_storm_counter" } ]
+      }
     ]
   },
   {
@@ -1105,7 +1109,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
@@ -1216,8 +1220,8 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "u_message": "Everything feels fuzzy.", "type": "info" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      { "math": [ "u_vitamin('mutagen_feline')", "=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "=", "750" ] },
       {
         "run_eocs": [
           {

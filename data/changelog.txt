@@ -90,6 +90,11 @@ Protein bars now give character a psychological trauma
 Adds sand to ocean beaches
 Toggle to highlight OMTs revealed by maps
 Adds extreme height chargen traits, adds tools for disabled drivers
+Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now.
+Hub now offers armor set printing after HWP is unlocked
+Implement basic saline infusion to help with blood loss
+Adds treetops and makes trees climbable
+Allow bird wings to glide
 
 
 ## Content:
@@ -175,6 +180,8 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
+Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
+Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
 
 
 ## Interface:
@@ -321,6 +328,8 @@ Paraclesian Map extras
 [Sky Island] Lots of updates
 [MoM] Change success formula for psionic powers
 [DinoMod] plesiosaurus
+[MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
+[Xedra Evolved] Add Great Tree elemental eruption map special
 
 
 ## Balance:
@@ -371,6 +380,8 @@ Professions can start with specific recipes
 Food irradiation slows food decay to a quarter, instead of making it last forever
 Activity suit is actually waterproof, soft surfaces are less slippery, boomer ondeath effect can be resisted
 Visitors Passes and Freight Badges no longer reveal roads
+Hub14 no longer gives infinite pricey schematics
+Removed FANCY and SUPER_FANCY from a bunch of items
 
 
 ## Bugfixes:
@@ -478,6 +489,8 @@ Prevent softlock when sleeping in cramped spaces
 Invalidate draw point cache if viewport size or position changes
 clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
+Count charges in all nearby smoking racks to crafting inventory
+Fix crash from reachability zones checking dead NPCs.
 
 
 ## Performance:
@@ -495,6 +508,12 @@ Reduce time of selecting large amount of items in inventory menu
 Fix armor resistances hotspot exposed by NPC AI improvements
 Slightly fewer allocations in npc::process_turn
 Optimized creature iteration during monster planning and parrot_at_danger.
+Optimize monster flag checking.
+Increase pathfinder performance
+Optimize stationary vehicle performance when they contain a lot of items.
+Optimizing mostly item to reduce load-time allocation by over 20%
+Optimize creature vision checks.
+Optimize hot item function to save ~6.7% of game load time
 
 
 ## Infrastructure:
@@ -537,6 +556,8 @@ Allow items to provide martial art techniques when not wielded
 Remove hardcoded mapgen for fields
 Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
+Migrate names to snippets & add weighted snippets
+Add `_ib` variants of coord.
 
 
 ## Build:
