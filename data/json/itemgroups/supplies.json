@@ -143,7 +143,7 @@
       [ "material_shrd_limestone", 70 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
       [ "material_quicklime", 70 ],
-      [ "concrete", 70 ],
+      { "group": "sack_concrete", "prob": 70 },
       { "item": "nuts_bolts", "prob": 60, "charges": [ 250, 500 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
@@ -311,7 +311,7 @@
       { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
       { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
       { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
-      [ "concrete", 20 ],
+      { "group": "sack_concrete", "prob": 20 },
       {
         "collection": [
           { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
@@ -874,5 +874,12 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count-min": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sack_concrete",
+    "subtype": "collection",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "concrete", "container-item": "null", "count-min": 5, "count-max": 5 } ]
   }
 ]
