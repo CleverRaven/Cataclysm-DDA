@@ -1306,7 +1306,7 @@
   {
     "id": "mon_fish_mackerel",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "atlantic mackerel" },
     "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
     "volume": "850 ml",
@@ -1322,7 +1322,7 @@
   {
     "id": "mon_fish_flounder",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "summer flounder" },
     "description": "A flatfish, the summer flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
     "volume": "4 L",
@@ -1338,7 +1338,7 @@
   {
     "id": "mon_fish_blackfish",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "black sea bass" },
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
     "volume": "1330 ml",
@@ -1354,7 +1354,7 @@
   {
     "id": "mon_fish_porgy",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
     "volume": "770 ml",
@@ -1402,7 +1402,7 @@
   {
     "id": "mon_fish_haddock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "haddock" },
     "description": "A popular food fish, the haddock is recognized by its dark lateral line and a black blotch above the pectoral fin.",
     "volume": "6785 ml",
@@ -1434,7 +1434,7 @@
   {
     "id": "mon_fish_halibut",
     "type": "MONSTER",
-    "copy-from": "mon_fish_huge",
+    "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic halibut" },
     "description": "The largest flatfish in the ocean, known for its dense, firm texture and mild flavor.",
     "volume": "75 L",
@@ -1450,7 +1450,7 @@
   {
     "id": "mon_fish_pollock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "pollock" },
     "looks_like": "mon_fish_cod",
     "description": "A member of the cod family, pollock is a versatile fish known for its white, delicate meat and mild taste.",
