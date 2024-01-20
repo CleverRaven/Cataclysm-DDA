@@ -285,7 +285,7 @@ std::size_t Single_item_creator::create( ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday,
-                        on_overflow, context() ); //needs changing?
+                        on_overflow, context() );
     return list.size() - prev_list_size;
 }
 
@@ -839,7 +839,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday,
-                        on_overflow, context() ); //needs changing?
+                        on_overflow, context() );
 
     return list.size() - prev_list_size;
 }
