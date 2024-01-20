@@ -158,13 +158,13 @@ int itype::charges_per_volume( const units::volume &vol ) const
 std::string itype::extended_description() const
 {
     if( description_prepend.empty() ) {
-        return _( string_format( "%s %s", description.translated(),
+        return _( string_format( "%s  %s", description.translated(),
                                  description_append.translated() ) );
     } else if( description_append.empty() ) {
-        return _( string_format( "%s %s", description_prepend.translated(),
-                                 description.translated(), ) );
+        return _( string_format( "%s  %s", description_prepend.translated(),
+                                 description.translated() ) );
     } else {
-        return _( string_format( "%s %s %s", description_prepend.translated(),
+        return _( string_format( "%s  %s  %s", description_prepend.translated(),
                                  description.translated(),
                                  description_append.translated() ) );
     }
