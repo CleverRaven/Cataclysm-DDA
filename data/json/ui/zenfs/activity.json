@@ -1,0 +1,47 @@
+[
+  {
+    "id": "zenfs_activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "width": 10,
+    "clauses": [
+      {
+        "id": "none",
+        "text": { "str": "Negligible", "ctxt": "activity description" },
+        "color": "dark_gray",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+      },
+      {
+        "id": "light",
+        "text": { "str": "Light   ", "ctxt": "activity description" },
+        "color": "green",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+      },
+      {
+        "id": "moderate",
+        "text": { "str": "Moderate ", "ctxt": "activity description" },
+        "color": "light_green",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+      },
+      {
+        "id": "brisk",
+        "text": { "str": "Brisk   ", "ctxt": "activity description" },
+        "color": "yellow",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+      },
+      {
+        "id": "active",
+        "text": { "str": "Intense ", "ctxt": "activity description" },
+        "color": "light_red",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+      },
+      {
+        "id": "extreme",
+        "text": { "str": "Extreme ", "ctxt": "activity description" },
+        "color": "red",
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+      }
+    ]
+  }
+]
