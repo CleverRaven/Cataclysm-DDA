@@ -434,19 +434,5 @@
     "price_postapoc": 2000,
     "symbol": "&",
     "color": "light_gray"
-  },
-  {
-    "type": "GENERIC",
-    "category": "other",
-    "id": "piano",
-    "name": { "str_sp": "piano" },
-    "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys are linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
-    "weight": "300 kg",
-    "material": [ "wood" ],
-    "volume": "1000 L",
-    "price": 500000,
-    "price_postapoc": 1500,
-    "symbol": "P",
-    "color": "i_black"
   }
 ]
