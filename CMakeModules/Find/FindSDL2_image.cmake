@@ -107,6 +107,10 @@ if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
     find_package(JPEG REQUIRED)
     find_package(PNG REQUIRED)
     find_package(TIFF REQUIRED)
+    pkg_check_modules(WEBP REQUIRED IMPORTED_TARGET libwebp)
+    target_link_libraries(TIFF::TIFF INTERFACE
+        PkgConfig::WEBP
+    )
     find_library(JBIG jbig REQUIRED)
     find_package(LibLZMA REQUIRED)
     target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
@@ -117,16 +121,41 @@ if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
       LibLZMA::LibLZMA
       ${ZSTD}
     )
-    pkg_check_modules(WEBP REQUIRED IMPORTED_TARGET libwebp)
     pkg_check_modules(ZIP REQUIRED IMPORTED_TARGET libzip)
     pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
     pkg_check_modules(DEFLATE REQUIRED IMPORTED_TARGET libdeflate)
     target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
-      PkgConfig::WEBP
       PkgConfig::ZIP
       PkgConfig::ZSTD
       PkgConfig::DEFLATE
     )
+    if(MSYS2)
+       find_package(libavif REQUIRED) 
+       pkg_check_modules(JXL REQUIRED IMPORTED_TARGET libjxl libjxl_threads)
+       find_package(hwy REQUIRED)
+       target_link_libraries(PkgConfig::JXL INTERFACE
+            hwy::hwy
+       )
+       find_package(libjpeg-turbo REQUIRED)
+       pkg_check_modules(Lerc REQUIRED IMPORTED_TARGET Lerc)
+       target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
+           avif
+           PkgConfig::JXL
+           PkgConfig::Lerc
+           libjpeg-turbo::turbojpeg
+       )
+       pkg_check_modules(WEBPDEMUX REQUIRED IMPORTED_TARGET libwebpdemux)
+       pkg_check_modules(WEBPDECODER REQUIRED IMPORTED_TARGET libwebpdecoder)
+       target_link_libraries(TIFF::TIFF INTERFACE
+           WEBPDEMUX
+           WEBPDECODER
+           JPEG::JPEG
+       )
+       pkg_check_modules(sharpyuv REQUIRED IMPORTED_TARGET libsharpyuv)
+       target_link_libraries(PkgConfig::WEBP INTERFACE
+            PkgConfig::sharpyuv
+       )
+    endif()
 elseif(NOT TARGET SDL2_image::SDL2_image)
       add_library(SDL2_image::SDL2_image UNKNOWN IMPORTED)
       set_target_properties(SDL2_image::SDL2_image PROPERTIES

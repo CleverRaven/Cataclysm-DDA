@@ -106,6 +106,13 @@ if (NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
   message(STATUS "Searching for SDL_ttf deps libraries --")
   find_package(Freetype REQUIRED)
   find_package(Harfbuzz REQUIRED)
+  # MSYS2/MingW64 harfbuzz-config.cmake does not set those:
+  get_target_property(_loc harfbuzz::harfbuzz IMPORTED_LOCATION)
+  set_target_properties(harfbuzz::harfbuzz PROPERTIES 
+    IMPORTED_IMPLIB_RELEASE ${_loc}
+    IMPORTED_IMPLIB_DEBUG ${_loc}
+    IMPORTED_IMPLIB_RELWITHDEBINFO ${_loc}
+  )
   target_link_libraries(SDL2_ttf::SDL2_ttf-static INTERFACE
     Freetype::Freetype
     harfbuzz::harfbuzz
@@ -114,6 +121,12 @@ if (NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
   target_link_libraries(Freetype::Freetype INTERFACE
     PkgConfig::BROTLI
   )
+  if(MSYS2)
+    pkg_check_modules(bzip2 REQUIRED IMPORTED_TARGET bzip2)
+    target_link_libraries(Freetype::Freetype INTERFACE
+        PkgConfig::bzip2
+    )
+  endif()
 elseif(NOT TARGET SDL2_ttf::SDL2_ttf)
     add_library(SDL2_ttf::SDL2_ttf UNKNOWN IMPORTED)
     set_target_properties(SDL2_ttf::SDL2_ttf PROPERTIES

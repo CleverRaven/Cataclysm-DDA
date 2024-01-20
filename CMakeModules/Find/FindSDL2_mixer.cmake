@@ -119,6 +119,20 @@ if(PKG_CONFIG_FOUND)
         target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
             PkgConfig::FLAC
         )
+        if(MSYS2)
+            pkg_check_modules(libmpg123 REQUIRED IMPORTED_TARGET libmpg123)
+            pkg_check_modules(opus REQUIRED IMPORTED_TARGET opus)
+            pkg_check_modules(opusfile REQUIRED IMPORTED_TARGET opusfile)
+            find_package(Ogg REQUIRED)
+            target_link_libraries(PkgConfig::opusfile INTERFACE
+                Ogg::ogg
+                PkgConfig::opus
+            )
+            target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
+                PkgConfig::libmpg123
+                PkgConfig::opusfile
+            )
+        endif()
     elseif(TARGET SDL2_mixer::SDL2_mixer)
         pkg_check_modules(FLAC REQUIRED IMPORTED_TARGET flac)
         target_link_libraries(SDL2_mixer::SDL2_mixer INTERFACE
