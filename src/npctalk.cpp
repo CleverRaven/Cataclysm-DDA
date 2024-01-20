@@ -6264,7 +6264,7 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
         args.emplace_back( get_str_or_var( jv, "args" ) );
     }
 
-    function = [type, args]( dialogue & d ) {
+    return [type, args]( dialogue & d ) {
         std::vector<std::string> args_str;
         args_str.reserve( args.size() );
         std::transform( args.cbegin(), args.cend(),
