@@ -4449,7 +4449,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "random_ammo_qty": [1, 5],  // If this has values, set remaining ammo of transformed item to one of them chosen at random.
     "ammo_type": "tape",        // If both this and ammo_qty are specified then set transformed item to this specific ammo.
     "container": "jar",  // Container holding the target item.
-    "container_variant": "jar_green",  // Variant of the above container.
     "sealed": true,      // Whether the transformed container is sealed; true by default.
     "menu_text": "Lower visor"      // (Optional) Text displayed in the activation screen, defaults to "Turn on".
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
