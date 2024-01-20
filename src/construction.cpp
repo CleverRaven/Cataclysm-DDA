@@ -930,7 +930,7 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     const furn_id f = here.furn( p );
     const ter_id t = here.ter( p );
     if( con.pre_specials.size() > 1 ) { // pre-functions
-        for( auto &special : con.pre_specials ) {
+        for( const auto &special : con.pre_specials ) {
             if( !special( p ) ) {
                 return false;
             }
@@ -1176,7 +1176,7 @@ void complete_construction( Character *you )
     // This comes after clearing the activity, in case the function interrupts
     // activities
     if( built.post_specials.size() > 1 ) { // pre-functions
-        for( auto &special : built.post_specials ) {
+        for( const auto &special : built.post_specials ) {
             special( terp, *you );
         }
     } else {
