@@ -241,7 +241,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       {
-        "u_message": "Use of your powers has led to an insight.  Just as you can start fires, you could also stop them, harmlessly  dispersing the heat and dissipating existing flames, if you can figure out the proper technique.",
+        "u_message": "Use of your powers has led to an insight.  Just as you can start fires, you could also stop them, harmlessly dispersing the heat and dissipating existing flames, if you can figure out the proper technique.",
         "popup": true
       }
     ]

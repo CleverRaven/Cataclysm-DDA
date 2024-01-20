@@ -233,7 +233,7 @@
     "name": { "str_sp": "mutant fish fry" },
     "//": "a default fish type - does not appear in-game",
     "description": "A half-translucent fish larva… though this one is far larger than the usual.  Impossible to identify which species it belongs to but you can safely tell that it is going to outgrow normal fish you're used to seeing.",
-    "default_faction": "fish",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "300 ml",
@@ -250,6 +250,8 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_single",
     "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -268,8 +270,7 @@
     "id": "mon_fry_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_brown_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_brown_trout" }
   },
   {
     "id": "mon_fish_brook_trout",
@@ -287,8 +288,7 @@
     "id": "mon_fry_brook_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_brook_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_brook_trout" }
   },
   {
     "id": "mon_fish_lake_trout",
@@ -306,8 +306,7 @@
     "id": "mon_fry_lake_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_lake_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_lake_trout" }
   },
   {
     "id": "mon_fish_rainbow_trout",
@@ -325,8 +324,7 @@
     "id": "mon_fry_rainbow_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_rainbow_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_rainbow_trout" }
   },
   {
     "id": "mon_fish_salmon",
@@ -343,8 +341,7 @@
     "id": "mon_fry_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_salmon" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_salmon" }
   },
   {
     "id": "mon_fish_kokanee_salmon",
@@ -362,8 +359,7 @@
     "id": "mon_fry_kokanee_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_kokanee_salmon" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_kokanee_salmon" }
   },
   {
     "id": "mon_fish_whitefish",
@@ -380,8 +376,7 @@
     "id": "mon_fry_whitefish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_whitefish" }
   },
   {
     "id": "mon_fish_whitefish_round",
@@ -399,8 +394,7 @@
     "id": "mon_fry_whitefish_round",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish_round" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_whitefish_round" }
   },
   {
     "id": "mon_fish_lbass",
@@ -415,8 +409,7 @@
     "id": "mon_fry_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_lbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_lbass" }
   },
   {
     "id": "mon_fish_sbass",
@@ -432,8 +425,7 @@
     "id": "mon_fry_sbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sbass" }
   },
   {
     "id": "mon_fish_pbass",
@@ -449,8 +441,7 @@
     "id": "mon_fry_pbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pbass" }
   },
   {
     "id": "mon_fish_perch",
@@ -467,8 +458,7 @@
     "id": "mon_fry_perch",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_perch" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_perch" }
   },
   {
     "id": "mon_fish_walleye",
@@ -485,8 +475,7 @@
     "id": "mon_fry_walleye",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_walleye" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_walleye" }
   },
   {
     "id": "mon_fish_sunfish",
@@ -502,8 +491,7 @@
     "id": "mon_fry_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sunfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sunfish" }
   },
   {
     "id": "mon_fish_pumpkinseed",
@@ -520,8 +508,7 @@
     "id": "mon_fry_pumpkinseed",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pumpkinseed" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pumpkinseed" }
   },
   {
     "id": "mon_fish_bluegill",
@@ -537,8 +524,7 @@
     "id": "mon_fry_bluegill",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluegill" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluegill" }
   },
   {
     "id": "mon_fish_redbreast",
@@ -555,8 +541,7 @@
     "id": "mon_fry_redbreast",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_redbreast" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_redbreast" }
   },
   {
     "id": "mon_fish_green_sunfish",
@@ -573,8 +558,7 @@
     "id": "mon_fry_green_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_green_sunfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_green_sunfish" }
   },
   {
     "id": "mon_fish_rock_bass",
@@ -591,8 +575,7 @@
     "id": "mon_fry_rock_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_rock_bass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_rock_bass" }
   },
   {
     "id": "mon_fish_calico_bass",
@@ -609,8 +592,7 @@
     "id": "mon_fry_calico_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_calico_bass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_calico_bass" }
   },
   {
     "id": "mon_fish_warmouth",
@@ -627,8 +609,7 @@
     "id": "mon_fry_warmouth",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_warmouth" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_warmouth" }
   },
   {
     "id": "mon_fish_bullhead",
@@ -644,8 +625,7 @@
     "id": "mon_fry_bullhead",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bullhead" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bullhead" }
   },
   {
     "id": "mon_fish_bullhead_yellow",
@@ -662,8 +642,7 @@
     "id": "mon_fry_bullhead_yellow",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bullhead_yellow" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bullhead_yellow" }
   },
   {
     "id": "mon_fish_channel_catfish",
@@ -680,8 +659,7 @@
     "id": "mon_fry_channel_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_channel_catfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_channel_catfish" }
   },
   {
     "id": "mon_fish_white_catfish",
@@ -698,8 +676,7 @@
     "id": "mon_fry_white_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_white_catfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_white_catfish" }
   },
   {
     "id": "mon_fish_pike",
@@ -715,8 +692,7 @@
     "id": "mon_fry_pike",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pike" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pike" }
   },
   {
     "id": "mon_fish_pickerel",
@@ -732,8 +708,7 @@
     "id": "mon_fry_pickerel",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pickerel" }
   },
   {
     "id": "mon_fish_pickerel_american",
@@ -749,8 +724,7 @@
     "id": "mon_fry_pickerel_american",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel_american" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pickerel_american" }
   },
   {
     "id": "mon_fish_muskellunge",
@@ -767,8 +741,7 @@
     "id": "mon_fry_muskellunge",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_muskellunge" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_muskellunge" }
   },
   {
     "id": "mon_fish_white_sucker",
@@ -785,8 +758,7 @@
     "id": "mon_fry_white_sucker",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_white_sucker" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_white_sucker" }
   },
   {
     "id": "mon_fish_carp",
@@ -802,8 +774,7 @@
     "id": "mon_fry_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_carp" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_carp" }
   },
   {
     "id": "mon_fish_grass_carp",
@@ -820,8 +791,7 @@
     "id": "mon_fry_grass_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_grass_carp" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_grass_carp" }
   },
   {
     "id": "mon_fish_goldfish",
@@ -838,8 +808,7 @@
     "id": "mon_fry_goldfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_goldfish" }
   },
   {
     "id": "mon_fish_bowfin",
@@ -855,8 +824,7 @@
     "id": "mon_fry_bowfin",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bowfin" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bowfin" }
   },
   {
     "id": "mon_fish_gar_longnose",
@@ -873,8 +841,7 @@
     "id": "mon_fry_gar_longnose",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_gar_longnose" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_gar_longnose" }
   },
   {
     "id": "mon_fish_burbot",
@@ -890,8 +857,7 @@
     "id": "mon_fry_burbot",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_burbot" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_burbot" }
   },
   {
     "id": "mon_fish_sturgeon_lake",
@@ -907,8 +873,7 @@
     "id": "mon_fry_sturgeon_lake",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_lake" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sturgeon_lake" }
   },
   {
     "id": "mon_fish_sturgeon_shortnose",
@@ -925,8 +890,7 @@
     "id": "mon_fry_sturgeon_shortnose",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_shortnose" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sturgeon_shortnose" }
   },
   {
     "id": "mon_fish_fallfish",
@@ -943,8 +907,7 @@
     "id": "mon_fry_fallfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_fallfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_fallfish" }
   },
   {
     "id": "mon_fish_lobster",
@@ -1180,7 +1143,7 @@
     "type": "MONSTER",
     "name": { "str": "giant carp" },
     "description": "This thing looks like a carp, but huge and very, very angry.  Death is the gift of the carp god.",
-    "default_faction": "mutant",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
@@ -1210,7 +1173,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "giant salmon" },
     "description": "A mutated salmon roughly the size of a person.  Quite dangerous to the inexperienced angler.",
-    "default_faction": "mutant",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
@@ -1234,7 +1197,7 @@
     "dissect": "dissect_fish_sample_small",
     "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "upgrades": { "half_life": 30, "into": "mon_mutant_salmon_huge" },
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon_huge" },
     "anger_triggers": [ "HURT" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
@@ -1243,7 +1206,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "huge salmon" },
     "description": "A huge mutant salmon grown almost to the size of an alligator.",
-    "default_faction": "mutant",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "312 L",
@@ -1266,7 +1229,7 @@
     "dissect": "dissect_fish_sample_large",
     "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "upgrades": { "half_life": 42, "into": "mon_mutant_salmon_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mutant_salmon_mega" },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
@@ -1274,7 +1237,6 @@
     "id": "mon_fry_mutant_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry_mutant",
-    "default_faction": "mutant",
     "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon" }
   },
   {
@@ -1282,7 +1244,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "leaper salmon" },
     "description": "A huge mutant salmon, one that outgrows even the other ones present.  On its sides, beneath the fins, are visible two flesh-colored tubes which propel water as it leaps.",
-    "default_faction": "mutant",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "400 L",
@@ -1355,8 +1317,7 @@
     "id": "mon_fry_mackerel",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_mackerel" },
-    "name": { "str_sp": "mackerel fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_mackerel" }
   },
   {
     "id": "mon_fish_flounder",
@@ -1372,8 +1333,7 @@
     "id": "mon_fry_flounder",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_flounder" },
-    "name": { "str_sp": "flounder fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_flounder" }
   },
   {
     "id": "mon_fish_blackfish",
@@ -1389,8 +1349,7 @@
     "id": "mon_fry_blackfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_blackfish" },
-    "name": { "str_sp": "black sea bass fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_blackfish" }
   },
   {
     "id": "mon_fish_porgy",
@@ -1406,8 +1365,7 @@
     "id": "mon_fry_porgy",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_porgy" },
-    "name": { "str_sp": "scup (porgy) fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_porgy" }
   },
   {
     "id": "mon_fish_bluefish",
@@ -1423,8 +1381,7 @@
     "id": "mon_fry_bluefish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefish" },
-    "name": { "str_sp": "bluefish fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluefish" }
   },
   {
     "id": "mon_fish_cod",
@@ -1440,8 +1397,7 @@
     "id": "mon_fry_cod",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_cod" },
-    "name": { "str_sp": "cod fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_cod" }
   },
   {
     "id": "mon_fish_haddock",
@@ -1457,8 +1413,7 @@
     "id": "mon_fry_haddock",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_haddock" },
-    "name": { "str_sp": "haddock fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_haddock" }
   },
   {
     "id": "mon_fish_bluefin_tuna",
@@ -1474,8 +1429,7 @@
     "id": "mon_fry_bluefin_tuna",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefin_tuna" },
-    "name": { "str_sp": "bluefin tuna fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluefin_tuna" }
   },
   {
     "id": "mon_fish_halibut",
@@ -1491,8 +1445,7 @@
     "id": "mon_fry_halibut",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_halibut" },
-    "name": { "str_sp": "halibut fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_halibut" }
   },
   {
     "id": "mon_fish_pollock",
@@ -1509,7 +1462,6 @@
     "id": "mon_fry_pollock",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pollock" },
-    "name": { "str_sp": "pollock fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pollock" }
   }
 ]

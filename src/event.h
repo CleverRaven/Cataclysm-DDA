@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "debug.h"
+#include "enum_conversions.h"
 
 template <typename E> struct enum_traits;
 
@@ -901,6 +902,7 @@ class event
             , time_( time )
             , data_( std::move( data ) )
         {}
+        event() : type_( event_type::num_event_types ) {}
 
         // Call this to construct an event in a type-safe manner.  It will
         // verify that the types you pass match the expected types for the
@@ -919,6 +921,10 @@ class event
                    Type, std::make_index_sequence<sizeof...( Args )>
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
+
+        // Call this to construct an event from a runtime-defined type and string arguments.
+        // All arguments will be converted to the respective types with the same index in the event spec
+        static event make_dyn( event_type type, std::vector<std::string> &args );
 
         using fields_type = std::unordered_map<std::string, cata_variant_type>;
         static fields_type get_fields( event_type );

@@ -235,7 +235,11 @@
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
       { "math": [ "u_counter_portal_storm_counter", "++" ] },
-      { "math": [ "talked_to_storm", "=", "0" ] }
+      { "math": [ "talked_to_storm", "=", "0" ] },
+      {
+        "trigger_event": "u_var_changed",
+        "args": [ "portal_storm_counter", { "u_val": "counter_portal_storm_counter" } ]
+      }
     ]
   },
   {

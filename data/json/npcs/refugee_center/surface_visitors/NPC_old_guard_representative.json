@@ -168,7 +168,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] }
       ]
     },
     "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
