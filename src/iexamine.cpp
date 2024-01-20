@@ -1344,7 +1344,7 @@ bool iexamine::can_hack( Character &you )
         return false;
     }
     item &best_hacking = you.best_item_with_quality( qual_HACK );
-    if( best_hacking.is_null() || !( item_location{you, &best_hacking}->ammo_sufficient( &you ) ) ) {
+    if( best_hacking.is_null() || !item_location{you, &best_hacking}->ammo_sufficient( &you ) ) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
