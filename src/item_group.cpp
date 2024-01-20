@@ -178,7 +178,8 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 {
     item tmp = create_single_without_container( birthday, rec );
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.count(), sealed, container_item_variant.value_or( "" ) );
+        tmp = tmp.in_container( *container_item, tmp.count(), sealed,
+                                container_item_variant.value_or( "" ) );
     }
     return tmp;
 }
