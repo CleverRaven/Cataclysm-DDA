@@ -8,9 +8,9 @@
 #include "type_id.h"
 #include "units.h"
 
-static const bionic_id bio_limb_leg_l( "test_bio_limb_leg_l" );
-static const bionic_id bio_limb_leg_r( "test_bio_limb_leg_r" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id test_bio_limb_leg_l( "test_bio_limb_leg_l" );
+static const bionic_id test_bio_limb_leg_r( "test_bio_limb_leg_r" );
+static const bionic_id test_bio_power_storage( "bio_power_storage" );
 
 static const character_modifier_id
 character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
