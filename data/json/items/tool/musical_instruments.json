@@ -1,6 +1,7 @@
 [
   {
     "id": "banjo",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "banjo" },
@@ -33,6 +34,7 @@
   },
   {
     "id": "bone_flute",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "bone flute" },
@@ -64,6 +66,7 @@
   },
   {
     "id": "clarinet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "clarinet" },
@@ -95,7 +98,7 @@
   },
   {
     "id": "kantele",
-    "looks_like": "violin",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "kantele" },
@@ -158,6 +161,7 @@
   },
   {
     "id": "trumpet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "trumpet" },
@@ -189,6 +193,7 @@
   },
   {
     "id": "ukulele",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "ukulele" },
@@ -221,6 +226,7 @@
   },
   {
     "id": "violin",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "violin" },
@@ -253,6 +259,7 @@
   },
   {
     "id": "violin_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden fiddle" },
@@ -284,6 +291,7 @@
   },
   {
     "id": "krar_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden krar" },
@@ -312,6 +320,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "harmonica_holder",
+    "looks_like": "flute",
     "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
     "category": "tools",
     "weight": "200 g",
@@ -377,6 +386,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "guitar_electric",
+    "looks_like": "acoustic_guitar",
     "name": { "str": "electric guitar" },
     "category": "tools",
     "weight": "3750 g",
@@ -418,6 +428,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
+    "looks_like": "flute",
     "name": { "str_sp": "bagpipes" },
     "category": "tools",
     "weight": "2500 g",
@@ -457,6 +468,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "tuba",
+    "looks_like": "flute",
     "name": { "str": "tuba" },
     "category": "tools",
     "weight": "13600 g",
@@ -498,6 +510,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
+    "looks_like": "flute",
     "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2200 g",
