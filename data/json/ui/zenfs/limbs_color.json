@@ -498,7 +498,7 @@
 		"id": "bandaged_bitten",
 		"text": "<color_blue_white>R.LEG</color> ",
 		"condition": {
-		  "and": [ { "u_has_effect": "bandaged" }, { "u_has_effect": "biten" } ]
+		  "and": [ { "u_has_effect": "bandaged" }, { "u_has_effect": "bite" } ]
         }
       },
       {
