@@ -2030,6 +2030,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool exit = false;
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
+        catacurses::window w_info;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2118,8 +2119,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
                 data.without_getch = true;
-
-                catacurses::window w_info;
 
                 ui = std::make_unique<ui_adaptor>();
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
