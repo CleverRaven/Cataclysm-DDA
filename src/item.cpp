@@ -387,7 +387,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         if( !type->extend_description ) {
             set_var( "description", SNIPPET.expand( type->description.translated() ) );
         } else {
-            set_var( "description", SNIPPET.expand( extended_description() ) );
+            set_var( "description", SNIPPET.expand( type->extended_description() ) );
         }
     }
 
@@ -2472,7 +2472,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 if( !type->extend_description ) {
                     info.emplace_back( "DESCRIPTION", type->description.translated() );
                 } else {
-                    info.emplace_back( "DESCRIPTION", extended_description() );
+                    info.emplace_back( "DESCRIPTION", type->extended_description() );
                 }
             }
         }
@@ -9357,18 +9357,11 @@ std::string item::variant_description() const
             return _( string_format( "%s  %s", type->description.translated(),
                                      itype_variant().alt_description.translated() ) );
         }
-        return _( string_format( "%s  %s", extended_description(),
+        return _( string_format( "%s  %s", type->extended_description(),
                                  itype_variant().alt_description.translated() ) );
     } else {
         return itype_variant().alt_description.translated();
     }
-}
-
-std::string item::extended_description() const
-{
-    return _( string_format( "%s  %s %s", type->description_prepend.translated(),
-                             type->description.translated(),
-                             type->description_append.translated() ) );
 }
 
 void item::clear_itype_variant()

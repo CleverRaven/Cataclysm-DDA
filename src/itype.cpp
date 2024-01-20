@@ -155,6 +155,13 @@ int itype::charges_per_volume( const units::volume &vol ) const
     return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }
 
+std::string itype::extended_description() const
+{
+    return _( string_format( "%s %s %s", description_prepend.translated(),
+                             description.translated(),
+                             description_append.translated() ) );
+}
+
 // Members of iuse struct, which is slowly morphing into a class.
 bool itype::has_use() const
 {

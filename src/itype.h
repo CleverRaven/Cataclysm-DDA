@@ -1338,6 +1338,9 @@ struct itype {
         translation description_append; // Flavor text to add to the end of the description
         bool extend_description = false; // Whether the desciption needs appending/prepending
 
+        std::string extended_description()
+        const; // Extended description after appending // No idea if this belongs here or not
+
     protected:
         // private because is should only be accessed through itype::nname!
         // nname() is used for display purposes

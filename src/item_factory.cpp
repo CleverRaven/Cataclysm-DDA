@@ -4210,6 +4210,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
+    } else if( !def.description.empty() && ( !def.description_prepend.empty() ||
+               !def.description_append.empty() ) ) {
+        def.description = no_translation( def.extended_description() );
+        def.description_prepend = no_translation( "" );
+        def.description_append = no_translation( "" );
     }
 
     if( jo.has_member( "description_prepend" ) ) {
