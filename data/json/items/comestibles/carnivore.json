@@ -1639,7 +1639,7 @@
     "volume": "125 ml",
     "color": "pink",
     "spoils_in": "1 day 12 hours",
-    "comestible_type": "INVALID",
+    "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -2,
     "calories": 350,
@@ -1647,8 +1647,8 @@
     "price": 330,
     "price_postapoc": 20,
     "material": [ "flesh" ],
-    "flags": [ "TRADER_AVOID", "CARNIVORE_OK" ],
-    "fun": -12
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CARNIVORE_OK" ],
+    "fun": -6
   },
   {
     "type": "COMESTIBLE",
@@ -1687,7 +1687,7 @@
     "volume": "170 ml",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
-    "comestible_type": "INVALID",
+    "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -20,
     "calories": 350,
@@ -1695,8 +1695,8 @@
     "price": 330,
     "price_postapoc": 100,
     "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CARNIVORE_OK" ],
-    "fun": -24
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "INEDIBLE", "CARNIVORE_OK" ],
+    "fun": -6
   },
   {
     "type": "COMESTIBLE",
