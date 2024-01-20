@@ -5493,7 +5493,7 @@ talk_effect_fun_t::func f_set_talker( const JsonObject &jo, std::string_view mem
     };
 }
 
-static void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
+void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
                          time_duration time_in_future )
 {
     if( eoc->type == eoc_type::ACTIVATION ) {
@@ -5561,7 +5561,7 @@ talk_effect_fun_t::func f_queue_eoc_with( const JsonObject &jo, std::string_view
                 effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
                         passed_variables );
             }
-             the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+            // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
             // this is so monster attacks against other monsters won't give error messages.
         } else {
             debugmsg( "Cannot queue a non activation effect_on_condition.  %s", d.get_callstack() );
