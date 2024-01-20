@@ -1031,7 +1031,14 @@
     "id": "mussto_stringinst",
     "type": "item_group",
     "//": "for music store",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "kantele", 5 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
+    "items": [
+      [ "acoustic_guitar", 100 ],
+      [ "violin", 80 ],
+      [ "ukulele", 90 ],
+      [ "kantele", 5 ],
+      [ "banjo", 100 ],
+      [ "guitar_electric", 100 ]
+    ]
   },
   {
     "id": "bowling_alcohol",
