@@ -931,15 +931,20 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     const map &here = get_map();
     const furn_id f = here.furn( p );
     const ter_id t = here.ter( p );
-
-    if( !con.pre_special( p ) ||                 // pre-function
-        !has_pre_terrain( con, p ) ||            // terrain type
+    if( con.pre_specials.size() > 1 ) { // pre-functions
+        for( auto &special : con.pre_specials ) {
+            if( !special( p ) ) {
+                return false;
+            }
+        }
+    } else if( !con.pre_special( p ) ) { // pre-function
+        return false;
+    }
+    if( !has_pre_terrain( con, p ) || // terrain type
         !can_construct_furn_ter( con, f, t ) ) { // flags
         return false;
     }
-
-    // make sure the construction would actually do something
-    if( !con.post_terrain.empty() ) {
+    if( !con.post_terrain.empty() ) { // make sure the construction would actually do something
         if( con.post_is_furniture ) {
             return f != furn_id( con.post_terrain );
         } else {
@@ -1172,7 +1177,13 @@ void complete_construction( Character *you )
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( terp, *you );
+    if( built.post_specials.size() > 1 ) { // pre-functions
+        for( auto &special : built.post_specials ) {
+            special( terp, *you );
+        }
+    } else {
+        built.post_special( terp, *you );
+    }
     // Players will not automatically resume backlog, other Characters will.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -1989,12 +2000,32 @@ void load_construction( const JsonObject &jo )
             { "deconstruct", construct::failure_deconstruct },
         }
     };
-
-    const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
-                                         ? "deconstruct" : "standard";
-
-    assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
-    assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
+    std::string failure_fallback = "standard";
+    if( jo.has_array( "pre_special" ) ) {
+        JsonArray jarr = jo.get_array( "pre_special" );
+        for( std::string special : jarr ) {
+            if( special == "check_deconstruct" ) {
+                failure_fallback =  "deconstruct";
+            }
+            assign_or_debugmsg( con.pre_special, special, pre_special_map );
+            con.pre_specials.push_back( *con.pre_special );
+        }
+    } else {
+        const std::string special = jo.get_string( "pre_special", "" );
+        if( special == "check_deconstruct" ) {
+            failure_fallback =  "deconstruct";
+        }
+        assign_or_debugmsg( con.pre_special, special, pre_special_map );
+    }
+    if( jo.has_array( "post_special" ) ) {
+        JsonArray jarr = jo.get_array( "post_special" );
+        for( std::string special : jarr ) {
+            assign_or_debugmsg( con.post_special, special, post_special_map );
+            con.post_specials.push_back( *con.post_special );
+        }
+    } else {
+        assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
+    }
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
