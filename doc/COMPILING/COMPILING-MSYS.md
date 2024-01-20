@@ -20,6 +20,11 @@ These instructions were written using 64-bit Windows 7 and the 64-bit version of
 
 3. After installation, run MSYS2 64bit now.
 
+When working from Microsoft Terminal default MSYS2 profile, run:
+```
+MSYSTEM=MINGW64 bash -l
+```
+
 ## Configuration:
 
 1. Update the package database and core system packages:
@@ -39,7 +44,7 @@ pacman -Su
 4. Install packages required for compilation:
 
 ```bash
-pacman -S git make mingw-w64-x86_64-{astyle,ccache,gcc,libmad,libwebp,pkg-config,SDL2} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git make mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
 ```
 
 5. Close MSYS2.
@@ -65,7 +70,7 @@ and
 ```
     MSYS2_PATH="/usr/local/bin:/usr/bin:/bin:/mingw64/bin"
     MANPATH='/usr/local/man:/usr/share/man:/usr/man:/share/man:/mingw64/share/man'
-    INFOPATH='/usr/local/info:/usr/share/info:/usr/info:/share/info:/mingw64/share/man'
+    INFOPATH='/usr/local/info:/usr/share/info:/usr/info:/share/info:/mingw64/share/info'
 ```
 
 and
@@ -95,6 +100,8 @@ make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
 **Note**: This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+
+See `COMPILING-CMAKE.md` section `CMake Build for MSYS2 (MinGW)` for using the CMake build system here.
 
 ## Running:
 
