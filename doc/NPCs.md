@@ -31,24 +31,32 @@ Format:
 ```json
 {
   "type": "npc_class",
-  "id": "NC_EXAMPLE",
-  "name": { "str": "Example NPC" },
-  "job_description": "I'm helping you learn the game.",
-  "common": false,
-  "sells_belongings": false,
-  "bonus_str": { "rng": [ -4, 0 ] },
-  "bonus_dex": { "rng": [ -2, 0 ] },
-  "bonus_int": { "rng": [ 1, 5 ] },
+  "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
+  "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
+  "job_description": "I'm helping you learn the game.",                    // Mandatory
+  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
+  "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
+  "bonus_int": { "one_in": 3 },                                            // Optional. This example adds 1 to the stat, but only about ~33.33% of the time (1 in 3).
+  "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] }, // Optional. This example adds 100 + 10d10 (10 dice each with 10 sides) to the stat.
+  "bonus_aggression": { "rng": [ -4, 0 ] },                                // Optional. Modifies NPC's personality score like the above examples. Resulting value will be
+                                                                           // clamped to within a range of -10, 10. (e.g. if aggression would be -12 it's instead set to -10)
+  "bonus_bravery": 100,                                                    // Optional.
+  "bonus_collector": { "one_in": 3 },                                      // Optional.
+  "bonus_altruism": -10,                                                   // Optional.
   "skills": [
     {
-      "skill": "ALL",
+      "skill": "ALL",                                                      // Optional. Applies bonuses/penalties to skills like the examples above. `ALL` is a special string which
+                                                                           // applies to all skills not otherwise modified. See data/json/skills.json for a list of skill IDs.
       "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
     }
   ],
-  "worn_override": "NC_EXAMPLE_worn",
-  "carry_override": "NC_EXAMPLE_carried",
-  "weapon_override": "NC_EXAMPLE_weapon",
-  "shopkeeper_item_group": [
+  "worn_override": "NC_EXAMPLE_worn",                                      // Optional. Defines an [item group](ITEM_SPAWN.md) that replaces all of their worn items.
+  "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
+                                                                           // be carried will overflow(fall to the ground) when the NPC is loaded.
+  "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
+  "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
@@ -64,12 +72,9 @@ Format:
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
-  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
-There are some items in the above template that may not be self explanatory:
-* `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
-* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
 
 ### Shopkeeper NPC configuration
 `npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:
@@ -433,6 +438,8 @@ This example adds the "I'm going now!" response to all the listed topics.
 
 #### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
+
+Note that if `dynamic_line` is an object and contains a `str` member, it is treated as a translation object in which you can specifiy the translation context, translator comments, and so on.
 
 #### `speaker_effect`
 The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
@@ -852,8 +859,8 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.
-`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown
+`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in `container` if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) , it will instead create items from the item group given. ("count" and "container" will be ignored since they are defined in the item group.)  If `suppress_message` is true (defaults to false) no message will be shown. If `force_equip` is true (defaults to false) characters will equip the items if they can.  The item will have all the flags from the array `flags`.
+`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool), (*optional* `flags: `array of string or [variable object](#variable-object)) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) , it will instead create items from the item group given. ("count" and "containter" will be ignored since they are defined in the item group.)  If `suppress_message` is true (defaults to false) no message will be shown.  The item will have all the flags from the array `flags`.
 `u_sell_item: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count` copies of the item, and will add `cost` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_bulk_trade_accept, npc_bulk_trade_accept, u_bulk_trade_accept, npc_bulk_trade_accept: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity` is specified only that many items/charges will be moved.
 `u_bulk_donate, npc_bulk_donate` or  `u_bulk_donate, npc_bulk_donate: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If a value is specified only that many items/charges will be moved.
@@ -1157,8 +1164,8 @@ Example:
   { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
   "duration": { "global_val": "test2", "default": "2 minutes" },
   {
-    "u_spawn_monster": "mon_absence",
-    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+    "u_spawn_monster": "mon_absence", 
+    "real_count": { "math": [ "1 + rand(2)" ] }
   }
 ]
 ```
@@ -1237,7 +1244,6 @@ Example | Description
 `"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
 `"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
 `"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "dodge"` | Current effective dodge of the character.
@@ -1418,14 +1424,19 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc)", "<=", "50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
+| energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood')", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc)", ">", "5" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Arguemnt is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_trait('FEEBLE') ? 100 : 15" ] }`|
 | has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Arguemnt is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|
-| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special value `ALL`, get hp sum of all bodyparts or set hp of all bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
+| has_var(`v`)    |  ✅   |   ❌  | g  | Check whether the variable is defined. Meant to be used as condition for ternaries.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_var(fancy_var) ? fancy_var : 15" ] }`|
+| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special values `ALL`, `ALL_MAJOR`, `ALL_MINOR`, get hp sum of all/major/minor bodyparts or set hp of all/major/minor bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
 | hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/>Argument is bodypart ID.<br/> For items, returns max amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/><br/>Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack')", ">=", "1"] }`|
+| item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT')", ">=", "1"] }`|
 | monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
+| mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|
@@ -1438,6 +1449,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | spell_level(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written.<br/>Argument is spell ID. If `"null"` is given, return the highest level of spells the character knows (read only).<br/> Example:<br/>`"condition": { "math": [ "u_spell_level('SPELL_ID')", "==", "-1"] }`|
 | spell_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is spell ID. If `"null"` is given, adjust all spell level.<br/><br/>Example:<br/>`{ "math": [ "u_spell_level_adjustment('SPELL_ID')", "+=", "3"] }`|
 | spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-0.95" ] }`|
+| value_or(`v`,`d`/`v`)    |  ✅   |   ❌  | g  | Return value of variable if defined, otherwise the provided value<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "value_or( fancy_var, 15 )" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|

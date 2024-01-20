@@ -226,5 +226,14 @@
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "log_treesung",
+    "copy-from": "log",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "treesung log" },
+    "description": "A large log of living wood, sung from a tree by elemental magick."
   }
 ]

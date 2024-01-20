@@ -347,11 +347,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_renfield_abomination_death_drops",
-    "entries": [
-      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
-      { "group": "mutagens", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "pants", "damage": [ 2, 3 ] }
-    ]
+    "entries": [ { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 2, 3 ] } ]
   },
   {
     "id": "bionic_renfield_harvest",
@@ -414,14 +410,6 @@
       { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 10 ] },
       { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 15 ] }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "mon_zombie_flamer",
-    "ammo": 50,
-    "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
   },
   {
     "id": "combat_cyborg_harvest",

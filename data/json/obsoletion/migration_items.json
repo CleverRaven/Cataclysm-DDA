@@ -5,6 +5,86 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "bolt_explosive",
+    "type": "MIGRATION",
+    "replace": "bolt_cf"
+  },
+  {
+    "id": "arrow_exploding",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "exploding_arrow_warhead",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "minispeargun",
+    "type": "MIGRATION",
+    "replace": "speargun"
+  },
+  {
+    "id": "artifact_teleportitis_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "artifact_slow_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "recipe_mil_augs",
+    "type": "MIGRATION",
+    "replace": "recipe_lab_elec"
+  },
+  {
+    "id": "mean_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug",
+    "reset_item_vars": true
+  },
+  {
+    "id": "nice_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug2",
+    "reset_item_vars": true
+  },
+  {
+    "id": "ar15",
+    "type": "MIGRATION",
+    "replace": "modular_ar15",
+    "contents": [ { "id": "retool_ar15_223rem_medium", "count": 1 } ]
+  },
+  {
+    "id": "m27_assault_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m27_assault_rifle"
+  },
+  {
+    "id": "m4_carbine",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m4_cqbr",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m16a4",
+    "type": "MIGRATION",
+    "replace": "modular_m16a4"
+  },
+  {
+    "id": "m16_auto_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m16_auto_rifle"
+  },
+  {
     "id": "ar15_223long",
     "type": "MIGRATION",
     "replace": "modular_ar15"
@@ -110,6 +190,18 @@
     "replace": "cz600"
   },
   {
+    "id": "deagle_44",
+    "type": "MIGRATION",
+    "replace": "modular_deagle",
+    "contents": [ { "id": "retool_deagle_44", "count": 1 } ]
+  },
+  {
+    "id": "hk_ump45",
+    "type": "MIGRATION",
+    "replace": "modular_ump",
+    "contents": [ { "id": "retool_ump_45", "count": 1 } ]
+  },
+  {
     "id": "mobile_memory_card_used",
     "type": "MIGRATION",
     "replace": "memory_card"
@@ -169,6 +261,24 @@
     "from_variant": "glock_40",
     "type": "MIGRATION",
     "replace": "glock_40"
+  },
+  {
+    "id": "sandbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_sand", "count": 2000 } ]
+  },
+  {
+    "id": "gravelbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_gravel", "count": 2000 } ]
+  },
+  {
+    "id": "earthbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_soil", "count": 3 } ]
   },
   {
     "id": "r_paint",
@@ -450,5 +560,30 @@
     "id": "greasegun32mag",
     "type": "MIGRATION",
     "replace": "greasegun30mag"
+  },
+  {
+    "id": "700nx",
+    "type": "MIGRATION",
+    "replace": "458wm"
+  },
+  {
+    "id": "reloaded_700nx",
+    "type": "MIGRATION",
+    "replace": "reloaded_458wm"
+  },
+  {
+    "id": "bp_700nx",
+    "type": "MIGRATION",
+    "replace": "bp_458wm"
+  },
+  {
+    "id": "700nx_casing",
+    "type": "MIGRATION",
+    "replace": "458wm_casing"
+  },
+  {
+    "id": "trex_gun",
+    "type": "MIGRATION",
+    "replace": "win70_458"
   }
 ]

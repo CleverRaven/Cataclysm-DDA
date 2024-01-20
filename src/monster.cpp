@@ -64,6 +64,9 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
@@ -82,6 +85,7 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_critter_underfed( "critter_underfed" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
@@ -153,60 +157,6 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_nether_player_hate( "nether_player_hate" );
 static const mfaction_str_id monfaction_wasp( "wasp" );
 
-static const mon_flag_str_id mon_flag_ANIMAL( "ANIMAL" );
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_ATTACK_LOWER( "ATTACK_LOWER" );
-static const mon_flag_str_id mon_flag_ATTACK_UPPER( "ATTACK_UPPER" );
-static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
-static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
-static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
-static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
-static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
-static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_FILTHY( "FILTHY" );
-static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
-static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
-static const mon_flag_str_id mon_flag_GOODHEARING( "GOODHEARING" );
-static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
-static const mon_flag_str_id mon_flag_HAS_MIND( "HAS_MIND" );
-static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_KEEP_DISTANCE( "KEEP_DISTANCE" );
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_str_id mon_flag_NEMESIS( "NEMESIS" );
-static const mon_flag_str_id mon_flag_NEVER_WANDER( "NEVER_WANDER" );
-static const mon_flag_str_id mon_flag_NOHEAD( "NOHEAD" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
-static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
-static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_1( "PATH_AVOID_DANGER_1" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_DANGER_2( "PATH_AVOID_DANGER_2" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_FALL( "PATH_AVOID_FALL" );
-static const mon_flag_str_id mon_flag_PATH_AVOID_FIRE( "PATH_AVOID_FIRE" );
-static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
-static const mon_flag_str_id mon_flag_PET_WONT_FOLLOW( "PET_WONT_FOLLOW" );
-static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
-static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
-static const mon_flag_str_id mon_flag_PRIORITIZE_TARGETS( "PRIORITIZE_TARGETS" );
-static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-static const mon_flag_str_id mon_flag_REVIVES_HEALTHY( "REVIVES_HEALTHY" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
-static const mon_flag_str_id mon_flag_STUN_IMMUNE( "STUN_IMMUNE" );
-static const mon_flag_str_id mon_flag_SUNDEATH( "SUNDEATH" );
-static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
-static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
-static const mon_flag_str_id mon_flag_WARM( "WARM" );
-static const mon_flag_str_id mon_flag_WIELDED_WEAPON( "WIELDED_WEAPON" );
-
 static const species_id species_AMPHIBIAN( "AMPHIBIAN" );
 static const species_id species_CYBORG( "CYBORG" );
 static const species_id species_FISH( "FISH" );
@@ -222,7 +172,6 @@ static const species_id species_PSI_NULL( "PSI_NULL" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 static const species_id species_nether_player_hate( "nether_player_hate" );
-
 
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
@@ -647,7 +596,7 @@ void monster::refill_udders()
         // already full up
         return;
     }
-    if( ( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) ) {
+    if( !has_flag( mon_flag_EATS ) || has_effect( effect_critter_well_fed ) ) {
         if( calendar::turn - udder_timer > 1_days ) {
             // You milk once a day. Monsters with the EATS flag need to be well fed or they won't refill their udders.
             ammo.begin()->second = type->starting_ammo.begin()->second;
@@ -1386,6 +1335,9 @@ tripoint_abs_ms monster::get_dest() const
 
 void monster::set_dest( const tripoint_abs_ms &p )
 {
+    if( !goal || rl_dist( p, *goal ) > 2 ) {
+        reset_pathfinding_cd();
+    }
     goal = p;
 }
 
@@ -2170,6 +2122,8 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     if( is_dead_state() ) {
         return;
     }
+    // Ensure we can try to get at what hit us.
+    reset_pathfinding_cd();
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
@@ -3336,6 +3290,57 @@ void monster::process_effects()
         }
     }
 
+    // Apply or remove the cramped_space effect, which needs specific information about the monster's surroundings.
+    map &here = get_map();
+    const tripoint z_pos = pos();
+    const optional_vpart_position vp = here.veh_at( z_pos );
+    if( has_effect( effect_cramped_space ) && !vp.has_value() ) {
+        remove_effect( effect_cramped_space );
+    }
+    if( vp.has_value() ) {
+        vehicle &veh = vp->vehicle();
+        units::volume capacity = 0_ml;
+        units::volume free_cargo = 0_ml;
+        auto cargo_parts = veh.get_parts_at( z_pos, "CARGO", part_status_flag::any );
+        for( vehicle_part *&part : cargo_parts ) {
+            vehicle_stack contents = veh.get_items( *part );
+            const vpart_info &vpinfo = part->info();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
+                capacity += vpinfo.size;
+                free_cargo += contents.free_volume();
+            }
+        }
+        const creature_size size = get_size();
+        if( capacity > 0_ml ) {
+            // Open-topped vehicle parts have more room, and are always free space for fliers.
+            if( !veh.enclosed_at( z_pos ) ) {
+                free_cargo *= 1.2;
+                if( flies() ) {
+                    remove_effect( effect_cramped_space );
+                    return;
+                }
+            }
+            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
+                ( size == creature_size::small && free_cargo < 31250_ml ) ||
+                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
+                ( size == creature_size::large && free_cargo < 125000_ml ) ||
+                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
+                if( !has_effect( effect_cramped_space ) ) {
+                    add_effect( effect_cramped_space, 2_turns, true );
+                }
+                return;
+            }
+        }
+        if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
+            !vp.part_with_feature( "HUGE_OK", false ) ) {
+            if( !has_effect( effect_cramped_space ) ) {
+                add_effect( effect_cramped_space, 2_turns, true );
+            }
+            return;
+        }
+        remove_effect( effect_cramped_space );
+    }
+
     Creature::process_effects();
 }
 
@@ -3396,6 +3401,11 @@ bool monster::is_electrical() const
     return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG );
 }
 
+bool monster::is_fae() const
+{
+    return has_flag( mon_flag_FAE_CREATURE );
+}
+
 bool monster::is_nether() const
 {
     return in_species( species_HORROR ) || in_species( species_NETHER ) ||
@@ -3405,9 +3415,8 @@ bool monster::is_nether() const
 // The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
 bool monster::has_mind() const
 {
-    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
-             ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) &&
-               has_flag( mon_flag_HUMAN ) ) );
+    return ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
+           ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) && has_flag( mon_flag_HUMAN ) );
 }
 
 field_type_id monster::bloodType() const
@@ -3539,6 +3548,13 @@ void monster::init_from_item( item &itm )
 
         // HP can be 0 or less, in this case revive_corpse will just deactivate the corpse
         if( hp > 0 && type->has_flag( mon_flag_REVIVES_HEALTHY ) ) {
+            hp = type->hp;
+            set_speed_base( type->speed );
+        }
+        // if parent corpse is revives healthy *and* dormant, so will the monster
+        const mtype *corpse_mtype = itm.get_mtype();
+        if( hp > 0 && corpse_mtype->has_flag( mon_flag_REVIVES_HEALTHY ) &&
+            corpse_mtype->has_flag( mon_flag_DORMANT ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
@@ -3865,7 +3881,7 @@ void monster::on_load()
     // TODO: regen_morale
     float regen = type->regenerates;
     if( regen <= 0 ) {
-        if( has_flag( mon_flag_REVIVES ) ) {
+        if( has_flag( mon_flag_REVIVES ) && !has_flag( mon_flag_DORMANT ) ) {
             regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_flesh ) || made_of( material_iflesh ) ||
                    made_of( material_veggy ) ) {
@@ -3913,9 +3929,9 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::unordered_set<tripoint> monster::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
 
     map &here = get_map();
     int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );

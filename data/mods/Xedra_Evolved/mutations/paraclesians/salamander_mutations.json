@@ -416,7 +416,7 @@
     "points": 6,
     "description": "The Salamander can enhance their inner fire to the point where they leave fiery footprints everywhere they travel.  Activate this trait to leave a trail of fire in your wake at the cost of mana for every footstep.",
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
-    "prereqs2": [ "SALAMANDER_SKIN_2" ],
+    "prereqs2": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
     "active": true,
     "activated_is_setup": true,

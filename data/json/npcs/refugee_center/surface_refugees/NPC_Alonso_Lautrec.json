@@ -95,7 +95,7 @@
       },
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
-        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "text": "[PER 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
         "topic": "TALK_REFUGEE_Alonso_CalledOut1",
         "condition": {
           "and": [
@@ -266,7 +266,7 @@
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
           { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" },
-          { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+          { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
         ]
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -352,7 +352,7 @@
     "end": {
       "effect": [
         { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] },
         { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
     },

@@ -13,6 +13,7 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -139,8 +140,6 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
-
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
@@ -418,6 +417,9 @@ bool npc::could_move_onto( const tripoint &p ) const
 {
     map &here = get_map();
     if( !here.passable( p ) ) {
+        return false;
+    }
+    if( !move_in_vehicle( const_cast<npc *>( this ), p ) ) {
         return false;
     }
 
@@ -1785,7 +1787,6 @@ void npc::execute_action( npc_action action )
 
         case npc_follow_embarked: {
             const optional_vpart_position vp = here.veh_at( player_character.pos() );
-
             if( !vp ) {
                 debugmsg( "Following an embarked player with no vehicle at their location?" );
                 // TODO: change to wait? - for now pause
@@ -1810,10 +1811,13 @@ void npc::execute_action( npc_action action )
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
-
-                // a seat is available if either unassigned or assigned to us
+                // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
+                    tripoint target = veh->global_part_pos3( pt );
                     if( !pt.is_seat() ) {
+                        return false;
+                    }
+                    if( !could_move_onto( target ) ) {
                         return false;
                     }
                     const npc *who = pt.crew();
@@ -2155,6 +2159,40 @@ item_location npc::find_usable_ammo( const item_location &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
+item::reload_option npc::select_ammo( const item_location &base, bool, bool empty )
+{
+    if( !base ) {
+        return item::reload_option();
+    }
+
+    std::vector<item::reload_option> ammo_list;
+    list_ammo( base, ammo_list, empty );
+
+    if( ammo_list.empty() ) {
+        return item::reload_option();
+    }
+
+    // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
+        if( lhs.ammo->ammo_remaining() == 0 || rhs.ammo->ammo_remaining() == 0 ) {
+            return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
+        }
+
+        if( lhs.moves() != rhs.moves() ) {
+            return lhs.moves() < rhs.moves();
+        }
+
+        return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
+    } );
+
+    if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+        return ammo_list[0];
+    } else {
+        return item::reload_option();
+    }
+}
+
 void npc::activate_combat_cbms()
 {
     for( const bionic_id &cbm_id : defense_cbms ) {
@@ -2176,6 +2214,7 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
+    deactivate_or_discharge_bionic_weapon();
     weapon_bionic_uid = 0;
 }
 
@@ -2809,6 +2848,7 @@ bool npc::can_open_door( const tripoint &p, const bool inside ) const
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     map &here = get_map();
+
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 && here.has_floor_or_water( p ) && !g->is_dangerous_tile( p ) &&
@@ -2832,6 +2872,20 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
                 p = ot;
                 break;
+            }
+        }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
+        auto other_points = here.get_dir_circle( pos(), p );
+        for( const tripoint &ot : other_points ) {
+            if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                p = ot;
+                break;
+            } else {
+                path.clear();
+                move_pause();
+                return;
             }
         }
     }
@@ -3063,11 +3117,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             here.board_vehicle( p, this );
         }
-
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
     }
 }
+
 
 void npc::move_to_next()
 {
@@ -3889,7 +3943,7 @@ bool npc::wield_better_weapon()
     double best_value = -100.0;
 
     const auto compare_weapon =
-    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
+    [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -3899,7 +3953,11 @@ bool npc::wield_better_weapon()
             val = weapon_value( it, ammo_count );
         }
 
-        if( val > best_value ) {
+        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                             && &it != &weap
+                                             && it.type->get_id() == weap.type->get_id();
+
+        if( val > best_value && !using_same_type_bionic_weapon ) {
             best = const_cast<item *>( &it );
             best_value = val;
         }

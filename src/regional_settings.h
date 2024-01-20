@@ -219,6 +219,7 @@ struct overmap_ocean_settings {
     int ocean_start_east = 10;
     int ocean_start_west = 0;
     int ocean_start_south = 0;
+    int sandy_beach_width = 2;
     overmap_ocean_settings() = default;
 };
 
@@ -266,7 +267,6 @@ struct regional_settings {
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
-    groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
     weather_generator weather;

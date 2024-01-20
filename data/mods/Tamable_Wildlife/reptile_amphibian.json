@@ -77,6 +77,27 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_vocal_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_vocal_bigfrog",
+    "name": { "str": "wailing treefrog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_jumbo_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_jumbo_bigfrog",
+    "name": { "str": "jumbo treefrog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_shift_bigfrog",
+    "type": "MONSTER",
+    "copy-from": "mon_shift_bigfrog",
+    "name": { "str": "mimic treefrog" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_leo_frog",
     "type": "MONSTER",
     "copy-from": "mon_leo_frog",

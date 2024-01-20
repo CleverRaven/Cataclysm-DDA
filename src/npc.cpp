@@ -84,7 +84,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "name.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
@@ -94,7 +93,9 @@ static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -117,9 +118,6 @@ static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
-
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
@@ -649,7 +647,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     if( tem.gender_override != npc_template::gender::random ) {
         male = tem.gender_override == npc_template::gender::male;
     }
-    name = Name::generate( male );
+    name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     if( !tem.name_unique.empty() ) {
         name = tem.name_unique.translated();
     }
@@ -821,59 +819,24 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     int_max += the_class.roll_intelligence();
     per_max += the_class.roll_perception();
 
+    personality.aggression += the_class.roll_aggression();
+    personality.bravery += the_class.roll_bravery();
+    personality.collector += the_class.roll_collector();
+    personality.altruism += the_class.roll_altruism();
+
+    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
+                                         NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
+                                        NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
 
         set_skill_level( skill.ident(), level );
     }
 
-    if( type.is_null() ) { // Untyped; no particular specialization
-    } else if( type == NC_EVAC_SHOPKEEP || type == NC_BARTENDER || type == NC_JUNK_SHOPKEEP ) {
-        personality.collector += rng( 1, 5 );
-
-    } else if( type == NC_ARSONIST ) {
-        personality.aggression += rng( 0, 1 );
-        personality.collector += rng( 0, 2 );
-
-    } else if( type == NC_SOLDIER ) {
-        personality.aggression += rng( 1, 3 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_HACKER ) {
-        personality.bravery -= rng( 1, 3 );
-        personality.aggression -= rng( 0, 2 );
-
-    } else if( type == NC_DOCTOR ) {
-        personality.aggression -= rng( 0, 4 );
-        cash += 10000 * rng( 0, 3 ) * rng( 0, 3 );
-
-    } else if( type == NC_TRADER ) {
-        personality.collector += rng( 1, 5 );
-        cash += 25000 * rng( 1, 10 );
-
-    } else if( type == NC_NINJA ) {
-        personality.bravery += rng( 0, 3 );
-        personality.collector -= rng( 1, 6 );
-        // TODO: give ninja his styles back
-
-    } else if( type == NC_COWBOY ) {
-        personality.aggression += rng( 0, 2 );
-        personality.bravery += rng( 1, 5 );
-
-    } else if( type == NC_SCIENTIST ) {
-        personality.aggression -= rng( 1, 5 );
-        personality.bravery -= rng( 2, 8 );
-        personality.collector += rng( 0, 2 );
-
-    } else if( type == NC_BOUNTY_HUNTER || type == NC_THUG ) {
-        personality.aggression += rng( 1, 6 );
-        personality.bravery += rng( 0, 5 );
-
-    } else if( type == NC_SCAVENGER ) {
-        personality.aggression += rng( 1, 3 );
-        personality.bravery += rng( 1, 4 );
-
-    }
     //A universal barter boost to keep NPCs competitive with players
     //The int boost from trade wasn't active... now that it is, most
     //players will vastly outclass npcs in trade without a little help.
@@ -1534,6 +1497,13 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
 void npc::stow_item( item &it )
 {
+    bool stow_bionic_weapon = is_using_bionic_weapon()
+                              && get_wielded_item().get_item() == &it;
+    if( stow_bionic_weapon ) {
+        deactivate_or_discharge_bionic_weapon( true );
+        return;
+    }
+
     bool avatar_sees = get_player_view().sees( pos() );
     if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
@@ -2422,7 +2392,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
-    return has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
+    return has_effect( effect_pkill1_generic )  || has_effect( effect_pkill1_acetaminophen ) ||
+           has_effect( effect_pkill1_nsaid ) || has_effect( effect_pkill2 ) ||
            has_effect( effect_pkill3 ) || has_effect( effect_pkill_l );
 }
 
@@ -3480,9 +3451,9 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     return *path_settings;
 }
 
-std::set<tripoint> npc::get_path_avoid() const
+std::unordered_set<tripoint> npc::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
@@ -3510,8 +3481,9 @@ std::set<tripoint> npc::get_path_avoid() const
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
-        if( sees_dangerous_field( p ) ) {
+    for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
+        if( sees_dangerous_field( p ) || ( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) &&
+                                           !move_in_vehicle( const_cast<npc *>( this ), p ) ) ) {
             ret.insert( p );
         }
     }

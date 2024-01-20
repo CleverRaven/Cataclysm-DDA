@@ -384,6 +384,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "bronze_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from bronze",
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
+  },
+  {
     "id": "rock_flaking_any",
     "type": "requirement",
     "//": "Rocks that can be used for knapping.",

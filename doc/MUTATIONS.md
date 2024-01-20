@@ -145,6 +145,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
+  "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
     "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
     "str_mod": 2
@@ -261,17 +262,17 @@ Note that **all new traits that can be obtained through mutation must be purifia
   },
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
-      {
-        "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+      { 
+        "condition": { "math": [ "u_val(morale)", "<", "-50" ] },                                       // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],
     [
       {
-        "condition": {                        // Dialog condition (see NPCs.md).
-          "or": [
-            { "compare_num": [ "hour", "<", { "const": 2 } ] },
-            { "compare_num": [ "hour", ">", { "const": 20 } ] }
+        "condition": {                        // Dialogue condition (see NPCs.md).
+          "or": [ 
+            { "math": [ "u_val(strength)", "<", "5" ] },
+            { "math": [ "u_val(dexterity)", ">", "20" ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.

@@ -893,12 +893,22 @@
     "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
     "special_attacks": [
       {
-        "id": "psi_pyrokin1_flameblast",
-        "type": "spell",
-        "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 3 },
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_fountain_of_flames",
         "cooldown": 10,
+        "move_cost": 80,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "effects": [ { "id": "onfire", "duration": 60, "chance": 25, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s summons a blast of flame!"
+        "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
+        "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
+        "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
+        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a burst of flame!",
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is engulfed in flames, but they do not burn you.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames, but it does not burn them."
       },
       {
         "id": "psi_pyrokin1_flashbang",
@@ -965,12 +975,23 @@
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
       {
-        "id": "psi_pyrokin2_flameblast",
-        "type": "spell",
-        "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 6 },
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_fountain_of_flames",
         "cooldown": 10,
+        "move_cost": 80,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 25 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s summons a blast of flame!"
+        "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
+        "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
+        "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
+        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a burst of flame!",
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is engulfed in flames, but they do not burn you.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames, but it does not burn them."
       },
       {
         "id": "psi_pyrokin2_flashbang",
@@ -1050,12 +1071,23 @@
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
       {
-        "id": "psi_pyrokin3_flameblast",
-        "type": "spell",
-        "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 7 },
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_fountain_of_flames",
         "cooldown": 10,
+        "move_cost": 80,
+        "range": 3,
+        "damage_max_instance": [ { "damage_type": "heat", "amount": 35 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "effects": [ { "id": "onfire", "duration": 60, "chance": 75, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s summons a blast of flame!"
+        "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
+        "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
+        "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
+        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a burst of flame!",
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is engulfed in flames, but they do not burn you.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames, but it does not burn them."
       },
       {
         "id": "psi_pyrokin3_flashbang",
@@ -1159,6 +1191,8 @@
         "hitsize_min": 12,
         "range": 6,
         "throw_strength": 60,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
@@ -1233,12 +1267,23 @@
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
-        "id": "psi_telekin2_mindhammer",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 4 },
-        "cooldown": 10,
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_telekinetic_mindhammer",
+        "cooldown": 12,
+        "move_cost": 80,
+        "range": 8,
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20 } ],
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s hammers %3$s with psionic force!"
+        "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
+        "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
+        "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
+        "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
+        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
       },
       {
         "id": "smash",
@@ -1248,6 +1293,8 @@
         "hitsize_min": 12,
         "range": 8,
         "throw_strength": 100,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
         "blockable": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
@@ -1805,12 +1852,22 @@
     "special_attacks": [
       { "id": "feral_weapon_pipe" },
       {
-        "id": "psi_vitakin1_weakness",
-        "type": "spell",
-        "spell_data": { "id": "vitakinetic_health_down", "min_level": 4 },
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_vitakinetic_weakness",
         "cooldown": 15,
+        "move_cost": 60,
+        "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "effects": [ { "id": "effect_vitakinetic_health_down", "duration": [ 620000, 1620000 ] } ],
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s touches %3$s."
+        "hit_dmg_u": "%1$s touches you and you feel weaker!",
+        "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+        "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
       }
     ],
     "flags": [
@@ -1868,12 +1925,43 @@
     "special_attacks": [
       { "id": "feral_weapon_pipe" },
       {
-        "id": "psi_vitakin2_weakness",
-        "type": "spell",
-        "spell_data": { "id": "vitakinetic_healing_down", "min_level": 4 },
-        "cooldown": 15,
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_vitakinetic_laceration",
+        "cooldown": 12,
+        "move_cost": 60,
+        "damage_max_instance": [ { "damage_type": "biological", "amount": 15 } ],
+        "effects": [
+          { "id": "bleed", "duration": [ 60, 120 ], "intensity": [ 1, 10 ], "chance": 50, "affect_hit_bp": true },
+          { "id": "psi_vitakinetic_degeneration", "duration": [ 600, 2400 ] }
+        ],
+        "dodgeable": true,
+        "blockable": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s touches %3$s."
+        "hit_dmg_u": "%1$s touches you and wounds open on your flesh!",
+        "hit_dmg_npc": "%1$s touches <npcname> and wounds open on their flesh!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+        "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_vitakinetic_weakness_2",
+        "cooldown": 15,
+        "move_cost": 60,
+        "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "effects": [ { "id": "effect_vitakinetic_healing_down", "duration": [ 920000, 2120000 ] } ],
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "hit_dmg_u": "%1$s touches you and you feel weaker!",
+        "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+        "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+        "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
       },
       {
         "id": "psi_vitakin2_regeneration",

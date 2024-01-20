@@ -165,9 +165,8 @@
       {
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
-        "//": "This always spawns 6 of the same type, which is not ideal (6 soldiers is way too deadly). Consider revising the weights if/when talk_effect_fun_t::set_spawn_monster can pick each individual spawn from the group.",
         "real_count": 6,
-        "//2": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
+        "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },
@@ -346,12 +345,14 @@
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      {
-        "u_message": "You shiver as the night closes in…",
-        "type": "bad",
-        "popup": true,
-        "popup_w_interrupt_query": true
-      }
+      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
+    "effect": [
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
     ]
   },
   {
@@ -422,7 +423,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
     "eoc_type": "ACTIVATION",
-    "condition": { "compare_num": [ { "distance": [ "u", { "global_val": "Shadow_monster" } ] }, ">=", { "const": 30 } ] },
+    "condition": { "math": [ "distance('u', 'Shadow_monster')", ">=", "30" ] },
     "effect": [
       { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
       {

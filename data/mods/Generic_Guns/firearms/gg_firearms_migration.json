@@ -56,7 +56,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460", "draco" ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -177,6 +177,10 @@
       "uzi",
       "TDI",
       "hk_ump45",
+      "modular_ump",
+      "modular_ump_9",
+      "modular_ump_40",
+      "modular_ump_45",
       "fn_p90",
       "fn_ps90",
       "needlegun",
@@ -215,7 +219,6 @@
       "nato_assault_rifle",
       "modular_m4_carbine",
       "m4_carbine",
-      "m4_cqbr",
       "modular_m27_assault_rifle",
       "m27_assault_rifle",
       "modular_m16_auto_rifle",
@@ -240,7 +243,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": [ "m2browning_sawn", "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -280,6 +283,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "steyr_scout",
       "M24",
       "sharps"
     ],
@@ -295,6 +299,9 @@
       "m14ebr",
       "smle_mk3",
       "number4_mki",
+      "type99",
+      "type99ld",
+      "type99_sniper",
       "ar10",
       "1895sbl",
       "ak74",

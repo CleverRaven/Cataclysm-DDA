@@ -8,12 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "biokin_physical_enhance", 2 ],
-      [ "biokin_overcome_pain", 2 ],
-      [ "biokin_flexibility", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -24,12 +19,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "clair_night_vision", 2 ],
-      [ "clair_danger_sense", 2 ],
-      [ "clair_speed_reading", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -43,7 +33,6 @@
     "spells_learned": [
       [ "electrokinetic_see_electric", 2 ],
       [ "electrokinetic_shock_touch", 2 ],
-      [ "electrokinetic_zap_enemies", 2 ],
       [ "classless_toggleable_concentration_end", 1 ]
     ]
   },
@@ -68,12 +57,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "pyrokinetic_eruption", 2 ],
-      [ "pyrokinetic_flash", 2 ],
-      [ "pyrokinetic_quell_flames", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -84,12 +68,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telepathic_concentration", 2 ],
-      [ "telepathic_shield", 2 ],
-      [ "telepathic_morale", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -100,12 +79,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telekinetic_pull", 2 ],
-      [ "telekinetic_push", 2 ],
-      [ "telekinetic_momentum", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -116,12 +90,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "teleport_blink", 2 ],
-      [ "teleport_slow", 2 ],
-      [ "teleport_transpose", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -138,6 +107,15 @@
       [ "vita_hurt_touch", 2 ],
       [ "classless_toggleable_concentration_end", 1 ]
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -187,6 +165,7 @@
     "points": 0,
     "description": "You are channeling your powers as quickly as you can.",
     "active": true,
+    "valid": false,
     "transform": {
       "target": "PSI_EXTENDED_CHANNELING_ON",
       "msg_transform": "You start to take more care in channeling your powers.",

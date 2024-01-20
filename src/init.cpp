@@ -268,6 +268,7 @@ void DynamicDataLoader::initialize()
     add( "bionic", &bionic_data::load_bionic );
     add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
+    add( "profession_blacklist", &profession_blacklist::load_profession_blacklist );
     add( "profession_group", &profession_group::load_profession_group );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
@@ -615,6 +616,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
     profession::reset();
+    profession_blacklist::reset();
     proficiency::reset();
     proficiency_category::reset();
     mood_face::reset();
@@ -733,6 +735,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             {
                 _( "Monster types" ), []()
                 {
+                    set_mon_flag_ids();
                     MonsterGenerator::generator().finalize_mtypes();
                 }
             },

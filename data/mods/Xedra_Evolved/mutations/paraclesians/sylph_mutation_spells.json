@@ -13,12 +13,8 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 1) + 3) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 4) + 7) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('zap_electrical_emission') * 1) + 3) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('zap_electrical_emission') * 4) + 7) * (scaling_factor(u_val('dexterity') ) )" ] },
     "min_range": 2,
     "max_range": 6,
     "range_increment": 0.25,
@@ -47,15 +43,9 @@
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('sylph_call_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('sylph_call_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('sylph_call_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "difficulty": 6,
     "min_aoe": 1,
@@ -88,15 +78,9 @@
     "extra_effects": [ { "id": "crash", "hit_self": false, "max_level": 3 } ],
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_damage": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "difficulty": 6,
     "min_aoe": 1,
@@ -126,9 +110,7 @@
     "shape": "line",
     "flags": [ "LOUD" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_range": { "math": [ "( (u_spell_level('sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70
   },
   {
@@ -144,6 +126,7 @@
     "shape": "blast",
     "flags": [ "LOUD" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
+    "difficulty": 3,
     "min_range": 12,
     "max_range": 24,
     "range_increment": 0.4,
@@ -177,9 +160,7 @@
     "max_field_intensity": 4,
     "field_intensity_increment": 1,
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
-    },
+    "min_range": { "math": [ "( (u_spell_level('electrical_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "energy_source": "MANA",
     "base_energy_cost": 500,
@@ -215,7 +196,7 @@
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
     "max_level": { "math": [ "dex_to_level(1)" ] },
-    "min_range": { "math": [ "( (u_val('spell_level', 'spell: lightning_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('lightning_field') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 70,
     "energy_source": "MANA",
     "base_energy_cost": 800,
@@ -226,6 +207,32 @@
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_description": "cracklezzbit!"
+  },
+  {
+    "id": "sylph_charge_dash_spell",
+    "type": "SPELL",
+    "name": { "str": "Stormwind Stride" },
+    "description": "Hurl yourself forward in a burst of speed, causing an explosion at your arrive point.",
+    "valid_targets": [ "hostile", "ground" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "NO_HANDS", "LOUD" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": { "math": [ "(4 + (u_spell_level('sylph_charge_dash_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "max_range": { "math": [ "(4 + (u_spell_level('sylph_charge_dash_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 150,
+    "energy_increment": -5,
+    "base_casting_time": 100,
+    "final_casting_time": 50,
+    "casting_time_increment": -4
   },
   {
     "id": "sylph_cultivate_goblin_fruit",
@@ -239,7 +246,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SYLPH_GOBLIN_FRUIT",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "dex_to_level(1)" ] },
     "difficulty": 8,
     "base_casting_time": 180000,
@@ -271,7 +278,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "SPAWN_GROUP", "SPAWN_GROUP" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "SPAWN_GROUP" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
@@ -317,15 +324,15 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SYLPH",
-    "flags": [ "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
     "shape": "cone",
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "bashing",
-    "min_damage": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "max_damage": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "min_range": { "math": [ "( (u_val('spell_level', 'spell: pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('dexterity') ) )" ] },
     "max_range": 40,
     "energy_source": "MANA",
     "base_energy_cost": 100,
@@ -334,5 +341,154 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury",
+    "description": "Call down a thundering lightning bolt to blast your enemies with the fury of the heavens.",
+    "message": "Lightning crashes down from the heavens!",
+    "valid_targets": [ "self" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SYLPH_MASSIVE_LIGHTNING_BOLT",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 750,
+    "energy_increment": -15,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "zzzzaaaaaapp!"
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Real",
+    "description": "The actual spell that casts Fist of Heaven's Fury.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "sylph_massive_lightning_bolt_spell_real_ter_transform", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_ter_transform_center", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false }
+    ],
+    "shape": "blast",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [ "( (u_spell_level('sylph_massive_lightning_bolt_spell') * 3) + 25) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('sylph_massive_lightning_bolt_spell') * 7.5) + 110) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 100,
+    "max_duration": 300,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 7,
+    "field_chance": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_ter_transform",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Ter Transform 1",
+    "description": "The actual spell that casts the Fist of Heaven's Fury crater.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_ter_transform_center",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Ter Transform 2",
+    "description": "The actual spell that casts the Fist of Heaven's Fury crater.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_start_fire",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Monster Push",
+    "description": "The actual spell that casts the Fist of Heaven's Fury fire.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_push_enemies",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Monster Push",
+    "description": "The actual spell that casts the Fist of Heaven's Fury shove.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 1,
+    "max_aoe": 4
   }
 ]

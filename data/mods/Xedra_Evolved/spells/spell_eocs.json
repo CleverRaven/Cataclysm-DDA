@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "600" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
-      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "600" ] },
+      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
       {
         "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
@@ -178,6 +178,51 @@
     "false_effect": [
       { "u_lose_trait": "stalker_eyes" },
       { "u_message": "The great new world visible to your eyes disappears.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM",
+    "condition": { "u_has_trait": "LUCID_DREAM" },
+    "effect": [
+      {
+        "u_message": "You wake up.",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      { "u_teleport": { "u_val": "lucid_dream_teleport" } },
+      { "math": [ "u_hp('ALL')", "=", "u_hp_before_lucid" ] },
+      { "math": [ "u_pain()", "=", "u_pain_before_lucid" ] },
+      { "math": [ "u_val('stored_kcal')", "=", "u_kcal_before_lucid" ] },
+      { "u_lose_trait": "LUCID_DREAM" }
+    ],
+    "false_effect": [
+      { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
+      { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
+      { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
+      { "u_add_trait": "LUCID_DREAM" },
+      {
+        "queue_eocs": "EOC_BOOM_RANDOM",
+        "time_in_future": { "math": [ "((u_spell_level('dreamer_lucid_dreams')+1)*700)" ] }
+      }
+    ]
+  },
+  {
+    "id": "EOC_DUST_REBORN",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "LUCID_DREAM" },
+    "effect": [ "u_prevent_death", { "math": [ "u_hp('ALL')", "=", "1" ] }, { "queue_eocs": "EOC_LUCID_DREAM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RETURN_SUMMONS",
+    "effect": [
+      { "npc_location_variable": { "context_val": "pos_nearby" }, "min_radius": 1, "max_radius": 7, "passable_only": true },
+      { "u_teleport": { "context_val": "pos_nearby" } }
     ]
   }
 ]

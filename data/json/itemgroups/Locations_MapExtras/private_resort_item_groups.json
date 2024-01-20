@@ -238,7 +238,8 @@
       { "item": "news_regional", "prob": 50 },
       { "item": "mag_news", "prob": 50 },
       { "group": "stash_drugs", "prob": 10 },
-      { "item": "mag_porn", "prob": 50 }
+      { "item": "mag_porn", "prob": 50 },
+      { "group": "loose_chess_pieces", "prob": 25 }
     ]
   },
   {

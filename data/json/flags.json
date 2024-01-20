@@ -653,6 +653,11 @@
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
+    "id": "PROVIDES_TECHNIQUES",
+    "type": "json_flag",
+    "//": "This item provides martial arts techniques in addition to the character's weapon"
+  },
+  {
     "id": "SPAWN_ACTIVE",
     "type": "json_flag",
     "//": "This item will spawn active. Not advised for items that drain power when active."
@@ -2361,5 +2366,26 @@
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "TRANSPARENT",
+    "type": "json_flag",
+    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
+  },
+  {
+    "id": "UNRESTRICTED",
+    "type": "json_flag",
+    "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
+    "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
+  },
+  {
+    "id": "BLEEDSLOW",
+    "type": "json_flag",
+    "info": "The character bleeds slower than normal, losing blood at 2/3rds the normal rate."
+  },
+  {
+    "id": "BLEEDSLOW2",
+    "type": "json_flag",
+    "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
   }
 ]

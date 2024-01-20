@@ -138,8 +138,6 @@ static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
-
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
@@ -149,6 +147,7 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
@@ -263,6 +262,10 @@ input_context game::get_player_input( std::string &action )
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
+#if defined(TILES)
+    // Mark cata_tiles draw caches as dirty
+    tilecontext->set_draw_cache_dirty();
+#endif
 
     user_turn current_turn;
 
@@ -745,7 +748,7 @@ static void haul()
     if( hauling && autohaul ) {
         if( haul_qty == 0 ) {
             status_header =
-                _( "You are currently not hauling any items, but autohaul is enabled, so any new items encoutered on the ground will be hauled." );
+                _( "You are currently not hauling any items, but autohaul is enabled, so any new items encountered on the ground will be hauled." );
         } else {
             status_header = string_format(
                                 _( "You are currently hauling %d items.\nAutohaul is enabled, so any new items encountered on the ground will be hauled." ),
@@ -1206,6 +1209,7 @@ static void sleep()
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
         !player_character.has_trait( trait_WATERSLEEPER ) &&
         !player_character.has_trait( trait_WATERSLEEP ) &&
+        !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
         boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
@@ -2889,13 +2893,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 break;    //don't do anything when sharing and not debugger
             }
             display_transparency();
-            break;
-
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
-            if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
-                break;    //don't do anything when sharing and not debugger
-            }
-            display_reachability_zones();
             break;
 
         case ACTION_TOGGLE_DEBUG_MODE:

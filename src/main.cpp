@@ -55,8 +55,12 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#if defined(MACOSX)
+#if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
+#endif
+
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
 #endif
 
 #if defined(PREFIX)
@@ -566,6 +570,47 @@ bool assure_essential_dirs_exist()
 
 }  // namespace
 
+#if defined(EMSCRIPTEN)
+EM_ASYNC_JS( void, mount_idbfs, (), {
+    console.log( "Mounting IDBFS for persistence..." );
+    FS.mkdir( '/home/web_user/.cataclysm-dda' );
+    FS.mount( IDBFS, {}, '/home/web_user/.cataclysm-dda' );
+    await new Promise( function( resolve, reject )
+    {
+        FS.syncfs( true, function( err ) {
+            if( err ) {
+                reject( err );
+            } else {
+                console.log( "Succesfully mounted IDBFS." );
+                resolve();
+            }
+        } );
+    } );
+
+    let fsNeedsSync = false;
+    window.setFsNeedsSync = function setFsNeedsSync()
+    {
+        if( !fsNeedsSync ) {
+            requestAnimationFrame( syncFs );
+        }
+        fsNeedsSync = true;
+    };
+
+    function syncFs()
+    {
+        console.log( "Persisting to IDBFS..." );
+        FS.syncfs( false, function( err ) {
+            fsNeedsSync = false;
+            if( err ) {
+                console.error( err );
+            } else {
+                console.log( "Succesfully persisted to IDBFS..." );
+            }
+        } );
+    }
+} );
+#endif
+
 #if defined(USE_WINMAIN)
 int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
                       _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
@@ -583,6 +628,10 @@ int main( int argc, const char *argv[] )
     reset_floating_point_mode();
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
+#endif
+
+#if defined(EMSCRIPTEN)
+    mount_idbfs();
 #endif
 
     on_out_of_scope json_member_reporting_guard{ [] {
@@ -624,7 +673,7 @@ int main( int argc, const char *argv[] )
 #if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path );
 #else
-#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
+#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
     PATH_INFO::init_user_dir( "" );
 #   else
     PATH_INFO::init_user_dir( "." );
@@ -648,7 +697,11 @@ int main( int argc, const char *argv[] )
         exit( 1 );
     }
 
+#if defined(EMSCRIPTEN)
+    setupDebug( DebugOutput::std_err );
+#else
     setupDebug( DebugOutput::file );
+#endif
     // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     json_error_output_colors = json_error_output_colors_t::color_tags;
 

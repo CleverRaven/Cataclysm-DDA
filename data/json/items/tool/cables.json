@@ -14,8 +14,8 @@
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
-    "max_charges": 3,
-    "initial_charges": 3,
+    "max_charges": 2,
+    "initial_charges": 2,
     "use_action": { "type": "link_up", "menu_text": "Plug in / Manage connections", "targets": [ "vehicle_port" ] },
     "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }

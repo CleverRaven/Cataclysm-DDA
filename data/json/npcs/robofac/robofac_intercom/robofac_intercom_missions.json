@@ -235,7 +235,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -339,7 +339,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -400,7 +400,7 @@
     "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
     "responses": [
       {
-        "text": "[PER 8+] The original markings on that case had been scratched out.  Who did it really belong to?",
+        "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
         "condition": { "u_has_perception": 8 },
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase"
       },
@@ -436,7 +436,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -680,7 +680,7 @@
     "end": {
       "effect": [
         { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "fail": {
@@ -793,7 +793,7 @@
     "end": {
       "effect": [
         { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

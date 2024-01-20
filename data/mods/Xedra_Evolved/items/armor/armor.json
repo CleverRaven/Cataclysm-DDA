@@ -1083,5 +1083,245 @@
       ]
     },
     "material_thickness": 0.1
+  },
+  {
+    "id": "helmet_verdant",
+    "//": "Derived from chitinous helmet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "verdant helmet" },
+    "description": "A helmet made from the of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "1447 g",
+    "volume": "2500 ml",
+    "price": 38000,
+    "price_postapoc": 1250,
+    "to_hit": -2,
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "helmet_larmor",
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 4,
+    "flags": [ "WATERPROOF", "STURDY", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "coverage": 100,
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 50, "thickness": 1.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 50,
+        "rigid_layer_only": true,
+        "specifically_covers": [ "mouth_lips", "mouth_nose" ],
+        "encumbrance": 5
+      },
+      {
+        "covers": [ "mouth" ],
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 80,
+        "rigid_layer_only": true,
+        "specifically_covers": [ "mouth_cheeks", "mouth_chin" ]
+      },
+      { "covers": [ "head" ], "specifically_covers": [ "head_nape", "head_throat" ], "coverage": 60 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 60, "encumbrance": 5 }
+    ],
+    "melee_damage": { "bash": 1 },
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_helmet" } ] }
+  },
+  {
+    "id": "armor_verdant_cuirass",
+    "//": "Derived from chitinous armor",
+    "type": "ARMOR",
+    "//2": "The idea for this is that it's basically plate-and-mail, but with bark and a kind of mossy, viney connective tissue",
+    "name": { "str": "verdant cuirass", "str_pl": "verdant cuirasses" },
+    "description": "A cuirass made of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "2632 g",
+    "volume": "17500 ml",
+    "price": 120000,
+    "price_postapoc": 3000,
+    "to_hit": -5,
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 10,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
+    "armor": [
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "encumbrance": 10
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 100,
+        "covers": [ "arm_r", "arm_l" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ],
+        "encumbrance": 6
+      },
+      {
+        "breathability": "AVERAGE",
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 90, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 95,
+        "encumbrance": [ 5, 5 ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l", "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 },
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_body" } ] }
+  },
+  {
+    "id": "gauntlets_verdant",
+    "//": "Derived from chitinous gauntlets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of verdant gauntlets", "str_pl": "pairs of verdant gauntlets" },
+    "description": "A pair of fingerless gauntlets made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "760 g",
+    "volume": "1750 ml",
+    "price": 38000,
+    "price_postapoc": 1250,
+    "to_hit": -2,
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "gauntlets_larmor",
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 3.5,
+    "environmental_protection": 4,
+    "flags": [ "STURDY", "DURABLE_MELEE", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 80, "thickness": 1.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 70,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ]
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 80, "thickness": 1.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 },
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_gauntlets" } ] }
+  },
+  {
+    "id": "boots_verdant",
+    "//": "Derived from chitinous boots",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of verdant boots", "str_pl": "pairs of verdant boots" },
+    "description": "Boots made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "950 g",
+    "volume": "4250 ml",
+    "price": 13500,
+    "price_postapoc": 1250,
+    "to_hit": -1,
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "boots_bone",
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 3,
+    "flags": [ "STURDY", "WATERPROOF", "NONCONDUCTIVE", "PADDED", "NO_REPAIR" ],
+    "armor": [
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 85, "thickness": 2 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "coverage": 95,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_toes_l",
+          "foot_toes_r",
+          "foot_sole_l",
+          "foot_sole_r"
+        ],
+        "encumbrance": 12
+      },
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 75, "thickness": 2.5 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "melee_damage": { "bash": 4 },
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_boots" } ] }
   }
 ]

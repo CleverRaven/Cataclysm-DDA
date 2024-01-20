@@ -619,9 +619,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             REQUIRE( guy.wield( mp3 ) );
 
-            THEN( "should be wet for around 8664 seconds" ) {
+            THEN( "should be wet for around 9562 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item()->wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item()->wetness == Approx( 9562 ).margin( 20 ) );
             }
         }
 
@@ -639,8 +639,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
-                AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.get_wielded_item()->wetness == Approx( 43320 ).margin( 100 ) );
+                AND_THEN( "should be wet for around 47810 seconds" ) {
+                    CHECK( guy.get_wielded_item()->wetness == Approx( 47810 ).margin( 100 ) );
                 }
             }
         }

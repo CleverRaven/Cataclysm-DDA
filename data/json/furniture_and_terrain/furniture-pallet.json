@@ -40,7 +40,7 @@
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "adobe_brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
     "bash": {
       "str_min": 30,
@@ -49,8 +49,8 @@
       "sound_fail": "bash!",
       "items": [
         { "item": "pallet", "count": 1 },
-        { "item": "brick", "count": 350 },
-        { "item": "brick", "count": 50, "damage": [ 1, 4 ] },
+        { "item": "adobe_brick", "count": 350 },
+        { "item": "adobe_brick", "count": 50, "damage": [ 1, 4 ] },
         { "item": "plastic_sheet", "count": 1, "damage": [ 2, 4 ] }
       ]
     }

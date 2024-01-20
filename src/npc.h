@@ -56,6 +56,9 @@ class npc_class;
 class talker;
 class vehicle;
 
+constexpr int8_t NPC_PERSONALITY_MIN = -10;
+constexpr int8_t NPC_PERSONALITY_MAX = 10;
+
 namespace catacurses
 {
 class window;
@@ -1046,7 +1049,9 @@ class npc : public Character
         bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
         // in bionics.cpp
         // can't use bionics::activate because it calls plfire directly
-        void discharge_cbm_weapon();
+        void discharge_cbm_weapon( bool fired = true, bool stow_real_weapon = false );
+        // deactivate or discharge the fake bionic weapon that NPC wielded
+        void deactivate_or_discharge_bionic_weapon( bool stow_real_weapon = false );
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
@@ -1153,6 +1158,8 @@ class npc : public Character
         /** Finds ammo the NPC could use to reload a given object */
         item_location find_usable_ammo( const item_location &weap );
         item_location find_usable_ammo( const item_location &weap ) const;
+        item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                                         bool empty = true ) override;
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
@@ -1195,7 +1202,7 @@ class npc : public Character
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::set<tripoint> get_path_avoid() const override;
+        std::unordered_set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
 

@@ -68,6 +68,8 @@
     "magazine": 100,
     "id": "consumer_electronics",
     "items": [
+      [ "extension_cable", 95 ],
+      [ "long_extension_cable", 75 ],
       [ "amplifier", 8 ],
       [ "mag_electronics", 15 ],
       [ "antenna", 18 ],

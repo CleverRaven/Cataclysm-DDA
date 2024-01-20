@@ -84,7 +84,7 @@
     "anger_relations": [ [ "ARVORE", -20 ], [ "HOMULLUS", 20 ] ],
     "allowed_category": [ "ARVORE" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS" ]
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -262,6 +262,93 @@
   },
   {
     "type": "mutation",
+    "id": "PARACLESIAN_STR_DEX_1",
+    "name": { "str": "Fae Prowess" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_STR_DEX_2" ],
+    "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
+    "description": "You have gained a portion of the might of your fae ancestors.  +1 Strength and Dexterity.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "passive_mods": { "str_mod": 1, "dex_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_STR_DEX_2",
+    "name": { "str": "Fae Puissance" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
+    "prereqs2": [ "ARVORE_SKIN_3", "IERDE_SKIN_3", "HOMULLUS_SKIN_3", "SALAMANDER_SKIN_3", "SYLPH_SKIN_3", "UNDINE_SKIN_3" ],
+    "description": "You have gained the might of your fae ancestors.  +2 Strength and Dexterity.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
+    "passive_mods": { "str_mod": 2, "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_INT_PER_1",
+    "name": { "str": "Fae Discernment" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_INT_PER_2" ],
+    "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
+    "description": "You have gained a portion of the wits of your fae ancestors.  +1 Intelligence and Perception.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "passive_mods": { "int_mod": 1, "per_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_INT_PER_2",
+    "name": { "str": "Fae Acumen" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_INT_PER_1" ],
+    "prereqs2": [ "ARVORE_SKIN_3", "IERDE_SKIN_3", "HOMULLUS_SKIN_3", "SALAMANDER_SKIN_3", "SYLPH_SKIN_3", "UNDINE_SKIN_3" ],
+    "description": "You have gained the wits of your fae ancestors.  +2 Intelligence and Perception.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
+    "passive_mods": { "int_mod": 2, "per_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_1",
+    "name": { "str": "Fae Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
+    "prereqs": [ "ARVORE_EYES", "HOMULLUS_SKIN_1", "IERDE_EYES", "SALAMANDER_EYES", "SYLPH_EYES", "UNDINE_EYES" ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.  It has a small chance to cost some of your mana each turn it is in use.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_ON" ],
+    "processed_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_2",
+    "name": { "str": "Wyrd Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1" ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_ON" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLOUD_OF_STEAM_SYLPH",
     "name": { "str": "Cloud of Steam" },
     "points": 3,
@@ -278,7 +365,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "description": "Upon gaining this ability the Undine gains the ability to create a cloud of damaging steam.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "cloud_of_steam_undine", 1 ] ]
   },
@@ -300,7 +387,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "description": "Upon gaining this ability the Salamander gains the ability to create light.",
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "create_light_salamander", 1 ] ]
   },
@@ -377,5 +464,29 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_WISHES_TO_CONVERSE",
+    "name": { "str": "Desire for Conversation" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin casts this spell to force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",
+    "category": [ "HOMULLUS" ],
+    "active": true,
+    "starts_active": true,
+    "spells_learned": [ [ "homullus_spell_wish_to_converse", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FINAL_DISCUSSION",
+    "name": { "str": "FINAL DISCUSSION" },
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "This person won't speak with them again if this goes poorly."
   }
 ]

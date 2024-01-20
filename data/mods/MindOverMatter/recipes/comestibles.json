@@ -14,7 +14,7 @@
     "result_eocs": [
       {
         "id": "EOC_FOOD_PHOTOKIN_DRAIN",
-        "effect": [ { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] } ]
+        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] } ]
       }
     ]
   },

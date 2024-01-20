@@ -181,7 +181,7 @@
     "dynamic_line": "No, unfortunately.  They're folks that wanted to join us, but we're too full and we don't have enough to share.  Most people leave and look for their own place when we turn them down, but these ones… didn't.  We've been trying to find them a safe place, but there's a shortage of those these days, for reasons I'm sure you can guess.  Until then, we're letting them crash here as long as they don't mess the place up.",
     "responses": [
       {
-        "text": "[SOCIAL 1+] If I could look into clearing them out of here, would you be able to pay me back?",
+        "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
         "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
         "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }

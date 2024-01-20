@@ -311,12 +311,6 @@ static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -4919,7 +4913,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
     return std::nullopt;
 }
 
-std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
+std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt )
 {
     if( !p ) {
         debugmsg( "%s called action hacksaw that requires character but no character is present",
@@ -4958,8 +4952,11 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
         }
         return std::nullopt;
     }
-
-    p->assign_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) );
+    if( p->pos() == it_pnt ) {
+        p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
+    } else {
+        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
 
     return std::nullopt;
 }

@@ -240,7 +240,7 @@
     "id": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "jeans" },
-    "description": "A pair of blue jeans with two deep pockets.",
+    "description": "A pair of jeans with two deep pockets.",
     "weight": "600 g",
     "volume": "2 L",
     "price": 5000,
@@ -249,7 +249,7 @@
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "pants",
-    "color": "blue",
+    "color": "light_blue",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -282,19 +282,200 @@
     ],
     "warmth": 10,
     "material_thickness": 0.65,
-    "//": "Lightweight 10 oz denim jeans.",
+    "//": "Mediumweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
-      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
-      { "id": "jeans2", "text": "A pair of black skinny jeans." },
+      { "id": "jeans1", "text": "A pair of blue jeans with two deep pockets." },
+      { "id": "jeans2", "text": "A pair of black jeans with two deep pockets." },
       { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
-      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
-      {
-        "id": "jeans5",
-        "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
-      }
+      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." }
     ],
     "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "jeans_ripped",
+    "type": "ARMOR",
+    "name": { "str": "ripped jeans", "str_pl": "pairs of ripped jeans" },
+    "description": "A pair of jeans that has been ripped over the knees.  It may have been fashionable before Cataclysm, but it's just a pair of sub-par jeans now.",
+    "weight": "580 g",
+    "volume": "2 L",
+    "price": 5000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ]
+      },
+      {
+        "encumbrance": [ 0, 0 ],
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.65,
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "jeans_vintage",
+    "type": "ARMOR",
+    "name": { "str_sp": "vintage jeans" },
+    "description": "A pair of vintage jeans that has started to lose its color.  It appears to be slightly heavier and thicker; but hey, don't let that stop you from wearing the fashion of the olden days!",
+    "weight": "700 g",
+    "volume": "2 L",
+    "price": 11500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.8,
+    "//": "Mediumweight 12 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
+    "snippet_category": [
+      {
+        "id": "vintage_jeans1",
+        "text": "A pair of vintage jeans that has been around for so long that very little remains of its once vibrant blue color.  Otherwise it's surprisingly well preserved though."
+      },
+      {
+        "id": "vintage_jeans2",
+        "text": "A very old pair of black vintage jeans.  From paint marks here and there you assume this belonged to a painter."
+      },
+      {
+        "id": "vintage_jeans3",
+        "text": "A groovy pair of stone washed denim jeans from the 80s.  It gets baggy around the ankles.  Perfect for pretending as if Cataclysm never happened and you are on your way to dance floor."
+      },
+      {
+        "id": "vintage_jeans4",
+        "text": "A pair of vintage blue jeans that has been preserved perfectly.  You can see the leather brand on its behind of company that hasn't been around for a long while, even before the Cataclysm.  This would have made a fortune if; well, you know, it wasn't apocalypse."
+      }
+    ]
+  },
+  {
+    "id": "jeans_skinny",
+    "type": "ARMOR",
+    "name": { "str_sp": "skinny jeans" },
+    "description": "A pair of skinny jeans with two pockets.",
+    "weight": "500 g",
+    "volume": "1300 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "to_hit": 2,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "jeans",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "10 cm",
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "680 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "8 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 0.52,
+    "//": "Lightweight 8 oz denim jeans.",
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "snippet_category": [
+      { "id": "jeans_skinny1", "text": "A pair of blue skinny jeans with two pockets." },
+      { "id": "jeans_skinny2", "text": "A pair of black skinny jeans with two pockets." },
+      { "id": "jeans_skinny3", "text": "A pair of red skinny jeans with two pockets." }
+    ],
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -409,7 +590,7 @@
   {
     "id": "leggings",
     "type": "ARMOR",
-    "name": { "str_sp": "leggings" },
+    "name": { "str": "leggings", "str_pl": "pairs of leggings" },
     "description": "Skin-tight nylon leggings, sometimes used when exercising, that keep your legs nice and warm.",
     "weight": "155 g",
     "volume": "500 ml",
@@ -427,7 +608,7 @@
     "variants": [
       {
         "id": "leggings_red",
-        "name": { "str_sp": "red leggings" },
+        "name": { "str": "red leggings", "str_pl": "pairs of red leggings" },
         "description": "This pair is red.",
         "color": "red",
         "append": true,
@@ -435,7 +616,7 @@
       },
       {
         "id": "leggings_blue",
-        "name": { "str_sp": "blue leggings" },
+        "name": { "str": "blue leggings", "str_pl": "pairs of blue leggings" },
         "description": "This pair is blue.",
         "color": "blue",
         "append": true,
@@ -443,7 +624,7 @@
       },
       {
         "id": "leggings_purple",
-        "name": { "str_sp": "purple leggings" },
+        "name": { "str": "purple leggings", "str_pl": "pairs of purple leggings" },
         "description": "This pair is a vibrant purple.",
         "color": "magenta",
         "append": true,
@@ -451,7 +632,7 @@
       },
       {
         "id": "leggings_olive",
-        "name": { "str_sp": "olive leggings" },
+        "name": { "str": "olive leggings", "str_pl": "pairs of olive leggings" },
         "description": "This pair is a muted olive green.",
         "color": "green",
         "append": true,
@@ -459,7 +640,7 @@
       },
       {
         "id": "leggings_brown",
-        "name": { "str_sp": "brown leggings" },
+        "name": { "str": "brown leggings", "str_pl": "pairs of brown leggings" },
         "description": "This pair is brown.",
         "color": "brown",
         "append": true,
@@ -467,7 +648,7 @@
       },
       {
         "id": "leggings_black",
-        "name": { "str_sp": "black leggings" },
+        "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
         "description": "This pair is black.",
         "color": "black",
         "append": true,
@@ -475,7 +656,7 @@
       },
       {
         "id": "leggings_fire",
-        "name": { "str_sp": "fire leggings" },
+        "name": { "str": "fire leggings", "str_pl": "pairs of fire leggings" },
         "description": "This pair has a printed flame pattern.",
         "color": "red",
         "append": true,
@@ -483,7 +664,7 @@
       },
       {
         "id": "leggings_zerba",
-        "name": { "str_sp": "zebra leggings" },
+        "name": { "str": "zebra leggings", "str_pl": "pairs of zebra leggings" },
         "description": "This pair has a zebra stripe pattern.",
         "color": "light_gray",
         "append": true,
@@ -491,7 +672,7 @@
       },
       {
         "id": "leggings_leopard",
-        "name": { "str_sp": "leopard print leggings" },
+        "name": { "str": "leopard print leggings", "str_pl": "pairs of leopard print leggings" },
         "description": "This pair has a leopard print pattern.",
         "color": "yellow",
         "append": true,
@@ -499,7 +680,7 @@
       },
       {
         "id": "leggings_tiger",
-        "name": { "str_sp": "tiger stripe leggings" },
+        "name": { "str": "tiger stripe leggings", "str_pl": "pairs of tiger stripe leggings" },
         "description": "This pair has a tiger stripe pattern.",
         "color": "yellow",
         "append": true,
@@ -507,7 +688,7 @@
       },
       {
         "id": "leggings_geometric",
-        "name": { "str_sp": "geometric leggings" },
+        "name": { "str": "geometric leggings", "str_pl": "pairs of geometric leggings" },
         "description": "This pair has a simple geometric pattern.",
         "color": "dark_gray",
         "append": true,
@@ -1788,6 +1969,29 @@
         "volume_encumber_modifier": 0.0
       }
     ]
+  },
+  {
+    "id": "skirt_denim",
+    "type": "ARMOR",
+    "name": { "str": "jean skirt" },
+    "description": "A blue skirt made from denim.",
+    "//": "supossed to be a 10 oz denim skirt",
+    "weight": "300 g",
+    "volume": "700 ml",
+    "price": 3000,
+    "price_postapoc": 50,
+    "to_hit": 2,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "blue",
+    "warmth": 7,
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ],
+    "material_thickness": 0.65,
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "skirt",

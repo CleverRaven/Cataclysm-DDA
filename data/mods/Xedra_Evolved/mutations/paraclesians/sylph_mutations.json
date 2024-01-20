@@ -1,75 +1,8 @@
 [
   {
     "type": "mutation",
-    "id": "HOMULLUS_SKIN_1",
-    "name": { "str": "mannequin skin" },
-    "points": 0,
-    "visibility": 2,
-    "ugliness": 0,
-    "description": "Your skin has turned the color of antique dolls.  Your skin is now a pearlescent white.  This has no gameplay effects.",
-    "types": [ "skin_tone" ],
-    "leads_to": [ "HOMULLUS_SKIN_2" ],
-    "category": [ "HOMULLUS" ]
-  },
-  {
-    "type": "mutation",
-    "id": "HOMULLUS_SKIN_2",
-    "name": { "str": "porcelain skin" },
-    "points": 2,
-    "visibility": 10,
-    "ugliness": -3,
-    "description": "Your skin has smoothed and all blemishes fade quickly away.  Somewhat reduces wet effects and is tougher but heals a little slower.",
-    "types": [ "SKIN" ],
-    "category": [ "HOMULLUS" ],
-    "prereqs": [ "HOMULLUS_SKIN_1" ],
-    "changes_to": [ "HOMULLUS_SKIN_3" ],
-    "healing_multiplier": 0.9,
-    "wet_protection": [
-      { "part": "head", "ignored": 2 },
-      { "part": "leg_l", "ignored": 5 },
-      { "part": "leg_r", "ignored": 5 },
-      { "part": "foot_l", "ignored": 2 },
-      { "part": "foot_r", "ignored": 2 },
-      { "part": "arm_l", "ignored": 4 },
-      { "part": "arm_r", "ignored": 4 },
-      { "part": "hand_l", "ignored": 1 },
-      { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 10 }
-    ],
-    "integrated_armor": [ "integrated_porcelain_skin" ]
-  },
-  {
-    "type": "mutation",
-    "id": "HOMULLUS_SKIN_3",
-    "name": { "str": "latex skin" },
-    "points": 3,
-    "visibility": 10,
-    "ugliness": -6,
-    "mixed_effect": true,
-    "description": "Your skin has become latex like.  It provides some additional protection and attractiveness but heals at a much slower rate.",
-    "types": [ "SKIN" ],
-    "prereqs": [ "HOMULLUS_SKIN_2" ],
-    "threshreq": [ "THRESH_HOMULLUS" ],
-    "category": [ "HOMULLUS" ],
-    "healing_multiplier": 0.7,
-    "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
-    ],
-    "integrated_armor": [ "integrated_latex_skin" ]
-  },
-  {
-    "type": "mutation",
     "id": "SYLPH_SKIN_1",
-    "name": { "str": "sylph skin" },
+    "name": { "str": "Sylph Skin" },
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
@@ -81,7 +14,7 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_2",
-    "name": { "str": "cloud skin" },
+    "name": { "str": "Cloud Skin" },
     "points": 2,
     "visibility": 5,
     "ugliness": 3,
@@ -107,7 +40,7 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_3",
-    "name": { "str": "storm skin" },
+    "name": { "str": "Storm Skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -155,6 +88,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_EARS",
+    "name": { "str": "Sylph Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Sylph's ears are longer and pointed, like a wisp of cloud trailing across the sky.  They can hear better and no matter how loud the thunder, their ears will not ring from it.",
+    "category": [ "SYLPH" ],
+    "hearing_modifier": 1.5,
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAP_OF_THUNDER",
     "name": { "str": "Clap of Thunder" },
     "points": 1,
@@ -177,14 +122,55 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_CHARGE_DASH",
+    "name": { "str": "Stormwind Stride" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to rush forward in a burst of wind.",
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_charge_dash_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph ceases to fall at speeds that would damage themselves, no matter how high the fall is.",
+    "changes_to": [ "SYLPH_GLIDING" ],
     "category": [ "SYLPH" ],
     "flags": [ "FEATHER_FALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_GLIDING",
+    "name": { "str": "Carried on the Breeze" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph can direct their falls, moving horizontally in a gust of wind if they step off a ledge and landing safely on the ground.",
+    "prereqs": [ "SLOWFALL" ],
+    "leads_to": [ "SYLPH_JUMP_HIGH" ],
+    "category": [ "SYLPH" ],
+    "flags": [ "GLIDE", "FEATHER_FALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_JUMP_HIGH",
+    "name": { "str": "Updraft Leap" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph can leap straight into the air, riding the wind currents for a few seconds before descending to the earth.",
+    "prereqs": [ "SYLPH_GLIDING" ],
+    "prereqs2": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
+    "category": [ "SYLPH" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_SYLPH_JUMP_HIGH_ON" ]
   },
   {
     "type": "mutation",
@@ -240,6 +226,53 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_BONUS_RANGE",
+    "name": { "str": "Wind-Carried Weapons" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The winds surge around the Sylph as they attack, guiding their projectiles to the target.  The range of the Sylph's weapons is increased.",
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
+      }
+    ],
+    "category": [ "SYLPH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SPEED_INCREASE",
+    "name": { "str": "Winds Guide Me" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When outdoors, the Sylph moves 10% faster.",
+    "changes_to": "SYLPH_SPEED_INCREASE2",
+    "prereqs": [ "PUSHING_WIND" ],
+    "category": [ "SYLPH" ],
+    "enchantments": [ { "condition": "u_is_outside", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_SPEED_INCREASE2",
+    "name": { "str": "Outrunning the Gale" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
+    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "category": [ "SYLPH" ],
+    "enchantments": [
+      {
+        "condition": "u_is_outside",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -285,6 +318,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_MASSIVE_LIGHTNING_BLAST",
+    "name": { "str": "Fist of Heaven's Fury" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "air_sprite",
     "name": { "str": "Summon Air Sprite" },
     "points": 3,
@@ -293,5 +338,101 @@
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_INT_BONUS_1",
+    "name": { "str": "Ice-Clear Thoughts" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "SYLPH_INT_BONUS_2" ],
+    "prereqs": [ "SYLPH_SKIN_2" ],
+    "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "int_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_INT_BONUS_2",
+    "name": { "str": "Lightning Mind" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_INT_BONUS_1" ],
+    "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "int_mod": 4 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST",
+    "name": { "str": "Zephyr Chant" },
+    "points": 7,
+    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
+    "prereqs": [ "SYLPH_INT_BONUS_2" ],
+    "changes_to": [ "SYLPH_FAST_CAST2" ],
+    "category": [ "SYLPH" ],
+    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST_ON", "msg_transform": "", "active": false, "moves": 0 },
+    "casting_time_multiplier": 0.8
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST_ON",
+    "name": { "str": "Zephyr Chant (active)" },
+    "points": 7,
+    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
+    "prereqs": [ "SYLPH_INT_BONUS_2" ],
+    "changes_to": [ "SYLPH_FAST_CAST2" ],
+    "category": [ "SYLPH" ],
+    "valid": false,
+    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
+    "casting_time_multiplier": 0.8
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST2",
+    "name": { "str": "Whistling Zephyr Chant" },
+    "points": 10,
+    "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
+    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST2_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST2_ON",
+    "name": { "str": "Whistling Zephyr Chant (active)" },
+    "points": 10,
+    "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
+    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
+    "prereqs2": [ "SYLPH_SKIN_3" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "valid": false,
+    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
+    "casting_time_multiplier": 0.8,
+    "flags": [ "SUBTLE_SPELL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FLY_AT_WILL",
+    "name": { "str": "Surmounting the Clouds" },
+    "points": 10,
+    "description": "Born of the winds, the Sylph can walk on them as easily as the ground.  While this trait is active, the Sylph will not fall and may walk on the air as they like.  It requires 3 mana per turn to fuel their steps.",
+    "prereqs": [ "SYLPH_JUMP_HIGH" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
+    "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
+    "time": "1 s",
+    "//": "This should have a mana cost here instead of within the EoC once that's possible."
   }
 ]

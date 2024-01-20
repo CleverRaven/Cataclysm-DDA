@@ -191,6 +191,10 @@ class avatar : public Character
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+        /**
+         * Returns true if character has the mission in their active missions list.
+         */
+        bool has_mission_id( const mission_type_id &miss_id );
 
         void remove_active_mission( mission &cur_mission );
 
@@ -302,6 +306,9 @@ class avatar : public Character
         bool wield( item_location target );
         bool wield( item &target ) override;
         bool wield( item &target, int obtain_cost );
+
+        item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                                         bool empty = true ) override;
 
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,

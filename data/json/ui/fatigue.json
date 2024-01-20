@@ -8,29 +8,19 @@
         "id": "tired",
         "text": "Tired",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 191 } ] },
-            { "compare_num": [ { "u_val": "fatigue" }, "<", { "const": 383 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
       },
       {
         "id": "dead_tired",
         "text": "Dead Tired",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 383 } ] },
-            { "compare_num": [ { "u_val": "fatigue" }, "<", { "const": 575 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
       },
       {
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 575 } ] }
+        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
       }
     ]
   },

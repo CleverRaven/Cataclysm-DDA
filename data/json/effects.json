@@ -346,6 +346,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sneezing",
+    "name": [ "Sneezing" ],
+    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "max_duration": "1 s",
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "acid_charged",
     "name": [ "Charged Acid Glands" ],
     "//": "Enables special attacks where specified",
@@ -598,7 +607,7 @@
     "name": [ "Unstable Footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
+    "resist_traits": [ "GASTROPOD_BALANCE", "BIRD_LEGS" ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -2026,11 +2035,43 @@
   },
   {
     "type": "effect_type",
-    "id": "pkill1",
+    "id": "anticoagulant",
+    "max_intensity": 3,
+    "rating": "bad",
+    "blood_analysis_description": "Blood Thinner",
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "nsaid_eff",
+    "//": "Blood pressure up.  Remember that this is divided by 10000, so maximum 5% increase.",
+    "//2": "NSAIDs are the drug family that includes ibuprofen.",
+    "rating": "bad",
+    "base_mods": { "blood_pressure_tick": [ 100 ], "blood_pressure_min": [ 2 ], "blood_pressure_max_val": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_generic",
     "max_duration": "4 m",
     "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
     "rating": "good",
     "blood_analysis_description": "Minor Painkiller"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_nsaid",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (NSAID-based)"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill1_acetaminophen",
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] },
+    "rating": "good",
+    "blood_analysis_description": "Minor Painkiller (Acetaminophen)"
   },
   {
     "type": "effect_type",
@@ -2278,6 +2319,64 @@
     "resist_effects": [ "antifungal" ],
     "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
     "blood_analysis_description": "Fungal Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucinogenic_acid_light",
+    "name": [ "Bad High" ],
+    "desc": [ "You've been exposed to fungal acid fumes!" ],
+    "apply_message": "You inhale a lungful of hallucinogenic acid fumes.",
+    "rating": "bad",
+    "miss_messages": [ [ "The world spins.", 2 ] ],
+    "harmful_cough": true,
+    "max_duration": "40 m",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -2 ],
+      "per_mod": [ -3 ],
+      "int_mod": [ -2 ],
+      "speed_mod": [ -5 ],
+      "cough_chance": [ 30 ],
+      "vomit_chance": [ 3000 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.6 },
+      { "limb_score": "night_vis", "modifier": 0.7 },
+      { "limb_score": "reaction", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true,
+    "resist_traits": [ "M_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucinogenic_acid_heavy",
+    "name": [ "Really Bad High" ],
+    "desc": [ "You've been exposed to thick fungal acid fumes!" ],
+    "apply_message": "You inhale a lungful of thick hallucinogenic acid fumes.",
+    "rating": "bad",
+    "miss_messages": [ [ "The world fractals.", 2 ] ],
+    "harmful_cough": true,
+    "max_duration": "40 m",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "per_mod": [ -6 ],
+      "int_mod": [ -4 ],
+      "speed_mod": [ -7 ],
+      "cough_chance": [ 50 ],
+      "vomit_chance": [ 4000 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.45 },
+      { "limb_score": "night_vis", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.7 },
+      { "limb_score": "breathing", "modifier": 0.7 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true,
+    "resist_traits": [ "M_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -2926,12 +3025,12 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "common_cold",
-      "flu",
       "pre_conjunctivitis_viral",
       "pre_conjunctivitis_bacterial",
       "conjunctivitis_viral",
-      "conjunctivitis_bacterial"
+      "conjunctivitis_bacterial",
+      "common_cold",
+      "flu"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -3590,7 +3689,7 @@
     "max_intensity": 3,
     "base_mods": {
       "pain_max_val": [ 35 ],
-      "pain_chance": [ 900 ],
+      "pain_chance": [ 9000 ],
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
       "fatigue_chance": [ 900 ],
@@ -3611,6 +3710,26 @@
     },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
+  },
+  {
+    "type": "effect_type",
+    "id": "betablock",
+    "name": [ "Beta blocker" ],
+    "desc": [
+      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces fatigue."
+    ],
+    "max_intensity": 3,
+    "base_mods": {
+      "blood_pressure_tick": [ 250 ],
+      "blood_pressure_min": [ -2 ],
+      "blood_pressure_min_val": [ -200 ],
+      "fatigue_min": [ 4 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_max_val": [ 200 ]
+    },
+    "scaling_mods": { "blood_pressure_min": [ -1 ], "blood_pressure_min_val": [ -100 ], "fatigue_max_val": [ 50 ], "fatigue_min": [ 2 ] },
+    "rating": "neutral",
+    "blood_analysis_description": "Beta Blocker"
   },
   {
     "type": "effect_type",
@@ -3645,7 +3764,7 @@
       "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
     ],
     "max_intensity": 3,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "//": "Mood debuff is handled separately by bad_food_mood_debuff EoC.",
     "rating": "bad"
   },
   {
@@ -4473,7 +4592,7 @@
         "values": [
           {
             "value": "INTELLIGENCE",
-            "add": { "math": [ "u_val('effect_intensity','effect:VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
+            "add": { "math": [ "u_effect_intensity('VITRIFYING') * -1 * (ceil(u_val('intelligence') / 6))" ] }
           }
         ]
       }
@@ -4493,6 +4612,16 @@
     "show_intensity": true,
     "resist_traits": [ "GASTROPOD_BALANCE" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "hay_fever",
+    "name": [ "Hay Fever" ],
+    "desc": [ "Your eyes are itchy and you've got a runny nose." ],
+    "rating": "bad",
+    "resist_effects": [ "took_flumed", "took_antihistamine" ],
+    "show_in_info": true,
+    "base_mods": { "per_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -50 ], "stamina_max": [ -150 ], "stamina_chance": [ 300 ] }
   },
   {
     "id": "star_vampire_blood_drank",
@@ -4533,76 +4662,56 @@
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_leg_l_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "ink_gland_ink",
+    "name": [ "Depleted ink", "Deflated ink glands", "Inky glands", "Bulged ink glands" ],
+    "show_intensity": true,
+    "desc": [
+      "Your ink glands are empty.  Given some time and hydration they will recharge.",
+      "Your ink glands are almost empty.  Given some time and hydration they will recharge.",
+      "Your ink glands have some ink inside.  Given some time and hydration, more ink will be generated.",
+      "Your ink glands are bulged and full.  No more ink is being created."
+    ],
+    "max_intensity": 4,
+    "rating": "neutral"
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_leg_r_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "cramped_space",
+    "name": [ "Cramped Space" ],
+    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
+    "apply_message": "You are squeezed uncomfortably into the cramped space.",
+    "remove_message": "It feels good having room to move again.",
+    "rating": "bad",
+    "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "resist_effects": [ "incorporeal" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "dex_mod": [ -2 ],
+      "str_mod": [ -2 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ],
+      "pain_max_val": [ 35 ]
+    },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_arm_l_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "shakes",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "gliding",
+    "name": [ "Gliding" ],
+    "desc": [ "You are gliding through the air." ],
+    "flags": [ "GLIDING" ],
+    "rating": "good"
   },
   {
     "type": "effect_type",
-    "id": "prosthetic_arm_r_fake_blocker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "blocks_effects": [
-      "bite",
-      "poison",
-      "badpoison",
-      "paralyzepoison",
-      "frostbite",
-      "paincysts",
-      "spores",
-      "shakes",
-      "venom_dmg",
-      "venom_pain",
-      "venom_weaken"
-    ]
+    "id": "slow_descent",
+    "show_in_info": false,
+    "name": [ "Slow Descent" ],
+    "desc": [ "You are descending at a safe speed." ],
+    "flags": [ "FEATHER_FALL" ],
+    "max_duration": "1 s"
   }
 ]

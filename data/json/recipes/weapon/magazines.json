@@ -200,6 +200,22 @@
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   },
   {
+    "result": "steyr_scout_mag_makeshift",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "20 m",
+    "autolearn": true,
+    "tools": [ [ [ "steyr_scout", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "using": [ [ "308_casehead", 1 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+  },
+  {
     "result": "g3_makeshiftmag",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -347,7 +363,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_ump45", -1 ] ] ],
+    "tools": [ [ [ "modular_ump", -1 ] ] ],
     "using": [ [ "45_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
@@ -413,7 +429,6 @@
       [
         [ "modular_ar15", -1 ],
         [ "modular_m4_carbine", -1 ],
-        [ "m4_cqbr", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16a4", -1 ],
         [ "modular_m16_auto_rifle", -1 ]
@@ -443,7 +458,6 @@
       [
         [ "modular_ar15", -1 ],
         [ "modular_m4_carbine", -1 ],
-        [ "m4_cqbr", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16a4", -1 ],
         [ "modular_m16_auto_rifle", -1 ]
@@ -473,7 +487,6 @@
       [
         [ "modular_ar15", -1 ],
         [ "modular_m4_carbine", -1 ],
-        [ "m4_cqbr", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16a4", -1 ],
         [ "modular_m16_auto_rifle", -1 ]
@@ -503,7 +516,6 @@
       [
         [ "modular_ar15", -1 ],
         [ "modular_m4_carbine", -1 ],
-        [ "m4_cqbr", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16a4", -1 ],
         [ "modular_m16_auto_rifle", -1 ]

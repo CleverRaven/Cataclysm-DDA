@@ -5,7 +5,7 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
       {
-        "switch": { "math": [ "u_val('spell_level', 'spell: teleport_collapse')" ] },
+        "switch": { "math": [ "u_spell_level('teleport_collapse')" ] },
         "cases": [
           { "case": 0, "effect": [ { "u_cast_spell": { "id": "teleport_collapse_01", "hit_self": false }, "targeted": true } ] },
           {

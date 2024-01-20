@@ -331,11 +331,7 @@
       "effect": [
         "stop_following",
         {
-          "weighted_list_eocs": [
-            [ { "id": "get_katana" }, { "const": 5 } ],
-            [ { "id": "get_deagle_44" }, { "const": 10 } ],
-            [ { "id": "get_m4_carbine" }, { "const": 6 } ]
-          ]
+          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
         }
       ]
     },
@@ -1003,7 +999,7 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 90 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",

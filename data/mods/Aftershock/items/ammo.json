@@ -21,6 +21,19 @@
   },
   {
     "type": "AMMO",
+    "//": "High quality energy extracted by our advanced forbearers. Gives lasers extra damage and range. Don't think too much about how it works.",
+    "id": "afs_shuttle_beacon",
+    "copy-from": "battery",
+    "category": "spare_parts",
+    "name": { "str_sp": "signaling payload" },
+    "symbol": "=",
+    "color": "blue",
+    "description": "Single use software package that can be used to send encrypted communications.",
+    "ammo_type": "afs_shuttle_beacon",
+    "range_multiplier": 1.5
+  },
+  {
+    "type": "AMMO",
     "id": "xray_laser_barrel",
     "price": 10000,
     "price_postapoc": 500,

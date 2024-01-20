@@ -67,5 +67,12 @@
     "copy-from": "dreamforged_hacksaw",
     "components": [ [ [ "forged_dreamstuff_ingot", 4 ] ] ],
     "time": "4 h"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_bed_of_restful_repose",
+    "copy-from": "dreamforged_hacksaw",
+    "components": [ [ [ "forged_dreamstuff_ingot", 9 ] ] ],
+    "time": "4 h"
   }
 ]

@@ -37,8 +37,6 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
-static const item_group_id Item_spawn_data_field( "field" );
-
 static const oter_str_id oter_hellmouth( "hellmouth" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -94,9 +92,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
             { "null",             &mapgen_null },
-            { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
-            { "field",            &mapgen_field },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
@@ -154,54 +150,6 @@ void mapgen_null( mapgendata &dat )
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }
-}
-
-// TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-static void ter_or_furn_set( map *m, const point &p, const ter_furn_id &tfid )
-{
-    if( tfid.ter != t_null ) {
-        m->ter_set( p, tfid.ter );
-    } else if( tfid.furn != f_null ) {
-        m->furn_set( p, tfid.furn );
-    }
-}
-
-/*
- * Default above ground non forested 'blank' area; typically a grassy field with a scattering of shrubs,
- *  but changes according to dat->region
- */
-void mapgen_field( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // random area of increased vegetation. Or lava / toxic sludge / etc
-    const bool boosted_vegetation = dat.region.field_coverage.boost_chance > rng( 0, 1000000 );
-    const int &mpercent_bush = boosted_vegetation ?
-                               dat.region.field_coverage.boosted_mpercent_coverage :
-                               dat.region.field_coverage.mpercent_coverage;
-
-    // one dominant plant type ( for boosted_vegetation == true )
-    ter_furn_id altbush = dat.region.field_coverage.pick( true );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            // default is
-            m->ter_set( point( i, j ), dat.groundcover() );
-            // yay, a shrub ( or tombstone )
-            if( mpercent_bush > rng( 0, 1000000 ) ) {
-                if( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng( 0, 1000000 ) ) {
-                    // already chose the lucky terrain/furniture/plant/rock/etc
-                    ter_or_furn_set( m, point( i, j ), altbush );
-                } else {
-                    // pick from weighted list
-                    ter_or_furn_set( m, point( i, j ), dat.region.field_coverage.pick( false ) );
-                }
-            }
-        }
-    }
-
-    // FIXME: take 'rock' out and add as regional biome setting
-    m->place_items( Item_spawn_data_field, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    true, dat.when() );
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )
@@ -1605,12 +1553,23 @@ void mapgen_lake_shore( mapgendata &dat )
         if( n_lake && w_lake ) {
             nw.x += sector_length / 2;
             nw.y += sector_length / 2;
-        } else if( n_shore && w_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( w_shore || w_river_bank ) ) {
             point n = nw_corner;
             point w = nw_corner;
 
-            n.x += sector_length;
-            w.y += sector_length;
+            n.x += sector_length * ( n_river_bank ? 2 : 1 );
+            w.y += sector_length * ( w_river_bank ? 2 : 1 );
+
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { sw, w } );
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, ne } );
+            }
 
             line_segments.push_back( { n, w } );
         }
@@ -1620,12 +1579,23 @@ void mapgen_lake_shore( mapgendata &dat )
         if( n_lake && e_lake ) {
             ne.x -= sector_length / 2;
             ne.y += sector_length / 2;
-        } else if( n_shore && e_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( e_shore || e_river_bank ) ) {
             point n = ne_corner;
             point e = ne_corner;
 
-            n.x -= sector_length;
-            e.y += sector_length;
+            n.x -= sector_length * ( n_river_bank ? 2 : 1 );
+            e.y += sector_length * ( e_river_bank ? 2 : 1 );
+
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { se, e } );
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, nw } );
+            }
 
             line_segments.push_back( { n, e } );
         }
@@ -1635,12 +1605,23 @@ void mapgen_lake_shore( mapgendata &dat )
         if( s_lake && w_lake ) {
             sw.x += sector_length / 2;
             sw.y -= sector_length / 2;
-        } else if( s_shore && w_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( w_shore || w_river_bank ) ) {
             point s = sw_corner;
             point w = sw_corner;
 
-            s.x += sector_length;
-            w.y -= sector_length;
+            s.x += sector_length * ( s_river_bank ? 2 : 1 );
+            w.y -= sector_length * ( w_river_bank ? 2 : 1 );
+
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { nw, w } );
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, se } );
+            }
 
             line_segments.push_back( { s, w } );
         }
@@ -1650,12 +1631,23 @@ void mapgen_lake_shore( mapgendata &dat )
         if( s_lake && e_lake ) {
             se.x -= sector_length / 2;
             se.y -= sector_length / 2;
-        } else if( s_shore && e_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( e_shore || e_river_bank ) ) {
             point s = se_corner;
             point e = se_corner;
 
-            s.x -= sector_length;
-            e.y -= sector_length;
+            s.x -= sector_length * ( s_river_bank ? 2 : 1 );
+            e.y -= sector_length * ( e_river_bank ? 2 : 1 );
+
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { ne, e } );
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, sw } );
+            }
 
             line_segments.push_back( { s, e } );
         }
@@ -1874,7 +1866,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     const bool w_river_bank = is_river_bank( dat.west() );
 
     // This is length we end up pushing things about by as a baseline.
-    const int sector_length = SEEX * 2 / 3;
+    const int sector_length = SEEX - 1;
 
     // Define the corners of the map. These won't change.
     static constexpr point nw_corner{};
@@ -1890,8 +1882,10 @@ void mapgen_ocean_shore( mapgendata &dat )
     point sw = sw_corner;
 
     std::vector<std::vector<point>> line_segments;
-
-    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
+    int ns_direction_adjust = 0;
+    int ew_direction_adjust = 0;
+    int sand_margin = dat.region.overmap_ocean.sandy_beach_width / 2;
+    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual ocean.
     if( n_ocean ) {
         nw.y += sector_length;
         ne.y += sector_length;
@@ -1956,14 +1950,30 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( n_ocean && w_ocean ) {
             nw.x += sector_length / 2;
             nw.y += sector_length / 2;
-        } else if( n_shore && w_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( w_shore || w_river_bank ) ) {
             point n = nw_corner;
             point w = nw_corner;
 
-            n.x += sector_length;
-            w.y += sector_length;
+            n.x += sector_length * ( n_river_bank ? 2 : 1 );
+            w.y += sector_length * ( w_river_bank ? 2 : 1 );
 
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { sw, w } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust -= sand_margin;
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, ne } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust += sand_margin;
+            }
             line_segments.push_back( { n, w } );
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust -= sand_margin;
         }
     }
 
@@ -1971,14 +1981,31 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( n_ocean && e_ocean ) {
             ne.x -= sector_length / 2;
             ne.y += sector_length / 2;
-        } else if( n_shore && e_shore ) {
+        } else if( ( n_shore || n_river_bank ) && ( e_shore || e_river_bank ) ) {
             point n = ne_corner;
             point e = ne_corner;
 
-            n.x -= sector_length;
-            e.y += sector_length;
+            n.x -= sector_length * ( n_river_bank ? 2 : 1 );
+            e.y += sector_length * ( e_river_bank ? 2 : 1 );
+
+            n.y += n_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { se, e } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust += sand_margin;
+            }
+
+            if( n_river_bank ) {
+                line_segments.push_back( { n, nw } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust -= sand_margin;
+            }
 
             line_segments.push_back( { n, e } );
+            ns_direction_adjust -= sand_margin;
+            ew_direction_adjust += sand_margin;
         }
     }
 
@@ -1986,14 +2013,30 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( s_ocean && w_ocean ) {
             sw.x += sector_length / 2;
             sw.y -= sector_length / 2;
-        } else if( s_shore && w_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( w_shore || w_river_bank ) ) {
             point s = sw_corner;
             point w = sw_corner;
 
-            s.x += sector_length;
-            w.y -= sector_length;
+            s.x += sector_length * ( s_river_bank ? 2 : 1 );
+            w.y -= sector_length * ( w_river_bank ? 2 : 1 );
 
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            w.x += w_river_bank ? sector_length / 2 : 0;
+
+            if( w_river_bank ) {
+                line_segments.push_back( { nw, w } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust -= sand_margin;
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, se } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust += sand_margin;
+            }
             line_segments.push_back( { s, w } );
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust -= sand_margin;
         }
     }
 
@@ -2001,14 +2044,31 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( s_ocean && e_ocean ) {
             se.x -= sector_length / 2;
             se.y -= sector_length / 2;
-        } else if( s_shore && e_shore ) {
+        } else if( ( s_shore || s_river_bank ) && ( e_shore || e_river_bank ) ) {
             point s = se_corner;
             point e = se_corner;
 
-            s.x -= sector_length;
-            e.y -= sector_length;
+            s.x -= sector_length * ( s_river_bank ? 2 : 1 );
+            e.y -= sector_length * ( e_river_bank ? 2 : 1 );
+
+            s.y -= s_river_bank ? sector_length / 2 : 0;
+            e.x -= e_river_bank ? sector_length / 2 : 0;
+
+            if( e_river_bank ) {
+                line_segments.push_back( { ne, e } );
+                ns_direction_adjust -= sand_margin;
+                ew_direction_adjust += sand_margin;
+            }
+
+            if( s_river_bank ) {
+                line_segments.push_back( { s, sw } );
+                ns_direction_adjust += sand_margin;
+                ew_direction_adjust -= sand_margin;
+            }
 
             line_segments.push_back( { s, e } );
+            ns_direction_adjust += sand_margin;
+            ew_direction_adjust += sand_margin;
         }
     }
 
@@ -2017,19 +2077,24 @@ void mapgen_ocean_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
+
     if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+        ns_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { nw, ne } );
     }
 
     if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+        ew_direction_adjust += sand_margin * 2;
         line_segments.push_back( { ne, se } );
     }
 
     if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+        ns_direction_adjust += sand_margin * 2;
         line_segments.push_back( { se, sw } );
     }
 
     if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+        ew_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { sw, nw } );
     }
 
@@ -2039,16 +2104,51 @@ void mapgen_ocean_shore( mapgendata &dat )
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
+        point from_mod = from;
+        point to_mod = to;
+        if( from.x != 0 && from.x != SEEX * 2 - 1 ) {
+            from_mod.x += ew_direction_adjust;
+        }
+        if( from.y != 0 && from.y != SEEX * 2 - 1 ) {
+            from_mod.y += ns_direction_adjust;
+        }
+        if( to.x != 0 && to.x != SEEX * 2 - 1 ) {
+            to_mod.x += ew_direction_adjust;
+        }
+        if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
+            to_mod.y += ns_direction_adjust;
+        }
+        std::vector<point> points = line_to( from_mod, to_mod );
         for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, 1 ) ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
-                // has put down a t_water_sh, and we need to be able to flood-fill over that.
+                m->ter_set( bp, t_swater_sh );
+                m->furn_set( bp, f_null );
+            }
+        }
+    };
+    // This will draw our sandy beach coastline from the "from" point to the "to" point.
+    const auto draw_sand = [&]( const point & from, const point & to ) {
+        std::vector<point> points = line_to( from, to );
+        for( point &p : points ) {
+            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+                if( !map_boundaries.contains( bp ) ) {
+                    continue;
+                }
+                // Use t_null for now instead of t_sand, because sometimes our extended terrain
+                // has put down a t_sand, and we need to be able to flood-fill over that.
                 m->ter_set( bp, t_null );
                 m->furn_set( bp, f_null );
+            }
+            for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
+                if( !map_boundaries.contains( bp ) ) {
+                    continue;
+                }
+                if( m->ter( bp ) == t_swater_sh ) {
+                    m->ter_set( bp, t_swater_surf );
+                }
             }
         }
     };
@@ -2056,7 +2156,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
     const auto jittered_midpoint = [&]( const point & from, const point & to ) {
-        const int jitter = rl_dist( from, to ) / 4;
+        const int jitter = rl_dist( from, to ) / 5;
         const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
                               ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
         return midpoint;
@@ -2064,7 +2164,9 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
-    // midpoints, and then draw shallow water for four each of those.
+    // midpoints.
+    // Draw water after the sand to make sure we don't get too much sand.  Everyone hates sand,
+    // it's coarse and - you know what, never mind.
     for( auto &ls : line_segments ) {
         const point mp1 = jittered_midpoint( ls[0], ls[1] );
         const point mp2 = jittered_midpoint( ls[0], mp1 );
@@ -2074,6 +2176,10 @@ void mapgen_ocean_shore( mapgendata &dat )
         draw_shallow_water( mp2, mp1 );
         draw_shallow_water( mp1, mp3 );
         draw_shallow_water( mp3, ls[1] );
+        draw_sand( ls[0], mp2 );
+        draw_sand( mp2, mp1 );
+        draw_sand( mp1, mp3 );
+        draw_sand( mp3, ls[1] );
     }
 
     // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
@@ -2085,7 +2191,7 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != t_null;
+        return m->ter( p ) != t_null && m->ter( p ) != t_swater_sh  && m->ter( p ) != t_swater_surf;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
@@ -2115,9 +2221,9 @@ void mapgen_ocean_shore( mapgendata &dat )
         fill_deep_water( se_corner );
     }
 
-    // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
-    // pick up shallow water from our extended terrain. Now turn those nulls into t_swater_sh.
-    m->translate( t_null, t_swater_sh );
+    // We previously placed our sand but actually did a t_null instead to make sure that we didn't
+    // pick up sand from our extended terrain. Now turn those nulls into t_sand.
+    m->translate( t_null, t_sand );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )

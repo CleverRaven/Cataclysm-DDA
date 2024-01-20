@@ -41,7 +41,8 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -49,7 +50,7 @@
     "copy-from": "generic_bridge",
     "color": "blue",
     "travel_cost_type": "water",
-    "flags": [ "RIVER" ]
+    "flags": [ "RIVER", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -65,14 +66,8 @@
     "name": "bridgehead (ground)",
     "sym": "v",
     "travel_cost_type": "road",
-    "extras": "bridgehead_ground"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "godco_enter",
-    "name": "dirt road",
-    "sym": "│",
-    "copy-from": "generic_rural_road"
+    "extras": "bridgehead_ground",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -81,6 +76,13 @@
     "travel_cost_type": "road",
     "name": "bridgehead (ramp)",
     "sym": "^"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "godco_enter",
+    "name": "dirt road",
+    "sym": "│",
+    "copy-from": "generic_rural_road"
   },
   {
     "type": "overmap_terrain",
