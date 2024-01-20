@@ -487,7 +487,17 @@
     "name": { "str": "Echolocation" },
     "points": 3,
     "description": "You've learned how to hunt without sight.  Activate this mutation to make an ultrasonic sound that can reveal obstacles and enemies nearby.",
-    "prereqs": [ "BATEARS" ],
+    "prereqs": [ "BATEARS", "INDEFATIGABLE" ],
+    "category": [ "CHIROPTERAN" ],
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "SHRIEK",
+    "name": { "str": "Shriek" },
+    "points": 3,
+    "description": "Activate to let loose a high pitched screech, loud enough to shatter glass and daze anything in the immediate vicinity.",
+    "prereqs": [ "BATEARS", "INDEFATIGABLE" ],
     "category": [ "CHIROPTERAN" ],
     "active": true
   },
@@ -555,7 +565,7 @@
     "starting_trait": true,
     "types": [ "CARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
-    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT" ],
+    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT", "CHIROPTERAN" ],
     "cardio_multiplier": 1.3
   },
   {
@@ -1179,7 +1189,7 @@
     "description": "You make less noise while walking.  You're also less likely to set off traps.",
     "starting_trait": true,
     "cancels": [ "CLUMSY" ],
-    "category": [ "BIRD", "ELFA", "FELINE" ],
+    "category": [ "BIRD", "ELFA", "FELINE", "CHIROPTERAN" ],
     "noise_modifier": 0.4
   },
   {
@@ -1452,7 +1462,7 @@
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
     "cancels": [ "URSINE_EYE" ],
-    "category": [ "BEAST", "TROGLOBITE" ],
+    "category": [ "BEAST" ],
     "flags": [ "MYOPIC" ]
   },
   {
@@ -2313,7 +2323,7 @@
     "points": 1,
     "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
     "types": [ "EYES", "VISION" ],
-    "cancels": [ "MYOPIC" ],
+    "cancels": [ "MYOPIC", "MESOPIC" ],
     "category": [ "URSINE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
@@ -2324,10 +2334,10 @@
     "id": "MESOPIC",
     "name": { "str": "Mesopic" },
     "points": -1,
-    "description": "You can't see very well in bright light.",
+    "description": "You find it difficult to see very far in bright light.  On its own, this doesn't necessarily make you any better in the dark.",
     "types": [ "EYES", "VISION" ],
     "cancels": [ "MYOPIC" ],
-    "category": [ "CHIROPTERAN" ],
+    "category": [ "CHIROPTERAN", "TROGLOBITE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ]
   },
   {
@@ -2522,7 +2532,7 @@
     "category": [ "BATRACHIAN" ],
     "flags": [ "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT" ],
     "types": [ "EYES", "VISION" ],
-    "cancels": [ "MEMBRANE", "MYOPIC", "URSINE_EYE" ],
+    "cancels": [ "MEMBRANE", "MYOPIC", "URSINE_EYE", "MESOPIC" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
@@ -7159,7 +7169,7 @@
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
     "cancels": [ "SEASONAL_AFFECTIVE" ],
-    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
+    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE", "CHIROPTERAN" ]
   },
   {
     "type": "mutation",
@@ -7327,7 +7337,8 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
-    "types": [ "TEETH", "MUZZLE" ],
+    "types": [ "TEETH" ],
+    "cancels": [ "MUZZLE", "MUZZLE_RAT", "MUZZLE_BEAR" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
