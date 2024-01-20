@@ -4912,7 +4912,7 @@
     "time": "360 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ], [ "bronze_nail", 24 ] ] ],
-    "pre_special": "check_empty_up_OK",
+    "pre_special": [ "check_empty", "check_up_OK" ],
     "post_terrain": "t_wood_stairs_up_half"
   },
   {
@@ -4974,7 +4974,7 @@
     "time": "300 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 12 ], [ "stick_long", 6 ], [ "2x4", 6 ] ], [ [ "rock", 20 ] ] ],
-    "pre_special": "check_ramp_low",
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above" ],
     "post_terrain": "t_earth_ramp_up_low",
     "post_special": "done_ramp_low"
   },
@@ -4989,7 +4989,7 @@
     "time": "300 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ] ], [ [ "rock", 20 ] ] ],
-    "pre_special": "check_ramp_high",
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above", "check_ramp_high" ],
     "post_terrain": "t_earth_ramp_up_high",
     "post_special": "done_ramp_high"
   },
@@ -5005,7 +5005,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
-    "pre_special": "check_ramp_low",
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above" ],
     "post_terrain": "t_ramp_up_low",
     "post_special": "done_ramp_low"
   },
@@ -5021,7 +5021,7 @@
     "tools": [ [ [ "con_mix", 125 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
-    "pre_special": "check_ramp_high",
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above", "check_ramp_high" ],
     "post_terrain": "t_ramp_up_high",
     "post_special": "done_ramp_high"
   },
@@ -6980,7 +6980,7 @@
     "on_display": true,
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "pre_special": "check_channel",
+    "pre_special": [ "check_empty", "check_channel" ],
     "post_terrain": "t_water_moving_sh",
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
     "activity_level": "EXTRA_EXERCISE",

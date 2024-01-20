@@ -139,18 +139,16 @@ static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal
 static bool check_support_below( const tripoint_bub_ms
                                  & ); // at least two orthogonal supports at the level below
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
-static bool check_empty_stable( const tripoint_bub_ms
-                                & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
-static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
 static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_DEPTH
-static bool check_no_trap( const tripoint_bub_ms & );
-static bool check_ramp_low( const tripoint_bub_ms & );
-static bool check_ramp_high( const tripoint_bub_ms & );
-static bool check_no_wiring( const tripoint_bub_ms & );
+static bool check_no_trap( const tripoint_bub_ms & ); // tile doesn't contain any trap
+static bool check_ramp_high( const tripoint_bub_ms
+                             & ); // one of the adjacent tiles on the z-level above has a completed down ramp
+static bool check_no_wiring( const tripoint_bub_ms
+                             & ); // tile doesn't contain appliances/vehicle parts with WIRING flag like ap_wall_wiring
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
@@ -1194,12 +1192,13 @@ void complete_construction( Character *you )
 
 bool construct::check_channel( const tripoint_bub_ms &p )
 {
-
     map &here = get_map();
-    return check_empty( p ) && ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_north ) ||
-                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_south ) ||
-                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_east ) ||
-                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_west ) );
+    for( const point &offset : four_adjacent_offsets ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + offset ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool construct::check_empty_lite( const tripoint_bub_ms &p )
@@ -1219,16 +1218,6 @@ bool construct::check_empty( const tripoint_bub_ms &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-static std::array<tripoint_bub_ms, 4> get_orthogonal_neighbors( const tripoint_bub_ms &p )
-{
-    return {{
-            p + point_north,
-            p + point_south,
-            p + point_west,
-            p + point_east
-        }};
-}
-
 bool construct::check_support( const tripoint_bub_ms &p )
 {
     map &here = get_map();
@@ -1237,8 +1226,8 @@ bool construct::check_support( const tripoint_bub_ms &p )
         return false;
     }
     int num_supports = 0;
-    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
+    for( const point &offset : four_adjacent_offsets ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ) {
             num_supports++;
         }
     }
@@ -1269,8 +1258,8 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     }
     // need two or more orthogonally adjacent supports at the Z level below
     int num_supports = 0;
-    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p + tripoint_below ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
+    for( const point &offset : four_adjacent_offsets ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) {
             num_supports++;
         }
     }
@@ -1280,11 +1269,6 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
 bool construct::check_stable( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
-}
-
-bool construct::check_empty_stable( const tripoint_bub_ms &p )
-{
-    return check_empty( p ) && check_stable( p );
 }
 
 bool construct::check_nofloor_above( const tripoint_bub_ms &p )
@@ -1306,11 +1290,6 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
     return here.ter( p ).obj().deconstruct.can_do;
 }
 
-bool construct::check_empty_up_OK( const tripoint_bub_ms &p )
-{
-    return check_empty( p ) && check_up_OK( p );
-}
-
 bool construct::check_up_OK( const tripoint_bub_ms & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -1330,20 +1309,13 @@ bool construct::check_no_trap( const tripoint_bub_ms &p )
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
 {
-    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
-        for( const point &car_d : four_cardinal_directions ) {
-            // check adjacent points on the z-level above for a completed down ramp
-            if( get_map().has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
-                return true;
-            }
+    map &here = get_map();
+    for( const point &offset : four_adjacent_offsets ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + offset + tripoint_above ) ) {
+            return true;
         }
     }
     return false;
-}
-
-bool construct::check_ramp_low( const tripoint_bub_ms &p )
-{
-    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_no_wiring( const tripoint_bub_ms &p )
@@ -1952,14 +1924,11 @@ void load_construction( const JsonObject &jo )
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
-            { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
-            { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
-            { "check_ramp_low", construct::check_ramp_low },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring }
         }
