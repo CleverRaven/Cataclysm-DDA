@@ -1374,7 +1374,6 @@
     "name": { "str_sp": "bluefish" },
     "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth.  It sports a distinct blue-green coloration.",
     "volume": "6785 ml",
-    "weight": "1500 g",
     "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
   },
   {
