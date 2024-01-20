@@ -2,7 +2,10 @@
   {
     "type": "GENERIC",
     "id": "dreamforged_bed_of_restful_repose",
-    "name": { "str": "dreamforged bed of restful repose, folded for travel" },
+    "name": {
+      "str": "dreamforged bed of restful repose, folded for travel",
+      "str_pl": "dreamforged beds of restful repose, folded for travel"
+    },
     "description": "A large object folded up into a box for itself, the size of a keyboard.",
     "symbol": "H",
     "color": "cyan",
