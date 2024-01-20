@@ -107,7 +107,7 @@
     "id": "mon_dog_howling",
     "type": "MONSTER",
     "name": { "str": "howling dog" },
-    "description": "The underbelly of this undead canine expands and contracts arrythmically, almost like it's breathing.  Despite that, it is clearly in an advanced state of decomposition.  Its snout and throat appear far too large for its species, and the remains of its eyes appear much more analytical than its brethren.",
+    "description": "The underbelly of this undead canine expands and contracts arrhythmically, almost like it's breathing.  Despite that, it is clearly in an advanced state of decomposition.  Its snout and throat appear far too large for its species, and the remains of its eyes appear much more analytical than its brethren.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "species": [ "ZOMBIE" ],
