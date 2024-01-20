@@ -7,6 +7,18 @@
   },
   "configurePresets": [
     {
+      "name": "windows-tiles-sounds-x64",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Windows Tiles Sounds x64 MSYS2 (MinGW)",
+      "description": "Target Windows (64-bit) with the MingGW Win64 development environment.",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "DYNAMIC_LINKING": "False",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "True",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
+      }
+    },
+    {
       "name": "windows-tiles-sounds-x64-msvc",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
@@ -53,6 +65,10 @@
     }
   ],
   "buildPresets": [
+    {
+      "name": "windows-tiles-sounds-x64",
+      "configurePreset": "windows-tiles-sounds-x64"
+    },
     {
       "name": "linux-tiles-sounds-x64",
       "configurePreset": "linux-tiles-sounds-x64"
