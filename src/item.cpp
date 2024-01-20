@@ -1232,7 +1232,7 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
         qty = count();
     }
     item container( cont, birthday() );
-    if( !( variant == "" ) ) {
+    if( !variant.empty() ) {
         container.set_itype_variant( variant );
     }
     if( container.is_container() ) {
