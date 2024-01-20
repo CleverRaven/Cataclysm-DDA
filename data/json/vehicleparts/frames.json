@@ -290,7 +290,7 @@
     "description": "The chassis of a concrete mixer.",
     "folded_volume": "10 L",
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 5, 25 ] } ],
-    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN", "CABLE_PORTS" ] },
     "damage_reduction": { "all": 7 }
   }
 ]
