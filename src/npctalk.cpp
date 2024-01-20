@@ -5494,7 +5494,7 @@ talk_effect_fun_t::func f_set_talker( const JsonObject &jo, std::string_view mem
 }
 
 void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
-                         time_duration time_in_future )
+                  time_duration time_in_future )
 {
     if( eoc->type == eoc_type::ACTIVATION ) {
         Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
@@ -5905,8 +5905,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
-                            dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
-                            spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                        dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
+                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
                 friendly, is_npc]( dialogue & d ) {
         monster target_monster;
         std::vector<Creature *> target_monsters;
