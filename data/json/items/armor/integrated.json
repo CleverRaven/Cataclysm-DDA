@@ -548,32 +548,6 @@
     ]
   },
   {
-    "id": "integrated_beak",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "beak" },
-    "description": "Parts of the upper and lower jaws have been replaced by a beak hard enough to crack walnuts and sharp enough to slice through flesh.",
-    "weight": "200 g",
-    "volume": "200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "chitin" ],
-    "symbol": ";",
-    "color": "black",
-    "warmth": 2,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ], [ "HAMMER", 1 ] ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
-    "techniques": [ "BEAK_BITE", "BEAK_BITE_NATURAL", "BEAK_BITE_CRIT", "MOUTH_TENTACLES_BITE", "MOUTH_TENTACLES_BITE_NATURAL", "MOUTH_TENTACLES_BITE_CRIT" ],
-    "armor": [
-      {
-        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "mouth" ],
-        "coverage": 60,
-        "encumbrance": 2
-      }
-    ]
-  },
-  {
     "id": "integrated_mandibles",
     "type": "ARMOR",
     "category": "armor",
@@ -588,8 +562,7 @@
     "color": "dark_gray",
     "warmth": 2,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
-    "techniques": [ "MANDIBLES_BITE", "MANDIBLES_BITE_NATURAL", "MANDIBLES_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -613,8 +586,7 @@
     "symbol": ";",
     "color": "brown",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "PROVIDES_TECHNIQUES" ],
-    "techniques": [ "FOLDING_FANGS_BITE", "FOLDING_FANGS_BITE_NATURAL", "FOLDING_FANGS_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1641,34 +1613,6 @@
     "melee_damage": { "stab": 16 }
   },
   {
-    "id": "integrated_sharkteeth",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "shark teeth" },
-    "description": "A mouth full of multiple rows of very intimidating teeth.",
-    "weight": "100 g",
-    "volume": "112 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "bone" ],
-    "symbol": ",",
-    "color": "white",
-    "warmth": 5,
-    "to_hit": 1,
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "SHARKTEETH_BITE", "SHARKTEETH_BITE_NATURAL", "SHARKTEETH_BITE_CRIT" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
-    "armor": [
-      {
-        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 0,
-        "encumbrance": 0
-      }
-    ],
-    "melee_damage": { "stab": 16 }
-  },
-  {
     "id": "integrated_vampire_fangs",
     "type": "ARMOR",
     "category": "armor",
@@ -1685,34 +1629,6 @@
     "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
     "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL", "VAMPIRE_BITE_CRIT" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
-    "armor": [
-      {
-        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 0,
-        "encumbrance": 0
-      }
-    ],
-    "melee_damage": { "stab": 20 }
-  },
-  {
-    "id": "integrated_incisors",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "incisors" },
-    "description": "A long, sturdy pair of incisors.  No matter how much you grind them down, they just keep growing.",
-    "weight": "112 g",
-    "volume": "125 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "bone" ],
-    "symbol": ",",
-    "color": "white",
-    "warmth": 5,
-    "to_hit": 1,
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "CHISEL_WOOD", 1 ] ],
-    "techniques": [ "INCISORS_BITE", "INCISORS_BITE_NATURAL", "INCISORS_BITE_CRIT", "MUZZLE_RAT_BITE", "MUZZLE_RAT_BITE_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {

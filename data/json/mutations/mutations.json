@@ -2470,12 +2470,18 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
-    "description": "Your big teeth have grown in.  Folks had best show some more respect, because as long as your mouth is uncovered, you'll sometimes deliver a vicious bite in combat.",
+    "description": "Your big teeth have grown in.  Folks had best show some more respect.",
     "types": [ "TEETH" ],
     "prereqs": [ "MUZZLE_RAT", "RABBIT_NOSE" ],
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
     "category": [ "RAT", "RABBIT" ],
-    "integrated_armor": [ "integrated_incisors" ]
+    "attacks": {
+      "attack_text_u": "You bite into %s with your ratlike incisors!",
+      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
+    }
   },
   {
     "type": "mutation",
@@ -4729,7 +4735,14 @@
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
-    "integrated_armor": [ "integrated_saber_teeth" ]
+    "attacks": {
+      "attack_text_u": "You tear into %s with your saber teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
+      "body_part": "mouth",
+      "chance": 20,
+      "base_damage": { "damage_type": "stab", "amount": 25 },
+      "strength_damage": { "damage_type": "stab", "amount": 1 }
+    }
   },
   {
     "type": "mutation",
@@ -4980,12 +4993,20 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face has drastically mutated, with the bones of your jaws having extended forth into a long, tapered snout.  The palate of your mouth is considerably vaulted, with curved, serrated teeth lining your saurian maw.  While modern-day gas masks mostly don't account for paleobiology, if you manage to evolve a set of fangs, you will bite with the ferocity of long-dead beasts.",
+    "description": "Your face has drastically mutated, with the bones of your jaws having extended forth into a long, tapered snout.  The palate of your mouth is considerably vaulted, with curved, serrated teeth lining your saurian maw and reptilian scales covering your muzzle’s exterior.  While paleobiology has evidently not evolved with mouth gear in mind (making such items unwearable), the bite wounds you can now inflict promise the ferocity of long-dead beasts.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 20 }
+    "social_modifiers": { "intimidate": 20 },
+    "attacks": {
+      "attack_text_u": "You dart your head and snap at %s!",
+      "attack_text_npc": "%1$s darts their head and snaps at %2$s!",
+      "blocker_mutations": [ "FANGS" ],
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": { "damage_type": "stab", "amount": 18 }
+    }
   },
   {
     "type": "mutation",
@@ -5446,7 +5467,7 @@
     "visibility": 8,
     "ugliness": 5,
     "consume_time_modifier": 0.5,
-    "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast, and if you have a beak, will sometimes help you bite your prey.  Slightly decreases wet penalties.",
+    "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "category": [ "CEPHALOPOD" ],
@@ -5462,14 +5483,22 @@
     "butchering_quality": 4,
     "consume_time_modifier": 0.5,
     "mixed_effect": true,
-    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and, if uncovered, will allow you to sometimes bite your enemies.  Slightly reduces wet effects.",
+    "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
     "leads_to": [ "PROBOSCIS" ],
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "integrated_armor": [ "integrated_mandibles" ]
+    "integrated_armor": [ "integrated_mandibles" ],
+    "attacks": {
+      "attack_text_u": "You bite %s with your fangs!",
+      "attack_text_npc": "%1$s bites %2$s with their fangs!",
+      "blocker_mutations": [ "FANGS_SPIDER" ],
+      "body_part": "mouth",
+      "chance": 22,
+      "base_damage": { "damage_type": "cut", "amount": 12 }
+    }
   },
   {
     "type": "mutation",
@@ -5478,7 +5507,7 @@
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
-    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, especially if your victim is caught in a web.  Just make sure you keep them uncovered if you intend to use them.",
+    "description": "You have developed deadly extensible fangs, allowing you to bite quickly or ensure your venom goes home, as desired.",
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "MANDIBLES" ],
@@ -5486,7 +5515,15 @@
     "category": [ "SPIDER" ],
     "consume_time_modifier": 2.0,
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "integrated_armor": [ "integrated_fangs_spider" ]
+    "integrated_armor": [ "integrated_fangs_spider" ],
+    "attacks": {
+      "attack_text_u": "You bite %s with your fangs!",
+      "attack_text_npc": "%1$s bites %2$s with their fangs!",
+      "blocker_mutations": [ "MANDIBLES" ],
+      "body_part": "mouth",
+      "chance": 22,
+      "base_damage": { "damage_type": "stab", "amount": 15 }
+    }
   },
   {
     "type": "mutation",
@@ -6716,12 +6753,20 @@
     "visibility": 5,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your jaw and nose have extended into a wolfish muzzle, making it difficult to find masks that fit.  If you have a set of fangs, you'll be able to trip enemies in combat by biting them.",
+    "description": "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents wearing mouthgear.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 6 }
+    "social_modifiers": { "intimidate": 6 },
+    "attacks": {
+      "attack_text_u": "You nip at %s!",
+      "attack_text_npc": "%1$s nips and harries %2$s!",
+      "blocker_mutations": [ "FANGS" ],
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": { "damage_type": "cut", "amount": 4 }
+    }
   },
   {
     "type": "mutation",
@@ -6731,11 +6776,19 @@
     "visibility": 5,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your jaw and nose have extended into a bearish muzzle, which interferes with most face-covering gear.  If you also have a set of fangs, you'll be able to maul downed enemies with your powerful jaws.",
+    "description": "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents wearing mouthgear.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "URSINE" ],
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "attacks": {
+      "attack_text_u": "You bite %s!",
+      "attack_text_npc": "%1$s bites %2$s!",
+      "blocker_mutations": [ "FANGS" ],
+      "body_part": "mouth",
+      "chance": 20,
+      "base_damage": { "damage_type": "cut", "amount": 5 }
+    }
   },
   {
     "type": "mutation",
@@ -6744,7 +6797,7 @@
     "points": -2,
     "visibility": 6,
     "ugliness": 4,
-    "description": "Your face and jaw have extended, giving you an alert and attentive appearance.  If you have a pair of matching incisors, you can bite much faster with them than any human ever could.",
+    "description": "Your face and jaw have extended, giving you an alert and attentive appearance.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "RAT", "MOUSE" ],
@@ -6758,12 +6811,20 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "You have a long, powerful set of jaws, like a monitor or a crocodilian.  This makes it hard to find a mask that fits, but with a set of fangs, you could really do some damage.",
+    "description": "Your face and jaws are a shorter version of those found on alligators.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "LIZARD" ],
     "restricts_gear": [ "mouth" ],
-    "social_modifiers": { "intimidate": 20 }
+    "social_modifiers": { "intimidate": 20 },
+    "attacks": {
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
+      "blocker_mutations": [ "FANGS" ],
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": { "damage_type": "stab", "amount": 18 }
+    }
   },
   {
     "type": "mutation",
@@ -7265,15 +7326,20 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "You have a beak for a mouth, and it's hard to find gear that fits over it.  If you keep it uncovered, you will sometimes use it to bite in combat.  Slightly reduces wet effects.",
-    "types": [ "TEETH" ],
-    "cancels": [ "MUZZLE", "MUZZLE_RAT", "MUZZLE_BEAR" ],
+    "description": "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
+    "types": [ "TEETH", "MUZZLE" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
-    "integrated_armor": [ "integrated_beak" ]
+    "attacks": {
+      "attack_text_u": "You peck %s!",
+      "attack_text_npc": "%1$s pecks %2$s!",
+      "body_part": "mouth",
+      "chance": 15,
+      "base_damage": { "damage_type": "stab", "amount": 15 }
+    }
   },
   {
     "type": "mutation",
@@ -8588,7 +8654,14 @@
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "social_modifiers": { "intimidate": 5 },
-    "integrated_armor": [ "integrated_sharkteeth" ],
+    "attacks": {
+      "attack_text_u": "You tear into %s with your teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
+      "body_part": "mouth",
+      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+      "chance": 20,
+      "base_damage": { "damage_type": "stab", "amount": 25 }
+    },
     "purifiable": false
   },
   {
