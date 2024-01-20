@@ -265,7 +265,7 @@ void game_menus::inv::common( avatar &you )
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.highlight( location );
+            inv_s.highlight_one_of( { location } );
         }
 
         location = inv_s.execute();
@@ -300,7 +300,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
         inv_s.add_contained_items( loc );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.highlight( location );
+            inv_s.highlight_one_of( { location } );
         }
 
         location = inv_s.execute();
