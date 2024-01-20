@@ -102,7 +102,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "kantele" },
-    "description": "A traditional Finnish string instrument. According to myth the first one was fashioned from a great pike's bone.  This ordinary wooden one doesn't seem quite as special.",
+    "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's bone.  This ordinary wooden one doesn't seem quite as special.",
     "weight": "550 g",
     "volume": "3000 ml",
     "longest_side": "46 cm",
