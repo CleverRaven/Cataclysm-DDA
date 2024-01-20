@@ -1613,12 +1613,12 @@ static void character_edit_hp_menu( Character &you )
         hotkey++;
     }
     smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
-    part_ids.push_back( body_part_bp_null );
+    part_ids.emplace_back( body_part_bp_null );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
     bool all_select = false;
 
-    if( smenu.ret > part_ids.size() ) {
+    if( smenu.ret > static_cast<int>( part_ids.size() ) ) {
         return;
     }
     bp = part_ids.at( smenu.ret ).id();
