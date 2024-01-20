@@ -10563,22 +10563,20 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 void Character::echo_pulse()
 {
     map &here = get_map();
-    sounds::sound( this->pos(), 25, sounds::sound_t::sensory, _( "click" ), true,
+    sounds::sound( this->pos(), 3, sounds::sound_t::movement, _( "chirp" ), true,
                            "none", "none" );
     for( tripoint origin : points_in_radius( pos(), 20 ) ) {
         if ( here.impassable( origin ) && here.pl_line_of_sight( origin, 20 ) ) {
-            sounds::sound( origin, 25, sounds::sound_t::sensory, _( "click" ), true,
+            sounds::sound( origin, 30, sounds::sound_t::sensory, _( "click" ), true,
                            "none", "none" );
 
         }
         creature_tracker &creatures = get_creature_tracker();
         if ( creatures.creature_at( origin, true ) && here.pl_line_of_sight( origin, 20 ) ) {
-            sounds::sound( origin, 25, sounds::sound_t::sensory, _( "chk" ), false,
+            sounds::sound( origin, 30, sounds::sound_t::sensory, _( "chk" ), false,
                         "none", "none" );
         }
     }
-       //         sounds::process_sounds();
-       //     sounds::process_sound_markers( this );
 }
 
 bool Character::knows_trap( const tripoint &pos ) const
