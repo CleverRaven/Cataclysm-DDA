@@ -471,7 +471,7 @@
     "specific_heat_liquid": 4.186,
     "specific_heat_solid": 2.108,
     "latent_heat": 333,
-    "chip_resist": 10,
+    "chip_resist": 7,
     "breathability": "GOOD",
     "wind_resist": 90,
     "salvaged_into": "acidchitin_piece",
@@ -484,7 +484,7 @@
       { "fuel": 0.35, "smoke": 5, "burn": 0.05, "volume_per_turn": "200 ml" }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2.2, "cut": 3.5, "acid": 20, "heat": 4, "bullet": 1.2 },
+    "resist": { "bash": 1, "cut": 6, "acid": 20, "heat": 4, "bullet": 1.2 },
     "repair_difficulty": 5
   },
   {
