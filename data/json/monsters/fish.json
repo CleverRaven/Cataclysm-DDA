@@ -1307,7 +1307,7 @@
     "id": "mon_fish_mackerel",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "atlantic mackerel" },
+    "name": { "str_sp": "Atlantic mackerel" },
     "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
     "volume": "850 ml",
     "weight": "425 g",
