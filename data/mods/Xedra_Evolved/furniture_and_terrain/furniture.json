@@ -206,7 +206,7 @@
     "id": "f_dreamforged_bed_of_restful_repose",
     "name": "dreamforged bed of restful repose",
     "symbol": "#",
-    "description": "A bed made solely for dreaming, by a dreamsmith.  When you lay upon this bed, your mind renews and your body recuperates.  Said to be so comfortable that if you die while in this bed, your mind detaches without pain from your body and sets forth upon the dream realms.",
+    "description": "A bed made solely for dreaming, by a dreamsmith.  When you lay upon this bed, your mind renews and your body recuperates at nearly three times the speed of a non magical bed.  Said to be so comfortable that if you die while in this bed, your mind detaches without pain from your body and sets forth upon the dream realms.",
     "color": "cyan_green",
     "move_cost_mod": 3,
     "coverage": 40,
