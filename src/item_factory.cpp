@@ -4212,6 +4212,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "description", def.description );
     }
 
+    if( jo.has_member( "description_prepend" ) ) {
+        jo.read( "description_prepend", def.description_prepend );
+        def.extend_description = true;
+    }
+
+    if( jo.has_member( "description_append" ) ) {
+        jo.read( "description_append", def.description_append );
+        def.extend_description = true;
+    }
+
     if( jo.has_string( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" );
     }

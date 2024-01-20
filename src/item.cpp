@@ -384,7 +384,11 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( type->expand_snippets ) {
-        set_var( "description", SNIPPET.expand( type->description.translated() ) );
+        if( !type->extend_description ) {
+            set_var( "description", SNIPPET.expand( type->description.translated() ) );
+        } else {
+            set_var( "description", SNIPPET.expand( extended_description() ) );
+        }
     }
 
     if( has_itype_variant() && itype_variant().expand_snippets ) {
@@ -2465,7 +2469,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    craft_data_->making->result_name(),
                                    percent_progress ) );
             } else {
-                info.emplace_back( "DESCRIPTION", type->description.translated() );
+                if( !type->extend_description ) {
+                    info.emplace_back( "DESCRIPTION", type->description.translated() );
+                } else {
+                    info.emplace_back( "DESCRIPTION", extended_description() );
+                }
             }
         }
         insert_separation_line( info );
@@ -9345,11 +9353,22 @@ std::string item::variant_description() const
 
     // append the description instead of fully overwriting it
     if( itype_variant().append ) {
-        return string_format( pgettext( "variant description", "%s  %s" ), type->description.translated(),
-                              itype_variant().alt_description.translated() );
+        if( !type->extend_description ) {
+            return _( string_format( "%s  %s", type->description.translated(),
+                                     itype_variant().alt_description.translated() ) );
+        }
+        return _( string_format( "%s  %s", extended_description(),
+                                 itype_variant().alt_description.translated() ) );
     } else {
         return itype_variant().alt_description.translated();
     }
+}
+
+std::string item::extended_description() const
+{
+    return _( string_format( "%s  %s %s", type->description_prepend.translated(),
+                             type->description.translated(),
+                             type->description_append.translated() ) );
 }
 
 void item::clear_itype_variant()

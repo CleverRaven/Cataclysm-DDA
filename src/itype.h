@@ -1334,6 +1334,9 @@ struct itype {
         explosion_data explosion;
 
         translation description; // Flavor text
+        translation description_prepend; // Flavor text to add to the front of the description
+        translation description_append; // Flavor text to add to the end of the description
+        bool extend_description = false; // Whether the desciption needs appending/prepending
 
     protected:
         // private because is should only be accessed through itype::nname!

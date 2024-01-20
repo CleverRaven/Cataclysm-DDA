@@ -2396,6 +2396,9 @@ class item : public visitable
 
         void clear_itype_variant();
 
+        // Extended description after appending
+        std::string extended_description() const;
+
         // Description of the item provided by the variant, or an empty string
         std::string variant_description() const;
 
