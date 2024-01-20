@@ -438,7 +438,6 @@
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "proportional": { "weight": 1.25 },
     "relative": { "melee_damage": { "bash": 2 } }
   },
   {

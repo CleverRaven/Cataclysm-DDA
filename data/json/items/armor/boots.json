@@ -310,9 +310,7 @@
     "description": "Boots crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "melee_damage": { "bash": 2 } },
-    "material_thickness": 5
+    "relative": { "melee_damage": { "bash": 2 } }
   },
   {
     "id": "xl_boots_acidchitin",
