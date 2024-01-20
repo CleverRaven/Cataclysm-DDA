@@ -1618,7 +1618,7 @@ static void character_edit_hp_menu( Character &you )
     bodypart_str_id bp = body_part_no_a_real_part;
     bool all_select = false;
 
-    if( smenu.ret > static_cast<int>( part_ids.size() ) ) {
+    if( smenu.ret > static_cast<int>( part_ids.size() ) || smenu.ret < 0 ) {
         return;
     }
     bp = part_ids.at( smenu.ret ).id();
