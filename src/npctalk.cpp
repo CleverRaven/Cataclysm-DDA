@@ -6235,6 +6235,23 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         }
     };
 }
+
+talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        npc *p = d.actor( is_npc )->get_npc();
+        if( p ) {
+            if( p->get_attitude() == NPCATT_TALK ) {
+                return;
+            }
+            if( p->sees( get_player_character() ) ) {
+                add_msg( _( "%s wants to talk to you." ), p->get_name() );
+            }
+            p->set_attitude( NPCATT_TALK );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view member )
 {
     std::string const type_str = jo.get_string( member.data() );
@@ -6635,6 +6652,14 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_take_control_menu() ) );
+        return;
+    }
+    if( effect_id == "u_wants_to_talk" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_wants_to_talk( false ) ) );
+        return;
+    }
+    if( effect_id == "npc_wants_to_talk" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_wants_to_talk( true ) ) );
         return;
     }
     jo.throw_error_at( effect_id, "unknown effect string" );
