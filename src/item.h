@@ -620,6 +620,12 @@ class item : public visitable
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
+        /**
+         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * pieces of information are considered equal for display purposes
+         *
+         * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
+         */
         stacking_info stacks_with( const item &rhs, bool check_components = false,
                                    bool combine_liquid = false, bool check_cat = false,
                                    int depth = 0, int maxdepth = 2, bool precise = false ) const;

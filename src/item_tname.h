@@ -13,6 +13,9 @@ class item;
 
 namespace tname
 {
+// segments for item::tname()
+// Each element corresponds to a piece of information about an item and is displayed in the item's name
+// Each element is checked individually for stacking in item::stacks_with(), and all elements much stack for any 2 items to stack
 enum class segments : std::size_t {
     FAULTS = 0,
     DIRT,
@@ -71,42 +74,43 @@ enum class segments : std::size_t {
 using segment_bitset = enum_bitset<tname::segments>;
 
 #ifndef CATA_IN_TOOL
-using decl_fsegment = std::string( item const &it, unsigned int quantity,
-                                   segment_bitset const &segments );
-decl_fsegment faults;
-decl_fsegment dirt_symbol;
-decl_fsegment overheat_symbol;
-decl_fsegment pre_asterisk;
-decl_fsegment durability;
-decl_fsegment engine_displacement;
-decl_fsegment wheel_diameter;
-decl_fsegment burn;
-decl_fsegment label;
-decl_fsegment category;
-decl_fsegment mods;
-decl_fsegment craft;
-decl_fsegment wbl_mark;
-decl_fsegment contents;
-decl_fsegment contents_abrev;
-decl_fsegment food_traits;
-decl_fsegment location_hint;
-decl_fsegment ethereal;
-decl_fsegment food_status;
-decl_fsegment food_irradiated;
-decl_fsegment temperature;
-decl_fsegment clothing_size;
-decl_fsegment filthy;
-decl_fsegment broken;
-decl_fsegment cbm_status;
-decl_fsegment ups;
-decl_fsegment wetness;
-decl_fsegment active;
-decl_fsegment sealed;
-decl_fsegment post_asterisk;
-decl_fsegment weapon_mods;
-decl_fsegment relic_charges;
-decl_fsegment tags;
-decl_fsegment vars;
+// function type that prints an element of tname::segments
+using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
+                             segment_bitset const &segments );
+decl_f_print_segment faults;
+decl_f_print_segment dirt_symbol;
+decl_f_print_segment overheat_symbol;
+decl_f_print_segment pre_asterisk;
+decl_f_print_segment durability;
+decl_f_print_segment engine_displacement;
+decl_f_print_segment wheel_diameter;
+decl_f_print_segment burn;
+decl_f_print_segment label;
+decl_f_print_segment category;
+decl_f_print_segment mods;
+decl_f_print_segment craft;
+decl_f_print_segment wbl_mark;
+decl_f_print_segment contents;
+decl_f_print_segment contents_abrev;
+decl_f_print_segment food_traits;
+decl_f_print_segment location_hint;
+decl_f_print_segment ethereal;
+decl_f_print_segment food_status;
+decl_f_print_segment food_irradiated;
+decl_f_print_segment temperature;
+decl_f_print_segment clothing_size;
+decl_f_print_segment filthy;
+decl_f_print_segment broken;
+decl_f_print_segment cbm_status;
+decl_f_print_segment ups;
+decl_f_print_segment wetness;
+decl_f_print_segment active;
+decl_f_print_segment sealed;
+decl_f_print_segment post_asterisk;
+decl_f_print_segment weapon_mods;
+decl_f_print_segment relic_charges;
+decl_f_print_segment tags;
+decl_f_print_segment vars;
 
 inline std::string noop( item const & /* it */, unsigned int /* quantity */,
                          segment_bitset const & /* segments */ )
@@ -114,7 +118,7 @@ inline std::string noop( item const & /* it */, unsigned int /* quantity */,
     return {};
 }
 
-inline std::unordered_map<segments, decl_fsegment *> const segment_map = {
+inline std::unordered_map<segments, decl_f_print_segment *> const segment_map = {
     { segments::FAULTS, faults },
     { segments::DIRT, dirt_symbol },
     { segments::OVERHEAT, overheat_symbol },
@@ -163,18 +167,18 @@ struct enum_traits<tname::segments> {
 
 namespace tname
 {
-constexpr unsigned long long default_tname_bits =
-    std::numeric_limits<unsigned long long>::max() &
+constexpr uint64_t default_tname_bits =
+    std::numeric_limits<uint64_t>::max() &
     ~( 1ULL << static_cast<size_t>( tname::segments::CATEGORY ) );
-constexpr unsigned long long tname_prefix_bits =
+constexpr uint64_t tname_prefix_bits =
     1ULL << static_cast<size_t>( tname::segments::FAVORITE_PRE ) |
     1ULL << static_cast<size_t>( tname::segments::DURABILITY ) |
     1ULL << static_cast<size_t>( tname::segments::BURN );
-constexpr unsigned long long tname_contents_bits =
+constexpr uint64_t tname_contents_bits =
     1ULL << static_cast<size_t>( tname::segments::CONTENTS ) |
     1ULL << static_cast<size_t>( tname::segments::CONTENTS_FULL ) |
     1ULL << static_cast<size_t>( tname::segments::CONTENTS_ABREV );
-constexpr unsigned long long tname_conditional_bits =    // TODO: fine grain?
+constexpr uint64_t tname_conditional_bits =    // TODO: fine grain?
     1ULL << static_cast<size_t>( tname::segments::COMPONENTS ) |
     1ULL << static_cast<size_t>( tname::segments::TAGS ) |
     1ULL << static_cast<size_t>( tname::segments::VARS );

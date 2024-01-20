@@ -12207,10 +12207,11 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents( int depth, int maxdepth ) const
 {
-    if( depth++ < maxdepth && type->category_force == item_category_container ) {
+    if( depth < maxdepth && type->category_force == item_category_container ) {
         if( cached_category.timestamp == calendar::turn ) {
             return cached_category.id.obj();
         }
+        ++depth;
         if( item::aggregate_t const aggi = aggregated_contents( depth, maxdepth ); aggi ) {
             item_category const &cat = aggi.header->get_category_of_contents( depth, maxdepth );
             cached_category = { cat.get_id(), calendar::turn };
@@ -14845,6 +14846,33 @@ bool item::contents_only_one_type() const
     } ) );
 }
 
+namespace
+{
+template <class C>
+void _aggregate( C &container, typename C::key_type const &key, item const *it,
+                 item::aggregate_t *&running_max, item::aggregate_t *&max_type, int depth,
+                 int maxdepth )
+{
+    auto const [iter, emplaced] = container.emplace( key, it );
+    if( emplaced && running_max == nullptr ) {
+        running_max = &iter->second;
+        max_type = running_max;
+    } else if( !emplaced ) {
+        iter->second.info.bits &=
+            iter->second.header->stacks_with( *it, false, false, true, depth, maxdepth ).bits;
+        ++iter->second.count;
+
+        if constexpr( std::is_same_v<itype_id, typename C::key_type> ) {
+            max_type = max_type->count < iter->second.count ? &iter->second : max_type;
+        } else {
+            iter->second.info.bits.reset( tname::segments::TYPE );
+        }
+
+        running_max = running_max->count < iter->second.count ? &iter->second : running_max;
+    }
+}
+} // namespace
+
 item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
 {
     constexpr double cutoff = 0.5;
@@ -14857,6 +14885,7 @@ item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
     auto const cont_and_soft = []( item_pocket const & pkt ) {
         return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::SOFTWARE );
     };
+
     for( item_pocket const *pk : contents.get_pockets( cont_and_soft ) ) {
         for( item const *pkit : pk->all_items_top() ) {
             total++;
@@ -14864,25 +14893,9 @@ item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
             bool const type_ok = pkit->type->category_force != item_category_container ||
                                  cat == item_category_container;
             if( type_ok ) {
-                if( auto const rt = types.emplace( pkit->typeId(), pkit ); rt.second && running_max == nullptr ) {
-                    running_max = &rt.first->second;
-                    max_type = running_max;
-                } else if( !rt.second ) {
-                    rt.first->second.info.bits &=
-                        rt.first->second.header->stacks_with( *pkit, false, false, true, depth, maxdepth ).bits;
-                    running_max = running_max->count < ++rt.first->second.count ? &rt.first->second : running_max;
-                    max_type = max_type->count < rt.first->second.count ? &rt.first->second : max_type;
-                }
+                _aggregate( types, pkit->typeId(), pkit, running_max, max_type, depth, maxdepth );
             }
-            if( auto const rc = cats.emplace( cat, pkit ); rc.second && running_max == nullptr ) {
-                running_max = &rc.first->second;
-                max_type = running_max;
-            } else if( !rc.second ) {
-                rc.first->second.info.bits &=
-                    rc.first->second.header->stacks_with( *pkit, false, false, true, depth, maxdepth ).bits;
-                rc.first->second.info.bits.reset( tname::segments::TYPE );
-                running_max = running_max->count < ++rc.first->second.count ? &rc.first->second : running_max;
-            }
+            _aggregate( cats, cat, pkit, running_max, max_type, depth, maxdepth );
         }
     }
     if( running_max == nullptr ) {
@@ -14892,6 +14905,7 @@ item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
     unsigned int const cutoff_check =
         total < 3 ? total - 1 : static_cast<int>( std::floor( total * cutoff ) );
 
+    // alow a type to still dominate over its own category
     if( max_type->count > cutoff_check &&
         max_type->header->type->category_force != item_category_container &&
         max_type->header->cached_category.id == running_max->header->cached_category.id ) {
