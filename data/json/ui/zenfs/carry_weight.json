@@ -13,13 +13,13 @@
   {
     "id": "zenfs_carry_weight_bar_12",
     "type": "widget",
-	"copy-from": "zenfs_carry_weight_bar",
+    "copy-from": "zenfs_carry_weight_bar",
     "width": 12
   },
   {
     "id": "zenfs_carry_weight_bar_14",
     "type": "widget",
-	"copy-from": "zenfs_carry_weight_bar",
+    "copy-from": "zenfs_carry_weight_bar",
     "width": 14
   }
 ]

@@ -1,11 +1,11 @@
 [
   {
     "id": "zenfs_bionic_bar_14_with_balance",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "minimum_columns",
-	"widgets": [ "zenfs_bionicpower_label", "zenfs_bionicbalance_sym", "zenfs_bionicpower_bar_14_no_label" ],
-	"flags": [ "W_NO_PADDING" ]
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_bionicpower_label", "zenfs_bionicbalance_sym", "zenfs_bionicpower_bar_14_no_label" ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_bionicpower_bar_14",
@@ -24,7 +24,7 @@
     "id": "zenfs_bionicpower_bar_14_no_label",
     "type": "widget",
     "copy-from": "zenfs_bionicpower_bar_14",
-	"label": "",
+    "label": "",
     "flags": [ "W_NO_LABEL", "W_DISABLED_WHEN_EMPTY" ]
   },
   {
@@ -41,24 +41,26 @@
   },
   {
     "id": "zenfs_bionicbalance_sym",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "minimum_columns",
-	"width": 1,
-	"widgets": [ "zenfs_bionicbalance_bar_1" ],
-	"flags": [ "W_NO_PADDING" ]
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 1,
+    "widgets": [ "zenfs_bionicbalance_bar_1" ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
-	"id": "zenfs_bionicpower_label",
+    "id": "zenfs_bionicpower_label",
     "type": "widget",
     "style": "text",
     "string": "Power",
     "width": 5,
-	"clauses": [ {
-	  "id": "zenfs_clause_bionic_visible",
-	  "text": "",
-	  "condition": { "compare_num": [ { "u_val": "power_percentage" }, "==", { "const": 0 } ] }
-	} ],
+    "clauses": [
+      {
+        "id": "zenfs_clause_bionic_visible",
+        "text": "",
+        "condition": { "compare_num": [ { "u_val": "power_percentage" }, "==", { "const": 0 } ] }
+      }
+    ],
     "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   },
   {

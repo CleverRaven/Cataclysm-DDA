@@ -1,18 +1,18 @@
 [
   {
-	"id": "zenfs_mood_focus_speed_sound",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "rows",
-	"width": 9,
-	"widgets": [ "mood_desc_label", "focus_num", "speed_num", "sound_num" ]
+    "id": "zenfs_mood_focus_speed_sound",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 9,
+    "widgets": [ "mood_desc_label", "focus_num", "speed_num", "sound_num" ]
   },
   {
-	"id": "zenfs_weariness_trans_malus",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "minimum_columns",
-	"widgets": [ "zenfs_malus_trans_bar", "zenfs_weary_malus" ]
+    "id": "zenfs_weariness_trans_malus",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_malus_trans_bar", "zenfs_weary_malus" ]
   },
   {
     "id": "zenfs_stamina_bar",
@@ -58,13 +58,13 @@
   {
     "id": "zenfs_fatigue_bar_12",
     "type": "widget",
-	"copy-from": "zenfs_fatigue_bar",
+    "copy-from": "zenfs_fatigue_bar",
     "width": 12
   },
   {
     "id": "zenfs_fatigue_bar_14",
     "type": "widget",
-	"copy-from": "zenfs_fatigue_bar",
+    "copy-from": "zenfs_fatigue_bar",
     "width": 14
   },
   {
@@ -84,29 +84,29 @@
     "label": "Malus",
     "style": "text",
     "var": "weary_malus_text",
-	"width": 5,
+    "width": 5,
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-	"id": "zenfs_malus_trans_bar",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "rows",
-	"width": 14,
-	"widgets": [ "zenfs_malus_trans_bar_8" ]
+    "id": "zenfs_malus_trans_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 14,
+    "widgets": [ "zenfs_malus_trans_bar_8" ]
   },
   {
     "id": "zenfs_cardio_fit",
-	"type": "widget",
-	"style": "number",
-	"var": "cardio_fit",
-	"flags": [ "W_LABEL_NONE" ]
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_fit",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_cardio_acc",
-	"type": "widget",
-	"style": "number",
-	"var": "cardio_acc",
-	"flags": [ "W_LABEL_NONE" ]
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_acc",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

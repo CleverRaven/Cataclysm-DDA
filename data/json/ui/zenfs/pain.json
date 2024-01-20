@@ -15,12 +15,12 @@
     "id": "zenfs_pain_bar_14",
     "type": "widget",
     "width": 14,
-	"copy-from": "zenfs_pain_bar"
+    "copy-from": "zenfs_pain_bar"
   },
   {
     "id": "zenfs_pain_bar_15",
     "type": "widget",
     "width": 15,
-	"copy-from": "zenfs_pain_bar"
+    "copy-from": "zenfs_pain_bar"
   }
 ]

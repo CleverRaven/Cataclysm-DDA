@@ -27,7 +27,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "head",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   },
   {
@@ -35,7 +35,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "torso",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   },
   {
@@ -43,7 +43,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "arm_l",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   },
   {
@@ -51,7 +51,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "arm_r",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   },
   {
@@ -59,7 +59,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "leg_l",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   },
   {
@@ -67,7 +67,7 @@
     "type": "widget",
     "var": "bp_encumb",
     "bodypart": "leg_r",
-	"width": 5,
+    "width": 5,
     "copy-from": "zenfs_encumberance_graph"
   }
 ]

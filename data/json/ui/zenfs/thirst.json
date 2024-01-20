@@ -92,14 +92,14 @@
         "condition": { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -60 } ] }
       }
     ],
-	"flags": [ "W_LABEL_NONE" ]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
-	"id": "zenfs_thirst_desc",
-	"type": "widget",
-	"style": "layout",
-	"arrange": "columns",
-	"width": 10,
-	"widgets": [ "zenfs_thirst_no_label" ]
+    "id": "zenfs_thirst_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 10,
+    "widgets": [ "zenfs_thirst_no_label" ]
   }
 ]
