@@ -527,6 +527,9 @@
       [
         [ "club_wooden_large", -1 ],
         [ "homewrecker", -1 ],
+        [ "glass_macuahuitl", -1 ],
+        [ "aztec_sword_stone", -1 ],
+        [ "aztec_sword_scrap", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -546,7 +549,11 @@
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],
-        [ "lucern_hammer", -1 ]
+        [ "lc_aztec_sword", -1 ],
+        [ "mc_aztec_sword", -1 ],
+        [ "hc_aztec_sword", -1 ],
+        [ "ch_aztec_sword", -1 ],
+        [ "qt_aztec_sword", -1 ]
       ]
     ]
   },
@@ -620,6 +627,9 @@
     "//": "Any basic weapon you can use as a cutting polearm.",
     "tools": [
       [
+        [ "aztec_spear_scrap", -1 ],
+        [ "aztec_spear_glass", -1 ],
+        [ "aztec_spear_stone", -1 ],
         [ "makeshift_halberd", -1 ],
         [ "halberd_fake", -1 ],
         [ "makeshift_glaive", -1 ],
@@ -639,6 +649,11 @@
     "//": "Any real, top-heavy cutting weapons with a long pole and a blade on the end, designed to swing side-to-side.  Think like a sword with a really long handle.",
     "tools": [
       [
+        [ "lc_aztec_spear", -1 ],
+        [ "mc_aztec_spear", -1 ],
+        [ "hc_aztec_spear", -1 ],
+        [ "ch_aztec_spear", -1 ],
+        [ "qt_aztec_spear", -1 ],
         [ "glaive", -1 ],
         [ "halberd", -1 ],
         [ "lajatang", -1 ],

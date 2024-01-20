@@ -149,7 +149,7 @@
     "end": {
       "effect": [
         { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+        { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -190,12 +190,7 @@
         }
       ]
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "kiernans_notes" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
-      ]
-    },
+    "end": { "effect": [ { "u_spawn_item": "kiernans_notes" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_DinoLab_Yos_3",
     "dialogue": {
@@ -222,12 +217,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "mutagen_raptor" },
-        { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
-      ]
-    },
+    "end": { "effect": [ { "u_spawn_item": "mutagen_raptor" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Time for a nice relaxing trip…",

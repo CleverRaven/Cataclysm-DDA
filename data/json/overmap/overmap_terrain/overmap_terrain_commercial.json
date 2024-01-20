@@ -381,6 +381,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_fabricstore" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_clothes",
+    "name": "fabric store",
+    "color": "blue",
+    "extend": { "flags": [ "SOURCE_TAILORING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_fabricstore_roof" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_clothes_roof",
+    "name": "fabric store roof",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_bookstore",

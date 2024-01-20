@@ -32,8 +32,8 @@
     "type": "talk_topic",
     "dynamic_line": "This character was previously put into a suspension state due to an AI bug.  If you have reason to believe the problem was fixed, you can wake them up.  Do you want to do that now?",
     "responses": [
-      { "text": "yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
-      { "text": "no, go back to sleep.", "topic": "TALK_DONE" }
+      { "text": "Yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "No, go back to sleep.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -55,7 +55,7 @@
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
       {
-        "text": "[HAS DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
         "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
         "topic": "TALK_ALLY_DEBUG"
       },
@@ -1090,7 +1090,7 @@
   {
     "id": [ "TALK_ALLY_DEBUG" ],
     "type": "talk_topic",
-    "dynamic_line": { "is_by_radio": " *tshk* Not sure it works when i am that far.", "no": "Yes?" },
+    "dynamic_line": { "is_by_radio": " *tshk* Not sure it works when I am that far.", "no": "Yes?" },
     "responses": [
       {
         "text": "Trust me (+10 trust).",

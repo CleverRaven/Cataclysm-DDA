@@ -364,6 +364,21 @@
     "qty": 200
   },
   {
+    "id": "emit_hallucinogenic_spores",
+    "type": "emit",
+    "//": "Slow infrequent leak of hallucinogenic cloud",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 1,
+    "qty": 4
+  },
+  {
+    "id": "emit_hallucinogenic_spores_blast",
+    "type": "emit",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 2,
+    "qty": 200
+  },
+  {
     "id": "emit_swamp_gas_leak",
     "type": "emit",
     "field": "fd_swamp_gas",

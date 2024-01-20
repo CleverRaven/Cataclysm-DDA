@@ -4118,6 +4118,27 @@
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l", "test_bird_wing_r" ] } ]
   },
   {
+    "id": "test_winglets_left",
+    "//": "Only for the test wing body parts",
+    "type": "ARMOR",
+    "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
+    "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 100, "coverage": 100, "covers": [ "test_bird_wing_l" ] } ]
+  },
+  {
     "id": "test_robofac_armor_rig",
     "type": "ARMOR",
     "category": "ARMOR",

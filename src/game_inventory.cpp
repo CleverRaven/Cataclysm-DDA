@@ -2769,3 +2769,179 @@ std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 
     return inv_s.execute();
 }
+
+class select_ammo_inventory_preset : public inventory_selector_preset
+{
+    public:
+        select_ammo_inventory_preset( Character &you, const item_location &target,
+                                      bool empty ) : you( you ),
+            target( target ), empty( empty ) {
+            _indent_entries = false;
+            _collate_entries = true;
+
+            append_cell( [&you]( const item_location & loc ) {
+                bool is_ammo_container = loc->is_ammo_container();
+                Character &player_character = get_player_character();
+                if( is_ammo_container || loc->is_container() ) {
+                    if( is_ammo_container && you.is_worn( *loc ) ) {
+                        return loc->type_name();
+                    }
+                    return string_format( _( "%s, %s" ), loc->type_name(), loc.describe( &player_character ) );
+                }
+                return loc.describe( &player_character );
+            }, _( "LOCATION" ) );
+
+            append_cell( [&you, target]( const item_location & loc ) {
+                for( const item_location &opt : get_possible_reload_targets( target ) ) {
+                    if( opt->can_reload_with( *loc, true ) ) {
+                        if( opt == target ) {
+                            return std::string();
+                        }
+                        return string_format( _( "%s, %s" ), opt->type_name(), opt.describe( &you ) );
+                    }
+                }
+                return std::string();
+            }, _( "DESTINATION" ) );
+
+            append_cell( []( const inventory_entry & entry ) {
+                if( entry.any_item()->is_ammo() ) {
+                    return std::to_string( entry.chosen_count );
+                }
+                return std::string();
+            }, _( "AMOUNT" ) );
+
+            append_cell( [&you, &target]( const item_location & loc ) {
+                item::reload_option opt( &you, target, loc );
+                return std::to_string( opt.moves() );
+            }, _( "MOVES" ) );
+
+            append_cell( []( const item_location & loc ) {
+                const itype *ammo = loc->is_ammo_container() ? loc->first_ammo().ammo_data() :
+                                    loc->ammo_data();
+                if( ammo ) {
+                    const damage_instance &dam = ammo->ammo->damage;
+                    return std::to_string( static_cast<int>( dam.total_damage() ) );
+                }
+                return std::string();
+            }, _( "DAMAGE" ) );
+
+            append_cell( []( const item_location & loc ) {
+                const itype *ammo = loc->is_ammo_container() ? loc->first_ammo().ammo_data() :
+                                    loc->ammo_data();
+                if( ammo ) {
+                    const damage_instance &dam = ammo->ammo->damage;
+                    return std::to_string( static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
+                }
+                return std::string();
+            }, _( "PIERCE" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            // todo: allow to reload a magazine/magazine well from a container pocket on the same item
+            if( loc.parent_item() == target ) {
+                return false;
+            }
+
+            if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
+                map &here = get_map();
+                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                    return false;
+                }
+            }
+
+            if( loc->is_frozen_liquid() ) {
+                return false;
+            }
+
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining() ) {
+                return false;
+            }
+
+            std::vector<item_location> opts = get_possible_reload_targets( target );
+
+            for( item_location &p : opts ) {
+                if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
+                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p->can_reload_with( *loc, true ) ) {
+                    return true;
+                }
+
+                if( p->can_reload_with( *loc, true ) ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            item_location left = lhs.any_item();
+            item_location right = rhs.any_item();
+
+            if( left->ammo_remaining() == 0 || right->ammo_remaining() == 0 ) {
+                return ( left->ammo_remaining() != 0 ) > ( right->ammo_remaining() != 0 );
+            }
+
+            if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
+                return left.obtain_cost( you ) < right.obtain_cost( you );
+            }
+
+            if( left->ammo_remaining() != right->ammo_remaining() ) {
+                return left->ammo_remaining() > right->ammo_remaining();
+            }
+
+            return inventory_selector_preset::sort_compare( lhs, rhs );
+        }
+
+    private:
+        Character &you;
+        const item_location target;
+        bool empty;
+};
+
+item::reload_option game_menus::inv::select_ammo( Character &you, const item_location &loc,
+        bool prompt, bool empty )
+{
+    const select_ammo_inventory_preset preset( you, loc, empty );
+    ammo_inventory_selector inv_s( you, loc, preset );
+
+    inv_s.set_title( string_format( loc->is_watertight_container() ? _( "Refill %s" ) :
+                                    loc->has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+                                    loc->display_name() ) );
+    inv_s.set_hint( _( "Choose ammo to reload" ) );
+    inv_s.set_display_stats( false );
+
+    inv_s.clear_items();
+    inv_s.add_character_items( you );
+    inv_s.add_nearby_items( 1 );
+    inv_s.set_all_entries_chosen_count();
+
+    if( inv_s.empty() ) {
+        popup( _( "You have nothing to reload." ), PF_GET_KEY );
+        return item::reload_option();
+    }
+
+    drop_location selected;
+    if( !prompt && inv_s.item_entry_count() == 1 ) {
+        selected = inv_s.get_only_choice();
+    } else {
+        selected = inv_s.execute();
+    }
+
+    if( !selected.first ) {
+        return item::reload_option();
+    }
+
+    item_location target_loc;
+    for( const item_location &opt : get_possible_reload_targets( loc ) ) {
+        if( opt->can_reload_with( *selected.first, true ) ) {
+            target_loc = opt;
+            break;
+        }
+    }
+
+    item::reload_option opt( &you, target_loc, selected.first );
+    opt.qty( selected.second );
+
+    return opt;
+}

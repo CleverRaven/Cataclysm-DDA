@@ -1,0 +1,102 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_TELEPATH_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "TELEPATH" },
+    "effect": [ { "math": [ "u_telepathy_has_been_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_telepathy_has_been_updated", "!=", "1" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_SHIELD",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_MORALE",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BLAST",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_ANIMAL_MIND_CONTROL",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_CONFUSION",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_INVISIBILITY",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_FEAR",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BLAST_RADIUS",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BEAST_TAMING",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_MIND_CONTROL",
+          "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_NETWORK"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_SHIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_shield')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_shield" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_MORALE",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_morale')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_morale" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BLAST",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_blast')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_blast" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_ANIMAL_MIND_CONTROL",
+    "condition": {
+      "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_animal_mind_control')", "<", "0" ] } ]
+    },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_beastmaster" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_CONFUSION",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_confusion')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_confusion" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_INVISIBILITY",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_invisibility')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_FEAR",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_fear')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_fear" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BLAST_RADIUS",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_blast_radius')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_scream" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_BEAST_TAMING",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_beast_taming')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_beast_taming" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_MIND_CONTROL",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_mind_control')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_mind_control" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_TELEPATH_UPDATE_NETWORK",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_network')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_telepathic_network" } ]
+  }
+]
