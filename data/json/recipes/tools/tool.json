@@ -200,7 +200,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "any_nail", 1, "LIST" ]
   },
   {
     "result": "shed_stick",
@@ -503,7 +503,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "2x4", 18 ] ],
-      [ [ "nail", 14 ], [ "bronze_nail", 14 ] ],
+      [ [ "any_nail", 14, "LIST" ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ]
