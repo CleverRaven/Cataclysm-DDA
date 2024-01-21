@@ -507,5 +507,20 @@
         [ "xl_entry_suit", -1 ]
       ]
     ]
+  },
+  {
+    "id": "any_hotcut",
+    "type": "requirement",
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+  },
+  {
+    "id": "any_metalworking_tongs",
+    "type": "requirement",
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+  },
+  {
+    "id": "any_metalworking_file",
+    "type": "requirement",
+    "tools": [ [ [ "metal_file", -1 ], [ "file_bronze", -1 ] ] ]
   }
 ]

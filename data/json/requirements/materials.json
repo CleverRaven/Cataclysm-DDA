@@ -18,11 +18,6 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
-    "id": "nails",
-    "type": "requirement",
-    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
-  },
-  {
     "id": "bone_edible",
     "type": "requirement",
     "//": "Any kind of non-poisonous bones, human or not.",
@@ -524,6 +519,11 @@
     "id": "any_fresh_water",
     "type": "requirement",
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "nails",
+    "type": "requirement",
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
   },
   {
     "id": "wax_any",
