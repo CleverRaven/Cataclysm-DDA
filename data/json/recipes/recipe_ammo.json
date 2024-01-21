@@ -628,7 +628,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "scrap", 1 ], [ "nails", 8, "LIST" ],
+      [ [ "scrap", 1 ], [ "any_nail", 8, "LIST" ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
@@ -666,7 +666,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
-      [ [ "nails", 8, "LIST" ],
+      [ [ "any_nail", 8, "LIST" ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },

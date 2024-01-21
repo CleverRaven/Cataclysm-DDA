@@ -42,7 +42,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nails", 10, "LIST" ]
+    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "any_nail", 10, "LIST" ]
   },
   {
     "type": "recipe",
@@ -88,7 +88,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nails", 20, "LIST" ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "any_nail", 20, "LIST" ]
   },
   {
     "type": "recipe",
@@ -103,7 +103,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nails", 2, "LIST" ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "any_nail", 2, "LIST" ]
   },
   {
     "type": "recipe",

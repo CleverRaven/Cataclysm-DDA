@@ -383,7 +383,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "any_nail", 1, "LIST" ]
   },
   {
     "type": "recipe",
@@ -429,7 +429,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nails", 1, "LIST" ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "any_nail", 1, "LIST" ]
   },
   {
     "type": "recipe",
@@ -488,7 +488,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "any_nail", 2, "LIST" ]
   },
   {
     "type": "recipe",
@@ -561,7 +561,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nails", 2, "LIST" ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "any_nail", 2, "LIST" ]
   },
   {
     "type": "recipe",
@@ -929,7 +929,7 @@
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "nails", 10, "LIST" ]
+      [ [ "any_nail", 10, "LIST" ]
     ]
   },
   {
@@ -1107,7 +1107,7 @@
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_improv" }
     ],
-    "components": [ [ [ "pipe", 3 ] ], [ [ "nails", 3, "LIST" ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "any_nail", 3, "LIST" ]
   },
   {
     "type": "recipe",
@@ -1123,7 +1123,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "nails", 1, "LIST" ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "any_nail", 1, "LIST" ]
   },
   {
     "type": "recipe",
@@ -1300,7 +1300,7 @@
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "nails", 60, "LIST" ]
+      [ [ "any_nail", 60, "LIST" ]
     ]
   },
   {
@@ -1326,7 +1326,7 @@
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
       [ [ "spring", 1 ] ],
       [ [ "cordage_superior", 1, "LIST" ] ],
-      [ [ "nails", 20, "LIST" ]
+      [ [ "any_nail", 20, "LIST" ]
     ]
   },
   {
