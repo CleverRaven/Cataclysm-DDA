@@ -119,7 +119,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "nail", 4 ], [ "bronze_nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
+      [ [ "any_nail", 4, "LIST" ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
       [ [ "sheet", 2 ] ],
       [ [ "stick", 1 ] ],
       [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "string_36", 1 ] ]
@@ -138,7 +138,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "nail", 4 ], [ "bronze_nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
+      [ [ "any_nail", 4, "LIST" ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
       [ [ "grass_sheet", 2 ] ],
       [ [ "stick", 1 ] ],
       [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "string_6", 6 ], [ "cordage_6", 6 ] ]
@@ -169,7 +169,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ], [ "bronze_nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "any_nail", 24, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
@@ -199,7 +199,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ], [ "bronze_nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "any_nail", 24, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
@@ -212,7 +212,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 12 ], [ "bronze_nail", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "any_nail", 12, "LIST" ] ], [ [ "hinge", 2 ] ] ],
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_c"
   },
@@ -310,7 +310,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "nail", 12 ], [ "bronze_nail", 12 ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 12, "LIST" ] ] ],
     "pre_terrain": "t_door_b",
     "post_terrain": "t_door_c"
   },
@@ -323,7 +323,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "nail", 12 ], [ "bronze_nail", 12 ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 12, "LIST" ] ] ],
     "pre_terrain": "t_door_b_peep",
     "post_terrain": "t_door_c_peep"
   },
@@ -336,7 +336,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "nail", 24 ], [ "bronze_nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 24, "LIST" ] ] ],
     "pre_terrain": "t_rdoor_b",
     "post_terrain": "t_rdoor_c"
   },
@@ -349,7 +349,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_door_boarded"
   },
@@ -362,7 +362,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_terrain": "t_door_c_peep",
     "post_terrain": "t_door_boarded_peep"
   },
@@ -375,7 +375,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_DAMAGED",
     "post_terrain": "t_door_boarded_damaged"
   },
@@ -388,7 +388,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_terrain": "t_door_b_peep",
     "post_terrain": "t_door_boarded_damaged_peep"
   },
@@ -401,7 +401,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_REINFORCED",
     "post_terrain": "t_rdoor_boarded"
   },
@@ -414,7 +414,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
     "post_terrain": "t_rdoor_boarded_damaged"
   },
@@ -426,12 +426,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [
-      [ [ "2x4", 6 ], [ "wood_panel", 1 ] ],
-      [ [ "2x4", 6 ] ],
-      [ [ "nail", 48 ], [ "bronze_nail", 48 ] ],
-      [ [ "hinge", 1 ] ]
-    ],
+    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "2x4", 6 ] ], [ [ "any_nail", 48, "LIST" ] ], [ [ "hinge", 1 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_rdoor_c"
   },
@@ -487,7 +482,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "75 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ], [ "bronze_nail", 30 ] ] ],
+    "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "any_nail", 30, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_window_empty"
   },
@@ -512,12 +507,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [
-      [ [ "nail", 4 ], [ "bronze_nail", 4 ] ],
-      [ [ "sheet", 2 ] ],
-      [ [ "stick", 1 ] ],
-      [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
-    ],
+    "components": [ [ [ "any_nail", 4, "LIST" ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
     "pre_terrain": "t_window_no_curtains",
     "post_terrain": "t_window_domestic"
   },
@@ -641,7 +631,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_WINDOW",
     "post_terrain": "t_window_boarded"
   },
@@ -654,7 +644,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_flags": "BARRICADABLE_WINDOW_CURTAINS",
     "post_terrain": "t_window_boarded",
     "post_special": "done_window_curtains"
@@ -668,7 +658,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_window_boarded_noglass"
   },
@@ -681,7 +671,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "any_nail", 8, "LIST" ] ] ],
     "pre_terrain": "t_window_frame",
     "post_terrain": "t_window_boarded_noglass"
   },
@@ -694,7 +684,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 16 ], [ "bronze_nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "any_nail", 16, "LIST" ] ] ],
     "pre_terrain": "t_window_boarded",
     "post_terrain": "t_window_reinforced"
   },
@@ -707,7 +697,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "40 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 16 ], [ "bronze_nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "any_nail", 16, "LIST" ] ] ],
     "pre_terrain": "t_window_boarded_noglass",
     "post_terrain": "t_window_reinforced_noglass"
   },
@@ -857,7 +847,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "any_nail", 20, "LIST" ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_wall_half"
   },
@@ -870,7 +860,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "any_nail", 20, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_wall_half"
   },
@@ -883,7 +873,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "any_nail", 20, "LIST" ] ] ],
     "pre_terrain": "t_wall_half",
     "post_terrain": "t_wall_wood"
   },
@@ -896,7 +886,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 16 ], [ "bronze_nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 16, "LIST" ] ] ],
     "pre_terrain": "t_wall_wood_chipped",
     "post_terrain": "t_wall_wood"
   },
@@ -909,7 +899,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ], [ "wood_panel", 1 ] ], [ [ "nail", 32 ], [ "bronze_nail", 32 ] ] ],
+    "components": [ [ [ "2x4", 8 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 32, "LIST" ] ] ],
     "pre_terrain": "t_wall_wood_broken",
     "post_terrain": "t_wall_wood_chipped"
   },
@@ -948,7 +938,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ], [ "bronze_nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "any_nail", 16, "LIST" ] ] ],
     "pre_terrain": "t_wall_log_chipped",
     "post_terrain": "t_wall_log"
   },
@@ -961,7 +951,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 24 ], [ "bronze_nail", 24 ] ] ],
+    "components": [ [ [ "log", 1 ] ], [ [ "2x4", 2 ] ], [ [ "any_nail", 24, "LIST" ] ] ],
     "pre_terrain": "t_wall_log_broken",
     "post_terrain": "t_wall_log_chipped"
   },
@@ -1052,7 +1042,7 @@
     "components": [
       [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ],
       [ [ "2x4", 4 ] ],
-      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ]
+      [ [ "any_nail", 20, "LIST" ] ]
     ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_empty",
@@ -1246,12 +1236,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [
-      [ [ "railroad_track_small", 1 ] ],
-      [ [ "2x4", 4 ] ],
-      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ],
-      [ [ "sheet_metal_small", 2 ] ]
-    ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "any_nail", 20, "LIST" ] ], [ [ "sheet_metal_small", 2 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small"
   },
@@ -1263,12 +1248,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [
-      [ [ "railroad_track_small", 1 ] ],
-      [ [ "2x4", 4 ] ],
-      [ [ "nail", 20 ], [ "bronze_nail", 20 ] ],
-      [ [ "sheet_metal_small", 2 ] ]
-    ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "any_nail", 20, "LIST" ] ], [ [ "sheet_metal_small", 2 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small_d"
   },
@@ -1281,7 +1261,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "100 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ], [ "bronze_nail", 28 ] ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "any_nail", 28, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_floor_noroof"
   },
@@ -1294,7 +1274,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "100 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ], [ "bronze_nail", 28 ] ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "any_nail", 28, "LIST" ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support_below",
     "post_terrain": "t_floor_wooden_gangway"
@@ -1619,7 +1599,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ],
+    "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "any_nail", 20, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_ponywall"
   },
@@ -1631,7 +1611,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ], [ "bronze_nail", 40 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "any_nail", 40, "LIST" ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor"
@@ -1679,7 +1659,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "any_nail", 20, "LIST" ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor"
