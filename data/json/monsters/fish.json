@@ -1338,11 +1338,11 @@
   {
     "id": "mon_fish_blackfish",
     "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
+    "copy-from": "mon_fish_small",
     "name": { "str_sp": "black sea bass" },
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
     "volume": "1330 ml",
-    "weight": "500 g",
+    "weight": "850 g",
     "reproduction": { "baby_egg": "egg_blackfish", "baby_count": 2, "baby_timer": 15 }
   },
   {
@@ -1357,8 +1357,8 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
-    "volume": "770 ml",
-    "weight": "340 g",
+    "volume": "800 ml",
+    "weight": "500 g",
     "reproduction": { "baby_egg": "egg_porgy", "baby_count": 3, "baby_timer": 16 }
   },
   {
