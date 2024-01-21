@@ -2,20 +2,21 @@
 #ifndef CATA_SRC_INPUT_H
 #define CATA_SRC_INPUT_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #if defined(__ANDROID__)
-#include <algorithm>
 #include <list>
 #endif
 
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 
 enum action_id : int;
 class cata_path;
