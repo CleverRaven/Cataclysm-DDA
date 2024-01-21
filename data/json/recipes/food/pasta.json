@@ -114,8 +114,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour + heating the water (2u)",
-    "components": [ [ [ "spaghetti_raw", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "sauce_pesto", 1 ] ]
-    ]
+    "components": [ [ [ "spaghetti_raw", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "sauce_pesto", 1 ] ] ]
   },
   {
     "result": "noodles_fast",
