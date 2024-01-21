@@ -423,6 +423,15 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
 *Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />
 
+# Photokinesis
+
+**Passive Power: Photon Regulation**: The photokinetic regulates the amount of light their eyes receive. They can sleep in any light level, are immune to flashbangs, and are not impacted by sunlight glare.
+
+Powers causing photokinetic damage have a 40% chance to blind the target for 2 seconds and a 5% chance to blind the target for 10 seconds. Each of these is checked independently.
+
+## Candle's Glow
+
+
 # Pyrokinesis
 
 **Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
