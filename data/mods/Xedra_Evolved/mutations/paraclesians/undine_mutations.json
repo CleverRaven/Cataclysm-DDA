@@ -249,11 +249,11 @@
   {
     "type": "mutation",
     "id": "SUMMON_WATER_ELEMENTAL",
-    "name": { "str": "Summon Water Elemental" },
+    "name": { "str": "Calling the Children of the Rivers" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to summon a minor water elemental to support you in the world for a short time.",
+    "description": "Allows the Undine to summon a minor water elemental to support them in the world for a short time.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Eventually add further spells in this area with more powerful elementals."
@@ -311,7 +311,25 @@
     "ugliness": 0,
     "description": "The waters come to the Undine's defense.  When attacked, there is a chance that a burst of water will surge out and push their attackers back.",
     "prereqs": [ "UNDINE_ESCAPE_GRABS" ],
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "undine_wave_push", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DO_MORE_MELEE_DAMAGE",
+    "name": { "str": "Pounding Surf Strikes" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the relentless pounding of the waves against the shore, the Undine's strikes hammer into their enemies.  While this trait is active, the Undine does 25% more melee damage.",
+    "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
+    "category": [ "UNDINE" ],
+    "active": true,
+    "thirst": true,
+    "cost": 1,
+    "time": 30,
+    "activated_is_setup": false,
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -473,5 +491,19 @@
     "stealth_modifier": 60,
     "triggers": [ [ { "condition": { "not": "u_is_underwater" } } ] ],
     "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_NO_COLD_UNDERWATER",
+    "name": { "str": "The Pond's Depths Do Not Freeze" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_ABSORB_WATER" ],
+    "prereqs2": [ "UNDINE_SKIN_3" ],
+    "description": "Though the ice over the top grows thick, the water below remains liquid.  The Undine is completely immune to cold temperatures when underwater.",
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 } ] } ]
   }
 ]

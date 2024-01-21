@@ -76,6 +76,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_SMASHING_PUNCH_activated",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "2",
+          "spell_to_cast": "ierde_smashing_punch_spell",
+          "message_success": "You gather yourself for a moment and strike.",
+          "message_fail": ""
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_activate",
     "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] },
     "effect": [

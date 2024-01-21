@@ -117,6 +117,17 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_SMASHING_PUNCH",
+    "name": { "str": "Avalanche Blow" },
+    "points": 3,
+    "description": "With a brief moment to stabilize themselves, the Ierde strikes a wall, door, or other terrain feature with the force of a falling boulder, doing many times their normal damage.",
+    "category": [ "IERDE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_SMASHING_PUNCH_activated" ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_STOMP_GROUND_SMASH",
     "name": { "str": "Earthquake Stomp" },
     "points": 3,
@@ -125,6 +136,7 @@
     "description": "Upon gaining this ability the Ierde gains the ability to stomp on the ground and cause a minor local earthquake.",
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_SMASHING_PUNCH" ],
     "spells_learned": [ [ "ierde_stomp_ground_smash_spell", 1 ] ]
   },
   {
@@ -138,6 +150,18 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SUMMON_EARTH_ELEMENTAL",
+    "name": { "str": "Calling the Children of the Stones" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Ierde to summon a minor earth elemental to support them in the world for a short time.",
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_summon_earth_spirit", 1 ] ],
+    "//": "Eventually add further spells in this area with more powerful elementals."
   },
   {
     "type": "mutation",

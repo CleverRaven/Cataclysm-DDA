@@ -369,7 +369,7 @@
   {
     "id": "summon_water_sprite",
     "type": "SPELL",
-    "name": "Summon Water Sprite",
+    "name": "Calling the Children of the Waves",
     "description": "A lesser water elemental is summoned to support you.",
     "valid_targets": [ "ground" ],
     "skill": "deduction",
