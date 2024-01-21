@@ -1257,6 +1257,7 @@ struct itype {
     public:
         // The container it comes in
         std::optional<itype_id> default_container;
+        std::optional<std::string> default_container_variant;
 
         std::set<weapon_category_id> weapon_category;
 
