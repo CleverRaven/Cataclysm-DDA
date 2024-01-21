@@ -4136,6 +4136,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
     optional( jo, false, "variants", def.variants );
     assign( jo, "container", def.default_container );
+    optional( jo, false, "container_variant", def.default_container_variant );
     assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
     assign( jo, "min_dexterity", def.min_dex );
@@ -4920,9 +4921,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     if( obj.has_string( "entry-wrapper" ) ) {
-        sptr->set_container_item( itype_id( obj.get_string( "entry-wrapper" ) ) );
+        sptr->container_item = itype_id( obj.get_string( "entry-wrapper" ) );
     }
-    use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    if( obj.has_object( "container-item" ) ) {
+        JsonObject jo = obj.get_object( "container-item" );
+        sptr->container_item = itype_id( jo.get_string( "item" ) );
+        sptr->container_item_variant = jo.get_string( "variant" );
+    } else {
+        use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
     if( obj.has_member( "sealed" ) ) {
@@ -5010,7 +5017,11 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     }
 
     if( jsobj.has_string( "container-item" ) ) {
-        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+        ig->container_item = itype_id( jsobj.get_string( "container-item" ) );
+    } else if( jsobj.has_member( "container-item" ) ) {
+        JsonObject jo = jsobj.get_member( "container-item" );
+        ig->container_item = itype_id( jo.get_string( "item" ) );
+        ig->container_item_variant = jo.get_string( "variant" );
     }
 
     jsobj.read( "on_overflow", ig->on_overflow, false );

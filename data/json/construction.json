@@ -9036,5 +9036,18 @@
     "pre_terrain": "f_pipe_stack_mid",
     "post_terrain": "f_pipe_stack_tall",
     "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_piano",
+    "group": "place_piano",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "piano", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_piano",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]

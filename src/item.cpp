@@ -1218,10 +1218,11 @@ bool item::is_worn_by_player() const
 item item::in_its_container( int qty ) const
 {
     return in_container( type->default_container.value_or( itype_null ), qty,
-                         type->default_container_sealed );
+                         type->default_container_sealed, type->default_container_variant.value_or( "" ) );
 }
 
-item item::in_container( const itype_id &cont, int qty, const bool sealed ) const
+item item::in_container( const itype_id &cont, int qty, bool sealed,
+                         const std::string &variant ) const
 {
     if( cont.is_null() ) {
         return *this;
@@ -1231,6 +1232,9 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
         qty = count();
     }
     item container( cont, birthday() );
+    if( !variant.empty() ) {
+        container.set_itype_variant( variant );
+    }
     if( container.is_container() ) {
         container.fill_with( *this, qty );
         container.invlet = invlet;
