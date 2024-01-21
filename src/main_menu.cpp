@@ -335,8 +335,9 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: %s" ),
-                  getVersionString() ) );
+    center_print( w_open, iLine, c_light_blue,
+                  string_format( _( "Version: 0.H Stable Candidate, build %s" ),
+                                 getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
