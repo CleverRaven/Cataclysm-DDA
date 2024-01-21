@@ -76,9 +76,6 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
-static const furn_str_id furn_f_console( "f_console" );
-static const furn_str_id furn_f_console_broken( "f_console_broken" );
-static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
@@ -100,7 +97,6 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const quality_id qual_CUT( "CUT" );
 
-static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -1503,19 +1499,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        if( f.id.id() == furn_f_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( f.id.id() == furn_f_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
-        }
-        if( f.id.id() == furn_f_machinery_electronic )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
+        if( f.deconstruct.skill.first )  { // Practise a skill if specified and within the level range
+            const skill_id id = f.deconstruct.skill.first;
+            std::vector<int> values = f.deconstruct.skill.second;
+            if( player_character.get_skill_level( skill_name ) >= skill_values[1] ) {
+                player_character.practice( skill_name, skill_values[0], skill_values[2] );
             }
         }
         if( f.deconstruct.furn_set.str().empty() ) {

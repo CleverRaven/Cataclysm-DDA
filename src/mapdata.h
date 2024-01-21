@@ -80,6 +80,8 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
+    std::pair<skill_id, std::vector<int>>
+                                       skill; // skill to practise, amount of xp, min level required to gain xp, max level after which no xp is gained
     bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
