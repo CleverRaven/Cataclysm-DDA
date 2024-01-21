@@ -372,7 +372,7 @@
       [ "ibuprofen", 25 ],
       [ "acetaminophen", 25 ],
       [ "naproxen", 25 ],
-      [ "atomic_light", 1 ],
+      [ "atomic_light_off", 1 ],
       [ "ax", 5 ],
       [ "backpack", 5 ],
       [ "bacon", 2 ],
