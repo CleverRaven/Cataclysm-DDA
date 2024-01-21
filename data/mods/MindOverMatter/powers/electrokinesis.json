@@ -170,15 +170,14 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_HACKING_INTERFACE_INITIATE",
     "shape": "blast",
-    "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "max( (( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "max( (( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
       ]
     },
     "energy_source": "STAMINA",
