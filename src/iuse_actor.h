@@ -56,6 +56,9 @@ class iuse_transform : public iuse_actor
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 
+        /** if set choose this variant when transforming */
+        std::string variant_type = "<any>";
+
         /** whether the transformed container is sealed */
         bool sealed = true;
 
@@ -114,7 +117,7 @@ class iuse_transform : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
     private:
-        void do_transform( Character *p, item &it ) const;
+        void do_transform( Character *p, item &it, const std::string &variant_type ) const;
 };
 
 class unpack_actor : public iuse_actor
@@ -395,6 +398,23 @@ class deploy_furn_actor : public iuse_actor
         deploy_furn_actor() : iuse_actor( "deploy_furn" ) {}
 
         ~deploy_furn_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
+ * Deployable appliances from items
+ */
+class deploy_appliance_actor : public iuse_actor
+{
+    public:
+        itype_id appliance_base;
+
+        deploy_appliance_actor() : iuse_actor( "deploy_appliance" ) {}
+        ~deploy_appliance_actor() override = default;
+
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
@@ -1079,10 +1099,10 @@ class link_up_actor : public iuse_actor
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-        void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
 };
 
 class deploy_tent_actor : public iuse_actor

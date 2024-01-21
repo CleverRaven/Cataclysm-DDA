@@ -1,0 +1,53 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ADD_TRAIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "iso_trait" } } ] },
+    "effect": [ { "u_add_trait": "iso_trait" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELEVATOR",
+    "effect": [
+      { "math": [ "ISO_CURRENT_LEVEL", "++" ] },
+      { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "=", "0" ] },
+      { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+      { "run_eocs": [ "EOC_ISO_DECIDE_LEVEL" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_DECIDE_LEVEL",
+    "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL", "==", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP" ] } ],
+    "false_effect": [ { "run_eocs": [ "EOC_ISO_MICROLAB_TP" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_MICROLAB_TP",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": { "om_terrain": "iso_elevator", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "terrain": "t_elevator",
+        "target_max_radius": 30
+      },
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_MICROLAB_SAFE_TP",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": { "om_terrain": "iso_elevator_safe", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "terrain": "t_elevator",
+        "target_max_radius": 30
+      },
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
+    ]
+  }
+]

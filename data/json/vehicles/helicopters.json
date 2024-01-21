@@ -619,7 +619,7 @@
       {
         "x": -2,
         "y": -5,
-        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] } ]
+        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "762_51", "762_51_m993" ], "ammo_qty": [ 0, 500 ] } ]
       },
       { "x": -2, "y": 1, "parts": [ "frame#ne", "board#horizontal", "plating_military" ] },
       { "x": -2, "y": 2, "parts": [ "frame#horizontal", "plating_military", "board#horizontal" ] },
@@ -627,7 +627,7 @@
       {
         "x": -2,
         "y": 3,
-        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] } ]
+        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "762_51", "762_51_m993" ], "ammo_qty": [ 0, 500 ] } ]
       },
       { "x": -3, "y": -1, "parts": [ "frame#cross", "engine_turbine_medium", "alternator_car" ] },
       { "x": -3, "y": -1, "parts": [ "plating_military", "board#vertical" ] },
@@ -726,7 +726,7 @@
       {
         "x": -2,
         "y": -5,
-        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] } ]
+        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "762_51", "762_51_m993" ], "ammo_qty": [ 0, 500 ] } ]
       },
       { "x": -2, "y": 1, "parts": [ "frame#ne" ] },
       { "x": -3, "y": 0, "parts": [ "frame#nw", { "part": "tank_55gal_drum", "fuel": "jp8" } ] },
@@ -800,7 +800,7 @@
       {
         "x": -2,
         "y": -3,
-        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] } ]
+        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "762_51", "762_51_m993" ], "ammo_qty": [ 0, 500 ] } ]
       },
       { "x": -2, "y": 1, "parts": [ "xlframe#horizontal", "board#vertical", "storage_battery" ] },
       { "x": -2, "y": 1, "parts": [ "plating_military" ] },
@@ -811,7 +811,7 @@
       {
         "x": -2,
         "y": 5,
-        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "308" ], "ammo_qty": [ 0, 500 ] } ]
+        "parts": [ { "part": "turret_m134", "ammo": 80, "ammo_types": [ "762_51", "762_51_m993" ], "ammo_qty": [ 0, 500 ] } ]
       },
       { "x": -3, "y": 0, "parts": [ "frame#ne", "board#vertical", "plating_military" ] },
       { "x": -3, "y": -1, "parts": [ "frame#horizontal", "plating_military", "board#horizontal" ] },
@@ -1286,6 +1286,9 @@
       { "x": -5, "y": 1, "chance": 20, "item_groups": [ "remains_soldier" ] },
       { "x": -4, "y": -1, "chance": 7, "ammo": 80, "items": [ "mp3" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "aspirin" ] },
+      { "x": -2, "y": -1, "chance": 7, "items": [ "ibuprofen" ] },
+      { "x": -2, "y": -1, "chance": 7, "items": [ "acetaminophen" ] },
+      { "x": -2, "y": -1, "chance": 7, "items": [ "naproxen" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
@@ -1558,7 +1561,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,
@@ -1575,6 +1578,9 @@
       { "x": -4, "y": 2, "chance": 5, "items": [ "hood_rain" ] },
       { "x": -3, "y": 0, "chance": 7, "items": [ "knife_combat" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "aspirin" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "ibuprofen" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "acetaminophen" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "naproxen" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
@@ -1674,7 +1680,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,
@@ -1693,6 +1699,9 @@
       { "x": -4, "y": 2, "chance": 5, "items": [ "hood_rain" ] },
       { "x": -3, "y": 0, "chance": 7, "items": [ "knife_combat" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "aspirin" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "ibuprofen" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "acetaminophen" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "naproxen" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
@@ -1788,7 +1797,7 @@
       { "x": -6, "y": 1, "chance": 10, "items": [ "manual_stabbing" ] },
       { "x": -6, "y": 1, "chance": 7, "ammo": 70, "items": [ "stanag30" ] },
       { "x": -6, "y": 1, "chance": 10, "items": [ "helmet_army" ] },
-      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_m" ] },
+      { "x": -6, "y": 1, "chance": 15, "items": [ "gasfilter_med" ] },
       {
         "x": -6,
         "y": 1,

@@ -44,6 +44,41 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
+int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
+{
+    int animals = 0;
+    int children = 0;
+    int humans = 0;
+    int others = 0;
+    for( const auto &it : kills ) {
+        if( it.first->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+            animals += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_CHILD ) ) {
+            children += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_HUMAN ) ) {
+            humans += it.second;
+        } else if( it.first->has_flag( mon_flag_GUILT_OTHERS ) ) {
+            others += it.second;
+        }
+    }
+
+    if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+        return animals;
+    } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
+        return children;
+    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
+        return humans;
+    } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
+        return others;
+    }
+    // worst case scenario when no guilt flags are found
+    auto noflag = kills.find( mon );
+    if( noflag != kills.end() ) {
+        return noflag->second;
+    }
+    return 0;
+}
+
 int kill_tracker::monster_kill_count() const
 {
     int result = 0;
@@ -130,11 +165,6 @@ static Character *get_avatar_or_follower( const character_id &id )
     return nullptr;
 }
 
-static int compute_kill_xp( const mtype_id &mon_type )
-{
-    return mon_type->difficulty + mon_type->difficulty_base;
-}
-
 static constexpr int npc_kill_xp = 10;
 
 void kill_tracker::notify( const cata::event &e )
@@ -145,7 +175,7 @@ void kill_tracker::notify( const cata::event &e )
             if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 kills[victim_type]++;
-                killer->kill_xp += compute_kill_xp( victim_type );
+                killer->kill_xp += e.get<int>( "exp" );
                 victim_type.obj().families.practice_kill( *killer );
             }
             break;

@@ -215,10 +215,10 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_DERMATIK",
     "type": "talk_topic",
-    "dynamic_line": "Why would you ever want to get close to those creatures?  Don't you know they lay eggs inside of other creatures!  Including humans!  Well, if you're sure you want to go there, I'll mark the location on your map for one denarius.  But don't come crying to me if you get poked full of dermatik larvae.  Seriously, dont.  I would like to keep my lunch.  If they do give you problems though, you might find that drinking mugwort oil helps.  It's made with, uh, mugwort.  And oil.  I think.",
+    "dynamic_line": "Why would you ever want to get close to those creatures?  Don't you know they lay eggs inside of other creatures!?  Including humans!  Well, if you're sure you want to go there, I'll mark the location on your map for one denarius.  But don't come crying to me if you get poked full of dermatik larvae.  Seriously, don't.  I would like to keep my lunch.  If they do give you problems though, you might find that drinking mugwort oil helps.  It's made with, uh, mugwort.  And oil.  I think.",
     "responses": [
       {
-        "text": "Sure why not.",
+        "text": "Sure, why not.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
         "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_DERMATIK" }, { "u_consume_item": "denarius" } ]

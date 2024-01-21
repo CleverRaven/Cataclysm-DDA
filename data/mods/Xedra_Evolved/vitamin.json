@@ -70,5 +70,71 @@
     "rate": "0 m",
     "excess": "dreamer_eff",
     "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 800 ], [ 801, 1000 ] ]
+  },
+  {
+    "id": "mutagen_earthkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ierde Mutagen" },
+    "excess": "mutagen_earthkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_plantkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Arvore Mutagen" },
+    "excess": "mutagen_plantkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_waterkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Undine Mutagen" },
+    "excess": "mutagen_waterkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_flamekin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Salamander Mutagen" },
+    "excess": "mutagen_flamekin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_dollkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Homullus Mutagen" },
+    "excess": "mutagen_dollkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_airkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Sylph Mutagen" },
+    "excess": "mutagen_airkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   }
 ]

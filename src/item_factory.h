@@ -50,7 +50,7 @@ class migration
         int charges = 0;
 
         // if set to true then reset item_vars std::map to the value of itype's item_variables
-        bool reset_item_vars;
+        bool reset_item_vars = false;
 
         class content
         {
@@ -356,7 +356,6 @@ class Item_factory
         void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void set_properties_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void set_techniques_from_json( const JsonObject &jo, const std::string_view &member, itype &def );
         void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );

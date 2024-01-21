@@ -24,7 +24,7 @@ static void test_encumbrance_on(
     CAPTURE( body_part );
     p.set_body();
     p.clear_mutations();
-    p.worn.clear();
+    p.clear_worn();
     if( tweak_player ) {
         tweak_player( p );
     }
@@ -103,14 +103,14 @@ TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 TEST_CASE( "plate_encumbrance", "[encumbrance]" )
 {
     item with_plates( "test_ballistic_vest" );
-    with_plates.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+    with_plates.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
     test_encumbrance_items( { with_plates }, "torso", ballistic + plate );
 }
 
 TEST_CASE( "off_limb_ablative_encumbrance", "[encumbrance]" )
 {
     item with_plates( "test_ghost_vest" );
-    with_plates.force_insert_item( item( "test_plate_skirt" ), item_pocket::pocket_type::CONTAINER );
+    with_plates.force_insert_item( item( "test_plate_skirt" ), pocket_type::CONTAINER );
     test_encumbrance_items( { with_plates }, "leg_l", plate );
 }
 

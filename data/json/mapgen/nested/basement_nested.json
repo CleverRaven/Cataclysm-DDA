@@ -99,7 +99,11 @@
     "type": "palette",
     "id": "basement_utility_nest_palette",
     "terrain": { ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
-    "furniture": { "g": "f_water_heater", "f": "f_home_furnace", "a": [ "f_air_conditioner", "f_null", "f_counter" ] },
+    "furniture": {
+      "g": [ "f_water_heater", "f_water_heater_family" ],
+      "f": "f_home_furnace",
+      "a": [ "f_air_conditioner", "f_null", "f_counter" ]
+    },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   },
   {

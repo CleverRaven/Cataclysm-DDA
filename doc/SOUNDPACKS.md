@@ -189,10 +189,10 @@ Divided by sections for clarity.
 
 Triggered by seeing large numbers of zombies.
 
-* `danger_low`
-* `danger_medium`
-* `danger_high`
-* `danger_extreme`
+* `danger_low` when seeing 5-9 enemies.
+* `danger_medium` when seeing 10-14 enemies.
+* `danger_high` when seeing 15-19 enemies.
+* `danger_extreme` when seeing ≥ 20 enemies.
 
 ### Chainsaw pack
 

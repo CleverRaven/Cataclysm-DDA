@@ -83,7 +83,6 @@ float Character::generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
     return ( skill + stat ) * mul;
 }
 
-
 float Character::melee_weakpoint_skill( const item &weapon ) const
 {
     return generic_weakpoint_skill( weapon.is_null() ? skill_unarmed : weapon.melee_skill(),
@@ -441,6 +440,30 @@ void weakpoint::load( const JsonObject &jo )
     }
 }
 
+void weakpoint::check() const
+{
+    for( const std::pair<const damage_type_id, float> &dt : armor_mult ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid armor_mult type \"%s\" for weakpoint %s", dt.first.c_str(), id );
+        }
+    }
+    for( const std::pair<const damage_type_id, float> &dt : armor_penalty ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid armor_penalty type \"%s\" for weakpoint %s", dt.first.c_str(), id );
+        }
+    }
+    for( const std::pair<const damage_type_id, float> &dt : damage_mult ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid damage_mult type \"%s\" for weakpoint %s", dt.first.c_str(), id );
+        }
+    }
+    for( const std::pair<const damage_type_id, float> &dt : crit_mult ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid crit_mult type \"%s\" for weakpoint %s", dt.first.c_str(), id );
+        }
+    }
+}
+
 std::string weakpoint::get_name() const
 {
     return name.translated();
@@ -576,6 +599,13 @@ void weakpoints::load( const JsonArray &ja )
     []( const weakpoint & a, const weakpoint & b ) {
         return a.coverage < b.coverage;
     } );
+}
+
+void weakpoints::check() const
+{
+    for( const weakpoint &w : weakpoint_list ) {
+        w.check();
+    }
 }
 
 void weakpoints::finalize()

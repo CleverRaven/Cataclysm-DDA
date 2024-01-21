@@ -104,7 +104,26 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
 
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
 {
+    const int old_rotation = terrain_type_->has_flag(
+                                 oter_flags::ignore_rotation_for_adjacency ) ? 0 : terrain_type_->get_rotation();
+    const int new_rotation = other_id->has_flag( oter_flags::ignore_rotation_for_adjacency ) ? 0 :
+                             other_id->get_rotation();
+
     terrain_type_ = other_id;
+
+    const int rotation_delta = new_rotation - old_rotation;
+
+    if( rotation_delta == 0 ) {
+        return;
+    }
+
+    const int shift = ( rotation_delta + 4 ) % 4;
+
+    // The array of neighbors is actually logically more like two independent arrays smashed
+    // together, so we need to first rotate the cardinal directions section, and then the
+    // ordinal directions section. They both rotate the same direction.
+    std::rotate( t_nesw.begin(), t_nesw.begin() + shift, t_nesw.begin() + 4 );
+    std::rotate( t_nesw.begin() + 4, t_nesw.begin() + 4 + shift, t_nesw.end() );
 }
 
 mapgendata::mapgendata( const mapgendata &other,
@@ -288,16 +307,6 @@ bool mapgendata::has_predecessor() const
     return !predecessors_.empty();
 }
 
-const oter_id &mapgendata::first_predecessor() const
-{
-    if( predecessors_.empty() ) {
-        debugmsg( "Tried to get predecessor when none available in mapgendata" );
-        static const oter_id null( oter_str_id::NULL_ID() );
-        return null;
-    }
-    return predecessors_.front();
-}
-
 const oter_id &mapgendata::last_predecessor() const
 {
     if( predecessors_.empty() ) {
@@ -314,9 +323,4 @@ void mapgendata::pop_last_predecessor()
         debugmsg( "Tried to pop predecessor when none available in mapgendata" );
     }
     predecessors_.pop_back();
-}
-
-void mapgendata::clear_predecessors()
-{
-    predecessors_.clear();
 }

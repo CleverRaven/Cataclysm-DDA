@@ -51,7 +51,18 @@
         { "item": "longsword", "prob": 100 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "BASHES",
+      "FILTHY",
+      "PATH_AVOID_DANGER_1",
+      "SWARMS",
+      "GROUP_MORALE",
+      "WIELDED_WEAPON"
+    ]
   },
   {
     "type": "MONSTER",
@@ -90,6 +101,7 @@
           "fake_skills": [ [ "gun", 6 ], [ "archery", 7 ] ],
           "fake_dex": 9,
           "fake_per": 5,
+          "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
           "require_targeting_player": false,
           "description": "The orc shoots you with laser accuracy!",
           "ranges": [ [ 3, 13, "DEFAULT" ] ],

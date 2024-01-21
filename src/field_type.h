@@ -57,7 +57,6 @@ struct enum_traits<description_affix> {
 
 generic_factory<field_type> &get_all_field_types();
 
-
 struct field_immunity_data {
     std::vector<json_character_flag> immunity_data_flags;
     std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
@@ -119,6 +118,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
+    int concentration = 0;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
     std::vector<field_effect> field_effects;
@@ -198,7 +198,7 @@ struct field_type {
         int decay_amount_factor = 0;
         int percent_spread = 0;
         int apply_slime_factor = 0;
-        int gas_absorption_factor = 0;
+        time_duration gas_absorption_factor = 0_turns;
         bool is_splattering = false;
         bool dirty_transparency_cache = false;
         bool has_fire = false;
@@ -213,7 +213,6 @@ struct field_type {
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;
-
 
         int priority = 0;
         time_duration half_life = 0_turns;

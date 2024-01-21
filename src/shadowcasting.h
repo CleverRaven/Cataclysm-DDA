@@ -127,7 +127,7 @@ void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
 template<typename T>
 using array_of_grids_of =
     std::conditional_t <
-    std::is_const<T>::value,
+    std::is_const_v<T>,
     std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms>*, OVERMAP_LAYERS>,
     std::array<cata::mdarray<T, point_bub_ms>*, OVERMAP_LAYERS>
     >;

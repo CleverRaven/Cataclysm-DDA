@@ -87,7 +87,7 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "==", { "const": 2 } ] },
+            { "math": [ "darryl_building_coop", "==", "2" ] },
             { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" }
           ]
         },

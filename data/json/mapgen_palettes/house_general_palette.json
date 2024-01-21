@@ -60,13 +60,26 @@
             [ "t_wall_P", 1 ],
             [ "t_wall_r", 1 ],
             [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
+            [ "t_wall_y", 1 ],
+            [ "t_wall_gray", 1 ],
+            [ "t_wall_brown", 1 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 1 ],
+            [ "t_wall_orange", 1 ]
           ]
         }
       },
       "exterior_wall_type": {
         "type": "ter_str_id",
-        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
       },
       "house_fence_type": {
         "type": "ter_str_id",
@@ -89,7 +102,7 @@
       "d": "f_dresser",
       "e": "f_pool_table",
       "f": "f_table",
-      "g": "f_water_heater",
+      "g": [ "f_water_heater", "f_water_heater_family" ],
       "h": "f_chair",
       "i": "f_bench",
       "j": "f_bench",
@@ -145,7 +158,7 @@
       "@": "f_bed",
       "¤": "f_table",
       "₸": "f_deckchair",
-      "∞": "f_foot_locker",
+      "∞": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",

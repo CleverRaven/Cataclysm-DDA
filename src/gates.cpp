@@ -352,7 +352,6 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
     }
 }
 
-
 // If you update this, look at doors::can_lock_door too.
 bool doors::lock_door( map &m, Creature &who, const tripoint &lockp )
 {

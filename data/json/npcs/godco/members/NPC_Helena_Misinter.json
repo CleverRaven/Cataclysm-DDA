@@ -43,7 +43,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Praise the Lord.", "Blessings to you." ],
+        "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
         "no": "Stranger, what brings you to our holy home?"
       }
     },

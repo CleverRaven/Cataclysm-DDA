@@ -70,12 +70,7 @@
               { "item": "microcentrifuge", "prob": 80 },
               { "item": "still_lab", "prob": 80 },
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
-              {
-                "distribution": [
-                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
-                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
-                ]
-              },
+              { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
               { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
             ],

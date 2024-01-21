@@ -1,0 +1,109 @@
+[
+  {
+    "id": "mon_feral_human_bio_dm",
+    "copy-from": "mon_feral_human_bio",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_clair_dm",
+    "copy-from": "mon_feral_human_clair",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_pyrokin_dm",
+    "copy-from": "mon_feral_human_pyrokin",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_telekin_dm",
+    "copy-from": "mon_feral_human_telekin",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "special_attacks": [
+      {
+        "id": "psi_telekin1_telegrab",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
+        "cooldown": 15,
+        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+      },
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 50,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 6 ] ],
+        "fake_str": 11,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 10, "DEFAULT" ] ],
+        "description": "%1$s makes a throwing motion and one of the rocks around them suddenly launches like a bullet!"
+      },
+      {
+        "id": "smash",
+        "move_cost": 80,
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 10, "armor_penetration": 10 } ],
+        "hitsize_min": 12,
+        "range": 6,
+        "throw_strength": 30,
+        "blockable": false,
+        "effects_require_dmg": false,
+        "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
+        "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+        "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      }
+    ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_teep_dm",
+    "copy-from": "mon_feral_human_teep",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_porter_dm",
+    "copy-from": "mon_feral_human_porter",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_vita_dm",
+    "copy-from": "mon_feral_human_vita",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]

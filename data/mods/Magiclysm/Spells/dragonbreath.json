@@ -1,6 +1,41 @@
 [
   {
     "type": "SPELL",
+    "id": "dragon_deep_breath",
+    "name": { "str": "Take a Deep Breath" },
+    "description": "Preps for using dragon breath.",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 40,
+    "effect": "attack",
+    "extra_effects": [ { "id": "dragon_deep_breath_self", "hit_self": true, "max_level": 1 } ],
+    "shape": "blast",
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1
+  },
+  {
+    "type": "SPELL",
+    "id": "dragon_deep_breath_self",
+    "name": { "str": "Took a Deep Breath" },
+    "description": "Grants the effect for a dragon to use deep breath.",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_dragon_deep_breath",
+    "shape": "blast",
+    "min_duration": 100,
+    "max_duration": 100
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dragon_deep_breath",
+    "name": [ "Deep Breath" ],
+    "desc": [ "You are ready to use your breath weapon." ]
+  },
+  {
+    "type": "SPELL",
     "id": "dragon_breath_black",
     "name": { "str": "Black Dragons' Breath" },
     "description": "Spews a line of acid from your mouth.",

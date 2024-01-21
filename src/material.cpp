@@ -176,6 +176,12 @@ void material_type::check() const
                   id.str() );
     }
 
+    for( const auto &dt : _resistances.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid resistance type \"%s\" for material %s", dt.first.c_str(), id.c_str() );
+        }
+    }
+
     for( const damage_type &dt : damage_type::get_all() ) {
         bool type_defined =
             std::find( _res_was_loaded.begin(), _res_was_loaded.end(),  dt.id ) != _res_was_loaded.end();

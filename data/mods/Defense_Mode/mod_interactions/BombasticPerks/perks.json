@@ -1,0 +1,67 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_money_maker_merc",
+    "name": { "str": "Money Makin' Mercenary" },
+    "points": 0,
+    "description": "You've always had a knack for finding the value in life, wether it's $200 or $50 for a life.  You get more money from completing hordes.",
+    "category": [ "perk" ],
+    "processed_eocs": [ "money_maker_setup" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_slice&dice",
+    "name": { "str": "Slice n' Dice" },
+    "points": 0,
+    "description": "You've become very skilled with cutting weapons of all sorts, and know how to use them better.",
+    "cut_dmg_bonus": 5,
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bash&mash",
+    "name": { "str": "Bash n' Mash" },
+    "points": 0,
+    "description": "You've become very skilled with blunt instruments of all sorts, and know how to use them better.",
+    "bash_dmg_bonus": 5,
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_knifey",
+    "name": { "str": "Knifey" },
+    "points": 0,
+    "description": "You're very in tune with the ways of stabbing somebody.",
+    "pierce_dmg_bonus": 5,
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_melee_master",
+    "name": { "str": "Melee Master" },
+    "points": 0,
+    "description": "You've become a master of melee, and are skilled with melee weapons.",
+    "pierce_dmg_bonus": 10,
+    "cut_dmg_bonus": 10,
+    "bash_dmg_bonus": 10,
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_gymrat_king",
+    "name": { "str": "Gym Rat King" },
+    "points": 0,
+    "description": "Your time exercising has gotten you used to being winded, and has vastly expanded your stamina.  You can go for longer and harder now.",
+    "category": [ "perk" ],
+    "cardio_multiplier": 1.8
+  },
+  {
+    "type": "mutation",
+    "id": "perk_extra_life",
+    "name": { "str": "Living on a Prayer" },
+    "points": 0,
+    "description": "You're like a cat, and it always seemed to you like you've had nine lives.  When things get rough, by pure luck or divine intervention, you can get out of it.",
+    "category": [ "perk" ],
+    "processed_eocs": [ { "id": "extra_life_addup", "effect": { "math": [ "revivication_counter", "++" ] } } ]
+  }
+]

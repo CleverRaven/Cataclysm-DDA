@@ -29,14 +29,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
-    "id": "gun_crossbow_mod",
-    "copy-from": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "modified rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "offset_sights",
     "copy-from": "improve_sights",
     "type": "GUNMOD",

@@ -30,7 +30,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Hey <name_g>!  Nice to see you again!",
+        "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
         "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
       }
     },

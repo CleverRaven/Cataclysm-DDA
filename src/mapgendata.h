@@ -29,12 +29,12 @@ struct mapgen_arguments {
     template <
         typename InputRange,
         std::enable_if_t <
-            std::is_same <
+            std::is_same_v <
                 typename InputRange::value_type, std::pair<std::string, cata_variant>
-                >::value ||
-            std::is_same <
+                > ||
+            std::is_same_v <
                 typename InputRange::value_type, std::pair<const std::string, cata_variant>
-                >::value
+                >
             > * = nullptr >
     explicit mapgen_arguments( const InputRange &map_ )
         : map( map_.begin(), map_.end() )
@@ -234,9 +234,7 @@ class mapgendata
         bool has_join( cube_direction, const std::string &join_id ) const;
 
         bool has_predecessor() const;
-        const oter_id &first_predecessor() const;
         const oter_id &last_predecessor() const;
-        void clear_predecessors();
         void pop_last_predecessor();
 
         template<typename Result>

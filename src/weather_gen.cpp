@@ -313,7 +313,6 @@ void weather_generator::test_weather( unsigned seed ) const
     }, "weather test file" );
 }
 
-
 void weather_generator::sort_weather()
 {
     sorted_weather.clear();

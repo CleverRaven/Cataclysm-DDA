@@ -1,0 +1,32 @@
+[
+  {
+    "type": "enchantment",
+    "id": "iso_ranged_adjust",
+    "condition": "ALWAYS",
+    "values": [ { "value": "RANGED_DAMAGE", "multiply": -0.25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_ench_deliverator",
+    "condition": "ALWAYS",
+    "name": { "str": "The Deliverator" },
+    "description": "Always on the clock.",
+    "values": [ { "value": "SPEED", "add": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_ench_backup",
+    "name": { "str": "The Backup" },
+    "description": "We have a situation here.",
+    "condition": { "u_has_effect": "iso_eff_backup" },
+    "values": [ { "value": "MOVE_COST", "add": -50 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_ench_hypo_o",
+    "name": { "str": "Hypocrite's Oath" },
+    "description": "OH you aren't getting away with that.",
+    "condition": { "u_has_effect": "iso_eff_hypo_o" },
+    "values": [ { "value": "RANGED_DAMAGE", "multiply": 50 }, { "value": "RANGED_DAMAGE", "multiply": 50 } ]
+  }
+]

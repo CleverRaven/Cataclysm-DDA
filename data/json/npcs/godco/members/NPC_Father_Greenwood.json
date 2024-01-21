@@ -41,8 +41,8 @@
         "value": "yes",
         "yes": {
           "u_male": true,
-          "yes": [ "The Lord be with you, brother.", "Good to see you're still around, brother." ],
-          "no": [ "The Lord be with you, sister.", "Good to see you're still around, sister." ]
+          "yes": [ "The Lord be with you, brother.", "Good to see you're still around, <u_name>." ],
+          "no": [ "The Lord be with you, sister.", "Good to see you're still around, <u_name>." ]
         },
         "no": {
           "u_male": true,

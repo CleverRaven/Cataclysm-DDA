@@ -43,7 +43,7 @@
     },
     "responses": [
       {
-        "text": "Nice to meet you, Theresa.",
+        "text": "Nice to meet you, Theresa.  I'm <u_name>.",
         "effect": { "npc_add_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
         "condition": {
           "and": [

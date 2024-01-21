@@ -164,7 +164,7 @@
       {
         "item": "RobofacCoin",
         "fixed_adj": 0.15,
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "free_merchants_hub_trade_route", "==", "2" ] }
       },
       { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
       { "group": "games_board_all", "premium": 2.5 }
@@ -869,6 +869,7 @@
     "likes_u": 30,
     "respects_u": 30,
     "known_by_u": false,
+    "mon_faction": "exodii",
     "size": 100,
     "power": 100,
     "food_supply": 115200,

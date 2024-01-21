@@ -94,6 +94,21 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, std::string_view member );
 };
 
+struct mut_personality_score {
+
+    /** bounds within which this trait is applied */
+    int min_aggression = -10;
+    int max_aggression = 10;
+    int min_bravery = -10;
+    int max_bravery = 10;
+    int min_collector = -10;
+    int max_collector = 10;
+    int min_altruism = -10;
+    int max_altruism = 10;
+    mut_personality_score();
+    bool load( const JsonObject &jsobj, std::string_view member );
+};
+
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
@@ -184,7 +199,7 @@ struct mutation_branch {
         bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
-        // IF any of the three are true, it drains that as the "cost"
+        // IF any of the four are true, it drains that as the "cost"
         bool fatigue       = false;
         bool hunger        = false;
         bool thirst        = false;
@@ -198,9 +213,9 @@ struct mutation_branch {
         // costs are consumed every cooldown turns,
         time_duration cooldown   = 0_turns;
         // bodytemp elements:
-        int bodytemp_min = 0;
-        int bodytemp_max = 0;
-        int bodytemp_sleep = 0;
+        units::temperature_delta bodytemp_min = 0_C_delta;
+        units::temperature_delta bodytemp_max = 0_C_delta;
+        units::temperature_delta bodytemp_sleep = 0_C_delta;
         // Healing per turn
         std::optional<float> healing_awake = std::nullopt;
         std::optional<float> healing_multiplier = std::nullopt;
@@ -239,6 +254,8 @@ struct mutation_branch {
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        cata::value_ptr<mut_personality_score> personality_score;
 
         // Cosmetic variants of this mutation
         std::map<std::string, mutation_variant> variants;
@@ -385,6 +402,8 @@ struct mutation_branch {
         std::set<json_character_flag> flags; // Mutation flags
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
+        std::vector<trait_id>
+        prevented_by; // Traits listed here will block this mutation from being acquired
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item

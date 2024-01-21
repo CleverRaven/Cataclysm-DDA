@@ -63,7 +63,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Praise the Lord.",
+        "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
         "no": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine."
       }
     },

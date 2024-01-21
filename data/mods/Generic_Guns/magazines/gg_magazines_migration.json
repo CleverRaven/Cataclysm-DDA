@@ -25,6 +25,8 @@
       "m9mag_20rd",
       "makarovmag",
       "glock40mag",
+      "2011_17_mag",
+      "2011_22_mag",
       "sig40mag",
       "bhp40mag",
       "ppq40mag_10rd",
@@ -101,7 +103,7 @@
     "replace": "pistol_mag"
   },
   {
-    "id": [ "deaglemag", "hptjhpmag", "8x40_10_mag" ],
+    "id": [ "deaglemag", "deaglemag_357", "deaglemag_50", "hptjhpmag", "8x40_10_mag" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
   },
@@ -121,6 +123,8 @@
       "thompson_makeshiftmag",
       "ump45mag",
       "ump45_makeshiftmag",
+      "ump40mag",
+      "ump9mag",
       "hk46bigmag",
       "hk46mag",
       "fnp90mag",
@@ -328,6 +332,7 @@
       "garandclip",
       "enfield_303mag",
       "clip303_5rd",
+      "clip_77mm_arisaka",
       "fal_makeshiftmag",
       "g3_makeshiftmag",
       "m14smallmag",
@@ -345,6 +350,8 @@
       "ai_308mag_10",
       "mrad_338lapua_mag",
       "ruger_pr_mag",
+      "steyr_scout_mag",
+      "steyr_scout_mag_makeshift",
       "borealmosin_clip",
       "robofac20"
     ],

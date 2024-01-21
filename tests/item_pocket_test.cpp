@@ -27,6 +27,7 @@
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
 #include "ret_val.h"
+#include "test_data.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -52,13 +53,14 @@ Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
 static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 
 static const nested_mapgen_id nested_mapgen_auto_wl_test( "auto_wl_test" );
 
-static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
+static const pocket_type pocket_container = pocket_type::CONTAINER;
 
 // Pocket Tests
 // ------------
@@ -116,10 +118,12 @@ static void expect_cannot_contain( const item_pocket &pocket, const item &it,
 static void expect_can_insert( item_pocket &pocket, const item &it )
 {
     CAPTURE( it.tname() );
-    ret_val<item_pocket::contain_code> rate_can = pocket.insert_item( it );
+    CHECK( pocket.can_contain( it ).value() == item_pocket::contain_code::SUCCESS );
+    ret_val<item *> rate_can = pocket.insert_item( it );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
-    CHECK( rate_can.value() == item_pocket::contain_code::SUCCESS );
+    REQUIRE( rate_can.value() != nullptr );
+    CHECK( rate_can.value()->stacks_with( it ) );
 }
 
 // Call pocket.insert_item( it ) and expect it to fail, with an expected reason and contain_code
@@ -128,10 +132,11 @@ static void expect_cannot_insert( item_pocket &pocket, const item &it,
                                   item_pocket::contain_code expect_code )
 {
     CAPTURE( it.tname() );
-    ret_val<item_pocket::contain_code> rate_can = pocket.insert_item( it );
+    CHECK( pocket.can_contain( it ).value() == expect_code );
+    ret_val<item *> rate_can = pocket.insert_item( it );
     CHECK_FALSE( rate_can.success() );
     CHECK( rate_can.str() == expect_reason );
-    CHECK( rate_can.value() == expect_code );
+    CHECK( rate_can.value() == nullptr );
 }
 
 // Max item length
@@ -152,7 +157,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
     item sword( "test_clumsy_sword" );
 
     // Sheath that may contain items
-    pocket_data data_sheath( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_sheath( pocket_type::CONTAINER );
     // Has plenty of weight/ volume, since we're only testing length
     data_sheath.volume_capacity = 10_liter;
     data_sheath.max_contains_weight = 10_kilogram;
@@ -206,7 +211,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
             REQUIRE( rod_14.length() == 14_cm );
 
             REQUIRE( box.is_container_empty() );
-            box.put_in( rod_14, item_pocket::pocket_type::CONTAINER );
+            box.put_in( rod_14, pocket_type::CONTAINER );
             // Item went into the box
             CHECK_FALSE( box.is_container_empty() );
         }
@@ -217,7 +222,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
 
             REQUIRE( box.is_container_empty() );
             std::string dmsg = capture_debugmsg_during( [&box, &rod_15]() {
-                ret_val<void> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+                ret_val<void> result = box.put_in( rod_15, pocket_type::CONTAINER );
                 CHECK_FALSE( result.success() );
             } );
             CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );
@@ -249,7 +254,7 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
     item liquid( "test_liquid" );
 
     // Air-tight, water-tight, jug-style container
-    pocket_data data_jug( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_jug( pocket_type::CONTAINER );
     data_jug.airtight = true;
     data_jug.watertight = true;
 
@@ -296,7 +301,7 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
         }
         THEN( "it cannot contain solid items larger than the opening" ) {
             REQUIRE_FALSE( rock.is_soft() );
-            expect_cannot_contain( pocket_jug, rock, "item too big",
+            expect_cannot_contain( pocket_jug, rock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -322,7 +327,7 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
     // TODO: Add tests for having multiple ammo types in the ammo_restriction
 
     WHEN( "pocket has no ammo_restriction" ) {
-        pocket_data data_box( item_pocket::pocket_type::CONTAINER );
+        pocket_data data_box( pocket_type::CONTAINER );
         // Just a normal 1-liter box
         data_box.volume_capacity = 1_liter;
         REQUIRE( data_box.ammo_restriction.empty() );
@@ -333,7 +338,7 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
     }
 
     WHEN( "pocket has ammo_restriction" ) {
-        pocket_data data_ammo_box( item_pocket::pocket_type::CONTAINER );
+        pocket_data data_ammo_box( pocket_type::CONTAINER );
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
@@ -364,7 +369,7 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 //
 TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restriction]" )
 {
-    pocket_data data_mag( item_pocket::pocket_type::MAGAZINE );
+    pocket_data data_mag( pocket_type::MAGAZINE );
 
     // ammo_restriction takes precedence over volume/length/weight,
     // so it doesn't matter what these are set to - they can even be 0.
@@ -404,7 +409,7 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
 
             THEN( "it cannot contain items that are not ammo" ) {
                 item rag( "test_rag" );
-                expect_cannot_contain( pocket_mag, rag, "item is not an ammo",
+                expect_cannot_contain( pocket_mag, rag, "item is not ammunition",
                                        item_pocket::contain_code::ERR_AMMO );
             }
         }
@@ -476,7 +481,7 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
     REQUIRE( halligan.volume() < axe.volume() );
 
     // Test pocket with BELT_CLIP flag
-    pocket_data data_belt( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_belt( pocket_type::CONTAINER );
 
     // Sonic screwdriver is the smallest item it can hold
     data_belt.min_item_volume = sonic.volume();
@@ -542,12 +547,12 @@ TEST_CASE( "pocket_with_item_flag_restriction", "[pocket][flag_restriction]" )
                 REQUIRE( axe.volume() > data_belt.max_contains_volume() );
 
                 THEN( "pocket cannot contain it, because it is too big" ) {
-                    expect_cannot_contain( pocket_belt, axe, "item too big",
+                    expect_cannot_contain( pocket_belt, axe, "item is too big",
                                            item_pocket::contain_code::ERR_TOO_BIG );
                 }
 
                 THEN( "item cannot be inserted into the pocket" ) {
-                    expect_cannot_insert( pocket_belt, axe, "item too big",
+                    expect_cannot_insert( pocket_belt, axe, "item is too big",
                                           item_pocket::contain_code::ERR_TOO_BIG );
                 }
             }
@@ -590,7 +595,7 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
     item glock( "test_glock" );
 
     // Construct data for a holster to perfectly fit this gun
-    pocket_data data_holster( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_holster( pocket_type::CONTAINER );
     data_holster.holster = true;
     data_holster.volume_capacity = glock.volume();
     data_holster.max_item_length = glock.length();
@@ -631,12 +636,12 @@ TEST_CASE( "holster_can_contain_one_fitting_item", "[pocket][holster]" )
         item_pocket pocket_holster( &data_holster );
 
         THEN( "it cannot contain the item, because it is too big" ) {
-            expect_cannot_contain( pocket_holster, glock, "item too big",
+            expect_cannot_contain( pocket_holster, glock, "item is too big",
                                    item_pocket::contain_code::ERR_TOO_BIG );
         }
 
         THEN( "item cannot be successfully inserted" ) {
-            expect_cannot_insert( pocket_holster, glock, "item too big",
+            expect_cannot_insert( pocket_holster, glock, "item is too big",
                                   item_pocket::contain_code::ERR_TOO_BIG );
         }
     }
@@ -683,7 +688,7 @@ TEST_CASE( "pockets_containing_liquids", "[pocket][watertight][liquid]" )
     item glock( "test_glock" );
 
     // Large watertight container
-    pocket_data data_bucket( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_bucket( pocket_type::CONTAINER );
     data_bucket.watertight = true;
     data_bucket.volume_capacity = 10_liter;
     data_bucket.max_item_length = 1_meter;
@@ -777,7 +782,7 @@ TEST_CASE( "pockets_containing_gases", "[pocket][airtight][gas]" )
     item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
 
     // A potentially airtight container
-    pocket_data data_balloon( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_balloon( pocket_type::CONTAINER );
 
     // Has capacity for several charges of gas
     data_balloon.volume_capacity = 4 * gas.volume();
@@ -830,7 +835,7 @@ TEST_CASE( "rigid_and_non-rigid_or_flexible_pockets", "[pocket][rigid][flexible]
     item rock( "test_rock" );
 
     // Pocket with enough space for 2 rocks
-    pocket_data data_sock( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_sock( pocket_type::CONTAINER );
     data_sock.volume_capacity = 2 * rock.volume();
 
     // Can hold plenty of length and weight (we only care about volume here)
@@ -935,7 +940,7 @@ TEST_CASE( "corpse_can_contain_anything", "[pocket][corpse]" )
     item rock( "test_rock" );
     item glock( "test_glock" );
 
-    pocket_data data_corpse( item_pocket::pocket_type::CORPSE );
+    pocket_data data_corpse( pocket_type::CORPSE );
 
     GIVEN( "a corpse" ) {
         item_pocket pocket_corpse( &data_corpse );
@@ -1017,7 +1022,7 @@ TEST_CASE( "sealed_containers", "[pocket][seal]" )
     }
 
     GIVEN( "non-sealable jug" ) {
-        item jug( "test_jug_plastic" );
+        item jug( itype_test_jug_plastic );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
         std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
@@ -1062,8 +1067,8 @@ TEST_CASE( "when_one_pocket_is_better_than_another", "[pocket][better]" )
     // pockets without ripoff chance should be prioritized (#53162)
 
     // A and B: Two generic sets of pocket data for comparison
-    pocket_data data_a( item_pocket::pocket_type::CONTAINER );
-    pocket_data data_b( item_pocket::pocket_type::CONTAINER );
+    pocket_data data_a( pocket_type::CONTAINER );
+    pocket_data data_b( pocket_type::CONTAINER );
 
     // Candidate items to compare pockets with
     item liquid( "test_liquid" );
@@ -1167,10 +1172,10 @@ TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
     SECTION( "non-container pockets cannot be best_pocket" ) {
         // Gun that accepts magazines
         item glock( "test_glock" );
-        REQUIRE( glock.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( glock.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
         // Empty magazine
         item glockmag( "test_glockmag", calendar::turn, 0 );
-        REQUIRE( glockmag.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
+        REQUIRE( glockmag.has_pocket_type( pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
         item glockammo( "test_9mm_ammo", calendar::turn, 1 );
@@ -1197,7 +1202,7 @@ TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
         // Before being sealed, it can be best pocket for liquid
         CHECK( has_best_pocket( can, liquid ) );
         // Fill with liquid, seal it, and ensure success
-        can.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+        can.put_in( liquid, pocket_type::CONTAINER );
         REQUIRE( can.seal() ); // This must succeed, or next assertion is meaningless
         // Now sealed, the can cannot be best_pocket for liquid
         CHECK_FALSE( has_best_pocket( can, liquid ) );
@@ -1649,7 +1654,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
         item filler( "test_rag" );
 
         // wear the backpack item.
@@ -1699,7 +1704,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
     WHEN( "wearing a container with a nested rigid container which should be avoided" ) {
         item socks( itype_test_socks );
         item backpack( itype_test_backpack );
-        item container( itype_test_watertight_open_sealed_container_1L );
+        item container( itype_test_jug_plastic );
 
         // wear the backpack item.
         REQUIRE( dummy.wear_item( backpack ) );
@@ -1723,11 +1728,11 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns_and_gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "m4_carbine" );
+    item m4a1( "modular_m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );
-    CHECK( m4a1.put_in( strap, item_pocket::pocket_type::MOD ).success() );
+    CHECK( m4a1.put_in( strap, pocket_type::MOD ).success() );
 }
 
 TEST_CASE( "usb_drives_and_software", "[pocket][software]" )
@@ -1736,7 +1741,7 @@ TEST_CASE( "usb_drives_and_software", "[pocket][software]" )
     item software( "software_math" );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
     CHECK_FALSE( usb.can_contain( software ).success() );
-    CHECK( usb.put_in( software, item_pocket::pocket_type::SOFTWARE ).success() );
+    CHECK( usb.put_in( software, pocket_type::SOFTWARE ).success() );
 }
 
 static void test_pickup_autoinsert_results( Character &u, bool wear, const item_location &nested,
@@ -2244,7 +2249,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     map &m = get_map();
     Character &u = get_player_character();
     item water( "water" );
-    item cont_jug( "test_jug_plastic" );
+    item cont_jug( itype_test_jug_plastic );
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
@@ -2609,7 +2614,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     bottle.fill_with( water, 1 );
     REQUIRE( !bottle.is_container_empty() );
     REQUIRE( bottle.only_item().typeId() == water.typeId() );
-    backpack.put_in( bottle, item_pocket::pocket_type::CONTAINER );
+    backpack.put_in( bottle, pocket_type::CONTAINER );
     REQUIRE( !backpack.is_container_empty() );
     REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
 
@@ -2654,8 +2659,8 @@ TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )
     item large_holster( "XL_holster" );
 
     //add the mods
-    double_barrel.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
-    double_barrel.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
+    double_barrel.put_in( item( "stock_none", calendar::turn ), pocket_type::MOD );
+    double_barrel.put_in( item( "barrel_small", calendar::turn ), pocket_type::MOD );
 
     CHECK( large_holster.can_contain( double_barrel ).success() );
 
@@ -2669,7 +2674,7 @@ TEST_CASE( "bag_with_restrictions_and_nested_bag_does_not_fit_too_large_items", 
     item backpack_two( "test_backpack" );
     item mini_backpack( "test_mini_backpack" );
 
-    mini_backpack.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+    mini_backpack.put_in( backpack, pocket_type::CONTAINER );
     REQUIRE( !mini_backpack.is_container_empty() );
     REQUIRE( mini_backpack.only_item().typeId() == backpack.typeId() );
 
@@ -2693,7 +2698,7 @@ TEST_CASE( "pocket_leak" )
     item water( "water" );
     water.set_item_temperature( water.get_freeze_point() );
     REQUIRE( water.is_frozen_liquid() );
-    REQUIRE( backpack.put_in( water, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( backpack.put_in( water, pocket_type::CONTAINER ).success() );
 
     WHEN( "single container" ) {
         auto backpack_iter = *u.wear_item( backpack );
@@ -2712,7 +2717,7 @@ TEST_CASE( "pocket_leak" )
         CAPTURE( top_watertight );
         item top( top_watertight ? "55gal_drum" : "test_backpack" );
         REQUIRE( top.is_watertight_container() == top_watertight );
-        REQUIRE( top.put_in( backpack, item_pocket::pocket_type::CONTAINER ).success() );
+        REQUIRE( top.put_in( backpack, pocket_type::CONTAINER ).success() );
         u.wield( top );
         item &topit = *u.get_wielded_item();
         item &bkit = topit.only_item();
@@ -2805,5 +2810,62 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
         get_map().process_items();
         REQUIRE( spawned_w_modifier->empty_container() );
         check_whitelist( *spawned_w_modifier, edited, id );
+    }
+}
+
+static void compare_pockets( item &it, pocket_mod_test_data &pocket_mod_data, bool mod_inserted )
+{
+    std::vector<item_pocket *> new_pockets( it.get_contents().get_pockets( [](
+    item_pocket const & ) {
+        return true;
+    } ) );
+
+    for( std::pair<const pocket_type, std::vector<uint64_t>> &expected :
+         pocket_mod_data.expected_pockets ) {
+        const pocket_type type = expected.first;
+        uint64_t count = expected.second[mod_inserted ? 1 : 0];
+        std::vector<item_pocket *> pockets( it.get_contents().get_pockets( [type](
+        item_pocket const & pock ) {
+            return pock.is_type( type );
+        } ) );
+        CAPTURE( type );
+        CHECK( count == pockets.size() );
+    }
+
+    bool same_pocket_data = new_pockets.size() == it.type->pockets.size();
+    if( same_pocket_data ) {
+        for( const item_pocket *pocket : new_pockets ) {
+            if( std::find( it.type->pockets.begin(), it.type->pockets.end(),
+                           *pocket->get_pocket_data() ) == it.type->pockets.end() ) {
+                same_pocket_data = false;
+                break;
+            }
+        }
+    }
+
+    CHECK( same_pocket_data ^ mod_inserted );
+}
+
+TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
+{
+    for( std::pair<const std::string, pocket_mod_test_data> &pocket_mod_data :
+         test_data::pocket_mod_data ) {
+        SECTION( pocket_mod_data.first ) {
+            item base_it( pocket_mod_data.second.base_item );
+            item mod_it( pocket_mod_data.second.mod_item );
+
+            base_it.put_in( mod_it, pocket_type::MOD );
+
+            SECTION( "after inserting the mod" ) {
+                compare_pockets( base_it, pocket_mod_data.second, true );
+            }
+
+            SECTION( "after removing the mod" ) {
+                base_it.remove_items_with( [mod_it]( const item & it ) {
+                    return mod_it.type == it.type;
+                } );
+                compare_pockets( base_it, pocket_mod_data.second, false );
+            }
+        }
     }
 }

@@ -16,6 +16,17 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun" ],
+    "blacklist_mod": [
+      "crafted_suppressor",
+      "filter_suppressor",
+      "bottle_suppressor",
+      "riv_suppressor",
+      "shot_suppressor",
+      "suppressor",
+      "mp5sd_suppressor",
+      "suppressor_compact",
+      "suppressor"
+    ],
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 8,

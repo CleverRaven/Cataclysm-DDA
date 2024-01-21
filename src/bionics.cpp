@@ -132,7 +132,9 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pblue( "pblue" );
-static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill1_acetaminophen( "pkill1_acetaminophen" );
+static const efftype_id effect_pkill1_generic( "pkill1_generic" );
+static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -361,6 +363,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
+    optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
@@ -581,6 +584,13 @@ void bionic_data::check_bionic_consistency()
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
             debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
         }
+        for( const std::pair<const bodypart_str_id, resistances> &bprot : bio.protec ) {
+            for( const std::pair<const damage_type_id, float> &dt : bprot.second.resist_vals ) {
+                if( !dt.first.is_valid() ) {
+                    debugmsg( "Invalid protection type \"%s\" for bionic %s", dt.first.c_str(), bio.id.c_str() );
+                }
+            }
+        }
     }
 }
 
@@ -598,7 +608,32 @@ static void force_comedown( effect &eff )
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
-void npc::discharge_cbm_weapon()
+void npc::discharge_cbm_weapon( bool fired, bool stow_real_weapon )
+{
+    if( !is_using_bionic_weapon() ) {
+        return;
+    }
+
+    item *pseudo_gun = get_wielded_item().get_item();
+    if( pseudo_gun != nullptr ) {
+        if( fired ) {
+            mod_power_level( -pseudo_gun->get_gun_bionic_drain() );
+        }
+    } else {
+        debugmsg( "NPC tried to use a non-existent bionic gun with UID %d", weapon_bionic_uid );
+    }
+
+    set_wielded_item( real_weapon );
+    real_weapon = item();
+    weapon_bionic_uid = 0;
+
+    item *real_weapon_ptr = get_wielded_item().get_item();
+    if( stow_real_weapon && real_weapon_ptr != nullptr ) {
+        stow_item( *real_weapon_ptr );
+    }
+}
+
+void npc::deactivate_or_discharge_bionic_weapon( bool stow_real_weapon )
 {
     if( !is_using_bionic_weapon() ) {
         return;
@@ -609,12 +644,16 @@ void npc::discharge_cbm_weapon()
         debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
         return;
     }
+
     bionic &bio = **bio_opt;
 
-    mod_power_level( -bio.info().power_activate );
-
-    set_wielded_item( real_weapon );
-    weapon_bionic_uid = 0;
+    if( bio.powered ) {
+        deactivate_bionic( bio );
+    } else {
+        if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
+            discharge_cbm_weapon( false, stow_real_weapon );
+        }
+    }
 }
 
 void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
@@ -644,7 +683,22 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     item_location weapon = get_wielded_item();
-    item weap = weapon ? *weapon : item();
+    const item &weap = weapon ? *weapon : null_item_reference();
+
+    int ammo_count = weap.ammo_remaining( this );
+    const units::energy ups_drain = weap.get_gun_ups_drain();
+    if( ups_drain > 0_kJ ) {
+        ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
+    }
+
+    // the weapon value from `weapon_value` may be different from `npc_attack_rating`
+    // to avoid NPC infinitely switch weapon,
+    // only use bionic weapon when the ammo of wielded gun has been used up
+    bool ammo_used_up = !weap.is_gun() || ( ammo_count <= 0 && !can_reload_current() );
+    if( !ammo_used_up ) {
+        return;
+    }
+
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -659,12 +713,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weap.ammo_remaining( this );
-        const units::energy ups_drain =  weap.get_gun_ups_drain();
-        if( ups_drain > 0_kJ ) {
-            ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
-        }
-        const int cbm_ammo = free_power /  bio.info().power_activate;
+        const int cbm_ammo = free_power / cbm_weapon.get_gun_energy_drain();
 
         if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             if( real_weapon.is_null() ) {
@@ -674,6 +723,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             set_wielded_item( cbm_weapon );
             weapon_bionic_uid = bio.get_uid();
         }
+
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weap.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
@@ -683,16 +733,20 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        if( is_armed() ) {
-            stow_item( *weapon );
-        }
-        add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
-                                disp_name(), bio.info().name );
+        const item cbm_weapon = bio.get_weapon();
 
-        set_wielded_item( bio.get_weapon() );
-        mod_power_level( -bio.info().power_activate );
-        bio.powered = true;
-        weapon_bionic_uid = bio.get_uid();
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, 0 ) ) {
+            if( is_armed() ) {
+                stow_item( *weapon );
+            }
+            add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
+                                    disp_name(), bio.info().name );
+
+            set_wielded_item( cbm_weapon );
+            mod_power_level( -bio.info().power_activate );
+            bio.powered = true;
+            weapon_bionic_uid = bio.get_uid();
+        }
     }
 }
 
@@ -920,7 +974,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_tetanus, effect_poison, effect_badpoison,
-                effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
+                effect_pkill1_generic, effect_pkill1_acetaminophen, effect_pkill1_nsaid, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
@@ -1139,9 +1193,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = items_with( []( const item & it ) {
-            return it.has_flag( flag_CABLE_SPOOL );
-        } );
+        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1149,34 +1201,34 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( item *cable : cables ) {
-                if( !cable->link || cable->link->has_no_links() ) {
+            for( const item *cable : cables ) {
+                if( cable->has_no_links() ) {
                     free_cable = true;
-                } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to your CBM but it also has to be connected to a power source." ) );
-                } else if( cable->link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::solarpack, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                } else if( cable->link->has_states( link_state::ups, link_state::bio_cable ) ) {
+                } else if( cable->link_has_states( link_state::ups, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
-                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
-                           cable->link->has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
+                } else if( cable->link_has_states( link_state::bio_cable, link_state::vehicle_battery ) ||
+                           cable->link_has_states( link_state::bio_cable, link_state::vehicle_port ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
-                } else if( cable->link->s_state == link_state::solarpack ||
-                           cable->link->s_state == link_state::ups ) {
+                } else if( cable->link_has_states( link_state::solarpack, link_state::automatic ) ||
+                           cable->link_has_states( link_state::ups, link_state::automatic ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
-                } else if( cable->link->t_state == link_state::vehicle_battery ||
-                           cable->link->t_state == link_state::vehicle_port ) {
+                } else if( cable->link_has_states( link_state::automatic, link_state::vehicle_battery ) ||
+                           cable->link_has_states( link_state::automatic, link_state::vehicle_port ) ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
@@ -1294,6 +1346,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             }
             set_wielded_item( item() );
             weapon_bionic_uid = 0;
+            cached_info.erase( "weapon_value" );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
@@ -1448,7 +1501,7 @@ void Character::burn_fuel( bionic &bio )
             if( fuel_source->ammo_remaining() ) {
                 fuel = &fuel_source->first_ammo();
             } else {
-                fuel = fuel_source->all_items_ptr( item_pocket::pocket_type::CONTAINER ).front();
+                fuel = fuel_source->all_items_ptr( pocket_type::CONTAINER ).front();
             }
             energy_gain = fuel->fuel_energy();
 
@@ -2055,9 +2108,9 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
-                   get_skill_level( most_important_skill )  * 4 +
-                   get_skill_level( important_skill )       * 3 +
-                   get_skill_level( least_important_skill ) * 1;
+                   get_greater_skill_or_knowledge_level( most_important_skill )  * 4 +
+                   get_greater_skill_or_knowledge_level( important_skill )       * 3 +
+                   get_greater_skill_or_knowledge_level( least_important_skill ) * 1;
     } else {
         // override chance as though all values were skill_level if it is provided
         pl_skill = 12 * skill_level;
@@ -2224,6 +2277,13 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
+
+        // give us any muts it's supposed to (silently) if removed
+        for( const trait_id &mid : bio_id->give_mut_on_removal ) {
+            if( !has_trait( mid ) ) {
+                set_mutation( mid );
+            }
+        }
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio_id->itype() ) ) {
@@ -2747,10 +2807,13 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
+bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
+                                  bool suppress_debug )
 {
     if( has_bionic( b ) && !b->dupes_allowed ) {
-        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        if( !suppress_debug ) {
+            debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        }
         return 0;
     }
 
@@ -2769,7 +2832,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     }
 
     for( const bionic_id &inc_bid : b->included_bionics ) {
-        add_bionic( inc_bid, bio_uid );
+        add_bionic( inc_bid, bio_uid, suppress_debug );
     }
 
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
@@ -3360,10 +3423,9 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
+        return it.link_has_states( link_state::ups, link_state::bio_cable );
+    } ).size();
     if( n == 0 ) {
         return stored_fuels;
     }
@@ -3393,10 +3455,9 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
-    } );
-    int n = cables.size();
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
+        return it.link_has_states( link_state::solarpack, link_state::bio_cable );
+    } ).size();
     if( n == 0 ) {
         return solar_sources;
     }
@@ -3420,14 +3481,15 @@ std::vector<item *> Character::get_cable_solar()
     return solar_sources;
 }
 
-std::vector<vehicle *> Character::get_cable_vehicle()
+std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_state( link_state::bio_cable ) &&
-               ( it.link->has_state( link_state::vehicle_battery ) ||
-                 it.link->has_state( link_state::vehicle_port ) );
+    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item & it ) {
+        return it.link_has_state( link_state::bio_cable ) &&
+               ( it.link_has_state( link_state::vehicle_battery ) ||
+                 it.link_has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3437,10 +3499,10 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        if( cable->link->t_veh_safe ) {
-            remote_vehicles.emplace_back( cable->link->t_veh_safe.get() );
+        if( cable->link().t_veh ) {
+            remote_vehicles.emplace_back( cable->link().t_veh.get() );
         } else {
-            const optional_vpart_position vp = here.veh_at( cable->link->t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( cable->link().t_abs_pos );
             if( vp ) {
                 remote_vehicles.emplace_back( &vp->vehicle() );
             }

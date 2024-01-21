@@ -7,12 +7,12 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": "Aw hey, it's you again.",
+      "yes": "Aw hey, it's you again, <u_name>.",
       "no": "Oh… hi.  I don't know you.  My name's Chloe."
     },
     "responses": [
       {
-        "text": "Nice to meet you, kid.  What's up?",
+        "text": "Nice to meet you, Chloe.  What's up?",
         "topic": "TALK_GODCO_chloe_2",
         "condition": { "not": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" } },
         "effect": { "npc_add_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }

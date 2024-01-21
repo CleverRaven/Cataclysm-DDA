@@ -72,6 +72,11 @@
         "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "\"deluxe\" sandwich", "str_pl": "\"deluxe\" sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str": "deluxe breakfast sandwich", "str_pl": "deluxe breakfast sandwiches" }
       }
     ],
     "weight": "292 g",
@@ -550,6 +555,11 @@
         "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str": "deluxe wheat-free breakfast sandwich", "str_pl": "deluxe wheat-free breakfast sandwiches" }
       }
     ],
     "weight": "292 g",
@@ -829,7 +839,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj_wheat_free",
-    "name": { "str": "wheat-free PB&J sandwich", "str_pl": "wheat-free PB&J cornbread sandwiches" },
+    "name": { "str": "wheat-free PB&J sandwich", "str_pl": "wheat-free PB&J sandwiches" },
     "weight": "204 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",

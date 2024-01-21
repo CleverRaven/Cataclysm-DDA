@@ -149,7 +149,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" },
+      "furniture": { "o": [ "f_water_heater", "f_water_heater_family" ], "a": "f_air_conditioner" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
@@ -168,7 +168,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "c": "t_chaingate_l", "U": "t_chainfence" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "furniture": { "o": [ "f_water_heater", "f_water_heater_family" ], "a": "f_water_purifier", "A": "f_standing_tank" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
@@ -189,7 +189,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "furniture": { "o": [ "f_water_heater", "f_water_heater_family" ], "a": "f_water_purifier", "A": "f_standing_tank" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
@@ -243,7 +243,7 @@
     "nested_mapgen_id": "roof_2x2_utilities_b",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_water_purifier", "x": 0, "y": 1 } ]
+      "place_furniture": [ { "furn": "f_water_heater_family", "x": 0, "y": 0 }, { "furn": "f_water_purifier", "x": 0, "y": 1 } ]
     }
   },
   {

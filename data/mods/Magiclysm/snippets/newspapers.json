@@ -1,6 +1,32 @@
 [
   {
     "type": "snippet",
+    "category": "weeks_old_newspaper",
+    "text": [
+      {
+        "id": "magiclysm_weeks_old_news_1",
+        "text": "Letter to the Editor:\n\nI am concerned about recent activity among the local goblin population.  While the riots have us all on edge, lately many of them seem to be keeping to themselves.  My neighbors won't even say hello to me anymore or look at me when I pass them on the street.  Sometimes they leave for days at a time, and I swear I've seen fires burning on the hills.  There's something odd going on and we don't need any more strangeness with everything else that's wrong with the world lately.\n\nSincerely\nEdward Frost"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "months_old_newspaper",
+    "text": [
+      {
+        "id": "magiclysm_months_old_news_1",
+        "//": "ħ in goblin names represents a voiceless pharyngeal fricative, like the ch in \"loch\" or the Hebrew ח",
+        "text": "MISSING CHILD: As the search continues for Theodore O'Connor, age 7, missing since last Thursday, his mother placed the blame on a goblin family in their neighborhood.  \"They've been lurking around our house for days before Theo disappeared,\" she said during an interview on local television, \"and I just know they had something to do with it.  Please bring our Theo back!\"  Local community organizer Shazgra k'Morħet denounced the claims, stating, \"I thought we had moved past this kind of blood libel rhetoric, but apparently rising tensions are all it takes for old accusations to resurface.  We've all seen the footage of the riots.  They're the most multicultural gatherings we've had in modern times.\""
+      },
+      {
+        "id": "magiclysm_months_old_news_2",
+        "//": "My idea here is that the different species cannot have children together but adoption is common, so you could have the adopted son of a human father and a dwarven mother named like \"Eric Johnson, son of Rupert, of Clan Stonehammer\",etc.  Hence the secretary's name--elven father, human mother, adopted.",
+        "text": "Secretary of Thaumaturgy Adam Maerhanar released a statement today stating that all national parks would be closed to the public until further notice due to increased wilderness spirit activity.  The notice further stated that the cause was under investigation but an unnamed source indicated it was probably due to natural solar cycles: \"The stars, the sun, the moon, we know these all affect spirits' behavior.  Despite existing alongside them for thousands of years, there's still so much we don't know about them.\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "one_year_old_news",
     "text": [
       {
@@ -10,6 +36,16 @@
       {
         "id": "magiclysm_one_year_old_news_2",
         "text": "Scientists from the only magical research facility in the region reported a breakthrough yesterday.  They reported that their research lead, Ander McDowell, has \"Ascended\" to a greater plane of existence.  They are still looking into the details, because once Ander did so, they only made one statement before appearing to dissolve into the Ether: \"I've found the answer!  It's been Mana all along!\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "many_years_old_newspaper",
+    "text": [
+      {
+        "id": "magiclysm_many_years_old_news_1",
+        "text": "Staff at Johns Hopkins University yesterday announced promising results in the long search for a health catalyst spell.  While an actual prototype formula has not been released, the draft paper indicates that animal testing showed a five percent decrease in long-term mortality rates in rats suffering from a dozen different types of cancers.  \"A true universal healing catalyst spell would really be the Holy Grail\", said Dr. Olivia k'Ħarzag, Director of Thaumaturgical Oncology Research at Johns Hopkins University.  \"Modern cancer research's greatest limiting factor is that the most potent biomantic healing spells can only affect the caster.  If we can find a way to encourage the body's own defenses that works on a wide scale, even if we can't directly cure the cancer, we could save so many more people.\""
       }
     ]
   }

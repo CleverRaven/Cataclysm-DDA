@@ -105,9 +105,9 @@ class item_contents
         const;
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
-        std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+        std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
         /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<const item *> all_items_top( pocket_type pk_type ) const;
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
@@ -250,13 +250,15 @@ class item_contents
          * With CONTAINER, MAGAZINE, or MAGAZINE_WELL pocket types, items must fit the pocket's
          * volume, length, weight, ammo type, and all other physical restrictions.  This is
          * synonymous with the success of item_contents::can_contain with that item.
+         * If ignore_contents is true, will disregard other pocket contents for these checks.
          *
          * For the MOD, CORPSE, SOFTWARE, CABLE, and MIGRATION pocket types, if contents have such a
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
-        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item *> insert_item( const item &it, pocket_type pk_type,
+                                     bool ignore_contents = false, bool unseal_pockets = false );
+        void force_insert_item( const item &it, pocket_type pk_type );
         bool can_unload_liquid() const;
 
         /**
@@ -320,13 +322,14 @@ class item_contents
         const item &only_item() const;
         const item &first_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
 
         // whether the contents has a pocket with the associated type
-        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_pocket_type( pocket_type pk_type ) const;
         bool has_unrestricted_pockets() const;
         bool has_any_with( const std::function<bool( const item & )> &filter,
-                           item_pocket::pocket_type pk_type ) const;
+                           pocket_type pk_type ) const;
 
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
@@ -359,7 +362,7 @@ class item_contents
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
-                      bool restack_charges = true );
+                      bool restack_charges = true, bool ignore_contents = false );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -368,10 +371,10 @@ class item_contents
         // this will be where the algorithm picks the best pocket in the contents
         // returns nullptr if none is found
         ret_val<item_pocket *> find_pocket_for( const item &it,
-                                                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                                                pocket_type pk_type = pocket_type::CONTAINER );
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
-                item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
+                pocket_type pk_type = pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
 

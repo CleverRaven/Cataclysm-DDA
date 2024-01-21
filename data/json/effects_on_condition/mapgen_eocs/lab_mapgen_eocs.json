@@ -1,0 +1,200 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check",
+    "recurrence": 1,
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_1x1x2_RES_8_apartments_lower" }, { "not": { "u_has_item": "id_science_medical_red" } } ]
+    },
+    "effect": { "mapgen_update": "release_the_bots", "om_terrain": "lab_health_z-3_A" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check_surface_3",
+    "recurrence": [ 5, 30 ],
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_res_8_SWU_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
+    },
+    "effect": { "mapgen_update": "release_the_bots_2", "om_terrain": "lab_res_8_SEU_ground" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check_surface_2",
+    "recurrence": [ 5, 30 ],
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_res_8_SWD_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
+    },
+    "effect": { "mapgen_update": "release_the_bots_2", "om_terrain": "lab_res_8_SED_ground" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check_surface_1",
+    "recurrence": 1,
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_CORE_2x1_WC_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
+    },
+    "effect": [
+      { "mapgen_update": "release_bots_garage", "om_terrain": "lab_security_z0" },
+      { "mapgen_update": "open_walls_garage", "om_terrain": "lab_CORE_2x1_WC_ground" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_check_magenta_security_drop",
+    "recurrence": [ 3, 5 ],
+    "condition": {
+      "and": [
+        { "u_at_om_location": "lab_security_z-1" },
+        { "u_has_item": "id_science_security_yellow" },
+        {
+          "not": { "u_has_var": "valid_security_employee", "type": "check", "context": "trap trigger", "value": "yes" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "magenta_security_card_spawn", "om_terrain": "lab_security_z-1" },
+      { "u_add_var": "valid_security_employee", "type": "check", "context": "trap trigger", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_1x1x2_RES_8_check_SEC",
+    "recurrence": [ 5, 10 ],
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_1x1_RES_8_commons_SEC" }, { "not": { "u_has_item": "id_science_security_yellow" } } ]
+    },
+    "effect": [ { "mapgen_update": "release_bots_3", "om_terrain": "lab_1x1_RES_8_commons_SEC" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_1x1x2_RES_8_check_MAINT",
+    "recurrence": [ 5, 10 ],
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_1x1_RES_8_commons_MAINT" }, { "not": { "u_has_item": "id_science_maintenance_yellow" } } ]
+    },
+    "effect": [ { "mapgen_update": "release_bots_3", "om_terrain": "lab_1x1_RES_8_commons_MAINT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_concourse_bot_release",
+    "recurrence": [ 5, 10 ],
+    "condition": {
+      "and": [
+        { "u_at_om_location": "lab_CORE_2x1_1DN" },
+        {
+          "not": {
+            "or": [
+              { "u_has_item": "id_science_maintenance_yellow" },
+              { "u_has_item": "id_science_transport_1" },
+              { "u_has_item": "id_science_visitor_1" },
+              { "u_has_item": "id_science_maintenance_green" },
+              { "u_has_item": "id_science_maintenance_blue" },
+              { "u_has_item": "id_science_security_yellow" },
+              { "u_has_item": "id_science_security_magenta" },
+              { "u_has_item": "id_science_security_black" },
+              { "u_has_item": "id_science_mutagen_green" },
+              { "u_has_item": "id_science_mutagen_pink" },
+              { "u_has_item": "id_science_mutagen_cyan" },
+              { "u_has_item": "id_science_medical_red" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "mapgen_update": "release_bots_concourse", "om_terrain": "lab_CORE_2x1_1DN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_concourse_bot_release_2",
+    "recurrence": [ 5, 10 ],
+    "condition": {
+      "and": [
+        { "u_at_om_location": "lab_CORE_2x1_2DN" },
+        {
+          "not": {
+            "or": [
+              { "u_has_item": "id_science_transport_1" },
+              { "u_has_item": "id_science_visitor_1" },
+              { "u_has_item": "id_science_maintenance_yellow" },
+              { "u_has_item": "id_science_maintenance_green" },
+              { "u_has_item": "id_science_maintenance_blue" },
+              { "u_has_item": "id_science_security_yellow" },
+              { "u_has_item": "id_science_security_magenta" },
+              { "u_has_item": "id_science_security_black" },
+              { "u_has_item": "id_science_mutagen_green" },
+              { "u_has_item": "id_science_mutagen_pink" },
+              { "u_has_item": "id_science_mutagen_cyan" },
+              { "u_has_item": "id_science_medical_red" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "mapgen_update": "release_bots_concourse_2", "om_terrain": "lab_CORE_2x1_2DN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_magenta_security_check",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_security_z-5" }, { "not": { "u_has_item": "id_science_security_magenta" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_4", "om_terrain": "lab_security_z-5" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_cyan_mutagen_check",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_NE" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_5", "om_terrain": "lab_2x2_MUT_tier_2_NE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_cyan_mutagen_check_2",
+    "recurrence": [ 15, 30 ],
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_NW_final_flr" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ]
+    },
+    "effect": [ { "mapgen_update": "release_bots_6", "om_terrain": "lab_2x2_MUT_tier_2_NW_final_flr" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_cyan_mutagen_check_3",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_SW" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_7", "om_terrain": "lab_2x2_MUT_tier_2_SW" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_cyan_mutagen_check_4",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_2_SE" }, { "not": { "u_has_item": "id_science_mutagen_cyan" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_8", "om_terrain": "lab_2x2_MUT_tier_2_SE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_pink_mutagen_check",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_NE" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_5", "om_terrain": "lab_2x2_MUT_tier_1_NE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_pink_mutagen_check_2",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_NW" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_6", "om_terrain": "lab_2x2_MUT_tier_1_NW" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_pink_mutagen_check_3",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_SW" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_7", "om_terrain": "lab_2x2_MUT_tier_1_SW" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_pink_mutagen_check_4",
+    "recurrence": [ 15, 30 ],
+    "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_SE" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
+    "effect": [ { "mapgen_update": "release_bots_8", "om_terrain": "lab_2x2_MUT_tier_1_SE" } ]
+  }
+]

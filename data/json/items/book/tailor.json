@@ -127,7 +127,7 @@
     "category": "manuals",
     "name": { "str": "Friendly, Humane Fashion", "str_pl": "copies of Friendly, Humane Fashion" },
     "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
-    "weight": "2267 g",
+    "weight": "1200 g",
     "volume": "1 L",
     "price": 5000,
     "price_postapoc": 250,

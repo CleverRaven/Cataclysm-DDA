@@ -12,11 +12,5 @@
         { "class": "follower_barbara", "x": 1, "y": 0 }
       ]
     }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "update_mapgen_id": "defense_mode_caravan_remove",
-    "object": { "remove_npcs": [ { "class": "defense_mode_merchant", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }
 ]

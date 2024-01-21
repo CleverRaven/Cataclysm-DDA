@@ -204,5 +204,50 @@
     "result": "xs_k_gambeson_hood",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "sieve_steel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "wire_mesh",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "mask_wsurvivor_nofur",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_mask_wsurvivor_nofur",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_mask_wsurvivor_nofur",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "mask_wsurvivor",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_mask_wsurvivor",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_mask_wsurvivor",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "rigid_plastic_sheet",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

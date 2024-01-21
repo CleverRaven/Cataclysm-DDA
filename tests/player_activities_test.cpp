@@ -182,7 +182,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         GIVEN( "player without the required tools" ) {
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -198,7 +198,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -212,11 +212,11 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         }
 
         GIVEN( "player has a stethoscope" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             dummy.remove_weapon();
             dummy.add_bionic( bio_ears );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -233,7 +233,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.clear_bionics();
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
@@ -245,9 +245,9 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
                 }
 
                 THEN( "player loses their stethoscope" ) {
-                    dummy.worn.clear();
+                    dummy.clear_worn();
                     dummy.remove_weapon();
-                    REQUIRE( !dummy.has_item_with_flag( flag_SAFECRACK ) );
+                    REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
 
                     process_activity( dummy );
                     THEN( "activity is canceled" ) {
@@ -286,7 +286,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player cracks one safe" ) {
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
-            REQUIRE( dummy.has_item_with_flag( flag_SAFECRACK ) );
+            REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -375,7 +375,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             battery.ammo_set( battery.ammo_default(), 300 );
 
             item elec_shears( itype_test_shears_off );
-            elec_shears.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            elec_shears.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
@@ -421,7 +421,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             battery.ammo_set( battery.ammo_default(), 5 );
 
             item elec_shears( itype_test_shears_off );
-            elec_shears.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            elec_shears.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
@@ -691,7 +691,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             battery.ammo_set( battery.ammo_default(), 2 );
 
             item it_boltcut_elec( itype_test_boltcutter_elec );
-            it_boltcut_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            it_boltcut_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_boltcut_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter_elec );
@@ -955,7 +955,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             battery.ammo_set( battery.ammo_default() );
 
             item it_hacksaw_elec( itype_test_hacksaw_elec );
-            it_hacksaw_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            it_hacksaw_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw_elec );
@@ -1693,7 +1693,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( firstaid_activity_actor( 1, std::string(), get_avatar().getID() ) ); },
     [] { return player_activity( forage_activity_actor( 1 ) ); },
     [] { return player_activity( gunmod_remove_activity_actor( 1, item_location(), 0 ) ); },
-    [] { return player_activity( hacking_activity_actor() ); },
+    [] { return player_activity( hacking_activity_actor( item_location() ) ); },
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
@@ -1747,9 +1747,11 @@ static void cleanup( avatar &dummy )
 static void update_cache( map &m )
 {
     // Why twice? See vision_test.cpp
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
+    m.invalidate_visibility_cache();
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );

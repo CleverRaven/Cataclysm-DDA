@@ -10,6 +10,11 @@
     "monsters": [ { "monster": "mon_mantis_nymph_friendly" } ]
   },
   {
+    "name": "GROUP_EGG_LADY_BUG_TAME",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_lady_bug_larva_friendly" } ]
+  },
+  {
     "name": "GROUP_EGG_ANTLION_TAME",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_antlion_larva_friendly" } ]

@@ -235,7 +235,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -339,7 +339,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -400,7 +400,7 @@
     "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
     "responses": [
       {
-        "text": "[PER 8+] The original markings on that case had been scratched out.  Who did it really belong to?",
+        "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
         "condition": { "u_has_perception": 8 },
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase"
       },
@@ -436,7 +436,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -640,7 +640,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the unusual robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -680,7 +680,7 @@
     "end": {
       "effect": [
         { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "fail": {
@@ -751,7 +751,7 @@
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder"
     ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope your found the prototype's performance to be satisfactory.\"",
+    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope you found the prototype's performance to be satisfactory.\"",
     "responses": [
       {
         "text": "Will this weapon work on other robots, as well?",
@@ -787,13 +787,13 @@
     "name": { "str": "Hazard Meteorology" },
     "//": "This mission is completed when you first sell any piece of portal storm data.",
     "goal": "MGOAL_NULL",
-    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
     "difficulty": 5,
     "value": 0,
     "end": {
       "effect": [
         { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

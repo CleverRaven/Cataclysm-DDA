@@ -337,7 +337,7 @@
     "id": "mon_moxie_grabby",
     "type": "MONSTER",
     "name": { "str": "MoxPhore Tangler" },
-    "description": "A human stands here, several rust-colored limbs jut out of its back, moving around and grabbing at the air while the person looks blankly around….",
+    "description": "A human stands here, several rust-colored limbs jutting out of its back, the limbs moving around and grabbing at the air while the person looks blankly around…",
     "default_faction": "moxie",
     "bodytype": "human",
     "species": [ "MOXIE" ],
@@ -419,7 +419,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "GUILT_OTHERS"
     ]
   },
   {

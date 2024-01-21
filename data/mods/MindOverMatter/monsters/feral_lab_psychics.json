@@ -8,7 +8,7 @@
     "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 85,
@@ -41,6 +41,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": 12,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -48,14 +49,27 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
         "cooldown": 10,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
-        "id": "psi_drbrain_mindhammer",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
-        "cooldown": 12,
-        "monster_message": "%1$s hammers %3$s with psionic force!"
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_telekinetic_mindhammer",
+        "cooldown": 10,
+        "move_cost": 80,
+        "range": 6,
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25 } ],
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
+        "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
+        "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
+        "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
+        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
       },
       {
         "id": "smash",
@@ -65,15 +79,17 @@
         "hitsize_min": 12,
         "range": 8,
         "throw_strength": 100,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
       },
-      [ "PULL_METAL_WEAPON", 8 ],
-      [ "FEAR_PARALYZE", 10 ]
+      [ "PULL_METAL_WEAPON", 8 ]
     ],
     "flags": [
       "SEES",
@@ -97,7 +113,7 @@
     "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
@@ -126,9 +142,15 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       [ "PARROT_AT_DANGER", 15 ],
-      { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 15 },
+      {
+        "id": "smash",
+        "attack_upper": true,
+        "throw_strength": 50,
+        "cooldown": 15,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
       [ "BIO_OP_DISARM", 15 ],
-      { "id": "bio_op_takedown", "cooldown": 20 }
+      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
     ],
     "flags": [
       "SEES",

@@ -34,7 +34,7 @@
     "name": { "str": "folded wheelchair" },
     "description": "A folded Wheelchair.",
     "weight": "10586 g",
-    "volume": "13500 ml",
+    "volume": "12000 ml",
     "symbol": "/",
     "color": "light_gray",
     "variables": {
@@ -49,7 +49,7 @@
     "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (with oars included) is deflated for storage.  Activate it with an air pump in your inventory to inflate and launch it.",
     "weight": "32420 g",
-    "volume": "9000 ml",
+    "volume": "7500 ml",
     "symbol": "0",
     "color": "light_gray",
     "variables": {

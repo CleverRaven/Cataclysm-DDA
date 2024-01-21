@@ -20,7 +20,8 @@
       { "item": "hat_navy", "damage": [ 0, 4 ] },
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
-      { "group": "misc_smoking_legal", "prob": 10 }
+      { "group": "misc_smoking_legal", "prob": 10 },
+      { "item": "dog_tag", "prob": 40 }
     ]
   },
   {
@@ -41,7 +42,7 @@
           },
           {
             "group": "military_standard_lmgs",
-            "contents-item": "shoulder_strap",
+            "contents-item": "shoulder_strap_simple",
             "prob": 10,
             "damage": [ 0, 4 ],
             "dirt": [ 0, 6000 ]
@@ -61,7 +62,7 @@
       { "item": "webbing_belt", "damage": [ 0, 4 ], "prob": 60 },
       { "item": "pants_army", "variant": "apants_MARPAT", "damage": [ 0, 4 ] },
       { "item": "boots_combat", "damage": [ 0, 4 ] },
-      { "item": "sheath", "contents-item": "knife_combat", "prob": 80 },
+      { "item": "sheath", "contents-item": "knife_combat_marine", "prob": 80 },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       { "item": "two_way_radio", "charges": [ 0, 300 ], "prob": 25 },
@@ -79,7 +80,8 @@
       { "item": "gloves_tactical", "damage": [ 0, 4 ], "prob": 60 },
       { "group": "military_ballistic_vest", "damage": [ 0, 4 ] },
       { "group": "molle_backpacks_and_accessories", "damage": [ 0, 4 ], "prob": 85 },
-      { "group": "clothing_tactical_leg", "damage": [ 0, 4 ], "prob": 15 }
+      { "group": "clothing_tactical_leg", "damage": [ 0, 4 ], "prob": 15 },
+      { "item": "dog_tag", "prob": 40 }
     ]
   },
   {
@@ -98,7 +100,8 @@
       { "group": "clothing_glasses", "damage": [ 0, 4 ], "prob": 5 },
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
-      { "group": "misc_smoking_legal", "prob": 10 }
+      { "group": "misc_smoking_legal", "prob": 10 },
+      { "item": "dog_tag", "prob": 20 }
     ]
   }
 ]

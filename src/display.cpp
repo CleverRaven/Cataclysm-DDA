@@ -59,7 +59,7 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
     _var = var;
     _bp_cur_max.clear();
-    _graph_id = "";
+    _graph_id.clear();
 }
 
 bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const
@@ -112,7 +112,7 @@ vehicle *display::vehicle_driven( const Character &u )
 std::string display::get_temp( const Character &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+    if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
@@ -316,19 +316,19 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
     bodypart_id current_bp_extreme = u.get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
-        if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            units::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( std::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            units::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-static int define_temp_level( const int lvl )
+static int define_temp_level( const units::temperature lvl )
 {
     if( lvl > BODYTEMP_SCORCHING ) {
         return 7;
@@ -935,7 +935,7 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
 {
     nc_color color = c_light_gray; // default
-    const int temp_conv = u.get_part_temp_conv( bp );
+    const units::temperature temp_conv = u.get_part_temp_conv( bp );
     if( bp == body_part_eyes ) {
         color = c_light_gray;    // Eyes don't count towards warmth
     } else if( temp_conv  > BODYTEMP_SCORCHING ) {

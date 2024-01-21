@@ -2,10 +2,10 @@
   {
     "id": [ "BEM_TEMPLATE_SELLER_1", "BEM_TEMPLATE_SELLER_ASK" ],
     "type": "talk_topic",
-    "dynamic_line": "&The mercenary seems uncharacteristically upbeat, or perhaps just drunk.  \"Found this neat gizmo in a bank run a few days ago.  <mypronoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say?  Its yours for 3 coins.",
+    "dynamic_line": "&The mercenary seems uncharacteristically upbeat, or perhaps just drunk.  \"Found this neat gizmo in a bank run a few days ago.\"  <mypronoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say?  Its yours for 3 coins.\"",
     "responses": [
       {
-        "text": "[3 HGC] Its a deal.",
+        "text": "[3 HGC] It's a deal.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 3 },
@@ -20,7 +20,7 @@
         "success": { "topic": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY" },
         "failure": { "topic": "BEM_TEMPLATE_SELLER_NO_DEAL" }
       },
-      { "text": "I dont even know what that is", "topic": "BEM_TEMPLATE_SELLER_ASK" },
+      { "text": "I don't even know what that is.", "topic": "BEM_TEMPLATE_SELLER_ASK" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
     ]
   },
@@ -30,7 +30,7 @@
     "dynamic_line": "Sure whatever, two coins and its all yours.",
     "responses": [
       {
-        "text": "[2 HGC] Its a deal then.",
+        "text": "[2 HGC] It's a deal then.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
@@ -40,7 +40,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Oh, it looks like I dont actually have two coins right now…",
+        "text": "Oh, it looks like I don't actually have two coins right now…",
         "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 2 } } },
         "topic": "TALK_DONE"
       },
@@ -50,7 +50,7 @@
   {
     "id": "BEM_TEMPLATE_SELLER_ASK",
     "type": "talk_topic",
-    "dynamic_line": "A 'nanofabricator template' it seems, no idea what its good for, but it sure looks valuable.  Are you buying it or not?"
+    "dynamic_line": "A 'nanofabricator template', it seems, no idea what its good for, but it sure looks valuable.  Are you buying it or not?"
   },
   {
     "id": "BEM_TEMPLATE_SELLER_NO_DEAL",

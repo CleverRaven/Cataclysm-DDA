@@ -4,9 +4,10 @@
     "type": "TOOL",
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": "907 g",
-    "volume": "750 ml",
-    "price": 2000,
+    "//": "https://amz.run/7YNm",
+    "weight": "410 g",
+    "volume": "725 ml",
+    "price": 6000,
     "price_postapoc": 0,
     "to_hit": -1,
     "material": [ "plastic" ],
@@ -31,27 +32,9 @@
     "type": "TOOL",
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": "907 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "price_postapoc": 0,
-    "to_hit": -1,
-    "material": [ "plastic" ],
+    "copy-from": "talking_doll",
     "symbol": "|",
-    "color": "pink",
-    "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "charges_per_use": 1,
-    "turns_per_charge": 20,
-    "use_action": [ "DOLLCHAT" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
-      }
-    ]
+    "color": "pink"
   },
   {
     "type": "GENERIC",
@@ -309,7 +292,8 @@
     "volume": "62500 ml",
     "longest_side": "180 cm",
     "to_hit": -2,
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 18 },
+    "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
   },
   {
     "type": "TOOL",

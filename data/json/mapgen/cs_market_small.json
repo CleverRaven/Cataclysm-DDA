@@ -26,6 +26,7 @@
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
       [ "boots_steel", 20 ],
+      { "item": "toecaps", "prob": 15 },
       [ "sneakers_steel", 15 ]
     ]
   },

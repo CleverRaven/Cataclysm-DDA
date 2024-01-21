@@ -23,13 +23,13 @@
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
-#include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -67,9 +67,7 @@ save_t save_t::from_base_path( const std::string &base_path )
 
 static std::string get_next_valid_worldname()
 {
-    std::string worldname = Name::get( nameFlags::IsWorldName );
-
-    return worldname;
+    return SNIPPET.expand( "<world_name>" );
 }
 
 WORLD::WORLD()
@@ -153,6 +151,9 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 
 WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
+    if( !is_lexically_valid( fs::u8path( name ) ) ) {
+        return nullptr;
+    }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
@@ -294,6 +295,7 @@ void worldfactory::set_active_world( WORLD *world )
 bool WORLD::save( const bool is_conversion ) const
 {
     if( !assure_dir_exist( folder_path() ) ) {
+        debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
         return false;
@@ -406,7 +408,7 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -708,14 +710,30 @@ void worldfactory::remove_world( const std::string &worldname )
 void worldfactory::load_last_world_info()
 {
     cata_path lastworld_path = PATH_INFO::lastworld();
-    if( !file_exist( lastworld_path ) ) {
-        return;
-    }
+    std::string lwmissing =
+        translate_marker( "lastworld.json or one of its values is empty.  This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged." );
 
-    JsonValue jsin = json_loader::from_path( lastworld_path );
-    JsonObject data = jsin.get_object();
-    last_world_name = data.get_string( "world_name" );
-    last_character_name = data.get_string( "character_name" );
+    try {
+        if( !file_exist( lastworld_path ) ) {
+            return;
+        }
+
+        std::optional<std::string> json_file_contents = read_whole_file( lastworld_path );
+        JsonValue jsin = json_loader::from_path( lastworld_path );
+        JsonObject data = jsin.get_object();
+        last_world_name = data.get_string( "world_name" );
+        last_character_name = data.get_string( "character_name" );
+
+        if( !json_file_contents.has_value() || json_file_contents->empty() || last_character_name.empty() ||
+            last_world_name.empty() ) {
+
+            throw JsonError( lwmissing );
+        }
+        // Using non-specific catch because lastworld.json being empty or missing data can cause a lot of different types of exceptions. If this is is bad practice, please help correct it if you can.
+    } catch( ... ) {
+        popup( _( lwmissing ) );
+        debugmsg( lwmissing );
+    }
 }
 
 void worldfactory::save_last_world_info() const
@@ -1364,7 +1382,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 }
             }
         }
-
 
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;

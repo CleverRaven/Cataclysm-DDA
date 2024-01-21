@@ -766,5 +766,34 @@
     "max_aoe": 4,
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "message": ""
+  },
+  {
+    "id": "bramble_spear_slow",
+    "type": "SPELL",
+    "name": "Bramble spear slow",
+    "description": "Sticky sap coats your enemies.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "mod_moves",
+    "min_damage": -25,
+    "max_damage": -75,
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "id": "druid_thorn_skin_attacked",
+    "type": "SPELL",
+    "name": "Thorn skin aura",
+    "description": "Do a small amount of damage to a monster that attacked you.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "stab",
+    "min_damage": 2,
+    "max_damage": 6,
+    "min_range": 1,
+    "max_range": 1
   }
 ]

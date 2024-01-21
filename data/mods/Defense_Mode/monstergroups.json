@@ -47,6 +47,43 @@
     "name": "GROUP_NEMESIS",
     "default": "mon_zombie_nemesis",
     "//": "nemesis squad, exists here to remove them from Defense Mode",
-    "monsters": [ { "monster": "mon_zombie", "freq": 1000, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_zombie", "weight": 1000, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
+      { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
+      { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
+      { "monster": "mon_zombie", "weight": 4720, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "weight": 750, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fat", "weight": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_tough", "weight": 750, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_child", "weight": 750 },
+      { "monster": "mon_zombie_rot", "weight": 500, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_crawler", "weight": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_dog", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 16, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 24, "pack_size": [ 8, 12 ] },
+      { "monster": "mon_dog_zombie_cop", "weight": 50, "cost_multiplier": 4 },
+      { "monster": "mon_dog_zombie_rot", "weight": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_cop", "weight": 200, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fursuit", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_swat", "weight": 100, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_medical", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hazmat", "weight": 100, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fireman", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_static", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_paramilitary", "weight": 10, "cost_multiplier": 25 },
+      { "monster": "mon_zombie_survivor", "weight": 10, "cost_multiplier": 25, "starts": "30 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 10, "cost_multiplier": 25, "starts": "40 days" },
+      { "group": "GROUP_FERAL", "weight": 13 },
+      { "monster": "mon_beekeeper", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_technician", "weight": 10, "cost_multiplier": 12 },
+      { "monster": "mon_zombie_runner", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 4 ] }
+    ]
   }
 ]

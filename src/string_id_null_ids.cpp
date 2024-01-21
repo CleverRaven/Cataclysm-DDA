@@ -40,6 +40,7 @@ MAKE_NULL_ID( vpart_info, "null" )
 MAKE_NULL_ID( emit, "null" )
 MAKE_NULL_ID( anatomy, "null_anatomy" )
 MAKE_NULL_ID( martialart, "style_none" )
+MAKE_NULL_ID( climbing_aid, "null" )
 MAKE_NULL_ID( recipe, "null" )
 MAKE_NULL_ID( ter_furn_transform, "null" )
 MAKE_NULL_ID( translation, "null" )
@@ -51,6 +52,7 @@ MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 MAKE_NULL_ID( move_mode, "null" )
 MAKE_NULL_ID( fault, "null" )
 MAKE_NULL_ID( fault_fix, "null" )
+MAKE_NULL_ID( spell_type, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

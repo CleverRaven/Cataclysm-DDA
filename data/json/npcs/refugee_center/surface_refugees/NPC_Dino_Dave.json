@@ -15,7 +15,7 @@
     "dynamic_line": "*nods deeply.  \"We are, for where we once were in chaos, now we are at peace.  In time, this shall bring wisdom, but we must ponder on these great changes.\"",
     "responses": [
       {
-        "text": "Were you like this, uh, before?  Did you used to have a doctor or anything?",
+        "text": "Were you like this, uh, before?  Did you use to have a doctor or anything?",
         "topic": "TALK_DINODAVE_Different2"
       },
       { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },

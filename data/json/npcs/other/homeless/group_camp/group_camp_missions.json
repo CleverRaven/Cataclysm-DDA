@@ -165,7 +165,7 @@
     "dialogue": {
       "describe": "I need some help.",
       "offer": "We appreciate all of your help but we can't rely on everyone else to do things for us.  I'd be willing to buy a wood saw of some kind from you so we can cut our own wood as needed.",
-      "advice": "A hardware store or lumbermill should have one",
+      "advice": "A hardware store or lumbermill should have one.",
       "accepted": "Thank you.  We'll be sure to compensate your efforts.",
       "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have my saw?",

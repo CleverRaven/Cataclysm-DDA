@@ -38,20 +38,17 @@ struct radio_tower;
 struct regional_settings;
 
 struct overmap_path_params {
-    int road_cost = -1;
-    int field_cost = -1;
-    int dirt_road_cost = -1;
-    int trail_cost = -1;
-    int forest_cost = -1;
-    int small_building_cost = -1;
-    int shore_cost = -1;
-    int swamp_cost = -1;
-    int water_cost = -1;
-    int air_cost = -1;
-    int other_cost = -1;
+    std::map<oter_travel_cost_type, int> travel_cost_per_type;
     bool avoid_danger = true;
     bool only_known_by_player = true;
 
+    void set_cost( const oter_travel_cost_type &type, int v ) {
+        travel_cost_per_type.emplace( type, v );
+    }
+    int get_cost( const oter_travel_cost_type &type ) const {
+        auto it = travel_cost_per_type.find( type );
+        return it != travel_cost_per_type.end() ? it->second : -1;
+    }
     static constexpr int standard_cost = 10;
     static overmap_path_params for_player();
     static overmap_path_params for_npc();

@@ -15,13 +15,26 @@
             [ "t_wall_P", 1 ],
             [ "t_wall_r", 1 ],
             [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
+            [ "t_wall_y", 1 ],
+            [ "t_wall_gray", 1 ],
+            [ "t_wall_brown", 1 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 1 ],
+            [ "t_wall_orange", 1 ]
           ]
         }
       },
       "exterior_wall_type": {
         "type": "ter_str_id",
-        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
       },
       "window_type": {
         "type": "ter_str_id",
@@ -75,7 +88,7 @@
       "d": "f_null",
       "e": "f_null",
       "f": "f_null",
-      "g": "f_water_heater",
+      "g": [ [ "f_water_heater", 5 ], [ "f_water_heater_family", 5 ], [ "f_null", 90 ] ],
       "h": [ [ "f_chair", 5 ], [ "f_null", 95 ] ],
       "i": "f_null",
       "j": "f_null",

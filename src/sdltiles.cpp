@@ -95,10 +95,15 @@
 #include "worldfactory.h"
 #endif
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 //***********************************
@@ -168,7 +173,10 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#if defined(SOUND)
+    init_flags |= SDL_INIT_AUDIO;
+#endif
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
@@ -248,7 +256,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -301,7 +309,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -878,6 +886,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
+    const bool show_map_revealed = uistate.overmap_show_revealed_omts;
+    std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     o = origin.raw().xy();
 
@@ -891,7 +901,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const tripoint_abs_omt omp = origin + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
-            const bool los = see && you.overmap_los( omp, sight_points );
+            const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
+                                      you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
             // the full string from the ter_id including _north etc.
             std::string id;
             int rotation = 0;
@@ -922,6 +933,13 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                      0, 0, ll, false );
             }
 
+            if( blink && show_map_revealed ) {
+                auto it = revealed_highlights.find( omp );
+                if( it != revealed_highlights.end() ) {
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
+                }
+            }
+
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
                     const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
@@ -937,7 +955,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
@@ -1900,6 +1918,11 @@ void resize_term( const int cell_w, const int cell_h )
 
 void toggle_fullscreen_window()
 {
+    // Can't enter fullscreen on Emscripten.
+#if defined(EMSCRIPTEN)
+    return;
+#endif
+
     static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth * scaling_factor;
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight * scaling_factor;
 

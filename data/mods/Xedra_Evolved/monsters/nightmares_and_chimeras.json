@@ -3,7 +3,7 @@
     "id": "mon_xe_flying_shark",
     "type": "MONSTER",
     "name": { "str": "flying shark" },
-    "description": "It would be funny watching a shark swim through the air, between trees and other objects like kelp under the water.  If it didn't mean the shark was here, now and capable of flying after you.  Clearly something is off, here.",
+    "description": "It would be funny watching a shark swim through the air, between trees and other objects like kelp under the water.  If it didn't mean the shark was still completely real and capable of flying after you.  Something is very wrong about things here.",
     "default_faction": "nightmares",
     "looks_like": "mon_zhark",
     "bodytype": "fish",

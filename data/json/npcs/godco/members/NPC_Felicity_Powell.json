@@ -39,7 +39,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Oh, hi.", "Hey, good to see you're still around." ],
+      "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
       "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
     },
     "responses": [
