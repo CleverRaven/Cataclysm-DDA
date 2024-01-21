@@ -106,7 +106,10 @@
     "effect": {
       "switch": { "math": [ "u_spell_level('electrokinetic_hacking_interface')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_spawn_item": "electrokinetic_electrohack_1", "suppress_message": true, "force_equip": true } ] },
+        {
+          "case": 0,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_1", "suppress_message": true, "force_equip": true } ]
+        },
         {
           "case": 5,
           "effect": [ { "u_spawn_item": "electrokinetic_electrohack_2", "suppress_message": true, "force_equip": true } ]
