@@ -6478,6 +6478,7 @@ parsers = {
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
+    { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },
     { "add_debt", jarg::array, &talk_effect_fun::f_add_debt },
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun::f_set_talker },
 };
