@@ -99,7 +99,7 @@
     "tools": [
       [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
       [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ]
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ]
     ]
   },
   {
@@ -110,7 +110,7 @@
     "tools": [
       [ [ "forge", 4 ], [ "oxy_torch", 4 ] ],
       [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ]
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ]
     ]
   },
   {
@@ -516,7 +516,7 @@
   {
     "id": "any_metalworking_tongs",
     "type": "requirement",
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "id": "any_metalworking_file",

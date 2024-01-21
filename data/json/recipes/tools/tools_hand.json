@@ -162,7 +162,7 @@
     "using": [ [ "forging_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1368,7 +1368,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ], [ "fur", 2 ], [ "cordage_short", 4, "LIST" ] ],
       [ [ "scrap_bronze", 20 ] ],
@@ -1531,7 +1531,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER_FINE", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

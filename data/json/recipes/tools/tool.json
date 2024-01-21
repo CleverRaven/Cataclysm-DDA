@@ -1233,7 +1233,7 @@
     ],
     "using": [ [ "forging_scrap", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without itself - substitutes metal fileset for metalworking chisel.",
     "components": [ [ [ "scrap", 2 ] ] ]
   },
@@ -1503,7 +1503,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 5 ] ]

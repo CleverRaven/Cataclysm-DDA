@@ -1790,7 +1790,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "mc_sabaton",

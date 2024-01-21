@@ -316,7 +316,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "jeans", 1 ] ], [ [ "knee_pads", 1 ] ], [ [ "sheet_metal_small", 12 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_case_hardening" } ],
-    "tools": [ [ [ "forge", 120 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 120 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "canvas_pants_padded",
@@ -614,7 +614,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "legguard_metal_sheets_greaves",
@@ -650,7 +650,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "legguard_metal_sheets_knees",
@@ -685,7 +685,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "legguard_metal_sheets_hip",
@@ -720,7 +720,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "legguard_metal",

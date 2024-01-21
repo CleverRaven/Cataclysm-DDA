@@ -455,7 +455,7 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 10 ], [ "oxy_torch", 10 ] ]
     ],
@@ -477,7 +477,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
       [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "draw_plate", -1 ] ]
@@ -500,7 +500,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
       [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]

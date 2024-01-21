@@ -323,7 +323,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 1 ] ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
       [ [ "forge", 25 ] ]
@@ -907,7 +907,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "helmet_metal_sheets",
@@ -942,7 +942,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
   },
   {
     "result": "helmet_scavenger",
