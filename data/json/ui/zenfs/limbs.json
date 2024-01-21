@@ -6,8 +6,8 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_head_text", "zenfs_hp_head_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
-},
+    "flags": [ "W_NO_PADDING" ]
+  },
   {
     "id": "zenfs_status_hpg_layout_torso",
     "type": "widget",
@@ -15,7 +15,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_torso_text", "zenfs_hp_torso_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_hpg_layout_larm",
@@ -24,7 +24,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_larm_text", "zenfs_hp_left_arm_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_hpg_layout_rarm",
@@ -33,7 +33,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_rarm_text", "zenfs_hp_right_arm_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_hpg_layout_lleg",
@@ -42,7 +42,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_lleg_text", "zenfs_hp_left_leg_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_hpg_layout_rleg",
@@ -51,7 +51,7 @@
     "arrange": "minimum_columns",
     "width": 21,
     "widgets": [ "zenfs_bp_rleg_text", "zenfs_hp_right_leg_graph_14" ],
-      "flags": [ "W_NO_PADDING" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_bar_layout_head",
@@ -59,17 +59,29 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_head_text", "zenfs_hp_head_graph_13", "zenfs_wetness_head_graph_5", "zenfs_temperature_head_graph_5", "zenfs_encumberance_head_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
-},
+    "widgets": [
+      "zenfs_bp_head_text",
+      "zenfs_hp_head_graph_13",
+      "zenfs_wetness_head_graph_5",
+      "zenfs_temperature_head_graph_5",
+      "zenfs_encumberance_head_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
+  },
   {
     "id": "zenfs_status_bar_layout_torso",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_torso_text", "zenfs_hp_torso_graph_13", "zenfs_wetness_torso_graph_5", "zenfs_temperature_torso_graph_5", "zenfs_encumberance_torso_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
+    "widgets": [
+      "zenfs_bp_torso_text",
+      "zenfs_hp_torso_graph_13",
+      "zenfs_wetness_torso_graph_5",
+      "zenfs_temperature_torso_graph_5",
+      "zenfs_encumberance_torso_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_bar_layout_larm",
@@ -77,8 +89,14 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_larm_text", "zenfs_hp_left_arm_graph_13", "zenfs_wetness_left_arm_graph_5", "zenfs_temperature_left_arm_graph_5", "zenfs_encumberance_left_arm_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
+    "widgets": [
+      "zenfs_bp_larm_text",
+      "zenfs_hp_left_arm_graph_13",
+      "zenfs_wetness_left_arm_graph_5",
+      "zenfs_temperature_left_arm_graph_5",
+      "zenfs_encumberance_left_arm_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_bar_layout_rarm",
@@ -86,8 +104,14 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_rarm_text", "zenfs_hp_right_arm_graph_13", "zenfs_wetness_right_arm_graph_5", "zenfs_temperature_right_arm_graph_5", "zenfs_encumberance_right_arm_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
+    "widgets": [
+      "zenfs_bp_rarm_text",
+      "zenfs_hp_right_arm_graph_13",
+      "zenfs_wetness_right_arm_graph_5",
+      "zenfs_temperature_right_arm_graph_5",
+      "zenfs_encumberance_right_arm_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_bar_layout_lleg",
@@ -95,8 +119,14 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_lleg_text", "zenfs_hp_left_leg_graph_13", "zenfs_wetness_left_leg_graph_5", "zenfs_temperature_left_leg_graph_5", "zenfs_encumberance_left_leg_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
+    "widgets": [
+      "zenfs_bp_lleg_text",
+      "zenfs_hp_left_leg_graph_13",
+      "zenfs_wetness_left_leg_graph_5",
+      "zenfs_temperature_left_leg_graph_5",
+      "zenfs_encumberance_left_leg_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_status_bar_layout_rleg",
@@ -104,8 +134,14 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 36,
-    "widgets": [ "zenfs_bp_rleg_text", "zenfs_hp_right_leg_graph_13", "zenfs_wetness_right_leg_graph_5", "zenfs_temperature_right_leg_graph_5", "zenfs_encumberance_right_leg_graph_5" ],
-      "flags": [ "W_NO_PADDING" ]
+    "widgets": [
+      "zenfs_bp_rleg_text",
+      "zenfs_hp_right_leg_graph_13",
+      "zenfs_wetness_right_leg_graph_5",
+      "zenfs_temperature_right_leg_graph_5",
+      "zenfs_encumberance_right_leg_graph_5"
+    ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_hp_head_graph_13",
