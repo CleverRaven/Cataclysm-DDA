@@ -302,7 +302,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "any_nail", 120, "LIST" ] ],
+      [ [ "nails", 120, "LIST" ] ],
       [ [ "pipe", 20 ] ],
       [ [ "nuts_bolts", 50 ] ],
       [ [ "pipe_fittings", 10 ] ]
@@ -407,7 +407,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "any_nail", 240, "LIST" ] ],
+      [ [ "nails", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],
@@ -438,7 +438,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "any_nail", 240, "LIST" ] ],
+      [ [ "nails", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],
