@@ -130,16 +130,38 @@ if(NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
       PkgConfig::DEFLATE
     )
     if(MSYS2)
-       find_package(libavif REQUIRED) 
+       # only SHARED: find_package(libavif REQUIRED) 
+       find_library(AVIF avif)
+       add_library(libavif STATIC IMPORTED)
+       set_target_properties(libavif PROPERTIES
+            IMPORTED_LOCATION ${AVIF}
+       )
+       pkg_check_modules(libyuv REQUIRED IMPORTED_TARGET libyuv)
+       pkg_check_modules(dav1d REQUIRED IMPORTED_TARGET dav1d)
+       pkg_check_modules(rav1e REQUIRED IMPORTED_TARGET rav1e)
+       pkg_check_modules(SvtAv1Enc REQUIRED IMPORTED_TARGET SvtAv1Enc)
+       target_link_libraries(PkgConfig::rav1e INTERFACE
+            ntdll
+       )
+       pkg_check_modules(aom REQUIRED IMPORTED_TARGET aom)
+       target_link_libraries(libavif INTERFACE
+            PkgConfig::libyuv
+            PkgConfig::dav1d
+            PkgConfig::rav1e
+            PkgConfig::SvtAv1Enc
+            PkgConfig::aom
+       )
        pkg_check_modules(JXL REQUIRED IMPORTED_TARGET libjxl libjxl_threads)
-       find_package(hwy REQUIRED)
+       # only SHARED: find_package(hwy REQUIRED)
+       pkg_check_modules(hwy REQUIRED IMPORTED_TARGET libhwy)
        target_link_libraries(PkgConfig::JXL INTERFACE
-            hwy::hwy
+            PkgConfig::hwy
+            PkgConfig::BROTLI
        )
        find_package(libjpeg-turbo REQUIRED)
        pkg_check_modules(Lerc REQUIRED IMPORTED_TARGET Lerc)
        target_link_libraries(SDL2_image::SDL2_image-static INTERFACE
-           avif
+           libavif
            PkgConfig::JXL
            PkgConfig::Lerc
            libjpeg-turbo::turbojpeg

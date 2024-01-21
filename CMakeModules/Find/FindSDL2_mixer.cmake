@@ -123,9 +123,10 @@ if(PKG_CONFIG_FOUND)
             pkg_check_modules(libmpg123 REQUIRED IMPORTED_TARGET libmpg123)
             pkg_check_modules(opus REQUIRED IMPORTED_TARGET opus)
             pkg_check_modules(opusfile REQUIRED IMPORTED_TARGET opusfile)
-            find_package(Ogg REQUIRED)
+            # SHARED only: find_package(Ogg REQUIRED)
+            pkg_check_modules(ogg REQUIRED IMPORTED_TARGET ogg)
             target_link_libraries(PkgConfig::opusfile INTERFACE
-                Ogg::ogg
+                PkgConfig::ogg
                 PkgConfig::opus
             )
             target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
