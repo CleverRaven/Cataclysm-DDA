@@ -171,14 +171,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_HACKING_INTERFACE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [ "36 hours", "72 hours" ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "4" ] },

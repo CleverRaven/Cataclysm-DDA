@@ -306,7 +306,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": 8
                 }
               ]
             },
