@@ -266,8 +266,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "nail", 10 ],
-        [ "bronze_nail", 10 ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
