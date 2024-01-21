@@ -1591,11 +1591,7 @@
     "difficulty": 3,
     "time": "15 m",
     "autolearn": true,
-    "components": [
-      [ [ "material_sand", 5 ] ],
-      [ [ "2x4", 8 ], [ "stick", 8 ] ],
-      [ [ "nails", 8, "LIST" ], [ "superglue", 4 ] ]
-    ]
+    "components": [ [ [ "material_sand", 5 ] ], [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "nails", 8, "LIST" ], [ "superglue", 4 ] ] ]
   },
   {
     "type": "recipe",

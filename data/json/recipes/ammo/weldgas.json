@@ -194,11 +194,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 50 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -218,11 +214,7 @@
     "time": "2 h 45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 200 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 13 ] ] ]
   },
