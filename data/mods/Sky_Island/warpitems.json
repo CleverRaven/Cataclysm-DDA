@@ -261,11 +261,11 @@
         "max_contains_weight": "10000 kg",
         "max_item_length": "10 meter",
         "weight_multiplier": 0.001,
-	"spoil_multiplier": 0.001,
+        "spoil_multiplier": 0.001,
         "moves": 2000,
         "rigid": true,
         "holster": true,
-	"flag_restriction": [ "CORPSE" ]
+        "flag_restriction": [ "CORPSE" ]
       }
     ]
   },
