@@ -7820,7 +7820,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
                 if( apply ) {
                     update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
                 } else {
-                    update_tmap.remove_field( level_pos, fd_construction_site );
+                    update_tmap.delete_field( level_pos, fd_construction_site );
                 }
             }
         }
