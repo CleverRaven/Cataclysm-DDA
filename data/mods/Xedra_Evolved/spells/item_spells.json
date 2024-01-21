@@ -42,7 +42,7 @@
     "base_casting_time": 30000,
     "casting_time_increment": 500,
     "final_casting_time": 22500,
-    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "PERMANENT_ALL_LEVELS", ]
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "PERMANENT_ALL_LEVELS" ]
   },
   {
     "id": "potion_recover_mana_xe",
