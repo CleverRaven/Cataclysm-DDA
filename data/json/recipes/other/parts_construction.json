@@ -11,7 +11,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -26,7 +26,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -429,7 +429,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -443,7 +443,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "hinge",
@@ -475,7 +475,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -494,7 +494,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -571,7 +571,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {

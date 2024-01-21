@@ -446,7 +446,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ],
@@ -468,7 +468,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ]

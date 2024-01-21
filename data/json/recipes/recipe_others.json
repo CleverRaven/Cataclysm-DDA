@@ -737,8 +737,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -778,8 +778,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -819,8 +819,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -860,8 +860,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -902,8 +902,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -949,8 +949,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "swage", -1 ] ],
@@ -1716,7 +1716,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
     ],
@@ -1735,7 +1735,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 25 ] ]
@@ -1771,7 +1771,7 @@
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
@@ -2530,7 +2530,7 @@
     "using": [ [ "carbon", 1 ] ],
     "components": [ [ [ "lamellae_lc", 18 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3111,7 +3111,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]

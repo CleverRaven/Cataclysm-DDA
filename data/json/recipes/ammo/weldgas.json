@@ -72,7 +72,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
@@ -112,7 +112,7 @@
       { "id": "CHEM", "level": 1 }
     ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
@@ -143,7 +143,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "forge", 240 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "electrolysis_kit", 100 ] ],
@@ -174,7 +174,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "forge", 250 ], [ "oxy_torch", 50 ] ],
       [ [ "wire_draw_machine", 120 ] ]
     ],
@@ -195,7 +195,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 50 ] ]
     ],
@@ -219,7 +219,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 200 ] ]
     ],

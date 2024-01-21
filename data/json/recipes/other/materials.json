@@ -1115,7 +1115,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal_small", -1 ], [ "sheet_metal", -1 ] ],
       [ [ "forge", 60 ] ]
@@ -1173,7 +1173,7 @@
     "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ], [ [ "nail", -1 ], [ "bronze_nail", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail", -1 ], [ "bronze_nail", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1223,7 +1223,7 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "forge", 500 ] ]
     ],
@@ -1242,7 +1242,7 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "forge", 500 ] ]
     ],
@@ -1261,7 +1261,7 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "forge", 500 ] ]
     ],
@@ -1281,7 +1281,7 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "forge", 200 ] ]
     ],

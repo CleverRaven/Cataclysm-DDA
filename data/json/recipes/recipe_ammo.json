@@ -39,7 +39,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "charges": 25,
     "tools": [
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 25 ] ]
     ],
@@ -144,7 +144,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -168,7 +168,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -192,7 +192,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -352,7 +352,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -376,7 +376,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
@@ -400,7 +400,7 @@
     "book_learn": [ [ "recipe_arrows", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "any_metalworking_tongs", 1, "LIST" ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],

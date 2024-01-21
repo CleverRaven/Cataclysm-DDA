@@ -1790,7 +1790,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "mc_sabaton",
@@ -1933,7 +1933,7 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
@@ -1959,7 +1959,7 @@
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]

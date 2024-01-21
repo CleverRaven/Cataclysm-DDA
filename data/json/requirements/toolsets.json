@@ -98,8 +98,8 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
-      [ [ "any_metalworking_file", 1, "LIST" ] ],
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ]
+      [ [ "metal_file_any", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -109,8 +109,8 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "forge", 4 ], [ "oxy_torch", 4 ] ],
-      [ [ "any_metalworking_file", 1, "LIST" ] ],
-      [ [ "any_metalworking_tongs", 1, "LIST" ] ]
+      [ [ "metal_file_any", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -509,17 +509,17 @@
     ]
   },
   {
-    "id": "any_hotcut",
+    "id": "hotcut_any",
     "type": "requirement",
     "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
   },
   {
-    "id": "any_metalworking_tongs",
+    "id": "metalworking_tongs_any",
     "type": "requirement",
     "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
   },
   {
-    "id": "any_metalworking_file",
+    "id": "metal_file_any",
     "type": "requirement",
     "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
   }

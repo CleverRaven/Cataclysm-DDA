@@ -464,7 +464,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 256 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_metal_sheets_heavy",
@@ -528,7 +528,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 312 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_metal_sheets_chain",
@@ -604,7 +604,7 @@
     "components": [ [ [ "armor_metal_sheets_chain", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 256 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_ch_metal_sheets_chain_heavy",
@@ -620,7 +620,7 @@
     "components": [ [ [ "armor_metal_sheets_chain_heavy", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 312 ] ], [ [ "any_metalworking_tongs", 1, "LIST" ] ] ]
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_tiresuit",
@@ -2522,7 +2522,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2535,7 +2535,7 @@
     "using": [ [ "blacksmithing_standard", 128 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2901,7 +2901,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2914,7 +2914,7 @@
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -3292,7 +3292,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -3305,7 +3305,7 @@
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "any_hotcut", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]
