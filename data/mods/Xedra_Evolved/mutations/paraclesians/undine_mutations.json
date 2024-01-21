@@ -249,7 +249,7 @@
   {
     "type": "mutation",
     "id": "SUMMON_WATER_ELEMENTAL",
-    "name": { "str": "Calling the Children of the Rivers" },
+    "name": { "str": "Calling the Children of the Waves" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
@@ -287,7 +287,12 @@
     "ugliness": 0,
     "description": "With the Undine's more fluid skin has come more fluid motion.  Activate this trait to immediately escape a grab and suffer less damage from falls for a few seconds.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
-    "category": [ "UNDINE" ]
+    "category": [ "UNDINE" ],
+    "active": true,
+    "activated_is_setup": false,
+    "cost": true,
+    "thirst": 2,
+    "activated_eocs": [ "EOC_UNDINE_ESCAPE_GRABS" ]
   },
   {
     "type": "mutation",
@@ -449,7 +454,7 @@
     "active": true,
     "thirst": true,
     "cost": 1,
-    "time": 2,
+    "time": 3,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_UNDINE_WATER_FORM_ON" ],
     "deactivated_eocs": [ "EOC_UNDINE_WATER_FORM_OFF" ]
