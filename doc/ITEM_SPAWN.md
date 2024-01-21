@@ -37,11 +37,13 @@ The format is this:
 
 `subtype` is optional. It can be `collection` or `distribution`.  If unspecified, it defaults to `old`, which denotes that this item group uses the old format (essentially a distribution).
 
-`container-item` causes all the items of the group to spawn in a container,
-rather than as separate top-level items.  If the items might not all fit in the
-container, you must specify how to deal with the overflow by setting
-`on_overflow` to either `discard` to discard items at random until they fit, or
-`spill` to have the excess items be spawned alongside the container.
+`container-item` causes all the items of the group to spawn in a container, rather than as separate top-level items.  If the items might not all fit in the container, you must specify how
+to deal with the overflow by setting `on_overflow` to either `discard` to discard items at random until they fit, or `spill` to have the excess items be spawned alongside the container.
+`container-item` can also be an object containing an `item` field specifying the container and a `variant` field specifying said container's variant. Eg.
+
+```json
+    "container-item": { "item": "<container-item-id>", "variant": "<container-item-variant-id>" },
+```
 
 There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo` or `magazine`.
 

@@ -453,7 +453,6 @@
     "name": { "str": "Telepathic Suggestion" },
     "points": 0,
     "description": "You are subtly influencing the minds of the people you speak to.",
-    "social_modifiers": { "lie": 15, "persuade": 15, "intimidate": 15 },
     "valid": false,
     "player_display": true,
     "purifiable": false,

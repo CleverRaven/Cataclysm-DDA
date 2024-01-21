@@ -12,8 +12,8 @@
     "nested_category_data": [
       "practice_telepathic_concentration",
       "practice_telepathic_shield",
-      "practice_telepathic_morale",
       "practice_telepathic_mind_sense",
+      "practice_telepathic_morale",
       "practice_telepathic_beastmaster",
       "practice_telepathic_blast",
       "practice_telepathic_confusion",
@@ -38,40 +38,49 @@
     "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_concentration')", "<=", "(difficulty_one_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mind sense",
+    "id": "practice_telepathic_mind_sense",
+    "description": "Contemplate your powers and improve your ability to detect other minds.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
+        "condition": { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
       }
     ]
   },
@@ -87,40 +96,67 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_shield')", "<=", "(difficulty_two_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_SHIELD_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_SHIELD_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_SHIELD_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_SHIELD_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 6
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Telepathic Shield power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_shield')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -136,89 +172,67 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_morale')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_MORALE_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_MORALE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
       }
     ]
   },
   {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: mind sense",
-    "id": "practice_telepathic_mind_sense",
-    "description": "Contemplate your powers and improve your ability to detect other minds.",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "metaphysics",
-    "difficulty": 2,
-    "time": "30 m",
-    "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [
-      {
-        "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_mind_sense')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
-        "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_MORALE_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_MORALE_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 7
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Mood Stabilization power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_morale')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -234,41 +248,68 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_blast')", "<=", "(difficulty_four_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_blast')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATHIC_BLAST_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATHIC_BLAST_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATHIC_BLAST_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATHIC_BLAST_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 8
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Synaptic Blast power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_blast')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -284,43 +325,68 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
-            {
-              "math": [ "u_spell_exp('telepathic_animal_mind_control')", "<=", "(difficulty_four_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_animal_mind_control')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 8
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Beastmaster power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_animal_mind_control')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -336,41 +402,68 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_confusion')", "<=", "(difficulty_five_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_confusion')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_CONFUSION_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_CONFUSION_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_CONFUSION_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_CONFUSION_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 9
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Sensory Deprivation power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_confusion')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -386,41 +479,68 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_invisibility')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_invisibility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_OBSCURITY_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 10
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Obscurity power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_invisibility')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -436,41 +556,68 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_fear')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_fear')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 10
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Primal Fear power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_fear')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -486,41 +633,68 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_blast_radius')", "<=", "(difficulty_seven_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_blast_radius')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 11
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Psychic Scream power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_blast_radius')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -536,43 +710,68 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
-        "condition": {
-          "and": [
-            { "math": [ "u_val('spell_level', 'spell: telepathic_beast_taming')", ">=", "1" ] },
-            {
-              "math": [ "u_val('spell_exp', 'spell: telepathic_beast_taming')", "<=", "(difficulty_seven_contemplation(1))" ]
-            }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: telepathic_beast_taming')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_spell_exp('telepathic_beast_taming')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING_FALSE",
-              "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_beast_taming')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_BEAST_TAMING_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 11
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Beast Tamer power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_beast_taming')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -588,41 +787,68 @@
     "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_mind_control')", "<=", "(difficulty_eight_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_mind_control')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 12
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Mind Control power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_mind_control')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -638,41 +864,68 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telepathic_network')", "<=", "(difficulty_nine_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telepathic_network')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_FALSE",
-              "condition": { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
+              "difficulty": 13
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Network Effect power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telepathic_network')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+            ]
+          }
+        ]
       }
     ]
   }
