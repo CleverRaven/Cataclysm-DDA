@@ -1474,7 +1474,7 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "any_hotcut", 1, "LIST" ], [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ], [ "any_metalworking_file", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
