@@ -1032,6 +1032,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_undine_spell_slow",
+    "name": [ "Slowed by the Current" ],
+    "desc": [ "Currents of aetherial water are hindering your movements." ],
+    "rating": "bad",
+    "apply_message": "You feel like you're wading through a rushing river!",
+    "remove_message": "The drag on your movements is gone.",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -25 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
     "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],

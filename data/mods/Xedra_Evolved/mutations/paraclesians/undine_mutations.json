@@ -226,15 +226,39 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_BASH_AND_SLOW",
+    "name": { "str": "Crushing Pressure" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to slow and damage a single target, as though they were caught in the depths of the ocean.",
+    "category": [ "UNDINE" ],
+    "prereqs": [ "WATER_SEALED" ],
+    "spells_learned": [ [ "undine_bash_and_slow_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DRAG_INWARD",
+    "name": { "str": "Whirlpool Catches the Shoal" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
+    "category": [ "UNDINE" ],
+    "prereqs": [ "UNDINE_BASH_AND_SLOW" ],
+    "spells_learned": [ [ "undine_drag_inward_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_EYES",
     "name": { "str": "Undine Eyes" },
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.",
+    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.  They can also see without problem underwater.",
     "category": [ "UNDINE" ],
     "integrated_armor": [ "integrated_undine_eyes" ],
-    "flags": [ "SEESLEEP" ]
+    "flags": [ "SEESLEEP", "SWIM_GOGGLES" ]
   },
   {
     "type": "mutation",
@@ -430,12 +454,24 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_NO_COLD_UNDERWATER",
+    "name": { "str": "The Pond's Depths Do Not Freeze" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_ABSORB_WATER" ],
+    "description": "Though the ice over the top grows thick, the water below remains liquid.  The Undine is completely immune to cold temperatures when underwater.",
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_WATER_BODY",
     "name": { "str": "Fluid Body" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
+    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
     "thirst_modifier": 0.25,
@@ -499,16 +535,22 @@
   },
   {
     "type": "mutation",
-    "id": "UNDINE_NO_COLD_UNDERWATER",
-    "name": { "str": "The Pond's Depths Do Not Freeze" },
-    "points": 9,
+    "id": "UNDINE_WATER_ACID_BODY",
+    "name": { "str": "Befouled Water Rebuke" },
+    "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "UNDINE_ABSORB_WATER" ],
-    "prereqs2": [ "UNDINE_SKIN_3" ],
-    "description": "Though the ice over the top grows thick, the water below remains liquid.  The Undine is completely immune to cold temperatures when underwater.",
+    "description": "The Undine can infuse their own body with their acidic mist, potentially burning anyone who strikes them.",
+    "prereqs": [ "UNDINE_WATER_BODY" ],
+    "prereqs2": [ "ACIDIC_MIST" ],
     "category": [ "UNDINE" ],
     "threshreq": [ "THRESH_UNDINE" ],
-    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 } ] } ]
+    "active": true,
+    "activated_is_setup": true,
+    "cost": true,
+    "thirst": 1,
+    "time": 60,
+    "active_flags": [ "ACID_IMMUNE" ],
+    "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "undine_acid_body_spell", "once_in": 3, "hit_self": false } ] } ]
   }
 ]
