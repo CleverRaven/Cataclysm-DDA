@@ -456,7 +456,7 @@
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ],
-      [ [ "casting_mold", -1 ] ]
+      [ [ "casting_mold_long", -1 ] ]
     ],
     "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "water", 15 ], [ "water_clean", 15 ] ] ]
   },
