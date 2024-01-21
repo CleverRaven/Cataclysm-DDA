@@ -120,8 +120,25 @@
   {
     "id": "spell_components_hedge_nether_eye_paste",
     "type": "requirement",
-    "tools": [  ],
     "components": [ [ [ "corpse_ash", 50 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
+  },
+  {
+    "id": "spell_components_hedge_stunning_spell",
+    "type": "requirement",
+    "tools": [  ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "copper_ring", 1 ], [ "copper_earring", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_cure_cold_or_flu",
+    "type": "requirement",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "scrap_cast_iron", 1 ] ],
+      [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "wild_herbs", 1 ] ]
+    ]
   }
 ]

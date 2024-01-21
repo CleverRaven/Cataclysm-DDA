@@ -1135,7 +1135,16 @@
     "rating": "mixed",
     "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_cure_cold_or_flu",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
   },
   {
     "type": "effect_type",

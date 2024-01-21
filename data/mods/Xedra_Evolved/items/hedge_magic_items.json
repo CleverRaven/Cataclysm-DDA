@@ -182,5 +182,11 @@
       "description": "Rub the paste on your eyes.",
       "effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
     }
+  },
+  {
+    "id": "item_hedge_cure_cold_or_flu",
+    "copy-from": "tea",
+    "name": { "str": "Blood-and-Ash Paste" },
+    "description": "Tea with herbs, metal, and a bit of magick.  If you're sick, there's nothing better for your body than this."
   }
 ]
