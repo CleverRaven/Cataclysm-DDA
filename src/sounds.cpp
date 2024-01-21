@@ -717,13 +717,24 @@ void sounds::process_sound_markers( Character *you )
         }
 
         int err_offset;
-        // Echolocation has to be at least somewhat precise.
-        if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 && ( sound.category != sound_t::sensory ) ) {
+
+        if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
             err_offset = 3;
         } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
             err_offset = 2;
         } else {
-            err_offset = 1;
+            err_offset = rand() % 2;
+        }
+
+        // Echolocation has to be fairly precise or it's worse than useless.
+        if ( sound.category == sound_t::sensory ) {
+            if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
+                err_offset = rand() % 3;
+            } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
+                err_offset = rand() % 2;
+            } else {
+                err_offset = 0;
+            }
         }
 
         // If Z-coordinate is different, draw even when you can see the source
@@ -731,9 +742,10 @@ void sounds::process_sound_markers( Character *you )
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
+        // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint> unseen_points;
         for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
-            if( diff_z || !you->sees( newp ) ) {
+            if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
                 unseen_points.emplace_back( newp );
             }
         }

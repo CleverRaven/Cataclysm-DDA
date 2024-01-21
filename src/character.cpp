@@ -10566,17 +10566,17 @@ void Character::echo_pulse()
     sounds::sound( this->pos(), 3, sounds::sound_t::movement, _( "chirp" ), true,
                            "none", "none" );
     for( tripoint origin : points_in_radius( pos(), 20 ) ) {
-        if ( here.impassable( origin ) && here.pl_line_of_sight( origin, 20 ) ) {
+        if ( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, 10 ) ) {
             sounds::sound( origin, 30, sounds::sound_t::sensory, _( "click" ), true,
                            "none", "none" );
-
         }
         creature_tracker &creatures = get_creature_tracker();
-        if ( creatures.creature_at( origin, true ) && here.pl_line_of_sight( origin, 20 ) ) {
+        if ( creatures.creature_at( origin, true ) && here.pl_line_of_sight( origin, 10 ) ) {
             sounds::sound( origin, 30, sounds::sound_t::sensory, _( "chk" ), false,
                         "none", "none" );
         }
     }
+
 }
 
 bool Character::knows_trap( const tripoint &pos ) const
