@@ -99,6 +99,7 @@ include(CheckCXXCompilerFlag)
 
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(MSYS2 True)
+    add_definitions(-DMSYS2)
 endif()
 #FIXME: Add dest build choice: m32 for 32 bit or m64 for 64 bit version
 #add_definitions("-m32")
