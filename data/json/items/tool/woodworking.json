@@ -63,7 +63,7 @@
           "id": "EOC_toolweapon_activate__chainsaw",
           "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
-            { "turn_cost": "800 ms" },
+            { "turn_cost": 0.8 },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
             { "u_message": "With a roar, the chainsaw screams to life!" },
             { "transform_item": "chainsaw_on", "active": true },
