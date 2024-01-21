@@ -4215,6 +4215,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.description = no_translation( def.extended_description() );
         def.description_prepend = no_translation( "" );
         def.description_append = no_translation( "" );
+        def.extend_description = false;
     }
 
     if( jo.has_member( "description_prepend" ) ) {
