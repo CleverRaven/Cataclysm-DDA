@@ -2522,7 +2522,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2535,7 +2535,7 @@
     "using": [ [ "blacksmithing_standard", 128 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2901,7 +2901,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -2914,7 +2914,7 @@
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -3292,7 +3292,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -240 ], [ "water_clean", -240 ] ]
     ]
@@ -3305,7 +3305,7 @@
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]

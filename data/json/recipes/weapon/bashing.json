@@ -315,7 +315,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -350,7 +350,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -386,7 +386,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -423,7 +423,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -461,7 +461,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ] ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
@@ -545,7 +545,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -581,7 +581,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -617,7 +617,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -654,7 +654,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -692,7 +692,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],

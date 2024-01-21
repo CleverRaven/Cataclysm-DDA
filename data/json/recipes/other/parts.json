@@ -249,7 +249,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "any_hotcut", 1, "LIST" ] ] ]
   },
   {
     "result": "circsaw_blade",
@@ -287,7 +287,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -478,7 +478,7 @@
     "//": "Requires annealing 4 times from the copper rod.",
     "tools": [
       [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "draw_plate", -1 ] ]
     ],
@@ -501,7 +501,7 @@
     "//": "Requires annealing 4 times from the copper rod.",
     "tools": [
       [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -990,6 +990,6 @@
       { "id": "THREAD_CUT", "level": 2 },
       { "id": "THREAD_TAP", "level": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "any_hotcut", 1, "LIST" ] ] ]
   }
 ]

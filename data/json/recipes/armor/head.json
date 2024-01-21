@@ -2984,7 +2984,7 @@
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
@@ -3005,7 +3005,7 @@
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]
@@ -3144,7 +3144,7 @@
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
@@ -3165,7 +3165,7 @@
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]
@@ -3304,7 +3304,7 @@
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
@@ -3325,7 +3325,7 @@
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "any_hotcut", 1, "LIST" ] ],
       [ [ "metal_tank", -1 ] ],
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ]

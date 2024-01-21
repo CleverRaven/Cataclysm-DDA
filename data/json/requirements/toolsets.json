@@ -511,7 +511,7 @@
   {
     "id": "any_hotcut",
     "type": "requirement",
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "any_hotcut", 1, "LIST" ] ] ]
   },
   {
     "id": "any_metalworking_tongs",
