@@ -8,39 +8,39 @@
     "clauses": [
       {
         "id": "none",
-        "text": { "str": "Negligible", "ctxt": "activity description" },
+        "text": { "str": "Negligible", "ctxt": "Negligible activity level" },
         "color": "dark_gray",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
       },
       {
         "id": "light",
-        "text": { "str": "Light   ", "ctxt": "activity description" },
+        "text": { "str": "Light   ", "ctxt": "Light activity level" },
         "color": "green",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
       },
       {
         "id": "moderate",
-        "text": { "str": "Moderate ", "ctxt": "activity description" },
+        "text": { "str": "Moderate ", "ctxt": "Moderate activity level" },
         "color": "light_green",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
       },
       {
         "id": "brisk",
-        "text": { "str": "Brisk   ", "ctxt": "activity description" },
+        "text": { "str": "Brisk   ", "ctxt": "Brisk activity level" },
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
       },
       {
         "id": "active",
-        "text": { "str": "Intense ", "ctxt": "activity description" },
+        "text": { "str": "Intense ", "ctxt": "Intense activity level" },
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
       },
       {
         "id": "extreme",
-        "text": { "str": "Extreme ", "ctxt": "activity description" },
+        "text": { "str": "Extreme ", "ctxt": "Extreme activity level" },
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "5" ] }
       }
     ]
   }

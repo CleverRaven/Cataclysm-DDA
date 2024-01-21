@@ -15,7 +15,7 @@
         "id": "horrible",
         "text": " Horrible",
         "color": "h_red",
-        "condition": { "compare_num": [ { "u_val": "health" }, "<", { "const": -100 } ] }
+        "condition": { "math": [ "u_val('health')", "<", "-100" ] }
       },
       {
         "id": "very_bad",
@@ -23,8 +23,8 @@
         "color": "red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": -50 } ] }
+            { "math": [ "u_val('health')", ">=", "-100" ] },
+            { "math": [ "u_val('health')", "<", "-50" ] }
           ]
         }
       },
@@ -34,8 +34,8 @@
         "color": "brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": -10 } ] }
+            { "math": [ "u_val('health')", ">=", "-50" ] },
+            { "math": [ "u_val('health')", "<", "-10" ] }
           ]
         }
       },
@@ -45,8 +45,8 @@
         "color": "light_gray",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 10 } ] }
+            { "math": [ "u_val('health')", ">=", "-10" ] },
+            { "math": [ "u_val('health')", "<", "10" ] }
           ]
         }
       },
@@ -56,8 +56,8 @@
         "color": "blue",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 50 } ] }
+            { "math": [ "u_val('health')", ">=", "10" ] },
+            { "math": [ "u_val('health')", "<", "50" ] }
           ]
         }
       },
@@ -67,8 +67,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 100 } ] }
+            { "math": [ "u_val('health')", ">=", "50" ] },
+            { "math": [ "u_val('health')", "<", "100" ] }
           ]
         }
       },
@@ -76,7 +76,7 @@
         "id": "excellent",
         "text": "Excellent",
         "color": "light_green",
-        "condition": { "compare_num": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
+        "condition": { "math": [ "u_val('health')", ">=", "100" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ]
@@ -92,7 +92,7 @@
         "text": " Skeletal",
         "color": "h_red",
         "//": "between 1 and 2 points of BMI from bodyfat (4-8% of normal healthy weight is fat)",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
       },
       {
         "id": "emaciated",
@@ -101,8 +101,8 @@
         "//": "between 0 and 1 points of BMI from bodyfat (0-4% of normal healthy weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "1000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "2000" ] }
           ]
         }
       },
@@ -113,8 +113,8 @@
         "//": "between 2 and 3 points of BMI from bodyfat (8-12% of normal healthy weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "2000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "3000" ] }
           ]
         }
       },
@@ -125,8 +125,8 @@
         "//": "3-5 points of BMI from fat (12-20% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "3000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "5000" ] }
           ]
         }
       },
@@ -137,8 +137,8 @@
         "//": "5-10 points of BMI from fat (20-33% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "5000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "10000" ] }
           ]
         }
       },
@@ -149,8 +149,8 @@
         "//": "10-15 points of BMI from fat (33-43% of body weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "10000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "15000" ] }
           ]
         }
       },
@@ -161,8 +161,8 @@
         "//": "15-20 points of BMI from fat (43-50% of normal healthy body weight is fat)",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "math": [ "u_val('bmi_permil')", ">", "15000" ] },
+            { "math": [ "u_val('bmi_permil')", "<=", "20000" ] }
           ]
         }
       },
@@ -171,7 +171,7 @@
         "text": "Morb.Obese",
         "color": "h_red",
         "//": "20+ points of BMI from fat (more than half your bodyweight is fat)",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ]

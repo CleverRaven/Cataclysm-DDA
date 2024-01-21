@@ -5,7 +5,7 @@
     "style": "layout",
     "label": "Graphs & meters",
     "arrange": "minimum_columns",
-    "description": "A large <color_yellow>status graph</color>, complete with <color_yellow>health meters</color> for all major body parts, <color_yellow>body graphs</color> for wetness, encumbrance & temperature, as well as <color_yellow>diet</color>, </color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
+    "description": "A large <color_yellow>status graph</color>, complete with <color_yellow>health meters</color> for all major body parts, <color_yellow>body graphs</color> for wetness, encumbrance & temperature, as well as <color_yellow>diet</color>, <color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
     "widgets": [ "zenfs_titled_body_graph", "zenfs_hp_bars_and_stats" ]
   },
   {
@@ -14,7 +14,7 @@
     "style": "layout",
     "label": "Meters; slim",
     "arrange": "rows",
-    "description": "A slim <color_yellow>status display</color>, complete with <color_yellow>health</color>, <color_yellow>wetness</color>, <color_yellow>temperature</color> and <color_yellow>encumbrance meters</color> for all major body parts, as well as <color_yellow>diet</color>, </color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
+    "description": "A slim <color_yellow>status display</color>, complete with <color_yellow>health</color>, <color_yellow>wetness</color>, <color_yellow>temperature</color> and <color_yellow>encumbrance meters</color> for all major body parts, as well as <color_yellow>diet</color>, <color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
     "widgets": [ "zenfs_hp_bars_and_stats_alt", "zenfs_blank_line", "zenfs_physical_block" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
