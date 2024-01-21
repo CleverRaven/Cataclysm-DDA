@@ -384,6 +384,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "bronze_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from bronze",
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
+  },
+  {
     "id": "rock_flaking_any",
     "type": "requirement",
     "//": "Rocks that can be used for knapping.",
@@ -513,5 +519,11 @@
     "id": "any_fresh_water",
     "type": "requirement",
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "wax_any",
+    "type": "requirement",
+    "//": "Both wax types, for when the recipe doesn't really care.",
+    "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
   }
 ]

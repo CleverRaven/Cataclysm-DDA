@@ -238,6 +238,23 @@
     "min_range": 10,
     "max_range": 10,
     "message": "",
-    "extra_effects": [ { "id": "blinding_flash" }, { "id": "ethereal_grasp" }, { "id": "point_flare" } ]
+    "extra_effects": [ { "id": "blinding_flash" }, { "id": "ethereal_grasp" }, { "id": "point_flare" }, { "id": "dispel_magic_monster" } ]
+  },
+  {
+    "id": "monster_downed_stomp",
+    "type": "SPELL",
+    "name": "Monster Downed Stomp",
+    "description": "The monster stomps on the ground and knocks anyone nearby off their feet.",
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "max_level": 5,
+    "min_aoe": 1,
+    "max_aoe": 6,
+    "aoe_increment": 1,
+    "min_duration": 100,
+    "max_duration": 300,
+    "duration_increment": 40
   }
 ]

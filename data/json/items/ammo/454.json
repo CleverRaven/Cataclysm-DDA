@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".454 Casull" },
     "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  The .454 Casull round is derived from .45 Long Colt with a stronger, lengthened case.  It is an exceptionally powerful cartridge with higher stopping power than many rifle rounds, although its extreme recoil makes it unsuitable for most purposes.",
+    "ascii_picture": "454_Casull",
     "weight": "30 g",
     "volume": "79 ml",
     "longest_side": "45 mm",

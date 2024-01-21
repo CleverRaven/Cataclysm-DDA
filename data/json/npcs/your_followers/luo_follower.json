@@ -20,11 +20,8 @@
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
         "topic": "TALK_LUO_SOCIAL"
       },
-      {
-        "text": "I just wanted to talk for a bit.",
-        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
-        "topic": "TALK_LUO_SOCIAL"
-      },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
@@ -138,13 +135,6 @@
         "default": true
       },
       {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
-      },
-      {
         "text": "I want you to use this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND_Luo",
@@ -180,6 +170,8 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]

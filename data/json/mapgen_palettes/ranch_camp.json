@@ -65,6 +65,7 @@
       "E": "f_bookcase",
       "L": "f_locker",
       "O": "f_oven",
+      ".": [ [ "f_null", 39 ], [ "f_thistle", 1 ] ],
       "S": "f_sink",
       "Y": "f_sofa",
       "Z": "f_crate_o",

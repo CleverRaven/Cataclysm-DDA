@@ -184,7 +184,7 @@ If the "apply_message" or "remove_message" fields exist, the respective message 
 displayed upon the addition or removal of the effect. Note: "apply_message" will only display
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
-### advanced apply_message
+### Advanced apply_message
 ```C++
     "apply_message": [
         ["Your effect is applied", "good"],
@@ -194,6 +194,24 @@ if the effect is being added, not if it is simply incrementing a current effect 
 You can instead of having a string for apply_message and including a [rating](#rating) can do advanced apply_message. This is an array of arrays with each inner array matching up with an intensity level and including the message and rating. This is useful for effects that too much of is a bad thing.
 
 When using an advanced apply_message you can not include a [rating: ""](#rating) entry.
+
+### Hiding the effect
+
+```C++
+    "show_in_info": true
+```
+
+Default false; If true, the effect is shown when you inspect another NPC or monster. It doesn't hide the effect from the player's @ menu, for this effect should have empty string as a name and description:
+
+```C++
+  {
+    "type": "effect_type",
+    "id": "secret_effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "You can't see this effect"
+  },
+```
 
 ### Memorial Log
 ```C++
@@ -207,11 +225,10 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 ### Resistances
 ```C++
     "resist_traits": "NOPAIN",
-    "resist_effect": "flumed"
+    "resist_effects": [ "flumed" ]
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
-Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Immunity Flags
 ```JSON
@@ -242,6 +259,14 @@ automatically count for "blocks_effects" as well, no need to duplicate them ther
 This field will cause an effect to prevent the placement of the listed effects. In the example above the effect would
 prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONGOING COLDS OR FLUS). Any effects present
 in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
+
+### Modifies effect-on-hit durations
+```C++
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
+```
+This field will cause an effect to modify the effect-on-hit durations of "effect_id", as defined in body_parts.json.
+In the example above, this effect causes incoming bleeding duration to be increased by 5%.
+If an effect with effect_dur_scaling is applied to a bodypart and same_bp is "true", then it will affect effect-on-hit durations on only that bodypart. If false, it will affect all bodyparts.
 
 ### Effect limiters
 ```C++
@@ -537,6 +562,33 @@ Valid arguments:
 "stamina_chance_bot"
 "stamina_tick"      - Defaults to every tick
 
+"heart_rate_amount"        - Amount of heart rate changes it can give/take.
+"heart_rate_min"           - Minimal amount of heart rate, certain effect will give/take
+"heart_rate_max"           - if 0 or missing value will be exactly "heart_rate_min"
+"heart_rate_min_val"       - Defaults to 0, which means uncapped
+"heart_rate_max_val"       - Defaults to 0, which means uncapped
+"heart_rate_chance"        - Chance to change heart rate
+"heart_rate_chance_bot"
+"heart_rate_tick"          - Defaults to every tick
+
+"blood_pressure_amount"    - Amount of blood pressure changes it can give/take.
+"blood_pressure_min"       - Minimal amount of blood pressure, certain effect will give/take
+"blood_pressure_max"       - if 0 or missing value will be exactly "blood_pressure_min"
+"blood_pressure_min_val"   - Defaults to 0, which means uncapped
+"blood_pressure_max_val"   - Defaults to 0, which means uncapped
+"blood_pressure_chance"    - Chance to change blood pressure
+"blood_pressure_chance_bot"
+"blood_pressure_tick"      - Defaults to every tick
+
+"respiratory_rate_amount"  - Amount of respiratory rate changes it can give/take.
+"respiratory_rate_min"     - Minimal amount of respiratory rate, certain effect will give/take
+"respiratory_rate_max"     - if 0 or missing value will be exactly "respiratory_rate_min"
+"respiratory_rate_min_val" - Defaults to 0, which means uncapped
+"respiratory_rate_max_val" - Defaults to 0, which means uncapped
+"respiratory_rate_chance"  - Chance to change respiratory rate
+"respiratory_rate_chance_bot"
+"respiratory_rate_tick"    - Defaults to every tick
+
 "cough_chance"      - Chance to cause cough
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
@@ -550,6 +602,11 @@ Valid arguments:
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
 "enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
+
+"dodge_mod"         - Effective dodge chance
+"hit_mod"           - Effective melee skill
+"bash_mod"          - Additional bash bonus/penalty
+
 ```
 Each argument can also take either one or two values.
 ```C++

@@ -122,13 +122,13 @@
     "type": "effect_type",
     "name": [ "Gravity Control" ],
     "desc": [ "Decreases mass of weapon on swing, increases the gravity on attack." ],
-    "remove_message": "You stop to control the gravity.",
+    "remove_message": "You cease your control over gravity.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": -30 },
           { "value": "BONUS_BLOCK", "add": 2 },
           { "value": "MELEE_DAMAGE", "multiply": 1 }
         ]

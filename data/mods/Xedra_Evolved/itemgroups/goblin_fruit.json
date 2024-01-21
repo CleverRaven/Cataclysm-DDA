@@ -1,0 +1,26 @@
+[
+  {
+    "type": "item_group",
+    "id": "spell_spawned_goblin_fruit",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "goblin_fruit_healing", "prob": 1 },
+      { "item": "goblin_fruit_illness", "prob": 1 },
+      { "item": "goblin_fruit_attack_speed", "prob": 1 },
+      { "item": "goblin_fruit_pain", "prob": 1 },
+      { "item": "goblin_fruit_awake", "prob": 1 },
+      { "item": "goblin_fruit_water", "prob": 1 },
+      { "item": "goblin_fruit_purge_blood", "prob": 1 },
+      { "item": "goblin_fruit_dodge", "prob": 1 },
+      { "item": "goblin_fruit_night_vision", "prob": 1 },
+      { "item": "goblin_fruit_no_bleed", "prob": 1 },
+      { "item": "goblin_fruit_perception", "prob": 1 },
+      { "item": "goblin_fruit_no_drunk", "prob": 1 },
+      { "item": "goblin_fruit_no_rotten_food", "prob": 1 },
+      { "item": "goblin_fruit_feather_fall", "prob": 1 },
+      { "item": "goblin_fruit_super_clairvoyance", "prob": 1 },
+      { "item": "goblin_fruit_water_breathing", "prob": 1 },
+      { "item": "goblin_fruit_giant_growth", "prob": 1 }
+    ]
+  }
+]

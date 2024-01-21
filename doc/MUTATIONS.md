@@ -39,7 +39,7 @@ The mutation system works in several steps. All time references are in game time
   * Otherwise, two outcomes can happen: either the character starts mutating, or nothing happens again. The chance to start mutating is equal to the amount of mutagen in the character, while the chance to do nothing is a constant 2500. One of these options is then picked based on weight. Thus, for a player with 1250 mutagen in their body, the compared weights would be 1250 to begin mutating versus 2500 to do nothing, or a 1 in 3 chance to start mutating.
 2. Once mutation begins, the character mutates once immediately and the player receives a unique message. The character then gains the invisible `Changing` trait, which signifies to the game that they are actively undergoing periodic mutation.
 3. Every 1 to 6 hours, the game will attempt to mutate the character. As long as the character has enough mutagen when the effect fires, the attempt will proceed and the timer will restart. Between 60 and 140 mutagen is removed from their body *when the attempt is made* - it does not have to succeed for the mutagen to be deducted.
-4. The engine attempts to mutate the character based on the primers they have in their body. 
+4. The engine attempts to mutate the character based on the primers they have in their body.
   * If the character has no primer in their body, the player receives a distinct message and nothing happens. The `Changing` trait will immediately be removed when this happens, stopping the process.
   * Otherwise, the game chooses a random mutation in that category. This is the target mutation.
   * If the character has an existing trait that conflicts with the target mutation, the conflicting trait will be removed or downgraded, and nothing else will happen. Otherwise, the player will gain that mutation.
@@ -59,7 +59,7 @@ These chances are determined on a curve, ranging from 0 Instability (default) to
 * Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
 * Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
-Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
+Instability very slowly decreases on its own, at a rate of 12 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per 2 hours, for a total of 24 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
 Instability can't currently be viewed numerically in normal play, but the player will receive a visible effect on their character sheet whenever they have any Instability. This serves to give a general ballpark of how unstable the character is without telling them the exact amount.
 
@@ -110,6 +110,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
+  "dummy": false,                             // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+  "threshold": false                          //True if it's a threshold itself, and shouldn't be obtained *easily*.
   "player_display": true,                     // Trait is displayed in the `@` player display menu and mutations screen.
   "vanity": false,                            // Trait can be changed any time with no cost, like hair, eye color and skin color.
   "variants": [                               // Cosmetic variants of this mutation.
@@ -119,6 +121,18 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "description": "You think the glass is half-full.", // Description displayed in place of mutation description, unless append_desc is true.
       "apped_desc": false,                                // If true, append the description, instead of replacing.
       "weight": 1                                         // Used to randomly select variant when this is mutated.  Chance of being selected is weight/sum-of-all-weights.  If no weight is specified or weight is 0, variant will not be selected.
+    }
+  ],
+  "personality_score": [                               // Optional. Defines cosmetic flavor traits for NPCs which can be viewed during dialogue with the NPC.
+    {                                                  // Traits with a defined `personality_score` will be automatically applied to NPCs with personalities that qualify, based
+      "min_aggression": -10,                           // on the min and max values defined. NPC personalities' values are always integers within the range [-10,10].
+      "max_aggression": 10,                            // All mins and maxes are optional, this document contains their default values. (A personality_score trait with no
+      "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
+      "max_bravery": 10,                               //
+      "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
+      "max_altruism": 10,                              // numbers except 2, 3, and 4.)
     }
   ],
   "category": [ "MUTCAT_BIRD", "MUTCAT_INSECT" ],         // Categories containing this mutation.
@@ -131,6 +145,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
+  "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
     "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
     "str_mod": 2
@@ -178,6 +193,31 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "fatigue": true,                            // If true, activated mutation increases fatigue by cost (default: false).
+  "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
+  "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
+  "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
+  "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
+  "dodge_modifier": 1,                        // adds or substract flat amount of dodge from character
+  "vomit_multiplier": 3,                      // the modifier for the vomit chance
+  "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
+  "hp_adjustment": 3,                         // flat bonus/penalty to HP - `5` adds 5 hp to all limbs, `-3` subtract 3 hp.
+  "hp_modifier": 1.1,                         // percent bonus to HP - `1` =100%, doubles the hp, `-0.5` means -50%, halves the hp.
+  "hp_modifier_secondary": 0.1,               // second percent HP modifier, applied after the first one
+  "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
+  "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
+  "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
+  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer. This will allow the character to see futher on the overmap at night if the mutation is active at all times
+  "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
+    "type": "pseudo_shotgun",                 // fake gun that is used to shoot
+    "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it
+  },
+  "reading_speed_multiplier": 0.8,            // changes how fast you read a book, `0.5` halves it, `2` doubles it
+  "skill_rust_multiplier": 0.66,              // multiplier for skill rust delay
+  "spawn_item": {                             // activation of this mutation spawns an item
+    "type": "water_clean",                    // item to spawn
+    "message": "You spawn a bottle of water." // message, that would be shown upon activation
+  },
+  "stomach_size_multiplier": 2.0,             // modifier for the stomach size, increases how much food you can consume at once
   "scent_modifier": 0.0,                      // float affecting the intensity of your smell (default: 1.0).
   "scent_intensity": 800,                     // int affecting the target scent toward which you current smell gravitates (default: 500).
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
@@ -200,8 +240,10 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
+  "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
-  "healing_awake": 1.0,                       // Percentage of healing rate used while awake.
+  "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
+  "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
@@ -211,7 +253,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
-  "transform": { 
+  "transform": {
     "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
     "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
     "active": false,                          // If true, mutation will start powered when activated (turn ON).
@@ -220,17 +262,17 @@ Note that **all new traits that can be obtained through mutation must be purifia
   },
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
-      {
-        "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+      { 
+        "condition": { "math": [ "u_val(morale)", "<", "-50" ] },                                       // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],
     [
       {
-        "condition": {                        // Dialog condition (see NPCs.md).
-          "or": [
-            { "compare_num": [ "hour", "<", { "const": 2 } ] },
-            { "compare_num": [ "hour", ">", { "const": 20 } ] }
+        "condition": {                        // Dialogue condition (see NPCs.md).
+          "or": [ 
+            { "math": [ "u_val(strength)", "<", "5" ] },
+            { "math": [ "u_val(dexterity)", ">", "20" ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.
@@ -246,6 +288,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
   "pain_modifier": 5,                         // Flat increase (for positive numbers)\ reduction (for negative) to the amount of pain recived. Reduction can go all the way to 0. Applies after pain enchantment. (so if you have Pain Resistant trait along with 5 flat pain reduction and recive 20 pain, you would gain 20*(1-0.25)-5=10 pain)
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
+  "mana_regen_multiplier": 1.5,               // Multiplier on your mana regeneration.  0.5 is 50% of normal, 1.5 is 150% of normal.
+  "mana_multiplier": 1.25,                    // Multiplier on your total mana amount, after mana_modifier and any other bonuses. 0.75 is 75% of normal, 1.5 is 150% of normal. 
   "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
   "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
 }
@@ -333,7 +377,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `mutagen_message`       | A message displayed to the player when they mutate in this category.
 | `memorial_message`      | The memorial message to display when a character crosses the associated mutation threshold.
 | `vitamin`               | The vitamin id of the primer of this category. The character's vitamin level will act as the weight of this category when selecting which category to try and mutate towards, and gets decreased on successful mutation by the trait's mutagen cost.
-| `base_removal_chance`   | Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later. 
+| `base_removal_chance`   | Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later.
 | `base_removal_cost_mul` | Float, multiplier on the primer cost of the trait that removed a canceled starting trait, down to 0.0 for free mutations as long as a starting trait was given up.  Default 3.0, used for human-like categories and lower as categories become more inhuman.
 | `wip`                   | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 | `skip_test`             | If true, this mutation category will be skipped in consistency tests; this should only be used if you know what you're doing. See tests/mutation_test.cpp.
@@ -373,4 +417,3 @@ A mutation migration can be used to migrate a mutation that formerly existed gra
 | `remove`      | Optional\*. Boolean. If neither `trait` or `variant` are specified, this must be true.
 
 \*One of these three must be specified.
-

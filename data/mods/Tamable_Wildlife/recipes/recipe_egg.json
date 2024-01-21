@@ -24,6 +24,18 @@
     "components": [ [ [ "egg_mantis", 1 ] ], [ [ "sweet_goop", 10 ] ] ]
   },
   {
+    "result": "egg_lady_bug_tame",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "survival",
+    "difficulty": 5,
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "egg_lady_bug", 1 ] ], [ [ "sweet_goop", 10 ] ] ]
+  },
+  {
     "result": "egg_antlion_tame",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

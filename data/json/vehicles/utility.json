@@ -45,7 +45,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#cross", "seat", "seatbelt", "roof", "floodlight" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "horn_big" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "integrated_heater_small", "integrated_cooler", "dashboard", "horn_big" ]
+      },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "roof", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_right", "roof", "door#ne" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_left", "reinforced_windshield#nw", "roof" ] },
@@ -84,6 +88,25 @@
       { "x": 1, "y": 0, "chance": 50, "items": [ "jumper_cable" ] },
       { "x": 1, "y": 0, "chance": 30, "items": [ "jumper_cable_heavy" ] },
       { "x": 1, "y": 0, "chance": 20, "item_groups": [ "fuel_gasoline" ] }
+    ]
+  },
+  {
+    "id": "portable_diesel_generator",
+    "type": "vehicle",
+    "name": "Portable Diesel Generator",
+    "blueprint": [ [ "o-" ] ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#cross", "small_storage_battery", "engine_1cyl_diesel_large" ] },
+      { "x": 0, "y": 0, "parts": [ "generator_7500w", "wheel_mount_light", "wheel_small" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#cross" ] },
+      { "x": 1, "y": 0, "parts": [ { "part": "tank_small", "fuel": "diesel" } ] },
+      { "x": 1, "y": 0, "parts": [ "stowboard#horizontal_rear", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] }
+    ],
+    "items": [
+      { "x": 1, "y": 0, "chance": 50, "items": [ "jumper_cable" ] },
+      { "x": 1, "y": 0, "chance": 30, "items": [ "jumper_cable_heavy" ] },
+      { "x": 1, "y": 0, "chance": 20, "item_groups": [ "fuel_diesel" ] }
     ]
   },
   {

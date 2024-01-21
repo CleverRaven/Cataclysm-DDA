@@ -1,0 +1,62 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DREAMWALKER_GAIN_DREAMDROSS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS_DREAMWALKER" },
+        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
+        {
+          "or": [
+            { "npc_allies": 1 },
+            { "u_near_om_location": "evac_center_13", "range": 3 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+            { "u_near_om_location": "ranch_camp_41", "range": 3 },
+            { "u_near_om_location": "godco_5", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you awaken from the remnants of another's dreams, you find scraps of dreamdross next to you.",
+        "type": "neutral"
+      },
+      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rng(1,4)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "homullus_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOMULLUS_GOBLIN_FRUIT_2",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "evac_center_13", "range": 3 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+                { "u_near_om_location": "ranch_camp_41", "range": 3 },
+                { "u_near_om_location": "godco_5", "range": 3 },
+                { "u_at_om_location": "FACTION_CAMP_ANY" },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+            "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  }
+]

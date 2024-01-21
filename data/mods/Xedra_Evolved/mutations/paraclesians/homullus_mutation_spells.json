@@ -1,0 +1,25 @@
+[
+  {
+    "id": "homullus_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Discover Goblin Fruit",
+    "description": "With the aid of a bit of fae magick, you may find a goblin fruit abandoned among the ruins.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast in the remnants of civilization.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  }
+]

@@ -3134,7 +3134,7 @@
       "items": {
         "1": { "item": "SUS_hunting_archery", "chance": 75, "repeat": [ 2, 3 ] },
         "2": [
-          { "item": "lodge_archery_ammo", "chance": 70, "repeat": [ 5, 7 ] },
+          { "item": "archery_ammo", "chance": 70, "repeat": [ 5, 7 ] },
           { "item": "archery_mods", "chance": 55, "repeat": [ 1, 2 ] }
         ],
         "n": { "item": "tools_hunting", "chance": 75, "repeat": [ 2, 5 ] },

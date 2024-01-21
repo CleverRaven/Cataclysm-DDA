@@ -95,7 +95,6 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -103,6 +102,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
+static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
@@ -124,14 +125,9 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
-static const vitamin_id vitamin_calcium( "calcium" );
-static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
@@ -307,8 +303,16 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        u.vitamin_mod( vitamin_redcells, -intense );
-        u.vitamin_mod( vitamin_blood, -intense );
+        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
+        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
+        } else {
+            u.vitamin_mod( vitamin_redcells, -intense );
+            u.vitamin_mod( vitamin_blood, -intense );
+        }
         if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }
@@ -325,13 +329,12 @@ static void eff_fun_bleed( Character &u, effect &it )
                 { 31, to_translation( "%1s gushes from your %2s!" ) }
             };
             translation suffer_string = intensity_strings.at( 0 );
-            // iterate in reverse to find the first string that we qualify for based on intensity
-            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
-            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
-                if( intense >= iter->first ) {
-                    suffer_string = iter->second;
+            // iterate through intensity levels after the first, stopping before we reach one higher than the actual intensity
+            for( auto iter = next( intensity_strings.begin() ); iter != intensity_strings.end(); ++iter ) {
+                if( intense < iter->first ) {
                     break;
                 }
+                suffer_string = iter->second;
             }
             u.bleed();
             bodypart_id bp = it.get_bp();
@@ -345,6 +348,19 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.add_msg_player_or_npc( m_bad,
                                      final_message,
                                      _( "<npcname> loses some blood." ) );
+            if( u.is_avatar() && one_in( 10 ) && it.get_duration() > 1_turns ) {
+                bodypart_id bp_id = u.most_staunchable_bp();
+                if( bp_id == bp ) {
+                    if( u.controlling_vehicle || u.is_armed() ) {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by emptying your hands and pausing to apply pressure." ) );
+                    } else {
+                        u.add_msg_if_player( m_warning,
+                                             _( "You could reduce the bleeding by pausing to apply pressure." ) );
+                    }
+
+                }
+            }
         }
     }
 }
@@ -524,7 +540,7 @@ static void eff_fun_hot( Character &u, effect &it )
 
     if( bp == bodypart_id( "head" ) && intense >= 2 ) {
         if( one_in( std::max( 25, std::min( 89500,
-                                            90000 - u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) {
+                                            90000 - units::to_legacy_bodypart_temp( u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {
@@ -829,13 +845,15 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     warning = _( "You are anxious and cannot collect your thoughts." );
                     u.mod_focus( -rng( 1, u.get_focus() * intense / it.get_max_intensity() ) );
                     break;
-                case 4:
+                case 4: {
                     warning = _( "You are sweating profusely, but you feel cold." );
-                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
-                    u.mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
+                    const units::temperature_delta delta = -2_C_delta * intense;
+                    u.mod_part_temp_conv( bodypart_id( "hand_l" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "hand_r" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "foot_l" ), delta );
+                    u.mod_part_temp_conv( bodypart_id( "foot_r" ), delta );
                     break;
+                }
                 case 5:
                     warning = _( "You huff and puff.  Your breath is rapid and shallow." );
                     u.mod_stamina( -500 * intense );
@@ -887,13 +905,13 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
         switch( dice( 1, 9 ) ) {
             case 1:
                 u.add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                u.mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
-                u.mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "hand_l" ), -4_C_delta );
+                u.mod_part_temp_conv( bodypart_id( "hand_r" ), -4_C_delta );
                 break;
             case 2:
                 u.add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
-                u.mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
-                u.mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
+                u.mod_part_temp_conv( bodypart_id( "foot_l" ), -4_C_delta );
+                u.mod_part_temp_conv( bodypart_id( "foot_r" ), -4_C_delta );
                 break;
             case 3:
                 u.add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
@@ -1018,45 +1036,6 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.set_duration( 1_turns * dice( 3, 100 ) );
     }
 
-    // TODO: Move this to update_needs when NPCs can mutate
-    if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
-            u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
-        here.is_outside( u.pos() ) ) {
-        if( u.has_trait( trait_CHLOROMORPH ) ) {
-            // Hunger and thirst fall before your Chloromorphic physiology!
-            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
-                    u.set_fatigue( 25 );
-                }
-                if( u.get_hunger() >= -30 ) {
-                    u.mod_hunger( -5 );
-                    // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_kcal( 43 );
-                }
-            }
-            if( u.get_thirst() >= -40 ) {
-                u.mod_thirst( -5 );
-            }
-            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
-            u.vitamin_mod( vitamin_iron, 2 );
-            u.vitamin_mod( vitamin_calcium, 2 );
-        }
-        if( u.has_trait( trait_M_SKIN3 ) ) {
-            // Spores happen!
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
-                if( u.get_fatigue() >= 0 ) {
-                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
-                }
-                if( calendar::once_every( 1_hours ) ) {
-                    u.spores(); // spawn some P O O F Y   B O I S
-                }
-            }
-        }
-        if( u.has_trait( trait_WATERSLEEP ) ) {
-            u.mod_fatigue( -3 ); // Fish sleep less in water
-        }
-    }
-
     // Check mutation category strengths to see if we're mutated enough to get a dream
     // If we've crossed a threshold, always show dreams for that category
     // Otherwise, check for the category that we have the most vitamins in our blood for
@@ -1147,25 +1126,27 @@ static void eff_fun_sleep( Character &u, effect &it )
         // Cold or heat may wake you up.
         // Player will sleep through cold or heat if fatigued enough
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
-            const int curr_temp = u.get_part_temp_cur( bp );
-            if( curr_temp < BODYTEMP_VERY_COLD - u.get_fatigue() / 2 ) {
+            const units::temperature curr_temp = u.get_part_temp_cur( bp );
+            const units::temperature_delta fatigue_modifier = units::from_celsius_delta(
+                        u.get_fatigue() / 1000.0 );
+            if( curr_temp < BODYTEMP_VERY_COLD - fatigue_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                 }
-                if( curr_temp < BODYTEMP_FREEZING - u.get_fatigue() / 2 ||
-                    one_in( curr_temp * 6 + 30000 ) ) {
+                if( curr_temp < BODYTEMP_FREEZING - fatigue_modifier ||
+                    one_in( units::to_celsius( curr_temp ) * 3000 + 16500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                     woke_up = true;
                     break;
                 }
-            } else if( curr_temp > BODYTEMP_VERY_HOT + u.get_fatigue() / 2 ) {
+            } else if( curr_temp > BODYTEMP_VERY_HOT + fatigue_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn in the heat." ) );
                 }
-                if( curr_temp > BODYTEMP_SCORCHING + u.get_fatigue() / 2 ||
-                    one_in( 90000 - curr_temp ) ) {
+                if( curr_temp > BODYTEMP_SCORCHING + fatigue_modifier ||
+                    one_in( 76500 - units::to_celsius( curr_temp ) * 500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -1173,29 +1154,6 @@ static void eff_fun_sleep( Character &u, effect &it )
                     break;
                 }
             }
-        }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
-            one_in( 43200 ) && u.is_avatar() ) {
-            if( one_in( 2 ) ) {
-                u.sound_hallu();
-            } else {
-                int max_count = rng( 1, 3 );
-                int count = 0;
-                for( const tripoint &mp : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( mp == u.pos() ) {
-                        continue;
-                    }
-                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
-                        here.pl_sees( mp, 2 ) ) {
-                        g->spawn_hallucination( mp );
-                        if( ++count > max_count ) {
-                            break;
-                        }
-                    }
-                }
-            }
-            it.set_duration( 0_turns );
-            woke_up = true;
         }
     }
 

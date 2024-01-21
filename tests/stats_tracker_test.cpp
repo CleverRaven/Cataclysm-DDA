@@ -19,6 +19,7 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
+#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "json_loader.h"
@@ -80,9 +81,9 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
 
     const character_id u_id = get_player_character().getID();
     const cata::event kill1 =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     const cata::event kill2 = cata::event::make<event_type::character_kills_monster>( u_id,
-                              mon_zombie_brute );
+                              mon_zombie_brute, 0 );
     const cata::event::data_type char_is_player{ { "killer", cata_variant( u_id ) } };
 
     CHECK( s.get_events( kill1.type() ).count( kill1.data() ) == 0 );
@@ -309,11 +310,11 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         character_id other_id = u_id;
         ++other_id;
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         send_game_start( b, u_id );
         CHECK( event_statistic_avatar_id->value( s ) == cata_variant( u_id ) );
@@ -525,11 +526,11 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         character_id other_id = u_id;
         ++other_id;
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         watch_stat kills_watcher;
         watch_stat zombie_kills_watcher;
@@ -565,6 +566,9 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
 TEST_CASE( "achievements_tracker", "[stats]" )
 {
+
+    g->start_calendar();
+
     override_option opt( "24_HOUR", "military" );
 
     std::map<achievement_id, const achievement *> achievements_completed;
@@ -647,7 +651,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
 
     SECTION( "hidden_kills" ) {
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id a_kill_10( "achievement_kill_10_monsters" );
         achievement_id a_kill_100( "achievement_kill_100_monsters" );
@@ -675,7 +679,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         calendar::turn = calendar::start_of_game + time_since_game_start;
 
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id c_pacifist( "conduct_zero_kills" );
         achievement_id c_merciful( "conduct_zero_character_kills" );
@@ -695,7 +699,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         } else {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
@@ -719,34 +723,34 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         }
@@ -765,21 +769,21 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
@@ -907,6 +911,7 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
 }
 
 struct stats_test_subscriber : public event_subscriber {
+    using event_subscriber::notify;
     void notify( const cata::event &e ) override {
         if( e.type() == event_type::player_gets_achievement ||
             e.type() == event_type::player_fails_conduct ) {
@@ -927,8 +932,15 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     const character_id u_id = get_player_character().getID();
     send_game_start( get_event_bus(), u_id );
 
+    std::vector<std::string> args{ std::to_string( u_id.get_value() ), mon_zombie.c_str(), "0" };
+
+    bool dynamic_event = GENERATE( false, true );
+    CAPTURE( dynamic_event );
+
     const cata::event avatar_zombie_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+        dynamic_event
+        ? cata::event::make_dyn( event_type::character_kills_monster, args )
+        : cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );

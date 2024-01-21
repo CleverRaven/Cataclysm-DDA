@@ -10,13 +10,17 @@
     "type": "item_group",
     "id": "afs_basic_armor",
     "subtype": "distribution",
-    "entries": [ { "group": "afs_plastic_armor_g", "prob": 10 }, { "group": "afs_scrap_armor_g", "prob": 10 } ]
+    "entries": [
+      { "group": "afs_plastic_armor_g", "prob": 10 },
+      { "group": "afs_armor_spaceship_crew_g", "prob": 5 },
+      { "group": "afs_scrap_armor_g", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "afs_common_armor",
     "subtype": "distribution",
-    "entries": [ { "group": "afs_plastic_armor_g", "prob": 10 }, { "group": "afs_scrap_armor_g", "prob": 10 } ]
+    "entries": [ { "group": "afs_carbide_raider_armor_g", "prob": 10 }, { "group": "afs_armor_military_infantry_g", "prob": 2 } ]
   },
   {
     "type": "item_group",
@@ -40,6 +44,18 @@
       { "item": "armguard_scrap", "prob": 40 },
       { "item": "cuirass_scrap", "prob": 90 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_armor_spaceship_crew_g",
+    "subtype": "collection",
+    "entries": [ { "item": "nanomesh_vest", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_armor_military_infantry_g",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_military_vest", "prob": 70 }, { "item": "afs_military_cloak", "prob": 40 } ]
   },
   {
     "type": "item_group",

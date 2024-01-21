@@ -27,18 +27,18 @@
     "id": "EOC_WORSEN_PORTAL_STORM",
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_STRENGTHEN", { "const": 3 } ],
-        [ "EOC_PORTAL_LENGTHEN", { "const": 3 } ],
-        [ "EOC_PORTAL_WEAKEN", { "const": 3 } ],
-        [ "EOC_PORTAL_SHORTEN", { "const": 3 } ]
+        [ "EOC_PORTAL_STRENGTHEN", 3 ],
+        [ "EOC_PORTAL_LENGTHEN", 3 ],
+        [ "EOC_PORTAL_WEAKEN", 3 ],
+        [ "EOC_PORTAL_SHORTEN", 3 ]
       ]
     }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_WEAKEN",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 1 } ] },
-    "effect": { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "--" ], "max": 8 }
+    "condition": { "math": [ "ps_base_str", ">=", "1" ] },
+    "effect": { "math": [ "ps_base_str", "=", "min(ps_base_str - 1, 8)" ] }
   },
   {
     "type": "effect_on_condition",

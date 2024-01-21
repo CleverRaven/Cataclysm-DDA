@@ -1,0 +1,19 @@
+[
+  {
+    "id": "remove_opponents",
+    "type": "SPELL",
+    "name": "Debug Opponent Kill",
+    "description": ".",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS" ],
+    "min_damage": 300,
+    "max_damage": 300,
+    "min_aoe": 10,
+    "max_aoe": 10,
+    "min_range": 0,
+    "max_range": 0,
+    "damage_type": "pure"
+  }
+]

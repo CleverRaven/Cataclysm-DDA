@@ -1,0 +1,8 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "wave_spawn_number",
+    "num_args": 0,
+    "return": "wave_number * diffulty_modifier"
+  }
+]

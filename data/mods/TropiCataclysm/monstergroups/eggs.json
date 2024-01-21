@@ -4,158 +4,158 @@
     "type": "monstergroup",
     "default": "mon_guinea_fowl_chick",
     "monsters": [
-      { "monster": "mon_guinea_fowl_chick", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_rhea_chick", "freq": 250, "cost_multiplier": 1 }
+      { "monster": "mon_guinea_fowl_chick", "weight": 50, "cost_multiplier": 1 },
+      { "monster": "mon_quail_chick", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_rhea_chick", "weight": 250, "cost_multiplier": 1 }
     ]
   },
   {
     "name": "GROUP_EGG_GUINEA_FOWL",
     "type": "monstergroup",
     "default": "mon_guinea_fowl_chick",
-    "monsters": [ { "monster": "mon_guinea_fowl_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_guinea_fowl_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_QUAIL",
     "type": "monstergroup",
     "default": "mon_quail_chick",
-    "monsters": [ { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_quail_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_RHEA",
     "type": "monstergroup",
     "default": "mon_rhea_chick",
-    "monsters": [ { "monster": "mon_rhea_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_rhea_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TOUCAN",
     "type": "monstergroup",
     "default": "mon_toucan_chick",
-    "monsters": [ { "monster": "mon_toucan_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_toucan_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_PARROT",
     "type": "monstergroup",
     "default": "mon_parrot_chick",
-    "monsters": [ { "monster": "mon_parrot_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_parrot_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_BUDGERIGAR",
     "type": "monstergroup",
     "default": "mon_budgerigar_chick",
-    "monsters": [ { "monster": "mon_budgerigar_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_budgerigar_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_COCKATOO",
     "type": "monstergroup",
     "default": "mon_cockatoo_chick",
-    "monsters": [ { "monster": "mon_cockatoo_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_cockatoo_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_MACAW",
     "type": "monstergroup",
     "default": "mon_macaw_chick",
-    "monsters": [ { "monster": "mon_macaw_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_macaw_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TINAMOU",
     "type": "monstergroup",
     "default": "mon_tinamou_chick",
-    "monsters": [ { "monster": "mon_tinamou_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_tinamou_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_SERIEMA",
     "type": "monstergroup",
     "default": "mon_seriema_chick",
-    "monsters": [ { "monster": "mon_seriema_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_seriema_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_CHACHALACA",
     "type": "monstergroup",
     "default": "mon_chachalaca_chick",
-    "monsters": [ { "monster": "mon_chachalaca_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_chachalaca_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_GUAN",
     "type": "monstergroup",
     "default": "mon_guan_chick",
-    "monsters": [ { "monster": "mon_guan_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_guan_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_CURASSOW",
     "type": "monstergroup",
     "default": "mon_curassow_chick",
-    "monsters": [ { "monster": "mon_curassow_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_curassow_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_FLAMINGO",
     "type": "monstergroup",
     "default": "mon_flamingo_chick",
-    "monsters": [ { "monster": "mon_flamingo_chick", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_flamingo_chick", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_CONSTRICTOR",
     "type": "monstergroup",
     "default": "mon_anaconda",
     "monsters": [
-      { "monster": "mon_anaconda", "freq": 40, "cost_multiplier": 1 },
-      { "monster": "mon_python", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_boa", "freq": 40, "cost_multiplier": 1 }
+      { "monster": "mon_anaconda", "weight": 40, "cost_multiplier": 1 },
+      { "monster": "mon_python", "weight": 20, "cost_multiplier": 1 },
+      { "monster": "mon_boa", "weight": 40, "cost_multiplier": 1 }
     ]
   },
   {
     "name": "GROUP_EGG_LIZARD",
     "type": "monstergroup",
     "default": "mon_beaded_lizard",
-    "monsters": [ { "monster": "mon_beaded_lizard", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_beaded_lizard", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_MONITOR",
     "type": "monstergroup",
     "default": "mon_monitor_lizard",
-    "monsters": [ { "monster": "mon_monitor_lizard", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_monitor_lizard", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_IGUANA",
     "type": "monstergroup",
     "default": "mon_iguana",
-    "monsters": [ { "monster": "mon_iguana", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_iguana", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TURTLE",
     "type": "monstergroup",
     "default": "mon_turtle",
-    "monsters": [ { "monster": "mon_turtle", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_turtle", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_SNAPPER",
     "type": "monstergroup",
     "default": "mon_turtle_snapper",
-    "monsters": [ { "monster": "mon_turtle_snapper", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_turtle_snapper", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TORTOISE",
     "type": "monstergroup",
     "default": "mon_tortoise",
-    "monsters": [ { "monster": "mon_tortoise", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_tortoise", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TERMITE",
     "type": "monstergroup",
     "default": "mon_termite_nymph",
-    "monsters": [ { "monster": "mon_termite_nymph", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_termite_nymph", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TRIFFID",
     "type": "monstergroup",
     "default": "mon_triffid_podling",
-    "monsters": [ { "monster": "mon_triffid_podling", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_triffid_podling", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_FUNGUS",
     "type": "monstergroup",
     "default": "mon_fungaloid_saproling",
-    "monsters": [ { "monster": "mon_fungaloid_saproling", "freq": 100, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_fungaloid_saproling", "weight": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_SALAMANDER",

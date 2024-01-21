@@ -69,7 +69,7 @@
   {
     "id": "BEM_JABBERWOCK_2",
     "type": "talk_topic",
-    "dynamic_line": "&<mypronoun> seems completely lost to the present, but you can't help but notice their gear is caked with mud and broken twigs.  It doesnt look like you'll be getting much conversation from this one.",
+    "dynamic_line": "&<mypronoun> seems completely lost to the present, but you can't help but notice <mypossesivepronoun> gear is caked with mud and broken twigs.  It doesn't look like you'll be getting much conversation from this one.",
     "responses": [
       { "text": "Press on in search of a reaction.", "topic": "BEM_JABBERWOCK_3" },
       { "text": "Try to find someone more interested in conversation.", "topic": "TALK_DONE" }

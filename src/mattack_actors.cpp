@@ -51,6 +51,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -61,10 +62,6 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
-
-static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
@@ -82,6 +79,8 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
+    optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
+    optional( obj, was_loaded, "ignore_dest_danger", ignore_dest_danger, false );
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
@@ -92,7 +91,6 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
         read_condition( obj, "condition", condition, false );
         has_condition = true;
     }
-
 
     if( obj.has_array( "self_effects" ) ) {
         for( JsonObject eff : obj.get_array( "self_effects" ) ) {
@@ -168,6 +166,16 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate place it can't enter, discarded" );
+            continue;
+        }
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Candidate with dangerous conditions, discarded" );
+            continue;
+        }
         candidates.emplace( candidate_dist, candidate );
     }
     for( const auto &candidate : candidates ) {
@@ -193,12 +201,12 @@ bool leap_actor::call( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
                 break;
+            } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, i ) &&
+                       z.get_size() > creature_size::medium ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
+                blocked_path = true;
+                break;
             }
-        }
-        // don't leap into water if you could drown (#38038)
-        if( z.is_aquatic_danger( dest ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Can't leap into water, candidate discarded" );
-            blocked_path = true;
         }
         if( blocked_path ) {
             continue;
@@ -255,7 +263,6 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
         has_condition = true;
     }
 
-
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -278,7 +285,6 @@ bool mon_spellcasting_actor::call( monster &mon ) const
             return false;
         }
     }
-
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
@@ -326,7 +332,6 @@ void grab::load_grab( const JsonObject &jo )
     optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
     was_loaded = true;
 }
-
 
 melee_actor::melee_actor()
 {
@@ -616,7 +621,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 tripoint zpt = z.pos();
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
-                    return false;
+                    return 0;
                 }
                 if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                              zpt.y < HALF_MAPSIZE_Y ||
@@ -718,7 +723,7 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
-                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                        z.name(), body_part_name_accusative( bp_id ) );
         return true;
     }
@@ -728,7 +733,7 @@ bool melee_actor::call( monster &z ) const
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
-                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                            mon_name, body_part_name_accusative( bp_id ) );
             return true;
         }
@@ -736,6 +741,7 @@ bool melee_actor::call( monster &z ) const
 
     // We need to do some calculations in the main function - we might mutate bp_hit
     // But first we need to handle exclusive grabs etc.
+    std::optional<bodypart_id> grabbed_bp_id;
     if( is_grab ) {
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
@@ -822,6 +828,7 @@ bool melee_actor::call( monster &z ) const
         } else if( result == 0 ) {
             return true;
         }
+        grabbed_bp_id = bp_id;
     }
 
     // Damage instance calculation
@@ -860,8 +867,8 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
-                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : to_translation( "" ),
-                                       mon_name, body_part_name_accusative( bp_id ) );
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
@@ -877,7 +884,7 @@ bool melee_actor::call( monster &z ) const
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
-                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : to_translation( "" ),
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : translation(),
                                            mon_name );
 
             // Items strapped to you may fall off as you hit the ground
@@ -923,7 +930,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     const std::string mon_name = get_player_character().sees( z.pos() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
-                                  get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : to_translation( "" ),
+                                  get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),
                                   mon_name, body_part_name_accusative( bp ) );
 
     for( const mon_effect_data &eff : effects ) {
@@ -1034,6 +1041,11 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
     }
 
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
     obj.read( "max_ammo", max_ammo );
 
     obj.read( "move_cost", move_cost );
@@ -1087,6 +1099,14 @@ bool gun_actor::call( monster &z ) const
     Creature *target;
     tripoint aim_at;
     bool untargeted = false;
+
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
 
     if( z.friendly ) {
         int max_range = get_max_range();
@@ -1211,11 +1231,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 

@@ -54,7 +54,7 @@
     "volume": "300 ml",
     "price": 20000,
     "price_postapoc": 50,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "symbol": "{",
     "looks_like": "armguard_hard",
     "color": "red",
@@ -96,7 +96,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood", "cotton" ],
     "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 70, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
@@ -127,11 +127,12 @@
     "id": "makeshift_blindfold",
     "type": "ARMOR",
     "name": { "str": "makeshift blindfold" },
-    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.",
+    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "32 g",
     "volume": "200 ml",
     "price": 5,
     "price_postapoc": 1,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "makeshift_blindfold_up", "menu_text": "Raise" },
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "blindfold",
@@ -143,15 +144,35 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "makeshift_blindfold_up",
+    "type": "ARMOR",
+    "name": { "str": "makeshift blindfold (raised)", "str_pl": "makeshift blindfolds (raised)" },
+    "description": "A crude eye covering woven from blades of grass with string attached to fasten it.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "32 g",
+    "volume": "200 ml",
+    "price": 5,
+    "price_postapoc": 1,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "makeshift_blindfold", "menu_text": "Lower" },
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "yellow",
+    "warmth": 0,
+    "material_thickness": 0.1,
+    "environmental_protection": 0,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
-    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
+    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "72 g",
     "volume": "100 ml",
     "price": 600,
     "price_postapoc": 10,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "blindfold_up", "menu_text": "Raise" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",
@@ -163,15 +184,35 @@
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "blindfold_up",
+    "type": "ARMOR",
+    "name": { "str": "blindfold (raised)", "str_pl": "blindfolds (raised)" },
+    "description": "A simple fabric covering tied over the eyes to block sight.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "72 g",
+    "volume": "100 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "blindfold", "menu_text": "Lower" },
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
     "id": "blindfold_duct",
     "type": "ARMOR",
     "name": { "str": "duct tape blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
-    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.  Use to raise it.",
     "weight": "20 g",
     "volume": "60 ml",
     "price": 10,
     "price_postapoc": 5,
+    "use_action": { "type": "transform", "msg": "You uncover your eyes.", "target": "blindfold_duct_up", "menu_text": "Raise" },
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "blindfold",
@@ -181,6 +222,26 @@
     "environmental_protection": 1,
     "flags": [ "BLIND", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
+    "id": "blindfold_duct_up",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold (raised)", "str_pl": "duct tape blindfolds (raised)" },
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  It's currently raised, letting you see.  Use to lower it.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "use_action": { "type": "transform", "msg": "You cover your eyes.", "target": "blindfold_duct", "menu_text": "Lower" },
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ], "rigid_layer_only": true } ]
   },
   {
     "id": "ear_plugs",
@@ -387,6 +448,7 @@
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
     "weight": "1 kg",
     "volume": "4 L",
+    "longest_side": "34 cm",
     "price": 1400,
     "price_postapoc": 500,
     "to_hit": -3,
@@ -475,6 +537,7 @@
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to lower it over your face.",
     "weight": "1 kg",
     "volume": "4 L",
+    "longest_side": "34 cm",
     "price": 1400,
     "price_postapoc": 500,
     "to_hit": -3,
@@ -575,6 +638,47 @@
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "id": "flashlight_mount_wrist",
+    "name": { "str": "diving flashlight wrist mount" },
+    "category": "clothing",
+    "volume": "150 ml",
+    "description": "A proprietary wrist mount for a flashlight.  Not very useful on its own.",
+    "//": "Based on mount for this: https://www.amazon.com/Aqualite-Tauchlampe-schwarz-Lumen-12516/dp/B00DI5GMOM",
+    "weight": "50 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "sided": true,
+    "price": 2500,
+    "price_postapoc": 100,
+    "material": [ "rubber", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "symbol": "[",
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "plastic", "covered_by_mat": 40, "thickness": 4.0 }
+        ],
+        "coverage": 70,
+        "encumbrance": 1,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 1.5,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "300 g",
+        "moves": 150,
+        "description": "Proprietary mount for a diving flashlight.",
+        "flag_restriction": [ "WRIST_MOUNT_ATTACHMENT" ]
+      }
+    ]
+  },
+  {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "hologram cloak" },
@@ -624,6 +728,14 @@
     "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
     "material_thickness": 0.5,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+  },
+  {
+    "id": "homburg_hat",
+    "type": "ARMOR",
+    "name": { "str": "homburg hat" },
+    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
+    "material": [ "wool" ],
+    "copy-from": "fedora"
   },
   {
     "id": "thermal_socks",
@@ -844,22 +956,24 @@
   {
     "id": "binoculars",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
+    "category": "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": { "str": "pair of binoculars", "str_pl": "pairs of binoculars" },
     "description": "A pair of optics with a neck strap attached.  Useful for seeing long distances.  Wearing this item or carrying it in your inventory will double the distance around you that is mapped during your travels.  You could also use them to focus the sunlight.",
-    "price": 30000,
+    "price": "34 USD",
     "price_postapoc": 500,
-    "material": [ "plastic", "glass" ],
+    "material": [ { "type": "plastic", "portion": 9 }, { "type": "glass" } ],
     "flags": [ "ZOOM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
-    "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -1,
+    "weight": "550 g",
+    "volume": "540 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
     "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "//": "Based on https://www.amazon.com/dp/B0798Q79RV"
   },
   {
     "id": "wearable_light",
@@ -971,6 +1085,60 @@
     }
   },
   {
+    "id": "wearable_big_light_on",
+    "copy-from": "wearable_big_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "heavy-duty headlamp (on)", "str_pl": "heavy-duty headlamps (on)" },
+    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "flags": [ "LIGHT_500", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
+    "power_draw": "15 W",
+    "revert_to": "wearable_big_light",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "wearable_big_light"
+    }
+  },
+  {
+    "id": "wearable_big_light",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "heavy-duty headlamp" },
+    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  Use it to turn it on.",
+    "price": 4000,
+    "price_postapoc": 200,
+    "material": [ "plastic", "aluminum" ],
+    "flags": [ "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "830 g",
+    "volume": "750 ml",
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the headlamp on.",
+      "target": "wearable_big_light_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The headlamp batteries are dead."
+    },
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
+    "melee_damage": { "bash": 1 },
+    "looks_like": "wearable_light"
+  },
+  {
     "id": "wearable_atomic_light",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -1055,7 +1223,7 @@
     "id": "ar_glasses_advanced",
     "type": "TOOL_ARMOR",
     "category": "clothing",
-    "name": { "str": "pair of advanced AR glasses", "str_pl": "pairs of camping AR glasses" },
+    "name": { "str": "pair of advanced AR glasses", "str_pl": "pairs of advanced AR glasses" },
     "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.",
     "weight": "170 g",
     "volume": "750 ml",
@@ -1108,7 +1276,8 @@
     "description": "An armored, electronically-shielded helmet containing a camera, a two-way radio, and a headlamp, all of which can be voice-activated for redundancy.  It is designed to protect against overpressure, fragmentation, impact, and heat.",
     "weight": "3600 g",
     "volume": "4 L",
-    "price": 150000,
+    "price": 1613900,
+    "//": "Based on the EOD 10 and EOD 9 helmets.",
     "price_postapoc": 10000,
     "armor": [
       {
@@ -1141,7 +1310,7 @@
     "warmth": 65,
     "material": [ "kevlar_rigid", "plastic", "plastic_pad" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_green",
     "environmental_protection": 3,
     "ammo": "battery",
     "pocket_data": [
@@ -1161,7 +1330,7 @@
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "PADDED", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "helmet_eod_on",
@@ -1775,7 +1944,7 @@
     "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 15, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_gas",
@@ -1793,8 +1962,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1827,8 +1996,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1862,8 +2031,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1880,7 +2049,7 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
+    "flags": [ "VARSIZE", "UNDERSIZE", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_gas_half",
@@ -1912,31 +2081,19 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 35, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_fsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "survivor firemask" },
-    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It provides excellent protection from heat, smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "708 g",
+    "description": "A custom-made leather gasmask faced with Nomex.  It must be prepared before use.",
+    "weight": "686 g",
     "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1750,
+    "price": 26000,
+    "price_postapoc": 1800,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
-    ],
-    "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1948,43 +2105,39 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "material": [ "nomex", "leather_treated", "hard_plastic_transp" ],
+    "symbol": "[",
+    "color": "brown",
+    "armor": [
+      {
+        "material": [
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 37
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ],
+    "warmth": 25,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED", "PADDED" ]
   },
   {
     "id": "mask_fsurvivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "copy-from": "mask_fsurvivor",
+    "looks_like": "mask_fsurvivor",
     "name": { "str": "XL survivor firemask" },
-    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "1108 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
-    "material": [ "kevlar_layered", "nomex" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 15,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "mask_fsurvivorxs",
@@ -1992,9 +2145,8 @@
     "copy-from": "mask_fsurvivor",
     "looks_like": "mask_fsurvivor",
     "name": { "str": "XS survivor firemask" },
-    "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It provides excellent protection from heat, smoke, tear gas, and shrapnel.  It must be prepared before use.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "mask_bunker",
@@ -2004,7 +2156,7 @@
     "color": "light_gray",
     "name": { "str": "firefighter PBA mask" },
     "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ],
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED" ],
     "price": 100000,
     "price_postapoc": 750,
     "material": [ "plastic", "nomex" ],
@@ -2026,22 +2178,33 @@
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
-    ],
-    "qualities": [ [ "GLARE", 1 ] ],
-    "material_thickness": 3
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "mask_hsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "heavy survivor mask" },
-    "description": "A custom-built, steel-reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "1612 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 2000,
+    "description": "A gas mask handcrafted from treated leather with a steel faceplate overtop.  It must be prepared before use.",
+    "weight": "686 g",
+    "volume": "1350 ml",
+    "price": 26000,
+    "price_postapoc": 1800,
     "to_hit": -3,
     "pocket_data": [
       {
@@ -2054,29 +2217,62 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "steel" ],
+    "material": [ "leather_treated", "hard_plastic_transp", "lc_steel" ],
     "symbol": "[",
-    "color": "dark_gray",
+    "color": "brown",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+      {
+        "material": [
+          { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 38
+      },
+      {
+        "material": [
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "lc_steel", "covered_by_mat": 15, "thickness": 1 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 28
+      }
     ],
-    "warmth": 15,
-    "material_thickness": 3,
+    "warmth": 28,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
+  },
+  {
+    "id": "mask_hsurvivorxl",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_hsurvivor",
+    "looks_like": "mask_hsurvivor",
+    "name": { "str": "XL heavy survivor mask" },
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
+  },
+  {
+    "id": "mask_hsurvivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_hsurvivor",
+    "looks_like": "mask_hsurvivor",
+    "name": { "str": "XS heavy survivor mask" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "light survivor mask" },
-    "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "466 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1500,
+    "name": { "str": "survivor half mask" },
+    "description": "A half-face gasmask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
+    "weight": "341 g",
+    "volume": "625 ml",
+    "price": 20000,
+    "price_postapoc": 1450,
     "to_hit": -3,
     "pocket_data": [
       {
@@ -2089,60 +2285,46 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "leather_treated" ],
     "symbol": "[",
-    "color": "dark_gray",
+    "color": "brown",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
+      {
+        "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 35
+      }
     ],
     "warmth": 15,
-    "material_thickness": 3,
     "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "environmental_protection_with_filter": 15,
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "XL light survivor mask" },
-    "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "766 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1250,
-    "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "cotton" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 }
-    ],
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "copy-from": "mask_lsurvivor",
+    "looks_like": "mask_lsurvivor",
+    "name": { "str": "XL survivor half mask" },
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+  },
+  {
+    "id": "mask_lsurvivorxs",
+    "type": "TOOL_ARMOR",
+    "copy-from": "mask_lsurvivor",
+    "looks_like": "mask_lsurvivor",
+    "name": { "str": "XS survivor half mask" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "survivor mask" },
-    "description": "A custom-built, leather-reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
+    "description": "A gas mask handcrafted from treated leather.  It must be prepared before use.",
     "weight": "682 g",
     "volume": "1250 ml",
     "price": 24000,
@@ -2159,53 +2341,36 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "leather" ],
+    "material": [ "leather_treated", "hard_plastic_transp" ],
     "symbol": "[",
-    "color": "dark_gray",
+    "color": "brown",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 }
+      {
+        "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 35
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
     ],
-    "warmth": 15,
-    "material_thickness": 3,
+    "warmth": 20,
     "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "environmental_protection_with_filter": 15,
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "copy-from": "mask_survivor",
+    "looks_like": "mask_survivor",
     "name": { "str": "XL survivor mask" },
-    "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "982 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
-    ],
-    "warmth": 15,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivorxs",
@@ -2213,123 +2378,8 @@
     "copy-from": "mask_survivor",
     "looks_like": "mask_survivor",
     "name": { "str": "XS survivor mask" },
-    "description": "A custom-built, leather-reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
-  },
-  {
-    "id": "mask_wsurvivor_nofur",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "faux fur winter survivor mask" },
-    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
-    "copy-from": "mask_wsurvivor",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "symbol": "[",
-    "warmth": 65,
-    "looks_like": "mask_wsurvivor",
-    "color": "pink"
-  },
-  {
-    "id": "mask_wsurvivorxl_nofur",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "XL faux fur winter survivor mask" },
-    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
-    "copy-from": "mask_wsurvivorxl",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "symbol": "[",
-    "warmth": 65,
-    "looks_like": "mask_wsurvivorxl",
-    "color": "pink"
-  },
-  {
-    "id": "mask_wsurvivor_nofur_xs",
-    "type": "TOOL_ARMOR",
-    "copy-from": "mask_wsurvivor_nofur",
-    "looks_like": "mask_wsurvivor_nofur",
-    "name": { "str": "XS faux fur winter survivor mask" },
-    "description": "A custom-built, faux fur-trimmed gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and shrapnel, and while not quite as warm as real fur, it's pretty good.  It must be prepared before use.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
-  },
-  {
-    "id": "mask_wsurvivor",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "winter survivor mask" },
-    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, it provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "682 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1750,
-    "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "fur" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
-    ],
-    "warmth": 75,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
-  },
-  {
-    "id": "mask_wsurvivorxl",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "name": { "str": "XL winter survivor mask" },
-    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Quite warm, it provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "weight": "1062 g",
-    "volume": "1250 ml",
-    "price": 24000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "material": [ "kevlar_layered", "fur" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 75,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
-  },
-  {
-    "id": "mask_wsurvivorxs",
-    "type": "TOOL_ARMOR",
-    "copy-from": "mask_wsurvivor",
-    "looks_like": "mask_wsurvivor",
-    "name": { "str": "XS winter survivor mask" },
-    "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, provides excellent protection from smoke, tear gas, and shrapnel.  It must be prepared before use.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PADDED", "UNRESTRICTED" ]
   },
   {
     "id": "goggles_nv",
@@ -2339,7 +2389,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
@@ -2376,7 +2426,7 @@
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "375 mW",
     "revert_to": "goggles_nv",
@@ -2392,7 +2442,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
@@ -2429,7 +2479,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
@@ -3378,8 +3428,8 @@
   {
     "id": "scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "scuba tank" },
+    "category": "clothing",
+    "name": { "str": "diving cylinder" },
     "looks_like": "oxygen_tank",
     "description": "A high-pressure 232 bar diving tank that can contain up to 12L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "weight": "16000 g",
@@ -3405,8 +3455,8 @@
   {
     "id": "scuba_tank_on",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "scuba tank (on)", "str_pl": "scuba tanks (on)" },
+    "category": "clothing",
+    "name": { "str": "diving cylinder (on)", "str_pl": "diving cylinders (on)" },
     "description": "A high-pressure 232 bar diving tank that can contain up to 12L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "oxygen_tank",
     "weight": "16000 g",
@@ -3438,8 +3488,8 @@
   {
     "id": "small_scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "small scuba tank" },
+    "category": "clothing",
+    "name": { "str": "small diving cylinder" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
     "weight": "7000 g",
@@ -3465,8 +3515,8 @@
   {
     "id": "small_scuba_tank_on",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "small scuba tank (on)", "str_pl": "small scuba tanks (on)" },
+    "category": "clothing",
+    "name": { "str": "small diving cylinder (on)", "str_pl": "small diving cylinders (on)" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
     "weight": "7000 g",

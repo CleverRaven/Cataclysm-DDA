@@ -118,6 +118,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void digest_food();
+        void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -131,6 +132,7 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
         int get_eff_per() const override;
+        void witness_thievery( item *it ) override;
 
         float get_mountable_weight_ratio() const;
 
@@ -159,7 +161,8 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( const mon_flag_id &f ) const override; // Returns true if f is set (see mtype.h)
+        // // Returns true if f is set (see mtype.h)
+        bool has_flag( const mon_flag_id &f ) const final;
         // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
         bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
@@ -181,6 +184,9 @@ class monster : public Creature
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool shearable() const;
+        bool is_pet() const;
+        bool is_pet_follow() const;
+        bool has_intelligence() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -200,10 +206,14 @@ class monster : public Creature
          * will_move_to() checks for impassable terrain etc
          * can_reach_to() checks for z-level difference.
          * can_move_to() is a wrapper for both of them.
+         * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
         bool can_move_to( const tripoint &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
+        bool know_danger_at( const tripoint &p ) const;
+
+        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -486,8 +496,11 @@ class monster : public Creature
 
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
+        bool is_fae() const override;    // true if the monster is a faerie creature
+
         bool is_nether() const override;    // true if the monster is from the nether
 
+        bool has_mind() const override;    // true if the monster is sapient and capable of reason
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -596,7 +609,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        std::unordered_set<tripoint> get_path_avoid() const override;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -618,6 +631,23 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+
+        // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
+        time_point pathfinding_cd = calendar::turn;
+        time_duration pathfinding_backoff = 2_seconds;
+
+        bool can_pathfind() const {
+            return pathfinding_cd <= calendar::turn;
+        }
+        void reset_pathfinding_cd() {
+            pathfinding_cd = calendar::turn;
+            pathfinding_backoff = 2_seconds;
+        }
+        void increment_pathfinding_cd() {
+            pathfinding_cd = calendar::turn + pathfinding_backoff;
+            pathfinding_backoff = std::min( pathfinding_backoff * 2, 10_seconds );
+        }
+
         /** patrol points for monsters that can pathfind and have a patrol route! **/
         std::vector<tripoint_abs_ms> patrol_route;
         int next_patrol_point = -1;

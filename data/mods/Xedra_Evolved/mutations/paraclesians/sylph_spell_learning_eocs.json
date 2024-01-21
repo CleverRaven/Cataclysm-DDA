@@ -1,0 +1,349 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be outside above ground level or anywhere the wind is blowing strongly",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SYLPH" },
+        {
+          "u_has_any_trait": [
+            "CLAP_OF_THUNDER",
+            "OMINOUS_WIND",
+            "PUSHING_WIND",
+            "ELECTRICAL_EMISSIONS",
+            "ELECTRICAL_FIELD",
+            "air_sprite",
+            "SYLPH_CHARGE_DASH",
+            "CLOUD_OF_STEAM_SYLPH",
+            "CREATE_LIGHT_SYLPH",
+            "SYLPH_MASSIVE_LIGHTNING_BLAST",
+            "WIND_BLOWS_WILLOW_BENDS",
+            "SYLPH_CULTIVATE_GOBLIN_FRUIT",
+            "PARACLESIAN_MAKE_GOSSAMER"
+          ]
+        },
+        {
+          "or": [
+            { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, "u_is_outside" ] },
+            { "and": [ { "math": [ "weather('windpower')", ">=", "15" ] }, "u_is_outside" ] },
+            {
+              "and": [
+                "u_is_outside",
+                {
+                  "or": [
+                    { "is_weather": "thunder" },
+                    { "is_weather": "lightning" },
+                    { "is_weather": "rain" },
+                    { "is_weather": "rainstorm" },
+                    { "is_weather": "drizzle" }
+                  ]
+                }
+              ]
+            },
+            { "u_at_om_location": "sylph_genius_loci_NW" },
+            { "u_at_om_location": "sylph_genius_loci_NE" },
+            { "u_at_om_location": "sylph_genius_loci_SW" },
+            { "u_at_om_location": "sylph_genius_loci_SE" }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SYLPH" } },
+    "effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Sylph knows. Probability is [11-Difficulty]",
+    "condition": {
+      "or": [
+        { "math": [ "u_spell_level('clap_of_thunder')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('ominous_wind')", "<", "20" ] },
+        { "math": [ "u_spell_level('pushing_wind')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('zap_electrical_emission')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('summon_air_sprite')", "<", "35" ] },
+        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_sylph')", "<", "35" ] },
+        { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] },
+        { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] },
+        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_LEVELER_SYLPH_CLAP_OF_THUNDER", 8 ],
+        [ "EOC_LEVELER_SYLPH_OMINOUS_WIND", 11 ],
+        [ "EOC_LEVELER_SYLPH_PUSHING_WIND", 9 ],
+        [ "EOC_LEVELER_SYLPH_ELECTRICAL_EMISSIONS", 10 ],
+        [ "EOC_LEVELER_SYLPH_SUMMON_AIR_SPRITE", 8 ],
+        [ "EOC_LEVELER_SYLPH_CHARGE_DASH", 9 ],
+        [ "EOC_LEVELER_SYLPH_CLOUD_OF_STEAM", 7 ],
+        [ "EOC_LEVELER_SYLPH_CREATE_LIGHT", 9 ],
+        [ "EOC_LEVELER_SYLPH_CALL_LIGHTNING", 5 ],
+        [ "EOC_LEVELER_SYLPH_CRASH_OF_LIGHTNING", 5 ],
+        [ "EOC_LEVELER_SYLPH_MASSIVE_LIGHTNING_BLAST", 2 ],
+        [ "EOC_LEVELER_SLYPH_WIND_BLOWS_WILLOW_BENDS", 6 ],
+        [ "EOC_LEVELER_SYLPH_CULTIVATE_GOBLIN_FRUIT", 3 ],
+        [ "EOC_LEVELER_SYLPH_MAKE_GOSSAMER", 4 ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CLAP_OF_THUNDER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('clap_of_thunder')", ">=", "0" ] },
+        { "math": [ "u_spell_level('clap_of_thunder')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('clap_of_thunder')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_OMINOUS_WIND",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ominous_wind')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ominous_wind')", "<", "20" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ominous_wind')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_PUSHING_WIND",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('pushing_wind')", ">=", "0" ] },
+        { "math": [ "u_spell_level('pushing_wind')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('pushing_wind')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_ELECTRICAL_EMISSIONS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('zap_electrical_emission')", ">=", "0" ] },
+        { "math": [ "u_spell_level('zap_electrical_emission')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('zap_electrical_emission')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CHARGE_DASH",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_charge_dash_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_charge_dash_spell')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_charge_dash_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_SUMMON_AIR_SPRITE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('summon_air_sprite')", ">=", "0" ] },
+        { "math": [ "u_spell_level('summon_air_sprite')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('summon_air_sprite')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CLOUD_OF_STEAM",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('cloud_of_steam_sylph')", ">=", "0" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_sylph')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('cloud_of_steam_sylph')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CREATE_LIGHT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('create_light_sylph')", ">=", "0" ] },
+        { "math": [ "u_spell_level('create_light_sylph')", "<", "20" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('create_light_sylph')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CALL_LIGHTNING",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_call_lightning')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_call_lightning')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_call_lightning')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CRASH_OF_LIGHTNING",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_crash_of_lightning')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_crash_of_lightning')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_crash_of_lightning')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_MASSIVE_LIGHTNING_BLAST",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_massive_lightning_bolt_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SLYPH_WIND_BLOWS_WILLOW_BENDS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CULTIVATE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  }
+]

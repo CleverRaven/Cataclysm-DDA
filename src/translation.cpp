@@ -162,6 +162,15 @@ void translation::deserialize( const JsonValue &jsin )
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
+        if( std::optional<JsonValue> comments = jsobj.get_member_opt( "//~" );
+            comments.has_value() && !comments->test_string() ) {
+            // Ensure we have a string and mark the member as visited in the process
+            try {
+                jsobj.throw_error_at( "//~", "\"//~\" should be a string that contains comments for translators." );
+            } catch( const JsonError &e ) {
+                debugmsg( "(json-error)\n%s", e.what() );
+            }
+        }
         if( jsobj.has_member( "ctxt" ) ) {
             ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {

@@ -7,6 +7,13 @@
     "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
   },
   {
+    "id": "LOOT_DEFAULT",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Default",
+    "can_be_personal": true,
+    "description": "Destination for any loot without a more specific zone defined."
+  },
+  {
     "id": "LOOT_FOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Food",
@@ -75,6 +82,13 @@
     "name": "Loot: Tools",
     "can_be_personal": true,
     "description": "Destination for tools."
+  },
+  {
+    "id": "LOOT_TOOL_MAGAZINE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tool Magazines",
+    "can_be_personal": true,
+    "description": "Destination for tool magazines."
   },
   {
     "id": "LOOT_CLOTHING",

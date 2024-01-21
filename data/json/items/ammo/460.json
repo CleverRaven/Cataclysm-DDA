@@ -13,6 +13,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".460 Rowland" },
     "description": ".460 Rowland ammunition with a 185gr JHP bullet.  The .460 Rowland round is designed to emulate hard-hitting .44 Magnum in common autoloading pistols.  Like the .44, .460 Rowland has exceptional power - and recoil.  It is almost dimensionally identical to .45ACP, save for having a longer case and deeper-seated bullets to prevent ammunition mix-ups.",
+    "ascii_picture": "460_rowland",
     "ammo_type": "460",
     "casing": "460_casing",
     "proportional": { "range": 0.95, "damage": { "damage_type": "bullet", "amount": 0.95, "armor_penetration": 0.95 }, "recoil": 0.95 }

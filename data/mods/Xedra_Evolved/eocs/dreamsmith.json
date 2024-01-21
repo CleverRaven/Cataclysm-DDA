@@ -136,7 +136,8 @@
           "dreamforged_glaive_healing",
           "dreamforged_tsurugi_speed",
           "dreamforged_q_staff_exp",
-          "dreamforged_armguard_plate_gunslinger"
+          "dreamforged_armguard_plate_gunslinger",
+          "dreamforged_bed_of_restful_repose"
         ],
         "type": "recipe",
         "true_eocs": {

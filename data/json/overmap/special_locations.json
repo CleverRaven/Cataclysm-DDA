@@ -107,16 +107,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "railroad",
-    "terrains": [ "railroad" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "railroad_level_crossing_allowed",
-    "terrains": [ "road" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "lake_surface",
     "terrains": [ "lake_surface" ]
   },
@@ -134,6 +124,26 @@
     "type": "overmap_location",
     "id": "lake_shore",
     "terrains": [ "lake_shore" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_surface",
+    "terrains": [ "ocean_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_water_cube",
+    "terrains": [ "ocean_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_bed",
+    "terrains": [ "ocean_bed" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_shore",
+    "terrains": [ "ocean_shore" ]
   },
   {
     "type": "overmap_location",

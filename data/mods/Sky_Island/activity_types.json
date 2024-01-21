@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ACT_WARP_HOME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "warping",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_return_OM_teleport_check"
+  }
+]

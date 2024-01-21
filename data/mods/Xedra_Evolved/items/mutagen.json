@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mutagen_earthkin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Ierde destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Ierde draught.",
+      "vitamins": [ [ "mutagen_earthkin", 550 ], [ "mutagen", 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_plantkin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Arvore destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Arvore draught.",
+      "vitamins": [ [ "mutagen_plantkin", 550 ], [ "mutagen", 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_waterkin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Undine destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Undine draught.",
+      "vitamins": [ [ "mutagen_waterkin", 550 ], [ "mutagen", 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_flamekin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Salamander destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Salamander draught.",
+      "vitamins": [ [ "mutagen_flamekin", 550 ], [ "mutagen", 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_dollkin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Homullus destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Homullus draught.",
+      "vitamins": [ [ "mutagen_dollkin", 550 ], [ "mutagen", 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_airkin",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Sylph destiny draught",
+    "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the Sylph draught.",
+      "vitamins": [ [ "mutagen_airkin", 550 ], [ "mutagen", 550 ] ]
+    }
+  }
+]

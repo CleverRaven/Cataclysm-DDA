@@ -237,7 +237,7 @@
     "item": "xlframe",
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
+    "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {
@@ -263,7 +263,7 @@
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "folded_volume": "2500 ml",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
+    "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {

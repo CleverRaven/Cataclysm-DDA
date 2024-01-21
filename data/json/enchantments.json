@@ -29,12 +29,6 @@
   },
   {
     "type": "enchantment",
-    "id": "ENCH_GASTROPOD_FOOT",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
-  },
-  {
-    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -48,15 +42,6 @@
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
-  },
-  {
-    "id": "ench_climate_control_cold",
-    "type": "enchantment",
-    "name": { "str": "Warm Climate Control" },
-    "description": "You are wearing equipment that helps handle harsh climates.",
-    "has": "WORN",
-    "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
   },
   {
     "id": "ench_climate_control_warm",
@@ -120,5 +105,13 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "id": "ench_wings_insect_active",
+    "type": "enchantment",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "Your rapidly buzzing wings propel you with extra speed.",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
   }
 ]

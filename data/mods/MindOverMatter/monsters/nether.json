@@ -18,7 +18,7 @@
     "morale": 100,
     "aggression": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 8,
+    "dodge": 6,
     "armor": { "stab": 10, "bullet": 100 },
     "bleed_rate": 0,
     "vision_day": 30,
@@ -30,7 +30,7 @@
         "type": "spell",
         "spell_data": { "id": "eater_drain_monster", "min_level": 5 },
         "cooldown": 3,
-        "monster_message": "The eater's fronds lazily drift in your direction."
+        "monster_message": "The eater's fronds lazily drift to and fro."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -45,7 +45,6 @@
       "PATH_AVOID_DANGER_2",
       "ACIDPROOF",
       "HARDTOSHOOT",
-      "PLASTIC",
       "NOGIB",
       "TEEP_IMMUNE"
     ]

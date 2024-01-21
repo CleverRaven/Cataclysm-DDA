@@ -185,7 +185,6 @@ int itype::tick( Character *p, item &it, const tripoint &pos ) const
         charges_to_use += method.second.call( p, it, pos ).value_or( 0 );
     }
 
-
     return charges_to_use;
 }
 
@@ -211,8 +210,6 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
         return 0;
     }
     if( p ) {
-        p->invalidate_weight_carried_cache();
-
         const auto ret = use->can_call( *p, it, pos );
 
         if( !ret.success() ) {

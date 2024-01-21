@@ -763,9 +763,9 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 6 ] ],
-      [ [ "irradiated_tomato", 4 ], [ "can_tomato", 4 ], [ "tomato_cut", 4 ], [ "tomato", 4 ] ],
-      [ [ "irradiated_broccoli", 4 ], [ "broccoli", 4 ] ],
-      [ [ "irradiated_zucchini", 4 ], [ "zucchini", 4 ], [ "zucchini_cut", 4 ] ],
+      [ [ "can_tomato", 4 ], [ "tomato_cut", 4 ], [ "tomato", 4 ] ],
+      [ [ "broccoli", 4 ] ],
+      [ [ "zucchini", 4 ], [ "zucchini_cut", 4 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -792,7 +792,7 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 12 ] ],
-      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ],
+      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -818,7 +818,7 @@
     "//2": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ],
+      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ] ],
       [ [ "water_clean", 2 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
@@ -846,7 +846,7 @@
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ], [ "tomato_cut", 4 ] ],
+      [ [ "tomato", 4 ], [ "tomato_cut", 4 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
   },
@@ -873,7 +873,7 @@
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ], [ "tomato_cut", 24 ] ],
+      [ [ "tomato", 24 ], [ "tomato_cut", 24 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -955,23 +955,17 @@
         [ "mushroom", 2 ],
         [ "tomato", 2 ],
         [ "tomato_cut", 2 ],
-        [ "irradiated_tomato", 2 ],
         [ "broccoli", 2 ],
-        [ "irradiated_broccoli", 2 ],
         [ "zucchini_cut", 2 ],
         [ "zucchini", 2 ],
-        [ "irradiated_zucchini", 2 ],
         [ "cucumber_cut", 2 ],
         [ "cucumber", 2 ],
-        [ "irradiated_cucumber", 2 ],
         [ "veggy_potatolike", 2, "LIST" ],
         [ "corn", 2 ],
-        [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
-        [ "irradiated_onion", 2 ],
         [ "wild_garlic", 4 ],
         [ "garlic_clove", 12 ],
-        [ "irradiated_carrot", 4 ],
+        [ "rehydrated_garlic", 12 ],
         [ "carrot", 4 ]
       ],
       [ [ "vinegar", 16 ] ]
@@ -1004,23 +998,17 @@
         [ "mushroom", 12 ],
         [ "tomato", 12 ],
         [ "tomato_cut", 12 ],
-        [ "irradiated_tomato", 12 ],
         [ "broccoli", 12 ],
-        [ "irradiated_broccoli", 12 ],
         [ "zucchini_cut", 12 ],
         [ "zucchini", 12 ],
-        [ "irradiated_zucchini", 12 ],
         [ "cucumber_cut", 12 ],
         [ "cucumber", 12 ],
-        [ "irradiated_cucumber", 12 ],
         [ "veggy_potatolike", 12, "LIST" ],
         [ "corn", 12 ],
-        [ "irradiated_corn", 12 ],
         [ "onion", 12 ],
-        [ "irradiated_onion", 12 ],
         [ "wild_garlic", 24 ],
         [ "garlic_clove", 72 ],
-        [ "irradiated_carrot", 24 ],
+        [ "rehydrated_garlic", 72 ],
         [ "carrot", 24 ]
       ],
       [ [ "vinegar", 96 ] ]
@@ -1236,16 +1224,11 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
-    "components": [
-      [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "irradiated_cranberries", 36 ], [ "cranberries", 36 ] ],
-      [ [ "water_clean", 12 ] ]
-    ]
+    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "cranberries", 36 ] ], [ [ "water_clean", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -1263,8 +1246,7 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
@@ -1286,8 +1268,7 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
@@ -1298,7 +1279,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water_clean", 12 ], [ "juice_pulp", 24 ] ],
+    "byproducts": [ [ "water_clean", 12 ], [ "juice_pulp", 192 ] ],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1309,12 +1290,11 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "irradiated_orange", 24 ], [ "orange", 24 ] ], [ [ "water_clean", 6 ] ] ]
+    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "orange", 48 ] ], [ [ "water_clean", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1332,12 +1312,11 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "cranberries", 6 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1355,12 +1334,11 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "irradiated_apple", 4 ], [ "apple", 4 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "apple", 4 ], [ "crabapple", 20 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1379,14 +1357,13 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "irradiated_apple", 24 ], [ "apple", 24 ] ],
+      [ [ "apple", 24 ], [ "crabapple", 120 ] ],
       [ [ "water", 16 ], [ "water_clean", 16 ] ]
     ]
   },
@@ -1447,7 +1424,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water_clean", 2 ], [ "juice_pulp", 4 ] ],
+    "byproducts": [ [ "water_clean", 2 ], [ "juice_pulp", 32 ] ],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1458,12 +1435,11 @@
     "book_learn": [ [ "preserving_juice", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "STRAIN", "level": 2 } ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "orange", 8 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "//0": "--------------------Tin can recipes begin here--------------------",
@@ -1997,7 +1973,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "charges": 2,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 2 ], [ "tomato_cut", 2 ], [ "irradiated_tomato", 2 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 2 ], [ "tomato_cut", 2 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2017,7 +1993,7 @@
     "container": "can_medium",
     "batch_time_factors": [ 83, 5 ],
     "charges": 4,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 4 ], [ "tomato_cut", 4 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2037,7 +2013,7 @@
     "container": "can_food_big",
     "batch_time_factors": [ 83, 5 ],
     "charges": 24,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 24 ], [ "tomato_cut", 24 ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2251,7 +2227,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ], [ [ "water_clean", 5 ] ] ],
+    "components": [ [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ] ], [ [ "water_clean", 5 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2271,7 +2247,7 @@
     "container": "can_food",
     "charges": 4,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "tomato_cut", 2 ], [ "irradiated_tomato", 2 ] ], [ [ "water_clean", 3 ] ] ],
+    "components": [ [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "tomato_cut", 2 ] ], [ [ "water_clean", 3 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2291,10 +2267,7 @@
     "container": "can_food_big",
     "charges": 48,
     "batch_time_factors": [ 83, 5 ],
-    "components": [
-      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ],
-      [ [ "water_clean", 30 ] ]
-    ],
+    "components": [ [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ] ], [ [ "water_clean", 30 ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2520,8 +2493,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_apple", 4 ], [ "apple", 4 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 4 ], [ "crabapple", 20 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2542,8 +2515,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "apple", 2 ], [ "crabapple", 10 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2564,8 +2537,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_apple", 24 ], [ "apple", 24 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "apple", 24 ], [ "crabapple", 120 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
@@ -2574,7 +2547,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 32 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2586,8 +2559,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 8 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2596,7 +2569,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned_small",
-    "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 16 ], [ "water_clean", 1 ] ],
     "container": "can_food",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2608,8 +2581,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "orange", 4 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2618,7 +2591,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "oj_fresh",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
+    "byproducts": [ [ "juice_pulp", 192 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2630,8 +2603,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_orange", 24 ], [ "orange", 24 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "orange", 48 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },
@@ -2652,7 +2625,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
@@ -2674,7 +2647,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
@@ -2696,7 +2669,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water_clean", 13 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
@@ -2777,8 +2750,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "cranberries", 6 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2799,8 +2772,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "irradiated_cranberries", 3 ], [ "cranberries", 3 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "cranberries", 3 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2821,8 +2794,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "irradiated_cranberries", 36 ], [ "cranberries", 36 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "cranberries", 36 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   }

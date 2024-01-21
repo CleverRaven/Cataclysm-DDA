@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_nether_glass_event",
+    "recurrence": "10 seconds",
+    "condition": {
+      "or": [
+        { "u_at_om_location": "nether_glass" },
+        { "u_at_om_location": "nether_glass_deep" },
+        { "u_at_om_location": "microlab_portal_elevator_nether_glass" }
+      ]
+    },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_nether_glass_no_map",
+          "effect": { "place_override": { "global_val": "place_name", "default_str": "lost level" }, "length": "10 seconds" }
+        },
+        {
+          "id": "EOC_nether_glass_lost_tp",
+          "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 5 } }, { "u_at_om_location": "nether_glass_deep" } ] },
+          "effect": [
+            {
+              "u_location_variable": { "global_val": "glass_place" },
+              "target_params": { "om_terrain": "nether_glass_deep", "search_range": 20, "min_distance": 3, "z": -10 }
+            },
+            {
+              "u_teleport": { "global_val": "glass_place" },
+              "fail_message": "Something is very wrong!",
+              "force": true
+            }
+          ]
+        },
+        {
+          "id": "EOC_nether_glass_yrax_encounter",
+          "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 250 } }, { "u_at_om_location": "nether_glass_deep" } ] },
+          "effect": [
+            { "u_add_var": "u_met_apeirohedra", "type": "general", "context": "yrax", "value": "yes" },
+            { "run_eocs": [ "capture_generic_nre_anomaly" ] },
+            {
+              "u_spawn_monster": "mon_yrax_apeirogon",
+              "real_count": 1,
+              "min_radius": 3,
+              "max_radius": 10,
+              "lifespan": [ "40 seconds", "2 minutes" ],
+              "spawn_message": "The emptiness yields before an all-encompassing construct.",
+              "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
+            },
+            {
+              "u_spawn_monster": "mon_yrax_trifacet",
+              "real_count": 15,
+              "min_radius": 3,
+              "max_radius": 20,
+              "lifespan": [ "40 seconds", "2 minutes" ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

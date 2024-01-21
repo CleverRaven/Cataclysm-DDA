@@ -24,7 +24,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey, look who's back.", "Hey again.", "Oh, hey, it's you again." ],
+      "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
       "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
     },
     "responses": [

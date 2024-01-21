@@ -22,6 +22,8 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx
+# Emscripten
+#   Run: make NATIVE=emscripten
 
 # Build types:
 # Debug (no optimizations)
@@ -112,6 +114,10 @@ WARNINGS = \
   -Wno-unknown-warning-option \
   -Wno-dangling-reference \
   -Wno-c++20-compat
+ifeq ($(NATIVE), emscripten)
+  # The EM_ASM macro triggers this warning.
+  WARNINGS += -Wno-gnu-zero-variadic-macro-arguments
+endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -140,10 +146,13 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.F
+VERSION = 0.I
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
+ifeq ($(NATIVE), emscripten)
+  TILES_TARGET_NAME = $(TARGET_NAME)-tiles.js
+endif
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
 TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME)
@@ -389,6 +398,8 @@ ifeq ($(RELEASE), 1)
     else
       OPTLEVEL = -O3
     endif
+  else ifeq ($(NATIVE), emscripten)
+    OPTLEVEL = -Os
   else
     # MXE ICE Workaround
     # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
@@ -435,7 +446,7 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    ifeq ($(LIBBACKTRACE), 1)
+    ifeq ($(BACKTRACE), 1)
       DEBUGSYMS = -g1
     else
       DEBUGSYMS =
@@ -457,7 +468,9 @@ else
     # way to turn off optimization (make NOOPT=1) entirely.
     OPTLEVEL = -O0
   else
-    ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+    ifeq ($(NATIVE),emscripten)
+      OPTLEVEL = -O3
+    else ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
       OPTLEVEL = -Og
     else
       OPTLEVEL = -O0
@@ -618,6 +631,47 @@ ifeq ($(NATIVE), cygwin)
   TARGETSYSTEM=CYGWIN
 endif
 
+# Emscripten
+ifeq ($(NATIVE), emscripten)
+  CXX=emcc
+  LD=emcc
+
+  # Flags that are common across compile and link phases.
+  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png']
+
+  ifneq ($(RELEASE), 1)
+    EMCC_COMMON_FLAGS += -g
+  endif
+
+  CXXFLAGS += $(EMCC_COMMON_FLAGS)
+  LDFLAGS += $(EMCC_COMMON_FLAGS)
+
+  LDFLAGS += --preload-file web_bundle@/
+  LDFLAGS += -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
+  LDFLAGS += -sINITIAL_MEMORY=512MB
+  LDFLAGS += -sMAXIMUM_MEMORY=4GB
+  LDFLAGS += -sALLOW_MEMORY_GROWTH
+  LDFLAGS += -sSTACK_SIZE=262144
+  LDFLAGS += -sASYNCIFY
+  LDFLAGS += -sASYNCIFY_STACK_SIZE=16384
+  LDFLAGS += -sENVIRONMENT=web
+  LDFLAGS += -lidbfs.js
+  LDFLAGS += -lembind
+  LDFLAGS += -sWASM_BIGINT # Browser will require BigInt support.
+  LDFLAGS += -sMAX_WEBGL_VERSION=2
+
+  ifeq ($(RELEASE), 1)
+    # Release-mode Linker flags.
+    LDFLAGS += -Os
+    LDFLAGS += -sLZ4
+  else
+    # Debug mode linker flags.
+    LDFLAGS += -O1 # Emscripten link time is slow, so use low optimization level.
+    LDFLAGS += -sFS_DEBUG
+    LDFLAGS += -gseparate-dwarf
+  endif
+endif
+
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
@@ -716,7 +770,7 @@ ifeq ($(TILES), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
-  else # not osx
+  else ifneq ($(NATIVE),emscripten)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
@@ -822,6 +876,9 @@ ifeq ($(BACKTRACE),1)
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
       LDFLAGS += -lbacktrace
+      ifneq ("$(wildcard LICENSE-libbacktrace.txt)","")
+        BINDIST_EXTRAS += LICENSE-libbacktrace.txt
+      endif
   endif
 endif
 
@@ -857,6 +914,8 @@ else
 endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
+OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
+OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
@@ -870,6 +929,8 @@ CLANG_TIDY_PLUGIN_HEADERS := \
 ASTYLE_SOURCES := $(sort \
   $(SOURCES) \
   $(HEADERS) \
+  $(OBJECT_CREATOR_SOURCES) \
+  $(OBJECT_CREATOR_HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
@@ -957,7 +1018,9 @@ $(TARGET): $(OBJS)
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
+      ifneq ($(NATIVE), emscripten)
 	$(STRIP) $(TARGET)
+      endif
     endif
   endif
 endif
@@ -1027,7 +1090,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator clean-pch
+clean: clean-tests clean-object_creator clean-pch clean-lang
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1302,6 +1365,9 @@ clean-tests:
 object_creator: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C object_creator
 
+object_creator.exe: version $(BUILD_PREFIX)cataclysm.a
+	$(MAKE) -C object_creator object_creator.exe
+
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
@@ -1311,6 +1377,9 @@ clean-pch:
 	rm -f pch/*pch.hpp.d
 	$(MAKE) -C tests clean-pch
 
-.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
+clean-lang:
+	$(MAKE) -C lang clean
+
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch clean-lang install lint
 
 -include ${OBJS:.o=.d}

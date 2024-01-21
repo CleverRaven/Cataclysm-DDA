@@ -32,6 +32,7 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+        void temp_hide();
 
         /**
          * Converts from screen relative location to game-space relative location
@@ -149,17 +150,13 @@ class advanced_inventory
 
         bool move_all_items();
         /**
-        * Fills drop_or_stash_item_info lists with the current contents of the active pane, for use with move_all_items.
-        * @param player_character Reference to the player character.
-        * @param spane Reference to the active AIM pane.
-        * @param item_list Reference to the list to fill with items.
-        * @param fav_list Reference to the list to fill with favorited items.
-        * @param filter_buckets Whether to skip over containers that would spill in certain locations.
-        * @return a string description of why some items were skipped, if any.
+        * Fills drop_or_stash_item_info vectors with the contents of the AIM's panes, for use with move_all_items.
         */
-        std::string fill_lists_with_pane_items( side &p, Character &player_character,
-                                                std::vector<drop_or_stash_item_info> &item_list,
-                                                std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets );
+        bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
+                                         advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+                                         std::vector<drop_or_stash_item_info> &item_list,
+                                         std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets );
+
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
@@ -189,12 +186,6 @@ class advanced_inventory
          * actual location has been queried).
          */
         bool query_destination( aim_location &def );
-        /**
-         * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src_container Source container
-         * @param dest_container Destination container
-         */
-        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

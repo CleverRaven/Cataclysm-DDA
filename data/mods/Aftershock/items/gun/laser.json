@@ -132,6 +132,7 @@
     "price_postapoc": "500 USD",
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "heat", "amount": 5 },
+    "overheat_threshold": 150,
     "range": 15,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
@@ -148,7 +149,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_archeotech_laspistol",
@@ -163,6 +165,7 @@
     "volume": "750 ml",
     "ranged_damage": [ { "damage_type": "pure", "amount": 5 }, { "damage_type": "heat", "amount": 20 } ],
     "range": 20,
+    "overheat_threshold": 150,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
     "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
@@ -179,7 +182,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_explosive_pumped_laser",
@@ -206,7 +210,7 @@
     "clip_size": 1,
     "reload": 300,
     "loudness": 200,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_82mm_flashbulb": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -220,13 +224,16 @@
     "price_postapoc": "2 kUSD",
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "heat", "amount": 35 },
+    "overheat_threshold": 100,
+    "cooling_value": 1,
+    "heat_per_shot": 20,
     "volume": "3 L",
     "range": 37,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },
     "ammo_to_fire": 0,
     "energy_drain": "50 kJ",
-    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
     "pocket_data": [
       {
@@ -263,7 +270,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "afs_a7",

@@ -135,5 +135,43 @@
       ],
       [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_druid_arrow",
+    "type": "requirement",
+    "//": "Sticks for the for the Harvest of the Hunter spell",
+    "components": [
+      [
+        [ "pine_bough", 2 ],
+        [ "stick", 1 ],
+        [ "stick_long", 1 ],
+        [ "stick_fiber", 2 ],
+        [ "alder_bark", 5 ],
+        [ "tanbark", 5 ],
+        [ "birchbark", 5 ],
+        [ "willowbark", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_magus_mark",
+    "type": "requirement",
+    "components": [ [ [ "crystallized_mana", 10 ] ] ]
+  },
+  {
+    "id": "spell_components_word_of_recall",
+    "type": "requirement",
+    "components": [ [ [ "crystallized_mana", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_remove_instability",
+    "type": "requirement",
+    "components": [ [ [ "purifier", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bramble_spear",
+    "type": "requirement",
+    "//": "Sticks to turn into a bramble spear",
+    "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
   }
 ]

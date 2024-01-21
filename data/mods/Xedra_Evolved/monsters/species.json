@@ -7,6 +7,42 @@
   },
   {
     "type": "SPECIES",
+    "id": "IERDE",
+    "description": "an earth elemental spirit",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "UNDINE",
+    "description": "a water elemental spirit",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ARVORE",
+    "description": "a plant elemental spirit",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SALAMANDER",
+    "description": "a fire elemental spirit",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "HOMULLUS",
+    "description": "an elemental spirit of humanity",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "SYLPH",
+    "description": "an air elemental spirit",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "VAMPIRE",
     "description": "a variety of creatures that subsist off the blood of living humans",
     "flags": [ "NO_NECRO", "VAMP_VIRUS" ],

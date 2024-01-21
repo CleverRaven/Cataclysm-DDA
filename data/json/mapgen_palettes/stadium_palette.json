@@ -83,7 +83,7 @@
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "furniture": {
-      "z": "f_water_heater",
+      "z": "f_water_heater_family",
       "b": "f_metal_bench",
       "B": "f_bench",
       "8": "f_bench",

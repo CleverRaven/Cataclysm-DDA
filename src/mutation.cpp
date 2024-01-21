@@ -57,11 +57,15 @@ static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
+
+static const move_mode_id move_mode_prone( "prone" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
+static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
@@ -195,6 +199,7 @@ void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
     if( not_found_in_mutations ) {
         set_mutation( trait, trait->variant( var_ ) );
     } else {
+        get_event_bus().send<event_type::loses_mutation>( getID(), trait );
         unset_mutation( trait );
     }
 }
@@ -871,37 +876,49 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
-    } else if( mut == trait_TREE_COMMUNION ) {
+    } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
-            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
-            return;
-        }
         // Check for adjacent trees.
         bool adjacent_tree = false;
+        bool adjacent_mutant_tree = false;
         map &here = get_map();
         for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
+            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
+                adjacent_mutant_tree = true;
+            }
         }
-        if( !adjacent_tree ) {
-            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() && !adjacent_mutant_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
         }
 
-        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
-            has_flag( json_flag_CHLOROMORPH ) ) {
+        if( !adjacent_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that next to a fully grown tree." ) );
+            return;
+        }
+
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
+            add_msg_if_player( _( "You close your eyes and reach out to the spirits of the forest." ) );
+        } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+                   has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
+            set_movement_mode( move_mode_prone );
             add_msg_if_player(
-                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+                _( "You lie down, letting your hair roots tangle with the tree's." ) );
         }
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
-            has_flag( json_flag_CHLOROMORPH ) ) {
+        if( has_flag( json_flag_TREE_COMMUNION_PLUS ) ) {
+            const time_duration startup_time = rng( 10_minutes, 20_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+                   has_flag( json_flag_CHLOROMORPH ) ) {
             const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
                                                  has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
                                                          30_minutes ) : rng( 60_minutes, 90_minutes );
@@ -1075,11 +1092,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     bool allow_good = false;
     bool allow_bad = false;
     bool allow_neutral = true;
+    bool try_opposite = true;
 
     if( select_mutation ) {
         // Mutation selector overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
+        try_opposite = false;
     } else if( roll_bad_mutation() ) {
         // If we picked bad, mutation can be bad or neutral
         allow_bad = true;
@@ -1098,6 +1117,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         allow_good = true; // because i'm WILD YEAH
         allow_bad = true;
         allow_neutral = true;
+        try_opposite = false;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
@@ -1114,6 +1134,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
+        try_opposite = false;
     }
 
     std::vector<trait_id> valid; // Valid mutations
@@ -1236,6 +1257,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
         if( valid.empty() ) {
+            if( try_opposite && cat_list.get_weight() == 0 ) {
+                // Rebuild cat_list to try opposite in case good or bad mutation candidates are exhausted.
+                try_opposite = false;
+                allow_good = !allow_good;
+                allow_bad = !allow_bad;
+                cat_list = get_vitamin_weighted_categories();
+            }
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
                 cat = *cat_list.pick();
@@ -1459,9 +1487,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     bool c_has_both_prereqs = false;
     bool c_has_prereq1 = false;
     bool c_has_prereq2 = false;
+    bool c_has_prevented_by = false;
     std::vector<trait_id> canceltrait;
     std::vector<trait_id> prereqs1 = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
+    std::vector<trait_id> prevented_by = mdata.prevented_by;
     std::vector<trait_id> cancel = mdata.cancels;
     std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
@@ -1477,6 +1507,14 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: same-typed trait %s added to cancel list",
                            consider.c_str() );
             cancel.push_back( consider );
+        }
+    }
+
+    for( size_t i = 0; ( !c_has_prevented_by ) && i < prevented_by.size(); i++ ) {
+        if( has_trait( prevented_by[i] ) ) {
+            add_msg_debug( debugmode::DF_MUTATION,
+                           "mutate_towards: tried to gain %s, but it's prevented by an existing mutation.", mdata.id.c_str() );
+            return false;
         }
     }
 
@@ -1749,6 +1787,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), replace_mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
@@ -1789,6 +1828,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), replace_mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
     }
@@ -1817,6 +1857,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                                    lost_name );
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), cancel_mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
     }
@@ -2051,6 +2092,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
+    get_event_bus().send<event_type::loses_mutation>( getID(), mut );
     unset_mutation( mut );
 
     bool mutation_replaced = false;
@@ -2234,6 +2276,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
                 // Thresholds can cancel unpurifiable traits
                 for( const trait_id &canceled : thrdata.cancels ) {
+                    get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
                     unset_mutation( canceled );
                 }
                 set_mutation( mutation_thresh );
@@ -2306,6 +2349,7 @@ void Character::give_all_mutations( const mutation_category_trait &category,
 void Character::unset_all_mutations()
 {
     for( const trait_id &mut : get_mutations() ) {
+        get_event_bus().send<event_type::loses_mutation>( getID(), mut );
         unset_mutation( mut );
     }
 }
@@ -2345,12 +2389,11 @@ void Character::customize_appearance( customize_appearance_choice choice )
                 char_has_trait = true;
             }
 
-            const std::string &entry_name = mutation_name( trait );
+            const std::string has_it = char_has_trait ? " *" : "";
 
             amenu.addentry(
                 i, true, MENU_AUTOASSIGN,
-                char_has_trait ? entry_name + " *" : entry_name
-            );
+                trait->variants.empty() ? mutation_name( trait ) + has_it : trait->name() + has_it );
         }
     };
 
@@ -2396,7 +2439,12 @@ void Character::customize_appearance( customize_appearance_choice choice )
         if( has_trait( current_trait ) ) {
             remove_mutation( current_trait );
         }
-        set_mutation( trait_selected );
+        if( !trait_selected->variants.empty() ) {
+            const mutation_variant *variant = trait_selected->pick_variant_menu();
+            set_mutation( trait_selected, variant );
+        } else {
+            set_mutation( trait_selected );
+        }
         if( one_in( 3 ) ) {
             add_msg( m_neutral, end_message );
         }
@@ -2418,4 +2466,3 @@ std::string Character::visible_mutations( const int visibility_cap ) const
         return std::string();
     } );
 }
-

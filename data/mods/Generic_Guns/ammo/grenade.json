@@ -13,7 +13,7 @@
     "type": "AMMO",
     "name": { "str": "HEDP grenade cartridge" },
     "description": "A grenade cartridge with a high explosive dual purpose load, capable of producing good penetration and a high number of damaging fragments.  Good for armored or soft targets.",
-    "extend": { "effects": [ "FRAG", "EXPLOSIVE" ] }
+    "extend": { "effects": [ "FRAG_20x66", "EXPLOSIVE", "SPECIAL_COOKOFF" ] }
   },
   {
     "id": "grenade_ammo_beanbag",

@@ -112,5 +112,11 @@
     "type": "scenario",
     "extend": { "professions": [ "magic_miner" ] },
     "id": "Mine_bottom"
+  },
+  {
+    "copy-from": "portal_dependent",
+    "type": "scenario",
+    "extend": { "professions": [ "dimensionalist" ] },
+    "id": "portal_dependent"
   }
 ]

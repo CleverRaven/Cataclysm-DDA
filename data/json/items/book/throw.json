@@ -9,15 +9,13 @@
       {
         "id": "mag_throwing",
         "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
-        "description": "A biannual magazine devoted to the art and science of discus-throwing.",
-        "weight": 1
+        "description": "A biannual magazine devoted to the art and science of discus-throwing."
       },
       {
         "id": "mag_throwing_1",
         "name": { "str": "The Perfect Throw", "str_pl": "copies of The Perfect Throw" },
         "description": "This book has pretty good information about ways to throw a hatchet, from a World Axe Throwing Championship champion.  You are surprised there was a championship for axe throwing.",
-        "//": "978-0578840550",
-        "weight": 1
+        "//": "978-0578840550"
       },
       {
         "id": "mag_throwing_2",
@@ -26,8 +24,7 @@
           "str_pl": "copies of Sergeant Shenk's Comprehensive Book on Knife Throwing"
         },
         "description": "Illustrated booklet, that covers the basics of knife throwing.",
-        "//": "978-1478118169",
-        "weight": 1
+        "//": "978-1478118169"
       }
     ],
     "weight": "60 g",
@@ -54,22 +51,19 @@
       {
         "id": "manual_throw",
         "name": { "str": "The Complete Guide to Pitching", "str_pl": "copies of The Complete Guide to Pitching" },
-        "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",
-        "weight": 1
+        "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching."
       },
       {
         "id": "manual_throw_1",
         "name": { "str": "The Ultimate Guide to Knife Throwing", "str_pl": "copies of The Ultimate Guide to Knife Throwing" },
         "description": "A precise handbook for someone who wants to win a throwing tournament.",
-        "//": "978-1632205308",
-        "weight": 1
+        "//": "978-1632205308"
       },
       {
         "id": "manual_throw_2",
         "name": { "str": "Guide to Knife & Ax Throwing", "str_pl": "copies of Guide to Knife & Ax Throwing" },
         "description": "A small, simple guide on how to throw a projectile, with different techniques, guides, and tricks.",
-        "//": "978-0764347795",
-        "weight": 1
+        "//": "978-0764347795"
       },
       {
         "id": "manual_throw_3",
@@ -78,22 +72,19 @@
           "str_pl": "copies of Knife & Tomahawk Throwing: The Art of the Experts"
         },
         "description": "A small book on the long history of projectile throwing and the people building the sport.  It serves as a guide for someone who wants to get into it, with useful drills and diagrams.",
-        "//": "978-0804815420",
-        "weight": 1
+        "//": "978-0804815420"
       },
       {
         "id": "manual_throw_4",
         "name": { "str": "The Science of Baseball", "str_pl": "copies of The Science of Baseball" },
         "description": "The author and several experts cover topics like what makes a ball break, bounce, and fly; how material science and physics work together to make the bat function; how hitters use physics, geometry, and force to connect; baseball injuries; and much more.",
-        "//": "978-1510768970",
-        "weight": 1
+        "//": "978-1510768970"
       },
       {
         "id": "manual_throw_5",
         "name": { "str": "The Complete Knife Throwing Guide", "str_pl": "copies of The Complete Knife Throwing Guide" },
         "description": "A tiny, though still comprehensive manual of knife throwing from experienced knifemaker.",
-        "//": "978-1886950023",
-        "weight": 1
+        "//": "978-1886950023"
       }
     ],
     "weight": "400 g",

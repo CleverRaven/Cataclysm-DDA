@@ -4,6 +4,7 @@
 
 #include <array>
 #include <map>
+#include <unordered_map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -124,13 +125,13 @@ struct weakpoint {
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
-    std::map<damage_type_id, float> armor_mult;
+    std::unordered_map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.
-    std::map<damage_type_id, float> armor_penalty;
+    std::unordered_map<damage_type_id, float> armor_penalty;
     // Damage multipliers. Applied after armor.
-    std::map<damage_type_id, float> damage_mult;
+    std::unordered_map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
-    std::map<damage_type_id, float> crit_mult;
+    std::unordered_map<damage_type_id, float> crit_mult;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
     // A list of effects that may trigger by hitting this weak point.
@@ -151,6 +152,7 @@ struct weakpoint {
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
+    void check() const;
 };
 
 struct weakpoints {
@@ -172,6 +174,7 @@ struct weakpoints {
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
     void finalize();
+    void check() const;
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type

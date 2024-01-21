@@ -73,9 +73,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 Forums:
 https://discourse.cataclysmdda.org
 
-Wiki:
-https://cddawiki.chezzo.com/cdda_wiki/index.php
-
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 

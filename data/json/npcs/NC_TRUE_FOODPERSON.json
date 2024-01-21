@@ -31,7 +31,8 @@
     "entries": [
       { "item": "medium_disposable_cell", "prob": 90 },
       { "item": "foodplace_snack_bar", "container-item": "fanny" },
-      { "item": "foodplace_snack_bar" }
+      { "item": "foodplace_snack_bar" },
+      { "item": "foodplace_zero_drink" }
     ]
   }
 ]

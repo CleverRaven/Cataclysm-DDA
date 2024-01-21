@@ -5,6 +5,203 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "bolt_explosive",
+    "type": "MIGRATION",
+    "replace": "bolt_cf"
+  },
+  {
+    "id": "arrow_exploding",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "exploding_arrow_warhead",
+    "type": "MIGRATION",
+    "replace": "arrow_cf"
+  },
+  {
+    "id": "minispeargun",
+    "type": "MIGRATION",
+    "replace": "speargun"
+  },
+  {
+    "id": "artifact_teleportitis_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "artifact_slow_aura",
+    "type": "MIGRATION",
+    "replace": "oxygen"
+  },
+  {
+    "id": "recipe_mil_augs",
+    "type": "MIGRATION",
+    "replace": "recipe_lab_elec"
+  },
+  {
+    "id": "mean_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug",
+    "reset_item_vars": true
+  },
+  {
+    "id": "nice_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug2",
+    "reset_item_vars": true
+  },
+  {
+    "id": "ar15",
+    "type": "MIGRATION",
+    "replace": "modular_ar15",
+    "contents": [ { "id": "retool_ar15_223rem_medium", "count": 1 } ]
+  },
+  {
+    "id": "m27_assault_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m27_assault_rifle"
+  },
+  {
+    "id": "m4_carbine",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m4_cqbr",
+    "type": "MIGRATION",
+    "replace": "modular_m4_carbine"
+  },
+  {
+    "id": "m16a4",
+    "type": "MIGRATION",
+    "replace": "modular_m16a4"
+  },
+  {
+    "id": "m16_auto_rifle",
+    "type": "MIGRATION",
+    "replace": "modular_m16_auto_rifle"
+  },
+  {
+    "id": "ar15_223long",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_223medium",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_223short",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_300",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_300medium",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_300short",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_50",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_50medium",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_50short",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_450",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_450medium",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_450short",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "ar15_762",
+    "type": "MIGRATION",
+    "replace": "modular_ar15"
+  },
+  {
+    "id": "mdrx_223",
+    "type": "MIGRATION",
+    "replace": "mdrx"
+  },
+  {
+    "id": "mdrx_223short",
+    "type": "MIGRATION",
+    "replace": "mdrx"
+  },
+  {
+    "id": "mdrx_300",
+    "type": "MIGRATION",
+    "replace": "mdrx"
+  },
+  {
+    "id": "mdrx_308",
+    "type": "MIGRATION",
+    "replace": "mdrx"
+  },
+  {
+    "id": "mdrx_308medium",
+    "type": "MIGRATION",
+    "replace": "mdrx"
+  },
+  {
+    "id": "axmc_300",
+    "type": "MIGRATION",
+    "replace": "axmc"
+  },
+  {
+    "id": "axmc_308",
+    "type": "MIGRATION",
+    "replace": "axmc"
+  },
+  {
+    "id": "cz600_762",
+    "type": "MIGRATION",
+    "replace": "cz600"
+  },
+  {
+    "id": "deagle_44",
+    "type": "MIGRATION",
+    "replace": "modular_deagle",
+    "contents": [ { "id": "retool_deagle_44", "count": 1 } ]
+  },
+  {
+    "id": "hk_ump45",
+    "type": "MIGRATION",
+    "replace": "modular_ump",
+    "contents": [ { "id": "retool_ump_45", "count": 1 } ]
+  },
+  {
     "id": "mobile_memory_card_used",
     "type": "MIGRATION",
     "replace": "memory_card"
@@ -38,6 +235,50 @@
     "from_variant": "scar_l",
     "type": "MIGRATION",
     "replace": "scar_l"
+  },
+  {
+    "id": "ammunition_box_223",
+    "type": "MIGRATION",
+    "replace": "ammo_box_army_10_338"
+  },
+  {
+    "id": "ammunition_box_308",
+    "type": "MIGRATION",
+    "replace": "ammo_box_2"
+  },
+  {
+    "id": "ammunition_box_50bmg",
+    "type": "MIGRATION",
+    "replace": "ammo_box_4"
+  },
+  {
+    "id": "ammunition_can_carlgustav",
+    "type": "MIGRATION",
+    "replace": "ammunition_can_carlgustav_hedp"
+  },
+  {
+    "id": "glock_20",
+    "from_variant": "glock_40",
+    "type": "MIGRATION",
+    "replace": "glock_40"
+  },
+  {
+    "id": "sandbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_sand", "count": 2000 } ]
+  },
+  {
+    "id": "gravelbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_gravel", "count": 2000 } ]
+  },
+  {
+    "id": "earthbag",
+    "type": "MIGRATION",
+    "replace": "bag_durasack",
+    "contents": [ { "id": "material_soil", "count": 3 } ]
   },
   {
     "id": "r_paint",
@@ -135,6 +376,11 @@
     "replace": "burnt_out_bionic"
   },
   {
+    "id": "bio_trickle",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
     "id": "generic_figurine_plastic",
     "type": "MIGRATION",
     "replace": "toy_figurine"
@@ -223,5 +469,126 @@
     "type": "MIGRATION",
     "replace": "sword_sheets_welded_large",
     "variant": "sword_sheets_bolted_large"
+  },
+  {
+    "id": "burdock_stalk",
+    "type": "MIGRATION",
+    "replace": "plant_stalk"
+  },
+  {
+    "id": "beverage_bag",
+    "type": "MIGRATION",
+    "replace": "bag_zipper",
+    "sealed": false
+  },
+  {
+    "id": "bot_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_mininuke_hack"
+  },
+  {
+    "id": "knife_combat_marine_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_marine"
+  },
+  {
+    "id": "knife_combat_army_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat_army"
+  },
+  {
+    "id": "knife_combat_mod",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet"
+  },
+  {
+    "id": "20x66_bootleg_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_shot",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_bootleg_slug",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "20x66_inc",
+    "type": "MIGRATION",
+    "replace": "20x66_shot"
+  },
+  {
+    "id": "762_m43",
+    "type": "MIGRATION",
+    "replace": "762_m87"
+  },
+  {
+    "id": "reloaded_762_m43",
+    "type": "MIGRATION",
+    "replace": "reloaded_762_m87"
+  },
+  {
+    "id": "bp_762_m43",
+    "type": "MIGRATION",
+    "replace": "bp_762_m87"
+  },
+  {
+    "id": "rm4502",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "rm4504",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank_modern"
+  },
+  {
+    "id": "fn_fal",
+    "type": "MIGRATION",
+    "replace": "fn_fal_semi"
+  },
+  {
+    "id": "greasegun32mag",
+    "type": "MIGRATION",
+    "replace": "greasegun30mag"
+  },
+  {
+    "id": "700nx",
+    "type": "MIGRATION",
+    "replace": "458wm"
+  },
+  {
+    "id": "reloaded_700nx",
+    "type": "MIGRATION",
+    "replace": "reloaded_458wm"
+  },
+  {
+    "id": "bp_700nx",
+    "type": "MIGRATION",
+    "replace": "bp_458wm"
+  },
+  {
+    "id": "700nx_casing",
+    "type": "MIGRATION",
+    "replace": "458wm_casing"
+  },
+  {
+    "id": "trex_gun",
+    "type": "MIGRATION",
+    "replace": "win70_458"
   }
 ]

@@ -145,7 +145,7 @@
     "hit_dmg_u": "%1$s stomps on your %2$s!",
     "hit_dmg_npc": "%1$s stomps on <npcname>!",
     "miss_msg_u": "%1$s tries to stomp on you, but you dodge!",
-    "miss_msg_npc": "%1$s tries stomp on <npcname>, but they dodge!",
+    "miss_msg_npc": "%1$s tries to stomp on <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s stomps on your %2$s, but your armor protects you.",
     "no_dmg_msg_npc": "%1$s stomps on <npcname>, but their armor protects them.",
     "dodgeable": true,

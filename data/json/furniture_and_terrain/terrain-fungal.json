@@ -8,7 +8,7 @@
     "color": "pink",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT", "GRAZER_INEDIBLE" ],
     "examine_action": "shrub_marloss",
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
@@ -111,7 +111,17 @@
     "color": "dark_gray",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "FUNGUS",
+      "SHORT",
+      "GRAZER_INEDIBLE"
+    ],
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
   {

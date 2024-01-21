@@ -1110,16 +1110,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
             if( !canceled ) {
                 did_amount_prompt = true;
                 if( you != nullptr ) {
-                    if( granted.count_by_charges() ) {
-                        if( amount > 0 ) {
-                            granted.charges = amount;
-                            if( you->can_stash( granted ) ) {
-                                you->i_add( granted );
-                            } else {
-                                get_map().add_item_or_charges( you->pos(), granted );
-                            }
-                        }
-                    } else {
+                    if( amount > 0 ) {
                         int stashable_copy_num = amount;
                         you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, true, false );
                     }

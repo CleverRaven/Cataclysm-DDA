@@ -98,7 +98,7 @@
         { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
         { "item": "mask_gas", "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
         { "item": "pure_meth", "repeat": [ 1, 6 ], "x": 10, "y": [ 20, 22 ] },
-        { "item": "gasfilter_m", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
+        { "item": "gasfilter_med", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_ZOMBIE", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },

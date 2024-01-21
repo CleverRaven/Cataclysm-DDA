@@ -1,0 +1,20 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_dm_exodii_worker",
+    "name": { "str": "broken Exodii worker" },
+    "copy-from": "broken_exodii_worker"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dm_exodii_quad",
+    "name": { "str": "broken Exodii quadruped" },
+    "copy-from": "broken_exodii_quad"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dm_exodii_quad_jotunn",
+    "name": { "str": "broken Exodii Jotunn" },
+    "copy-from": "broken_exodii_quad_jotunn"
+  }
+]

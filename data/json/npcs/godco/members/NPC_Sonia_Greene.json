@@ -14,6 +14,16 @@
       { "text": "How did you get here?", "topic": "TALK_GODCO_Sonia_Chloe" },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Sonia_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Sonia_Godco" },
+      {
+        "text": "Now that your guitar is fixed, could you play something for me?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
+            { "npc_has_item": "acoustic_guitar" }
+          ]
+        },
+        "topic": "TALK_GODCO_Sonia_Play_For_U"
+      },
       { "text": "That's a nice guitar you have.", "topic": "TALK_GODCO_Sonia_Instrument" }
     ]
   },
@@ -25,12 +35,12 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": "Well now, good to see you again, friend.",
+      "yes": [ "Well now, good to see you again, friend.", "Nice of you to come around <u_name>." ],
       "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
     },
     "responses": [
       {
-        "text": "Sonia?  Nice to meet you.  How are things here?",
+        "text": "Sonia?  Nice to meet you, I'm <u_name>.  How are things here?",
         "effect": { "npc_add_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "npc_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_GODCO_Sonia_Feeling"
@@ -47,7 +57,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia_Tunes",
     "dynamic_line": [
-      "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?"
+      {
+        "npc_has_var": "sonia_guitar_fixed",
+        "type": "mission",
+        "context": "completed",
+        "value": "yes",
+        "yes": "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?",
+        "no": "Nothin' much, just sitting around and biding my time,, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."
+      }
     ],
     "responses": [
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
@@ -96,6 +113,32 @@
     "id": "TALK_GODCO_Sonia_Godco",
     "dynamic_line": "Fairly?  There's no such thing as fairness in the world.  The NECC wouldn't give a damn if I starved to death on this very bench.  At least I have friends here, ones that appreciate what I do.  I make music and that's all I have left, it means everything to me.",
     "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Sonia_Play_For_U",
+    "dynamic_line": "Sure, I can play you a tune or two that I know.  It will cost you a little something, just one icon.  The artist doesn't want to starve, if you know what I mean.",
+    "responses": [
+      {
+        "text": "Alright, let's hear it.",
+        "condition": { "u_has_item": "icon" },
+        "opinion": { "trust": 1, "value": 1 },
+        "effect": [
+          { "u_sell_item": "icon", "count": 1 },
+          { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "4 minutes" },
+          {
+            "u_add_morale": "morale_feeling_good",
+            "bonus": 20,
+            "max_bonus": 20,
+            "duration": "10 minutes",
+            "decay_start": "10 minutes"
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]

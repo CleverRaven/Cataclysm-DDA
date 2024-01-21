@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ammo_can_338_any_full",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_338lapua_full", "prob": 100 }, { "group": "ammo_can_338lapua_50_full", "prob": 100 } ]
+  },
+  {
+    "id": "ammo_can_338_any_part",
+    "type": "item_group",
+    "items": [ { "group": "ammo_can_338lapua_part", "prob": 100 }, { "group": "ammo_can_338lapua_50_part", "prob": 100 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_338lapua_full",
+    "container-item": "ammo_can_30_338fmjbt_200",
+    "items": [ { "group": "ammo_box_338lapua", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_338lapua_part",
+    "container-item": "ammo_can_30_338fmjbt_200",
+    "items": [ { "group": "ammo_box_338lapua", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_338lapua",
+    "container-item": "ammo_box_army_10_338",
+    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 10, "charges-max": 10 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_338lapua_50_full",
+    "container-item": "ammo_can_50_338fmjbt_400",
+    "items": [ { "group": "ammo_box_338lapua_20", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_338lapua_50_part",
+    "container-item": "ammo_can_50_338fmjbt_400",
+    "items": [ { "group": "ammo_box_338lapua_20", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_338lapua_20",
+    "container-item": "ammo_box_army_20_338",
+    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 20, "charges-max": 20 } ]
+  }
+]

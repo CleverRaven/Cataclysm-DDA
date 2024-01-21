@@ -330,7 +330,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
     const std::string TITLE_STR = "Medical";
 
     // Window Title
-    if( WIDTH - ( details_width + utf8_width( TITLE_STR ) > WIDTH / 2 ) ) {
+    if( WIDTH - details_width - utf8_width( TITLE_STR ) > WIDTH / 2 ) {
         center_print( window, 0, c_blue, _( TITLE_STR ) );
     }
 }

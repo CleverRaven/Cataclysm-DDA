@@ -104,6 +104,13 @@ if (localProperties.getProperty('override_ndkVersion') != null) {
     override_ndkVersion = localProperties.getProperty('override_ndkVersion')
 }
 
+def override_versionCode = getProperty("override_versionCode")
+if (localProperties.getProperty('override_versionCode') != null) {
+    override_versionCode = localProperties.getProperty('override_versionCode')
+} else {
+    override_versionCode=Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
+}
+
 println("Using [              njobs]: $njobs")
 println("Using [           localize]: $localize")
 println("Using [               deps]: $deps")
@@ -114,6 +121,7 @@ println("Using [      minSdkVersion]: $override_minSdkVersion")
 println("Using [   targetSdkVersion]: $override_targetSdkVersion")
 println("Using [ndkBuildAppPlatform]: $override_ndkBuildAppPlatform")
 println("Using [         ndkVersion]: $override_ndkVersion")
+println("Using [        versionCode]: $override_versionCode")
 println("Using [         abi_arm_32]: $abi_arm_32")
 println("Using [         abi_arm_64]: $abi_arm_64")
 println("Using [         abi_x86_32]: $abi_x86_32")
@@ -245,7 +253,7 @@ android {
     defaultConfig {
         minSdkVersion override_minSdkVersion
         targetSdkVersion override_targetSdkVersion
-        versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
+        versionCode Integer.valueOf(override_versionCode)
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
             applicationId "com.cleverraven.cataclysmdda"

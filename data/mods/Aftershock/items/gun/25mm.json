@@ -16,7 +16,7 @@
     "color": "brown",
     "min_strength": 18,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
-    "skill": "launcher",
+    "skill": "rifle",
     "modes": [ [ "DEFAULT", "DOUBLE", 4 ] ],
     "dispersion": 90,
     "durability": 6,

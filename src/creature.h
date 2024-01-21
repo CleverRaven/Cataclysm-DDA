@@ -294,6 +294,9 @@ class Creature : public viewer
             return nullptr;
         }
         virtual mfaction_id get_monster_faction() const = 0;
+
+        // Witness and respond to theft of faction items
+        virtual void witness_thievery( item *it ) = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -388,7 +391,7 @@ class Creature : public viewer
         /*@}*/
 
         /**
-         * How far the creature sees under the given light. Places outside this range can
+         * How far the creature sees under the given light. Creature cannot see places outside this range.
          * @param light_level See @ref game::light_level.
          */
         virtual int sight_range( float light_level ) const = 0;
@@ -536,8 +539,14 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
-        // returns true if the creature has an electric field
+        // returns true if the creature is a faerie creature
+        virtual bool is_fae() const = 0;
+
+        // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
+
+        // returns true if the creature has a sapient mind
+        virtual bool has_mind() const = 0;
 
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
@@ -558,7 +567,6 @@ class Creature : public viewer
         virtual bool is_immune_field( const field_type_id & ) const {
             return false;
         }
-
 
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {
@@ -623,6 +631,13 @@ class Creature : public viewer
                              bool force = false );
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
+        /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
+         * by waterproof gear. */
+        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
+                                bool force = false );
+        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                                const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
@@ -663,6 +678,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
         void clear_values();
 
         virtual units::mass get_weight() const = 0;
@@ -740,8 +756,23 @@ class Creature : public viewer
         virtual bool uncanny_dodge() {
             return false;
         }
+        virtual bool check_avoid_friendly_fire() const {
+            return false;
+        }
+        void set_reachable_zone( int zone ) {
+            reachable_zone = zone;
+        }
+        int get_reachable_zone() const {
+            return reachable_zone;
+        }
 
     private:
+        /** This number establishes a partition of zones on the map that have shared
+         * reachability/visibility. In short, if you aren't in the same zone as some other monster,
+         * you can ignore them since you won't be able to reach them by any combination of
+         * regular movement and vision. **/
+        int reachable_zone = 0;
+
         /** The creature's position in absolute coordinates */
         tripoint_abs_ms location;
     protected:
@@ -804,8 +835,8 @@ class Creature : public viewer
         int get_part_damage_bandaged( const bodypart_id &id ) const;
         int get_part_drench_capacity( const bodypart_id &id ) const;
         int get_part_wetness( const bodypart_id &id ) const;
-        int get_part_temp_cur( const bodypart_id &id ) const;
-        int get_part_temp_conv( const bodypart_id &id ) const;
+        units::temperature get_part_temp_cur( const bodypart_id &id ) const;
+        units::temperature get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
@@ -823,24 +854,24 @@ class Creature : public viewer
         void set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set );
 
         void set_part_wetness( const bodypart_id &id, int set );
-        void set_part_temp_cur( const bodypart_id &id, int set );
-        void set_part_temp_conv( const bodypart_id &id, int set );
+        void set_part_temp_cur( const bodypart_id &id, units::temperature set );
+        void set_part_temp_conv( const bodypart_id &id, units::temperature set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
 
         void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
         void mod_part_damage_disinfected( const bodypart_id &id, int mod );
         void mod_part_damage_bandaged( const bodypart_id &id, int mod );
         void mod_part_wetness( const bodypart_id &id, int mod );
-        void mod_part_temp_cur( const bodypart_id &id, int mod );
-        void mod_part_temp_conv( const bodypart_id &id, int mod );
+        void mod_part_temp_cur( const bodypart_id &id, units::temperature_delta mod );
+        void mod_part_temp_conv( const bodypart_id &id, units::temperature_delta mod );
         void mod_part_frostbite_timer( const bodypart_id &id, int mod );
 
-        void set_all_parts_temp_cur( int set );
-        void set_all_parts_temp_conv( int set );
+        void set_all_parts_temp_cur( units::temperature set );
+        void set_all_parts_temp_conv( units::temperature set );
         void set_all_parts_wetness( int set );
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
@@ -906,7 +937,7 @@ class Creature : public viewer
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::set<tripoint> get_path_avoid() const = 0;
+        virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
         int moves;
         bool underwater;

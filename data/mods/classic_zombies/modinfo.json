@@ -25,5 +25,28 @@
     "type": "monster_adjustment",
     "species": "ZOMBIE",
     "stat": { "name": "bleed_rate", "modifier": 0 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DDotD_initialize",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "//": "Adding a variable flag to the player allows certain dialogue to be changed that otherwise is hard to change in a mod.",
+    "condition": { "not": { "u_has_var": "modded", "type": "flag", "value": "ddotd" } },
+    "effect": [ { "u_add_var": "modded", "type": "flag", "value": "ddotd" } ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
+    "stype": "float",
+    "value": 53.55
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
+    "stype": "float",
+    "value": -113.49
   }
 ]

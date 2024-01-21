@@ -1,0 +1,135 @@
+[
+  {
+    "id": "mon_marshmallow_guy_dm",
+    "copy-from": "mon_marshmallow_guy",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_marshmallow_buff_dm",
+    "copy-from": "mon_marshmallow_buff",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_marshmallow_guy_armored_dm",
+    "copy-from": "mon_marshmallow_guy_armored",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_marshmallow_buff_armored_dm",
+    "copy-from": "mon_marshmallow_buff_armored",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_gummy_dm",
+    "copy-from": "mon_gummy",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "hp": 50,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_gummy_gator_dm",
+    "copy-from": "mon_gummy_gator",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_cracker_dm",
+    "copy-from": "mon_cracker",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_cookie_dm",
+    "copy-from": "mon_cookie",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_cookie_hydra_dm",
+    "copy-from": "mon_cookie_hydra",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_spider_gum_dm",
+    "copy-from": "mon_spider_gum",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_gum_spider_wolf_dm",
+    "copy-from": "mon_gum_spider_wolf",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_licorice_snake_dm",
+    "copy-from": "mon_licorice_snake",
+    "type": "MONSTER",
+    "species": [ "DM_SWEETS" ],
+    "default_faction": "marshmallow_boys",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]

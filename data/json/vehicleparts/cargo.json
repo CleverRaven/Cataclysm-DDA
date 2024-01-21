@@ -16,7 +16,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "CARGO_PASSABLE" ],
     "breaks_into": "ig_vp_cloth",
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -74,7 +74,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -122,7 +122,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "CARGO" ],
+    "flags": [ "CARGO", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -153,7 +153,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -175,7 +175,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
@@ -186,6 +186,23 @@
     "type": "vehicle_part",
     "variants_bases": [ { "id": "wheelbarrow", "label": "Wheelbarrow" } ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
+  },
+  {
+    "copy-from": "box_abstract",
+    "id": "integrated_trashcan",
+    "//": "Volume based off of:",
+    "//2": "https://www.uline.com/Product/Detail/H-7938BL/Trash-Cans-with-Wheels/Uline-Trash-Can-with-Wheels-95-Gallon-Black?pricode=WB3072&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&utm_source=Bing&utm_medium=pla&utm_term=H-7938BL&utm_campaign=Facilities%2BMaintenance&msclkid=d3c8827d02691eb87066e72c65ff5790",
+    "type": "vehicle_part",
+    "name": { "str": "industrial trash can" },
+    "categories": [ "cargo" ],
+    "looks_like": "f_recycle_bin",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "size": "359614 ml",
+    "item": "trashcan_large",
+    "delete": { "flags": [ "CARGO_PASSABLE" ] },
+    "variants_bases": [ { "id": "trash can", "label": "Trash Can" } ],
+    "variants": [ { "symbols": ")", "symbols_broken": "#" } ]
   },
   {
     "id": "cargo_space_external",
@@ -209,7 +226,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE", "HUGE_OK", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 26 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
@@ -253,7 +270,7 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "CARGO_PASSABLE" ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   }

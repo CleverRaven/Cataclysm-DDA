@@ -69,6 +69,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::palette_id: return "palette_id";
         case cata_variant_type::point: return "point";
         case cata_variant_type::profession_id: return "profession_id";
+        case cata_variant_type::proficiency_id: return "proficiency_id";
         case cata_variant_type::skill_id: return "skill_id";
         case cata_variant_type::species_id: return "species_id";
         case cata_variant_type::spell_id: return "spell_id";

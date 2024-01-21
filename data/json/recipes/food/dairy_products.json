@@ -83,16 +83,13 @@
     "difficulty": 1,
     "time": "5 m",
     "book_learn": [ [ "dairy_book", 1 ] ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "STRAIN", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_cheesemaking_1" },
       { "proficiency": "prof_cheesemaking_2" }
     ],
-    "tools": [
-      [ [ "water_boiling_heat", 2, "LIST" ] ],
-      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
-    ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "milk", 16 ], [ "milk_raw", 16 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 1 ] ] ],
     "charges": 8
   },
@@ -145,13 +142,13 @@
     "time": "35 m",
     "charges": 8,
     "book_learn": [ [ "dairy_book", 1 ] ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "STRAIN", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_cheesemaking_1" },
       { "proficiency": "prof_cheesemaking_2" }
     ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "colander_steel", -1 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "milk", 5 ], [ "milk_raw", 5 ] ],
       [ [ "vinegar", 1 ], [ "chem_citric_acid", 1 ] ],
@@ -193,11 +190,8 @@
     "book_learn": [ [ "cookbook_indian", 1 ] ],
     "time": "30 m",
     "batch_time_factors": [ 70, 1 ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [
-      [ [ "water_boiling_heat", 2, "LIST" ] ],
-      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
-    ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 }, { "id": "STRAIN", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ]
   },
   {

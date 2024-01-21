@@ -12,11 +12,21 @@
   {
     "id": "mana_energy_weak",
     "type": "requirement",
-    "components": [ [ [ "lotus", 1 ], [ "funnelcap_chunk", 2 ], [ "mana_dust", 5 ] ] ]
+    "components": [
+      [
+        [ "lotus", 1 ],
+        [ "funnelcap_chunk", 2 ],
+        [ "mana_dust", 5 ],
+        [ "mossling_fur", 8 ],
+        [ "dryad_bark", 3 ],
+        [ "gnome_eye", 2 ],
+        [ "bracken_eye", 1 ]
+      ]
+    ]
   },
   {
     "id": "mana_energy_strong",
     "type": "requirement",
-    "components": [ [ [ "golden_reed_stalk", 1 ], [ "funnelcap_chunk", 5 ] ] ]
+    "components": [ [ [ "golden_reed_stalk", 1 ], [ "funnelcap_chunk", 5 ], [ "bracken_eye", 1 ], [ "dryad_bark", 10 ] ] ]
   }
 ]

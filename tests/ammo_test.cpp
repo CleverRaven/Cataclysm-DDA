@@ -210,7 +210,7 @@ TEST_CASE( "barrel_test", "[ammo][weapon]" )
     SECTION( "basic ammo and mod length test" ) {
         item base_gun( "test_glock_super_long" );
         item gun_mod( "barrel_glock_short" );
-        REQUIRE( base_gun.put_in( gun_mod, item_pocket::pocket_type::MOD ).success() );
+        REQUIRE( base_gun.put_in( gun_mod, pocket_type::MOD ).success() );
         REQUIRE( base_gun.barrel_length().value() == 100 );
         CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 60 );
     }

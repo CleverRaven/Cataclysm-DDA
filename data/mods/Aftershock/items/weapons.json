@@ -227,7 +227,8 @@
     "material": [ "titanium" ],
     "price": 20000,
     "price_postapoc": 1750,
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "id": "ceramic_knife",
@@ -243,7 +244,8 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE" ],
-    "melee_damage": { "bash": 2, "stab": 15 }
+    "melee_damage": { "bash": 2, "stab": 15 },
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "type": "GENERIC",
@@ -263,7 +265,8 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 7500,
     "price_postapoc": 1200,
-    "melee_damage": { "bash": 5, "stab": 28 }
+    "melee_damage": { "bash": 5, "stab": 28 },
+    "weapon_category": [ "POLEARMS", "SPEARS" ]
   },
   {
     "id": "azabow_off",
@@ -340,7 +343,8 @@
     "to_hit": 2,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "melee_damage": { "bash": 10, "cut": 50 }
+    "melee_damage": { "bash": 10, "cut": 50 },
+    "weapon_category": [ "LONG_SWORDS" ]
   },
   {
     "id": "scrapbow",
@@ -416,7 +420,8 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "extend": { "flags": [ "USE_UPS" ] }
   },
   {
     "id": "afs_bio_whip_weapon",

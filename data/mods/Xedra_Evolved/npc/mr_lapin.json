@@ -2,6 +2,7 @@
   {
     "id": "TALK_WARRENER",
     "type": "talk_topic",
+    "insert_before_standard_exits": true,
     "responses": [ { "text": "What can you tell me about Xedra?", "topic": "TALK_WARRENER_XEDRA" } ]
   },
   {

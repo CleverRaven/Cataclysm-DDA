@@ -23,7 +23,7 @@
     "id": "hobo_stove",
     "type": "TOOL",
     "name": { "str": "hobo stove" },
-    "description": "A small, improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
+    "description": "A small, improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to deploy.",
     "copy-from": "can_medium",
     "weight": "100 g",
     "volume": "550 ml",
@@ -47,7 +47,7 @@
     "color": "light_gray",
     "container": "nylon_bag",
     "name": { "str": "portable stove" },
-    "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to Deploy.",
+    "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to deploy.",
     "weight": "2670 g",
     "volume": "3 L",
     "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" }

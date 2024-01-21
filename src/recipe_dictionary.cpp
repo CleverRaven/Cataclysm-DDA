@@ -11,6 +11,7 @@
 #include "cata_algo.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
+#include "display.h"
 #include "debug.h"
 #include "init.h"
 #include "item.h"
@@ -276,6 +277,9 @@ std::vector<const recipe *> recipe_subset::search(
                 }
             }
 
+            case search_type::activity_level:
+                return lcmatch( display::activity_level_str( r->exertion_level() ), txt );
+
             default:
                 return false;
         }
@@ -474,6 +478,9 @@ bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
+        erase_if( elem.second.nested_category_data, [&]( const recipe_id & nest ) {
+            return !nest.is_valid() || nest->will_be_blacklisted();
+        } );
         elem.second.finalize();
         inp_mngr.pump_events();
     }

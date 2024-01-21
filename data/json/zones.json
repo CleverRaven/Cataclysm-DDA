@@ -1,12 +1,12 @@
 [
   {
-    "id": "zone_disassemble",
+    "id": "DISASSEMBLE",
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
     "description": "Items in this zone are marked for disassembly"
   },
   {
-    "id": "zone_strip",
+    "id": "STRIP_CORPSES",
     "type": "LOOT_ZONE",
     "name": "Loot: Strip Corpses",
     "can_be_personal": true,
@@ -19,7 +19,7 @@
     "description": "A prioritized spawn point."
   },
   {
-    "id": "zone_unload_all",
+    "id": "UNLOAD_ALL",
     "type": "LOOT_ZONE",
     "name": "Loot: Unload Everything",
     "can_be_personal": true,

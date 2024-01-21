@@ -1,0 +1,38 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "20x66_abstract",
+    "picture": [
+      "<color_light_red>╒╕",
+      "││",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "20x66_beanbag",
+    "picture": [
+      "<color_white>╒╕",
+      "<color_light_red>││",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "20x66_flare",
+    "picture": [
+      "<color_yellow>╒╕",
+      "<color_light_red>││",
+      "╙╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "20x66_inc",
+    "picture": [
+      "<color_red>╒╕",
+      "<color_light_red>││",
+      "╙╜"
+    ]
+  }
+]

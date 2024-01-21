@@ -122,6 +122,7 @@ struct look_around_params {
     bool has_first_point;
     bool select_zone;
     bool peeking;
+    bool change_lv;
 };
 
 struct w_map {
@@ -480,6 +481,7 @@ class game
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        std::vector<Character *> get_characters_if( const std::function<bool( const Character & )> &pred );
         std::vector<npc *> get_npcs_if( const std::function<bool( const npc & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
@@ -508,6 +510,8 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &p, item &it );
+        // same as above, but with relaxed placement radius.
+        bool revive_corpse( const tripoint &p, item &it, int radius );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -636,11 +640,13 @@ class game
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
         * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+                                        bool change_lv = true );
         look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
@@ -902,6 +908,8 @@ class game
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void insert_item(); // Insert items to container  'v'
+        void insert_item( drop_locations &targets );
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
@@ -1063,7 +1071,6 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-
         map &m;
         avatar &u;
         scent_map &scent;
@@ -1083,14 +1090,6 @@ class game
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         queued_eocs queued_global_effect_on_conditions;
-
-        // setting that specifies which reachability zone cache to display
-        struct debug_reachability_zones_display {
-            public:
-                bool r_cache_vertical;
-                reachability_cache_quadrant quadrant;
-        } debug_rz_display = {}; // NOLINT(cata-serialize)
-        void display_reachability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 
@@ -1226,17 +1225,53 @@ class game
         // called on map shifting
         void shift_destination_preview( const point &delta );
 
-        /**
-        Checks if player is able to successfully climb to/from some terrain and not slip down
-        @param check_for_traps Used if needed to call trap function on player's location after slipping down
-        @return whether player has slipped down
+        /** Passed to climbing-related functions (slip_down) to
+        *   indicate the climbing action being attempted.
         */
-        bool slip_down( bool check_for_traps = false );
+        enum class climb_maneuver {
+            down,          // climb up one Z-level
+            up,            // climb down one Z-level
+            over_obstacle, // climb over an obstacle (horizontal move)
+        };
 
         /**
-        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param aid Identifies the object, terrain or ability being used to climb.  See climbing.h.
+        @param show_chance_messages If true, adds explanatory messages to the log when calculating fall chance.
+        @return whether player has slipped down
+        */
+        bool slip_down(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
+
+        /**
+        Calculates the chance that slip_down will return true.
+        @param maneuver Type & direction of climbing maneuver.  Affects chance and whether traps trigger.
+        @param affordance Identifies the object, terrain or ability being used to climb.  See climbing.h.
+        @param show_messages If true, outputs climbing chance factors to the message log as if attempting.
+        @return Probability, as a percentage, that player will slip down while climbing some terrain.
+        */
+        int slip_down_chance(
+            climb_maneuver maneuver,
+            climbing_aid_id aid = climbing_aid_id::NULL_ID(),
+            bool show_chance_messages = true );
+
+        /**
+        * Climb down from a ledge.
+        * Player is prompted to deploy grappling hook, webs or detach vines if applicable.
+        * Otherwise the safest available affordance (see above) is detected and used.
+        * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
         void climb_down( const tripoint &examp );
+
+        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint &examp, int retval );
+        void climb_down_using(
+            const tripoint &examp,
+            climbing_aid_id aid,
+            bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

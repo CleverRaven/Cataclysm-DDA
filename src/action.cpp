@@ -193,6 +193,8 @@ std::string action_ident( action_id act )
             return "grab";
         case ACTION_HAUL:
             return "haul";
+        case ACTION_HAUL_TOGGLE:
+            return "haul_toggle";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -237,6 +239,8 @@ std::string action_ident( action_id act )
             return "reload_weapon";
         case ACTION_RELOAD_WIELDED:
             return "reload_wielded";
+        case ACTION_INSERT_ITEM:
+            return "insert";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -337,8 +341,6 @@ std::string action_ident( action_id act )
             return "debug_visibility";
         case ACTION_DISPLAY_TRANSPARENCY:
             return "debug_transparency";
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
-            return "display_reachability_zones";
         case ACTION_DISPLAY_LIGHTING:
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
@@ -469,7 +471,6 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_RADIATION:
         case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
-        case ACTION_DISPLAY_REACHABILITY_ZONES:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -889,6 +890,7 @@ action_id handle_action_menu()
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the
             // end of the list.
+            REGISTER_ACTION( ACTION_INSERT_ITEM );
             REGISTER_ACTION( ACTION_UNLOAD_CONTAINER );
             REGISTER_ACTION( ACTION_DROP );
             REGISTER_ACTION( ACTION_COMPARE );
@@ -923,7 +925,6 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_TRANSPARENCY );
-            REGISTER_ACTION( ACTION_DISPLAY_REACHABILITY_ZONES );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
@@ -940,6 +941,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
+            REGISTER_ACTION( ACTION_HAUL_TOGGLE );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
@@ -1095,6 +1097,7 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     //~ %s: "Close where?" "Pry where?" etc.
     popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
+    temp_hide_advanced_inv();
     std::string action;
     do {
         ui_manager::redraw();
@@ -1123,8 +1126,14 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
 
 std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
+    return choose_adjacent( get_player_character().pos(), message, allow_vertical );
+}
+
+std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+        bool allow_vertical )
+{
     const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + get_player_character().pos() : dir;
+    return dir ? *dir + pos : dir;
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1141,11 +1150,18 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical, const bool allow_autoselect )
 {
+    return choose_adjacent_highlight( get_avatar().pos(), message, failure_message, allowed,
+                                      allow_vertical, allow_autoselect );
+}
+
+std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical, bool allow_autoselect )
+{
     std::vector<tripoint> valid;
-    avatar &player_character = get_avatar();
     map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+        for( const tripoint &pos : here.points_in_radius( pos, 1 ) ) {
             if( allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
@@ -1170,5 +1186,10 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         g->add_draw_callback( hilite_cb );
     }
 
-    return choose_adjacent( message, allow_vertical );
+    const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
 }

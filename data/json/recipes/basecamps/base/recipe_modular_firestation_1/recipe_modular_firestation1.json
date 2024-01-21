@@ -37,7 +37,7 @@
     "construction_blueprint": "fbmc_firestation1_kitchen1_cleared",
     "blueprint_name": "prepare the kitchen area",
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen" } ],
     "check_blueprint_needs": false
   },
@@ -293,7 +293,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_sw" } ]
   },
   {
@@ -311,7 +311,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_nw" } ]
   },
   {
@@ -329,7 +329,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_se" } ]
   },
   {
@@ -347,7 +347,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_ne" } ]
   },
   {
