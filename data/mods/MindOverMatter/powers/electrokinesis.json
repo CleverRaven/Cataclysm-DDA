@@ -158,7 +158,7 @@
     "id": "electrokinetic_hacking_interface",
     "type": "SPELL",
     "name": "[Ψ]Hacking Interface (C)",
-    "description": "Create an electrical interace with your powers, allowing you to hack nearby devices as if you were using a computer.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Create an electrical interface with your powers, allowing you to hack nearby devices as if you were using a computer.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
