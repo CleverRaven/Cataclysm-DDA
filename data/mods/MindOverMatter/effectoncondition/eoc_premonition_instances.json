@@ -107,6 +107,7 @@
     "id": "EOC_BANDIT_ASSASSIN",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-40" ] },
@@ -179,6 +180,7 @@
     "id": "EOC_BANDIT_ASSASSIN_2",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-60" ] },
@@ -253,6 +255,7 @@
     "id": "EOC_BANDIT_ASSASSIN_3",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-90" ] },
@@ -326,6 +329,7 @@
     "id": "EOC_OLD_GUARD_ASSASSIN",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: old_guard')", "<", "-45" ] },
@@ -375,7 +379,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -391,7 +395,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   }
 ]

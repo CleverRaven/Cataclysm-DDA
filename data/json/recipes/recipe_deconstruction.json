@@ -7827,5 +7827,20 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "splinter", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "piano",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 12 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "qt_wire", 26 ] ],
+      [ [ "wheel_caster", 1 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "plastic_chunk", 10 ] ]
+    ]
   }
 ]

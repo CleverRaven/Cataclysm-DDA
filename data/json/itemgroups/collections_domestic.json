@@ -1102,6 +1102,7 @@
       { "item": "flute", "prob": 10 },
       { "item": "harmonica_holder", "prob": 10 },
       { "item": "banjo", "prob": 5 },
+      { "item": "kantele", "prob": 1 },
       { "item": "ukulele", "prob": 15 },
       { "item": "guitar_electric", "prob": 20 },
       { "item": "gobag", "prob": 5 },
