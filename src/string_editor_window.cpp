@@ -10,6 +10,9 @@
 #include "options.h"
 #endif
 
+#include "catacharset.h"
+#include "input.h"
+#include "output.h"
 #include "ui_manager.h"
 #include "unicode.h"
 #include "wcwidth.h"

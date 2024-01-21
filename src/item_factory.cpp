@@ -4,17 +4,13 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <iterator>
 #include <limits>
 #include <memory>
-#include <new>
 #include <optional>
 #include <stdexcept>
-#include <type_traits>
 #include <unordered_set>
 
-#include "addiction.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bodypart.h"
@@ -36,11 +32,11 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
 #include "iuse_actor.h"
-#include "json.h"
 #include "material.h"
 #include "options.h"
 #include "pocket_type.h"
