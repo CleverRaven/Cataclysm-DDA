@@ -311,6 +311,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_sonar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Subaquatic Navigation System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A tiny device implanted in the inner ear.  When active, it will periodically generate ultrasonic pulses which aid in navigation, provided the user is underwater and able to hear.",
+    "price": 250000,
+    "price_postapoc": 1250,
+    "weight": "50 g",
+    "difficulty": 4
+  },
+  {
     "id": "bio_emp",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

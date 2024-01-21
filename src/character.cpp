@@ -168,8 +168,10 @@ static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+static const bionic_id bio_sonar( "bio_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_synlungs( "bio_synlungs" );
+static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
@@ -10563,20 +10565,125 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 void Character::echo_pulse()
 {
     map &here = get_map();
-    sounds::sound( this->pos(), 3, sounds::sound_t::movement, _( "chirp" ), true,
+    int echo_volume = 0;
+    int pulse_range = 10;
+    if( has_active_bionic( bio_sonar ) && is_underwater() ) {
+        pulse_range = 16;
+    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "boop" ), true,
                            "none", "none" );
-    for( tripoint origin : points_in_radius( pos(), 20 ) ) {
-        if ( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, 10 ) ) {
+    } else {
+    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp" ), true,
+                           "none", "none" );
+        }
+    for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
+        if ( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, 2 ) ) {
             sounds::sound( origin, 30, sounds::sound_t::sensory, _( "click" ), true,
                            "none", "none" );
         }
-        creature_tracker &creatures = get_creature_tracker();
-        if ( creatures.creature_at( origin, true ) && here.pl_line_of_sight( origin, 10 ) ) {
-            sounds::sound( origin, 30, sounds::sound_t::sensory, _( "chk" ), false,
+        const trap &tr = here.tr_at( origin );
+        if( !knows_trap( origin ) && tr.detected_by_echolocation() ) {
+            const std::string direction = direction_name( direction_from( pos(), origin ) );
+            add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
+                               tr.name(), direction );
+            add_known_trap( origin, tr );
+        }
+        Creature *critter = get_creature_tracker().creature_at( origin, true );
+        if ( critter && here.pl_line_of_sight( origin, 1 ) ) {
+            switch( critter->get_size() ) {
+                case creature_size::tiny:
+                    echo_volume = 1;
+                                break;
+                case creature_size::small:
+                    echo_volume = 2;
+                                break;
+                case creature_size::medium:
+                    echo_volume = 3;
+                                break;
+                case creature_size::large:
+                    echo_volume = 4;
+                                break;
+                case creature_size::huge:
+                    echo_volume = 5;
+                                break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
+                    break;
+            }
+        if( critter->has_flag( mon_flag_PLASTIC ) ) {
+            echo_volume -= std::max( 1, 1 );
+        }
+        if( critter->has_flag( mon_flag_HARDTOSHOOT ) ) {
+            echo_volume -= std::max( 1, 1 );
+        }
+    const char *echo_string = nullptr;
+    // bio_targeting has a HUD and automatically converts the audio data to visual feedback
+    if( has_active_bionic( bio_targeting ) && !has_effect( effect_blind ) && has_active_bionic( bio_sonar ) )
+            switch( echo_volume ) {
+        case 1:
+            echo_string = _( "Entity: [Tiny]" );
+            break;
+        case 2:
+            echo_string = _( "Entity: [Small]" );
+            break;
+        case 3:
+            echo_string = _( "Entity: [Medium]" );
+            break;
+        case 4:
+            echo_string = _( "Warning! Entity: [Large]" );
+            break;
+        case 5:
+            echo_string = _( "Warning! Entity [Huge]" );
+            break;
+        default:
+            debugmsg( "ERROR: Invalid echo string." );
+            break;
+    } else if ( ( !has_active_bionic( bio_targeting ) || has_effect( effect_blind ) ) && has_active_bionic( bio_sonar ) ) {
+            switch( echo_volume ) {
+        case 1:
+            echo_string = _( "tick" );
+            break;
+        case 2:
+            echo_string = _( "pii" );
+            break;
+        case 3:
+            echo_string = _( "Ping" );
+            break;
+        case 4:
+            echo_string = _( "Pong" );
+            break;
+        case 5:
+            echo_string = _( "Booop" );
+            break;
+        default:
+            debugmsg( "ERROR: Invalid echo string." );
+            break;
+        }
+    } else {    
+            switch( echo_volume ) {
+        case 1:
+            echo_string = _( "ch" );
+            break;
+        case 2:
+            echo_string = _( "chk" );
+            break;
+        case 3:
+            echo_string = _( "chhk" );
+            break;
+        case 4:
+            echo_string = _( "chkch" );
+            break;
+        case 5:
+            echo_string = _( "chkchh" );
+            break;
+        default:
+            debugmsg( "ERROR: Invalid echo string." );
+            break;
+        }
+    }
+            sounds::sound( origin, echo_volume, sounds::sound_t::sensory, _( echo_string ), false,
                         "none", "none" );
         }
     }
-
 }
 
 bool Character::knows_trap( const tripoint &pos ) const
@@ -12836,6 +12943,9 @@ void Character::search_surroundings()
 {
     if( controlling_vehicle ) {
         return;
+    }
+    if( has_active_bionic ( bio_sonar ) && is_underwater() && calendar::once_every( 5_turns ) ) {
+        echo_pulse();
     }
     map &here = get_map();
     // Search for traps in a larger area than before because this is the only

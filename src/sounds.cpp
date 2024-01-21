@@ -719,21 +719,26 @@ void sounds::process_sound_markers( Character *you )
         int err_offset;
 
         if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
-            err_offset = 3;
+            err_offset = rand() % 4;
         } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
-            err_offset = 2;
+            err_offset = rand() % 3;
         } else {
             err_offset = rand() % 2;
         }
 
         // Echolocation has to be fairly precise or it's worse than useless.
+        // However, it is never perfect.
         if ( sound.category == sound_t::sensory ) {
             if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
                 err_offset = rand() % 3;
             } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
                 err_offset = rand() % 2;
             } else {
-                err_offset = 0;
+                if( one_in( 3 ) ) {
+                err_offset = rand() % 2;
+                } else {
+                    err_offset = 0;
+                }
             }
         }
 
