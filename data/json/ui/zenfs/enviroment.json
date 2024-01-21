@@ -5,7 +5,15 @@
     "style": "layout",
     "arrange": "rows",
     "width": 50,
-    "widgets": [ "zenfs_sun_bar", "zenfs_wind_moon", "zenfs_lighting_date", "zenfs_weather_safe", "zenfs_env_temp_time_rad", "zenfs_blank_line", "zenfs_place_omloc" ]
+    "widgets": [
+      "zenfs_sun_bar",
+      "zenfs_wind_moon",
+      "zenfs_lighting_date",
+      "zenfs_weather_safe",
+      "zenfs_env_temp_time_rad",
+      "zenfs_blank_line",
+      "zenfs_place_omloc"
+    ]
   },
   {
     "id": "zenfs_sun_with_moon",
@@ -348,7 +356,15 @@
     "style": "layout",
     "arrange": "rows",
     "width": 1,
-    "widgets": [ "zenfs_om_divider_l1", "zenfs_om_divider_l2", "zenfs_om_divider_l3", "zenfs_om_divider_l4", "zenfs_om_divider_l5", "zenfs_om_divider_l6", "zenfs_om_divider_l7" ]
+    "widgets": [
+      "zenfs_om_divider_l1",
+      "zenfs_om_divider_l2",
+      "zenfs_om_divider_l3",
+      "zenfs_om_divider_l4",
+      "zenfs_om_divider_l5",
+      "zenfs_om_divider_l6",
+      "zenfs_om_divider_l7"
+    ]
   },
   {
     "id": "zenfs_om_divider_l1",
@@ -362,7 +378,7 @@
     "type": "widget",
     "style": "text",
     "string": "<color_dark_gray>┇</color>",
-    "flags": [ "W_LABEL_NONE"]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l3",
@@ -376,7 +392,7 @@
     "type": "widget",
     "style": "text",
     "string": "<color_dark_gray>┇</color>",
-    "flags": [ "W_LABEL_NONE"]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l5",
@@ -390,7 +406,7 @@
     "type": "widget",
     "style": "text",
     "string": "<color_dark_gray>┇</color>",
-    "flags": [ "W_LABEL_NONE"]
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "zenfs_om_divider_l7",
