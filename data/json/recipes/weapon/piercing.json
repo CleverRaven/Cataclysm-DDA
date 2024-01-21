@@ -866,7 +866,7 @@
         [ "scalpel", 1 ],
         [ "xacto", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ],
+      [ [ "nails", 2, "LIST" ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -953,7 +953,7 @@
         [ "scalpel", 1 ],
         [ "xacto", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ],
+      [ [ "nails", 2, "LIST" ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1025,7 +1025,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ],
+      [ [ "nails", 2, "LIST" ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1045,7 +1045,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "spear_knife", 1 ] ],
-      [ [ "any_nail", 2, "LIST" ],
+      [ [ "nails", 2, "LIST" ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -1082,7 +1082,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "any_nail", 2, "LIST" ],
+      [ [ "nails", 2, "LIST" ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
