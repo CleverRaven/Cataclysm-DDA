@@ -24,3 +24,17 @@ Character inherits from creature.
 
 Effects have one or more enchantments
   These enchantments are applied to characters
+
+Enchantment effects that are relevant to monsters:
+  ARMOR_ACID
+  ARMOR_BASH
+  ARMOR_BIO
+  ARMOR_BULLET
+  ARMOR_COLD
+  ARMOR_CUT
+  ARMOR_ELEC
+  ARMOR_HEAT
+  ARMOR_STAB
+  SPEED
+  MAX_HP
+  REGEN_HP
