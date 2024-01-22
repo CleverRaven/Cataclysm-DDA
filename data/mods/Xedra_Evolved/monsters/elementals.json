@@ -177,7 +177,7 @@
         "miss_msg_npc": "The water churns around %s but <npcname> keeps their distance!"
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_ratatosk_children",
