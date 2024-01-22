@@ -60,7 +60,7 @@
         }
       ]
     },
-    "effect": [ { "u_lose_effect": "effect_ierde_sense_nearby_monsters" } ]
+    "effect": [ { "u_deactivate_trait": "IERDE_DETECT_NEARBY_MONSTERS_EARTH" } ]
   },
   {
     "type": "effect_on_condition",
