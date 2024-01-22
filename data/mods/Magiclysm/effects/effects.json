@@ -765,7 +765,7 @@
     "apply_message": "",
     "remove_message": "You can no longer discern the vibrations of the living earth.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "50 minutes",
     "enchantments": [
       {
         "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
