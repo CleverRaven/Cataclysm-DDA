@@ -48,6 +48,7 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -143,8 +144,8 @@ bool map::build_transparency_cache( const int zlev )
                     value *= sight_penalty;
                 }
                 float value_wo_fields = value;
-                    Character &player_character = get_player_character();
-                    if( !player_character.vision_mode_cache[IR_VISION] ) {
+                Character &player_character = get_player_character();
+                if( !player_character.vision_mode_cache[IR_VISION] ) {
                     for( const auto &fld : cur_submap->get_field( sp ) ) {
                         const field_intensity_level &i_level = fld.second.get_intensity_level();
                         if( i_level.transparent ) {
@@ -153,7 +154,7 @@ bool map::build_transparency_cache( const int zlev )
                         // Fields are either transparent or not, however we want some to be translucent
                         value = value * i_level.translucency;
                     }
-                    }
+                }
                 return std::make_pair( value, value_wo_fields );
             };
 
@@ -210,14 +211,14 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool dirty = false;
 
     bool is_crouching = player_character.is_crouching();
-    bool is_runallfours = player_character.is_runallfours();
+    bool low_profile = player_character.has_effect( effect_quadruped_full ) && player_character.is_running();
     bool is_prone = player_character.is_prone();
 
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone || is_runallfours ) && coverage( loc ) >= 30 ) {
+        } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
@@ -813,7 +814,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-//    Character &player_character = get_player_character();
+    //    Character &player_character = get_player_character();
     const level_cache &map_cache = get_cache_ref( t.z );
     if( map_cache.seen_cache[t.x][t.y] > 0.075f ) {
         return true;

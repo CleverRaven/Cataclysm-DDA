@@ -1622,10 +1622,12 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
                 if( you->has_effect( effect_social_dissatisfied ) ) {
                     you->remove_effect( effect_social_dissatisfied );
                 }
-                if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) && !you->has_effect( effect_social_satisfied ) ) {
+                if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                    !you->has_effect( effect_social_satisfied ) ) {
                     you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
                 }
-                if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) && !you->has_effect( effect_asocial_dissatisfied ) ) {
+                if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                    !you->has_effect( effect_asocial_dissatisfied ) ) {
                     you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
                 }
             }
@@ -3801,10 +3803,12 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                     if( you->has_effect( effect_social_dissatisfied ) ) {
                         you->remove_effect( effect_social_dissatisfied );
                     }
-                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) && !you->has_effect( effect_social_satisfied ) ) {
+                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                        !you->has_effect( effect_social_satisfied ) ) {
                         you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
                     }
-                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) && !you->has_effect( effect_asocial_dissatisfied ) ) {
+                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                        !you->has_effect( effect_asocial_dissatisfied ) ) {
                         you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
                     }
                 }

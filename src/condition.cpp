@@ -564,7 +564,7 @@ conditional_t::func f_has_trait( const JsonObject &jo, std::string_view member, 
     return [trait_to_check, is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
     };
-}        
+}
 
 
 conditional_t::func f_can_see_friends( const JsonObject &jo, std::string_view member, bool is_npc )
@@ -574,23 +574,23 @@ conditional_t::func f_can_see_friends( const JsonObject &jo, std::string_view me
         Character &player_character = get_player_character();
         const Character *ch = d.actor( is_npc )->get_character();
         int seen = 0;
-            if( is_npc ) {
-                    if( ch->sees( player_character ) && ch->as_npc()->is_friendly( player_character ) ) {
+        if( is_npc ) {
+            if( ch->sees( player_character ) && ch->as_npc()->is_friendly( player_character ) ) {
+                seen += 1;
+            }
+            for( npc &guy : g->all_npcs() ) {
+                if( ch->sees( guy ) && guy.is_friendly( *ch ) ) {
                     seen += 1;
-                    }
-                    for( npc &guy : g->all_npcs() ) {
-                        if( ch->sees( guy ) && guy.is_friendly( *ch ) ) {
-                        seen += 1;
-                        }
-                    }
-            } else if( !is_npc ) {
-                int seen = 0;
-                for( npc &guy : g->all_npcs() ) {
-                    if( get_player_view().sees( guy ) && guy.is_friendly( player_character ) ) {
-                    seen += 1;
-                    }
                 }
             }
+        } else if( !is_npc ) {
+            int seen = 0;
+            for( npc &guy : g->all_npcs() ) {
+                if( get_player_view().sees( guy ) && guy.is_friendly( player_character ) ) {
+                    seen += 1;
+                }
+            }
+        }
         return seen >= dov.evaluate( d );
     };
 }

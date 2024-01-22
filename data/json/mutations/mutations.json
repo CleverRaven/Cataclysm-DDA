@@ -2500,7 +2500,7 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
-    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep the blood flowing long after it should have stopped.",
+    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep their blood flowing long after it should have clotted.",
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
@@ -4308,10 +4308,11 @@
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
     "movecost_modifier": 1.35,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "destroys_gear": true,
-    "//": "Uses bespoke triggers rather than QUADRUPED_CROUCH as bat-crawling gives different stats.",
+    "//": "Uses bespoke triggers rather than QUADRUPED_CROUCH as bat-crawling gives different buffs.",
     "triggers": [
       [
         {
@@ -4336,7 +4337,7 @@
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "all_fours", "intensity": 1 } ]
       },
       {
       "condition": {
@@ -4362,6 +4363,7 @@
     "types": [ "FEET" ],
     "prereqs": [ "LEGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
     "flags": [ "WALL_CLING" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true
@@ -7474,11 +7476,14 @@
     "id": "BLOODFEEDER",
     "name": { "str": "Bloodfeeder" },
     "points": -5,
-    "description": "Your craving for blood borders on obsession.  You don't care if it's human or animal, all you know is that you've got to have it, and other foods just don't taste as good.",
+    "description": "Your craving for blood borders on obsession.  Your system has gained a mild tolerance to the toxins polluting mutant flesh.  When it comes to blood (and only blood), you need the stuff too much to care about whether it came from a human.",
     "types": [ "DIET" ],
     "flags": [ "BLOODFEEDER" ],
     "cancels": [ "VEGAN", "HEMOVORE" ],
+    "prereqs": [ "HEMOVORE" ],
+    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.5 ] ] ] ],
     "category": [ "CHIROPTERAN" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
     "vitamin_rates": [ [ "iron", 2400 ] ]
   },
   {
@@ -9285,6 +9290,7 @@
     "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
     "types": [ "FEET" ],
     "category": [ "RABBIT" ],
+    "flags": [ "QUADRUPED_RUN" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -9295,67 +9301,7 @@
       "attack_text_npc": "%1$s kicks %2$s with their large feet!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 1.5 }
-    },
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "u_has_move_mode": "run" },
-              { "not": "u_can_drop_weapon" },
-              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_RABBIT" ] },
-              { "u_has_flag": "QUADRUPED_CROUCH" }
-            ]
-          },
-          "msg_on": { "text": "You drop down on all fours." },
-          "msg_off": { "text": "You rise up to walk on your hind feet." }
-        }
-      ]
-    ],
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "crouch" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST", "THRESH_RABBIT" ] },
-            { "u_has_flag": "QUADRUPED_CROUCH" }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      },
-      {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "run" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST", "THRESH_RABBIT" ] },
-            { "u_has_flag": "QUADRUPED_CROUCH" }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      },
-      {
-        "condition": {
-          "or": [
-            "u_can_drop_weapon",
-            { "u_has_move_mode": "walk" },
-            {
-              "and": [
-                { "not": { "u_has_trait": "THRESH_LUPINE" } },
-                { "not": { "u_has_trait": "THRESH_FELINE" } },
-                { "not": { "u_has_trait": "THRESH_BEAST" } },
-                { "not": { "u_has_trait": "THRESH_RABBIT" } }
-              ]
-            },
-            { "not": { "u_has_flag": "QUADRUPED_CROUCH" } }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
-      }
-    ]
+    }
   },
   {
     "type": "mutation",

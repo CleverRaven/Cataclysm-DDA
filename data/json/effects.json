@@ -348,10 +348,10 @@
     "type": "effect_type",
     "id": "sneezing",
     "name": [ "Sneezing" ],
-    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "rating": "bad",
+    "desc": [ "It's hard to pay attention to anything when you're in the middle of sneezing!" ],
     "max_duration": "1 s",
-    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
-    "show_in_info": false
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -3771,9 +3771,7 @@
     "type": "effect_type",
     "id": "social_satisfied",
     "name": [ "Good Company" ],
-    "desc": [
-      "It feels good to spend time around others."
-    ],
+    "desc": [ "It feels good to spend time around others." ],
     "max_intensity": 1,
     "rating": "good"
   },
@@ -3793,9 +3791,7 @@
     "type": "effect_type",
     "id": "asocial_satisfied",
     "name": [ "Alone" ],
-    "desc": [
-      "Being on your own makes you feel good."
-    ],
+    "desc": [ "Being on your own makes you feel good." ],
     "max_intensity": 1,
     "rating": "good"
   },
@@ -4760,14 +4756,31 @@
   },
   {
     "type": "effect_type",
+    "id": "quadruped_full",
+    "name": [ "" ],
+    "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_half",
+    "name": [ "" ],
+    "//": "Allows quadrupedal mutants with front paws only to crouch-walk slightly faster than normal.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
     "id": "natural_stance",
     "name": [ "Natural Stance" ],
-    "desc": [ "You are positioned to take advantage of your mutated anatomy, and will favor any natural attacks you may have." ]
+    "rating": "good",
+    "desc": [
+      "You are positioned to take advantage of your mutated anatomy, and will favor any natural attacks you may have.  Apart from potential changes to move speed, you receive no penalties for crouching in melee combat."
+    ]
   },
   {
     "type": "effect_type",
     "id": "subaquatic_sonar",
     "name": [ "Subaquatic SONAR" ],
-    "desc": [ "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back." ]
+    "desc": [
+      "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
+    ]
   }
 ]

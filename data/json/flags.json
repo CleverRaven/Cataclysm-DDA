@@ -2389,11 +2389,6 @@
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
   },
   {
-    "id": "QUADRUPED",
-    "type": "json_flag",
-    "//": "This character receives no penalty for crouching in melee."
-  },
-  {
     "id": "NATURAL_WEAPON",
     "type": "json_flag",
     "//": "This item is a 'natural' weapon, such as a mutant's fangs or claws. Should not be applied to bionic weapons."
@@ -2437,8 +2432,8 @@
   {
     "id": "QUADRUPED",
     "type": "json_flag",
-    "//": "This post-threshold mutant has had enough of their brain rewired to use their paws (if they have them) for quadrupedal movement."
-  }
+    "//": "This post-threshold mutant has had enough of their brain replaced to use their paws (if they have them) for quadrupedal movement."
+  },
   {
     "id": "QUADRUPED_CROUCH",
     "type": "json_flag",

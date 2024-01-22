@@ -76,7 +76,7 @@ struct conditional_t {
         conditional_t() = default;
         explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
-  
+
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>

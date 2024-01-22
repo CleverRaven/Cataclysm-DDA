@@ -701,49 +701,129 @@
     "id": "EOC_social1_bonus",
     "recurrence": [ "10 minutes", "30 minutes" ],
     "//": "Alcohol and sedatives prevent the bad effects of these EOCs.  Antidepressants prevent (but don't remove) both the good and bad effects, keeping you at a baseline state.",
-    "condition": { "and": [ { "u_has_flag": "SOCIAL1" }, { "not": { "u_has_effect": "took_prozac" } }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "u_can_see_friends": 1 },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
     "effect": [ { "u_lose_effect": "social_dissatisfied" }, { "u_add_effect": "social_satisfied", "duration": "2 hours" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_bonus",
     "recurrence": [ "10 minutes", "30 minutes" ],
-    "condition": { "and": [ { "u_has_flag": "SOCIAL2" }, { "not": { "u_has_effect": "took_prozac" } }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_lose_effect": "social_dissatisfied" }, { "u_add_effect": "social_satisfied", "duration": "6 hours" }, { "u_lose_effect": "social_dissatisfied" } ]
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "u_can_see_friends": 1 },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "6 hours" },
+      { "u_lose_effect": "social_dissatisfied" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_penalty",
     "recurrence": [ "12 hours", "48 hours" ],
-    "condition": { "and": [ { "u_has_flag": "SOCIAL2" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "took_prozac" } }, { "not": { "u_has_effect": "valium" } }, { "not": { "u_has_effect": "took_xanax" } }, { "not": { "u_has_effect": "drunk" } }, { "not": { "u_has_effect": "social_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "social_dissatisfied", "duration": "PERMANENT", "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] } }, { "u_lose_effect": "social_satisfied" }, { "u_message": "You could use some friendly company.", "type": "bad" } ]
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "u_can_see_friends": 0 },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "not": { "u_has_effect": "social_satisfied" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "social_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] }
+      },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_message": "You could use some friendly company.", "type": "bad" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial1_bonus",
     "recurrence": [ "10 minutes", "30 minutes" ],
-    "condition": { "and": [ { "u_has_flag": "ASOCIAL1" }, { "not": { "u_has_effect": "took_prozac" } }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "narcosis" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "u_can_see_friends": 0 },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "2 hours" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial2_bonus",
     "recurrence": [ "10 minutes", "30 minutes" ],
-    "condition": { "and": [ { "u_has_flag": "ASOCIAL2" }, { "u_can_see_friends": 0 }, { "not": { "u_has_effect": "took_prozac" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "6 hours" }, { "u_lose_effect": "asocial_dissatisfied" } ]
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "u_can_see_friends": 0 },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_dissatisfied" },
+      { "u_add_effect": "asocial_satisfied", "duration": "6 hours" },
+      { "u_lose_effect": "asocial_dissatisfied" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial2_penalty",
     "recurrence": [ "12 hours", "48 hours" ],
-    "condition": { "and": [ { "u_has_flag": "ASOCIAL2" }, { "not": { "u_has_effect": "took_prozac" } }, { "not": { "u_has_effect": "asocial_satisfied" } }, { "not": { "u_has_effect": "valium" } }, { "not": { "u_has_effect": "took_xanax" } }, { "not": { "u_has_effect": "drunk" } }, { "u_can_see_friends": 1 }, { "not": { "u_has_effect": "asocial_satisfied" } }, { "not": { "u_has_effect": "narcosis" } } ] },
-    "effect": [ { "u_add_effect": "asocial_dissatisfied", "duration": "PERMANENT", "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] } }, { "u_lose_effect": "asocial_satisfied" }, { "u_message": "You'd really rather be by yourself.", "type": "bad" } ]
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "asocial_satisfied" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "u_can_see_friends": 1 },
+        { "not": { "u_has_effect": "asocial_satisfied" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "asocial_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] }
+      },
+      { "u_lose_effect": "asocial_satisfied" },
+      { "u_message": "You'd really rather be by yourself.", "type": "bad" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_social_reset_sleep",
     "recurrence": [ "30 minutes", "45 minutes" ],
-    "condition": { "and": [ { "u_has_effect": "narcosis" }, { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_effect": "narcosis" },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   },
   {
@@ -751,94 +831,86 @@
     "id": "EOC_social_reset_drugs",
     "recurrence": [ "1 seconds", "1 seconds" ],
     "//": "Sedatives are effective at acutely treating social anxiety/autophobia.  Enjoy your benzo addiction, survivors.",
-    "condition": { "and": [ { "or": [ { "u_has_effect": "valium" }, { "u_has_effect": "took_xanax" } ] }, { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] } ] },
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "valium" }, { "u_has_effect": "took_xanax" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_quadruped_movement",
-    "//": "Handles movement for quadrupeds with paws. Avoid applying this willy-nilly - movement modes are a distinguishing feature of some mutation lines and giving the same ones to every animal that happens to be a quadruped IRL will homogenize things and make the lines less distinct.",
+    "//": "Quadrupedal post-thresh mutants with paws in front and back get these effects when they're running or crouching and empty-handed.",
     "triggers": [
       [
         {
           "condition": {
             "and": [
-              { "u_has_move_mode": "run" },
+              { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] },
               { "not": "u_can_drop_weapon" },
               { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
+              { "u_has_flag": [ "QUADRUPED_RUN" ] },
               { "u_has_flag": [ "QUADRUPED" ] }
             ]
           },
-          "msg_on": { "text": "You drop down on all fours." },
-          "msg_off": { "text": "You rise up to walk on your hind feet." }
+          "effect": [ { "u_add_effect": "quadruped_full", "duration": "PERMANENT" }, { "u_add_effect": "natural_stance", "duration": "PERMANENT" }, { "u_message": "You drop down on all fours." } ]
         }
       ]
-    ],
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "crouch" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST", "THRESH_RABBIT" ] },
-            { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
-            { "u_has_flag": [ "QUADRUPED" ] }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      },
-      {
-        "condition": {
-          "and": [
-            { "u_has_move_mode": "run" },
-            { "not": "u_can_drop_weapon" },
-            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST", "THRESH_RABBIT" ] },
-            { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
-            { "u_has_flag": [ "QUADRUPED" ] }
-          ]
-        },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_half_quadruped_movement",
-    "//": "Quadruped mutants who have forepaws but not hindpaws can crouch-walk, but not run, on all fours.",
+    "id": "EOC_quadruped_movement_half",
+    "//": "This is for post-thresh mutants with paws but not animal back legs.  It's a much more minor buff, and only to crawling.",
     "triggers": [
-  [
-    {
-      "condition": {
-        "and": [
-          { "u_has_move_mode": "crouch" },
-          { "not": "u_can_drop_weapon" },
-          { "not": { "u_has_flag": [ "QUADRUPED_RUN" ] } },
-          {
-            "u_has_flag": [ "QUADRUPED" ]
-          }
-        ]
-      },
-      "msg_on": { "text": "You drop down on all fours." },
-      "msg_off": { "text": "You rise up to walk on your hind feet." }
-    }
-  ]
-],
-"enchantments": [
-  {
-    "condition": {
-      "and": [
-        { "u_has_move_mode": "crouch" },
-        { "not": "u_can_drop_weapon" },
-        { "not": { "u_has_flag": [ "QUADRUPED_RUN" ] } },
+      [
         {
-          "u_has_flag": [ "QUADRUPED" ]
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "crouch" },
+              { "not": "u_can_drop_weapon" },
+              { "not": { "u_has_flag": [ "QUADRUPED_RUN" ] } },
+              { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
+              { "u_has_flag": [ "QUADRUPED" ] }
+            ]
+          },
+          "effect": [ { "u_add_effect": "quadruped_half", "duration": "PERMANENT" }, { "u_message": "You drop down on all fours." } ]
         }
       ]
-    },
-    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
-    }
-  ]
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_quadruped_full_lose",
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [ { "u_has_effect": "quadruped_full" },
+            { "or": [ { "not": { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] } }, { "not": "u_can_drop_weapon" } ] }
+            ]
+          },
+          "effect": [ { "u_lose_effect": "quadruped_full", "duration": "PERMANENT" }, { "u_lose_effect": "natural_stance", "duration": "PERMANENT" }, { "u_message": "You stop crawling on all fours." } ]
+        }
+      ]
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_quadruped_half_lose",
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [ { "u_has_effect": "quadruped_half" },
+              { "or": { "not": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] } }
+            ]
+          },
+          "effect": [ { "u_lose_effect": "quadruped_half", "duration": "PERMANENT" }, { "u_message": "You stop crawling on all fours." } ]
+        }
+      ]
+    ]
   }
 ]

@@ -165,6 +165,8 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
+
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 6> carnivore_blacklist {{
@@ -511,23 +513,25 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
         }
     }
 
-    // Cooked blood is OK, but it's really better raw.
+    // Cooked blood is OK, but it's really better raw
+    // This is automatically handled by raw blood having negative fun
     if( comest.has_flag( flag_HEMOVORE_FUN ) ) {
         if( has_flag( json_flag_BLOODFEEDER ) ) {
-            if( fun <= 0) {
-            fun += 25;
+            if( fun <= 0 ) {
+                fun += 25;
             } else {
                 fun *= 1.2;
             }
         } else if( has_flag( json_flag_HEMOVORE ) ) {
             if( fun <= 0 ) {
-            fun += 13;
+                fun += 13;
             } else {
                 fun *= 1.1;
             }
         }
     }
 
+    // This cherry soda's just not the same...
     if( has_flag( json_flag_BLOODFEEDER ) && !comest.has_flag( flag_HEMOVORE_FUN ) && fun > 0 ) {
         fun *= 0.5;
     }
