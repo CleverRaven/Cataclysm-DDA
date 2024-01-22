@@ -205,13 +205,13 @@
       { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
       { "u_add_trait": "LUCID_DREAM" },
       {
-        "queue_eocs": "EOC_BOOM_RANDOM",
+        "queue_eocs": "EOC_LUCID_DREAM",
         "time_in_future": { "math": [ "((u_spell_level('dreamer_lucid_dreams')+1)*700)" ] }
       }
     ]
   },
   {
-    "id": "EOC_DUST_REBORN",
+    "id": "EOC_LUCID_REBIRTH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_trait": "LUCID_DREAM" },
