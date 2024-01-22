@@ -340,6 +340,23 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "bolt_ballista_steel",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ], [ "traps", 1 ] ],
+    "difficulty": 6,
+    "charges": 1,
+    "time": "1 h 30 m",
+    "book_learn": [ [ "ballista_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 4 ], [ "bronze_nail", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
