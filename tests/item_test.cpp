@@ -36,6 +36,7 @@ static const item_category_id item_category_clothing( "clothing" );
 static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_guns( "guns" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
@@ -905,21 +906,36 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
 
 TEST_CASE( "item_single_type_contents", "[item]" )
 {
+    item rock( "test_rock" );
+    std::array<std::string, 2> const variants = { "test_rock_blue", "test_rock_green" };
     item walnut( "walnut" );
-    item nail( "nail" );
     item bag( "bag_plastic" );
     REQUIRE( bag.get_category_of_contents().id == item_category_container );
     int const num = GENERATE( 1, 2 );
     bool ret = true;
     for( int i = 0; i < num; i++ ) {
-        ret &= bag.put_in( walnut, pocket_type::CONTAINER ).success();
+        rock.set_itype_variant( variants[i] );
+        ret &= bag.put_in( rock, pocket_type::CONTAINER ).success();
     }
     REQUIRE( ret );
     CAPTURE( num, bag.display_name() );
-    CHECK( bag.get_category_of_contents() == *item_category_food );
-    REQUIRE( nail.get_category_of_contents().id != walnut.get_category_of_contents().id );
-    REQUIRE( bag.put_in( nail, pocket_type::CONTAINER ).success() );
-    CHECK( bag.get_category_of_contents().id == item_category_container );
+    CHECK( bag.get_category_of_contents() == *item_category_spare_parts );
+    REQUIRE( walnut.get_category_of_contents().id != rock.get_category_of_contents().id );
+    REQUIRE( bag.put_in( walnut, pocket_type::CONTAINER ).success() );
+    if( num == 1 ) {
+        // 1 rock and 1 walnut - nothing dominates
+        CHECK( bag.get_category_of_contents().id == item_category_container );
+    } else {
+        // 2 rock and 1 walnuts - rocks dominate
+        CHECK( bag.get_category_of_contents().id == item_category_spare_parts );
+        REQUIRE( bag.put_in( walnut, pocket_type::CONTAINER ).success() );
+        item hammer( "hammer" );
+        REQUIRE( hammer.get_category_of_contents().id != rock.get_category_of_contents().id );
+        REQUIRE( hammer.get_category_of_contents().id != walnut.get_category_of_contents().id );
+        REQUIRE( bag.put_in( hammer, pocket_type::CONTAINER ).success() );
+        // no dominant category anymore - revert to container
+        CHECK( bag.get_category_of_contents().id == item_category_container );
+    }
 
     SECTION( "clothing" ) {
         item jeans( "jeans" );
