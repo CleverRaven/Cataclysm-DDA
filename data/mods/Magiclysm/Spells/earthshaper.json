@@ -813,7 +813,7 @@
     "max_level": 10,
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "min_duration": 30000,
+    "min_duration": 0,
     "max_duration": 300000,
     "duration_increment": 30000
   },
