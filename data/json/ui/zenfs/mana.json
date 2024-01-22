@@ -8,6 +8,14 @@
     "flags": [ "W_NO_PADDING" ]
   },
   {
+    "id": "zenfs_mana_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_mana_label", "zenfs_mana_bar_14" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
     "id": "zenfs_bionicpower_bar_14_no_label",
     "type": "widget",
     "style": "graph",
@@ -64,7 +72,6 @@
   {
     "id": "zenfs_mana_bar_14",
     "type": "widget",
-    "label": "Mana",
     "style": "graph",
     "var": "mana",
     "width": 14,
@@ -72,20 +79,27 @@
     "fill": "bucket",
     "colors": [ "c_dark_gray", "c_red", "c_magenta", "c_blue" ],
     "breaks": [ 1, 26, 50 ],
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "zenfs_mana_label",
+    "type": "widget",
+    "style": "text",
+    "width": 6,
     "clauses": [
       {
         "id": "label_invisible",
-        "text": "····",
+        "text": "····  ",
         "color": "c_dark_gray",
         "condition": { "math": [ "u_val('mana_max')", "<=", "0" ] }
       },
       {
         "id": "label_visible",
-        "text": "Power",
+        "text": "Mana  ",
         "color": "c_light_gray",
         "condition": { "math": [ "u_val('mana_max')", ">", "0" ] }
       }
     ],
-    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   }
 ]

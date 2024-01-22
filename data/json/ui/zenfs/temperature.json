@@ -17,7 +17,7 @@
     "id": "zenfs_env_temp_desc",
     "type": "widget",
     "style": "layout",
-    "width": 21,
+    "width": 19,
     "arrange": "rows",
     "widgets": [ "env_temp_desc_no_label" ]
   },

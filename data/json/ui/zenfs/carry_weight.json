@@ -7,8 +7,8 @@
     "style": "graph",
     "label": "<color_dark_gray>CarryWt</color>",
     "symbols": " −=≡≣",
-    "colors": [ "c_brown", "c_yellow", "c_light_red", "c_red", "c_white_red" ],
-    "breaks": [ 75, 90, 100, 110 ]
+    "colors": [ "c_brown", "c_red", "c_light_red", "c_white_red" ],
+    "breaks": [ 75, 100, 110 ]
   },
   {
     "id": "zenfs_carry_weight_bar_12",

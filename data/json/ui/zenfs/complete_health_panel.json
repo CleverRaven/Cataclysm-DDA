@@ -18,7 +18,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_stamina_carrywt_fatigue", "zenfs_weariness_activity_malus", "zenfs_pain_power_mana" ]
+    "widgets": [ "zenfs_stamina_carrywt_malus", "zenfs_fatigue_weariness_activity", "zenfs_pain_power_mana" ]
   },
   {
     "id": "zenfs_hp_bars_and_physical",
@@ -31,7 +31,7 @@
       "zenfs_blank_line",
       "zenfs_health_stack_20",
       "zenfs_bionic_bar_14_with_balance",
-      "zenfs_mana_bar_14"
+      "zenfs_mana_bar"
     ]
   },
   {
@@ -91,7 +91,7 @@
       "zenfs_pain_bar_15",
       "zenfs_carry_weight_bar_12",
       "zenfs_stamina_bar_12",
-      "zenfs_fatigue_bar_12",
+      "zenfs_fatigue_bar",
       "zenfs_weariness_bar_10",
       "zenfs_activity_desc",
       "zenfs_weariness_trans_malus"
@@ -138,20 +138,20 @@
     "widgets": [ "zenfs_stat_block", "zenfs_blank_line", "zenfs_movement_block" ]
   },
   {
-    "id": "zenfs_stamina_carrywt_fatigue",
+    "id": "zenfs_stamina_carrywt_malus",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 22,
-    "widgets": [ "zenfs_stamina_bar_14", "zenfs_carry_weight_bar_14", "zenfs_fatigue_bar_14" ]
+    "widgets": [ "zenfs_stamina_bar_14", "zenfs_carry_weight_bar_14", "zenfs_weariness_trans_malus_alt" ]
   },
   {
-    "id": "zenfs_weariness_activity_malus",
+    "id": "zenfs_fatigue_weariness_activity",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 20,
-    "widgets": [ "zenfs_weariness_bar_10", "zenfs_activity_desc", "zenfs_weariness_trans_malus" ]
+    "widgets": [ "zenfs_fatigue_bar_alt", "zenfs_weariness_bar_10", "zenfs_activity_desc" ]
   },
   {
     "id": "zenfs_pain_power_mana",
@@ -159,7 +159,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 20,
-    "widgets": [ "zenfs_pain_bar_14", "zenfs_bionic_bar_14_with_balance", "zenfs_mana_bar_14" ]
+    "widgets": [ "zenfs_pain_bar_14", "zenfs_bionic_bar_14_with_balance", "zenfs_mana_bar" ]
   },
   {
     "id": "zenfs_stat_block",
