@@ -803,8 +803,8 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "effect": "bash",
     "shape": "line",
-    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 2) + 20) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 6) + 50) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 35) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 7) + 80) * (scaling_factor(u_val('strength') ) )" ] },
     "min_range": {
       "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
     },

@@ -663,22 +663,16 @@
   },
   {
     "type": "mutation",
-    "id": "UNDINE_WATER_ACID_BODY",
-    "name": { "str": "Befouled Water Rebuke" },
+    "id": "UNDINE_LIQUID_WATER_POCKET",
+    "name": { "str": "The Sea Is Always With Me" },
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Undine can infuse their own body with their acidic mist, potentially burning anyone who strikes them.",
-    "prereqs": [ "UNDINE_WATER_BODY" ],
-    "prereqs2": [ "ACIDIC_MIST" ],
+    "description": "The Undine can draw a bit of extra water into their watery skin, fortifying them for journeys away from a water source.",
+    "prereqs": [ "UNDINE_SKIN_3" ],
+    "prereqs2": [ "WATER_SEALED" ],
     "category": [ "UNDINE" ],
     "threshreq": [ "THRESH_UNDINE" ],
-    "active": true,
-    "activated_is_setup": true,
-    "cost": 1,
-    "thirst": true,
-    "time": 60,
-    "active_flags": [ "ACID_IMMUNE" ],
-    "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "undine_acid_body_spell", "once_in": 3, "hit_self": false } ] } ]
+    "integrated_armor": [ "item_undine_liquid_water_pocket" ]
   }
 ]

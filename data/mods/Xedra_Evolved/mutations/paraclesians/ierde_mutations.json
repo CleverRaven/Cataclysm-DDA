@@ -405,5 +405,30 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "passive_mods": { "str_mod": 9 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_PER_BONUS",
+    "name": { "str": "The Hills Overlook the Valleys" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_EYES" ],
+    "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
+    "category": [ "IERDE" ],
+    "passive_mods": { "per_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_DISEASE_OR_PARA",
+    "name": { "str": "The Stone Does Not Rot" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "description": "The stones do not rot as the trees or humans do, and neither is the Ierde affected by the frailties of the flesh.  They are immune to disease and cannot suffer from parasites.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "flags": [ "PARAIMMUNE", "NO_DISEASE" ]
   }
 ]
