@@ -237,35 +237,19 @@
       {
         "condition": {
           "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_grave" },
-            { "u_is_on_terrain": "t_forestfloor" },
-            { "u_is_on_terrain": "t_grass" },
-            { "u_is_on_terrain": "t_grass_long" },
-            { "u_is_on_terrain": "t_grass_tall" },
-            { "u_is_on_terrain": "t_grass_dead" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "u_is_on_terrain": "t_moss" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
-            { "u_is_on_terrain": "t_rock_wall_half" },
-            { "u_is_on_terrain": "t_mud_underground" },
-            { "u_is_on_terrain": "t_moss_underground" },
-            { "u_is_on_terrain": "t_clay_underground" },
-            { "u_is_on_terrain": "t_sand_underground" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] }
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
           ]
         },
         "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 } ]
@@ -285,35 +269,19 @@
       {
         "condition": {
           "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_grave" },
-            { "u_is_on_terrain": "t_forestfloor" },
-            { "u_is_on_terrain": "t_grass" },
-            { "u_is_on_terrain": "t_grass_long" },
-            { "u_is_on_terrain": "t_grass_tall" },
-            { "u_is_on_terrain": "t_grass_dead" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "u_is_on_terrain": "t_moss" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
-            { "u_is_on_terrain": "t_rock_wall_half" },
-            { "u_is_on_terrain": "t_mud_underground" },
-            { "u_is_on_terrain": "t_moss_underground" },
-            { "u_is_on_terrain": "t_clay_underground" },
-            { "u_is_on_terrain": "t_sand_underground" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] }
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
           ]
         },
         "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 }, { "value": "REGEN_HP", "multiply": 0.33 } ]
