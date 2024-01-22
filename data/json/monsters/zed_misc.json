@@ -371,7 +371,7 @@
     "id": "mon_zombie_bruiser",
     "type": "MONSTER",
     "name": { "str": "bruiser zombie" },
-    "description": "This zombie's right arm has been grotesquely deformed into a massive mace-like shape.  What remains of its hand has been covered in spiky bone, and the upper arm's skin is clearly coming apart from the weight on it.",
+    "description": "This zombie's right arm has been grotesquely deformed into a massive mace-like shape.  What remains of its hand has been covered in spiky bone, and the upper arm's skin is clearly coming apart from the pressure on it.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
