@@ -139,8 +139,7 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-    "//": "Only apply all_fours here, as it's not needed when actually crouching.",
-    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "all_fours", "intensity": 1 } ]
+    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
   },
   {
     "id": "ench_quadruped_movement_half",
