@@ -161,7 +161,7 @@
     "vision_night": 5,
     "grab_strength": 40,
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "dissect": "dissect_undine_single",
+    "dissect": "dissect_undine_small",
     "special_attacks": [
       {
         "id": "ranged_pull",
