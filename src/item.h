@@ -26,6 +26,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "material.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -186,6 +187,14 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
                          const units::mass &weight, int decimal_places = 2, bool lower_is_better = true );
 
 inline bool is_crafting_component( const item &component );
+
+struct stacking_info {
+    tname::segment_bitset bits;
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator bool() const {
+        return bits.all();
+    }
+};
 
 class item : public visitable
 {
@@ -404,15 +413,11 @@ class item : public visitable
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
-         * @param with_prefix determines whether to include more item properties, such as
-         * the extent of damage and burning (was created to sort by name without prefix
-         * in additional inventory)
-         * @param with_contents determines whether to add a suffix with the full name of the contents
-         * of this item (if with_contents = false and item is not empty, "n items" will be added)
+         * @param segments determines which tname elements are included
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents_full = true,
-                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
+        std::string tname( unsigned int quantity = 1,
+                           tname::segment_bitset const &segments = tname::default_tname ) const;
+        std::string tname( unsigned int quantity, bool with_prefix ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -542,10 +547,9 @@ class item : public visitable
 
         // Returns the category of this item, regardless of contents.
         const item_category &get_category_shallow() const;
-        // Returns the category of item inside this item.
+        // Returns the dominant category of items inside this one.
         // "can of meat" would be food, instead of container.
-        // If there are multiple items/stacks or none then it defaults to category of this item.
-        const item_category &get_category_of_contents() const;
+        const item_category &get_category_of_contents( int depth = 0, int maxdepth = 2 ) const;
 
         class reload_option
         {
@@ -616,8 +620,15 @@ class item : public visitable
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
+        /**
+         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * pieces of information are considered equal for display purposes
+         *
+         * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
+         */
+        stacking_info stacks_with( const item &rhs, bool check_components = false,
+                                   bool combine_liquid = false, bool check_cat = false,
+                                   int depth = 0, int maxdepth = 2, bool precise = false ) const;
 
         /**
          * Whether the two items have same contents.
@@ -949,7 +960,8 @@ class item : public visitable
          * of the container will be ignored.
          */
         item in_its_container( int qty = 0 ) const;
-        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true,
+                           const std::string &container_variant = "" ) const;
         void add_automatic_whitelist();
         void clear_automatic_whitelist();
 
@@ -1328,7 +1340,7 @@ class item : public visitable
         void rand_degradation();
 
         // @see itype::damage_level()
-        int damage_level() const;
+        int damage_level( bool precise = false ) const;
 
         // modifies melee weapon damage to account for item's damage
         float damage_adjusted_melee_weapon_damage( float value ) const;
@@ -1614,6 +1626,7 @@ class item : public visitable
         bool is_transformable() const;
         bool is_relic() const;
         bool is_same_relic( item const &rhs ) const;
+        bool is_same_temperature( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
@@ -1847,7 +1860,8 @@ class item : public visitable
          * Or "The jacket is too small", when it applies to all jackets, not just the one the
          * character tried to wear).
          */
-        std::string type_name( unsigned int quantity = 1 ) const;
+        std::string type_name( unsigned int quantity = 1, bool use_variant = true,
+                               bool use_cond_name = true, bool use_corpse = true ) const;
 
         /**
          * Number of (charges of) this item that fit into the given volume.
@@ -2759,7 +2773,8 @@ class item : public visitable
         /**
         * Returns label from "item_label" itemvar and quantity
         */
-        std::string label( unsigned int quantity = 0 ) const;
+        std::string label( unsigned int quantity = 0, bool use_variant = true,
+                           bool use_cond_name = true, bool use_corpse = true ) const;
 
         bool has_infinite_charges() const;
 
@@ -2912,6 +2927,22 @@ class item : public visitable
 
         item const *this_or_single_content() const;
         bool contents_only_one_type() const;
+        struct aggregate_t {
+            stacking_info info;
+            item const *header{};
+            unsigned int count{};
+
+            aggregate_t() = default;
+            explicit aggregate_t( item const *i )
+                : header( i ), count( 1 ) {
+                info.bits.set();
+            };
+
+            explicit operator bool() const noexcept {
+                return header != nullptr;
+            }
+        };
+        aggregate_t aggregated_contents( int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -3163,6 +3194,12 @@ class item : public visitable
         light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
         mutable cata::value_ptr<link_data> link_;
+
+        struct cat_cache {
+            item_category_id id;
+            time_point timestamp = calendar::turn_max;
+        };
+        mutable cat_cache cached_category;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
