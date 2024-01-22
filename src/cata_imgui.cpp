@@ -198,6 +198,22 @@ void cataimgui::client::process_input( void *input )
 
 #endif
 
+void cataimgui::point_to_imvec2( point *src, ImVec2 *dest )
+{
+    if( src != nullptr && dest != nullptr ) {
+        dest->x = src->x;
+        dest->y = src->y;
+    }
+}
+
+void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
+{
+    if( src != nullptr && dest != nullptr ) {
+        dest->x = src->x;
+        dest->y = src->y;
+    }
+}
+
 void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
         float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
@@ -303,6 +319,13 @@ class cataimgui::window_impl
             window_adaptor->is_imgui = true;
             window_adaptor->on_redraw( [this]( ui_adaptor & ) {
                 win_base->draw();
+                point catapos;
+                point catasize;
+                ImVec2 impos = ImGui::GetWindowPos();
+                ImVec2 imsize = ImGui::GetWindowSize();
+                imvec2_to_point( &impos, &catapos );
+                imvec2_to_point( &imsize, &catasize );
+                window_adaptor->position( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;

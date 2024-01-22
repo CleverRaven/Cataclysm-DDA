@@ -13,6 +13,9 @@ struct SDL_Renderer;
 struct SDL_Window;
 #endif
 
+struct point;
+class ImVec2;
+
 namespace cataimgui
 {
 struct bounds {
@@ -54,6 +57,9 @@ class client
         static struct SDL_Window *sdl_window;
 #endif
 };
+
+void point_to_imvec2( point *src, ImVec2 *dest );
+void imvec2_to_point( ImVec2 *src, point *dest );
 
 class window
 {
