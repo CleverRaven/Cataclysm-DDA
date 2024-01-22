@@ -212,7 +212,7 @@
     "opposite": "test_bionic_basic_leg_sub_r",
     "name_multiple": "bionic sublegs",
     "name": "left bionic subleg"
-  }, 
+  },
   {
     "id": "test_bionic_basic_leg_sub_r",
     "type": "sub_body_part",
