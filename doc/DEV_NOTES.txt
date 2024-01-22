@@ -1,0 +1,26 @@
+The goal here is to make it so that effects will apply their enchantments to monsters in addition to characters.
+
+Monster inherits from creature.
+  Monsters have an armor object 
+  Monster damage is handled by monster::deal_damage
+  Resistances applied via resistances::resistances( monster &monster ) located on line 607 of damage.cpp.
+    This function just calls the function on line 597 of the same file.
+    This in turn calls the function set_resist for each damage type.
+  Monsters process effects already!!!
+    Handled via monster::process_effects
+
+CONCLUSION 1: Handling damage enchantments is fundamentally different than handling persistent ones. This should be handled when the damage is applied, and not be connected to the armor values themselves.
+
+Creatures process effects!!!
+
+  Handled via creature::add_effect.
+  Note that this appears to only happen once.
+
+Character inherits from creature.
+  Characters have armor damage effects from enchantments applied via character_armor.cpp L96 armor_enchantment_adjust.
+  This is called from Character::apply_damage, which is in turn called from Character::deal_damage
+  These functions are called _when damage is dealt_. This does not affect armor stats directly. The only reason this might be an issue is for displaying armor values, but we don't need to worry about that because monsters never display that info anywhere.
+  A list of enchantments and their effects are kept in the enchantment_cache object, which we don't want to copy for performance reasons. Duplicating this for monsters is probably not a good idea.
+
+Effects have one or more enchantments
+  These enchantments are applied to characters
