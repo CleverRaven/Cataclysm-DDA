@@ -287,7 +287,7 @@
     "name": { "str": "Bionic Limb - Left Leg" },
     "description": "CBM which replaces your left leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "enchantments": [ "TEST_NCH_BIONIC_LEG_L" ]
+    "enchantments": [ "TEST_ENCH_BIONIC_LEG_L" ]
   },
   {
     "id": "test_bio_limb_leg_r",
