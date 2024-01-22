@@ -2,17 +2,11 @@
 #ifndef CATA_SRC_INPUT_H
 #define CATA_SRC_INPUT_H
 
-#include <algorithm>
-#include <functional>
 #include <map>
-#include <optional>
-#include <set>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include "input_enums.h"
-#include "input_context.h"  // for this commit only
 #include "translation.h"
 
 class cata_path;

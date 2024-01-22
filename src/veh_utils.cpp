@@ -12,7 +12,7 @@
 #include "character.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"

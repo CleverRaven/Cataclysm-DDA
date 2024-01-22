@@ -4,7 +4,6 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
-#include <new>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -19,7 +18,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"

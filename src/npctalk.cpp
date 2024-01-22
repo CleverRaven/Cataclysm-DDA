@@ -15,7 +15,6 @@
 #include <vector>
 
 #include "achievement.h"
-#include "action.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -44,11 +43,10 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "help.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_category.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"

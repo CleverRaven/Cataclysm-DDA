@@ -4,7 +4,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"

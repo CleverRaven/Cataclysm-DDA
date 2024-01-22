@@ -15,6 +15,7 @@
 #include "gamemode.h"
 #include "help.h"
 #include "input.h"
+#include "input_context.h"
 #include "make_static.h"
 #include "map.h"
 #include "mapbuffer.h"

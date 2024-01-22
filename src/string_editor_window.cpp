@@ -12,6 +12,7 @@
 
 #include "catacharset.h"
 #include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "ui_manager.h"
 #include "unicode.h"

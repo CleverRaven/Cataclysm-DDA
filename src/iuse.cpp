@@ -55,7 +55,7 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"

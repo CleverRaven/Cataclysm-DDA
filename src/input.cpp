@@ -1,11 +1,8 @@
 #include "input.h"
 
 #include <algorithm>
-#include <array>
-#include <cctype>
 #include <cstddef>
 #include <exception>
-#include <iterator>
 #include <locale>
 #include <memory>
 #include <optional>
@@ -20,16 +17,10 @@
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "color.h"
-#include "coordinates.h"
-#include "cuboid_rectangle.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
-#include "game.h"
-#include "help.h"
 #include "json.h"
 #include "json_error.h"
 #include "json_loader.h"
