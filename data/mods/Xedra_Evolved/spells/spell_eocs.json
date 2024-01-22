@@ -182,7 +182,27 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LUCID_DREAM",
+    "id": "EOC_LUCID_DREAM_START",
+    "condition": { "not": { "u_has_trait": "LUCID_DREAM" } },
+    "effect": [
+      { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
+      { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
+      { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_thirst_before_lucid", "=", "u_val('thirst')" ] },
+      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
+      { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
+      { "math": [ "u_rad_before_lucid", "=", "u_val('rad')" ] },
+      { "u_add_trait": "LUCID_DREAM" },
+      {
+        "queue_eocs": "EOC_LUCID_DREAM_END",
+        "time_in_future": { "math": [ "((u_spell_level('dreamer_lucid_dreams')+1)*700)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_END",
     "condition": { "u_has_trait": "LUCID_DREAM" },
     "effect": [
       {
@@ -202,21 +222,6 @@
       { "math": [ "u_val('rad')", "=", "u_rad_before_lucid" ] },
       { "u_lose_effect": "bleed" },
       { "u_lose_trait": "LUCID_DREAM" }
-    ],
-    "false_effect": [
-      { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
-      { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
-      { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
-      { "math": [ "u_thirst_before_lucid", "=", "u_val('thirst')" ] },
-      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
-      { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
-      { "math": [ "u_rad_before_lucid", "=", "u_val('rad')" ] },
-      { "u_add_trait": "LUCID_DREAM" },
-      {
-        "queue_eocs": "EOC_LUCID_DREAM",
-        "time_in_future": { "math": [ "((u_spell_level('dreamer_lucid_dreams')+1)*700)" ] }
-      }
     ]
   },
   {
@@ -228,7 +233,7 @@
       { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
       "u_prevent_death",
       { "math": [ "u_hp('ALL')", "=", "1" ] },
-      { "queue_eocs": "EOC_LUCID_DREAM" }
+      { "queue_eocs": "EOC_LUCID_DREAM_END" }
     ]
   },
   {

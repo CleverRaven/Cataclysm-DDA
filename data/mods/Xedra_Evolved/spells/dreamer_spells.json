@@ -646,7 +646,7 @@
     "skill": "deduction",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_LUCID_DREAM",
+    "effect_str": "EOC_LUCID_DREAM_START",
     "shape": "blast",
     "base_casting_time": { "math": [ "u_has_trait('LUCID_DREAM') ? 0 : 1000" ] },
     "base_energy_cost": { "math": [ "u_has_trait('LUCID_DREAM') ? 0 : 900" ] },
