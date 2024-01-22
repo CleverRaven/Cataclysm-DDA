@@ -1745,7 +1745,7 @@ conditional_t::func f_get_option( const JsonObject &jo, std::string_view member 
 
 conditional_t::func f_has_ammo()
 {
-    condition = []( dialogue & d ) {
+    return []( dialogue & d ) {
         item_location *it = d.actor( true )->get_item();
         if( it ) {
             return ( *it )->ammo_sufficient( d.actor( false )->get_character() );
