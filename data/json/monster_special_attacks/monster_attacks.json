@@ -334,6 +334,22 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "push_away",
+    "cooldown": 5,
+    "move_cost": 50,
+    "throw_strength": 18,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 1 } ],
+    "condition": { "not": { "u_has_effect": "maimed_arm" } },
+    "hit_dmg_u": "%1$s attempts to push you away with its arms.",
+    "hit_dmg_npc": "%1$s attempts to push <npcname> away.",
+    "no_dmg_msg_u": "%1$s attempts to push you away with its arms.",
+    "no_dmg_msg_npc": "%1$s attempts to push <npcname> away.",
+    "miss_msg_u": "%s thrusts its arms at you, but you evade the stretched arm!",
+    "miss_msg_npc": "%s's thrusts its arms at <npcname>, but they dodge!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "teke_push",
     "cooldown": 20,
     "move_cost": 200,

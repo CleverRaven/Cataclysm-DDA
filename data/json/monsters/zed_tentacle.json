@@ -142,24 +142,24 @@
     "harvest": "zombie_humanoid",
     "grab_strength": 30,
     "special_attacks": [
-      { "id": "grab", "cooldown": 5, "move_cost": 50 },
-      { "id": "grab_2", "cooldown": 5, "move_cost": 50 },
+      { "id": "grab", "cooldown": 5, "move_cost": 50, "range": 2 },
+      { "id": "grab_2", "cooldown": 5, "move_cost": 50, "range": 2 },
       {
         "id": "stretch_attack",
         "cooldown": 5,
         "move_cost": 50,
         "range": 2,
+        "no_adjacent": true,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ]
       },
-      { "id": "tentacle", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ] },
-      { "id": "ranged_pull", "cooldown": 5, "grab_data": { "pull_weight_ratio": 1.5 } },
       {
-        "id": "teke_push",
-        "cooldown": 5,
-        "move_cost": 50,
-        "range": 1,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ]
+        "id": "tentacle",
+        "cooldown": 10,
+        "no_adjacent": true,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ]
       },
+      { "id": "ranged_pull", "cooldown": 5, "no_adjacent": true, "grab_data": { "pull_weight_ratio": 1.5 } },
+      { "id": "push_away" },
       {
         "type": "leap",
         "cooldown": 3,
