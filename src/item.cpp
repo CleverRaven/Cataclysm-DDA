@@ -1218,10 +1218,11 @@ bool item::is_worn_by_player() const
 item item::in_its_container( int qty ) const
 {
     return in_container( type->default_container.value_or( itype_null ), qty,
-                         type->default_container_sealed );
+                         type->default_container_sealed, type->default_container_variant.value_or( "" ) );
 }
 
-item item::in_container( const itype_id &cont, int qty, const bool sealed ) const
+item item::in_container( const itype_id &cont, int qty, bool sealed,
+                         const std::string &variant ) const
 {
     if( cont.is_null() ) {
         return *this;
@@ -1231,6 +1232,9 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
         qty = count();
     }
     item container( cont, birthday() );
+    if( !variant.empty() ) {
+        container.set_itype_variant( variant );
+    }
     if( container.is_container() ) {
         container.fill_with( *this, qty );
         container.invlet = invlet;
@@ -1757,6 +1761,12 @@ std::string item::get_var( const std::string &name, const std::string &default_v
 std::string item::get_var( const std::string &name ) const
 {
     return get_var( name, "" );
+}
+
+std::optional<std::string> item::maybe_get_var( const std::string &name ) const
+{
+    const auto it = item_vars.find( name );
+    return it == item_vars.end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
 bool item::has_var( const std::string &name ) const
@@ -14475,7 +14485,7 @@ std::string item::type_name( unsigned int quantity ) const
     } else if( iter != item_vars.end() ) {
         return iter->second;
     } else if( has_itype_variant() ) {
-        ret_name = itype_variant().alt_name.translated();
+        ret_name = itype_variant().alt_name.translated( quantity );
     } else {
         ret_name = type->nname( quantity );
     }

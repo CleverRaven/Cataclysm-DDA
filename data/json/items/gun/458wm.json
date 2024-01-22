@@ -4,13 +4,13 @@
     "copy-from": "win70",
     "looks_like": "win70",
     "type": "GUN",
-    "name": { "str": "Safari Rifle" },
+    "name": { "str": "Safari rifle" },
     "description": "A bolt-action sporting rifle for hunting dangerous game, chambered in the powerful .458 Winchester Magnum cartridge.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "win70_458_safari",
-        "name": { "str_sp": "Winchester Model 70 Safari" },
+        "name": { "str": "Winchester Model 70 Safari rifle" },
         "description": "This is a Winchester Model 70 Safari Express chambered in .458 Winchester Magnum, a fine bolt-action rifle for hunting dangerous game.  A fixture of American gun culture, the Model 70 has been held in high regard by shooters since it was introduced in 1936."
       }
     ],

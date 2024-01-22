@@ -26,6 +26,7 @@
     - [Firing modes](#firing-modes)
     - [Gun Faults](#gun-faults)
   - [Magazines](#magazines)
+  - [Magic](#magic)
   - [Mapgen](#mapgen)
   - [Map Specials](#map-specials)
   - [Material Phases](#material-phases)
@@ -213,7 +214,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
-- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
@@ -948,9 +948,15 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```SPEEDLOADER_CLIP``` Acts like a `SPEEDLOADER`, except the target gun or magazine don't have to be emptied to oocur the transferments.
 
 
+## Magic
+
+See [Spell flags](MAGIC.md#spell-flags).
+
+
 ## Mapgen
 
 See [Mapgen flags](MAPGEN.md#mapgen-flags).
+
 
 ## Map Specials
 

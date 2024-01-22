@@ -220,7 +220,7 @@
     "description": "A 200cc engine, suitable for a dirt bike, scooter, or generator.",
     "durability": 150,
     "power": "22000 W",
-    "energy_consumption": "27500 W",
+    "energy_consumption": "55000 W",
     "folded_volume": "42 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 8 ] },

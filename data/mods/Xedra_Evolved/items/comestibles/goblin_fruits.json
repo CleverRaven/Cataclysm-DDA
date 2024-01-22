@@ -249,8 +249,10 @@
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_no_bleed",
-    "name": { "str": "dolm goblin fruit" },
-    "//~": "Dolm is a fictional color from the 1920 book \"A Voyage to Arcturus\" that's a mix of infrared and blue.",
+    "name": {
+      "//~": "Dolm is a fictional color from the 1920 book \"A Voyage to Arcturus\" that's a mix of infrared and blue.",
+      "str": "dolm goblin fruit"
+    },
     "description": "This teardrop-shaped goblin fruit hurts to look at.  Sometimes it's a dark blue, sometimes it's a feverish red, and sometimes it's a mix of the two that you would previously have sworn could not exist.  It smells faintly peppery with a hint of lemon.",
     "copy-from": "goblin_fruit_abstract",
     "comestible_type": "FOOD",

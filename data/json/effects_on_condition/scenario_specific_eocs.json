@@ -131,30 +131,13 @@
     "type": "effect_on_condition",
     "id": "scenario_surrounded_zombie",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
-    ]
+    "effect": [ { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 5, "min_radius": 12, "max_radius": 30 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_surrounded_zombie_heavy",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 },
-      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 }
-    ]
+    "effect": [ { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 10, "min_radius": 14, "max_radius": 30 } ]
   },
   {
     "type": "effect_on_condition",

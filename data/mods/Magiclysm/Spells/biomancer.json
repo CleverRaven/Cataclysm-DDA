@@ -549,6 +549,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LASHING_TENTACLES_MUTATION",
+    "condition": { "not": { "u_has_trait": "BIO_LASHING_TENTACLES" } },
     "effect": [
       { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
@@ -557,7 +558,7 @@
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 )" ] }
       }
     ],
-    "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
+    "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
   },
   {
     "type": "effect_on_condition",
@@ -571,7 +572,7 @@
     "id": "biomancer_cure_disease_minor",
     "type": "SPELL",
     "name": "Cure Disease, Minor",
-    "description": "Cure any flu or common cold you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "description": "Cure any minor illnesses you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
@@ -580,8 +581,8 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": 100,
-    "max_duration": 100,
+    "min_duration": 60480000,
+    "max_duration": 60480000,
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
@@ -589,5 +590,139 @@
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
+  },
+  {
+    "id": "biomancer_hyper_regeneration",
+    "type": "SPELL",
+    "name": "Rapid Regeneration",
+    "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_hyper_regeneration",
+    "shape": "blast",
+    "difficulty": 10,
+    "max_level": 20,
+    "min_duration": 3000,
+    "max_duration": 13000,
+    "duration_increment": 500,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "base_casting_time": 150
+  },
+  {
+    "id": "biomancer_slow_bleeding",
+    "type": "SPELL",
+    "name": "Halt Bleeding",
+    "description": "As you can control your body, you can control your blood.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "difficulty": 4,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 360000,
+    "duration_increment": 18000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
+    "base_casting_time": 350
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('biomancer_slow_bleeding')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_01",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+          }
+        },
+        {
+          "case": 8,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_02",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+          }
+        },
+        {
+          "case": 15,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_03",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "biomancer_scalpel_fingers",
+    "type": "SPELL",
+    "name": "Flensing Fingers",
+    "description": "Change each of your fingers into a myriad of tiny bone knives, allowing you to cut with surgical precision…or slice your enemies to ribbons.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "difficulty": 5,
+    "max_level": 20,
+    "effect": "spawn_item",
+    "effect_str": "item_biomancer_scalpel_fingers",
+    "shape": "blast",
+    "min_duration": 24000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
+    "base_casting_time": 500
+  },
+  {
+    "id": "biomancer_caustic_blood",
+    "type": "SPELL",
+    "name": "Caustic Blood",
+    "description": "Transmute your blood to magically-enhanced acid, making you immune to acid and also splashing anyone who spills your blood.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": 20,
+    "min_duration": 180000,
+    "max_duration": 1380000,
+    "duration_increment": 60000,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "base_casting_time": 600
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "condition": { "and": [ { "not": { "u_has_trait": "ACIDBLOOD" } }, { "not": { "u_has_trait": "ACIDPROOF" } } ] },
+    "effect": [
+      { "u_message": "Your entire body burns for a moment", "type": "mixed" },
+      { "u_add_trait": "ACIDBLOOD" },
+      { "u_add_trait": "ACIDPROOF" },
+      {
+        "queue_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Your body is already inured to acid!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The faint burning sensation fades.", "type": "bad" },
+      { "u_lose_trait": "ACIDBLOOD" },
+      { "u_lose_trait": "ACIDPROOF" }
+    ]
   }
 ]

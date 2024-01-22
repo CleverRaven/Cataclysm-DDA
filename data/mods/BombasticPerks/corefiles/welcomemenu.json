@@ -52,7 +52,7 @@
       {
         "text": "Prerequisites (default)",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] },
+          { "math": [ "u_no_prerecs", "=", "0" ] },
           {
             "u_add_var": "prereq_note",
             "type": "dialogue",
@@ -65,7 +65,7 @@
       {
         "text": "No Prerequisites",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 1 } ] },
+          { "math": [ "u_no_prerecs", "=", "1" ] },
           {
             "u_add_var": "prereq_note",
             "type": "dialogue",
@@ -135,9 +135,9 @@
       {
         "text": "Confirm",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+          { "math": [ "u_num_perks", "=", "0" ] },
+          { "math": [ "u_available_exp", "=", "0" ] },
+          { "math": [ "u_current_level", "=", "0" ] },
           { "u_add_trait": "perk_perk_menu" }
         ],
         "topic": "TALK_DONE"

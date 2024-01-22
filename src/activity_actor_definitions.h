@@ -176,7 +176,8 @@ class hacksaw_activity_actor : public activity_actor
     public:
         explicit hacksaw_activity_actor( const tripoint &target,
                                          const item_location &tool ) : target( target ), tool( tool ) {};
-
+        explicit hacksaw_activity_actor( const tripoint &target, const itype_id &type,
+                                         const tripoint &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_HACKSAW" );
         }
@@ -197,7 +198,8 @@ class hacksaw_activity_actor : public activity_actor
     private:
         tripoint target;
         item_location tool;
-
+        std::optional<itype_id> type;
+        std::optional<tripoint> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override;
 };
@@ -205,7 +207,7 @@ class hacksaw_activity_actor : public activity_actor
 class hacking_activity_actor : public activity_actor
 {
     public:
-        hacking_activity_actor() = default;
+        explicit hacking_activity_actor( const item_location &tool ): tool( tool ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -224,6 +226,9 @@ class hacking_activity_actor : public activity_actor
         }
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location tool;
 };
 
 class bookbinder_copy_activity_actor: public activity_actor

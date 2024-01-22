@@ -949,7 +949,8 @@ class item : public visitable
          * of the container will be ignored.
          */
         item in_its_container( int qty = 0 ) const;
-        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true,
+                           const std::string &container_variant = "" ) const;
         void add_automatic_whitelist();
         void clear_automatic_whitelist();
 
@@ -1894,6 +1895,7 @@ class item : public visitable
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
         std::string get_var( const std::string &name ) const;
+        std::optional<std::string> maybe_get_var( const std::string &name ) const;
         /** Whether the variable is defined at all. */
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */

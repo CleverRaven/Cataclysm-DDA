@@ -66,6 +66,7 @@ struct talk_effect_fun_t {
         void set_forget_martial_art( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_mutate( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_mutate_category( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_mutate_towards( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_lose_bionic( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_message( const JsonObject &jo, std::string_view member, bool is_npc = false );
@@ -162,6 +163,8 @@ struct talk_effect_fun_t {
         void set_set_talker( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_turn_cost( const JsonObject &jo, std::string_view member );
         void set_transform_item( const JsonObject &jo, std::string_view member );
+        void set_trigger_event( const JsonObject &jo, std::string_view member );
+        void set_wants_to_talk( bool is_npc = false );
         void operator()( dialogue &d ) const {
             if( !function ) {
                 return;
@@ -171,6 +174,7 @@ struct talk_effect_fun_t {
 };
 
 std::string read_var_value( const var_info &info, const dialogue &d );
+std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
 

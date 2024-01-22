@@ -187,7 +187,6 @@ static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
@@ -209,6 +208,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
@@ -711,17 +711,21 @@ enum class hack_type : int {
     NONE
 };
 
-static int hack_level( const Character &who )
+static int hack_level( const Character &who, item_location &tool )
 {
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    // Quality of 2 is a base electrohack, which results in no modifier
+    int tool_quality_modifier = tool->get_quality( qual_HACK ) - 2;
+    ///\EFFECT_COMPUTER increases success chance of hacking
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + static_cast<float>
+    ///\EFFECT_INT increases success chance of hacking
+    // tool_quality_modifier may increase or reduce the success chance of hacking
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
+                  static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, item_location &tool )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
@@ -731,13 +735,13 @@ static hack_result hack_attempt( Character &who )
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        who.use_charges( itype_electrohack, 25 );
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
 
         if( success <= -5 ) {
-            who.use_charges( itype_electrohack, 50 );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -770,7 +774,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     // TODO: fix point types
     tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, tool ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -827,9 +831,11 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &jsin )
 {
-    hacking_activity_actor actor;
+    hacking_activity_actor actor( {} );
+    JsonObject data = jsin.get_object();
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
@@ -1244,7 +1250,22 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    const int qual = tool->get_quality( qual_SAW_M );
+    int qual = 0;
+    if( type.has_value() ) {
+        item veh_tool = item( type.value(), calendar::turn );
+        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = quality.second;
+            }
+        }
+        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+            if( quality.first == qual_SAW_M ) {
+                qual = std::max( qual, quality.second );
+            }
+        }
+    } else {
+        qual = tool->get_quality( qual_SAW_M );
+    }
     if( qual < 2 ) {
         if( !testing ) {
             debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
@@ -1266,27 +1287,52 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     std::string method = "HACKSAW";
 
-    if( tool->ammo_sufficient( &who, method ) ) {
-        int ammo_consumed = tool->ammo_required();
-        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
-        if( iter != tool->type->ammo_scale.end() ) {
-            ammo_consumed *= iter->second;
-        }
+    if( !veh_pos.has_value() ) {
+        if( tool->ammo_sufficient( &who, method ) ) {
+            int ammo_consumed = tool->ammo_required();
+            std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
+            if( iter != tool->type->ammo_scale.end() ) {
+                ammo_consumed *= iter->second;
+            }
 
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
-        sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
-        if( calendar::once_every( 1_minutes ) ) {
-            //~ Sound of a metal sawing tool at work!
-            sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), tool->tname() );
+            }
+            who.cancel_activity();
         }
     } else {
-        if( who.is_avatar() ) {
-            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
-        } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                    true ), tool->tname() );
+        map &here = get_map();
+        const optional_vpart_position vp = here.veh_at( veh_pos.value() );
+        if( !vp ) {
+            debugmsg( "Lost ACT_HACKSAW vehicle tool" );
+            return;
         }
-        who.cancel_activity();
+        vehicle &veh = vp->vehicle();
+        if( vehicle::use_vehicle_tool( veh, veh_pos.value(), type.value(), true ) ) {
+            sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
+            if( calendar::once_every( 1_minutes ) ) {
+                //~ Sound of a metal sawing tool at work!
+                sounds::sound( target, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
+            }
+        } else {
+            if( who.is_avatar() ) {
+                who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), type.value()->nname( 1 ) );
+            } else { // who.is_npc()
+                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                        true ), type.value()->nname( 1 ) );
+            }
+            who.cancel_activity();
+        }
     }
 }
 
@@ -1374,7 +1420,8 @@ bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &oth
 {
     const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                           ( other );
-    return actor.target == target && actor.tool.operator == ( tool );
+    return actor.target == target && ( ( veh_pos.has_value() &&
+                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_max ) ) || actor.tool.operator == ( tool ) );
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
@@ -1382,6 +1429,8 @@ void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "target", target );
     jsout.member( "tool", tool );
+    jsout.member( "type", type );
+    jsout.member( "veh_pos", veh_pos );
     jsout.end_object();
 }
 
@@ -1391,6 +1440,8 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     JsonObject data = jsin.get_object();
     data.read( "target", actor.target );
     data.read( "tool", actor.tool );
+    data.read( "type", actor.type );
+    data.read( "veh_pos", actor.veh_pos );
     return actor.clone();
 }
 
