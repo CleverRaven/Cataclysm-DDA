@@ -292,7 +292,7 @@
     "id": "undine_drag_inward_spell",
     "type": "SPELL",
     "name": "Whirlpool Catches the Shoal",
-    "description": "Affect the fabric of space, changing relative distance around a point so that everything moving within finds themselves moving towards it.",
+    "description": "Create a whirling field of magickal waters, draging everything within it toward a central point and slowing them with the force of the current.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "UNDINE",
@@ -750,5 +750,91 @@
     "min_field_intensity": 1,
     "max_field_intensity": 3,
     "field_chance": 3
+  },
+  {
+    "id": "undine_tidal_wave_spell",
+    "type": "SPELL",
+    "name": "Tidal Wave",
+    "description": "Create a magickal wall of water and bring it crashing down on your enemies, buffeting and carrying them away.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "undine_tidal_wave_spell_bash", "hit_self": false },
+      { "id": "undine_tidal_wave_spell_push", "hit_self": false }
+    ],
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 40) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 9) + 100) * (scaling_factor(u_val('strength') ) )" ] },
+    "damage_type": "bash",
+    "min_duration": 200,
+    "max_duration": 900,
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6,
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 650,
+    "energy_increment": -25,
+    "base_casting_time": 250,
+    "final_casting_time": 50,
+    "casting_time_increment": -12
+  },
+  {
+    "id": "undine_tidal_wave_spell_bash",
+    "type": "SPELL",
+    "name": "Tidal Wave Bash",
+    "description": "The Bash effect of the Tidal Wave spell.  It's a bug if you have it directly.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "bash",
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 2) + 20) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 6) + 50) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6
+  },
+  {
+    "id": "undine_tidal_wave_spell_push",
+    "type": "SPELL",
+    "name": "Tidal Wave Directed Push",
+    "description": "The Directed Push effect of the Tidal Wave spell.  It's a bug if you have it directly.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 0.25) + 1) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 0.5) + 2) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6
   }
 ]

@@ -19,6 +19,7 @@
         {
           "or": [
             { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
             { "u_is_on_terrain": "t_dirt" },
             { "u_is_on_terrain": "t_dirtmound" },
             { "u_is_on_terrain": "t_clay" },

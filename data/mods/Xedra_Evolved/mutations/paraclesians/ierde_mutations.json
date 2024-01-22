@@ -222,6 +222,7 @@
         "condition": {
           "or": [
             { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
             { "u_is_on_terrain": "t_tree_young" },
             { "u_is_on_terrain": "t_bamboo_tall" },
             { "u_is_on_terrain": "t_dirt" },
@@ -269,6 +270,7 @@
         "condition": {
           "or": [
             { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
             { "u_is_on_terrain": "t_tree_young" },
             { "u_is_on_terrain": "t_bamboo_tall" },
             { "u_is_on_terrain": "t_dirt" },

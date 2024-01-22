@@ -250,6 +250,19 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_TIDAL_WAVE",
+    "name": { "str": "Tidal Wave" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "prereqs": [ "UNDINE_DRAG_INWARD" ],
+    "spells_learned": [ [ "undine_tidal_wave_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_EYES",
     "name": { "str": "Undine Eyes" },
     "points": 1,
@@ -314,8 +327,8 @@
     "category": [ "UNDINE" ],
     "active": true,
     "activated_is_setup": false,
-    "cost": true,
-    "thirst": 2,
+    "cost": 2,
+    "thirst": true,
     "activated_eocs": [ "EOC_UNDINE_ESCAPE_GRABS" ]
   },
   {
@@ -329,7 +342,7 @@
     "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
-    "movecost_swim_modifier": 0.8
+    "movecost_swim_modifier": 0.3
   },
   {
     "type": "mutation",
@@ -340,8 +353,7 @@
     "ugliness": 0,
     "description": "The waters come to the Undine's defense.  When attacked, there is a chance that a burst of water will surge out and push their attackers back.",
     "prereqs": [ "UNDINE_ESCAPE_GRABS" ],
-    "category": [ "UNDINE" ],
-    "spells_learned": [ [ "undine_wave_push", 1 ] ]
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",
@@ -479,6 +491,122 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN",
+    "name": { "str": "Like the Flowing Fountain" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_FAST_SWIM_SPEED" ],
+    "changes_to": "UNDINE_MORE_MANA_REGEN_AND_MANA",
+    "description": "Like the fountain continuously flowing with water, the Undine's mana regenerates 50% faster while standing in or under water.",
+    "category": [ "UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN_AND_MANA",
+    "name": { "str": "Like the Rushing Fountain" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_MORE_MANA_REGEN" ],
+    "prereqs2": [ "UNDINE_RIVER_MAPPING" ],
+    "changes_to": "UNDINE_MORE_MANA_REGEN_AND_MANA_AND_STAMINA",
+    "description": "Like the fountain continuously flowing to the brim with water, the Undine's mana regenerates 50% faster and they have 50% more mana while standing in or under water.",
+    "category": [ "UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN_AND_MANA_AND_STAMINA",
+    "name": { "str": "Like the Overflowing Fountain" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_MORE_MANA_REGEN_AND_MANA" ],
+    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their Stamina regenerates 100% faster while standing in or under water..",
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_WATER_FORM",
     "name": { "str": "Form of the Flowing Waters" },
     "points": 8,
@@ -547,8 +675,8 @@
     "threshreq": [ "THRESH_UNDINE" ],
     "active": true,
     "activated_is_setup": true,
-    "cost": true,
-    "thirst": 1,
+    "cost": 1,
+    "thirst": true,
     "time": 60,
     "active_flags": [ "ACID_IMMUNE" ],
     "enchantments": [ { "condition": "ACTIVE", "hit_me_effect": [ { "id": "undine_acid_body_spell", "once_in": 3, "hit_self": false } ] } ]
