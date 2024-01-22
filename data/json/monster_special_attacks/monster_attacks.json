@@ -92,7 +92,7 @@
     "no_dmg_msg_u": "%1$s grabs your %2$s with another appendage!",
     "no_dmg_msg_npc": "%1$s grabs <npcname>'s %2$s with another appendage!"
   },
- {
+  {
     "type": "monster_attack",
     "attack_type": "melee",
     "id": "grab_3",
