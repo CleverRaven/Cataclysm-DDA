@@ -3,7 +3,7 @@
     "id": "mon_zombie_lashing",
     "type": "MONSTER",
     "name": { "str": "lashing zombie" },
-    "description": "This zombie has very elongated arms.  While they're menacingly long, they seem quite thin and floppy, as if they didn't have bones anymore.",
+    "description": "This zombie has very elongated arms.  While they're menacingly long, they seem quite thin and floppy, as if they lack bones.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
