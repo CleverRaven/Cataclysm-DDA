@@ -457,7 +457,7 @@
     "special_attacks": [
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
       { "id": "grab", "cooldown": 11 },
-      { "id": "grab_3", "cooldown": 12},
+      { "id": "grab_3", "cooldown": 12 },
       { "id": "ranged_pull", "cooldown": 20 },
       { "id": "bite_humanoid" },
       { "id": "grab_drag", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } },
