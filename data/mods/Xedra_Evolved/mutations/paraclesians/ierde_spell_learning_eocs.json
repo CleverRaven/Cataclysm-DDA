@@ -19,17 +19,19 @@
         {
           "or": [
             { "math": [ "u_val('pos_z')", "<=", "-1" ] },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            },
             { "u_at_om_location": "ierde_genius_loci_NW" },
             { "u_at_om_location": "ierde_genius_loci_NE" },
             { "u_at_om_location": "ierde_genius_loci_SW" },

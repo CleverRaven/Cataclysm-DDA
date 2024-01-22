@@ -1,5 +1,12 @@
 [
   {
+    "type": "enchantment",
+    "id": "ench_ierde_no_mind_problems",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "effect_ierde_no_mind_problems", "intensity": 1 } ]
+  },
+  {
     "id": "ierde_stomp_ground_smash_spell",
     "type": "SPELL",
     "name": "Earthquake Stomp",
