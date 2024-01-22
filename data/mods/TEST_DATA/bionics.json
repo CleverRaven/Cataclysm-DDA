@@ -59,13 +59,13 @@
     "type": "enchantment",
     "id": "TEST_ENCH_BIONIC_LEG_L",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "bionic_basic_leg_l" } ]
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "test_bionic_basic_leg_l" } ]
   },
   {
     "type": "enchantment",
     "id": "TEST_ENCH_BIONIC_LEG_R",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "bionic_basic_leg_r" } ]
+    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "test_bionic_basic_leg_r" } ]
   },
   {
     "id": "test_bionic_basic_leg_l",
