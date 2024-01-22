@@ -11,6 +11,16 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_microgen",
+    "type": "bionic",
+    "name": { "str": "Microfusion Generator" },
+    "description": "An implanted fusion reactor with its own internal nuclear fuel reservoir.  It will last over a century without servicing.",
+    "occupied_bodyparts": [ [ "torso", 7 ] ],
+    "dupes_allowed": true,
+    "power_trickle": "6 J",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
     "id": "bio_shock_absorber",
     "type": "bionic",
     "name": { "str": "Archeotech Grav Chute" },
