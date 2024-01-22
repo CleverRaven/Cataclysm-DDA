@@ -158,6 +158,7 @@
     "dodge": 5,
     "vision_day": 35,
     "vision_night": 5,
+    "grab_strength": 40,
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "dissect": "dissect_undine_single",
     "special_attacks": [
@@ -166,6 +167,7 @@
         "move_cost": 150,
         "cooldown": 8,
         "range": 6,
+        "grab_data": { "pull_weight_ratio": 1.5 },
         "blockable": false,
         "effects": [ { "id": "downed", "duration": [ 1, 2 ] } ],
         "hit_dmg_u": "The water around %s suddenly pulls you in!",
@@ -266,7 +268,7 @@
     "id": "mon_defender_wood",
     "type": "MONSTER",
     "name": { "str": "defender of the wood" },
-    "description": "An enormous man-like form with the head of a stag, over ten feet tall, covered in short fur and wearing a loincloth of leaves and vines and topped with a rack of majestic antlers.  It carries a spear as thick as a man's arm in one hand.",
+    "description": "An enormous man-like form with the head of a stag, over ten feet tall, covered in short fur and wearing a loincloth of leaves and vines and topped with a rack of majestic antlers.  It carries a long, sharpened stake of wood as thick as a man's arm in one hand.",
     "default_faction": "arvore",
     "bodytype": "human",
     "species": [ "ARVORE" ],
@@ -278,19 +280,32 @@
     "symbol": "D",
     "color": "green",
     "aggression": 0,
-    "morale": 100,
+    "morale": 150,
     "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "stab", "amount": 4 } ],
     "dodge": 3,
+    "regenerates": 3,
+    "regen_morale": true,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_hulk" ],
     "vision_day": 40,
     "vision_night": 10,
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "special_attacks": [ { "id": "impale", "cooldown": 4, "range": 2 }, { "id": "stag_smash", "cooldown": 15 }, { "id": "mutant_antler" } ],
+    "special_attacks": [
+      { "id": "impale", "cooldown": 4, "range": 2 },
+      { "id": "stag_smash", "cooldown": 15 },
+      { "id": "mutant_antler" },
+      {
+        "id": "mon_defender_entangle",
+        "type": "spell",
+        "spell_data": { "id": "mon_arvore_roots_spell", "min_level": 5 },
+        "cooldown": 20,
+        "monster_message": "%1$s gestures and you hear the creak of growing wood!"
+      }
+    ],
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "dissect": "dissect_arvore_huge",
     "flags": [
@@ -339,7 +354,14 @@
     "hp": 10,
     "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
     "description": "A small dog-sized furry lizard colored in fiery reds.  It hisses and then spits napalm-like fluid at whatever attracts its ire.",
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_salamander_glob", "min_level": 1 }, "cooldown": 20 } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_salamander_glob", "min_level": 1 },
+        "cooldown": 20,
+        "monster_message": "%1$s spits!"
+      }
+    ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",

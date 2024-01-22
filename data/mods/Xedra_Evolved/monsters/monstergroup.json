@@ -211,8 +211,8 @@
     "monsters": [
       { "monster": "mon_vineling", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_ratatosk_children", "weight": 300, "cost_multiplier": 0 },
-      { "monster": "mon_bear_thorn", "weight": 50, "cost_multiplier": 3 },
-      { "monster": "mon_defender_wood", "weight": 5, "cost_multiplier": 10 }
+      { "monster": "mon_bear_thorn", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_defender_wood", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
