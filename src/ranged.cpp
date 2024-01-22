@@ -2169,7 +2169,9 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
+    tname::segment_bitset segs( tname::unprefixed_tname );
+    segs.set( tname::segments::CONTENTS, false );
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, segs ),
                          uppercase_first_letter( data.sound ) );
 }
 
