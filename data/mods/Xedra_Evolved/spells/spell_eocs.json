@@ -249,7 +249,7 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_effect": "effect_lucid_dream" },
     "effect": [
-      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
+      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
       "u_prevent_death",
       { "math": [ "u_hp('ALL')", "=", "1" ] },
       { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
