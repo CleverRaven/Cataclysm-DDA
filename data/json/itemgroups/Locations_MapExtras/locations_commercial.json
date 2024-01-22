@@ -998,6 +998,7 @@
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
           { "item": "violin", "prob": 90 },
@@ -1030,7 +1031,14 @@
     "id": "mussto_stringinst",
     "type": "item_group",
     "//": "for music store",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
+    "items": [
+      [ "acoustic_guitar", 100 ],
+      [ "violin", 80 ],
+      [ "ukulele", 90 ],
+      [ "kantele", 10 ],
+      [ "banjo", 100 ],
+      [ "guitar_electric", 100 ]
+    ]
   },
   {
     "id": "bowling_alcohol",

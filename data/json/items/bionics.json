@@ -1362,17 +1362,6 @@
     "difficulty": 10
   },
   {
-    "id": "bio_trickle",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Trickle Charger CBM" },
-    "description": "Ubiquitous in nearly every post atomic age dimension, betavoltaic nuclear battery implants were found by the Exodii powering pacemakers and nerve stimulators, devices that require very low power for many decades.  Stripped of its original medical purpose, the trickle charger CBM will provide a trickle of very low energy but requires no fuel source, and multiple copies can be installed.",
-    "weight": "500 g",
-    "price": 120000,
-    "price_postapoc": 1500,
-    "difficulty": 3
-  },
-  {
     "id": "bio_pitch_perfect",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

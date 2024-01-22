@@ -174,7 +174,6 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
-        void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
 
@@ -194,6 +193,7 @@ class Item_spawn_data
          * The group spawns contained in this item
          */
         std::optional<itype_id> container_item;
+        std::optional<std::string> container_item_variant;
         overflow_behaviour on_overflow = overflow_behaviour::none;
         bool sealed = true;
 

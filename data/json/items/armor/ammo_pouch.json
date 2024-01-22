@@ -563,7 +563,6 @@
         "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "300 ml",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
@@ -573,51 +572,41 @@
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "300 mm",
-        "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "300 mm",
-        "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {

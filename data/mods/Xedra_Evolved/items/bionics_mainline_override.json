@@ -140,13 +140,6 @@
     "installation_data": "AID_bio_soporific"
   },
   {
-    "id": "bio_trickle",
-    "copy-from": "bio_trickle",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Trickle Charger CBM" },
-    "installation_data": "AID_bio_trickle"
-  },
-  {
     "id": "bio_pitch_perfect",
     "copy-from": "bio_pitch_perfect",
     "type": "BIONIC_ITEM",
@@ -305,13 +298,6 @@
     "copy-from": "AID_abstract",
     "name": { "str_sp": "Titanium Skeletal Bracing CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Titanium Skeletal Bracing CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
-  },
-  {
-    "id": "AID_bio_trickle",
-    "type": "GENERIC",
-    "copy-from": "AID_abstract",
-    "name": { "str_sp": "Trickle Charger CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of a Trickle Charger CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_bio_pitch_perfect",
