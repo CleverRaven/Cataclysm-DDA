@@ -224,7 +224,12 @@
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_trait": "LUCID_DREAM" },
-    "effect": [ "u_prevent_death", { "math": [ "u_hp('ALL')", "=", "1" ] }, { "queue_eocs": "EOC_LUCID_DREAM" } ]
+    "effect": [
+      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
+      "u_prevent_death",
+      { "math": [ "u_hp('ALL')", "=", "1" ] },
+      { "queue_eocs": "EOC_LUCID_DREAM" }
+    ]
   },
   {
     "type": "effect_on_condition",
