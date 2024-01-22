@@ -20,6 +20,7 @@
     "sells_belongings": false,
     "bonus_str": 4,
     "traits": [
+      { "group": "BG_survival_story_RURAL" },
       { "group": "Appearance_demographics" },
       { "trait": "STRONGBACK" },
       { "trait": "OUTDOORSMAN" },
