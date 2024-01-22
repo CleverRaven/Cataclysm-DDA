@@ -8,9 +8,9 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id test_bio_limb_leg_l( "test_bio_limb_leg_l" );
 static const bionic_id test_bio_limb_leg_r( "test_bio_limb_leg_r" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const character_modifier_id
 character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
@@ -153,7 +153,7 @@ static int one_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
 
     // confirm that we have the bionic and that our limb is missing
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
-    REQUIRE( dummy.get_cached_organic_size() == 0.87 );
+    REQUIRE( dummy.get_cached_organic_size() == 0.87f );
     return actual_burn_rate( dummy, move_mode );
 }
 
@@ -168,7 +168,7 @@ static int two_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
     // confirm that we have the bionics and that our limbs are missing
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_r ) );
-    REQUIRE( dummy.get_cached_organic_size() == 0.74 );
+    REQUIRE( dummy.get_cached_organic_size() == 0.74f );
     return actual_burn_rate( dummy, move_mode );
 }
 
