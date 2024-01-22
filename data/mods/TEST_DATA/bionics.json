@@ -132,7 +132,8 @@
     "feels_discomfort": false,
     "mend_rate": 0,
     "ugliness_mandatory": 3,
-    "stat_hp_mods": { "str_mod": 0 }
+    "stat_hp_mods": { "str_mod": 0 },
+    "sub_parts": [ "test_bionic_basic_leg_sub_l" ]
   },
   {
     "id": "test_bionic_basic_leg_r",
@@ -199,7 +200,28 @@
     "feels_discomfort": false,
     "mend_rate": 0,
     "ugliness_mandatory": 3,
-    "stat_hp_mods": { "str_mod": 0 }
+    "stat_hp_mods": { "str_mod": 0 },
+    "sub_parts": [ "test_bionic_basic_leg_sub_r" ]
+  },
+  {
+    "id": "test_bionic_basic_leg_sub_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bionic_basic_leg_l",
+    "side": 1,
+    "opposite": "test_bionic_basic_leg_sub_r",
+    "name_multiple": "bionic sublegs",
+    "name": "left bionic subleg"
+  }, 
+  {
+    "id": "test_bionic_basic_leg_sub_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bionic_basic_leg_r",
+    "side": 2,
+    "opposite": "test_bionic_basic_leg_sub_l",
+    "name_multiple": "bionic sublegs",
+    "name": "right bionic subleg"
   },
   {
     "id": "test_bio_limb_leg_l",
