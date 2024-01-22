@@ -4763,5 +4763,11 @@
     "id": "natural_stance",
     "name": [ "Natural Stance" ],
     "desc": [ "You are positioned to take advantage of your mutated anatomy, and will favor any natural attacks you may have." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "subaquatic_sonar",
+    "name": [ "Subaquatic SONAR" ],
+    "desc": [ "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back." ]
   }
 ]

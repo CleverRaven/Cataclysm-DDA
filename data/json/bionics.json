@@ -1605,7 +1605,12 @@
     "type": "bionic",
     "name": { "str": "Subaquatic Navigation System" },
     "description": "While active, a tiny device in your inner ear periodically generates ultrasonic pulses which aid in navigation, provided you are underwater and able to hear.",
-    "occupied_bodyparts": [ [ "head", 1 ] ]
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "act_cost": "1 J",
+    "trigger_cost": "5 J",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_BIO_SONAR_activated" ],
+    "deactivated_eocs": [ "EOC_BIO_SONAR_deactivated" ]
   },
   {
     "id": "bio_taser",

@@ -168,7 +168,6 @@ static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
-static const bionic_id bio_sonar( "bio_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_synlungs( "bio_synlungs" );
 static const bionic_id bio_targeting( "bio_targeting" );
@@ -275,6 +274,7 @@ static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_weed_high( "weed_high" );
@@ -451,6 +451,7 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_LEGS_BAT( "LEGS_BAT" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
@@ -503,6 +504,7 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -2188,9 +2190,9 @@ bool Character::is_runallfours() const
 {
     bool allfour = false;
     if( move_mode->type() == move_mode_type::RUNNING && !is_armed() ) {
-        if( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) ||
+        if( ( has_trait( trait_PAWS ) && ( has_trait( trait_THRESH_LUPINE ) ||
                                          has_trait( trait_THRESH_FELINE )
-                                         || has_trait( trait_THRESH_BEAST ) ) ) {
+                                         || has_trait( trait_THRESH_BEAST ) ) || ( has_trait( trait_WINGS_BAT ) && has_trait( trait_LEGS_BAT ) ) ) ) {
             allfour = true;
         }
     }
@@ -10567,17 +10569,22 @@ void Character::echo_pulse()
     map &here = get_map();
     int echo_volume = 0;
     int pulse_range = 10;
-    if( has_active_bionic( bio_sonar ) && is_underwater() ) {
+    // Sound travels farther underwater
+    if( has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
         pulse_range = 16;
-    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "boop" ), true,
+    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "boop." ), true,
                            "none", "none" );
+    } else if( !has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
+        pulse_range = 0;
+        add_msg_if_player( m_warning, _( "You can't echolocate underwater!" ) );
+        return;
     } else {
-    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp" ), true,
+    sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp." ), true,
                            "none", "none" );
-        }
+    }
     for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
         if ( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, 2 ) ) {
-            sounds::sound( origin, 30, sounds::sound_t::sensory, _( "click" ), true,
+            sounds::sound( origin, 6, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
@@ -10609,6 +10616,7 @@ void Character::echo_pulse()
                     debugmsg( "ERROR: Invalid Creature size class." );
                     break;
             }
+        // Some monsters are harder to get a read on
         if( critter->has_flag( mon_flag_PLASTIC ) ) {
             echo_volume -= std::max( 1, 1 );
         }
@@ -10616,43 +10624,44 @@ void Character::echo_pulse()
             echo_volume -= std::max( 1, 1 );
         }
     const char *echo_string = nullptr;
-    // bio_targeting has a HUD and automatically converts the audio data to visual feedback
-    if( has_active_bionic( bio_targeting ) && !has_effect( effect_blind ) && has_active_bionic( bio_sonar ) )
+    // bio_targeting has a visual HUD and automatically interprets the raw audio data,
+    // but only for electronic SONAR. Its designers didn't anticipate bat mutations
+    if( has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) )
             switch( echo_volume ) {
         case 1:
-            echo_string = _( "Entity: [Tiny]" );
+            echo_string = _( "Target [Tiny]." );
             break;
         case 2:
-            echo_string = _( "Entity: [Small]" );
+            echo_string = _( "Target [Small]." );
             break;
         case 3:
-            echo_string = _( "Entity: [Medium]" );
+            echo_string = _( "Target [Medium]." );
             break;
         case 4:
-            echo_string = _( "Warning! Entity: [Large]" );
+            echo_string = _( "Warning! Target [Large]." );
             break;
         case 5:
-            echo_string = _( "Warning! Entity [Huge]" );
+            echo_string = _( "Warning! Target [Huge]." );
             break;
         default:
             debugmsg( "ERROR: Invalid echo string." );
             break;
-    } else if ( ( !has_active_bionic( bio_targeting ) || has_effect( effect_blind ) ) && has_active_bionic( bio_sonar ) ) {
+    } else if ( !has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) ) {
             switch( echo_volume ) {
         case 1:
-            echo_string = _( "tick" );
+            echo_string = _( "tick." );
             break;
         case 2:
-            echo_string = _( "pii" );
+            echo_string = _( "pii." );
             break;
         case 3:
-            echo_string = _( "Ping" );
+            echo_string = _( "ping." );
             break;
         case 4:
-            echo_string = _( "Pong" );
+            echo_string = _( "pong." );
             break;
         case 5:
-            echo_string = _( "Booop" );
+            echo_string = _( "booop." );
             break;
         default:
             debugmsg( "ERROR: Invalid echo string." );
@@ -10661,24 +10670,28 @@ void Character::echo_pulse()
     } else {    
             switch( echo_volume ) {
         case 1:
-            echo_string = _( "ch" );
+            echo_string = _( "ch." );
             break;
         case 2:
-            echo_string = _( "chk" );
+            echo_string = _( "chk." );
             break;
         case 3:
-            echo_string = _( "chhk" );
+            echo_string = _( "chhk." );
             break;
         case 4:
-            echo_string = _( "chkch" );
+            echo_string = _( "chkch." );
             break;
         case 5:
-            echo_string = _( "chkchh" );
+            echo_string = _( "chkchh." );
             break;
         default:
             debugmsg( "ERROR: Invalid echo string." );
             break;
         }
+    }
+    // It's not moving. Must be an obstacle
+    if( critter->has_flag( mon_flag_IMMOBILE ) ) {
+        echo_string = _( "click." );
     }
             sounds::sound( origin, echo_volume, sounds::sound_t::sensory, _( echo_string ), false,
                         "none", "none" );
@@ -12944,7 +12957,7 @@ void Character::search_surroundings()
     if( controlling_vehicle ) {
         return;
     }
-    if( has_active_bionic ( bio_sonar ) && is_underwater() && calendar::once_every( 5_turns ) ) {
+    if( has_effect ( effect_subaquatic_sonar ) && is_underwater() && calendar::once_every( 4_turns ) ) {
         echo_pulse();
     }
     map &here = get_map();
@@ -12956,6 +12969,7 @@ void Character::search_surroundings()
         if( tr.is_null() || tp == pos() ) {
             continue;
         }
+        // Note that echolocation and SONAR also do this separately in echo_pulse()
         if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
             const std::string direction = direction_name( direction_from( pos(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),

@@ -141,5 +141,19 @@
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_SONAR_activated",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "not": { "u_has_effect": "subaquatic_sonar" } },
+    "effect": [ { "u_add_effect": "subaquatic_sonar", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_SONAR_deactivated",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "u_has_effect": "subaquatic_sonar" },
+    "effect": [ { "u_lose_effect": "subaquatic_sonar" } ]
   }
 ]

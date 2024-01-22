@@ -143,6 +143,8 @@ bool map::build_transparency_cache( const int zlev )
                     value *= sight_penalty;
                 }
                 float value_wo_fields = value;
+                    Character &player_character = get_player_character();
+                    if( !player_character.vision_mode_cache[IR_VISION] ) {
                     for( const auto &fld : cur_submap->get_field( sp ) ) {
                         const field_intensity_level &i_level = fld.second.get_intensity_level();
                         if( i_level.transparent ) {
@@ -150,6 +152,7 @@ bool map::build_transparency_cache( const int zlev )
                         }
                         // Fields are either transparent or not, however we want some to be translucent
                         value = value * i_level.translucency;
+                    }
                     }
                 return std::make_pair( value, value_wo_fields );
             };
