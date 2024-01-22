@@ -142,8 +142,8 @@
     "default_faction": "undine",
     "bodytype": "blob",
     "species": [ "UNDINE" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "63000 ml",
+    "weight": "63 kg",
     "hp": 70,
     "speed": 110,
     "material": [ "fae_flesh" ],
@@ -158,6 +158,8 @@
     "dodge": 5,
     "vision_day": 35,
     "vision_night": 5,
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "dissect": "dissect_undine_single",
     "special_attacks": [
       {
         "id": "ranged_pull",
