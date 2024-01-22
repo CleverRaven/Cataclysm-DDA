@@ -52,6 +52,11 @@
         "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
         "text": "Have you found anything out of the ordinary out in the wastes?",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
         "condition": {
