@@ -202,7 +202,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_END",
     "eoc_type": "EVENT",
-    "required_event": "character_loses_effect", 
+    "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
     "effect": [
       {
@@ -228,17 +228,13 @@
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_SWITCH",
     "condition": { "u_has_effect": "effect_lucid_dream" },
-    "effect": [
-      { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
-    ],
+    "effect": [ { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" } ],
     "false_effect": { "queue_eocs": "EOC_LUCID_DREAM_FORCE_START" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_FORCE_END",
-    "effect": [
-      { "u_lose_effect": "effect_lucid_dream" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_lucid_dream" } ]
   },
   {
     "type": "effect_on_condition",
