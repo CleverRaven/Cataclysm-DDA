@@ -73,12 +73,12 @@
         "time_in_future": [
           {
             "math": [
-              "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -145,12 +145,12 @@
         "time_in_future": [
           {
             "math": [
-              "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "min( (( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

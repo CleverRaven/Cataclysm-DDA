@@ -172,12 +172,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "max( (( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "max( (( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -211,12 +211,12 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "energy_source": "STAMINA",
