@@ -183,7 +183,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_START",
-    "condition": { "not": { "u_has_trait": "LUCID_DREAM" } },
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
@@ -193,17 +195,15 @@
       { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
       { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
       { "math": [ "u_rad_before_lucid", "=", "u_val('rad')" ] },
-      { "u_add_trait": "LUCID_DREAM" },
-      {
-        "queue_eocs": "EOC_LUCID_DREAM_END",
-        "time_in_future": { "math": [ "((u_spell_level('dreamer_lucid_dreams')+1)*700)" ] }
-      }
+      { "u_add_trait": "LUCID_DREAM" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LUCID_DREAM_END",
-    "condition": { "u_has_trait": "LUCID_DREAM" },
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect", 
+    "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
     "effect": [
       {
         "u_message": "You wake up.",
@@ -225,15 +225,38 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_SWITCH",
+    "condition": { "u_has_effect": "effect_lucid_dream" },
+    "effect": [
+      { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
+    ],
+    "false_effect": { "queue_eocs": "EOC_LUCID_DREAM_FORCE_START" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_FORCE_END",
+    "effect": [
+      { "u_lose_effect": "effect_lucid_dream" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_FORCE_START",
+    "effect": [
+      { "u_add_effect": "effect_lucid_dream", "duration": { "math": [ "(u_spell_level('dreamer_lucid_dreams')+1)*700" ] } }
+    ]
+  },
+  {
     "id": "EOC_LUCID_REBIRTH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "u_has_trait": "LUCID_DREAM" },
+    "condition": { "u_has_effect": "effect_lucid_dream" },
     "effect": [
       { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
       "u_prevent_death",
       { "math": [ "u_hp('ALL')", "=", "1" ] },
-      { "queue_eocs": "EOC_LUCID_DREAM_END" }
+      { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
     ]
   },
   {
