@@ -3476,7 +3476,7 @@
     "base_mods": { "dodge_mod": [ -8 ] },
     "flags": [ "GRAB_FILTER" ]
   },
- {
+  {
     "type": "effect_type",
     "id": "grabbing_3",
     "name": [ "Grabbing" ],
