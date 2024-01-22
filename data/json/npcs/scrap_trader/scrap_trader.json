@@ -226,6 +226,11 @@
     "dynamic_line": "Do you need something?",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
       { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
       { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
       {

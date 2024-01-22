@@ -18,6 +18,11 @@
         "condition": { "not": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
         "text": "Hands up!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
