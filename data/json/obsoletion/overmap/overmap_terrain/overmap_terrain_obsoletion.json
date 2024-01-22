@@ -129,6 +129,7 @@
     "extras": "build",
     "see_cost": 5,
     "mondensity": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 },
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]
