@@ -25,7 +25,7 @@ For the official way to build CataclysmDDA, see:
 You'll need to have these libraries and their development headers installed in order to build CataclysmDDA:
 
 * General
-  * `cmake`                     >= 3.0.0
+  * `cmake`                     >= 3.20.0
   * `gcc-libs`
   * `glibc`
   * `zlib`
@@ -72,28 +72,7 @@ Obtain the packages listed above with your system package manager.
 
 ## Windows Environment (MSYS2)
 
-1. Follow steps from here: <https://msys2.github.io/>
-2. Install CataclysmDDA build deps:
-
-   ```
-   pacman -S mingw-w64-i686-toolchain msys/git \
-   	  mingw-w64-i686-cmake \
-   	  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-   	  ncurses-devel \
-   	  gettext-devel
-   ```
-
-   This should get your environment set up to build both the console and tiles versions for Windows.
-
-   **NOTE**: This is only for 32bit builds. 64bit builds require the x86_64 instead of the i686 packages listed above:
-
-   ```
-   pacman -S mingw-w64-x86_64-toolchain msys/git \
-   	  mingw-w64-x86_64-cmake \
-   	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-   	  ncurses-devel \
-   	  gettext-devel
-   ```
+Please refer to `COMPILING-MSYS.md`
 
    **NOTE**: If you're trying to test with Jetbrains CLion, point to the CMake version in the msys32/mingw32 path instead of using the built in. This will let CMake detect the installed packages.
 
