@@ -975,6 +975,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lucid_dream",
+    "name": [ "Lucid Dreaming" ],
+    "rating": "good",
+    "dur_add_perc": 0,
+    "desc": [ "While you may just be dreaming, you are still capable of affecting the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_smoke_form",
     "name": [ "Smoke Form" ],
     "desc": [ "You have transformed yourself into a cloud of smoke." ],
