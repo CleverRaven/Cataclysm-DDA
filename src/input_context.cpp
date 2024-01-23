@@ -34,6 +34,9 @@
 
 static const std::string default_context_id( "default" );
 
+static constexpr int LEGEND_HEIGHT = 8;
+static constexpr int BORDER_SPACE = 2;
+
 template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;

@@ -128,9 +128,6 @@ enum : int {
 };
 } // namespace keycode
 
-constexpr int LEGEND_HEIGHT = 8;
-constexpr int BORDER_SPACE = 2;
-
 bool is_mouse_enabled();
 bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
