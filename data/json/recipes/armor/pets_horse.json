@@ -138,7 +138,7 @@
     "time": "6 h 30 m",
     "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
+    "//extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },
   {
     "result": "leatherbone_armor_horse",

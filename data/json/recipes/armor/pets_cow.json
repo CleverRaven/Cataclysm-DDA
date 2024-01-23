@@ -138,7 +138,7 @@
     "time": "7 h 45 m",
     "using": [ [ "sewing_standard", 90 ], [ "clasps", 5 ] ],
     "components": [ [ [ "bone", 46 ], [ "bone_human", 46 ], [ "bone_demihuman", 46 ] ], [ [ "armor_blarmor", 3 ] ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
+    "//extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },
   {
     "result": "leatherbone_armor_cow",

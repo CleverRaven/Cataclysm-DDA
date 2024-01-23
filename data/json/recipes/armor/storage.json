@@ -53,7 +53,7 @@
     "type": "recipe",
     "time": "5 h",
     "using": [ [ "tailoring_leather_patchwork", 2 ], [ "strap_large", 1 ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] },
+    "//extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] },
     "components": [ [ [ "fastener_small", 2, "LIST" ] ] ]
   },
   {
@@ -774,7 +774,7 @@
     "time": "5 h 30 m",
     "copy-from": "chestpouch",
     "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" }, { "proficiency": "prof_leatherworking_basic" } ] }
+    "//extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" }, { "proficiency": "prof_leatherworking_basic" } ] }
   },
   {
     "result": "tacvest",

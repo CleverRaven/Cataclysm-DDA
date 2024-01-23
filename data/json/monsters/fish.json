@@ -1016,7 +1016,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "delete": {
-      "reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
+      "//reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
       "baby_flags": [ "AUTUMN" ]
     },
     "dissect": "dissect_crustacean_small",
