@@ -23,7 +23,7 @@
     "ranged_damage": { "damage_type": "stab", "amount": 20 },
     "dispersion": 250,
     "sight_dispersion": 50,
-    "recoil": 70,
+    "recoil": 200,
     "durability": 4,
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt_ballista": 1 } } ],

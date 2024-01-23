@@ -707,7 +707,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Artillery of the Ancients", "str_pl": "copies of Artillery of the Ancients" },
-    "description": "This is a history book detailing the siege machines and the field artillery of some ancient civilisations.  It contains detailed information on said artillery.",
+    "description": "This is a history book detailing the siege machines and the field artillery of some ancient civilizations.  It contains detailed information on said artillery.",
     "weight": "600 g",
     "volume": "1 L",
     "price": 4000,

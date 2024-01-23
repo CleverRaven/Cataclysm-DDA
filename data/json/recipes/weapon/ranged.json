@@ -1280,7 +1280,7 @@
     "time": "15 h",
     "book_learn": [ [ "ballista_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 3 ] ],
-    "qualities":  [
+    "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW", "level": 1 },
