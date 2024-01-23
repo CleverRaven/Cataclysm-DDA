@@ -485,7 +485,7 @@
       "type": "effect_on_conditions",
       "effect_on_conditions": [
         {
-          "id": "EOC_toolweapon_running__elec_chainsaw",
+          "id": "EOC_toolweapon_running__elec_chainsaw_cord",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
             "variables": {
