@@ -665,14 +665,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "name": "megastore parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "extras": "build",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 }
+    "id": [
+      "megastore_parking_0_0",
+      "megastore_parking_1_0",
+      "megastore_parking_2_0",
+      "megastore_parking_3_0",
+      "megastore_parking_0_1",
+      "megastore_parking_1_1",
+      "megastore_parking_2_1",
+      "megastore_parking_3_1",
+      "megastore_parking_0_2",
+      "megastore_parking_0_3",
+      "megastore_parking_0_4"
+    ],
+    "copy-from": "s_lot"
   },
   {
     "type": "overmap_terrain",
@@ -689,9 +695,7 @@
     "name": "megastore",
     "sym": "M",
     "color": "blue",
-    "extras": "build",
-    "see_cost": 2,
-    "mondensity": 2,
+    "copy-from": "generic_city_building",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 }
   },
   {
@@ -700,9 +704,7 @@
     "name": "megastore",
     "sym": "+",
     "color": "light_blue",
-    "extras": "build",
-    "see_cost": 5,
-    "mondensity": 2,
+    "copy-from": "generic_city_building",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
