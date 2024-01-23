@@ -503,7 +503,7 @@
     "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
   },
   {
-    "type": "mapgen",
+    "type": "mapgen"
     "method": "json",
     "om_terrain": "megastore_parking",
     "weight": 100,
