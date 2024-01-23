@@ -783,7 +783,7 @@
     "end": {
       "effect": [
         "stop_following",
-        { "u_adjust_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "adjustment": 1 },
+        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor", "++" ] },
         { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         { "math": [ "n_val('npc_trust')", "+=", "2" ] },

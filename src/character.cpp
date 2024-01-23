@@ -434,6 +434,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -6090,11 +6091,16 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_fae = calculate_by_enchantment( 0.0,
+                                   enchant_vals::mod::SIGHT_RANGE_FAE );
     const double sight_range_nether = calculate_by_enchantment( 0.0,
                                       enchant_vals::mod::SIGHT_RANGE_NETHER );
     const double sight_range_minds = calculate_by_enchantment( 0.0,
                                      enchant_vals::mod::SIGHT_RANGE_MINDS );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_fae() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_fae ) {
         return true;
     }
     if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
@@ -7949,8 +7955,9 @@ std::string Character::weapname_simple() const
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, true, 0, true,
-                               false );
+        tname::segment_bitset segs( tname::default_tname );
+        segs.set( tname::segments::TAGS, false );
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
         return gun_name;
 
     } else if( !is_armed() ) {
@@ -12295,6 +12302,14 @@ bool Character::is_hallucination() const
 bool Character::is_electrical() const
 {
     // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_fae() const
+{
+    if( has_trait( trait_FAERIECREATURE ) ) {
+        return true;
+    }
     return false;
 }
 

@@ -316,6 +316,39 @@
   },
   {
     "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_1",
+    "name": { "str": "Fae Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
+    "prereqs": [ "ARVORE_EYES", "HOMULLUS_SKIN_1", "IERDE_EYES", "SALAMANDER_EYES", "SYLPH_EYES", "UNDINE_EYES" ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.  It has a small chance to cost some of your mana each turn it is in use.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_ON" ],
+    "processed_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_2",
+    "name": { "str": "Wyrd Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1" ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.",
+    "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_ON" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLOUD_OF_STEAM_SYLPH",
     "name": { "str": "Cloud of Steam" },
     "points": 3,
@@ -431,5 +464,29 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_WISHES_TO_CONVERSE",
+    "name": { "str": "Desire for Conversation" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin casts this spell to force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",
+    "category": [ "HOMULLUS" ],
+    "active": true,
+    "starts_active": true,
+    "spells_learned": [ [ "homullus_spell_wish_to_converse", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FINAL_DISCUSSION",
+    "name": { "str": "FINAL DISCUSSION" },
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "This person won't speak with them again if this goes poorly."
   }
 ]

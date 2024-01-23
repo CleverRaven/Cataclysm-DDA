@@ -185,6 +185,11 @@
     "//": "Ignores the effect of sludge trails"
   },
   {
+    "id": "FAE_CREATURE",
+    "type": "monster_flag",
+    "//": "Is a faerie creature"
+  },
+  {
     "id": "SLUDGETRAIL",
     "type": "monster_flag",
     "//": "Causes monster to leave a sludge trap trail when moving"

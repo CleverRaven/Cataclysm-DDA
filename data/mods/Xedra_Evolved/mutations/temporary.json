@@ -87,7 +87,7 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "activated_eocs": [ "EOC_LUCID_DREAM" ]
+    "activated_eocs": [ "EOC_LUCID_DREAM_FORCE_END" ]
   },
   {
     "type": "mutation",

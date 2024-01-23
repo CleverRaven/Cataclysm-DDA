@@ -975,6 +975,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lucid_dream",
+    "name": [ "Lucid Dreaming" ],
+    "rating": "good",
+    "dur_add_perc": 0,
+    "desc": [ "While you may just be dreaming, you are still capable of affecting the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_smoke_form",
     "name": [ "Smoke Form" ],
     "desc": [ "You have transformed yourself into a cloud of smoke." ],
@@ -1105,6 +1113,27 @@
     "desc": [ "" ],
     "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
     "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_see_fae",
+    "name": [ "Wyrd Sight" ],
+    "desc": [ "You can sense nearby creatures that come from under the hill." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_FAE",
+            "add": {
+              "math": [
+                "(u_val('perception') * 2) * max(( 1.5 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE'))),1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

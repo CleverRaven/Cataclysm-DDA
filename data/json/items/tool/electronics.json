@@ -235,7 +235,9 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "charges_per_use": 25,
+    "qualities": [ [ "HACK", 2 ] ]
   },
   {
     "id": "geiger_off",

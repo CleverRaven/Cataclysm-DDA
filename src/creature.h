@@ -539,6 +539,9 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
+        // returns true if the creature is a faerie creature
+        virtual bool is_fae() const = 0;
+
         // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
 

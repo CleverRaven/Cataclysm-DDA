@@ -1693,7 +1693,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( firstaid_activity_actor( 1, std::string(), get_avatar().getID() ) ); },
     [] { return player_activity( forage_activity_actor( 1 ) ); },
     [] { return player_activity( gunmod_remove_activity_actor( 1, item_location(), 0 ) ); },
-    [] { return player_activity( hacking_activity_actor() ); },
+    [] { return player_activity( hacking_activity_actor( item_location() ) ); },
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
