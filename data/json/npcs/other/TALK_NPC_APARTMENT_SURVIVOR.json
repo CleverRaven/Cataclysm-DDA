@@ -50,7 +50,12 @@
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_APARTMENT_SURVIVOR_INTRO", "effect": "start_trade" },
       {
