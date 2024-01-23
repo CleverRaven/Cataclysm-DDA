@@ -7914,6 +7914,7 @@ void Character::recalculate_bodyparts()
             body[bp] = bodypart( bp );
         }
     }
+    tally_organic_size();
     add_msg_debug( debugmode::DF_ANATOMY_BP, "New healthy kcal %d",
                    get_healthy_kcal() );
     calc_encumbrance();
