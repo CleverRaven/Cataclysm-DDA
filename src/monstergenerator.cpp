@@ -1162,13 +1162,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         reproduces = true;
     }
 
-    if( jo.has_member( "baby_flags" ) ) {
-        // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
-        baby_flags.clear();
-        for( const std::string line : jo.get_array( "baby_flags" ) ) {
-            baby_flags.push_back( line );
-        }
-    }
+    // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
+    optional( jo, was_loaded, "baby_flags", baby_flags, auto_flags_reader<> {} );
 
     if( jo.has_member( "biosignature" ) ) {
         JsonObject biosig = jo.get_object( "biosignature" );
