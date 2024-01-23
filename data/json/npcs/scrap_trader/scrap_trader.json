@@ -266,10 +266,10 @@
     "id": "TALK_NPC_SCRAP_TRADER_FORT",
     "dynamic_line": {
       "npc_has_trait": "BGSS_No_Past_2",
-      "yes": "Well, this place had some barbed wire, metalworking tools, and pleanty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+      "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
       "no": {
         "npc_has_trait": "BGSS_No_Past_3",
-        "yes": "Well, this place had some barbed wire, metalworking tools, and pleanty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+        "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
         "no": "Like I said, I came out here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making."
       }
     },
