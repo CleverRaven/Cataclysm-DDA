@@ -97,7 +97,7 @@ endif ()
 
 include(CheckCXXCompilerFlag)
 
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(DEFINED ENV{MSYSTEM})
     set(MSYS2 True)
     add_definitions(-DMSYS2)
 endif()
