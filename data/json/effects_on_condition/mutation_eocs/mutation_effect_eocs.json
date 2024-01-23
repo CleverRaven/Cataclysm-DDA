@@ -820,7 +820,7 @@
     "recurrence": [ "30 minutes", "45 minutes" ],
     "condition": {
       "and": [
-        { "u_has_effect": "narcosis" },
+        { "or": [ { "u_has_effect": "narcosis" }, { "u_has_effect": "sleep" } ] },
         { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
       ]
     },
@@ -838,79 +838,5 @@
       ]
     },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_quadruped_movement",
-    "//": "Quadrupedal post-thresh mutants with paws in front and back get these effects when they're running or crouching and empty-handed.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] },
-              { "not": "u_can_drop_weapon" },
-              { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
-              { "u_has_flag": [ "QUADRUPED_RUN" ] },
-              { "u_has_flag": [ "QUADRUPED" ] }
-            ]
-          },
-          "effect": [ { "u_add_effect": "quadruped_full", "duration": "PERMANENT" }, { "u_add_effect": "natural_stance", "duration": "PERMANENT" }, { "u_message": "You drop down on all fours." } ]
-        }
-      ]
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_quadruped_movement_half",
-    "//": "This is for post-thresh mutants with paws but not animal back legs.  It's a much more minor buff, and only to crawling.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "u_has_move_mode": "crouch" },
-              { "not": "u_can_drop_weapon" },
-              { "not": { "u_has_flag": [ "QUADRUPED_RUN" ] } },
-              { "u_has_flag": [ "QUADRUPED_CROUCH" ] },
-              { "u_has_flag": [ "QUADRUPED" ] }
-            ]
-          },
-          "effect": [ { "u_add_effect": "quadruped_half", "duration": "PERMANENT" }, { "u_message": "You drop down on all fours." } ]
-        }
-      ]
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_quadruped_full_lose",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [ { "u_has_effect": "quadruped_full" },
-            { "or": [ { "not": { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] } }, { "not": "u_can_drop_weapon" } ] }
-            ]
-          },
-          "effect": [ { "u_lose_effect": "quadruped_full", "duration": "PERMANENT" }, { "u_lose_effect": "natural_stance", "duration": "PERMANENT" }, { "u_message": "You stop crawling on all fours." } ]
-        }
-      ]
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_quadruped_half_lose",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [ { "u_has_effect": "quadruped_half" },
-              { "or": { "not": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] } }
-            ]
-          },
-          "effect": [ { "u_lose_effect": "quadruped_half", "duration": "PERMANENT" }, { "u_message": "You stop crawling on all fours." } ]
-        }
-      ]
-    ]
   }
 ]

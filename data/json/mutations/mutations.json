@@ -487,7 +487,7 @@
     "name": { "str": "Echolocation" },
     "points": 3,
     "description": "You've learned how to hunt without sight.  Activate this mutation to make an ultrasonic sound that can reveal obstacles and enemies nearby.",
-    "prereqs": [ "BATEARS", "INDEFATIGABLE" ],
+    "prereqs": [ "BATEARS", "GOODCARDIO" ],
     "category": [ "CHIROPTERAN" ],
     "active": true
   },
@@ -497,7 +497,7 @@
     "name": { "str": "Shriek" },
     "points": 3,
     "description": "Activate to let loose a high pitched screech, loud enough to shatter glass and daze anything in the immediate vicinity.",
-    "prereqs": [ "BATEARS", "INDEFATIGABLE" ],
+    "prereqs": [ "BATEARS", "GOODCARDIO" ],
     "category": [ "CHIROPTERAN" ],
     "active": true
   },
@@ -4304,15 +4304,14 @@
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your lower limbs have shortened and splayed, slowing your bipedal movement.  As long as you're not wielding anything, you're able to crawl quickly and quietly when you run or crouch.",
+    "description": "Your lower limbs have shortened and splayed, slowing your bipedal movement.  As long as you're not wielding anything and you've got both wings, you're able to crawl quickly and quietly when you run or crouch.",
     "types": [ "LEGS" ],
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "movecost_modifier": 1.35,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "destroys_gear": true,
-    "//": "Uses bespoke triggers rather than QUADRUPED_CROUCH as bat-crawling gives different buffs.",
+    "//": "Uses bespoke stuff here rather than the quadruped enchantments as bat-crawling gives different buffs.",
     "triggers": [
       [
         {
@@ -4384,6 +4383,29 @@
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "or": [ { "u_has_move_mode": "run" }, { "u_has_move_mode": "crouch" } ] },
+              { "not": "u_can_drop_weapon" },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_RABBIT" ] },
+              { "u_has_flag": "QUADRUPED_CROUCH" }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You assume a less bestial posture." }
+        }
+      ]
+    ],
+    "enchantments": [ 
+    "ench_quadruped_movement_full",
+    {
+      "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
+      "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
+      "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+    } ],
     "weight_capacity_modifier": 0.8
   },
   {
@@ -6474,7 +6496,7 @@
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
     "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "INSECT", "BEAST" ]
+    "category": [ "INSECT" ]
   },
   {
     "type": "mutation",
@@ -7183,6 +7205,23 @@
     "cancels": [ "TALONS" ],
     "flags": [ "QUADRUPED_CROUCH" ],
     "changes_to": [ "PAWS_LARGE" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "crouch" },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_LUPINE", "THRESH_RABBIT", "THRESH_FELINE" ] },
+              { "not": "u_can_drop_weapon" },
+              { "not": { "u_has_flag": "QUADRUPED_RUN" } }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [ "ench_quadruped_movement_half" ],
     "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ]
   },
   {
@@ -7211,6 +7250,23 @@
     "prereqs": [ "PAWS" ],
     "cancels": [ "TALONS" ],
     "flags": [ "QUADRUPED_CROUCH" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "crouch" },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_LUPINE", "THRESH_RABBIT", "THRESH_FELINE" ] },
+              { "not": "u_can_drop_weapon" },
+              { "not": { "u_has_flag": "QUADRUPED_RUN" } }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [ "ench_quadruped_movement_half" ],
     "category": [ "BEAST", "URSINE" ]
   },
   {
@@ -8204,7 +8260,6 @@
     "points": 1,
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
-    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8215,7 +8270,6 @@
     "points": 1,
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
-    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8226,7 +8280,6 @@
     "points": 1,
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
-    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -8236,7 +8289,6 @@
     "name": { "str": "Bear" },
     "points": 1,
     "description": "So the humans died; what's the worry?  Now they won't ruin the woods.",
-    "cancels": [ "CARNIVORE" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -8437,7 +8489,6 @@
     "points": 1,
     "description": "You long for a colony, the cover of darkness, and a meal on the wing.",
     "valid": false,
-    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -9236,7 +9287,6 @@
     "points": 1,
     "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
     "valid": false,
-    "flags": [ "QUADRUPED" ],
     "purifiable": false,
     "threshold": true
   },
@@ -9301,7 +9351,9 @@
       "attack_text_npc": "%1$s kicks %2$s with their large feet!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 1.5 }
-    }
+    },
+    "enchantments": [ "ench_quadruped_movement_full" ],
+    "weight_capacity_modifier": 0.8
   },
   {
     "type": "mutation",
@@ -9329,6 +9381,23 @@
     "prereqs": [ "NAILS" ],
     "cancels": [ "TALONS" ],
     "flags": [ "QUADRUPED_CROUCH" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "crouch" },
+              { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_LUPINE", "THRESH_RABBIT", "THRESH_FELINE" ] },
+              { "not": "u_can_drop_weapon" },
+              { "not": { "u_has_flag": "QUADRUPED_RUN" } }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [ "ench_quadruped_movement_half" ],
     "category": [ "RABBIT" ]
   },
   {

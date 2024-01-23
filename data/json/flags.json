@@ -2430,11 +2430,6 @@
     "type": "json_flag"
   },
   {
-    "id": "QUADRUPED",
-    "type": "json_flag",
-    "//": "This post-threshold mutant has had enough of their brain replaced to use their paws (if they have them) for quadrupedal movement."
-  },
-  {
     "id": "QUADRUPED_CROUCH",
     "type": "json_flag",
     "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."

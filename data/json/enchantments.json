@@ -115,27 +115,16 @@
     "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
   },
   {
-    "id": "ench_quadruped_movement_crouch",
-    "//": "quadruped_movement_crouch and quadruped_movement_run are for quadrupeds with all four of their animal limbs.",
+    "id": "ench_quadruped_movement_full",
+    "//": "For quadrupeds with all four of their animal limbs.  We should avoid giving this to every animal mutant, as it helps keep lines distinct.",
     "type": "enchantment",
     "condition": {
       "and": [
-        { "u_has_effect": "quadruped_full" },
-        { "u_has_move_mode": "crouch" },
-        { "not": "u_can_drop_weapon" },
-      ]
-    },
-    "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-  },
-  {
-    "id": "ench_quadruped_movement_run",
-    "type": "enchantment",
-    "condition": {
-      "and": [
-        { "u_has_effect": "quadruped_full" },
-        { "u_has_move_mode": "run" },
-        { "not": "u_can_drop_weapon" },
+        { "u_has_flag": "QUADRUPED_CROUCH" },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "u_has_flag": "QUADRUPED_RUN" },
+        { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] },
+        { "not": "u_can_drop_weapon" }
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
@@ -147,9 +136,11 @@
     "type": "enchantment",
     "condition": {
       "and": [
-        { "u_has_effect": "quadruped_half" },
+        { "u_has_flag": "QUADRUPED_CROUCH" },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "not": { "u_has_flag": "QUADRUPED_RUN" } },
         { "u_has_move_mode": "crouch" },
-        { "not": "u_can_drop_weapon" },
+        { "not": "u_can_drop_weapon" }
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
