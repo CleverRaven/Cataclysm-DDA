@@ -547,7 +547,6 @@
     "//2": "Lower hp to reflect previous damage.  Plus they're virtually useless so might as well make them a quick kill.",
     "speed": 65,
     "melee_skill": 3,
-    "melee_dice_sides": 3,
     "vision_day": 2,
     "vision_night": 0,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
