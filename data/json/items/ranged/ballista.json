@@ -20,7 +20,7 @@
     "reload_noise_volume": 8,
     "reload": 8000,
     "range": 80,
-    "ranged_damage": { "damage_type": "stab", "amount": 20 },
+    "ranged_damage": { "damage_type": "stab", "amount": 50 },
     "dispersion": 250,
     "sight_dispersion": 50,
     "recoil": 200,
@@ -44,10 +44,10 @@
     "color": "green",
     "material": [ { "type": "wood", "portion": 80 }, { "type": "steel", "portion": 20 } ],
     "ammo_type": "bolt_ballista",
-    "damage": { "damage_type": "stab", "armor_penetration": 15 },
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 2, "armor_penetration": 20 },
     "dispersion": 35,
     "loudness": 0,
-    "critical_multiplier": 25,
+    "critical_multiplier": 2,
     "effects": [ "RECOVER_50" ],
     "melee_damage": { "stab": 20 }
   }

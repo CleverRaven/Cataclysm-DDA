@@ -695,7 +695,7 @@
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
       { "item": "cookbook_bloodforgood", "prob": 50 },
-      { "item": "ballissta_book", "prob": 10 }
+      { "item": "ballista_book", "prob": 10 }
     ]
   },
   {
