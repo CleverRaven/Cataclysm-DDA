@@ -112,5 +112,69 @@
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
     "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_STR_UP",
+    "name": { "str": "Superior Strength" },
+    "points": 2,
+    "description": "You have great strength in your limbs.  +2 Strength.",
+    "changes_to": [ "STR_ALPHA" ],
+    "category": [ "HOMULLUS" ],
+    "passive_mods": { "str_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_ALPHA",
+    "copy-from": "STR_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "prereqs": [ "HOMULLUS_STR_UP" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DEX_UP",
+    "name": { "str": "Superior Dexterity" },
+    "points": 2,
+    "description": "Your flexibility is unmatched.  +2 Dexterity.",
+    "changes_to": [ "DEX_ALPHA" ],
+    "category": [ "HOMULLUS" ],
+    "passive_mods": { "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_ALPHA",
+    "copy-from": "DEX_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "prereqs": [ "HOMULLUS_DEX_UP" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_INT_UP",
+    "name": { "str": "Superior Intelligence" },
+    "points": 2,
+    "description": "Your racing mind quickly solves most problems.  +2 Intelligence.",
+    "changes_to": [ "INT_ALPHA" ],
+    "category": [ "HOMULLUS" ],
+    "passive_mods": { "int_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_ALPHA",
+    "copy-from": "INT_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "prereqs": [ "HOMULLUS_INT_UP" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_PER_UP",
+    "name": { "str": "Superior Perception" },
+    "points": 2,
+    "description": "Your keen senses take in the world around you.  +2 Perception.",
+    "changes_to": [ "PER_ALPHA" ],
+    "category": [ "HOMULLUS" ],
+    "passive_mods": { "per_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_ALPHA",
+    "copy-from": "PER_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "prereqs": [ "HOMULLUS_PER_UP" ], "threshreq": [ "THRESH_HOMULLUS" ] }
   }
 ]
