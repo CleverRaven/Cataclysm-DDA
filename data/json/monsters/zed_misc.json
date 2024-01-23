@@ -428,7 +428,7 @@
     "id": "mon_zombie_brute_grappler",
     "type": "MONSTER",
     "name": { "str": "zombie wrestler" },
-    "description": "A slab of festering muscle the size of a well-toned bodybuilder. With popping and cracking sounds its arm muscles constantly lengethen and contract. It reaches out with deformed muscular hands that are the size of dinner plates.",
+    "description": "A slab of festering muscle the size of a well-toned bodybuilder.  With popping and cracking sounds its arm muscles constantly lengthen and contract as it reaches out with deformed muscular hands the size of dinner plates.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
