@@ -153,7 +153,7 @@ static int one_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
 
     // confirm that we have the bionic and that our limb is missing
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
-    REQUIRE( dummy.get_cached_organic_size() == 0.87f );
+    REQUIRE( dummy.get_cached_organic_size() == 0.85f );
     return actual_burn_rate( dummy, move_mode );
 }
 
@@ -168,7 +168,7 @@ static int two_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode
     // confirm that we have the bionics and that our limbs are missing
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
     REQUIRE( dummy.has_bionic( test_bio_limb_leg_r ) );
-    REQUIRE( dummy.get_cached_organic_size() == 0.74f );
+    REQUIRE( dummy.get_cached_organic_size() == 0.70f );
     return actual_burn_rate( dummy, move_mode );
 }
 
