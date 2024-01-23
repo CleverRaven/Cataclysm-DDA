@@ -864,7 +864,7 @@
     ],
     "looks_like": "survivor_machete",
     "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
-    "proportional": { "price_postapoc": 1.15, "price": 1.15 },
+    "proportional": { "price": 1.15 },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": 2000 }
   },
   {
