@@ -20,6 +20,7 @@
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "iteminfo_query.h"
 #include "line.h"
 #include "make_static.h"
@@ -88,8 +89,8 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
-                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
+                                          remove_color_tags( it->tname( 1, true ) ) } )
                .first->second;
     }
 
@@ -1969,8 +1970,10 @@ bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
         }
     }
     if( !any_containable ) {
+        tname::segment_bitset segs( tname::unprefixed_tname );
+        segs.set( tname::segments::CONTENTS, false );
         popup( string_format( _( "%s contains no pockets that can contain item." ),
-                              destItem->tname( 1, false, 0, false, false, false ) ) );
+                              destItem->tname( 1, segs ) ) );
         return false;
     }
     action_menu.query();
