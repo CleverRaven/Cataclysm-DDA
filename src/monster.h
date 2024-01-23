@@ -122,9 +122,6 @@ class monster : public Creature
         void reset_digestion();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
-        //QUESTION FOR REVIEWERS: since the two methods below are in character.h as well, should they be defined as virtual in creature.h instead?
-        void process_effects();
-        void process_one_effect(effect& it, bool is_new);
         std::vector<material_id> get_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;

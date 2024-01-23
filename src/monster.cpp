@@ -225,13 +225,13 @@ static int compute_kill_xp( const mtype_id &mon_type )
 // For tracking what few effects of enchants 
 // are relevant to monsters.
 struct monster_enchant_effects {
-    resistances armor_mod;
-    int speed_mod_abs;
-    int regen_hp_mod;
-    int max_hp_abs;
+    resistances armor_mod = resistances();
+    int speed_mod_abs = 0;
+    int regen_hp_mod = 0;
+    int max_hp_abs = 0;
 
-    float speed_mod_mult;
-    float max_hp_mult;
+    float speed_mod_mult = 0;
+    float max_hp_mult = 0;
 };
 
 monster::monster()
@@ -3132,6 +3132,17 @@ void monster::process_one_effect( effect &it, bool is_new )
         avatar &you = get_avatar(); // No NPCs for now.
         if( rl_dist( pos(), you.pos() ) <= 1 ) {
             you.get_sick( true );
+        }
+    }
+
+    //Process enchantments that apply to monsters.
+    for (const auto& elem : *effects) {
+        for (const enchantment_id& ench_id : elem.first->enchantments) {
+            const enchantment& ench = ench_id.obj();
+            if (ench.is_active(*this) && ench.is_monster_relevant()) {
+                // For now we process this manually.
+                // I don't feel comfortable keeping a cache for each one of potentially HUNDREDS of monsters in the reality bubble.
+            }
         }
     }
 }
