@@ -517,7 +517,6 @@
     ],
     "bleed_rate": 0,
     "vision_day": 15,
-    "vision_night": 3,
     "grab_strength": 30,
     "special_attacks": [
       {
@@ -555,7 +554,7 @@
     "harvest": "zombie_humanoid_headless",
     "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
     "extend": { "flags": [ "NOHEAD" ] },
-    "delete": { "flags": [ "SEES" ], "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 } ] },
+    "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
     "//4": "Has NOHEAD flag to reflect the head is already catastrophically damaged.  Only detects through hearing."
   },
@@ -579,7 +578,7 @@
     "grab_strength": 50,
     "armor": { "electric": 2 },
     "extend": { "flags": [ "GOODHEARING", "NOHEAD", "LOUDMOVES" ], "families": [ "prof_wp_hulk" ] },
-    "delete": { "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 } ] }
+    "delete": { "special_attacks": [ "bite_humanoid" ] }
   },
   {
     "id": "mon_zombie_bruiser",
