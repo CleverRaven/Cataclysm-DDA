@@ -161,6 +161,8 @@
     "vision_night": 5,
     "grab_strength": 40,
     "anger_triggers": [ "PLAYER_CLOSE" ],
+    "weakpoint_sets": [ "wps_alien_biology" ],
+    "families": [ "prof_alien_biology" ],
     "dissect": "dissect_undine_small",
     "special_attacks": [
       {
@@ -254,6 +256,8 @@
     "armor": { "bash": 10, "cut": 8 },
     "aggression": -10,
     "harvest": "harvest_thornbear",
+    "weakpoint_sets": [ "wps_alien_biology" ],
+    "families": [ "prof_alien_biology" ],
     "dissect": "dissect_arvore_large",
     "special_attacks": [
       {
@@ -292,7 +296,7 @@
     "regen_morale": true,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_hulk" ],
+    "families": [ "prof_alien_biology", "prof_wp_hulk" ],
     "vision_day": 40,
     "vision_night": 10,
     "scents_tracked": [ "sc_human", "sc_fetid" ],
