@@ -51,10 +51,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::volume &v
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -115,10 +113,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::mass &val
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -179,10 +175,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::length &v
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -243,10 +237,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::money &va
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -312,10 +304,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::energy &v
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -381,10 +371,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::power &va
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -640,10 +628,8 @@ bool assign( const JsonObject &jo, const std::string_view name, damage_instance 
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject &err = jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Currently, we load only either relative or proportional when loading damage
     // There's no good reason for this, but it's simple for now

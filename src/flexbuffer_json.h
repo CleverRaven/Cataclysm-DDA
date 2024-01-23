@@ -529,6 +529,7 @@ class JsonObject : JsonWithPath
         flexbuffers::TypedVector keys_ = flexbuffers::TypedVector::EmptyTypedVector();
         flexbuffers::Vector values_ = flexbuffers::Vector::EmptyVector();
         mutable tiny_bitset visited_fields_bitset_;
+        mutable std::unordered_map<std::string, JsonObject> child_objects_;
 
         static const auto &empty_object_() {
             // NOLINTNEXTLINE(cata-almost-never-auto)
@@ -610,6 +611,7 @@ class JsonObject : JsonWithPath
         int get_int( std::string_view key ) const;
         double get_float( std::string_view key ) const;
         JsonArray get_array( std::string_view key ) const;
+        const JsonObject &get_subobject( std::string_view key ) const;
         JsonObject get_object( std::string_view key ) const;
 
         template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>

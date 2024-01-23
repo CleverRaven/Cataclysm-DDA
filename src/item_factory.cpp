@@ -2992,8 +2992,7 @@ void islot_armor::load( const JsonObject &jo )
     get_optional( jo, was_loaded, "environmental_protection", _env_resist );
     get_optional( jo, was_loaded, "environmental_protection_with_filter", _env_resist_w_filter );
 
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
     get_relative( relative, "material_thickness", _material_thickness, 0.f );
     get_relative( relative, "environmental_protection", _env_resist, 0 );
     get_relative( relative, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
@@ -3002,8 +3001,7 @@ void islot_armor::load( const JsonObject &jo )
         _rel_encumb = relative.get_float( "encumbrance" );
     }
 
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
     get_proportional( proportional, "material_thickness", _material_thickness, 0.f );
     get_proportional( proportional, "environmental_protection", _env_resist, 0 );
     get_proportional( proportional, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
@@ -3234,10 +3232,8 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 {
     bool strict = src == "dda";
 
-    JsonObject relative = jo.get_object( "relative" );
-    JsonObject proportional = jo.get_object( "proportional" );
-    relative.allow_omitted_members();
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
     // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
@@ -4111,16 +4107,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
     def.melee_proportional.clear();
     if( jo.has_object( "proportional" ) ) {
-        JsonObject jprop = jo.get_object( "proportional" );
-        jprop.allow_omitted_members();
+        const JsonObject &jprop = jo.get_subobject( "proportional" );
         if( jprop.has_object( "melee_damage" ) ) {
             def.melee_proportional = load_damage_map( jprop.get_object( "melee_damage" ) );
         }
     }
     def.melee_relative.clear();
     if( jo.has_object( "relative" ) ) {
-        JsonObject jrel = jo.get_object( "relative" );
-        jrel.allow_omitted_members();
+        const JsonObject &jrel = jo.get_subobject( "relative" );
         if( jrel.has_object( "melee_damage" ) ) {
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
@@ -4292,18 +4286,15 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_qualities_from_json( jo, "qualities", def );
     } else {
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "extend" );
             extend_qualities_from_json( tmp, "qualities", def );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "delete" );
             delete_qualities_from_json( tmp, "qualities", def );
         }
         if( jo.has_object( "relative" ) ) {
-            JsonObject tmp = jo.get_object( "relative" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "relative" );
             relative_qualities_from_json( tmp, "qualities", def );
         }
     }
@@ -4320,13 +4311,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_techniques_from_json( jo, "techniques", def );
     } else {
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "extend" );
             extend_techniques_from_json( tmp, "techniques", def );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "delete" );
             delete_techniques_from_json( tmp, "techniques", def );
         }
     }
@@ -5011,7 +5000,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     // Otherwise, read from the object into the fresh itemgroup
     // And don't read if it has copy-from because it will not handle that correctly.
     if( jsobj.has_member( "extend" ) ) {
-        load_item_group_data( jsobj.get_object( "extend" ), ig, subtype );
+        load_item_group_data( jsobj.get_subobject( "extend" ), ig, subtype );
     } else if( !jsobj.has_member( "copy-from" ) ) {
         load_item_group_data( jsobj, ig, subtype );
     }

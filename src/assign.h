@@ -45,10 +45,8 @@ bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = 
 
     // Object via which to report errors which differs for proportional/relative values
     const JsonObject *err = &jo;
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
@@ -151,10 +149,8 @@ namespace details
 template <typename T, typename Set>
 bool assign_set( const JsonObject &jo, const std::string_view name, Set &val )
 {
-    JsonObject add = jo.get_object( "extend" );
-    add.allow_omitted_members();
-    JsonObject del = jo.get_object( "delete" );
-    del.allow_omitted_members();
+    const JsonObject &add = jo.get_subobject( "extend" );
+    const JsonObject &del = jo.get_subobject( "delete" );
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T, Set>( name );
@@ -268,10 +264,8 @@ std::enable_if_t<std::is_same_v<std::decay_t<T>, time_duration>, bool>assign(
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
-    relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
-    proportional.allow_omitted_members();
+    const JsonObject &relative = jo.get_subobject( "relative" );
+    const JsonObject &proportional = jo.get_subobject( "proportional" );
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value

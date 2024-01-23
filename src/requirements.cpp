@@ -429,7 +429,7 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
     requirement_data ext;
 
     if( check_extend && jsobj.has_object( "extend" ) ) {
-        JsonObject jext = jsobj.get_object( "extend" );
+        const JsonObject &jext = jsobj.get_subobject( "extend" );
         if( jext.has_member( "components" ) ) {
             load_obj_list( jext.get_array( "components" ), ext.components );
         }

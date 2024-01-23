@@ -734,8 +734,7 @@ template < typename MemberType, std::enable_if_t < !supports_proportional<Member
 inline bool handle_proportional( const JsonObject &jo, const std::string_view name, MemberType & )
 {
     if( jo.has_object( "proportional" ) ) {
-        JsonObject proportional = jo.get_object( "proportional" );
-        proportional.allow_omitted_members();
+        const JsonObject &proportional = jo.get_subobject( "proportional" );
         if( proportional.has_member( name ) ) {
             debugmsg( "Member %s of type %s does not support proportional", name,
                       demangle( typeid( MemberType ).name() ) );
@@ -754,8 +753,7 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
                                  MemberType &member )
 {
     if( jo.has_object( "proportional" ) ) {
-        JsonObject proportional = jo.get_object( "proportional" );
-        proportional.allow_omitted_members();
+        const JsonObject &proportional = jo.get_subobject( "proportional" );
         // We need to check this here, otherwise we get problems with unvisited members
         if( !proportional.has_member( name ) ) {
             return false;
@@ -784,8 +782,7 @@ template < typename MemberType,
 inline bool handle_relative( const JsonObject &jo, const std::string_view name, MemberType & )
 {
     if( jo.has_object( "relative" ) ) {
-        JsonObject relative = jo.get_object( "relative" );
-        relative.allow_omitted_members();
+        const JsonObject &relative = jo.get_subobject( "relative" );
         if( !relative.has_member( name ) ) {
             return false;
         }
@@ -803,8 +800,7 @@ template<typename MemberType, std::enable_if_t<supports_relative<MemberType>::va
 inline bool handle_relative( const JsonObject &jo, const std::string_view name, MemberType &member )
 {
     if( jo.has_object( "relative" ) ) {
-        JsonObject relative = jo.get_object( "relative" );
-        relative.allow_omitted_members();
+        const JsonObject &relative = jo.get_subobject( "relative" );
         // This needs to happen here, otherwise we get unvisited members
         if( !relative.has_member( name ) ) {
             return false;
@@ -1078,13 +1074,11 @@ public:
             return false;
         } else {
             if( jo.has_object( "extend" ) ) {
-                JsonObject tmp = jo.get_object( "extend" );
-                tmp.allow_omitted_members();
+                const JsonObject &tmp = jo.get_subobject( "extend" );
                 derived.insert_values_from( tmp, member_name, container );
             }
             if( jo.has_object( "delete" ) ) {
-                JsonObject tmp = jo.get_object( "delete" );
-                tmp.allow_omitted_members();
+                const JsonObject &tmp = jo.get_subobject( "delete" );
                 derived.erase_values_from( tmp, member_name, container );
             }
             return true;
@@ -1104,8 +1098,7 @@ public:
                >
     bool do_relative( const JsonObject &jo, const std::string_view name, C & ) const {
         if( jo.has_object( "relative" ) ) {
-            JsonObject relative = jo.get_object( "relative" );
-            relative.allow_omitted_members();
+            const JsonObject &relative = jo.get_subobject( "relative" );
             if( !relative.has_member( name ) ) {
                 return false;
             }
@@ -1120,8 +1113,7 @@ public:
                int > = 0, std::enable_if_t<supports_relative<C>::value> * = nullptr >
     bool do_relative( const JsonObject &jo, const std::string_view name, C &member ) const {
         if( jo.has_object( "relative" ) ) {
-            JsonObject relative = jo.get_object( "relative" );
-            relative.allow_omitted_members();
+            const JsonObject &relative = jo.get_subobject( "relative" );
             const Derived &derived = static_cast<const Derived &>( *this );
             // This needs to happen here, otherwise we get unvisited members
             if( !relative.has_member( name ) ) {
@@ -1153,9 +1145,15 @@ public:
                int > = 0 >
     bool operator()( const JsonObject &jo, const std::string_view member_name,
                      C &member, bool /*was_loaded*/ ) const {
+        if( jo.has_object( "extend" ) && jo.get_subobject( "extend" ).has_member( member_name ) ) {
+            debugmsg( "%s does not support extend", member_name );
+        }
+        if( jo.has_object( "delete" ) && jo.get_subobject( "delete" ).has_member( member_name ) ) {
+            debugmsg( "%s does not support delete", member_name );
+        }
         return read_normal( jo, member_name, member ) ||
-        handle_proportional( jo, member_name, member ) ||
-        do_relative( jo, member_name, member );
+               handle_proportional( jo, member_name, member ) ||
+               do_relative( jo, member_name, member );
     }
 };
 

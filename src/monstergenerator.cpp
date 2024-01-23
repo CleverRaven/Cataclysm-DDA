@@ -821,16 +821,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
     armor_proportional.reset();
     if( jo.has_object( "proportional" ) ) {
-        JsonObject jprop = jo.get_object( "proportional" );
-        jprop.allow_omitted_members();
+        const JsonObject &jprop = jo.get_subobject( "proportional" );
         if( jprop.has_object( "armor" ) ) {
             armor_proportional = load_resistances_instance( jprop.get_object( "armor" ) );
         }
     }
     armor_relative.reset();
     if( jo.has_object( "relative" ) ) {
-        JsonObject jrel = jo.get_object( "relative" );
-        jrel.allow_omitted_members();
+        const JsonObject &jrel = jo.get_subobject( "relative" );
         if( jrel.has_object( "armor" ) ) {
             armor_relative = load_resistances_instance( jrel.get_object( "armor" ) );
         }
@@ -864,8 +862,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "extend" ) ) {
-        JsonObject tmp = jo.get_object( "extend" );
-        tmp.allow_omitted_members();
+        const JsonObject &tmp = jo.get_subobject( "extend" );
         if( tmp.has_array( "weakpoint_sets" ) ) {
             for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
                 weakpoints_deferred.emplace_back( jval.get_string() );
@@ -879,8 +876,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "delete" ) ) {
-        JsonObject tmp = jo.get_object( "delete" );
-        tmp.allow_omitted_members();
+        const JsonObject &tmp = jo.get_subobject( "delete" );
         if( tmp.has_array( "weakpoint_sets" ) ) {
             for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
                 weakpoints_id set_id( jval.get_string() );
@@ -907,15 +903,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         families.load( jo.get_array( "families" ) );
     } else {
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "extend" );
             if( tmp.has_array( "families" ) ) {
                 families.load( tmp.get_array( "families" ) );
             }
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "delete" );
             if( tmp.has_array( "families" ) ) {
                 families.remove( tmp.get_array( "families" ) );
             }
@@ -957,13 +951,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         // Note: regeneration_modifers left as is, new modifiers are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "extend" );
             add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "delete" );
             remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
@@ -1007,8 +999,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
     } else if( jo.has_object( "relative" ) ) {
         std::optional<damage_instance> tmp_dmg;
-        JsonObject rel = jo.get_object( "relative" );
-        rel.allow_omitted_members();
+        const JsonObject &rel = jo.get_subobject( "relative" );
         if( rel.has_array( "melee_damage" ) ) {
             tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
         } else if( rel.has_object( "melee_damage" ) ) {
@@ -1024,8 +1015,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     } else if( jo.has_object( "proportional" ) ) {
         std::optional<damage_instance> tmp_dmg;
-        JsonObject prop = jo.get_object( "proportional" );
-        prop.allow_omitted_members();
+        const JsonObject &prop = jo.get_subobject( "proportional" );
         if( prop.has_array( "melee_damage" ) ) {
             tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
         } else if( prop.has_object( "melee_damage" ) ) {
@@ -1117,13 +1107,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "extend" );
             add_special_attacks( tmp, "special_attacks", src );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
+            const JsonObject &tmp = jo.get_subobject( "delete" );
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
@@ -1210,8 +1198,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     } else {
         if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
+            const JsonObject &exjo = jo.get_subobject( "extend" );
             if( exjo.has_member( "flags" ) ) {
                 if( exjo.has_string( "flags" ) ) {
                     pre_flags_.emplace( exjo.get_string( "flags" ) );
@@ -1223,8 +1210,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             }
         }
         if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
+            const JsonObject &deljo = jo.get_subobject( "delete" );
             if( deljo.has_member( "flags" ) ) {
                 if( deljo.has_string( "flags" ) ) {
                     auto iter = pre_flags_.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );
@@ -1285,8 +1271,7 @@ void species_type::load( const JsonObject &jo, const std::string_view )
         }
     } else {
         if( jo.has_member( "extend" ) ) {
-            JsonObject exjo = jo.get_object( "extend" );
-            exjo.allow_omitted_members();
+            const JsonObject &exjo = jo.get_subobject( "extend" );
             if( exjo.has_member( "flags" ) ) {
                 if( exjo.has_string( "flags" ) ) {
                     flags.emplace( exjo.get_string( "flags" ) );
@@ -1298,8 +1283,7 @@ void species_type::load( const JsonObject &jo, const std::string_view )
             }
         }
         if( jo.has_member( "delete" ) ) {
-            JsonObject deljo = jo.get_object( "delete" );
-            deljo.allow_omitted_members();
+            const JsonObject &deljo = jo.get_subobject( "delete" );
             if( deljo.has_member( "flags" ) ) {
                 if( deljo.has_string( "flags" ) ) {
                     auto iter = flags.find( mon_flag_str_id( deljo.get_string( "flags" ) ) );

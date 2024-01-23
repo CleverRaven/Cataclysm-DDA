@@ -352,7 +352,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string_view member
         return false;
     }
 
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
     str_min = j.get_int( "str_min", 0 );
     str_max = j.get_int( "str_max", 0 );
 
@@ -432,7 +432,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view
 
 bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
-    JsonObject j = jsobj.get_object( member );
+    const JsonObject &j = jsobj.get_object( member );
 
     optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
 
