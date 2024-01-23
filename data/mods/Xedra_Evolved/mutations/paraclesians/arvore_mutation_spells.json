@@ -209,7 +209,7 @@
   {
     "id": "arvore_summon_wood_spirit",
     "type": "SPELL",
-    "name": "Call the Children of the Boughs",
+    "name": "Call the Children of the Roots",
     "description": "A lesser wood spirit is summoned to support you.",
     "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
@@ -219,7 +219,7 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_ARVORE",
+    "effect_str": "GROUP_GENIUS_ARVORE_LESSER",
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 8,

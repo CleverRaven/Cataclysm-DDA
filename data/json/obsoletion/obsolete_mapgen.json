@@ -501,5 +501,53 @@
     "update_mapgen_id": "nest_RandEnc_VC_Shoppers_remove",
     "//": "Adds a random NPC to the warehouse, placed off in the corner.",
     "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "megastore_parking",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "#,....................,T",
+        ",......................,",
+        "........................",
+        "______............______",
+        "........................",
+        ".....>..................",
+        "..................<.....",
+        "........................",
+        "______............______",
+        "........................",
+        "........................",
+        "............v...........",
+        "........................",
+        "______............______",
+        "...........^............",
+        "........................",
+        "........................",
+        "........................",
+        "______............______",
+        ".....>..................",
+        "........................",
+        "........................",
+        ",_____............_____,",
+        "T,....................,#"
+      ],
+      "terrain": {
+        ".": "t_pavement",
+        "_": "t_pavement_y",
+        "#": "t_region_groundcover_urban",
+        "T": "t_region_tree_shade",
+        ",": "t_sidewalk"
+      },
+      "vehicles": {
+        ">": { "vehicle": "parking_garage", "chance": 10 },
+        "v": { "vehicle": "parking_garage", "chance": 10, "rotation": 90 },
+        "<": { "vehicle": "parking_garage", "chance": 10, "rotation": 180 },
+        "^": { "vehicle": "parking_garage", "chance": 10, "rotation": 270 }
+      }
+    }
   }
 ]

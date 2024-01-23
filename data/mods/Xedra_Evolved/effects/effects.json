@@ -751,7 +751,8 @@
     "desc": [ "Roots and vines clutch at you." ],
     "max_intensity": 4,
     "int_add_val": 1,
-    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "show_in_info": true,
+    "apply_message": "Roots and vines entangle you!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -972,6 +973,14 @@
     "id": "effect_salamander_prevented_death",
     "name": [ "Arisen" ],
     "desc": [ "Like the phoenix, you have been reborn." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lucid_dream",
+    "name": [ "Lucid Dreaming" ],
+    "rating": "good",
+    "dur_add_perc": 0,
+    "desc": [ "While you may just be dreaming, you are still capable of affecting the world." ]
   },
   {
     "type": "effect_type",
