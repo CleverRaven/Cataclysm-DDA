@@ -239,7 +239,7 @@ Number of moves per regular attack. Higher values means the monster attacks less
 ## "diff"
 (integer, optional)
 
-Monster baseline difficulty.  Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log.  Monster difficulty is calculated based on expected melee damage, dodge, armor, hit points, speed, morale, aggression, and vision ranges, and the defined ``diff`` value is added on top of that.  The calculation does not handle special attacks, and baseline difficulty can be used to offset that.  Suggested values:
+Monster baseline difficulty.  Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log.  Monster difficulty is calculated based on expected melee damage, dodge, armor, hit points, speed, morale, aggression, and vision ranges, and the defined ``diff`` value is added on top of that.  The calculation does not handle special attacks, and baseline difficulty can be used to offset that gap.  Suggested values:
 
 Value | Description
 ---   | ---
