@@ -76,6 +76,28 @@
     ]
   },
   {
+    "//": "This group is specifically for NPCs working at the lumbermills.",
+    "type": "trait_group",
+    "id": "BG_survival_story_LUMBERMILL",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "BGSS_Confused_1" },
+      { "trait": "BGSS_No_Past_1" },
+      { "trait": "BGSS_No_Past_2" },
+      { "trait": "BGSS_No_Past_3" },
+      { "trait": "BGSS_No_Past_4" },
+      { "trait": "BGSS_No_Past_5" },
+      { "trait": "BGSS_Religious_1" },
+      { "trait": "BGSS_Religious_2" },
+      { "trait": "BGSS_Dreamer" },
+      { "trait": "BGSS_Gung_Ho_1" },
+      { "trait": "BGSS_Gung_Ho_2" },
+      { "trait": "BGSS_Out_of_Town_1" },
+      { "trait": "BGSS_Lost_Partner_2" },
+      { "trait": "BGSS_Rural_2" }
+    ]
+  },
+  {
     "//": "This group is for NPCs that might need to explain why they didn't die working at the hospital.",
     "type": "trait_group",
     "id": "BG_survival_story_MEDICAL",
