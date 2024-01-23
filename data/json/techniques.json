@@ -3600,6 +3600,15 @@
         }
     ]
     },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!"
+      }
+    ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 21 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
@@ -3623,6 +3632,15 @@
     "attack_override": true,
     "crit_ok": false,
     "attack_vectors": [ "MOUTH" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!"
+      }
+    ],
     "condition": {
       "and": [
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
@@ -3650,6 +3668,15 @@
     "reach_ok": false,
     "attack_override": true,
     "crit_tec": true,
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 100,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!"
+      }
+    ],
     "attack_vectors": [ "MOUTH" ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 25 },

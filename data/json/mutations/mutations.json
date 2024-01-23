@@ -496,10 +496,12 @@
     "id": "SHRIEK",
     "name": { "str": "Shriek" },
     "points": 3,
-    "description": "Activate to let loose a high pitched screech, loud enough to shatter glass and daze anything in the immediate vicinity.",
+    "description": "Activate to let loose a high pitched screech, loud enough to shatter glass and daze anything in the immediate vicinity.  Mouth-covering gear may hinder the effect.",
     "prereqs": [ "BATEARS", "GOODCARDIO" ],
     "category": [ "CHIROPTERAN" ],
-    "active": true
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_SHRIEK" ]
   },
   {
     "type": "mutation",
@@ -1673,6 +1675,7 @@
     "points": -1,
     "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
     "types": [ "ARMOR" ],
+    "category": [ "CHIROPTERAN" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": -1, "bash": -1 } ]
   },
   {
@@ -4079,7 +4082,7 @@
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
     "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME", "CHIROPTERAN" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL", "GASTROPOD", "CHIMERA", "SLIME" ]
   },
   {
     "type": "mutation",
@@ -4302,6 +4305,7 @@
     "id": "LEGS_BAT",
     "name": { "str": "Bow-legged" },
     "points": -1,
+    "mixed_effect": true,
     "visibility": 2,
     "ugliness": 2,
     "description": "Your lower limbs have shortened and splayed, slowing your bipedal movement.  As long as you're not wielding anything and you've got both wings, you're able to crawl quickly and quietly when you run or crouch.",
@@ -6505,6 +6509,7 @@
     "points": 4,
     "visibility": 9,
     "ugliness": 4,
+    "mixed_effect": true,
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
     "flags": [ "WING_GLIDE", "WINGS_2", "ARM_WINGS" ],
@@ -7531,7 +7536,8 @@
     "type": "mutation",
     "id": "BLOODFEEDER",
     "name": { "str": "Bloodfeeder" },
-    "points": -5,
+    "points": -2,
+    "mixed_effect": true,
     "description": "Your craving for blood borders on obsession.  Your system has gained a mild tolerance to the toxins polluting mutant flesh.  When it comes to blood (and only blood), you need the stuff too much to care about whether it came from a human.",
     "types": [ "DIET" ],
     "flags": [ "BLOODFEEDER" ],

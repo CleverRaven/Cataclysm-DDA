@@ -879,6 +879,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_ECHOLOCATION ) {
         echo_pulse();
+        deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
         // Check for adjacent trees.

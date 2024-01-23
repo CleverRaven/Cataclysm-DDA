@@ -10,12 +10,12 @@
     "condition": {
       "and": [
         { "expects_vars": [ "prep_time", "spell_to_cast", "message_success", "message_fail" ] },
-        { "math": [ "u_val('stamina')", ">", "_energy_amount" ] }
+        { "math": [ "u_val('stamina')", ">", "energy_amount" ] }
       ]
     },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "context_val": "prep_time" } },
-      { "math": [ "stamina", "-=", "_energy_amount" ] },
+      { "math": [ "stamina", "-=", "energy_amount" ] },
       { "queue_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ], "time_in_future": { "context_val": "prep_time" } }
     ],
     "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]

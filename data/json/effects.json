@@ -2035,6 +2035,16 @@
   },
   {
     "type": "effect_type",
+    "id": "anticoagulant_draculin",
+    "max_intensity": 3,
+    "max_duration": "30 m",
+    "rating": "bad",
+    "blood_analysis_description": "Draculin",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.",
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
     "id": "anticoagulant",
     "max_intensity": 3,
     "rating": "bad",
