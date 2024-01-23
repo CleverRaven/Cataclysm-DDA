@@ -74,88 +74,9 @@ enum class segments : std::size_t {
 using segment_bitset = enum_bitset<tname::segments>;
 
 #ifndef CATA_IN_TOOL
-// function type that prints an element of tname::segments
-using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
-                             segment_bitset const &segments );
-decl_f_print_segment faults;
-decl_f_print_segment dirt_symbol;
-decl_f_print_segment overheat_symbol;
-decl_f_print_segment pre_asterisk;
-decl_f_print_segment durability;
-decl_f_print_segment engine_displacement;
-decl_f_print_segment wheel_diameter;
-decl_f_print_segment burn;
-decl_f_print_segment label;
-decl_f_print_segment category;
-decl_f_print_segment mods;
-decl_f_print_segment craft;
-decl_f_print_segment wbl_mark;
-decl_f_print_segment contents;
-decl_f_print_segment contents_abrev;
-decl_f_print_segment food_traits;
-decl_f_print_segment location_hint;
-decl_f_print_segment ethereal;
-decl_f_print_segment food_status;
-decl_f_print_segment food_irradiated;
-decl_f_print_segment temperature;
-decl_f_print_segment clothing_size;
-decl_f_print_segment filthy;
-decl_f_print_segment broken;
-decl_f_print_segment cbm_status;
-decl_f_print_segment ups;
-decl_f_print_segment wetness;
-decl_f_print_segment active;
-decl_f_print_segment sealed;
-decl_f_print_segment post_asterisk;
-decl_f_print_segment weapon_mods;
-decl_f_print_segment relic_charges;
-decl_f_print_segment tags;
-decl_f_print_segment vars;
 
-inline std::string noop( item const & /* it */, unsigned int /* quantity */,
-                         segment_bitset const & /* segments */ )
-{
-    return {};
-}
-
-inline std::unordered_map<segments, decl_f_print_segment *> const segment_map = {
-    { segments::FAULTS, faults },
-    { segments::DIRT, dirt_symbol },
-    { segments::OVERHEAT, overheat_symbol },
-    { segments::FAVORITE_PRE, pre_asterisk },
-    { segments::DURABILITY, durability },
-    { segments::ENGINE_DISPLACEMENT, engine_displacement },
-    { segments::WHEEL_DIAMETER, wheel_diameter },
-    { segments::BURN, burn },
-    { segments::TYPE, label },
-    { segments::CATEGORY, category },
-    { segments::MODS, mods },
-    { segments::CRAFT, craft },
-    { segments::WHITEBLACKLIST, wbl_mark },
-    { segments::CHARGES, noop },
-    { segments::CONTENTS, contents },
-    { segments::FOOD_TRAITS, food_traits },
-    { segments::LOCATION_HINT, location_hint },
-    { segments::ETHEREAL, ethereal },
-    { segments::FOOD_STATUS, food_status },
-    { segments::FOOD_IRRADIATED, food_irradiated },
-    { segments::TEMPERATURE, temperature },
-    { segments::CLOTHING_SIZE, clothing_size },
-    { segments::FILTHY, filthy },
-    { segments::BROKEN, broken },
-    { segments::CBM_STATUS, cbm_status },
-    { segments::UPS, ups },
-    { segments::WETNESS, wetness },
-    { segments::ACTIVE, active },
-    { segments::SEALED, sealed },
-    { segments::FAVORITE_POST, post_asterisk },
-    { segments::WEAPON_MODS, weapon_mods },
-    { segments::RELIC, relic_charges },
-    { segments::LINK, noop },
-    { segments::VARS, vars },
-    { segments::TECHNIQUES, noop },
-    { segments::TAGS, tags },
-};
+std::string print_segment( tname::segments segment, item const &it, unsigned int quantity,
+                           segment_bitset const &segments );
 
 #endif // CATA_IN_TOOL
 } // namespace tname

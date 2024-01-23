@@ -6748,7 +6748,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
         if( !segments[idx] ) {
             continue;
         }
-        ret += ( *tname::segment_map.at( idx ) )( *this, quantity, segments );
+        ret += tname::print_segment( idx, *this, quantity, segments );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
