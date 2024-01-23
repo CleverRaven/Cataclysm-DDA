@@ -47,7 +47,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
-#include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -106,6 +105,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum class proficiency_bonus_type : int;
 
