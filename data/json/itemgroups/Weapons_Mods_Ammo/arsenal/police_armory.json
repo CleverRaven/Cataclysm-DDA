@@ -788,10 +788,10 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "police_armory_box_some_40sw" },
-      { "group": "police_armory_box_some_40sw", "prob": 75 },
+      { "group": "police_armory_box_some_357sigjhp" },
+      { "group": "police_armory_box_some_357sigjhp", "prob": 75 },
       { "item": "ammo_box_2", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_40sw", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_357sigjhp", "count": [ 0, 6 ] }
     ]
   },
   {
@@ -799,10 +799,10 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "police_armory_box_some_40fmj" },
-      { "group": "police_armory_box_some_40fmj", "prob": 75 },
+      { "group": "police_armory_box_some_357sigfmj" },
+      { "group": "police_armory_box_some_357sigfmj", "prob": 75 },
       { "item": "ammo_box_2", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_40fmj", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_357sigfmj", "count": [ 0, 6 ] }
     ]
   },
   {
