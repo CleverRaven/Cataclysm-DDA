@@ -231,7 +231,7 @@
       "place_loot": [ { "item": "television", "x": 11, "y": 10, "chance": 100 } ],
       "place_vehicles": [
         { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 },
-        { "vehicle": "rolling_trash_can", "x": 5, "y": 3, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 5, "y": 3, "chance": 80, "status": 0 }
       ],
       "rotation": [ 2 ]
     }
