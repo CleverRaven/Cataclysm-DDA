@@ -399,10 +399,11 @@
       "success_lie": "I don't understand.",
       "failure": "No!  Oh god, no, this can't be happening…"
     },
+    "//": "todo2: migrate u refugee happiness to global",
     "end": {
       "effect": [
-        { "u_adjust_var": "dave_castle_stage", "adjustment": 1 },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+        { "math": [ "dave_castle_stage", "++" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
         { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
       ]
     }

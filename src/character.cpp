@@ -434,6 +434,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -493,6 +494,7 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -4068,7 +4070,7 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     const std::vector<trait_id> all_muts = get_mutations();
     std::map<bodypart_str_id, float> total_enc;
 
-    // Lower penalty for bps covered only by XL armor
+    // Lower penalty for bps covered only by XL or unrestricted armor
     // Initialized on demand for performance reasons:
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
 
@@ -5073,7 +5075,8 @@ void Character::update_needs( int rate_multiplier )
         }
         map &here = get_map();
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
-                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
+                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ||
+                has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
             here.is_outside( pos() ) ) {
             if( has_trait( trait_CHLOROMORPH ) && get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
                 is_barefoot() ) {
@@ -5095,7 +5098,7 @@ void Character::update_needs( int rate_multiplier )
                     }
                 }
             }
-            if( has_trait( trait_WATERSLEEP ) ) {
+            if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
                 mod_fatigue( -3 ); // Fish sleep less in water
             }
         }
@@ -5244,6 +5247,16 @@ item Character::reduce_charges( item *it, int quantity )
     item result( *it );
     result.charges = quantity;
     return result;
+}
+
+const profession *Character::get_profession() const
+{
+    return prof;
+}
+
+std::set<const profession *> Character::get_hobbies() const
+{
+    return hobbies;
 }
 
 bool Character::has_mission_item( int mission_id ) const
@@ -5578,7 +5591,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     has_trait( trait_WEB_WEAVER ) );
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
                     has_active_mutation( trait_SHELL3 );
-    bool watersleep = has_trait( trait_WATERSLEEP );
+    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
 
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -6078,11 +6091,16 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_fae = calculate_by_enchantment( 0.0,
+                                   enchant_vals::mod::SIGHT_RANGE_FAE );
     const double sight_range_nether = calculate_by_enchantment( 0.0,
                                       enchant_vals::mod::SIGHT_RANGE_NETHER );
     const double sight_range_minds = calculate_by_enchantment( 0.0,
                                      enchant_vals::mod::SIGHT_RANGE_MINDS );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_fae() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_fae ) {
         return true;
     }
     if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
@@ -7937,8 +7955,9 @@ std::string Character::weapname_simple() const
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, true, 0, true,
-                               false );
+        tname::segment_bitset segs( tname::default_tname );
+        segs.set( tname::segments::TAGS, false );
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
         return gun_name;
 
     } else if( !is_armed() ) {
@@ -11174,7 +11193,7 @@ int Character::sleep_spot( const tripoint &p ) const
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
-    bool watersleep = has_trait( trait_WATERSLEEP );
+    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
 
     if( has_addiction( addiction_sleeping_pill ) ) {
         sleepy -= 4;
@@ -12283,6 +12302,14 @@ bool Character::is_hallucination() const
 bool Character::is_electrical() const
 {
     // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_fae() const
+{
+    if( has_trait( trait_FAERIECREATURE ) ) {
+        return true;
+    }
     return false;
 }
 

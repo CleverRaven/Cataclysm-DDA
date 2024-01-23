@@ -948,20 +948,20 @@ static std::vector<speedlist_entry> get_speedlist_entries( const Character &you,
 {
     std::vector<speedlist_entry> entries;
 
-    for( const speed_bonus_effect &effect : you.get_speed_bonus_effects() ) {
-        if( effect.bonus != 0 ) {
-            const speedlist_entry entry { true, effect.description, effect.bonus, false };
-            entries.push_back( entry );
-        }
-    }
-
-    //FIXME I think these are already included above. Need more testing.
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
         if( speed_effect.second != 0 ) {
             const speedlist_entry entry { true, speed_effect.first, speed_effect.second, false };
             entries.push_back( entry );
         }
     }
+
+    for( const speed_bonus_effect &effect : you.get_speed_bonus_effects() ) {
+        if( effect.bonus != 0 && speed_effects.end() == speed_effects.find( effect.description ) ) {
+            const speedlist_entry entry { true, effect.description, effect.bonus, false };
+            entries.push_back( entry );
+        }
+    }
+
 
     float movecost = 100;
     for( const run_cost_effect &effect : you.run_cost_effects( movecost ) ) {

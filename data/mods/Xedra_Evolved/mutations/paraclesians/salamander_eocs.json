@@ -20,7 +20,8 @@
         { "u_is_in_field": "fd_hot_air2" },
         { "u_is_in_field": "fd_hot_air3" },
         { "u_is_in_field": "fd_hot_air4" },
-        { "u_is_in_field": "fd_fire" }
+        { "u_is_in_field": "fd_fire" },
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
@@ -169,7 +170,7 @@
     "condition": "u_is_outside",
     "effect": [
       { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
-      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_message": "You soar upward on the rising smoke.", "type": "good" },
       { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
     ],
     "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]

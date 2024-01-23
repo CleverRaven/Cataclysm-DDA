@@ -95,6 +95,10 @@
 #include "worldfactory.h"
 #endif
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
@@ -169,7 +173,10 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#if defined(SOUND)
+    init_flags |= SDL_INIT_AUDIO;
+#endif
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
@@ -249,7 +256,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -302,7 +309,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -1911,6 +1918,11 @@ void resize_term( const int cell_w, const int cell_h )
 
 void toggle_fullscreen_window()
 {
+    // Can't enter fullscreen on Emscripten.
+#if defined(EMSCRIPTEN)
+    return;
+#endif
+
     static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth * scaling_factor;
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight * scaling_factor;
 

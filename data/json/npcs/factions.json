@@ -164,7 +164,7 @@
       {
         "item": "RobofacCoin",
         "fixed_adj": 0.15,
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "free_merchants_hub_trade_route", "==", "2" ] }
       },
       { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
       { "group": "games_board_all", "premium": 2.5 }

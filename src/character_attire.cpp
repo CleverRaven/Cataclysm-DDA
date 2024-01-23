@@ -106,7 +106,8 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<void>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) &&
+        !it.has_flag( flag_UNRESTRICTED ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const mutation_branch &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
@@ -1058,7 +1059,8 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
 bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) &&
+            !i.has_flag( flag_UNRESTRICTED ) ) {
             return true;
         }
     }
@@ -2563,11 +2565,11 @@ const item &outfit::i_at( int position ) const
     }
 }
 
-std::string outfit::get_armor_display( bodypart_id bp, unsigned int truncate ) const
+std::string outfit::get_armor_display( bodypart_id bp ) const
 {
     for( auto it = worn.rbegin(); it != worn.rend(); ++it ) {
         if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+            return it->tname( 1 );
         }
     }
     return "-";

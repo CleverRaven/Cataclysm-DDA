@@ -1231,12 +1231,15 @@
       {
         "distribution": [
           { "item": "wizard_utility", "prob": 20 },
+          { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
+          { "item": "spell_scroll_biomancer_scalpel_fingers", "prob": 30 },
           { "item": "spell_scroll_pain_split", "prob": 50 },
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
-          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
+          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
         ],
         "prob": 35
       },
@@ -1246,7 +1249,8 @@
           { "item": "biomancer_spellbook", "prob": 10 },
           { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
-          { "item": "spell_scroll_bio_bonespear", "prob": 50 }
+          { "item": "spell_scroll_bio_bonespear", "prob": 50 },
+          { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 10 }
         ],
         "prob": 10
       }

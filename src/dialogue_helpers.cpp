@@ -4,43 +4,33 @@
 
 #include "dialogue.h"
 
-std::string read_var_value( const var_info &info, const dialogue &d )
+std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d )
 {
-    std::string ret_val;
     global_variables &globvars = get_globals();
-    std::string var_val;
     switch( info.type ) {
         case var_type::global:
-            ret_val = globvars.get_global_value( info.name );
-            break;
+            return globvars.maybe_get_global_value( info.name );
         case var_type::context:
-            ret_val = d.get_value( info.name );
-            break;
+            return d.maybe_get_value( info.name );
         case var_type::u:
-            ret_val = d.actor( false )->get_value( info.name );
-            break;
+            return d.actor( false )->maybe_get_value( info.name );
         case var_type::npc:
-            ret_val = d.actor( true )->get_value( info.name );
-            break;
-        case var_type::var:
-            var_val = d.get_value( info.name );
-            ret_val = read_var_value( process_variable( var_val ), d );
-            break;
+            return d.actor( true )->maybe_get_value( info.name );
+        case var_type::var: {
+            std::optional<std::string> const var_val = d.maybe_get_value( info.name );
+            return var_val ? maybe_read_var_value( process_variable( *var_val ), d ) : std::nullopt;
+        }
         case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
         case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
+        case var_type::last:
+            return std::nullopt;
     }
-    if( ret_val.empty() ) {
-        ret_val = info.default_val;
-    }
+    return std::nullopt;
+}
 
-    return ret_val;
+std::string read_var_value( const var_info &info, const dialogue &d )
+{
+    return maybe_read_var_value( info, d ).value_or( info.default_val );
 }
 
 var_info process_variable( const std::string &type )

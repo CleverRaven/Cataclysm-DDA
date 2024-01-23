@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WOLF_SLEDGE_TRHOW",
-    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
+    "condition": { "math": [ "u_val('stamina')", ">=", "3000" ] },
     "effect": [
       {
         "u_run_inv_eocs": "all",

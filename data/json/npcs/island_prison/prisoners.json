@@ -312,7 +312,7 @@
         }
       },
       {
-        "text": "[Cannibal] It's hard to die of hunger when there's so many tasty corpses lying around.",
+        "text": "[CANNIBAL] It's hard to die of hunger when there's so many tasty corpses lying around.",
         "topic": "TALK_PRISONER_LEADER_LEARNED_ABOUT_CANNIBAL",
         "condition": {
           "and": [
@@ -477,7 +477,7 @@
     },
     "responses": [
       {
-        "text": "[Show the military id card] You mean this stuff?",
+        "text": "[Show the military ID card] You mean this stuff?",
         "topic": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
         "condition": {
           "and": [

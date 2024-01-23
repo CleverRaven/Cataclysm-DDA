@@ -226,7 +226,7 @@
     "id": "gloves_studded",
     "type": "ARMOR",
     "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
-    "description": "A pair of gloves with studded metal knuckles.",
+    "description": "A pair of gloves with studded metal knuckles and a thin back plating.",
     "weight": "218 g",
     "volume": "250 ml",
     "price": 1100,
@@ -238,8 +238,41 @@
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "steel", "covered_by_mat": 80, "thickness": 0.25 }
+        ],
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r" ]
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "steel", "covered_by_mat": 50, "thickness": 0.25 }
+        ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "melee_damage": { "bash": 2, "stab": 4 }
   },
   {

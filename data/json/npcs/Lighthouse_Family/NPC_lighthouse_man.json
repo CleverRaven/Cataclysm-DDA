@@ -139,7 +139,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  First floor is clear.",
@@ -151,7 +151,7 @@
             { "npc_at_om_location": "lighthouse_z1" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Second floor is clear.",
@@ -163,7 +163,7 @@
             { "npc_at_om_location": "lighthouse_z2" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Third floor is clear.",
@@ -175,7 +175,7 @@
             { "npc_at_om_location": "lighthouse_z3" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Fourth floor is clear.",
@@ -187,7 +187,7 @@
             { "npc_at_om_location": "lighthouse_z4" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
@@ -198,7 +198,7 @@
             { "npc_at_om_location": "lighthouse_z5" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
       },
       {
@@ -210,7 +210,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -358,7 +358,7 @@
       "effect": [
         "follow_only",
         { "npc_first_topic": "TALK_lighthouse_man_cleaning" },
-        { "npc_add_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "0" }
+        { "math": [ "npc_count_cleaning_lighthouse_man", "=", "0" ] }
       ]
     },
     "end": {

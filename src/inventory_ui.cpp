@@ -20,6 +20,7 @@
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "iteminfo_query.h"
 #include "line.h"
 #include "make_static.h"
@@ -88,8 +89,8 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
-                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
+                                          remove_color_tags( it->tname( 1, true ) ) } )
                .first->second;
     }
 
@@ -1969,8 +1970,10 @@ bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
         }
     }
     if( !any_containable ) {
+        tname::segment_bitset segs( tname::unprefixed_tname );
+        segs.set( tname::segments::CONTENTS, false );
         popup( string_format( _( "%s contains no pockets that can contain item." ),
-                              destItem->tname( 1, false, 0, false, false, false ) ) );
+                              destItem->tname( 1, segs ) ) );
         return false;
     }
     action_menu.query();
@@ -2282,14 +2285,14 @@ void inventory_selector::rearrange_columns( size_t client_width )
     const item_location prev_selection = prev_entry.is_item() ?
                                          prev_entry.any_item() : item_location::nowhere;
     bool const front_only = prev_entry.is_collation_entry();
-    if( is_overflown( client_width ) && !own_gear_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !own_gear_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( own_gear_column.indent_entries() );
         }
         own_gear_column.move_entries_to( own_inv_column );
         own_inv_column.reset_width( {} );
     }
-    if( is_overflown( client_width ) && !map_column.empty() ) {
+    if( ( is_overflown( client_width ) || force_single_column ) && !map_column.empty() ) {
         if( own_inv_column.empty() ) {
             own_inv_column.set_indent_entries_override( map_column.indent_entries() );
         }
@@ -2331,10 +2334,11 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
+        bool use_num_invlet = uistate.numpad_navigation ? false : use_invlet;
+        int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
-            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
+            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
         }
     } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
         const std::string all_pickup_chars = use_invlet ?
@@ -2873,6 +2877,33 @@ bool inventory_selector::has_available_choices() const
     } );
 }
 
+uint64_t inventory_selector::item_entry_count() const
+{
+    uint64_t count = 0;
+    for( const inventory_column *col : columns ) {
+        count += col->get_entries( return_item, true ).size();
+    }
+
+    return count;
+}
+
+drop_location inventory_selector::get_only_choice() const
+{
+    if( item_entry_count() != 1 ) {
+        debugmsg( "inventory_selector::get_only_choice called with more that one choice" );
+        return drop_location();
+    }
+
+    for( const inventory_column *col : columns ) {
+        const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
+        if( !ent.empty() ) {
+            return { ent.front()->any_item(), ent.front()->get_available_count() };
+        }
+    }
+
+    return drop_location();
+}
+
 inventory_input inventory_selector::get_input()
 {
     std::string const &action = ctxt.handle_input();
@@ -2945,6 +2976,7 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_categorize_contained();
     } else if( input.action == "TOGGLE_NUMPAD_NAVIGATION" ) {
         uistate.numpad_navigation = !uistate.numpad_navigation;
+        reassign_custom_invlets();
     } else if( input.action == "EXAMINE_CONTENTS" ) {
         const inventory_entry &selected = get_active_column().get_highlighted();
         if( selected ) {
@@ -3293,6 +3325,108 @@ inventory_selector::stats container_inventory_selector::get_raw_stats() const
             loc->max_containable_length(), loc->max_containable_volume(),
             loc->get_total_holster_volume() - loc->get_used_holster_volume(),
             loc->get_used_holsters(), loc->get_total_holsters() );
+}
+
+ammo_inventory_selector::ammo_inventory_selector( Character &you,
+        const item_location &reload_loc, const inventory_selector_preset &preset ) :
+    inventory_selector( you, preset ), reload_loc( reload_loc )
+{
+    ctxt.register_action( "INCREASE_COUNT" );
+    ctxt.register_action( "DECREASE_COUNT" );
+
+    force_single_column = true;
+}
+
+std::vector<item_location> get_possible_reload_targets( const item_location &target )
+{
+    std::vector<item_location> opts;
+    opts.emplace_back( target );
+
+    if( target->magazine_current() ) {
+        opts.emplace_back( target, const_cast<item *>( target->magazine_current() ) );
+    }
+
+    for( const item *mod : target->gunmods() ) {
+        item_location mod_loc( target, const_cast<item *>( mod ) );
+        opts.emplace_back( mod_loc );
+        if( mod->magazine_current() ) {
+            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
+        }
+    }
+
+    return opts;
+}
+
+// todo: this should happen when the entries are created, but that's a different refactoring
+void ammo_inventory_selector::set_all_entries_chosen_count()
+{
+    for( inventory_column *col : columns ) {
+        for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
+            for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+                if( loc->can_reload_with( *entry->any_item(), true ) ) {
+                    item::reload_option tmp_opt( &u, loc, entry->any_item() );
+                    tmp_opt.qty( entry->get_available_count() );
+                    entry->chosen_count = tmp_opt.qty();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
+{
+    for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
+        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+            item::reload_option tmp_opt( &u, loc, entry.any_item() );
+            tmp_opt.qty( entry.chosen_count + value );
+            entry.chosen_count = tmp_opt.qty();
+            break;
+        }
+    }
+
+    entry.make_entry_cell_cache( preset );
+    on_change( entry );
+}
+
+drop_location ammo_inventory_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    debug_print_timer( tp_start );
+    while( true ) {
+        ui_manager::redraw();
+        const inventory_input input = get_input();
+
+        if( input.entry != nullptr ) {
+            if( input.action == "MOUSE_MOVE" ) {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+            } else if( input.action == "ANY_INPUT" || input.action == "SELECT" ) {
+                return { input.entry->any_item(), static_cast<int>( input.entry->chosen_count ) };
+            } else {
+                if( highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+                on_input( input );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_location();
+        } else if( input.action == "CONFIRM" ) {
+            const inventory_entry &highlighted = get_active_column().get_highlighted();
+            if( highlighted && highlighted.is_selectable() ) {
+                return { highlighted.any_item(), static_cast<int>( highlighted.chosen_count ) };
+            }
+        } else if( input.action == "INCREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, 1 );
+        } else if( input.action == "DECREASE_COUNT" ) {
+            inventory_entry &highlighted = get_active_column().get_highlighted();
+            mod_chosen_count( highlighted, -1 );
+        } else {
+            on_input( input );
+        }
+    }
 }
 
 void inventory_selector::action_examine( const item_location &sitem )
@@ -4335,11 +4469,13 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     _ctxt_trade.register_action( ACTION_TRADE_CANCEL );
     _ctxt_trade.register_action( ACTION_TRADE_OK );
     _ctxt_trade.register_action( ACTION_AUTOBALANCE );
+    _ctxt_trade.register_action( ACTION_BANKBALANCE );
     _ctxt_trade.register_action( "ANY_INPUT" );
     // duplicate this action in the parent ctxt so it shows up in the keybindings menu
     // CANCEL and OK are already set in inventory_selector
     ctxt.register_action( ACTION_SWITCH_PANES );
     ctxt.register_action( ACTION_AUTOBALANCE );
+    ctxt.register_action( ACTION_BANKBALANCE );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
     set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
@@ -4373,6 +4509,8 @@ void trade_selector::execute()
             exit = true;
         } else if( action == ACTION_AUTOBALANCE ) {
             _parent->autobalance();
+        } else if( action == ACTION_BANKBALANCE ) {
+            _parent->bank_balance();
         } else {
             input_event const iev = _ctxt_trade.get_raw_input();
             inventory_input const input =

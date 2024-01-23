@@ -66,9 +66,181 @@
         "knows your voice": true
       },
       "hells_raiders": { "kill on sight": true },
+      "UICA": { "kill on sight": true },
+      "wraitheon": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
-    "description": "A group of bionic preppers who had expected the collapse of the economy and global chaos, instead they were slightly more ready than others for the Cataclysm."
+    "description": "A multitude of frontier homesteading groups brought together by their use of the Prepnet communication protocols.  Spread out onto the edges of the frontier, enthusiastically squatting and building tiny kingdoms often consisting of just a couple families or like-minded individuals.  Their mutual aid societies are wildly varied in their laws; influenced by the people who set them up, but they all share in a distrust for those that wish to impose restrictions upon new colonization efforts."
+  },
+  {
+    "type": "faction",
+    "id": "UICA",
+    "name": "United Interstellar Coordination Agency",
+    "mon_faction": "UICA_mil",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": true,
+    "size": 100,
+    "power": 100,
+    "currency": "money",
+    "price_rules": [
+      { "item": "UICA_1d", "fixed_adj": 0 },
+      { "item": "UICA_50d", "fixed_adj": 0 },
+      { "item": "UICA_10d", "fixed_adj": 0 },
+      { "item": "UICA_100d", "fixed_adj": 0 },
+      { "item": "UICA_1000d", "fixed_adj": 0 },
+      { "item": "UICA_10000d", "fixed_adj": 0 }
+    ],
+    "food_supply": 115200,
+    "wealth": 75000,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wraitheon": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "Prepnet_Phyle": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A loose confederation and military alliance composed by Solar Corporations, Governments, and other politically relevant organizations united by their desire to restore Earth's dominion over the Orion Arm.  Due to the disinterest of the Salus Charter owners and the recent rediscovery of the system, UICA administers Salus IV using a combination of military and civilian law designed to maximize wealth extraction, with the bulk of their forces concentrated within Port Augustmoon.\n\nCorruption and nepotism are rampant across UICA's frontier administrations, management is generally more interested in lining their own pockets than in any sort of solar revanchist rhetoric."
+  },
+  {
+    "type": "faction",
+    "id": "wraitheon",
+    "name": "Wraitheon Industries ltd.",
+    "mon_faction": "WraitheonRobotics",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": true,
+    "size": 100,
+    "power": 100,
+    "currency": "",
+    "food_supply": 115200,
+    "wealth": 75000,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "UICA": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "Prepnet_Phyle": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A massive, multi-system corporation with major investments across artificial intelligence, shipbuilding, military cybernetics and applied robotics.  Among the oldest of the Solar Corporations, it is a major player in the Orion Arm, and a key military supplier of UICA's military hardware.  It is best known for its normally secretive and highly advanced research and archeology division."
   },
   {
     "type": "faction",

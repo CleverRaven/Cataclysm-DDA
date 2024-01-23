@@ -86,6 +86,7 @@ static const ammotype ammo_84x246mm( "84x246mm" );
 static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
@@ -2168,7 +2169,9 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
+    tname::segment_bitset segs( tname::unprefixed_tname );
+    segs.set( tname::segments::CONTENTS, false );
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, segs ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -2208,6 +2211,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
+    } else if( at.count( ammo_atlatl ) ) {
+        return { noise, _( "swoosh!" ) };
     }
 
     auto fx = ammo_effects();

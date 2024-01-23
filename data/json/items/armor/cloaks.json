@@ -1679,7 +1679,7 @@
     "symbol": "[",
     "color": "light_blue",
     "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
-    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "armor": [ { "encumbrance": 8, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "warmth": 50,
     "material_thickness": 1.1
   },

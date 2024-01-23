@@ -193,7 +193,6 @@
         "interrupt_type": "eoc"
       },
       { "u_teleport": { "u_val": "lucid_dream_teleport" } },
-      { "u_set_hp": { "math": [ "u_hp_before_lucid" ] } },
       { "math": [ "u_hp('ALL')", "=", "u_hp_before_lucid" ] },
       { "math": [ "u_pain()", "=", "u_pain_before_lucid" ] },
       { "math": [ "u_val('stored_kcal')", "=", "u_kcal_before_lucid" ] },
@@ -216,7 +215,7 @@
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_trait": "LUCID_DREAM" },
-    "effect": [ "u_prevent_death", { "u_set_hp": 1 }, { "queue_eocs": "EOC_LUCID_DREAM" } ]
+    "effect": [ "u_prevent_death", { "math": [ "u_hp('ALL')", "=", "1" ] }, { "queue_eocs": "EOC_LUCID_DREAM" } ]
   },
   {
     "type": "effect_on_condition",

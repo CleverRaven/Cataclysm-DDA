@@ -2718,8 +2718,6 @@
         "|": "t_wall_g",
         ",": "t_linoleum_gray",
         "`": "t_shingle_flat_roof",
-        ":": "t_gutter_drop",
-        "_": "t_gutter_south",
         ")": "t_glass_roof"
       },
       "furniture": { "&": "f_sofa", "?": "f_armchair" },

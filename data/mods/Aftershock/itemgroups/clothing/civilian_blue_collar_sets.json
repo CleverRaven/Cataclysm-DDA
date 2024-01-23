@@ -74,7 +74,6 @@
       { "item": "afs_company_jacket", "prob": 80 },
       { "item": "afs_supervisor_jacket", "prob": 20 },
       { "item": "coat_rain", "prob": 10 },
-      { "item": "afs_herc_rig", "prob": 10 },
       { "item": "folding_poncho", "prob": 30 },
       { "item": "vest", "prob": 30 },
       { "item": "nanomesh_vest", "prob": 10 },

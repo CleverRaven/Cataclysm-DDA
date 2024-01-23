@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "ppsh",
-        "name": { "str": "PPSh-41" },
+        "name": { "str": "PPSh-41 submachine gun" },
         "description": "A bulky and simple Second World War submachine gun of Russian manufacture, composed from a basic wooden buttstock, steel barrel shroud, and the hopes and prayers of Soviet soldiers under threat of German invasion.  Designed for mass production with limited materials, the weapon is notable for its high-capacity drum magazines, capability of rapidly depleting said magazines, and vicious 7.62x25mm chambering."
       }
     ],
@@ -61,7 +61,7 @@
     "variants": [
       {
         "id": "tokarev",
-        "name": { "str_sp": "Tokarev TT-33" },
+        "name": { "str": "Tokarev TT-33 pistol" },
         "//": "And it's therefore expensive.",
         "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and uncomfortable grip angle.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries."
       }

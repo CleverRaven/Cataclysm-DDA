@@ -3167,7 +3167,8 @@ void monster::process_effects()
     if( type->regenerates_in_dark ) {
         const float light = get_map().ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) ) ) {
+        const float dHP = 50.0 * std::exp( - light * light / 10000 );
+        if( heal( static_cast<int>( dHP ) ) > 0 && one_in( 2 ) ) {
             add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
     }
@@ -3401,6 +3402,11 @@ bool monster::is_electrical() const
     return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG );
 }
 
+bool monster::is_fae() const
+{
+    return has_flag( mon_flag_FAE_CREATURE );
+}
+
 bool monster::is_nether() const
 {
     return in_species( species_HORROR ) || in_species( species_NETHER ) ||
@@ -3543,6 +3549,13 @@ void monster::init_from_item( item &itm )
 
         // HP can be 0 or less, in this case revive_corpse will just deactivate the corpse
         if( hp > 0 && type->has_flag( mon_flag_REVIVES_HEALTHY ) ) {
+            hp = type->hp;
+            set_speed_base( type->speed );
+        }
+        // if parent corpse is revives healthy *and* dormant, so will the monster
+        const mtype *corpse_mtype = itm.get_mtype();
+        if( hp > 0 && corpse_mtype->has_flag( mon_flag_REVIVES_HEALTHY ) &&
+            corpse_mtype->has_flag( mon_flag_DORMANT ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
