@@ -32,7 +32,6 @@
 #include "character_id.h"
 #include "city.h"
 #include "coordinates.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -66,6 +65,7 @@ class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
