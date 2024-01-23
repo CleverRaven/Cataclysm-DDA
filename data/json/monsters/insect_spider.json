@@ -2811,13 +2811,7 @@
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
-    "delete": {
-      "type": "leap",
-      "cooldown": 8,
-      "max_range": 5,
-      "allow_no_target": false,
-      "//upgrades": { "half_life": 42, "into": "mon_mantis_mega" }
-    },
+    "delete": { "special_attacks": [ "leap" ], "//upgrades": { "half_life": 42, "into": "mon_mantis_mega" } },
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 3 }
   },
   {
