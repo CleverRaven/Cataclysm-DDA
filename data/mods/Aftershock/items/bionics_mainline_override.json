@@ -140,13 +140,6 @@
     "installation_data": "AID_bio_soporific"
   },
   {
-    "id": "bio_trickle",
-    "copy-from": "bio_trickle",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Trickle Charger CBM" },
-    "installation_data": "AID_bio_trickle"
-  },
-  {
     "id": "bio_pitch_perfect",
     "copy-from": "bio_pitch_perfect",
     "type": "BIONIC_ITEM",
