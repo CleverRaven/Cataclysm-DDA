@@ -15,6 +15,7 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include <monster.h>
 
 class Character;
 class Creature;
@@ -168,6 +169,11 @@ class enchantment
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
+
+        // same as above except for monsters. Much more limited.
+        bool is_active( const monster &mon ) const;
+
+        bool is_monster_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available

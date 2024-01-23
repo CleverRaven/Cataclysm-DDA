@@ -251,6 +251,58 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
     return false;
 }
 
+bool enchantment::is_active(const monster& mon) const
+{
+    //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
+    if (active_conditions.second == condition::ALWAYS) {
+        return true;
+    }
+    // Dialogue conditions for monsters seems like overkill.
+    // Definitely not an excuse for not knowing how to add them. Nope! Sure isn't!
+    return false;
+}
+
+bool enchantment::is_monster_relevant() const {
+    // Check add values.
+    for (const std::pair<const enchant_vals::mod, dbl_or_var>& pair_values :
+        values_add) {
+        if (pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_BASH ||
+            pair_values.first == enchant_vals::mod::ARMOR_BIO ||
+            pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
+            pair_values.first == enchant_vals::mod::ARMOR_COLD ||
+            pair_values.first == enchant_vals::mod::ARMOR_CUT ||
+            pair_values.first == enchant_vals::mod::ARMOR_ELEC ||
+            pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
+            pair_values.first == enchant_vals::mod::ARMOR_STAB ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::MAX_HP ||
+            pair_values.first == enchant_vals::mod::REGEN_HP) {
+            return true;
+        }
+    }
+
+    // Check mult values.
+    for (const std::pair<const enchant_vals::mod, dbl_or_var>& pair_values :
+        values_multiply) {
+        if (pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_BASH ||
+            pair_values.first == enchant_vals::mod::ARMOR_BIO ||
+            pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
+            pair_values.first == enchant_vals::mod::ARMOR_COLD ||
+            pair_values.first == enchant_vals::mod::ARMOR_CUT ||
+            pair_values.first == enchant_vals::mod::ARMOR_ELEC ||
+            pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
+            pair_values.first == enchant_vals::mod::ARMOR_STAB ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::MAX_HP ||
+            pair_values.first == enchant_vals::mod::REGEN_HP) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool enchantment::active_wield() const
 {
     return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
