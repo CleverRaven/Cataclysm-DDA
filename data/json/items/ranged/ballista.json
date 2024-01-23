@@ -46,7 +46,7 @@
     "ammo_type": "bolt_ballista",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 2, "armor_penetration": 20 },
     "dispersion": 35,
-    "loudness": 0,
+    "loudness": 5,
     "critical_multiplier": 2,
     "effects": [ "RECOVER_50" ],
     "melee_damage": { "stab": 20 }
