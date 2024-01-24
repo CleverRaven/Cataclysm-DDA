@@ -1,0 +1,119 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_PHOTOKIN_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "PHOTOKINETIC" },
+    "effect": [ { "math": [ "u_photokinesis_has_been_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_photokinesis_has_been_updated", "!=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_photokinesis_has_been_updated", "=", "1" ] },
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_SNUFF_LIGHT",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_DODGE",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_BEAM",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_CAMOUFLAGE",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_RAD_IMMUNITY",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_ARMS",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_HIDE_UGLY",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_IMAGE",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_RADIO",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_INVISIBILITY",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_FLASH",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_BLINDING_GLARE",
+          "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_SNUFF_LIGHT",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_snuff_light')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_snuff_light" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_DODGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_dodge')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_dodge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_BEAM",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_beam')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_beam" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_CAMOUFLAGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_camouflage')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_camouflage" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_RAD_IMMUNITY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_rad_immunity')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_rad_immunity" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_ARMS",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_arms')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_arms" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_HIDE_UGLY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_hide_ugly')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_hide_ugly" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_IMAGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_image')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_image" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_RADIO",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_radio')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_INVISIBILITY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_invisibility')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_FLASH",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_flash')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_flash" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_BLINDING_GLARE",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_blinding_glare')", "<", "0" ] } ]
+    },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_blinding_glare" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_disintegrate')", "<", "0" ] } ]
+    },
+    "effect": [ { "u_forget_recipe": "practice_photokinetic_light_disintegrate" } ]
+  }
+]
