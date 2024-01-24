@@ -182,10 +182,7 @@
         { "group": "road", "chance": 60, "repeat": 10, "x": [ 1, 22 ], "y": [ 4, 22 ] }
       ],
       "toilets": { "T": {  } },
-      "gaspumps": {
-        "!": { "amount": [ 2500, 12500 ], "fuel": "gasoline" },
-        "?": { "amount": [ 2500, 12500 ], "fuel": "diesel" }
-      },
+      "gaspumps": { "!": { "amount": [ 2500, 12500 ], "fuel": "gasoline" }, "?": { "amount": [ 2500, 12500 ], "fuel": "diesel" } },
       "vehicles": { "v": { "vehicle": "parking_garage", "chance": 40, "rotation": 90 } },
       "place_nested": [ { "chunks": [ "s_gas_g1_bunker_below" ], "x": 15, "y": 43, "neighbors": { "below": "s_gas_b11" } } ]
     }
@@ -203,12 +200,7 @@
         "#####",
         "     "
       ],
-      "terrain": {
-        "#": "t_wall_wood",
-        "+": "t_door_metal_pickable",
-        "B": "t_ladder_down",
-        "-": "t_metal_floor"
-      },
+      "terrain": { "#": "t_wall_wood", "+": "t_door_metal_pickable", "B": "t_ladder_down", "-": "t_metal_floor" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
