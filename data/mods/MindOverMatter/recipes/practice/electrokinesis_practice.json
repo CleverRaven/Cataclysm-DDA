@@ -333,7 +333,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: robotic interface",
     "id": "practice_electrokinetic_robot_interface",
-    "description": "Contemplate your powers and improve your ability to hack nearby rebots with your powers.",
+    "description": "Contemplate your powers and improve your ability to hack nearby robots with your powers.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

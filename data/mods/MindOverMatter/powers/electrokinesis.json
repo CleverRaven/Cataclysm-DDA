@@ -535,7 +535,7 @@
     "id": "electrokinetic_robot_interface",
     "type": "SPELL",
     "name": "[Ψ]Robotic Interface",
-    "description": "Use your powers to remotly interface with a robot's internal circuitry, allowing you to hack it if you have the skill.",
+    "description": "Use your powers to remotely interface with a robot's internal circuitry, allowing you to hack it if you have the skill.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
