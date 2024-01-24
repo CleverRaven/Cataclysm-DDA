@@ -1991,7 +1991,7 @@
     "type": "field_type",
     "intensity_levels": [ { "name": "Construction site", "sym": ".", "dangerous": false } ],
     "priority": 1,
-    "display_field": true,
+    "display_field": true
     "looks_like": "fd_shadow"
   }
 ]
