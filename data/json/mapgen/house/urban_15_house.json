@@ -54,7 +54,7 @@
       "furniture": { "0": "f_counter" },
       "place_loot": [ { "item": "television", "x": 16, "y": 14, "chance": 100 }, { "item": "stereo", "x": 16, "y": 15, "chance": 50 } ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 40, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 34, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "suburban_home_compact", "x": 37, "y": 9, "chance": 50, "rotation": 270 }
       ]
     }

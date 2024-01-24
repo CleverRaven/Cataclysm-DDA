@@ -1811,6 +1811,9 @@ void options_manager::add_options_interface()
     add_option_group( "interface", Group( "naming_opts", to_translation( "Naming Options" ),
                                           to_translation( "Options regarding the naming of items." ) ),
     [&]( const std::string & page_id ) {
+        add( "SHOW_DRUG_VARIANTS", page_id, to_translation( "Show drug brand names" ),
+             to_translation( "If true, show brand names for drugs, instead of generic functional names - 'Adderall', instead of 'prescription stimulant'." ),
+             false );
         add( "SHOW_GUN_VARIANTS", page_id, to_translation( "Show gun brand names" ),
              to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
              false );

@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 #define CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 
-#include <map>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -64,7 +63,5 @@ struct deref_diag_value {
         bool mutable _used = false;
         diag_value _val;
 };
-
-using diag_kwargs = std::map<std::string, deref_diag_value>;
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H

@@ -6073,6 +6073,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
             art = itype_variant().art;
         }
         if( art.is_valid() ) {
+            insert_separation_line( info );
             for( const std::string &line : art->picture ) {
                 info.emplace_back( "DESCRIPTION", line );
             }
@@ -6748,7 +6749,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
         if( !segments[idx] ) {
             continue;
         }
-        ret += ( *tname::segment_map.at( idx ) )( *this, quantity, segments );
+        ret += tname::print_segment( idx, *this, quantity, segments );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -9237,6 +9238,8 @@ bool item::has_itype_variant( bool check_option ) const
     switch( type->variant_kind ) {
         case itype_variant_kind::gun:
             return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        case itype_variant_kind::drug:
+            return get_option<bool>( "SHOW_DRUG_VARIANTS" );
         default:
             return true;
     }

@@ -3504,6 +3504,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
     ctxt.register_action( "DECREASE_COUNT" );
 
     max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
+    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -4478,7 +4479,6 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     ctxt.register_action( ACTION_BANKBALANCE );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
-    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 }
 
 trade_selector::select_t trade_selector::to_trade() const
