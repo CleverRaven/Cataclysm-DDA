@@ -604,7 +604,7 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     globvars.clear_global_values();
 
     g->place_critter_at( mon_zombie, a.pos() + tripoint_east );
-    g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
+    monster *friendo = g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
     g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint_north );
     g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
@@ -620,9 +620,17 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_triffs" ) ) == 1 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_group" ) ) == 4 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 0 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust" ) ) == 5 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust_adj" ) ) == 2 );
     CHECK( std::stoi( globvars.get_global_value( "npctalk_var_smoks" ) ) == 1 );
+
+    friendo->make_friendly();
+    REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )

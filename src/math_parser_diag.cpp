@@ -456,17 +456,37 @@ bool mon_check_group( Creature const &critter, mongroup_id const &id )
     return MonsterGroupManager::IsMonsterInGroup( id, critter.as_monster()->type->id );
 }
 
+enum class mon_filter : int {
+    enemies = 0,
+    friends,
+    both,
+};
+
+bool _matches_attitude_filter( Creature const &critter, mon_filter filter )
+{
+    monster const *mon = critter.as_monster();
+    switch( filter ) {
+        case mon_filter::enemies:
+            return mon->friendly == 0;
+        case mon_filter::friends:
+            return mon->friendly != 0;
+        case mon_filter::both:
+            return true;
+    }
+    return false;
+}
+
 template<class ID>
 bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int radius,
-                      tripoint_abs_ms const &loc, f_monster_match<ID> f )
+                      tripoint_abs_ms const &loc, f_monster_match<ID> f, mon_filter filter )
 {
     if( critter.is_monster() ) {
         bool const id_filter =
         ids.empty() || std::any_of( ids.begin(), ids.end(), [&critter, f]( ID const & id ) {
             return ( *f )( critter, id );
         } );
-        // friendly to the player, not a target for us
-        return id_filter && critter.as_monster()->friendly == 0 &&
+
+        return id_filter && _matches_attitude_filter( critter, filter ) &&
                radius >= rl_dist( critter.get_location(), loc );
     }
     return false;
@@ -477,9 +497,13 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs, f_monster_match<ID> f )
 {
     diag_value radius_val( 1000.0 );
+    diag_value filter_val( std::string{ "hostile" } );
     std::optional<var_info> loc_var;
     if( kwargs.count( "radius" ) != 0 ) {
         radius_val = *kwargs.at( "radius" );
+    }
+    if( kwargs.count( "attitude" ) != 0 ) {
+        filter_val = *kwargs.at( "attitude" );
     }
     if( kwargs.count( "location" ) != 0 ) {
         loc_var = kwargs.at( "location" )->var();
@@ -488,7 +512,7 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
                                          R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
     }
 
-    return [beta = is_beta( scope ), params, loc_var, radius_val, f]( dialogue & d ) {
+    return [beta = is_beta( scope ), params, loc_var, radius_val, filter_val, f]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
@@ -502,9 +526,19 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
             return ID( val.str( d ) );
         } );
 
+        std::string const filter_str = filter_val.str( d );
+        mon_filter filter = mon_filter::enemies;
+        if( filter_str == "both" ) {
+            filter = mon_filter::both;
+        } else if( filter_str == "friendly" ) {
+            filter = mon_filter::friends;
+        } else if( filter_str != "hostile" ) {
+            debugmsg( R"(Unknown attitude filter "%s" for monsters_nearby(), assuming "hostile")", filter_str );
+        }
+
         std::vector<Creature *> const targets = g->get_creatures_if( [&mids, &radius,
-               &loc, f]( const Creature & critter ) {
-            return _filter_monster( critter, mids, radius, loc, f );
+               &loc, f, filter]( const Creature & critter ) {
+            return _filter_monster( critter, mids, radius, loc, f, filter );
         } );
         return static_cast<double>( targets.size() );
     };
