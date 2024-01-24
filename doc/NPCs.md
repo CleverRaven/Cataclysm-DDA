@@ -1226,11 +1226,7 @@ To get player character properties, use `"u_val"`. To get NPC properties, use sa
 Example | Description
 --- | ---
 `"const": 5` | A constant value, in this case 5. Can be read but not written to.
-`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
-`"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
-`"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
-`"faction_respect": "free_merchants"` | How much the faction respects the player(see [FACTIONS.md](FACTIONS.md)) for details.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
 `"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
@@ -1404,6 +1400,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
+| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)    |   ✅   |   ❌  | N/A<br/>(global)  | Return the like/respect/trust value a faction has for the avatar.<br/>Argument is faction ID.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood')", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc)", ">", "5" ] }`|
 | has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Arguemnt is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_trait('FEEBLE') ? 100 : 15" ] }`|
 | has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Arguemnt is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|

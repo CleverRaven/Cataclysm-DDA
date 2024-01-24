@@ -1988,24 +1988,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [max_value]( dialogue const & ) {
             return rng( 0, max_value );
         };
-    } else if( jo.has_member( "faction_trust" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_trust" ), "faction_trust" );
-        return [name]( dialogue const & d ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            return fac->trusts_u;
-        };
-    } else if( jo.has_member( "faction_like" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_like" ), "faction_like" );
-        return [name]( dialogue const & d ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            return fac->likes_u;
-        };
-    } else if( jo.has_member( "faction_respect" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_respect" ), "faction_respect" );
-        return [name]( dialogue const & d ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            return fac->respects_u;
-        };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) || jo.has_member( "context_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
@@ -2378,24 +2360,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         return [min, max]( dialogue & d, double input ) {
             write_var_value( var_type::global, "temp_var", d.actor( false ), &d,
                              handle_min_max( d, input, min, max ) );
-        };
-    } else if( jo.has_member( "faction_trust" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_trust" ), "faction_trust" );
-        return [name, min, max]( dialogue & d, double input ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            fac->trusts_u = handle_min_max( d, input, min, max );
-        };
-    } else if( jo.has_member( "faction_like" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_like" ), "faction_like" );
-        return [name, min, max]( dialogue & d, double input ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            fac->likes_u = handle_min_max( d, input, min, max );
-        };
-    } else if( jo.has_member( "faction_respect" ) ) {
-        str_or_var name = get_str_or_var( jo.get_member( "faction_respect" ), "faction_respect" );
-        return [name, min, max]( dialogue & d, double input ) {
-            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            fac->respects_u = handle_min_max( d, input, min, max );
         };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ||

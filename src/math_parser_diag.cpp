@@ -222,6 +222,60 @@ std::function<double( dialogue & )> encumbrance_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> faction_like_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->likes_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_like_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->likes_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_respect_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->respects_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_respect_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->respects_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_trust_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->trusts_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_trust_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->trusts_u = val;
+    };
+}
+
 std::function<double( dialogue & )> field_strength_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1181,6 +1235,9 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "faction_like", { "g", 1, faction_like_eval } },
+    { "faction_respect", { "g", 1, faction_respect_eval } },
+    { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
@@ -1219,6 +1276,9 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "addiction_turns", { "un", 1, addiction_turns_ass } },
+    { "faction_like", { "g", 1, faction_like_ass } },
+    { "faction_respect", { "g", 1, faction_respect_ass } },
+    { "faction_trust", { "g", 1, faction_trust_ass } },
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
