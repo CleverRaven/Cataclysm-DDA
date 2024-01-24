@@ -2697,7 +2697,8 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
     }
 }
 
-static void apply_fortifications( const mission_id &miss_id, const npc_ptr comp, bool start )
+// Stupid "the const qualified parameter 'comp' is copied for each invocation; consider making it a reference [performance-unnecessary-value-param,-warnings-as-errors]" demands the pointer to be referenced...
+static void apply_fortifications( const mission_id &miss_id, const npc_ptr *comp, bool start )
 {
     update_mapgen_id build_n{ faction_wall_level_n_0_string };
     update_mapgen_id build_e{ "faction_wall_level_E_0" };
@@ -2706,7 +2707,7 @@ static void apply_fortifications( const mission_id &miss_id, const npc_ptr comp,
     if( miss_id.parameters == faction_wall_level_n_1_string ||
         //  Handling of old format (changed mid 0.F) below
         ( miss_id.parameters.empty() &&
-          comp->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
+          comp[0]->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
         build_n = update_mapgen_faction_wall_level_N_1;
         build_e = update_mapgen_faction_wall_level_E_1;
         build_s = update_mapgen_faction_wall_level_S_1;
@@ -2714,14 +2715,14 @@ static void apply_fortifications( const mission_id &miss_id, const npc_ptr comp,
     }
     update_mapgen_id build_first = build_e;
     update_mapgen_id build_second = build_w;
-    bool build_dir_NS = comp->companion_mission_points[0].y() !=
-                        comp->companion_mission_points[1].y();
+    bool build_dir_NS = comp[0]->companion_mission_points[0].y() !=
+                        comp[0]->companion_mission_points[1].y();
     if( build_dir_NS ) {
         build_first = build_s;
         build_second = build_n;
     }
     //Add fences
-    auto &build_point = comp->companion_mission_points;
+    auto &build_point = comp[0]->companion_mission_points;
     for( size_t pt = 0; pt < build_point.size(); pt++ ) {
         //First point is always at top or west since they are built in a line and sorted
         if( pt == 0 ) {
@@ -2850,7 +2851,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
                 comp->companion_mission_points.push_back( pt );
             }
 
-            apply_fortifications( miss_id, comp, true );
+            apply_fortifications( miss_id, &comp, true );
         }
     }
 }
@@ -3988,17 +3989,17 @@ void basecamp::fortifications_return( const mission_id &miss_id )
     npc_ptr comp = companion_choose_return( miss_id, 3_hours );
     if( comp != nullptr ) {
         auto &build_point = comp->companion_mission_points;
-        for( size_t pt = 0; pt < build_point.size(); pt++ ) {
+        for( std::vector<tripoint_abs_omt>::iterator::value_type point : build_point ) {
             if( miss_id.parameters == faction_wall_level_n_0_string ||
                 //  Handling of old format (changed mid 0.F) below
                 ( miss_id.parameters.empty() &&
                   comp->companion_mission_role_id == faction_wall_level_n_0_string ) ) {
-                tripoint_abs_omt fort_point = build_point[pt];
+                tripoint_abs_omt fort_point = point;
                 fortifications.push_back( fort_point );
             }
         }
 
-        apply_fortifications( miss_id, comp, false );
+        apply_fortifications( miss_id, &comp, false );
 
         const std::string msg = _( "returns from constructing fortifications…" );
         finish_return( *comp, true, msg, skill_construction.str(), 2 );
