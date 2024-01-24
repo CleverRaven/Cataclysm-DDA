@@ -209,6 +209,32 @@
     "sound_description": "cracklezzbit!"
   },
   {
+    "id": "sylph_charge_dash_spell",
+    "type": "SPELL",
+    "name": { "str": "Stormwind Stride" },
+    "description": "Hurl yourself forward in a burst of speed, causing an explosion at your arrive point.",
+    "valid_targets": [ "hostile", "ground" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "NO_HANDS", "LOUD" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": { "math": [ "(4 + (u_spell_level('sylph_charge_dash_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "max_range": { "math": [ "(4 + (u_spell_level('sylph_charge_dash_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 150,
+    "energy_increment": -5,
+    "base_casting_time": 100,
+    "final_casting_time": 50,
+    "casting_time_increment": -4
+  },
+  {
     "id": "sylph_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
@@ -315,5 +341,154 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury",
+    "description": "Call down a thundering lightning bolt to blast your enemies with the fury of the heavens.",
+    "message": "Lightning crashes down from the heavens!",
+    "valid_targets": [ "self" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SYLPH_MASSIVE_LIGHTNING_BOLT",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 750,
+    "energy_increment": -15,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "zzzzaaaaaapp!"
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Real",
+    "description": "The actual spell that casts Fist of Heaven's Fury.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "sylph_massive_lightning_bolt_spell_real_ter_transform", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_ter_transform_center", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false },
+      { "id": "sylph_massive_lightning_bolt_spell_real_push_enemies", "hit_self": false }
+    ],
+    "shape": "blast",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [ "( (u_spell_level('sylph_massive_lightning_bolt_spell') * 3) + 25) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('sylph_massive_lightning_bolt_spell') * 7.5) + 110) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 100,
+    "max_duration": 300,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 3,
+    "max_field_intensity": 7,
+    "field_chance": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_ter_transform",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Ter Transform 1",
+    "description": "The actual spell that casts the Fist of Heaven's Fury crater.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_ter_transform_center",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Ter Transform 2",
+    "description": "The actual spell that casts the Fist of Heaven's Fury crater.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_sylph_massive_lightning",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_start_fire",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Monster Push",
+    "description": "The actual spell that casts the Fist of Heaven's Fury fire.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1
+  },
+  {
+    "id": "sylph_massive_lightning_bolt_spell_real_push_enemies",
+    "type": "SPELL",
+    "name": "Fist of Heaven's Fury Monster Push",
+    "description": "The actual spell that casts the Fist of Heaven's Fury shove.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "NO_EXPLOSION_SFX", "RANDOM_AOE" ],
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('sylph_massive_lightning_bolt_spell') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) )), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": 1,
+    "max_aoe": 4
   }
 ]

@@ -1726,6 +1726,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
 
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
+        !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
         new_target_furniture != f_null ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
@@ -2708,7 +2709,7 @@ void map::drop_everything( const tripoint &p )
 void map::drop_furniture( const tripoint &p )
 {
     const furn_id frn = furn( p );
-    if( frn == f_null ) {
+    if( frn == f_null || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
         return;
     }
 
@@ -8810,10 +8811,12 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
             }
 
             if( i.mission_id > 0 ) {
-                tmp.mission_ids = { i.mission_id };
                 mission *found_mission = mission::find( i.mission_id );
-                if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
-                    found_mission->register_kill_needed();
+                if( found_mission != nullptr ) {
+                    tmp.mission_ids = { i.mission_id };
+                    if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
+                        found_mission->register_kill_needed();
+                    }
                 }
             }
             if( i.name != "NONE" ) {

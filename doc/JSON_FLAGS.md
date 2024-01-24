@@ -215,7 +215,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
-- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
@@ -462,7 +461,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 ## Comestibles
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
+- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
 - ```EATEN_COLD``` Morale bonus for eating cold.
@@ -723,6 +722,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
 - ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
+- ```FLOATS_IN_AIR``` If this furniture is placed over open air it won't fall.
 
 
 ## Generic

@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
 
@@ -175,7 +175,7 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get soundpack
         if: matrix.sound == 1
         run: |

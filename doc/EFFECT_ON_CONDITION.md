@@ -505,16 +505,6 @@ checks this var exists
 { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 }
 ```
 
-### `u_compare_time_since_var`, `npc_compare_time_since_var`
-- type: duration
-- Same as `u_compare_var`, allows to check how much time passed since variable with `"type": "timer"` was create or updated, using one of `==`, `!=`, `<`, `>`, `<=`, `>=` operators; `type`, `context`, `op` and `time` is required
-
-#### Examples
-Checks is RandEnc was added more than 1 hour ago
-```json
-{ "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" }
-```
-
 ### `compare_string`
 - type: pair of strings or [variable objects](##variable-object)
 - Compare two strings, and return true if strings are equal
@@ -3476,7 +3466,8 @@ Spawn and place the item
 | "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
 | "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
 | "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
-| "use_item_group" | optional | bool | default false; If true, it will instead pull an item from the item group given. |
+| "use_item_group" | optional | bool | default false; If true, it will instead create items from the item group given. ("count" and "containter" will be ignored since they are defined in the item group.) |
+| "flags" | optional | array of string or [variable object](#variable-object) | The item will have all the flags from the array `flags` |
 
 ##### Examples
 Spawn a plastic bottle on ground
@@ -3688,10 +3679,11 @@ Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster that would be spawned |
+| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster or monstergroup that would be spawned, using "" picks randomly from nearby monsters |
 | "real_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of monsters, that would be spawned | 
 | "hallucination_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of hallucination versions of the monster that would be spawned |
-| "group" | optional | boolean | default false; if true, `_spawn_monster` would spawn a monster from `monstergroup`; the game pick only one monster from group, so to create mix from different monsters from monstergroup, multiple `u_spawn_monster` should be used | 
+| "group" | optional | boolean | default false; if true, `_spawn_monster` will spawn a monster from `monstergroup` |
+| "single_target" | optional | boolean | default false; if true, `_spawn_monster` the game pick only one monster from the provided `monstergroup` or from nearby monsters | 
 | "min_radius", "max_radius" | optional | int, [variable object](##variable-object) or value between two | default 1 and 10 respectively; range around the target, where the monster would spawn | 
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, monsters would be able to spawn only outside or only inside buildings | 
 | "open_air_allowed" | optional | boolean | default false; if true, monsters can spawn in the open air | 

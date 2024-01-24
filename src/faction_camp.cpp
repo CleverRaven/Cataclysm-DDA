@@ -4637,16 +4637,18 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
-            total_m += i.weight( true );
-            total_v += i.volume( true );
-            total_num += 1;
-            if( take && x_in_y( chance, 100 ) ) {
-                if( comp ) {
-                    comp->companion_mission_inv.push_back( i );
+            if( !i.made_of_from_type( phase_id::LIQUID ) ) {
+                total_m += i.weight( true );
+                total_v += i.volume( true );
+                total_num += 1;
+                if( take && x_in_y( chance, 100 ) ) {
+                    if( comp ) {
+                        comp->companion_mission_inv.push_back( i );
+                    }
+                    harvested_m += i.weight( true );
+                    harvested_v += i.volume( true );
+                    harvested_num += 1;
                 }
-                harvested_m += i.weight( true );
-                harvested_v += i.volume( true );
-                harvested_num += 1;
             }
         }
         if( take ) {
@@ -4942,7 +4944,6 @@ drop_locations basecamp::give_basecamp_equipment( inventory_filter_preset &prese
 {
     inventory_multiselector inv_s( get_player_character(), preset, column_title );
 
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_basecamp_items( *this );
     inv_s.set_title( title );
 
@@ -4988,7 +4989,6 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
 
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *pc );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( title );
@@ -5036,8 +5036,6 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
-
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     inv_s.add_remote_map_items( target_bay, target );
     inv_s.set_title( title );

@@ -28,7 +28,7 @@ jobs:
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: JSON style check
       run: make style-all-json-parallel RELEASE=1
     - name: Display Corrections

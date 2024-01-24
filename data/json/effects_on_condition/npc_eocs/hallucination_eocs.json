@@ -175,25 +175,30 @@
     "type": "effect_on_condition",
     "id": "creature_hallucinations",
     "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
-    "//": "if monsters are nearby, 3/4 chance to get copy of random monster nearby and run again (with 1/2 prob) and 1/4 chance to spawns one of YOUR_FEARS. If not, spawns one of YOUR_FEARS",
+    "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
+    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] } ] },
     "effect": [
       {
-        "if": { "and": [ { "math": [ "rand(3)", "==", "3" ] }, { "not": { "math": [ "u_monsters_nearby()", ">", "1" ] } } ] },
-        "then": {
-          "u_spawn_monster": "GROUP_YOUR_FEARS",
-          "group": true,
-          "hallucination_count": { "math": [ "1 + rand(2)" ] },
-          "max_radius": 40,
-          "lifespan": [ "1 hours", "4 hours" ]
-        },
-        "else": {
-          "u_spawn_monster": "",
-          "hallucination_count": { "math": [ "1 + rand(4)" ] },
-          "target_range": 50,
-          "lifespan": [ "2 hours", "9 hours" ]
-        }
-      }
-    ]
+        "u_spawn_monster": "",
+        "hallucination_count": { "math": [ "1 + rand(4)" ] },
+        "target_range": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
+      },
+      { "weighted_list_eocs": [ [ "creature_hallucinations", 1 ], [ "EOC_NONE", 1 ] ] }
+    ],
+    "false_effect": { "run_eocs": "creature_hallucinations_fears" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "creature_hallucinations_fears",
+    "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "effect": {
+      "u_spawn_monster": "GROUP_YOUR_FEARS",
+      "group": true,
+      "hallucination_count": { "math": [ "1 + rand(2)" ] },
+      "max_radius": 40,
+      "lifespan": [ "1 hours", "4 hours" ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -209,19 +214,11 @@
     "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
     "effect": [
       {
-        "if": { "math": [ "u_i", "<", "rng(50, 100)" ] },
-        "then": [
-          {
-            "u_spawn_monster": "",
-            "hallucination_count": 1,
-            "target_range": 50,
-            "max_radius": 50,
-            "lifespan": [ "2 hours", "9 hours" ]
-          },
-          { "math": [ "u_i", "++" ] },
-          { "run_eocs": "hallucination_swarm" }
-        ],
-        "else": { "math": [ "u_i", "=", "0" ] }
+        "u_spawn_monster": "",
+        "hallucination_count": [ 50, 100 ],
+        "target_range": 50,
+        "max_radius": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
       }
     ]
   }

@@ -69,5 +69,81 @@
       { "type": "LOOT_AMMO", "x": -3, "y": 0 },
       { "type": "LOOT_GUNS", "x": -3, "y": 1 }
     ]
+  },
+  {
+    "id": "traveler_van_motorhome",
+    "//": "Just a normal mini RV with a few different items included.  Later versions could inlcude things like makeshift armor, a trailer, or a ram.",
+    "type": "vehicle",
+    "name": "Mini RV",
+    "blueprint": [
+      [ "-o--+o-" ],
+      [ "+=&&#'|" ],
+      [ "+=#=#'|" ],
+      [ "-o+-+o-" ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#cross",
+          "reclining_seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "integrated_heater_small",
+          "integrated_cooler"
+        ]
+      },
+      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm" ] },
+      { "x": 0, "y": 0, "parts": [ "horn_car", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw", "v_curtain" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "reclining_seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne", "v_curtain" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_T_left", "windshield#wheel_left", "v_curtain" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal_2", "windshield#cover_left", "v_curtain" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal_2", "windshield#cover_right", "v_curtain" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_T_right", "windshield#wheel_right", "v_curtain" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#cover_left", "engine_v6", "alternator_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "halfboard#cover_right", "battery_car" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "board#nw_edge" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ { "part": "veh_tools_kitchen", "tools": [ "hotplate", "pan", "pot" ] } ] },
+      { "x": -1, "y": 0, "parts": [ { "part": "tank", "fuel": "water_clean" } ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "aisle", "aisle_lights", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "board#ne_edge" ] },
+      { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "board#vertical_left" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": -2, "y": 0, "parts": [ "frame#cross", "minifridge", "roof", "solar_panel" ] },
+      { "x": -2, "y": 1, "parts": [ "frame#cross", "bed", "roof", "solar_panel" ] },
+      { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "door_opaque#full_right", "door_motor" ] },
+      { "x": -2, "y": 2, "parts": [ "large_storage_battery" ] },
+      { "x": -3, "y": -1, "parts": [ "frame#vertical_left", "board#wheel_left", "wheel_mount_medium", "wheel_wide" ] },
+      { "x": -3, "y": 0, "parts": [ "frame#cross", "cargo_space", "roof", "solar_panel" ] },
+      { "x": -3, "y": 1, "parts": [ "frame#cross", "cargo_space", "roof", "solar_panel" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame#vertical_right", "board#wheel_right", "wheel_mount_medium", "wheel_wide" ]
+      },
+      { "x": -4, "y": -1, "parts": [ "frame#sw", "board#sw" ] },
+      { "x": -4, "y": 0, "parts": [ "frame#horizontal_rear", "door_opaque#rear", "door_motor", "muffler" ] },
+      { "x": -4, "y": 1, "parts": [ "frame#horizontal_rear", "door_opaque#rear", "door_motor" ] },
+      { "x": -4, "y": 2, "parts": [ "frame#se", "board#se" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] },
+      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "spare_tire_kit_wide_wheel" ] },
+      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "traveler" ] },
+      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "swat_gear" ] },
+      { "x": -3, "y": 0, "chance": 100, "item_groups": [ "preserved_food" ] },
+      { "x": -3, "y": 1, "chance": 100, "item_groups": [ "tools_common_small" ] },
+      { "x": -3, "y": 1, "chance": 100, "item_groups": [ "tools_mechanic" ] },
+      { "x": -3, "y": 1, "chance": 100, "item_groups": [ "fuel_gasoline" ] }
+    ],
+    "zones": [ { "type": "LOOT_UNSORTED", "x": -3, "y": 0 }, { "type": "LOOT_UNSORTED", "x": -3, "y": 1 } ]
   }
 ]

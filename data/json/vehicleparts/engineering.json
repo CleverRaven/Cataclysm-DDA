@@ -17,7 +17,7 @@
     "description": "A rigid steel boom crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want to jack up the other vehicle to change its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
     "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
-    "//": "30cm of weld per quadrant of damage",
+    "//": "30 cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -51,7 +51,7 @@
     "folded_volume": "3 L",
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
-    "//": "30cm of weld per quadrant of damage",
+    "//": "30 cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -75,7 +75,7 @@
     "folded_volume": "3 L",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
-    "//": "30cm of weld per quadrant of damage",
+    "//": "30 cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -102,7 +102,7 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
-    "//": "30cm of weld per quadrant of damage, 60cm of weld to install",
+    "//": "30 cm of weld per quadrant of damage, 60 cm of weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -138,7 +138,7 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
-    "//": "40cm of weld per quadrant of damage and 100cm weld to install",
+    "//": "40 cm of weld per quadrant of damage and 100 cm weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ] ],
@@ -173,7 +173,7 @@
       { "item": "jack", "count": [ 1, 1 ] }
     ],
     "qualities": [ [ "SELF_JACK", 17 ] ],
-    "//": "30cm of weld per quadrant of damage and 120cm weld to install",
+    "//": "30 cm of weld per quadrant of damage and 120 cm weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -202,7 +202,7 @@
     "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
-    "//": "20cm of weld per quadrant of damage and 30cm to install",
+    "//": "20 cm of weld per quadrant of damage and 30 cm to install",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 30 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },

@@ -415,7 +415,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "National Guard bayonet" },
-    "description": "A Cold War era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang, double-edged high carbon steel blade terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.",
+    "description": "A Cold War era Army bayonet that has only partially been replaced by newer models.  It has an apocalypse-proof full-tang, double-edged high steel blade terminating in a spear point.  The no-frills design makes for both a good fighting knife and bayonet, a fact that was appreciated when reserve stocks of these were issued out to National Guardsmen.",
     "//": "An M4, M5, M6, or M7 Bayonet.",
     "weight": "270 g",
     "volume": "184 ml",
@@ -498,7 +498,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "KA-BAR knife", "str_pl": "KA-BAR knives" },
-    "description": "The KA-BAR was developed by the United States Marine Corps in 1942 by modifying hunting knife designs to be more soldier-proof.  The handle is made of stacked leather washers, and the blade is made of easy to sharpen high carbon steel, making for a popular fighting, hunting and utility knife.  The blade is marked 'USMC'.",
+    "description": "The KA-BAR was developed by the United States Marine Corps in 1942 by modifying hunting knife designs to be more soldier-proof.  The handle is made of stacked leather washers, and the blade is made of easy to sharpen high steel, making for a popular fighting, hunting and utility knife.  The blade is marked 'USMC'.",
     "weight": "320 g",
     "volume": "255 ml",
     "longest_side": "30 cm",
@@ -843,12 +843,12 @@
     "copy-from": "survivor_machete",
     "type": "TOOL",
     "name": { "str": "tempered steel combat machete" },
-    "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
+    "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
     "variants": [
       {
         "id": "survivor_machete_qt_standard",
-        "name": { "str": "tempered combat machete" },
-        "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
+        "name": { "str": "tempered steel combat machete" },
+        "description": "This common gardening tool has been customized, rebalanced and tempered to dramatically improve its performance as a weapon.",
         "color": "dark_gray",
         "weight": 1,
         "append": false
@@ -1362,10 +1362,10 @@
     "type": "GENERIC",
     "name": { "str": "estoc" },
     "description": "A dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
-    "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 } },
+    "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 }, "price": 0.05, "price_postapoc": 0.05 },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "extend": { "flags": [ "FRAGILE_MELEE" ], "price": 0.05, "price_postapoc": 0.05 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" }
   },
   {

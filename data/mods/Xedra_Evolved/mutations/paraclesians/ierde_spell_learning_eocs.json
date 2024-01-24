@@ -8,21 +8,30 @@
       "and": [
         { "u_has_trait": "IERDE" },
         {
-          "u_has_any_trait": [ "IERDE_STOMP_GROUND_SMASH", "IERDE_CREATE_PITS", "IERDE_CULTIVATE_GOBLIN_FRUIT", "PARACLESIAN_MAKE_GOSSAMER" ]
+          "u_has_any_trait": [
+            "IERDE_STOMP_GROUND_SMASH",
+            "IERDE_CREATE_PITS",
+            "IERDE_SUMMON_EARTH_ELEMENTAL",
+            "IERDE_CULTIVATE_GOBLIN_FRUIT",
+            "PARACLESIAN_MAKE_GOSSAMER"
+          ]
         },
         {
           "or": [
             { "math": [ "u_val('pos_z')", "<=", "-1" ] },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            },
             { "u_at_om_location": "ierde_genius_loci_NW" },
             { "u_at_om_location": "ierde_genius_loci_NE" },
             { "u_at_om_location": "ierde_genius_loci_SW" },
@@ -43,6 +52,7 @@
         { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] },
         { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
@@ -52,6 +62,7 @@
         [ "EOC_LEVELER_IERDE_STOMP_GROUND_SMASH", 8 ],
         [ "EOC_LEVELER_IERDE_CREATE_PITS", 7 ],
         [ "EOC_LEVELER_IERDE_IRON_ARMOR", 6 ],
+        [ "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT", 8 ],
         [ "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_IERDE_MAKE_GOSSAMER", 4 ]
       ]
@@ -108,6 +119,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('ierde_iron_armor_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_summon_earth_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

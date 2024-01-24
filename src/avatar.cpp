@@ -1454,6 +1454,16 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
+item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
+        bool empty )
+{
+    if( !base ) {
+        return item::reload_option();
+    }
+
+    return game_menus::inv::select_ammo( *this, base, prompt, empty );
+}
+
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;

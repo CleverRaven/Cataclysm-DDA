@@ -55,7 +55,7 @@
         "A": "t_thconc_floor",
         "~": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 0, "chance": 80, "status": 0 } ],
       "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 11, "y": 9 }, { "item": "stereo", "x": 10, "y": 9 } ],
       "place_nested": [

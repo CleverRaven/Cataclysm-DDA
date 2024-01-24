@@ -169,11 +169,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 7,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
       "yes": "\"I reckon I've done my job here.  Goan' be time to ride out into the sunset soon, if'n you catch m'drift.\"  He tilts his hat melodramatically.  \"Folks're comin' around to this here new world we live in.\"",
       "no": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn… we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here."
     },

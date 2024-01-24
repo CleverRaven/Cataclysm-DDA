@@ -232,12 +232,13 @@
     "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-40" ] },
         { "math": [ "u_val('faction_like: hells_raiders')", ">", "-60" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 9 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -255,12 +256,13 @@
     "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN_2",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-60" ] },
         { "math": [ "u_val('faction_like: hells_raiders')", ">", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 15 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -278,11 +280,12 @@
     "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN_3",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 21 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -300,11 +303,12 @@
     "type": "effect_on_condition",
     "id": "EOC_OLD_GUARD_ASSASSIN",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: old_guard')", "<", "-45" ] },
-        { "math": [ "government_assassins_sent", "<=", "6" ] },
-        { "days_since_cataclysm": 9 },
+        { "math": [ "u_government_assassins_sent", "<=", "6" ] },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -326,7 +330,7 @@
     "recurrence": "1 hours",
     "effect": [
       {
-        "switch": "hour",
+        "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },
         "cases": [
           { "case": 0, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
           { "case": 2, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },

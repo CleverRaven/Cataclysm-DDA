@@ -426,7 +426,7 @@
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_nested": [ { "chunks": [ "mx_treasuregoal" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
     },
-    "end": { "effect": [ { "u_adjust_var": "missionswon", "adjustment": 1 } ] }
+    "end": { "effect": [ { "math": [ "u_missionswon", "++" ] } ] }
   },
   {
     "id": "MISSION_BONUS_KILL_LIGHT",
@@ -446,7 +446,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "3 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -474,7 +474,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "4 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -510,7 +510,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "4 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -546,7 +546,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "5 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -590,7 +590,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "5 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -634,7 +634,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "8 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -660,7 +660,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "10 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -688,7 +688,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "10 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -724,7 +724,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -760,7 +760,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -786,7 +786,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "9 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -815,7 +815,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -839,7 +839,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "9 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -863,7 +863,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "6 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -893,7 +893,7 @@
     },
     "end": {
       "effect": [
-        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        { "math": [ "u_missionswon", "++" ] },
         { "math": [ "totalbonus", "=", "12 + location_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
@@ -913,7 +913,7 @@
     "monster_kill_goal": 10,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_ZED2",
@@ -925,7 +925,7 @@
     "monster_kill_goal": 50,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_ZED3",
@@ -937,7 +937,7 @@
     "monster_kill_goal": 100,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 5 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 5 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_MIGO",
@@ -949,7 +949,7 @@
     "monster_kill_goal": 1,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_NETHER",
@@ -961,7 +961,7 @@
     "monster_kill_goal": 3,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 4 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 4 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_BIRD",
@@ -973,7 +973,7 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "id": "MISSION_BONUS_SLAUGHTER_MAMMAL",
@@ -985,7 +985,7 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
-    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+    "end": { "effect": [ { "math": [ "slaughterswon", "++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
     "type": "mapgen",

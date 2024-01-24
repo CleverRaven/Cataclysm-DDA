@@ -84,6 +84,7 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
+            case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
             case enchant_vals::mod::SIGHT_RANGE_NETHER: return "SIGHT_RANGE_NETHER";
             case enchant_vals::mod::SIGHT_RANGE_MINDS: return "SIGHT_RANGE_MINDS";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";

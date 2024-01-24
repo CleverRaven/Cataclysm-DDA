@@ -347,11 +347,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "mon_renfield_abomination_death_drops",
-    "entries": [
-      { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
-      { "group": "mutagens", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "pants", "damage": [ 2, 3 ] }
-    ]
+    "entries": [ { "item": "cotton_patchwork", "damage": [ 1, 4 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 2, 3 ] } ]
   },
   {
     "id": "bionic_renfield_harvest",
@@ -444,7 +440,6 @@
       { "item": "bio_armor_eyes", "prob": 3 },
       { "item": "bio_alarm", "prob": 3 },
       { "item": "bio_power_storage", "prob": 2 },
-      { "item": "bio_trickle", "prob": 4 },
       { "item": "bio_glowy", "prob": 1 },
       { "item": "bio_chain_lightning", "prob": 1 },
       { "item": "bio_hydraulics", "prob": 1 },

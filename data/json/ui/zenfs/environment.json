@@ -1,0 +1,368 @@
+[
+  {
+    "id": "environment_stack",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 50,
+    "widgets": [
+      "zenfs_sun_bar",
+      "zenfs_wind_moon",
+      "zenfs_lighting_date",
+      "zenfs_weather_safe",
+      "zenfs_env_temp_time_rad",
+      "zenfs_blank_line",
+      "zenfs_place_omloc"
+    ]
+  },
+  {
+    "id": "zenfs_sun_with_moon",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sun_bar_51", "zenfs_moon_phase_text" ]
+  },
+  {
+    "id": "zenfs_sundial_desc_no_label",
+    "type": "widget",
+    "label": "Sundial",
+    "style": "text",
+    "var": "sundial_text",
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "zenfs_sundial_label_text",
+    "type": "widget",
+    "style": "text",
+    "width": 4,
+    "flags": [ "W_LABEL_NONE" ],
+    "clauses": [
+      { "id": "sundial_sun", "text": "Sun ", "color": "white", "condition": "is_day" },
+      { "id": "sundial_moon", "text": "Moon", "color": "white", "condition": { "not": "is_day" } }
+    ]
+  },
+  {
+    "id": "zenfs_sun_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sundial_label_text", "zenfs_sundial_desc_no_label" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_sun_bar_51",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 51,
+    "widgets": [ "zenfs_sundial_label_text", "zenfs_sundial_desc_no_label" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_moon_phase_text",
+    "type": "widget",
+    "style": "text",
+    "text_align": "right",
+    "clauses": [
+      { "id": "new_moon", "text": "New moon  ", "color": "white", "condition": { "math": [ "moon_phase() == 0" ] } },
+      {
+        "id": "waxing_crescent",
+        "text": "Wax.crescent",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 1" ] }
+      },
+      { "id": "half_moon", "text": "Half moon  ", "color": "white", "condition": { "math": [ "moon_phase() == 2" ] } },
+      {
+        "id": "waxing_gibbous",
+        "text": "Wax.gibbous ",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 3" ] }
+      },
+      { "id": "full_moon", "text": "Full moon  ", "color": "white", "condition": { "math": [ "moon_phase() == 4" ] } },
+      {
+        "id": "waning_gibbous",
+        "text": "Wan.gibbous ",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 5" ] }
+      },
+      { "id": "half_moon", "text": "Half moon  ", "color": "white", "condition": { "math": [ "moon_phase() == 6" ] } },
+      {
+        "id": "waning_crescent",
+        "text": "Wan.crescent",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 7" ] }
+      },
+      { "id": "dark_moon", "text": "Dark moon  ", "color": "white", "condition": { "math": [ "moon_phase() == 8" ] } }
+    ]
+  },
+  {
+    "id": "zenfs_moon_phase_text_right",
+    "type": "widget",
+    "style": "text",
+    "text_align": "right",
+    "clauses": [
+      { "id": "new_moon", "text": "New moon", "color": "white", "condition": { "math": [ "moon_phase() == 0" ] } },
+      {
+        "id": "waxing_crescent",
+        "text": "Waxing crescent",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 1" ] }
+      },
+      { "id": "half_moon", "text": "Half moon", "color": "white", "condition": { "math": [ "moon_phase() == 2" ] } },
+      {
+        "id": "waxing_gibbous",
+        "text": "Waxing gibbous",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 3" ] }
+      },
+      { "id": "full_moon", "text": "Full moon", "color": "white", "condition": { "math": [ "moon_phase() == 4" ] } },
+      {
+        "id": "waning_gibbous",
+        "text": "Waning gibbous",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 5" ] }
+      },
+      { "id": "half_moon", "text": "Half moon", "color": "white", "condition": { "math": [ "moon_phase() == 6" ] } },
+      {
+        "id": "waning_crescent",
+        "text": "Waning crescent",
+        "color": "white",
+        "condition": { "math": [ "moon_phase() == 7" ] }
+      },
+      { "id": "dark_moon", "text": "Dark moon", "color": "white", "condition": { "math": [ "moon_phase() == 8" ] } }
+    ]
+  },
+  {
+    "id": "zenfs_wind_light_weather",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_lighting_desc_13", "weather_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_date_time_temp_rad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_date", "zenfs_time", "zenfs_env_temp_desc", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_wind_light_weather_safe",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_lighting_desc_13", "zenfs_weather_desc_21", "zenfs_safe_mode_right" ]
+  },
+  {
+    "id": "zenfs_wind_moon",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_moon_phase_text_right" ]
+  },
+  {
+    "id": "zenfs_lighting_date",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_lighting_desc_16", "zenfs_date", "zenfs_blank_line" ]
+  },
+  {
+    "id": "zenfs_weather_safe",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weather_desc_21", "zenfs_safe_mode_right" ]
+  },
+  {
+    "id": "zenfs_env_temp_time_rad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_env_temp_desc_17", "zenfs_time_19", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_place_omloc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_place_desc", "zenfs_omloc_desc" ]
+  },
+  {
+    "id": "zenfs_wind_desc_17",
+    "type": "widget",
+    "style": "layout",
+    "width": 17,
+    "arrange": "columns",
+    "widgets": [ "wind_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_lighting_desc_13",
+    "type": "widget",
+    "style": "layout",
+    "separator": ": ",
+    "width": 13,
+    "arrange": "columns",
+    "widgets": [ "lighting_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_lighting_desc_16",
+    "type": "widget",
+    "copy-from": "zenfs_lighting_desc_13",
+    "width": 16
+  },
+  {
+    "id": "zenfs_weather_desc_21",
+    "type": "widget",
+    "copy-from": "weather_desc",
+    "width": 21,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_date",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 17,
+    "widgets": [ "date_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_time",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 13,
+    "widgets": [ "time_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_time_19",
+    "type": "widget",
+    "copy-from": "zenfs_time",
+    "width": 19
+  },
+  {
+    "id": "zenfs_place_desc",
+    "type": "widget",
+    "style": "layout",
+    "width": 0,
+    "arrange": "columns",
+    "widgets": [ "place_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_rad_badge_desc_8",
+    "type": "widget",
+    "copy-from": "rad_badge_template",
+    "label": "<color_white>Rad</color>",
+    "separator": "",
+    "style": "text",
+    "width": 8,
+    "text_align": "right",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "zenfs_rad_badge_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "widgets": [ "zenfs_rad_badge_desc_8" ]
+  },
+  {
+    "id": "zenfs_omloc_desc",
+    "type": "widget",
+    "label": "Location",
+    "var": "overmap_loc_text",
+    "style": "text",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_safe_mode_right",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "safe_mode_classic_desc"
+  },
+  {
+    "id": "zenfs_overmap_11x7",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 11,
+    "height": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_overmap",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "widgets": [ "zenfs_overmap_11x7" ]
+  },
+  {
+    "id": "zenfs_overmap_divider",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": [
+      "zenfs_om_divider_l1",
+      "zenfs_om_divider_l2",
+      "zenfs_om_divider_l3",
+      "zenfs_om_divider_l4",
+      "zenfs_om_divider_l5",
+      "zenfs_om_divider_l6",
+      "zenfs_om_divider_l7"
+    ]
+  },
+  {
+    "id": "zenfs_om_divider_l1",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>╽</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l2",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l3",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┃</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l4",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l5",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┃</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l6",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>┇</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_om_divider_l7",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>╿</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

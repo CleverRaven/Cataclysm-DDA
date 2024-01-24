@@ -2888,6 +2888,17 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "melee_damage": { "bash": 1 }

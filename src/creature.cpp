@@ -1973,8 +1973,13 @@ void Creature::remove_value( const std::string &key )
 
 std::string Creature::get_value( const std::string &key ) const
 {
+    return maybe_get_value( key ).value_or( std::string{} );
+}
+
+std::optional<std::string> Creature::maybe_get_value( const std::string &key ) const
+{
     auto it = values.find( key );
-    return ( it == values.end() ) ? "" : it->second;
+    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
 void Creature::clear_values()
@@ -3148,12 +3153,6 @@ void Creature::add_msg_player_or_npc( const game_message_params &params, const t
                                       const translation &npc ) const
 {
     return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
-}
-
-void Creature::add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &pc,
-        const translation &npc ) const
-{
-    return add_msg_debug_player_or_npc( type, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const

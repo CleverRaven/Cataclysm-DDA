@@ -651,8 +651,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "mild steel light chestplate",
-    "description": "Recipes related to constructing light chestplate from poor quality steel.",
+    "name": "mild steel light chestplates",
+    "description": "Recipes related to constructing light chestplate from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_light_chestplate", "xl_armor_lc_light_chestplate" ],
     "difficulty": 1
@@ -664,7 +664,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light chestplates",
-    "description": "Recipes related to constructing light chestplates from steel.",
+    "description": "Recipes related to constructing light chestplates from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_light_chestplate", "xl_armor_mc_light_chestplate" ],
     "difficulty": 2
@@ -676,7 +676,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light chestplates",
-    "description": "Recipes related to constructing light chestplates from high quality steel.",
+    "description": "Recipes related to constructing light chestplates from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_light_chestplate", "xl_armor_hc_light_chestplate" ],
     "difficulty": 3
@@ -688,7 +688,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light chestplates",
-    "description": "Recipes related to constructing light chestplates from case hardened steel.",
+    "description": "Recipes related to constructing light chestplates from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_light_chestplate", "xl_armor_ch_light_chestplate" ],
     "difficulty": 4
@@ -700,7 +700,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light chestplates",
-    "description": "Recipes related to constructing light chestplates from quench tempered steel.",
+    "description": "Recipes related to constructing light chestplates from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_light_chestplate", "xl_armor_qt_light_chestplate" ],
     "difficulty": 5
@@ -729,8 +729,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "mild steel chestplate",
-    "description": "Recipes related to constructing steel chestplates from low quality steel.",
+    "name": "mild steel chestplates",
+    "description": "Recipes related to constructing steel chestplates from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_chestplate", "armor_lc_chestplate" ],
     "difficulty": 1
@@ -741,8 +741,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "medium steel chestplate",
-    "description": "Recipes related to constructing steel chestplates from steel.",
+    "name": "medium steel chestplates",
+    "description": "Recipes related to constructing steel chestplates from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_chestplate", "armor_mc_chestplate" ],
     "difficulty": 2
@@ -753,8 +753,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "high steel chestplate",
-    "description": "Recipes related to constructing steel chestplates from high quality steel.",
+    "name": "high steel chestplates",
+    "description": "Recipes related to constructing steel chestplates from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_chestplate", "armor_hc_chestplate" ],
     "difficulty": 3
@@ -765,8 +765,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "hardened steel chestplate",
-    "description": "Recipes related to constructing steel chestplates from case hardened steel.",
+    "name": "hardened steel chestplates",
+    "description": "Recipes related to constructing steel chestplates from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_chestplate", "armor_ch_chestplate" ],
     "difficulty": 4
@@ -777,8 +777,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "tempered steel chestplate",
-    "description": "Recipes related to constructing steel chestplates from quench tempered steel.",
+    "name": "tempered steel chestplates",
+    "description": "Recipes related to constructing steel chestplates from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_chestplate", "armor_qt_chestplate" ],
     "difficulty": 5
@@ -808,7 +808,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy chestplates",
-    "description": "Recipes related to constructing steel chestplates from low quality steel.",
+    "description": "Recipes related to constructing steel chestplates from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_heavy_chestplate", "armor_lc_heavy_chestplate" ],
     "difficulty": 1
@@ -820,7 +820,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy chestplates",
-    "description": "Recipes related to constructing steel chestplates from steel.",
+    "description": "Recipes related to constructing steel chestplates from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_heavy_chestplate", "armor_mc_heavy_chestplate" ],
     "difficulty": 2
@@ -832,7 +832,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy chestplates",
-    "description": "Recipes related to constructing steel chestplates from high quality steel.",
+    "description": "Recipes related to constructing steel chestplates from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_heavy_chestplate", "armor_hc_heavy_chestplate" ],
     "difficulty": 3
@@ -844,7 +844,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy chestplates",
-    "description": "Recipes related to constructing steel chestplates from case hardened steel.",
+    "description": "Recipes related to constructing steel chestplates from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_heavy_chestplate", "armor_ch_heavy_chestplate" ],
     "difficulty": 4
@@ -856,7 +856,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy chestplates",
-    "description": "Recipes related to constructing steel chestplates from quench tempered steel.",
+    "description": "Recipes related to constructing steel chestplates from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_heavy_chestplate", "armor_qt_heavy_chestplate" ],
     "difficulty": 5
@@ -898,7 +898,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light plate armor",
-    "description": "Recipes related to constructing steel plate armor from low quality steel.",
+    "description": "Recipes related to constructing steel plate armor from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_lightplate", "armor_lc_lightplate", "xl_armor_lc_lightplate_assembly", "armor_lc_lightplate_assembly" ],
     "difficulty": 1
@@ -910,7 +910,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light plate armor",
-    "description": "Recipes related to constructing steel plate armor from steel.",
+    "description": "Recipes related to constructing steel plate armor from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_lightplate", "armor_mc_lightplate", "xl_armor_mc_lightplate_assembly", "armor_mc_lightplate_assembly" ],
     "difficulty": 2
@@ -922,7 +922,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light plate armor",
-    "description": "Recipes related to constructing steel plate armor from high quality steel.",
+    "description": "Recipes related to constructing steel plate armor from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_lightplate", "armor_hc_lightplate", "xl_armor_hc_lightplate_assembly", "armor_hc_lightplate_assembly" ],
     "difficulty": 3
@@ -934,7 +934,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light plate armor",
-    "description": "Recipes related to constructing steel plate armor from case hardened steel.",
+    "description": "Recipes related to constructing steel plate armor from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_lightplate", "armor_ch_lightplate", "xl_armor_ch_lightplate_assembly", "armor_ch_lightplate_assembly" ],
     "difficulty": 4
@@ -946,7 +946,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light plate armor",
-    "description": "Recipes related to constructing steel plate armor from quench tempered steel.",
+    "description": "Recipes related to constructing steel plate armor from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_lightplate", "armor_qt_lightplate", "xl_armor_qt_lightplate_assembly", "armor_qt_lightplate_assembly" ],
     "difficulty": 5
@@ -976,7 +976,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel plate armor",
-    "description": "Recipes related to constructing steel plate armor from low quality steel.",
+    "description": "Recipes related to constructing steel plate armor from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_plate", "armor_lc_plate", "xl_armor_lc_plate_assembly", "armor_lc_plate_assembly" ],
     "difficulty": 1
@@ -988,7 +988,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel plate armor",
-    "description": "Recipes related to constructing steel plate armor from steel.",
+    "description": "Recipes related to constructing steel plate armor from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_plate", "armor_mc_plate", "xl_armor_mc_plate_assembly", "armor_mc_plate_assembly" ],
     "difficulty": 2
@@ -1000,7 +1000,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel plate armor",
-    "description": "Recipes related to constructing steel plate armor from high quality steel.",
+    "description": "Recipes related to constructing steel plate armor from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_plate", "armor_hc_plate", "xl_armor_hc_plate_assembly", "armor_hc_plate_assembly" ],
     "difficulty": 3
@@ -1012,7 +1012,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel plate armor",
-    "description": "Recipes related to constructing steel plate armor from case hardened steel.",
+    "description": "Recipes related to constructing steel plate armor from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_plate", "armor_ch_plate", "xl_armor_ch_plate_assembly", "armor_ch_plate_assembly" ],
     "difficulty": 4
@@ -1024,7 +1024,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel plate armor",
-    "description": "Recipes related to constructing steel plate armor from quench tempered steel.",
+    "description": "Recipes related to constructing steel plate armor from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_plate", "armor_qt_plate", "xl_armor_qt_plate_assembly", "armor_qt_plate_assembly" ],
     "difficulty": 5
@@ -1054,7 +1054,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy plate armor",
-    "description": "Recipes related to constructing steel plate armor from low quality steel.",
+    "description": "Recipes related to constructing steel plate armor from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_heavyplate", "armor_lc_heavyplate", "xl_armor_lc_heavyplate_assembly", "armor_lc_heavyplate_assembly" ],
     "difficulty": 1
@@ -1066,7 +1066,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy plate armor",
-    "description": "Recipes related to constructing steel plate armor from steel.",
+    "description": "Recipes related to constructing steel plate armor from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_heavyplate", "armor_mc_heavyplate", "xl_armor_mc_heavyplate_assembly", "armor_mc_heavyplate_assembly" ],
     "difficulty": 2
@@ -1078,7 +1078,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy plate armor",
-    "description": "Recipes related to constructing steel plate armor from high quality steel.",
+    "description": "Recipes related to constructing steel plate armor from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_heavyplate", "armor_hc_heavyplate", "xl_armor_hc_heavyplate_assembly", "armor_hc_heavyplate_assembly" ],
     "difficulty": 3
@@ -1090,7 +1090,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy plate armor",
-    "description": "Recipes related to constructing steel plate armor from case hardened steel.",
+    "description": "Recipes related to constructing steel plate armor from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_heavyplate", "armor_ch_heavyplate", "xl_armor_ch_heavyplate_assembly", "armor_ch_heavyplate_assembly" ],
     "difficulty": 4
@@ -1102,7 +1102,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy plate armor",
-    "description": "Recipes related to constructing steel plate armor from quench tempered steel.",
+    "description": "Recipes related to constructing steel plate armor from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_heavyplate", "armor_qt_heavyplate", "xl_armor_qt_heavyplate_assembly", "armor_qt_heavyplate_assembly" ],
     "difficulty": 5
@@ -1144,7 +1144,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel demi-gauntlets",
-    "description": "Recipes related to constructing demi-gauntlets from low quality steel.",
+    "description": "Recipes related to constructing demi-gauntlets from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_demi_gaunt", "lc_demi_gaunt" ],
     "difficulty": 1
@@ -1156,7 +1156,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel demi-gauntlets",
-    "description": "Recipes related to constructing demi-gauntlets from steel.",
+    "description": "Recipes related to constructing demi-gauntlets from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_demi_gaunt", "mc_demi_gaunt" ],
     "difficulty": 2
@@ -1168,7 +1168,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel demi-gauntlets",
-    "description": "Recipes related to constructing demi-gauntlets from high quality steel.",
+    "description": "Recipes related to constructing demi-gauntlets from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_demi_gaunt", "hc_demi_gaunt" ],
     "difficulty": 3
@@ -1180,7 +1180,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel demi-gauntlets",
-    "description": "Recipes related to constructing demi-gauntlets from case hardened steel.",
+    "description": "Recipes related to constructing demi-gauntlets from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_demi_gaunt", "ch_demi_gaunt" ],
     "difficulty": 4
@@ -1192,7 +1192,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel demi-gauntlets",
-    "description": "Recipes related to constructing demi-gauntlets from quench tempered steel.",
+    "description": "Recipes related to constructing demi-gauntlets from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_qt_demi_gaunt", "qt_demi_gaunt" ],
     "difficulty": 5
@@ -1222,7 +1222,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel mitten gauntlets",
-    "description": "Recipes related to constructing mitten gauntlets from low quality steel.",
+    "description": "Recipes related to constructing mitten gauntlets from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_mitten_gaunt", "lc_mitten_gaunt" ],
     "difficulty": 1
@@ -1234,7 +1234,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mitten gauntlets",
-    "description": "Recipes related to constructing mitten gauntlets from steel.",
+    "description": "Recipes related to constructing mitten gauntlets from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_mitten_gaunt", "mc_mitten_gaunt" ],
     "difficulty": 2
@@ -1246,7 +1246,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mitten gauntlets",
-    "description": "Recipes related to constructing mitten gauntlets from high quality steel.",
+    "description": "Recipes related to constructing mitten gauntlets from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_mitten_gaunt", "hc_mitten_gaunt" ],
     "difficulty": 3
@@ -1258,7 +1258,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel mitten gauntlets",
-    "description": "Recipes related to constructing mitten gauntlets from case hardened steel.",
+    "description": "Recipes related to constructing mitten gauntlets from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_mitten_gaunt", "ch_mitten_gaunt" ],
     "difficulty": 4
@@ -1270,7 +1270,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mitten gauntlets",
-    "description": "Recipes related to constructing mitten gauntlets from quench tempered steel.",
+    "description": "Recipes related to constructing mitten gauntlets from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_qt_mitten_gaunt", "qt_mitten_gaunt" ],
     "difficulty": 5
@@ -1300,7 +1300,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light arm guards",
-    "description": "Recipes related to constructing light arm guards from poor quality steel.",
+    "description": "Recipes related to constructing light arm guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_lightarmguard", "xl_armor_lc_lightarmguard" ],
     "difficulty": 1
@@ -1312,7 +1312,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light arm guards",
-    "description": "Recipes related to constructing light arm guards from steel.",
+    "description": "Recipes related to constructing light arm guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_lightarmguard", "xl_armor_mc_lightarmguard" ],
     "difficulty": 2
@@ -1324,7 +1324,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light arm guards",
-    "description": "Recipes related to constructing light arm guards from high quality steel.",
+    "description": "Recipes related to constructing light arm guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_lightarmguard", "xl_armor_hc_lightarmguard" ],
     "difficulty": 3
@@ -1336,7 +1336,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light arm guards",
-    "description": "Recipes related to constructing light arm guards from case hardened steel.",
+    "description": "Recipes related to constructing light arm guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_lightarmguard", "xl_armor_ch_lightarmguard" ],
     "difficulty": 4
@@ -1348,7 +1348,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light arm guards",
-    "description": "Recipes related to constructing light arm guards from quench tempered steel.",
+    "description": "Recipes related to constructing light arm guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_lightarmguard", "xl_armor_qt_lightarmguard" ],
     "difficulty": 5
@@ -1378,7 +1378,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel arm guards",
-    "description": "Recipes related to constructing arm guards from poor quality steel.",
+    "description": "Recipes related to constructing arm guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_armguard", "xl_armor_lc_armguard" ],
     "difficulty": 1
@@ -1390,7 +1390,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel arm guards",
-    "description": "Recipes related to constructing arm guards from steel.",
+    "description": "Recipes related to constructing arm guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_armguard", "xl_armor_mc_armguard" ],
     "difficulty": 2
@@ -1402,7 +1402,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel arm guards",
-    "description": "Recipes related to constructing arm guards from high quality steel.",
+    "description": "Recipes related to constructing arm guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_armguard", "xl_armor_hc_armguard" ],
     "difficulty": 3
@@ -1414,7 +1414,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel arm guards",
-    "description": "Recipes related to constructing arm guards from case hardened steel.",
+    "description": "Recipes related to constructing arm guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_armguard", "xl_armor_ch_armguard" ],
     "difficulty": 4
@@ -1426,7 +1426,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel arm guards",
-    "description": "Recipes related to constructing arm guards from quench tempered steel.",
+    "description": "Recipes related to constructing arm guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_armguard", "xl_armor_qt_armguard" ],
     "difficulty": 5
@@ -1450,7 +1450,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy arm guards",
-    "description": "Recipes related to constructing heavy arm guards from poor quality steel.",
+    "description": "Recipes related to constructing heavy arm guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_heavyarmguard", "xl_armor_lc_heavyarmguard" ],
     "difficulty": 1
@@ -1462,7 +1462,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy arm guards",
-    "description": "Recipes related to constructing heavy arm guards from steel.",
+    "description": "Recipes related to constructing heavy arm guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_heavyarmguard", "xl_armor_mc_heavyarmguard" ],
     "difficulty": 2
@@ -1474,7 +1474,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy arm guards",
-    "description": "Recipes related to constructing heavy arm guards from high quality steel.",
+    "description": "Recipes related to constructing heavy arm guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_heavyarmguard", "xl_armor_hc_heavyarmguard" ],
     "difficulty": 3
@@ -1486,7 +1486,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy arm guards",
-    "description": "Recipes related to constructing heavy arm guards from case hardened steel.",
+    "description": "Recipes related to constructing heavy arm guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_heavyarmguard", "xl_armor_ch_heavyarmguard" ],
     "difficulty": 4
@@ -1498,7 +1498,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy arm guards",
-    "description": "Recipes related to constructing heavy arm guards from quench tempered steel.",
+    "description": "Recipes related to constructing heavy arm guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_heavyarmguard", "xl_armor_qt_heavyarmguard" ],
     "difficulty": 5
@@ -1539,7 +1539,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel chain hauberks",
+    "name": "mild steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hauberk", "lc_chainmail_hauberk_xs", "xl_lc_chainmail_hauberk" ],
@@ -1617,7 +1617,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel chain sleeveless jumpsuits",
+    "name": "mild steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_sjumpsuit", "lc_chainmail_sjumpsuit_xs", "xl_lc_chainmail_sjumpsuit" ],
@@ -2029,7 +2029,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light leg guards",
-    "description": "Recipes related to constructing light leg guards from poor quality steel.",
+    "description": "Recipes related to constructing light leg guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_light_leg_guard", "xl_armor_lc_light_leg_guard" ],
     "difficulty": 1
@@ -2041,7 +2041,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light leg guards",
-    "description": "Recipes related to constructing light leg guards from steel.",
+    "description": "Recipes related to constructing light leg guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_light_leg_guard", "xl_armor_mc_light_leg_guard" ],
     "difficulty": 2
@@ -2053,7 +2053,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light leg guards",
-    "description": "Recipes related to constructing light leg guards from high quality steel.",
+    "description": "Recipes related to constructing light leg guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_light_leg_guard", "xl_armor_hc_light_leg_guard" ],
     "difficulty": 3
@@ -2065,7 +2065,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light leg guards",
-    "description": "Recipes related to constructing light leg guards from case hardened steel.",
+    "description": "Recipes related to constructing light leg guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_light_leg_guard", "xl_armor_ch_light_leg_guard" ],
     "difficulty": 4
@@ -2077,7 +2077,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light leg guards",
-    "description": "Recipes related to constructing light leg guards from quench tempered steel.",
+    "description": "Recipes related to constructing light leg guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_light_leg_guard", "xl_armor_qt_light_leg_guard" ],
     "difficulty": 5
@@ -2107,7 +2107,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel leg guards",
-    "description": "Recipes related to constructing leg guards from poor quality steel.",
+    "description": "Recipes related to constructing leg guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_leg_guard", "xl_armor_lc_leg_guard" ],
     "difficulty": 1
@@ -2119,7 +2119,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel leg guards",
-    "description": "Recipes related to constructing leg guards from steel.",
+    "description": "Recipes related to constructing leg guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_leg_guard", "xl_armor_mc_leg_guard" ],
     "difficulty": 2
@@ -2131,7 +2131,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel leg guards",
-    "description": "Recipes related to constructing leg guards from high quality steel.",
+    "description": "Recipes related to constructing leg guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_leg_guard", "xl_armor_hc_leg_guard" ],
     "difficulty": 3
@@ -2143,7 +2143,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel leg guards",
-    "description": "Recipes related to constructing leg guards from case hardened steel.",
+    "description": "Recipes related to constructing leg guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_leg_guard", "xl_armor_ch_leg_guard" ],
     "difficulty": 4
@@ -2155,7 +2155,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel leg guards",
-    "description": "Recipes related to constructing leg guards from quench tempered steel.",
+    "description": "Recipes related to constructing leg guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_leg_guard", "xl_armor_qt_leg_guard" ],
     "difficulty": 5
@@ -2185,7 +2185,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy leg guards",
-    "description": "Recipes related to constructing heavy leg guards from poor quality steel.",
+    "description": "Recipes related to constructing heavy leg guards from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_heavy_leg_guard", "xl_armor_lc_heavy_leg_guard" ],
     "difficulty": 1
@@ -2197,7 +2197,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy leg guards",
-    "description": "Recipes related to constructing heavy leg guards from steel.",
+    "description": "Recipes related to constructing heavy leg guards from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_heavy_leg_guard", "xl_armor_mc_heavy_leg_guard" ],
     "difficulty": 2
@@ -2209,7 +2209,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy leg guards",
-    "description": "Recipes related to constructing heavy leg guards from high quality steel.",
+    "description": "Recipes related to constructing heavy leg guards from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_heavy_leg_guard", "xl_armor_hc_heavy_leg_guard" ],
     "difficulty": 3
@@ -2221,7 +2221,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy leg guards",
-    "description": "Recipes related to constructing heavy leg guards from case hardened steel.",
+    "description": "Recipes related to constructing heavy leg guards from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_heavy_leg_guard", "xl_armor_ch_heavy_leg_guard" ],
     "difficulty": 4
@@ -2233,7 +2233,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy leg guards",
-    "description": "Recipes related to constructing heavy leg guards from quench tempered steel.",
+    "description": "Recipes related to constructing heavy leg guards from tempered steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_heavy_leg_guard", "xl_armor_qt_heavy_leg_guard" ],
     "difficulty": 5
@@ -2616,7 +2616,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel sabatons",
-    "description": "Recipes related to constructing sabatons from low quality steel.",
+    "description": "Recipes related to constructing sabatons from mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_sabaton", "lc_sabaton" ],
     "difficulty": 1
@@ -2628,7 +2628,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel sabatons",
-    "description": "Recipes related to constructing sabatons from standard steel.",
+    "description": "Recipes related to constructing sabatons from medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_sabaton", "mc_sabaton" ],
     "difficulty": 2
@@ -2640,7 +2640,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel sabatons",
-    "description": "Recipes related to constructing sabatons from quality steel.",
+    "description": "Recipes related to constructing sabatons from high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_sabaton", "hc_sabaton" ],
     "difficulty": 3
@@ -2652,7 +2652,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel sabatons",
-    "description": "Recipes related to constructing sabatons from case hardened steel.",
+    "description": "Recipes related to constructing sabatons from hardened steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_sabaton", "ch_sabaton" ],
     "difficulty": 4
@@ -2810,7 +2810,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel chain coifs",
+    "name": "mild steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hood", "xl_lc_chainmail_hood", "xs_lc_chainmail_hood" ],
@@ -4264,7 +4264,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light close helms",
-    "description": "Recipes related to creating poor quality light close helms to protect the head.",
+    "description": "Recipes related to creating mild steel light close helms to protect the head.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_lighthelm_close", "xl_lc_lighthelm_close" ]
   },
@@ -4336,7 +4336,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel close helms",
-    "description": "Recipes related to creating poor quality close helms to protect the head.",
+    "description": "Recipes related to creating mild steel close helms to protect the head.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helm_close", "xl_lc_helm_close" ]
   },
@@ -4408,7 +4408,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy close helms",
-    "description": "Recipes related to creating poor quality close helms to protect the head.",
+    "description": "Recipes related to creating mild steel close helms to protect the head.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_heavyhelm_close", "xl_lc_heavyhelm_close" ]
   },
@@ -6279,7 +6279,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "case hardened steel brigandine gloves",
+    "name": "hardened steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_brigandine_hands", "ch_brigandine_hands_xs", "xl_ch_brigandine_hands" ],
@@ -6303,7 +6303,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel chain partial aventails",
+    "name": "mild steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_face", "xl_lc_chainmail_face", "xs_lc_chainmail_face" ],
@@ -6381,7 +6381,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel chain aventails",
+    "name": "mild steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_aventail", "xl_lc_chainmail_aventail", "xs_lc_chainmail_aventail" ],
@@ -6459,7 +6459,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel nasal helmets",
+    "name": "mild steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ],
@@ -6472,7 +6472,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of medium quality steel.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ],
     "difficulty": 2
@@ -6484,7 +6484,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of high quality steel.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ],
     "difficulty": 3
@@ -6537,7 +6537,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel turban helmets",
+    "name": "mild steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ],
@@ -6550,7 +6550,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of medium quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ],
     "difficulty": 2
@@ -6562,7 +6562,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel turban helmets",
-    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of high quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ],
     "difficulty": 3
@@ -6615,7 +6615,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel face masks",
+    "name": "mild steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_facemask", "xl_lc_steel_facemask", "xs_lc_steel_facemask" ],
@@ -6628,7 +6628,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of medium quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_steel_facemask", "xl_mc_steel_facemask", "xs_mc_steel_facemask" ],
     "difficulty": 2
@@ -6640,7 +6640,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel face masks",
-    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of high quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_steel_facemask", "xl_hc_steel_facemask", "xs_hc_steel_facemask" ],
     "difficulty": 3
@@ -6693,7 +6693,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "low steel mirror armor",
+    "name": "mild steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of mild steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_mirror_armor", "xl_lc_mirror_armor", "xs_lc_mirror_armor" ],
@@ -6706,7 +6706,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of medium quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of medium steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_mirror_armor", "xl_mc_mirror_armor", "xs_mc_mirror_armor" ],
     "difficulty": 2
@@ -6718,7 +6718,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mirror armor",
-    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of high quality steel.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of high steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ],
     "difficulty": 3

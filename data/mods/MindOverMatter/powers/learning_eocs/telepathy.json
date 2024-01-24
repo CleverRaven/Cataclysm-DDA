@@ -1,0 +1,934 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_SHIELD",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "and": [ { "math": [ "u_spell_level('telepathic_concentration')", ">=", "5" ] } ] }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_shield')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_shield" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_shield" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could invert the extreme focus of the concentration trance to make an impenetrable shell around your mind, protecting you from telepathic attack, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_MORALE",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
+                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "5" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_morale')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_morale" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_morale" },
+      {
+        "u_message": "Use of your powers has led to an insight.  In the same way you prepare your mind for learning, you could buffer it against the stresses of post-Cataclysmic life, editing out unwarranted negative thoughts, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BLAST",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "7" ] },
+                { "math": [ "u_spell_level('telepathic_morale')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_blast')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_blast" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_blast" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than any kind of subtle detection or adjustment, you could lash out with your powers, damaging the minds you contact, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BEASTMASTER",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] } ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_animal_mind_control')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_beastmaster" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "TELEPATH" } },
+        { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_beastmaster" },
+      {
+        "u_message": "Use of your powers has led to an insight.  The minds of animals are less complex than those of humans.  You should be able to overshadow them, to direct their actions and make them friendly toward you, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_CONFUSION",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('telepathic_morale')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_confusion')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_confusion" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_confusion" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than a clumsy hammer, you could use a telepathic scalpel to cut off the target's connection between their senses and their brain, leaving them stumbling and blind, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_FEAR",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('telepathic_blast')", ">=", "8" ] },
+                { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_fear')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_fear" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_fear" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could evoke your target's darkest fears, leaving them frozen in panic or trembling in terror, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_INVISIBILITY",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('telepathic_confusion')", ">=", "8" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "11" ] },
+                    { "math": [ "u_spell_level('telepathic_shield')", ">=", "8" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_invisibility')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_invisibility" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_invisibility" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could erase yourself from a target's perceptions, making them completely unable to even know that you're there, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_AOE_BLAST",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_blast')", ">=", "11" ] },
+                    { "math": [ "u_spell_level('telepathic_fear')", ">=", "7" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('telepathic_shield')", ">=", "5" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_blast_radius')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_scream" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_scream" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could erase yourself from a target's perceptions, making them completely unable to even know that you're there, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_BEAST_TAMING",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "10" ] }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_beast_taming')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_beast_taming" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_beast_taming" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You can overshadow animal minds for a short time, but it shouldn't be difficult to make further adjustments, to make the animal friendly for weeks or months, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_MIND_CONTROL",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
+                    { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "6" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_fear')", ">=", "5" ] },
+                    { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('telepathic_confusion')", ">=", "7" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_mind_control')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_mind_control" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_mind_control" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Just as you can control the minds of animals, you could control the minds of humans, or maybe even aliens, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_LEARNING_NETWORK",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "10" ] },
+                { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "6" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
+                    { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('telepathic_network')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telepathic_network" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telepathic_network" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Thought is far faster than speech, and with your allies nearby you could warn each other of any dangers or enemy weaknesses as fast as thinking, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  }
+]
