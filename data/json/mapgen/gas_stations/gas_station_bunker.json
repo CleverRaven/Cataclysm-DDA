@@ -87,7 +87,7 @@
         "ssss____y____y____ssssss",
         "  ss____y____y____ss    ",
         "  ss____y____y____ss    ",
-        "  ss_Á__y_Á__y_Á__ss    ",
+        "  ss__v_y__v_y__v_ss    ",
         "  ss____y____y____ss    ",
         "  ss____y____y____ss    ",
         "  ssssssssssssssssss    ",
@@ -100,20 +100,20 @@
         "   |ffffF|cccccc|..|    ",
         "   |..h..|tttttt|d||    ",
         "   b.....|cccccc|..|    ",
-        "   |rrr..d,,,,,,|vw|    ",
-        " Cc||||d||,,,,,u||||CCC ",
+        "   |rrr..d,,,,,,|Tw|    ",
+        " CÇ||||d||,,,,,u||||CCC ",
         " C~~4|h..|S,,,uu|~~~~~C ",
         " C~~~|xxL|S,,,uu|~n~~~C ",
         " C~~~||||||e|||||~~~~~C ",
         " C~~~~~~~~~~~~~~~~~~~~C ",
         " C~~~~~~~~~~~~~#####~~C ",
-        " C~~~~~~~~~~~~~#---#~~C ",
-        " C~~~~~~~~~~~~~e---q~~C ",
-        " C~~~~~oooo~~~~#AAA#~~C ",
-        " C~~~~~~~~o~~~~##j##~~C ",
-        " C~~~~~oooooooo#kkk#~~C ",
-        " C~~~~~~~~~~~~~#kBk#~~C ",
-        " CCCCCCCCCCCCCC#####CCC ",
+        " C~~ooooooo~~~~#---#~~C ",
+        " C~~~~~~~~o~~~~e---q~~C ",
+        " C~~ooooooooooo#AAA#~~C ",
+        " C~~~~~~~~~~~~~#####~~C ",
+        " C~~~~~~~~~~~~~~~~~~~~C ",
+        " C~~~~~~~~~~~~~~~~~~~~C ",
+        " CCCCCCCCCCCCCCCCCCCCCC ",
         "                        "
       ],
       "terrain": {
@@ -129,21 +129,18 @@
         "d": "t_door_c",
         "e": "t_door_locked",
         "#": "t_wall_wood",
-        "j": "t_door_metal_pickable",
-        "k": "t_metal_floor",
-        "-": "t_dirtfloor",
-        "A": "t_dirtfloor",
+        "-": "t_metal_floor",
         ",": "t_thconc_floor",
         "u": "t_thconc_floor",
         "S": "t_thconc_floor",
         "n": "t_water_pump",
         "o": "t_sewage_pipe",
-        "~": "t_region_groundcover_barren",
+        "~": [ [ "t_region_groundcover_barren", 9 ], [ "t_region_groundcover", 1 ] ],
         " ": "t_region_groundcover",
         "@": "t_region_groundcover",
-        "q": "t_window_boarded",
-        "B": "t_ladder_down",
+        "q": "t_window",
         "C": "t_chainfence",
+        "Ç": "t_chaingate_l",
         "s": "t_sidewalk"
       },
       "furniture": {
@@ -161,7 +158,7 @@
         "z": "f_trashcan",
         "A": "f_locker"
       },
-      "items": { "v": { "item": "SUS_toilet", "chance": 100 } },
+      "items": { "T": { "item": "SUS_toilet", "chance": 100 } },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 4, 7 ], "y": 30 },
         { "group": "trash", "chance": 80, "repeat": 5, "x": [ 6, 6 ], "y": 27 },
@@ -183,8 +180,31 @@
         { "group": "vending_drink", "chance": 60, "x": 15, "y": 34 },
         { "group": "road", "chance": 60, "repeat": 10, "x": [ 1, 22 ], "y": [ 4, 22 ] }
       ],
-      "toilets": { "v": {  } },
-      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 40, "rotation": 90 } }
+      "toilets": { "T": {  } },
+      "vehicles": { "v": { "vehicle": "parking_garage", "chance": 40, "rotation": 90 } },
+      "place_nested": [ { "chunks": [ "s_gas_g1_bunker_below" ], "x": 15, "y": 43, "neighbors": { "below": "s_gas_b11" } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "s_gas_g1_bunker_below",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "##+##",
+        "#---#",
+        "#-B-#",
+        "#####",
+        "     "
+      ],
+      "terrain": {
+        "#": "t_wall_wood",
+        "+": "t_door_metal_pickable",
+        "B": "t_ladder_down",
+        "-": "t_metal_floor"
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
