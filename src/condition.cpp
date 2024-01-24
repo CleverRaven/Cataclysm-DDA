@@ -2284,18 +2284,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 return d.actor( is_npc )->get_npc_anger();
             };
         }
-    } else if( jo.has_member( "mod_load_order" ) ) {
-        const mod_id our_mod_id = mod_id( jo.get_string( "mod_load_order" ) );
-        return [our_mod_id]( dialogue const & ) {
-            int count = 0;
-            for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
-                if( our_mod_id == mod ) {
-                    return count;
-                }
-                count++;
-            }
-            return -1;
-        };
     } else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t arith;
         if constexpr( std::is_same_v<JsonObject, J> ) {
