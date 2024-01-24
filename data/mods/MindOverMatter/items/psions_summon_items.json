@@ -281,7 +281,8 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "TRANSPARENT",
-      "INTEGRATED"
+      "INTEGRATED",
+      "MAGICAL"
     ],
     "use_action": [ "ROBOTCONTROL" ]
   },

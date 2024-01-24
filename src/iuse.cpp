@@ -5586,7 +5586,7 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & )
 {
 
-    bool isComputer = it->has_flag( flag_MAGICAL );
+    bool isComputer = !(it->has_flag( flag_MAGICAL ));
     int choice = 0;
 
     if( !it->ammo_sufficient( p ) ) {
@@ -5613,7 +5613,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & 
             _( "Set friendly robots to combat mode" )
         } );
     } else {
-        choice = uilist( _( "You sense the robot's circuitry spark!" ), {
+        choice = uilist( _( "You prepare to manipulate nearby robots!" ), {
             _( "Prepare IFF protocol override" ),
             _( "Set friendly robots to passive mode" ),
             _( "Set friendly robots to combat mode" )
