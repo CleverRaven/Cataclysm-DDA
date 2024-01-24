@@ -3,7 +3,7 @@
     "type": "GUN",
     "id": "ballista",
     "name": { "str": "carroballista", "str_pl": "carroballistae" },
-    "description": "A smaller, mounted version of the Greco-Roman ballista, for those situations where the crossbow just isn't enough.  Unlike crossbows, it is powered by a torsion spring that is winded by a hand crank and uses two prods instead of one bow.  Its size and design make it unfeasible to be used with hands, requiring it to be set down or mounted to a vehicle.",
+    "description": "A smaller, mounted version of the Greco-Roman ballista, for those situations where the crossbow just isn't enough.  Unlike crossbows, it is powered by a torsion spring that is wound by a hand crank and uses two prods instead of one bow.  Its size and design make it unfeasible to be used by hand, requiring it to be set down or mounted to a vehicle.",
     "weight": "37000 g",
     "volume": "24000 ml",
     "symbol": "(",
