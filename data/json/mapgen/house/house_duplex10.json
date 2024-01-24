@@ -53,8 +53,8 @@
       "place_vehicles": [
         { "chance": 30, "fuel": 10, "rotation": 90, "status": -1, "vehicle": "car_sports", "x": 9, "y": 7 },
         { "chance": 35, "fuel": 10, "rotation": 90, "status": -1, "vehicle": "car", "x": 16, "y": 7 },
-        { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "rolling_trash_can", "x": 21, "y": 1, "chance": 80, "status": 0 }
+        { "vehicle": "rolling_trash_can", "x": 1, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 20, "y": 1, "chance": 80, "status": 0 }
       ]
     },
     "om_terrain": "house_duplex10",
