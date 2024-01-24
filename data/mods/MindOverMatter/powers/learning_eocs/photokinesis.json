@@ -771,7 +771,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKIN_LEARNING_RADIO",
+    "id": "EOC_PHOTOKIN_LEARNING_INVISIBILITY",
     "recurrence": [ "36 hours", "72 hours" ],
     "condition": {
       "and": [

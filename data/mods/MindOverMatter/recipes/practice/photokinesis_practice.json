@@ -340,7 +340,6 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_photokinesis", -1 ] ] ],
-    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -421,7 +420,6 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_photokinesis", -1 ] ] ],
-    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -958,10 +956,10 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Veil of Light power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Star Flash power.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_invisibility')", "=", "1" ] },
+              { "math": [ "u_spell_level('photokinetic_light_flash')", "=", "1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60)" ] }
             ],
             "false_effect": [
