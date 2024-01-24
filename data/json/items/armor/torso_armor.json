@@ -631,7 +631,7 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chainmail vest" }
+    "name": { "str": "XL mild steel chainmail vest" },
   },
   {
     "id": "xs_lc_chainmail_vest",
