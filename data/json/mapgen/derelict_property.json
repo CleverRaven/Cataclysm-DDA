@@ -136,13 +136,17 @@
             "derelict_property_7"
           ]
         }
-    } }
+      }
+    }
   },
   {
     "type": "palette",
     "id": "derelict_roof_palette",
     "terrain": { ".": "t_flat_roof", "-": "t_gutter" },
-    "nested": { ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 9 ] ] }, "-": { "chunks": [ [ "1x1_bash", 20 ], [ "roof_1x1_birdnest", 1 ], [ "null", 79 ] ] } }
+    "nested": {
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 9 ] ] },
+      "-": { "chunks": [ [ "1x1_bash", 20 ], [ "roof_1x1_birdnest", 1 ], [ "null", 79 ] ] }
+    }
   },
   {
     "type": "mapgen",
