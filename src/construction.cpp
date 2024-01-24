@@ -1493,12 +1493,13 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
 {
     map &here = get_map();
 
-    auto deconstruction_practice_skill = [ &player_character ]( auto skill ) {
-        if( skill.first )  { // Practise a skill if specified and within the level range
-            const skill_id id = skill.first;
-            std::vector<int> values = skill.second;
-            if( player_character.get_skill_level( id ) >= values[1] ) {
-                player_character.practice( id, values[0], values[2] );
+    auto deconstruction_practice_skill = [ &player_character ]( auto &skill ) {
+        if( skill.id )  { // Practise a skill if specified and within the level range
+            if( player_character.get_skill_level( skill.id ) >= skill.min ) {
+                // Uses a modified version of the complete_construction formula using 20 minutes with halved yield before the multiplier
+                player_character.practice( skill.id,
+                                           static_cast<int>( skill.multiplier * ( 5 / 6 ) * ( 10 + 7.5 * ( skill.min +
+                                                   skill.max ) ) ), skill.max );
             }
         }
     };

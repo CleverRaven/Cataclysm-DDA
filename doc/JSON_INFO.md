@@ -5605,7 +5605,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 {
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
-    "skill": { "skill": "electronics", "amount": 40, "min": 1, "max": 8 },
+    "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
     "items": "deconstructed_item_result_group"
 }
 ```
@@ -5616,7 +5616,9 @@ The terrain / furniture that will be set after the original has been deconstruct
 
 ##### `skill`
 
-(Optional) The skill that will be practised after deconstruction. Amount is the amount of xp given, min is the minimum level to recieve xp, max is the level cap after which no xp is recieved but practise still occurs delaying rust.
+(Optional) The skill that will be practised after deconstruction.
+Min is the minimum level to recieve xp, max is the level cap after which no xp is recieved but practise still occurs delaying rust and multiplier multiplies the base xp given which is based on the mean of min and max.
+If skill is specified, multiplier defaults to 1.0, min to 0 and max to 10.
 
 ##### `items`
 
