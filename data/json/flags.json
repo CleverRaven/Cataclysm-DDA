@@ -1603,6 +1603,10 @@
     "type": "json_flag"
   },
   {
+    "id": "MAGICAL",
+    "type": "json_flag"
+  },
+  {
     "id": "NEEDS_UNFOLD",
     "//": "should not be used for folding mods, use a transforming mod instead",
     "type": "json_flag"

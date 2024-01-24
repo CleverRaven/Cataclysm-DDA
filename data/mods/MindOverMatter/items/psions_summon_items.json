@@ -307,7 +307,8 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "TRANSPARENT",
-      "INTEGRATED"
+      "INTEGRATED",
+      "MAGICAL"
     ],
     "qualities": [ [ "HACK", 0 ] ]
   },
