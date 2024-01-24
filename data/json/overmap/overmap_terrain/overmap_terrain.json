@@ -352,48 +352,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtroad1_aban1",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "forest_aban1", "dirtroad2_aban1", "dirtplaza_aban1" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_aban1",
-    "name": "ruined cabin",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "barn_aban1",
-    "name": "barn",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "car_corner_aban1",
-    "name": "car corner",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 4
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
     "name": "shipwreck",
     "sym": "w",

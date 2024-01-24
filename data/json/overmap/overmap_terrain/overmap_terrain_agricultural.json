@@ -66,9 +66,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway" ],
+    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway", "dirtplaza_aban1" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "overgrown_dirt_road" ],
+    "copy-from": "dirt_road",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -78,9 +84,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "overgrown_dirt_road_3way" ],
+    "copy-from": "dirt_road_3way",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "dirt_road_turn", "dirt_road_turn_forest" ],
     "copy-from": "generic_dirt_road",
     "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "overgrown_dirt_road_turn" ],
+    "copy-from": "dirt_road_turn",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -214,6 +232,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "overgrown_farmland_straight",
+      "overgrown_farmland_turn",
+      "overgrown_farmland_turn_inside",
+      "overgrown_farmland_U"
+    ],
+    "copy-from": "generic_rural_building",
+    "name": "farm field",
+    "see_cost": 2,
+    "looks_like": "farmland_straight",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
     "copy-from": "generic_rural_building",
     "name": "hay field",
@@ -232,7 +265,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_3", "farm_isherwood_3" ],
+    "id": [ "farm_3", "farm_isherwood_3", "barn_aban1" ],
     "copy-from": "generic_rural_building",
     "name": "farm barn"
   },
@@ -261,7 +294,8 @@
       "farm_stills_3_roof",
       "farm_dairy_twd_3",
       "farm_dairy_twd_4",
-      "2farm_roof_11"
+      "2farm_roof_11",
+      "cabin_aban1"
     ],
     "copy-from": "generic_rural_building",
     "name": "farm house",
@@ -730,7 +764,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_dairy_twd_8",
+    "id": [ "farm_dairy_twd_8", "car_corner_aban1" ],
     "copy-from": "generic_rural_building",
     "name": "farm",
     "sym": "┘"

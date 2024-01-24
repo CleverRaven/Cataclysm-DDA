@@ -449,7 +449,7 @@
           "chunks": [ "dirtroad_to_farm_parking" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "south": "dirt_road_farm_parking" }
+          "neighbors": { "south": [ "dirt_road_farm_parking" ] }
         }
       ]
     }
