@@ -5586,15 +5586,15 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & )
 {
 
-    bool isComputer = !(it->has_flag( flag_MAGICAL ));
+    bool isComputer = !( it->has_flag( flag_MAGICAL ) );
     int choice = 0;
 
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
-        return std::nullopt;
-
-    }
     if( isComputer ) {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
+            return std::nullopt;
+        }
+
         if( p->has_trait( trait_ILLITERATE ) ) {
             p->add_msg_if_player( _( "You can't read a computer screen." ) );
             return std::nullopt;
@@ -5613,6 +5613,10 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & 
             _( "Set friendly robots to combat mode" )
         } );
     } else {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s lacks charge to function." ), it->tname() );
+            return std::nullopt;
+        }
         choice = uilist( _( "You prepare to manipulate nearby robots!" ), {
             _( "Prepare IFF protocol override" ),
             _( "Set friendly robots to passive mode" ),
