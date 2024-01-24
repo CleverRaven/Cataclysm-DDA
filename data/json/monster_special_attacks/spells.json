@@ -791,7 +791,7 @@
     "type": "effect_on_condition",
     "id": "EOC_mon_reflection_attack",
     "effect": {
-      "switch": { "distance": [ "u", "npc" ] },
+      "switch": { "math": [ "distance('u', 'npc')" ] },
       "cases": [
         {
           "case": 0,

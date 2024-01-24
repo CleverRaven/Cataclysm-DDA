@@ -1239,8 +1239,6 @@ Example | Description
 `"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
 `"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
-`"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "dodge"` | Current effective dodge of the character.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "power"` | Bionic power in millijoule.
@@ -1254,11 +1252,7 @@ Example | Description
 `"u_val": "instant_thirst"` | Current thirst minus water in the stomach that hasn't been absorbed by the body yet.
 `"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
-`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
-`"u_val": "charge_count"` | Number of charges of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
-`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply against the current intensity.
-`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
 `"u_val": "stim"` | Current stim level.
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
@@ -1274,7 +1268,6 @@ Example | Description
 `"u_val": "npc_trust"` | Current trust the npc has for you.
 `"u_val": "npc_fear"` | Current fear of the npc.
 `"u_val": "npc_value"` | Current value npc places on you.
-`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
 `"u_val": "fine_detail_vision_mod"` | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
 `"u_val": "age"` | Current age in years.
 `"u_val": "body_temp"` | Current body temperature.
@@ -1283,15 +1276,8 @@ Example | Description
 `"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
 `"u_val": "size"` | Size category from 1 (tiny) to 5 (huge). Read-only.
 `"u_val": "grab_strength"` | Grab strength as defined in the monster definition. Read-only, returns false on characters.
-`"u_val": "field_strength"` | Strength of a field on the tile the player or NPC is standing on. `field` must be specified. read only.
-`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
-`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
-`"u_val": "spell_level_adjustment"` | Temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value. When an NPC consider what spell to cast they will be considered the primary talker, so their values are manipulated with `u_val` the same way the player's values are. Optional params: `school` makes it only apply to a given school. `spell` makes it only apply to a given spell.
-`"u_val": "spell_count"` | Number of spells that this character knows. Optional params: `school` returns only the number of spells of the specified spell class that the character knows. Read-only.
-`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for example, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percent done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
 `"u_val": "volume"` | Current volume in ml. read only. Cullently, doesn't work for characters, but for monsters and items.
 `"u_val": "weight"` | Current weight in mg. read only.
-`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
 `"mod_load_order"` | This should be a string with the name of the mod.  It will return the order it was loaded in or -1 if its not loaded.
 `"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
 `"math"` | An array math object.
@@ -1333,7 +1319,7 @@ Example:
 ```
 If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assignment:
 ```JSON
-"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_val('spell_level', 'spell: test_spell_pew') / 2" ] }
+"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_spell_level('test_spell_pew') / 2" ] }
 ```
 `lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
 

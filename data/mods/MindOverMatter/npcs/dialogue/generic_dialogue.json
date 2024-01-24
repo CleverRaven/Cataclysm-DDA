@@ -12,7 +12,7 @@
           "condition": {
             "and": [
               {
-                "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEPATH')" ] },
+                "roll_contested": { "math": [ "u_school_level('TELEPATH')" ] },
                 "difficulty": { "math": [ "n_val('intelligence')" ] },
                 "die_size": 5
               },
@@ -75,7 +75,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "roll_contested": { "math": [ "u_school_level('TELEKINETIC')" ] },
             "difficulty": { "math": [ "n_val('strength')" ] },
             "die_size": 5
           }
