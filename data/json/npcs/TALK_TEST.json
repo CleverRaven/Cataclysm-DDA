@@ -271,7 +271,7 @@
       {
         "text": "This is a days since Cataclysm 30 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 30 }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ] }
       },
       {
         "text": "This is a season summer test response.",
@@ -281,7 +281,7 @@
       {
         "text": "This is a days since Cataclysm 120 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 120 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('120 days')" ] }
       },
       {
         "text": "This is a season autumn test response.",
@@ -291,7 +291,7 @@
       {
         "text": "This is a days since Cataclysm 210 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 210 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('210 day')" ] }
       },
       {
         "text": "This is a season winter test response.",
@@ -301,7 +301,7 @@
       {
         "text": "This is a days since Cataclysm 300 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 300 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('300 d')" ] }
       }
     ]
   },
@@ -659,19 +659,19 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a npc_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "n_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test)", ">", "time('3 d')" ] }
       }
     ]
   },
@@ -885,8 +885,8 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "PC strength is five.",
@@ -941,30 +941,22 @@
       {
         "text": "This is a u_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, ">", { "time": "3 days" } ]
-        }
+        "condition": { "math": [ "u_test_var_time_test_test > time('3 days')" ] }
       },
       {
         "text": "time_since_cataclysm > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "turns" }, ">", { "time": "3 days" } ] }
+        "condition": { "math": [ "time_since('cataclysm') > time('3 d')" ] }
       },
       {
         "text": "time_since_cataclysm in days > 3",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "days" }, ">", { "const": 3 } ] }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') > 3" ] }
       },
       {
         "text": "This is a time since u_var test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [
-            { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" },
-            ">",
-            { "time": "3 days" }
-          ]
-        }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test, 'unit':'days') > 3" ] }
       },
       { "text": "Allies equals 1", "topic": "TALK_DONE", "condition": { "math": [ "u_val('allies')", "==", "1" ] } },
       { "text": "Cash equals 13", "topic": "TALK_DONE", "condition": { "math": [ "u_val('cash')", "==", "13" ] } },
@@ -1092,9 +1084,7 @@
       {
         "text": "Test Proficiency learning done is 12 hours total.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "==", { "time": "12h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent') == time('12h')" ] }
       },
       {
         "text": "Test Proficiency learning is 50% learnt.",
@@ -1109,93 +1099,12 @@
       {
         "text": "Test Proficiency total learning time is 24 hours.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "total_time_required" }, "==", { "time": "24h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'total_time_required') == time('24h')" ] }
       },
       {
         "text": "Test Proficiency time lest to learn is 12h.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_TEST_ARITHMETIC_OP",
-    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [
-      {
-        "text": "Sets time since cataclysm to 2 * 5 turns.  (10)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "*", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 / 5 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "/", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 + 5 turns.  (7)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "+", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 - 2 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "-", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 % 10 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (32)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to *= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "*=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to /= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "/=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to += 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "+=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to -= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "-=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to %= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "%=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm++.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "++" ] }
-      },
-      {
-        "text": "Sets time since cataclysm--.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "--" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_left') == time('12h')" ] }
       }
     ]
   },
@@ -1207,7 +1116,7 @@
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 1 } ] }
+        "effect": { "math": [ "time('now')", "=", "time('cataclysm') + 1" ] }
       },
       {
         "text": "Sets temperature to 2.",
@@ -1253,13 +1162,6 @@
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
         "effect": { "math": [ "u_test_var_time_test_test", "=", "10" ] }
-      },
-      {
-        "text": "Sets time since var to 11.",
-        "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" }, "=", { "const": 11 } ]
-        }
       },
       { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('owed')", "=", "12" ] } },
       {
@@ -1322,9 +1224,7 @@
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
@@ -1334,9 +1234,7 @@
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "24h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('24h')" ] }
       }
     ]
   },

@@ -319,6 +319,7 @@ enum class ter_furn_flag : int {
     TFLAG_MUTANT_TREE,
     TFLAG_SINGLE_SUPPORT,
     TFLAG_CLIMB_ADJACENT,
+    TFLAG_FLOATS_IN_AIR,
 
     NUM_TFLAG_FLAGS
 };

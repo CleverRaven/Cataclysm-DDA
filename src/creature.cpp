@@ -3151,12 +3151,6 @@ void Creature::add_msg_player_or_npc( const game_message_params &params, const t
     return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
 }
 
-void Creature::add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &pc,
-        const translation &npc ) const
-{
-    return add_msg_debug_player_or_npc( type, pc.translated(), npc.translated() );
-}
-
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
 {
     return add_msg_player_or_say( pc.translated(), npc.translated() );

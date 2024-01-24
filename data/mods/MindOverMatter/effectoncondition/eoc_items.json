@@ -101,10 +101,7 @@
             "effect": [
               { "u_consume_item": "matrix_crystal_drained", "count": 1 },
               { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },
-              {
-                "u_add_effect": "force_field_generated",
-                "duration": { "math": [ "(u_val('time: 2 s') * rng(1,6)) " ] }
-              }
+              { "u_add_effect": "force_field_generated", "duration": { "math": [ "(time(' 2 s') * rng(1,6)) " ] } }
             ],
             "false_effect": [
               { "u_message": "The device makes a whining sound and there is a sharp smell of burnt plastic!", "type": "bad" },

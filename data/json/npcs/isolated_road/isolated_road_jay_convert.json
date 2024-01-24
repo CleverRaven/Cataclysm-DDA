@@ -162,7 +162,7 @@
     "effect": [
       { "math": [ "u_number_artisans_gunsmith_ammo_to", "=", "_key1" ] },
       { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-      { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
+      { "math": [ "u_timer_artisans_u_waiting_on_rounds", "=", "time('now')" ] }
     ]
   },
   {

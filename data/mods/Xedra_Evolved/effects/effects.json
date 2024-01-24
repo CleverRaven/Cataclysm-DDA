@@ -824,6 +824,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_no_mind_problems",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "hallu", "taint", "hallucinogenic_acid_heavy", "hallucinogenic_acid_light", "visuals" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_sense_nearby_monsters",
+    "name": [ "Earth-Sensing" ],
+    "desc": [ "You are sensing the movements of nearby creatures upon the living earth." ],
+    "apply_message": "Nearby creatures' movements are revealed to you.",
+    "remove_message": "Your earth-sense fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_levitation",
     "name": [ "Smoke-Walking" ],
     "desc": [ "You are walking through the air." ],
@@ -1038,6 +1059,17 @@
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
     "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_undine_spell_slow",
+    "name": [ "Slowed by the Current" ],
+    "desc": [ "Currents of aetherial water are hindering your movements." ],
+    "rating": "bad",
+    "apply_message": "You feel like you're wading through a rushing river!",
+    "remove_message": "The drag on your movements is gone.",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -25 ] }
   },
   {
     "type": "effect_type",

@@ -742,7 +742,7 @@
     "color": "black",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "FLOATS_IN_AIR" ]
   },
   {
     "type": "furniture",

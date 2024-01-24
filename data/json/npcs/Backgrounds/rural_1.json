@@ -46,13 +46,7 @@
               "not": {
                 "and": [
                   { "u_has_var": "rural_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "rural_1_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "math": [ "time_since(u_timer_timers_rural_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }
@@ -70,7 +64,7 @@
           "topic": "BGSS_RURAL_1_FARMFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
-            { "u_add_var": "rural_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_rural_1_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "rural_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }
