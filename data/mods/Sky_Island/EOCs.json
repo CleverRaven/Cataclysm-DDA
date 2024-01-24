@@ -376,7 +376,7 @@
       {
         "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('90 m')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -387,7 +387,7 @@
       {
         "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('45 m')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -398,7 +398,7 @@
       {
         "u_message": "Difficulty set to Hard.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('30 m')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -409,7 +409,7 @@
       {
         "u_message": "Difficulty set to Impossible.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('15 m')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },

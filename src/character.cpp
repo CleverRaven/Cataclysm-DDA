@@ -877,24 +877,11 @@ void Character::add_msg_if_player( const game_message_params &params, const std:
     Messages::add_msg( params, msg );
 }
 
-void Character::add_msg_debug_if_player( debugmode::debug_filter type,
-        const std::string &msg ) const
-{
-    Messages::add_msg_debug( type, msg );
-}
-
 void Character::add_msg_player_or_npc( const game_message_params &params,
                                        const std::string &player_msg,
                                        const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
-}
-
-void Character::add_msg_debug_player_or_npc( debugmode::debug_filter type,
-        const std::string &player_msg,
-        const std::string &/*npc_msg*/ ) const
-{
-    Messages::add_msg_debug( type, player_msg );
 }
 
 void Character::add_msg_player_or_say( const std::string &player_msg,
@@ -5152,7 +5139,7 @@ needs_rates Character::calc_needs_rates() const
 
     rates.kcal = get_bmr();
 
-    add_msg_debug_if_player( debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
+    add_msg_debug_if( is_avatar(), debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
 
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
@@ -7955,8 +7942,9 @@ std::string Character::weapname_simple() const
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, true, 0, true,
-                               false );
+        tname::segment_bitset segs( tname::default_tname );
+        segs.set( tname::segments::TAGS, false );
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, segs );
         return gun_name;
 
     } else if( !is_armed() ) {
@@ -9650,11 +9638,19 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 units::energy Character::available_ups() const
 {
     units::energy available_charges = 0_kJ;
+
     if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
         available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
     }
-    if( has_active_bionic( bio_ups ) ) {
+
+    bool has_bio_powered_ups = false;
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
+        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+            has_bio_powered_ups = true;
+        }
+    } );
+    if( has_active_bionic( bio_ups ) || has_bio_powered_ups ) {
         available_charges += get_power_level();
     }
 
@@ -9677,7 +9673,13 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     }
 
     // UPS from bionic
-    if( qty != 0_kJ && has_power() && has_active_bionic( bio_ups ) ) {
+    bool has_bio_powered_ups = false;
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
+        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+            has_bio_powered_ups = true;
+        }
+    } );
+    if( qty != 0_kJ && has_power() && ( has_active_bionic( bio_ups ) || has_bio_powered_ups ) ) {
         units::energy bio = std::min( get_power_level(), qty );
         mod_power_level( -bio );
         qty -= std::min( qty, bio );

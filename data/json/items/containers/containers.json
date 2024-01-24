@@ -3650,7 +3650,8 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "20 cm",
         "moves": 100,
-        "rigid": false
+        "rigid": false,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "symbol": ")",

@@ -59,7 +59,7 @@
         { "item": "stereo", "x": 14, "y": 18, "chance": 35 }
       ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 5, "y": 0, "chance": 80, "status": 0 },
         { "vehicle": "car", "x": 18, "y": 6, "chance": 35, "rotation": 270 }
       ]
     }

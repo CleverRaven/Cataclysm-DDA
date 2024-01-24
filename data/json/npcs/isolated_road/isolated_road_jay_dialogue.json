@@ -43,7 +43,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('1 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -54,7 +54,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "5 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('5 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -65,7 +65,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "1 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('1 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -76,7 +76,7 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "5 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('5 d')" ] },
             { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]

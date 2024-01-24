@@ -496,6 +496,7 @@ cavewoman
 cavewomen
 cavitation
 cbm
+cc
 cdc
 cdda
 cegamente
@@ -1146,6 +1147,7 @@ fluidly
 flummox
 flummoxing
 flump
+fluoxetine
 flusteration
 flyable
 flyin
@@ -3053,6 +3055,7 @@ tangrams
 tankbot
 tannin
 tarket
+tartarate
 tassed
 tassin
 tastemakers
@@ -3534,8 +3537,7 @@ zentai
 zeriatric
 zincite
 zischt
-zorc
-zorcs
+zolpidem
 zombaby
 zombear
 zombeaver
@@ -3549,6 +3551,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zorc
+zorcs
 zowlbear
 zowlbears
 zpzzzzpzz

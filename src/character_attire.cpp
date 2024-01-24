@@ -2565,11 +2565,11 @@ const item &outfit::i_at( int position ) const
     }
 }
 
-std::string outfit::get_armor_display( bodypart_id bp, unsigned int truncate ) const
+std::string outfit::get_armor_display( bodypart_id bp ) const
 {
     for( auto it = worn.rbegin(); it != worn.rend(); ++it ) {
         if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+            return it->tname( 1 );
         }
     }
     return "-";

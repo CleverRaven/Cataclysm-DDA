@@ -1,0 +1,96 @@
+[
+  {
+    "id": "zenfs_complete_status_display",
+    "type": "widget",
+    "style": "layout",
+    "label": "Graphs & meters",
+    "arrange": "minimum_columns",
+    "description": "A large <color_yellow>status graph</color>, complete with <color_yellow>health meters</color> for all major body parts, <color_yellow>body graphs</color> for wetness, encumbrance & temperature, as well as <color_yellow>diet</color>, <color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
+    "widgets": [ "zenfs_titled_body_graph", "zenfs_hp_bars_and_stats" ]
+  },
+  {
+    "id": "zenfs_complete_status_display_alt",
+    "type": "widget",
+    "style": "layout",
+    "label": "Meters; slim",
+    "arrange": "rows",
+    "description": "A slim <color_yellow>status display</color>, complete with <color_yellow>health</color>, <color_yellow>wetness</color>, <color_yellow>temperature</color> and <color_yellow>encumbrance meters</color> for all major body parts, as well as <color_yellow>diet</color>, <color_yellow>movement</color>, <color_yellow>mental</color> & <color_yellow>stats</color>.",
+    "widgets": [ "zenfs_hp_bars_and_stats_alt", "zenfs_blank_line", "zenfs_physical_block" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "zenfs_weapon_ammo_white_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weapon",
+    "description": "Active <color_yellow>weapon</color>, <color_yellow>firing mode</color> and <color_yellow>ammo</color>.",
+    "arrange": "rows",
+    "widgets": [ "zenfs_wield_white_label" ]
+  },
+  {
+    "id": "zenfs_ma_buffs_white_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Martial art & buffs",
+    "description": "Shows active martial art <color_yellow>style</color> and <color_yellow>buffs</color>.",
+    "arrange": "rows",
+    "widgets": [ "zenfs_ma_white_label", "ma_buff_entries" ]
+  },
+  {
+    "id": "zenfs_l_overmap_environment",
+    "type": "widget",
+    "style": "layout",
+    "label": "L.Overmap/Environment",
+    "description": "Shows an 11x7 <color_yellow>overmap</color> on the left, with all <color_yellow>weather</color> & <color_yellow>location</color> information and a <color_yellow>safe mode</color> indicator on the right.",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_overmap", "zenfs_overmap_divider", "environment_stack" ]
+  },
+  {
+    "id": "zenfs_r_overmap_environment",
+    "type": "widget",
+    "style": "layout",
+    "label": "R.Overmap/Environment",
+    "description": "Shows an 11x7 <color_yellow>overmap</color> on the right, with all <color_yellow>weather</color> & <color_yellow>location</color> information and a <color_yellow>safe mode</color> indicator on the left.",
+    "arrange": "minimum_columns",
+    "widgets": [ "environment_stack", "zenfs_overmap_divider", "zenfs_overmap" ]
+  },
+  {
+    "id": "zenfs_environment_safe",
+    "type": "widget",
+    "style": "layout",
+    "separator": ": ",
+    "label": "Environment; slim",
+    "description": "Shows all <color_yellow>weather</color> & <color_yellow>location</color> information, as well as a <color_yellow>safe mode</color> indicator.",
+    "arrange": "rows",
+    "widgets": [ "zenfs_sun_with_moon", "zenfs_wind_light_weather_safe", "zenfs_date_time_temp_rad", "zenfs_place_omloc" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "zenfs_thick_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "ZenFS's thick",
+    "description": "Thick sidebar for wide displays.",
+    "separator": " ",
+    "padding": 1,
+    "width": 66,
+    "widgets": [
+      "zenfs_complete_status_display",
+      "zenfs_complete_status_display_alt",
+      "zenfs_spacer",
+      "zenfs_bp_top_armor",
+      "zenfs_weapon_ammo_white_label",
+      "zenfs_ma_buffs_white_label",
+      "zenfs_spacer",
+      "zenfs_l_overmap_environment",
+      "zenfs_r_overmap_environment",
+      "zenfs_environment_safe",
+      "zenfs_spacer_disabled",
+      "vehicle_acf_label_layout_columns",
+      "compass_all_layout_alt",
+      "compass_all_layout",
+      "zenfs_spacer_disabled",
+      "zenfs_spacer_disabled"
+    ]
+  }
+]

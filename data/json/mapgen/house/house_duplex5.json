@@ -48,7 +48,7 @@
         "-": "t_linoleum_gray"
       },
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 4, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 }
       ],
       "furniture": { "!": "f_region_flower" },

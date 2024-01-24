@@ -4,17 +4,51 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "condition.h"
 #include "dialogue.h"
 #include "field.h"
 #include "game.h"
 #include "magic.h"
+#include "math_parser_diag_value.h"
 #include "math_parser_shim.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"
 #include "weather.h"
+
+/*
+General guidelines for writing dialogue functions
+
+The typical parsing function takes the form:
+
+std::function<double( dialogue & )> myfunction_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value myval( std::string{} );
+    if( kwargs.count( "mykwarg" ) != 0 ) {
+        myval = *kwargs.at( "mykwarg" );
+    }
+
+    ...parse-time code...
+
+    return[effect_id = params[0], myval, beta = is_beta( scope )]( dialogue const & d ) {
+        ...run-time code...
+    };
+}
+
+- Don't validate the number of arguments (params). The math parser already does that
+- Only use variadic functions if all arguments are treated the same way,
+  regardless of how many there are (including zero)
+- Use kwargs for optional arguments
+- Prefer splitting functions instead of using mandatory kwargs
+  ex: school_level() split from spell_level() instead of spell_level('school':blorg)
+- Use parameter-less functions diag_value::str(), dbl(), and var() only at parse-time
+- Use conversion functions diag_value::str( d ) and dbl( d ) only at run-time
+- Always throw on errors at parse-time
+- Never throw at run-time. Use a debugmsg() and recover gracefully
+*/
 
 namespace
 {
@@ -49,8 +83,6 @@ T _read_from_string( std::string_view s, const std::vector<std::pair<std::string
     return detail::read_from_json_string_common<T>( s, units, error );
 }
 
-} // namespace
-
 std::function<double( dialogue & )> u_val( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -81,7 +113,7 @@ std::function<double( dialogue & )> option_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[option = params[0]]( dialogue const & d ) {
-        return get_option<float>( option.str( d ) );
+        return get_option<float>( option.str( d ), true );
     };
 }
 
@@ -406,8 +438,6 @@ std::function<double( dialogue & )> attack_speed_eval( char scope,
     };
 }
 
-namespace
-{
 template<class ID>
 using f_monster_match = bool ( * )( Creature const &critter, ID const &id );
 
@@ -480,8 +510,6 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
     };
 }
 
-} // namespace
-
 std::function<double( dialogue & )> monsters_nearby_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -498,6 +526,14 @@ std::function<double( dialogue & )> monster_groups_nearby_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     return _monsters_nearby_eval( scope, params, kwargs, mon_check_group );
+}
+
+std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return []( dialogue const & /* d */ ) {
+        return static_cast<int>( get_moon_phase( calendar::turn ) );
+    };
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
@@ -725,6 +761,106 @@ std::function<void( dialogue &, double )> spell_level_adjustment_ass( char scope
     };
 }
 
+double _time_in_unit( double time, std::string_view unit )
+{
+    if( !unit.empty() ) {
+        auto const iter = std::find_if( time_duration::units.cbegin(), time_duration::units.cend(),
+        [&unit]( std::pair<std::string, time_duration> const & u ) {
+            return u.first == unit;
+        } );
+
+        if( iter == time_duration::units.end() ) {
+            debugmsg( R"(Unknown time unit "%s", assuming turns )", unit );
+        } else {
+            return time / to_turns<double>( iter->second );
+        }
+    }
+
+    return time;
+}
+
+std::function<double( dialogue & )> time_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [val = params[0], unit_val]( dialogue const & d ) {
+        std::string const val_str = val.str( d );
+        double ret{};
+        if( val_str == "now" ) {
+            ret = to_turns<double>( calendar::turn - calendar::turn_zero );
+        } else if( val_str == "cataclysm" ) {
+            ret = to_turns<double>( calendar::start_of_cataclysm - calendar::turn_zero );
+        } else {
+            ret = to_turns<double>(
+                      _read_from_string<time_duration>( val_str, time_duration::units ) );
+        }
+
+        return _time_in_unit( ret, unit_val.str( d ) );
+    };
+}
+
+std::function<void( dialogue &, double )> time_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    // intentionally duplicate check for str to avoid the `Expected str, got ...` error and get the nicer one below
+    if( params[0].is_str() && params[0] == "now" ) {
+        return []( dialogue const &/* d */, double val ) {
+            calendar::turn = calendar::turn_zero + time_duration::from_turns<double>( val );
+        };
+    }
+
+    throw std::invalid_argument(
+        string_format( "Only time('now') is a valid time() assignment target" ) );
+}
+
+std::function<double( dialogue & )> time_since_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [val = params[0], unit_val]( dialogue const & d ) {
+        double ret{};
+        std::string const val_str = val.str( d );
+        if( val_str == "cataclysm" ) {
+            ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
+        } else if( val_str == "midnight" ) {
+            ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+            return -1.0;
+        } else {
+            ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+        }
+        return _time_in_unit( ret, unit_val.str( d ) );
+    };
+}
+
+std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [eoc_val = params[0], unit_val]( dialogue const & d ) -> double {
+        effect_on_condition_id eoc_id( eoc_val.str( d ) );
+        auto const &list = g->queued_global_effect_on_conditions.list;
+        auto const it = std::find_if( list.cbegin(), list.cend(), [&eoc_id]( queued_eoc const & eoc )
+        {
+            return eoc.eoc == eoc_id;
+        } );
+
+        return it != list.end() ? _time_in_unit( to_turn<double>( it->time ), unit_val.str( d ) ) : -1;
+    };
+}
+
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -782,8 +918,6 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
     };
 }
 
-namespace
-{
 double _test_add( diag_value const &v, dialogue const &d )
 {
     double ret{};
@@ -822,7 +956,6 @@ std::function<double( dialogue & )> _test_func( std::vector<diag_value> const &p
         return ret;
     };
 }
-} // namespace
 
 std::function<double( dialogue & )> test_diag( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
@@ -941,4 +1074,82 @@ std::function<void( dialogue &, double )> weather_ass( char /* scope */,
         };
     }
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
+}
+
+// { "name", { "scopes", num_args, function } }
+// kwargs are not included in num_args
+std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
+    { "_test_diag_", { "g", -1, test_diag } },
+    { "_test_str_len_", { "g", -1, test_str_len } },
+    { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
+    { "addiction_turns", { "un", 1, addiction_turns_eval } },
+    { "armor", { "un", 2, armor_eval } },
+    { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "charge_count", { "un", 1, charge_count_eval } },
+    { "coverage", { "un", 1, coverage_eval } },
+    { "distance", { "g", 2, distance_eval } },
+    { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "encumbrance", { "un", 1, encumbrance_eval } },
+    { "energy", { "g", 1, energy_eval } },
+    { "field_strength", { "ung", 1, field_strength_eval } },
+    { "game_option", { "g", 1, option_eval } },
+    { "has_trait", { "un", 1, has_trait_eval } },
+    { "has_proficiency", { "un", 1, knows_proficiency_eval } },
+    { "has_var", { "g", 1, has_var_eval } },
+    { "hp", { "un", 1, hp_eval } },
+    { "hp_max", { "un", 1, hp_max_eval } },
+    { "item_count", { "un", 1, item_count_eval } },
+    { "item_rad", { "un", 1, item_rad_eval } },
+    { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
+    { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
+    { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
+    { "moon_phase", { "g", 0, moon_phase_eval } },
+    { "num_input", { "g", 2, num_input_eval } },
+    { "pain", { "un", 0, pain_eval } },
+    { "school_level", { "un", 1, school_level_eval}},
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
+    { "skill", { "un", 1, skill_eval } },
+    { "skill_exp", { "un", 1, skill_exp_eval } },
+    { "spell_count", { "un", 0, spell_count_eval}},
+    { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_level", { "un", 1, spell_level_eval}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
+    { "time", { "g", 1, time_eval } },
+    { "time_since", { "g", 1, time_since_eval } },
+    { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
+    { "proficiency", { "un", 1, proficiency_eval } },
+    { "val", { "un", -1, u_val } },
+    { "value_or", { "g", 2, value_or_eval } },
+    { "vitamin", { "un", 1, vitamin_eval } },
+    { "warmth", { "un", 1, warmth_eval } },
+    { "weather", { "g", 1, weather_eval } },
+};
+
+std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
+    { "addiction_turns", { "un", 1, addiction_turns_ass } },
+    { "hp", { "un", 1, hp_ass } },
+    { "pain", { "un", 0, pain_ass } },
+    { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
+    { "spellcasting_adjustment", { "u", 1, spellcasting_adjustment_ass } },
+    { "skill", { "un", 1, skill_ass } },
+    { "skill_exp", { "un", 1, skill_exp_ass } },
+    { "spell_exp", { "un", 1, spell_exp_ass}},
+    { "spell_level", { "un", 1, spell_level_ass}},
+    { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
+    { "time", { "g", 1, time_ass } },
+    { "proficiency", { "un", 1, proficiency_ass } },
+    { "val", { "un", -1, u_val_ass } },
+    { "vitamin", { "un", 1, vitamin_ass } },
+    { "weather", { "g", 1, weather_ass } },
+};
+
+} // namespace
+
+std::map<std::string_view, dialogue_func_eval> const &get_all_diag_eval_funcs()
+{
+    return dialogue_eval_f;
+}
+std::map<std::string_view, dialogue_func_ass> const &get_all_diag_ass_funcs()
+{
+    return dialogue_assign_f;
 }

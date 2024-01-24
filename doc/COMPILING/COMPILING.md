@@ -213,12 +213,10 @@ Installation
 
 ```bash
 sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-mkdir -p ~/src/Cataclysm-DDA
-mkdir -p ~/src/mxe
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
-git clone https://github.com/mxe/mxe.git ./mxe
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git 
+git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 cd ../libbacktrace/

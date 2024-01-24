@@ -80,13 +80,7 @@
         "condition": {
           "or": [
             { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
-            {
-              "u_compare_time_since_var": "u_declined_exodization",
-              "type": "timer",
-              "context": "blobpsychosis",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
         "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
@@ -97,13 +91,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
-            {
-              "u_compare_time_since_var": "u_declined_exodization",
-              "type": "timer",
-              "context": "blobpsychosis",
-              "op": "<",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
@@ -133,13 +121,7 @@
         "condition": {
           "or": [
             { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
-            {
-              "u_compare_time_since_var": "u_declined_exodization",
-              "type": "timer",
-              "context": "blobpsychosis",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
         "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
@@ -150,13 +132,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
-            {
-              "u_compare_time_since_var": "u_declined_exodization",
-              "type": "timer",
-              "context": "blobpsychosis",
-              "op": "<",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
@@ -252,7 +228,7 @@
           { "u_add_faction_trust": 2 },
           { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
           { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
-          { "u_add_var": "u_declined_exodization", "type": "timer", "context": "blobpsychosis", "time": true }
+          { "math": [ "u_timer_blobpsychosis_u_declined_exodization", "=", "time('now')" ] }
         ]
       }
     ],

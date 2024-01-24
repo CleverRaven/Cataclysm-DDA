@@ -505,16 +505,6 @@ checks this var exists
 { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 }
 ```
 
-### `u_compare_time_since_var`, `npc_compare_time_since_var`
-- type: duration
-- Same as `u_compare_var`, allows to check how much time passed since variable with `"type": "timer"` was create or updated, using one of `==`, `!=`, `<`, `>`, `<=`, `>=` operators; `type`, `context`, `op` and `time` is required
-
-#### Examples
-Checks is RandEnc was added more than 1 hour ago
-```json
-{ "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" }
-```
-
 ### `compare_string`
 - type: pair of strings or [variable objects](##variable-object)
 - Compare two strings, and return true if strings are equal

@@ -214,7 +214,7 @@ class outfit
         void set_fitted();
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
-        std::string get_armor_display( bodypart_id bp, unsigned int truncate = 0 ) const;
+        std::string get_armor_display( bodypart_id bp ) const;
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 
