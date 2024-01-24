@@ -1008,53 +1008,33 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
             &camera_cache[0][0], map_dimensions, light_transparency_solid );
     }
 
-    if( !fov_3d ) {
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            level_cache &cur_cache = get_cache( z );
-            mdarray &cur_out_cache = camera ? cur_cache.camera_cache : cur_cache.seen_cache;
-            if( z == target_z || cur_cache.seen_cache_dirty ) {
-                if( !cumulative ) {
-                    std::uninitialized_fill_n(
-                        &cur_out_cache[0][0], map_dimensions, light_transparency_solid );
-                }
-                cur_cache.seen_cache_dirty = false;
-            }
-
-            if( z == target_z ) {
-                out_cache[origin.x][origin.y] = VISIBILITY_FULL;
-                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    out_cache, transparency_cache, origin.xy(), penalty );
-            }
+    // Cache the caches (pointers to them)
+    array_of_grids_of<const float> transparency_caches;
+    array_of_grids_of<float> seen_caches;
+    array_of_grids_of<const bool> floor_caches;
+    vertical_direction directions_to_cast = vertical_direction::BOTH;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        level_cache &cur_cache = get_cache( z );
+        transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
+        seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
+        floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+        if( !cumulative ) {
+            std::uninitialized_fill_n(
+                &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
         }
-    } else {
-        // Cache the caches (pointers to them)
-        array_of_grids_of<const float> transparency_caches;
-        array_of_grids_of<float> seen_caches;
-        array_of_grids_of<const bool> floor_caches;
-        vertical_direction directions_to_cast = vertical_direction::BOTH;
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            level_cache &cur_cache = get_cache( z );
-            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
-            seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
-            floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-            if( !cumulative ) {
-                std::uninitialized_fill_n(
-                    &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
-            }
-            cur_cache.seen_cache_dirty = false;
-            if( origin.z == z && cur_cache.no_floor_gaps ) {
-                directions_to_cast = vertical_direction::UP;
-            }
+        cur_cache.seen_cache_dirty = false;
+        if( origin.z == z && cur_cache.no_floor_gaps ) {
+            directions_to_cast = vertical_direction::UP;
         }
-        if( origin.z == target_z ) {
-            ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
-        }
-
-        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
-            directions_to_cast );
-        seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
     }
+    if( origin.z == target_z ) {
+        ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
+    }
+
+    cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+        seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
+        directions_to_cast );
+    seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
 
     const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
