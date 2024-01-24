@@ -6960,19 +6960,17 @@
     "type": "overmap_special",
     "id": "gas station bunker",
     "overmaps": [
-      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_south" },
-      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_south" },
-      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_south" },
-      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_south" },
-      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_south" }
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
