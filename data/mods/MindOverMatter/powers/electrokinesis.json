@@ -544,7 +544,7 @@
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_ELECTROKIN_HACK_ROBOT",
+    "effect_str": "EOC_ELECTROKIN_ROBOT_INTERFACE",
     "extra_effects": [
       { "id": "psionic_drained_difficulty_eight", "hit_self": true }
     ],
@@ -560,7 +560,7 @@
     "casting_time_increment": -2.5
   },
   {
-    "id": "electro_spawn_robot_hacker",
+    "id": "electro_spawn_robot_interface",
     "type": "SPELL",
     "name": "[Ψ]Create Robotic Interface",
     "description": "Creates a tool used to hack robots.  It's a bug if you have it.",
@@ -569,7 +569,7 @@
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
-    "effect_str": "electro_robot_hacker",
+    "effect_str": "electro_robot_interface",
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,

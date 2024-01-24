@@ -36,17 +36,17 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_HACK_ROBOT",
-    "effect": [ { "u_cast_spell": { "id": "electro_spawn_robot_hacker" } }, { "run_eocs": "EOC_ELECTROKIN_USE_ROBOT_HACKER" } ]
+    "id": "EOC_ELECTROKIN_ROBOT_INTERFACE",
+    "effect": [ { "u_cast_spell": { "id": "electro_spawn_robot_interface" } }, { "run_eocs": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_USE_ROBOT_HACKER",
+    "id": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE",
     "effect": [
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "electro_robot_hacker" } ],
-        "true_eocs": [ { "id": "EOC_ELECTROKIN_USE_ROBOT_HACKER_ACTIVATE", "effect": { "u_activate": "ROBOTCONTROL" } } ]
+        "search_data": [ { "id": "electro_robot_interface" } ],
+        "true_eocs": [ { "id": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE_ACTIVATE", "effect": { "u_activate": "ROBOTCONTROL" } } ]
       }
     ]
   }
