@@ -311,7 +311,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "soviet tanker helmet" },
-    "description": "A simple helmet meant to protect the head from fragmentation and impacts.  Its simple steel construction renders it outdated by modern military standards.",
+    "description": "A soviet era tanker helmet. Meant to protect a vehicle driver from bumps against the cramped interior.",
     "price": 10000,
     "price_postapoc": 1200,
     "weight": "950 g",
