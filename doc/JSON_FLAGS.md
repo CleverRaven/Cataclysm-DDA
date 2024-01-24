@@ -461,7 +461,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 ## Comestibles
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
+- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
 - ```EATEN_COLD``` Morale bonus for eating cold.

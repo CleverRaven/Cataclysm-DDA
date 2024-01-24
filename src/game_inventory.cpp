@@ -1624,7 +1624,6 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 
     inventory_multiselector inv_s( who, preset, _( "SELECT BOOKS TO SCAN" ),
                                    make_raw_stats, /*allow_select_contained=*/true );
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( who );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( _( "Scan which books?" ) );

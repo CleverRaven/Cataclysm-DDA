@@ -108,12 +108,39 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to rest underground and recover energy as though sleeping.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to rest and recover energy as though sleeping, while underground.  Activate to to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
     "active": true,
     "activated_eocs": [ "EOC_IERDE_NO_SLEEP_MEDITATE_activate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_DETECT_NEARBY_MONSTERS_EARTH",
+    "name": { "str": "The Soil Knows Those Who Tread Upon It" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as the Ierde maintains contact with natural earth or stone, or is underground.",
+    "prereqs": [ "IERDE_EYES" ],
+    "prereqs2": [ "IERDE_EARS" ],
+    "category": [ "IERDE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON" ],
+    "deactivated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SMASHING_PUNCH",
+    "name": { "str": "Avalanche Blow" },
+    "points": 3,
+    "description": "With a brief moment to stabilize themselves, the Ierde strikes a wall, door, or other terrain feature with the force of a falling boulder, doing many times their normal damage.",
+    "category": [ "IERDE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_SMASHING_PUNCH_activated" ]
   },
   {
     "type": "mutation",
@@ -125,6 +152,7 @@
     "description": "Upon gaining this ability the Ierde gains the ability to stomp on the ground and cause a minor local earthquake.",
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_SMASHING_PUNCH" ],
     "spells_learned": [ [ "ierde_stomp_ground_smash_spell", 1 ] ]
   },
   {
@@ -138,6 +166,18 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SUMMON_EARTH_ELEMENTAL",
+    "name": { "str": "Calling the Children of the Stones" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Ierde to summon a minor earth elemental to support them in the world for a short time.",
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_summon_earth_spirit", 1 ] ],
+    "//": "Eventually add further spells in this area with more powerful elementals."
   },
   {
     "type": "mutation",
@@ -197,34 +237,19 @@
       {
         "condition": {
           "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_grave" },
-            { "u_is_on_terrain": "t_forestfloor" },
-            { "u_is_on_terrain": "t_grass" },
-            { "u_is_on_terrain": "t_grass_long" },
-            { "u_is_on_terrain": "t_grass_tall" },
-            { "u_is_on_terrain": "t_grass_dead" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "u_is_on_terrain": "t_moss" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
-            { "u_is_on_terrain": "t_rock_wall_half" },
-            { "u_is_on_terrain": "t_mud_underground" },
-            { "u_is_on_terrain": "t_moss_underground" },
-            { "u_is_on_terrain": "t_clay_underground" },
-            { "u_is_on_terrain": "t_sand_underground" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] }
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
           ]
         },
         "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 } ]
@@ -244,34 +269,19 @@
       {
         "condition": {
           "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_grave" },
-            { "u_is_on_terrain": "t_forestfloor" },
-            { "u_is_on_terrain": "t_grass" },
-            { "u_is_on_terrain": "t_grass_long" },
-            { "u_is_on_terrain": "t_grass_tall" },
-            { "u_is_on_terrain": "t_grass_dead" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "u_is_on_terrain": "t_moss" },
-            { "u_is_on_terrain": "t_rock_floor_no_roof" },
-            { "u_is_on_terrain": "t_rock_floor" },
-            { "u_is_on_terrain": "t_rock_smooth" },
-            { "u_is_on_terrain": "t_rock_wall_half" },
-            { "u_is_on_terrain": "t_mud_underground" },
-            { "u_is_on_terrain": "t_moss_underground" },
-            { "u_is_on_terrain": "t_clay_underground" },
-            { "u_is_on_terrain": "t_sand_underground" },
-            { "u_is_on_terrain": "t_dirt_underground" },
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] }
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
           ]
         },
         "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 }, { "value": "REGEN_HP", "multiply": 0.33 } ]
@@ -379,5 +389,44 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "passive_mods": { "str_mod": 9 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_PER_BONUS",
+    "name": { "str": "The Hills Overlook the Valleys" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_EYES" ],
+    "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
+    "category": [ "IERDE" ],
+    "passive_mods": { "per_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_DISEASE_OR_PARA",
+    "name": { "str": "The Stone Does Not Rot" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "description": "The stones do not rot as the trees or humans do, and neither is the Ierde affected by the frailties of the flesh.  They are immune to disease and cannot suffer from parasites.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "flags": [ "PARAIMMUNE", "NO_DISEASE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_MIND_PROBLEMS",
+    "name": { "str": "Mind of Iron" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_PER_BONUS" ],
+    "prereqs2": [ "IERDE_CARDIO3" ],
+    "description": "The Ierde's mind has the resilience of iron, and they cannot be affected by delusions, hallucinations, or other mental problems.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "enchantments": [ "ench_ierde_no_mind_problems" ]
   }
 ]

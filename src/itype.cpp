@@ -60,6 +60,8 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
             return "gun";
         case itype_variant_kind::generic:
             return "generic";
+        case itype_variant_kind::drug:
+            return "drug";
         case itype_variant_kind::last:
             debugmsg( "Invalid variant type!" );
             return "";

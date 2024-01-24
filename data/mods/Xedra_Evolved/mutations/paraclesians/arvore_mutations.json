@@ -194,7 +194,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
-    "name": { "str": "Summon the Children of the Boughs" },
+    "name": { "str": "Call the Children of the Roots" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,

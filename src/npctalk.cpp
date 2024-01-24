@@ -2043,7 +2043,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
+    phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2054,6 +2054,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
+        // Skip the <color_XXX> and </color> tag
+        while( fa != std::string::npos && ( phrase.compare( fa + 1, 6, "color_" ) == 0 ||
+                                            phrase.compare( fa + 1, 7, "/color>" ) == 0 ) ) {
+            if( phrase.compare( fa + 1, 6, "color_" ) == 0 ) {
+                fa = phrase.find( '<', fa + 7 );
+            } else { // phrase.compare(fa + 1, 7, "/color>") == 0
+                fa = phrase.find( '<', fa + 8 );
+            }
+            fb = phrase.find( '>', fa );
+        }
         if( fa != std::string::npos ) {
             size_t nest = 0;
             fa_ = phrase.find( '<', fa + 1 );
@@ -5714,6 +5724,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
+        bool use_target_monster = single_target;
 
         if( group ) {
             if( monster_id.evaluate( d ).empty() ) {
@@ -5756,16 +5767,18 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 } else if( valid_monsters == 1 ) {
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
+                    use_target_monster = true;
                 } else {
                     target_monsters = monsters_in_range;
                 }
             }
         } else {
             if( single_target ) {
-                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                debugmsg( "single_target doesn't need to be defined for a singlular monster_id.  %s",
                           d.get_callstack() );
             }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
+            use_target_monster = true;
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -5780,7 +5793,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
@@ -5810,7 +5823,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
@@ -6032,6 +6045,22 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
             map_add_item( *it->get_item(), target_pos );
             add_msg( _( success_message.evaluate( d ) ) );
             it->remove_item();
+        }
+    };
+}
+
+void talk_effect_fun_t::set_wants_to_talk( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        npc *p = d.actor( is_npc )->get_npc();
+        if( p ) {
+            if( p->get_attitude() == NPCATT_TALK ) {
+                return;
+            }
+            if( p->sees( get_player_character() ) ) {
+                add_msg( _( "%s wants to talk to you." ), p->get_name() );
+            }
+            p->set_attitude( NPCATT_TALK );
         }
     };
 }
@@ -6621,6 +6650,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "u_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "npc_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( true );
         set_effect( subeffect_fun );
         return;
     }

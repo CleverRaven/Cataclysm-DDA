@@ -176,8 +176,17 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_UNDINE",
     "monsters": [
+      { "monster": "mon_water_sprite", "weight": 125, "cost_multiplier": 0 },
+      { "monster": "mon_spitting_lizard", "weight": 300, "cost_multiplier": 0 },
+      { "monster": "mon_undertow", "weight": 75, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_UNDINE_LESSER",
+    "monsters": [
       { "monster": "mon_water_sprite", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_spitting_lizard", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_spitting_lizard", "weight": 40, "cost_multiplier": 0 }
     ]
   },
   {
@@ -200,9 +209,29 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_ARVORE",
     "monsters": [
-      { "monster": "mon_vineling", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_ratatosk_children", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_vineling", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_ratatosk_children", "weight": 300, "cost_multiplier": 0 },
+      { "monster": "mon_bear_thorn", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_defender_wood", "weight": 5, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_ARVORE_LESSER",
+    "monsters": [
+      { "monster": "mon_vineling", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_ratatosk_children", "weight": 100, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_ARVORE_MEDIAL",
+    "monsters": [ { "monster": "mon_bear_thorn", "weight": 50, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_ARVORE_GREATER",
+    "monsters": [ { "monster": "mon_defender_wood", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",

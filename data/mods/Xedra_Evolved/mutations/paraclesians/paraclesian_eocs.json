@@ -101,5 +101,20 @@
       }
     ],
     "false_effect": { "u_message": "You must be outdoors under the moonlight to turn cotton into gossamer." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WANTS_TO_TALK",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "and": [ "u_is_npc", { "compare_string": [ "effect_wants_to_talk", { "context_val": "effect" } ] } ] },
+    "effect": [
+      { "u_lose_effect": "effect_wants_to_talk" },
+      {
+        "if": { "not": { "u_has_trait": "FINAL_DISCUSSION" } },
+        "then": [ { "u_add_trait": "FINAL_DISCUSSION" }, "u_wants_to_talk" ],
+        "else": [ { "u_lose_effect": "effect_wants_to_talk" }, { "message": "You cannot lead this person to talk to you anymore." } ]
+      }
+    ]
   }
 ]
