@@ -39,7 +39,7 @@
         { "point": "terrain", "id": "t_tree_young", "x": [ 0, 14 ], "y": 0, "chance": 5 },
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": 0, "chance": 10, "repeat": [ 1, 2 ] }
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 0, "y": 1, "chance": 80, "status": 0 } ],
       "place_loot": [
         { "group": "cleaning", "x": 13, "y": 6, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "guns_pistol_common", "x": 2, "y": 13, "chance": 5, "ammo": 90, "magazine": 100 },

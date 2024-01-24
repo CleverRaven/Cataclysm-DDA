@@ -50,7 +50,7 @@
         "=": "t_door_locked",
         "/": "t_door_metal_pickable"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 0, "chance": 80, "status": 0 } ],
       "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 5, "y": 6 }, { "item": "stereo", "x": 6, "y": 6 } ],
       "place_items": [
@@ -105,7 +105,7 @@
         ".######################.",
         "............^..........."
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 0, "chance": 80, "status": 0 } ],
       "palettes": [ "standard_domestic_palette" ],
       "place_npcs": [ { "class": "prepper_survivor", "x": 13, "y": 20 } ],
       "place_zones": [ { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": [ 11, 15 ], "y": 21 } ],
