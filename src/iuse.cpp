@@ -5586,7 +5586,7 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & )
 {
 
-    bool isComputer = !( it->has_flag( flag_MAGICAL ) );
+    bool isComputer = !it->has_flag( flag_MAGICAL );
     int choice = 0;
 
     if( isComputer ) {
