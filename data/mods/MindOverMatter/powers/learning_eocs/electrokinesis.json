@@ -266,7 +266,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 60 } },
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "12" ] },
@@ -339,7 +339,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_electrokinetic_robot_interface" },
       {
-        "u_message": "Use of your powers has led to an insight.  You could directly manipulate nearby robot's circuitry, if you can figure out the technique.",
+        "u_message": "Use of your powers has led to an insight.  You could directly manipulate a nearby robot's circuitry, if you can figure out the technique.",
         "popup": true
       }
     ]
