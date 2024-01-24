@@ -877,24 +877,11 @@ void Character::add_msg_if_player( const game_message_params &params, const std:
     Messages::add_msg( params, msg );
 }
 
-void Character::add_msg_debug_if_player( debugmode::debug_filter type,
-        const std::string &msg ) const
-{
-    Messages::add_msg_debug( type, msg );
-}
-
 void Character::add_msg_player_or_npc( const game_message_params &params,
                                        const std::string &player_msg,
                                        const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
-}
-
-void Character::add_msg_debug_player_or_npc( debugmode::debug_filter type,
-        const std::string &player_msg,
-        const std::string &/*npc_msg*/ ) const
-{
-    Messages::add_msg_debug( type, player_msg );
 }
 
 void Character::add_msg_player_or_say( const std::string &player_msg,
@@ -5152,7 +5139,7 @@ needs_rates Character::calc_needs_rates() const
 
     rates.kcal = get_bmr();
 
-    add_msg_debug_if_player( debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
+    add_msg_debug_if( is_avatar(), debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
 
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );

@@ -3156,26 +3156,12 @@ void npc::add_msg_if_npc( const game_message_params &params, const std::string &
     add_msg( params, replace_with_npc_name( msg ) );
 }
 
-void npc::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
-{
-    add_msg_debug( type, replace_with_npc_name( msg ) );
-}
-
 void npc::add_msg_player_or_npc( const game_message_params &params,
                                  const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( get_player_view().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
-    }
-}
-
-void npc::add_msg_debug_player_or_npc( debugmode::debug_filter type,
-                                       const std::string &/*player_msg*/,
-                                       const std::string &npc_msg ) const
-{
-    if( get_player_view().sees( *this ) ) {
-        add_msg_debug( type, replace_with_npc_name( npc_msg ) );
     }
 }
 
