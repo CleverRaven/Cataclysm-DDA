@@ -337,7 +337,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_electrokinesis", "required": false } ],
