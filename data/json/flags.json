@@ -1604,6 +1604,7 @@
   },
   {
     "id": "MAGICAL",
+    "//": "Does not specifically cause magical effects, but used to know if an item can be considered magical by the code",
     "type": "json_flag"
   },
   {
