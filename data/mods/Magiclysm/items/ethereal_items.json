@@ -1518,6 +1518,7 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
         "empty_rock"
       ],
@@ -1539,6 +1540,7 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
         "empty_rock"
       ],
@@ -1560,6 +1562,7 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
         "empty_rock"
       ],
@@ -1581,6 +1584,7 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
         "empty_rock"
       ],
@@ -1602,8 +1606,10 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
-        "empty_rock"
+        "empty_rock",
+        "tream"
       ],
       "message": "The earth reveals its secrets."
     }
@@ -1623,6 +1629,7 @@
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
         "solid_earth",
         "empty_rock"
       ],

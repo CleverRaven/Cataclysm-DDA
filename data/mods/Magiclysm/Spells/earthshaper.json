@@ -787,7 +787,7 @@
         {
           "case": 0,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_01" },
+            { "u_spawn_item": "item_earthshaper_map_01", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_01" },
             { "u_remove_item_with": "item_earthshaper_map_01" }
           ]
@@ -795,7 +795,7 @@
         {
           "case": 3,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_02" },
+            { "u_spawn_item": "item_earthshaper_map_02", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_02" },
             { "u_remove_item_with": "item_earthshaper_map_02" }
           ]
@@ -803,7 +803,7 @@
         {
           "case": 6,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_03" },
+            { "u_spawn_item": "item_earthshaper_map_03", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_03" },
             { "u_remove_item_with": "item_earthshaper_map_03" }
           ]
@@ -811,7 +811,7 @@
         {
           "case": 9,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_04" },
+            { "u_spawn_item": "item_earthshaper_map_04", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_04" },
             { "u_remove_item_with": "item_earthshaper_map_04" }
           ]
@@ -819,7 +819,7 @@
         {
           "case": 12,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_05" },
+            { "u_spawn_item": "item_earthshaper_map_05", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_05" },
             { "u_remove_item_with": "item_earthshaper_map_05" }
           ]
@@ -827,7 +827,7 @@
         {
           "case": 15,
           "effect": [
-            { "u_spawn_item": "item_earthshaper_map_06" },
+            { "u_spawn_item": "item_earthshaper_map_06", "suppress_message": true },
             { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_06" },
             { "u_remove_item_with": "item_earthshaper_map_06" }
           ]
