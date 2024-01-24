@@ -2043,7 +2043,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
+    phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2054,6 +2054,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
+        // Skip the <color_XXX> and </color> tag
+        while( fa != std::string::npos && ( phrase.compare( fa + 1, 6, "color_" ) == 0 ||
+                                            phrase.compare( fa + 1, 7, "/color>" ) == 0 ) ) {
+            if( phrase.compare( fa + 1, 6, "color_" ) == 0 ) {
+                fa = phrase.find( '<', fa + 7 );
+            } else { // phrase.compare(fa + 1, 7, "/color>") == 0
+                fa = phrase.find( '<', fa + 8 );
+            }
+            fb = phrase.find( '>', fa );
+        }
         if( fa != std::string::npos ) {
             size_t nest = 0;
             fa_ = phrase.find( '<', fa + 1 );

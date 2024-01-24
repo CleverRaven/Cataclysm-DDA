@@ -1041,6 +1041,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_personal_battery",
     "name": [ "Electron Overflow" ],
     "desc": [ "You are generating a wireless aura of electrical power." ],

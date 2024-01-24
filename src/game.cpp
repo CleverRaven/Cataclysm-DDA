@@ -2030,6 +2030,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool exit = false;
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
+        catacurses::window w_info;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2118,8 +2119,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
                 data.without_getch = true;
-
-                catacurses::window w_info;
 
                 ui = std::make_unique<ui_adaptor>();
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
@@ -5330,8 +5329,7 @@ bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_clas
                       std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
 {
     if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                              unique_id );
+        add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
         return false;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();

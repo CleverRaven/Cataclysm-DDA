@@ -166,6 +166,8 @@ struct widget_clause {
 
         // Condition for using this clause
         bool has_condition = false;
+        // Whether parse tags in this clause
+        bool should_parse_tags = false;
         std::function<bool( dialogue & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;

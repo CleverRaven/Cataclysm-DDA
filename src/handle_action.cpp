@@ -1864,7 +1864,7 @@ static void handle_debug_mode()
         first_time = false;
         debugmode::enabled_filters.clear();
         for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-            debugmode::enabled_filters.emplace_back( static_cast<debugmode::debug_filter>( i ) );
+            debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
         }
     }
 
@@ -1891,9 +1891,8 @@ static void handle_debug_mode()
 
         entry.extratxt.left = 1;
 
-        const bool active = std::find(
-                                debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-                                static_cast<debugmode::debug_filter>( i ) ) != debugmode::enabled_filters.end();
+        const bool active = debugmode::enabled_filters.count( static_cast<debugmode::debug_filter>
+                            ( i ) ) == 1;
 
         if( toggle_value && active ) {
             toggle_value = false;
@@ -1926,7 +1925,7 @@ static void handle_debug_mode()
                 debugmode_entry_setup( dbmenu.entries[i + 2], toggle_value );
 
                 if( toggle_value ) {
-                    debugmode::enabled_filters.emplace_back( static_cast<debugmode::debug_filter>( i ) );
+                    debugmode::enabled_filters.emplace( static_cast<debugmode::debug_filter>( i ) );
                 }
             }
 
@@ -1935,9 +1934,8 @@ static void handle_debug_mode()
         } else if( dbmenu.ret > 1 ) {
             uilist_entry &entry = dbmenu.entries[dbmenu.ret];
 
-            const auto filter_iter = std::find(
-                                         debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-                                         static_cast<debugmode::debug_filter>( dbmenu.ret - 2 ) );
+            const auto filter_iter = debugmode::enabled_filters.find( static_cast<debugmode::debug_filter>
+                                     ( dbmenu.ret - 2 ) );
 
             const bool active = filter_iter != debugmode::enabled_filters.end();
 
@@ -1946,7 +1944,7 @@ static void handle_debug_mode()
             if( active ) {
                 debugmode::enabled_filters.erase( filter_iter );
             } else {
-                debugmode::enabled_filters.push_back(
+                debugmode::enabled_filters.emplace(
                     static_cast<debugmode::debug_filter>( dbmenu.ret - 2 ) );
             }
         }

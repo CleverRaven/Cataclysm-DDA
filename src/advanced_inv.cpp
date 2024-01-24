@@ -288,7 +288,6 @@ void advanced_inventory::print_items( side p, bool active )
     const int index = pane.index;
     bool compact = TERMX <= 100;
     pane.other_cont = -1;
-    //std::vector<item *> other_pane_conts;
     std::unordered_set<const item *> other_pane_conts;
     if( panes[-p + 1].container ) {
         item_location parent_recursive = panes[-p + 1].container;
@@ -305,7 +304,7 @@ void advanced_inventory::print_items( side p, bool active )
     nc_color norm = active ? c_white : c_dark_gray;
 
     Character &player_character = get_player_character();
-    //print inventory's current and total weight + volumeS
+    //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ||
         ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
 

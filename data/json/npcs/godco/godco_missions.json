@@ -176,7 +176,7 @@
     "end": {
       "effect": [
         { "math": [ "godco_warehouse_in_progress", "=", "1" ] },
-        { "npc_add_var": "warehouse_started_building", "type": "timer", "context": "trade", "time": true },
+        { "math": [ "n_timer_trade_warehouse_started_building", "=", "time('now')" ] },
         { "u_spawn_item": "icon", "count": 137 }
       ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
@@ -307,7 +307,7 @@
     "end": {
       "effect": [
         { "math": [ "darryl_building_coop", "=", "1" ] },
-        { "npc_add_var": "coop_in_progress", "type": "timer", "context": "trade", "time": true },
+        { "math": [ "n_timer_trade_coop_in_progress", "=", "time('now')" ] },
         { "u_spawn_item": "icon", "count": 6 }
       ]
     }
@@ -798,10 +798,7 @@
     "difficulty": 1,
     "value": 0,
     "end": {
-      "effect": [
-        { "u_spawn_item": "icon", "count": 4 },
-        { "npc_add_var": "writing_manuscript", "type": "timer", "context": "trade", "time": true }
-      ]
+      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -940,7 +937,7 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
         { "math": [ "kostas_building_garden", "=", "1" ] },
-        { "npc_add_var": "herb_garden_in_progress", "type": "timer", "context": "trade", "time": true }
+        { "math": [ "n_timer_trade_herb_garden_in_progress", "=", "time('now')" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1203,7 +1200,7 @@
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
         { "math": [ "wall_in_progress", "=", "1" ] },
-        { "npc_add_var": "wall_started_building", "type": "timer", "context": "trade", "time": true },
+        { "math": [ "n_timer_trade_wall_started_building", "=", "time('now')" ] },
         { "u_spawn_item": "icon", "count": 40 }
       ]
     },

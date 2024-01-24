@@ -1,0 +1,47 @@
+[
+  {
+    "id": "zenfs_activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "width": 10,
+    "clauses": [
+      {
+        "id": "none",
+        "text": { "str": "Negligible", "ctxt": "Negligible activity level" },
+        "color": "dark_gray",
+        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
+      },
+      {
+        "id": "light",
+        "text": { "str": "Light   ", "ctxt": "Light activity level" },
+        "color": "green",
+        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
+      },
+      {
+        "id": "moderate",
+        "text": { "str": "Moderate ", "ctxt": "Moderate activity level" },
+        "color": "light_green",
+        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
+      },
+      {
+        "id": "brisk",
+        "text": { "str": "Brisk   ", "ctxt": "Brisk activity level" },
+        "color": "yellow",
+        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
+      },
+      {
+        "id": "active",
+        "text": { "str": "Intense ", "ctxt": "Intense activity level" },
+        "color": "light_red",
+        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
+      },
+      {
+        "id": "extreme",
+        "text": { "str": "Extreme ", "ctxt": "Extreme activity level" },
+        "color": "red",
+        "condition": { "math": [ "u_val('activity_level')", "==", "5" ] }
+      }
+    ]
+  }
+]

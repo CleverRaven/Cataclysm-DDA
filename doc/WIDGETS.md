@@ -888,7 +888,8 @@ how to display them. These take the form of a nested object containing several o
   "clauses": [
     { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
     { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." },
+    { "id": "some_var", "text": "<color_red>The some_var</color> is <global_val:some_var>", "parse_tags":true , "condition": "..." },
   ]
 }
 ```
@@ -905,7 +906,7 @@ which provides text and color definitions for different bodypart status conditio
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
 | `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
-
+| `parse_tags`| default false. If true, parse custom entries in `text` before displaying it. This can be used to display global_val or u_val.(see [Special Custom Entries](NPCs.md#special-custom-entries) for details) You can also use `<color_XXX></color>` to modify the color of your text.
 
 ## Conditions
 
