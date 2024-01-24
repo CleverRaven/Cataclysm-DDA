@@ -71,16 +71,11 @@
       {
         "text": "Has anyone come recently?",
         "condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" },
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "not": { "npc_compare_time_since_var": "wait", "type": "time", "context": "survivors", "op": "<", "time": "14 days" }
-          }
-        },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
-            { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+            { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
             { "mapgen_update": "lighthouse_man_survivor", "om_terrain": "lighthouse_ground" }
           ]
         },
@@ -472,7 +467,7 @@
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
       },
       "effect": [
-        { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+        { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
         { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" }
       ]
     },

@@ -52,7 +52,7 @@
       },
       {
         "text": "I'm back for your records.",
-        "condition": { "npc_compare_time_since_var": "fixing_records", "type": "timer", "context": "trade", "op": ">=", "time": "2 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_fixing_records)", ">=", "time('2 d')" ] },
         "effect": [
           { "u_spawn_item": "godcotrader_accounting_records_clean" },
           { "npc_lose_var": "fixing_records", "type": "timer", "context": "trade" }
@@ -114,7 +114,7 @@
       {
         "text": "Alright, I'll be back then.",
         "effect": [
-          { "npc_add_var": "fixing_records", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_fixing_records", "=", "time('now')" ] },
           { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
         ],
         "topic": "TALK_DONE"

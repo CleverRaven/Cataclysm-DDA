@@ -133,7 +133,7 @@ std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val )
 {
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+    if( check_value && !( jo.has_string( "value" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
@@ -141,13 +141,6 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
     const std::string &type_var = jo.get_string( "type", "" );
     const std::string &var_context = jo.get_string( "context", "" );
     default_val = get_dbl_or_var( jo, "default", false );
-    if( jo.has_member( "default_time" ) ) {
-        dbl_or_var value;
-        time_duration max_time;
-        mandatory( jo, false, "default_time", max_time );
-        value.min.dbl_val = to_turns<int>( max_time );
-        default_val = std::move( value );
-    }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
@@ -155,7 +148,7 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value )
 {
-    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+    if( check_value && !( jo.has_string( "value" ) ||
                           jo.has_array( "possible_values" ) ) ) {
         jo.throw_error( "invalid " + std::string( member ) + " condition in " + jo.str() );
     }
@@ -337,10 +330,6 @@ var_info read_var_info( const JsonObject &jo )
                                       ( jo.get_member( "default" ), time_duration::units ) ) );
     } else if( jo.has_float( "default" ) ) {
         default_val = std::to_string( jo.get_float( "default" ) );
-    } else if( jo.has_member( "default_time" ) ) {
-        time_duration max_time;
-        mandatory( jo, false, "default_time", max_time );
-        default_val = std::to_string( to_turns<int>( max_time ) );
     }
 
     if( jo.has_string( "var_name" ) ) {
@@ -1015,19 +1004,15 @@ conditional_t::func f_has_var( const JsonObject &jo, std::string_view member, bo
     dbl_or_var empty;
     const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
-    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
-    if( !time_check && !jo.has_member( "value" ) ) {
-        jo.throw_error( R"(Missing field: "value" or "time")" );
+    if( !jo.has_member( "value" ) ) {
+        jo.throw_error( R"(Missing field: "value")" );
         return []( dialogue const & ) {
             return false;
         };
     }
 
-    return [var_name, value, time_check, is_npc]( dialogue const & d ) {
+    return [var_name, value, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
-        if( time_check ) {
-            return !actor->get_value( var_name ).empty();
-        }
         return actor->get_value( var_name ) == value;
     };
 }
@@ -1089,48 +1074,6 @@ conditional_t::func f_compare_var( const JsonObject &jo, std::string_view member
 
         } else if( op == ">" ) {
             return stored_value > value;
-        }
-
-        return false;
-    };
-}
-
-conditional_t::func f_compare_time_since_var( const JsonObject &jo, std::string_view member,
-        bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &op = jo.get_string( "op" );
-    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                     time_duration::units ) );
-    return [var_name, op, value, is_npc]( dialogue const & d ) {
-        int stored_value = 0;
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( var.empty() ) {
-            return false;
-        } else {
-            stored_value = std::stof( var );
-        }
-        stored_value += value;
-        int now = to_turn<int>( calendar::turn );
-
-        if( op == "==" ) {
-            return stored_value == now;
-
-        } else if( op == "!=" ) {
-            return stored_value != now;
-
-        } else if( op == "<=" ) {
-            return now <= stored_value;
-
-        } else if( op == ">=" ) {
-            return now >= stored_value;
-
-        } else if( op == "<" ) {
-            return now < stored_value;
-
-        } else if( op == ">" ) {
-            return now > stored_value;
         }
 
         return false;
@@ -1238,14 +1181,6 @@ conditional_t::func f_npc_override( const JsonObject &jo, std::string_view membe
     str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
     return [rule, is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_ai_rule( "ally_override", rule.evaluate( d ) );
-    };
-}
-
-conditional_t::func f_days_since( const JsonObject &jo, std::string_view member )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    return [dov]( dialogue & d ) {
-        return calendar::turn >= calendar::start_of_cataclysm + 1_days * dov.evaluate( d );
     };
 }
 
@@ -2098,70 +2033,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [const_value]( dialogue const & ) {
             return const_value;
         };
-    } else if( jo.has_member( "time" ) ) {
-        const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                         time_duration::units ) );
-        return [value]( dialogue const & ) {
-            return value;
-        };
-    } else if( jo.has_member( "time_since_cataclysm" ) ) {
-        time_duration given_unit = 1_turns;
-        if( jo.has_string( "time_since_cataclysm" ) ) {
-            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [given_unit]( dialogue const & ) {
-            return ( to_turn<int>( calendar::turn ) - to_turn<int>( calendar::start_of_cataclysm ) ) /
-                   to_turns<int>( given_unit );
-        };
-    } else if( jo.has_member( "time_until_eoc" ) ) {
-        time_duration given_unit = 1_turns;
-        effect_on_condition_id eoc_id = effect_on_condition_id( jo.get_string( "time_until_eoc" ) );
-        if( jo.has_string( "unit" ) ) {
-            std::string given_unit_str = jo.get_string( "unit" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [eoc_id, given_unit]( dialogue const & ) {
-            queued_eocs copy_queue =
-                g->queued_global_effect_on_conditions;
-            time_point turn;
-            bool found = false;
-            while( !copy_queue.empty() ) {
-                if( copy_queue.top().eoc == eoc_id ) {
-                    turn = copy_queue.top().time;
-                    found = true;
-                    break;
-                }
-                copy_queue.pop();
-            }
-            if( !found ) {
-                return -1;
-            } else {
-                return to_turns<int>( turn - calendar::turn ) / to_turns<int>( given_unit );
-            }
-        };
     } else if( jo.has_member( "rand" ) ) {
         int max_value = jo.get_int( "rand" );
         return [max_value]( dialogue const & ) {
@@ -2280,20 +2151,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                     return std::atof( info.default_val.c_str() );
                 }
                 return 0.0;
-            };
-        } else if( checked_value == "time_since_var" ) {
-            dbl_or_var empty;
-            std::string var_name;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                var_name = get_talk_varname( jo, "var_name", false, empty );
-            }
-            return [is_npc, var_name]( dialogue const & d ) {
-                int stored_value = 0;
-                const std::string &var = d.actor( is_npc )->get_value( var_name );
-                if( !var.empty() ) {
-                    stored_value = std::stof( var );
-                }
-                return to_turn<int>( calendar::turn ) - stored_value;
             };
         } else if( checked_value == "allies" ) {
             if( is_npc ) {
@@ -2675,14 +2532,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 }
             }
         }
-    } else if( jo.has_member( "moon" ) ) {
-        return []( dialogue const & ) {
-            return static_cast<int>( get_moon_phase( calendar::turn ) );
-        };
-    } else if( jo.has_member( "hour" ) ) {
-        return []( dialogue const & ) {
-            return to_hours<int>( time_past_midnight( calendar::turn ) );
-        };
     } else if( jo.has_array( "distance" ) ) {
         JsonArray objects = jo.get_array( "distance" );
         if( objects.size() != 2 ) {
@@ -2739,22 +2588,11 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
     };
 }
 
-std::function<double( dialogue & )> conditional_t::get_get_dbl( const std::string &value,
-        const JsonObject &jo )
+std::function<double( dialogue & )> conditional_t::get_get_dbl[[noreturn]](
+    const std::string &value,
+    const JsonObject &jo )
 {
-    if( value == "moon" ) {
-        return []( dialogue const & ) {
-            return static_cast<int>( get_moon_phase( calendar::turn ) );
-        };
-    } else if( value == "hour" ) {
-        return []( dialogue const & ) {
-            return to_hours<int>( time_past_midnight( calendar::turn ) );
-        };
-    }
     jo.throw_error( "unrecognized number source in " + value );
-    return []( dialogue const & ) {
-        return 0.0;
-    };
 }
 
 static double handle_min_max( dialogue &d, double input, std::optional<dbl_or_var_part> min,
@@ -2785,30 +2623,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         };
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
-    } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm or time_since_var?  In "
-                        + jo.str() );
-    } else if( jo.has_member( "time_since_cataclysm" ) ) {
-        time_duration given_unit = 1_turns;
-        if( jo.has_string( "time_since_cataclysm" ) ) {
-            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
-            bool found = false;
-            for( const auto &pair : time_duration::units ) {
-                const std::string &unit = pair.first;
-                if( unit == given_unit_str ) {
-                    given_unit = pair.second;
-                    found = true;
-                    break;
-                }
-            }
-            if( !found ) {
-                jo.throw_error( "unrecognized time unit in " + jo.str() );
-            }
-        }
-        return [given_unit, min, max]( dialogue & d, double input ) {
-            calendar::turn = time_point( handle_min_max( d, input, min,
-                                         max ) * to_turns<int>( given_unit ) );
-        };
     } else if( jo.has_member( "rand" ) ) {
         jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
     } else if( jo.has_member( "faction_trust" ) ) {
@@ -2901,17 +2715,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), &d,
                                  handle_min_max( d, input, min, max ) );
-            };
-        } else if( checked_value == "time_since_var" ) {
-            // This is a strange thing to want to adjust. But we allow it nevertheless.
-            dbl_or_var empty;
-            std::string var_name;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                var_name = get_talk_varname( jo, "var_name", false, empty );
-            }
-            return [is_npc, var_name, min, max]( dialogue & d, double input ) {
-                int storing_value = to_turn<int>( calendar::turn ) - handle_min_max( d, input, min, max );
-                d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
             };
         } else if( checked_value == "allies" ) {
             // It would be possible to make this work by removing allies and spawning new ones as needed.
@@ -3330,7 +3133,6 @@ parsers = {
     {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"u_compare_var", "npc_compare_var", jarg::string, &conditional_fun::f_compare_var },
-    {"u_compare_time_since_var", "npc_compare_time_since_var", jarg::string, &conditional_fun::f_compare_time_since_var },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },
     {"npc_allies_global", jarg::member | jarg::array, &conditional_fun::f_npc_allies_global },
@@ -3343,7 +3145,6 @@ parsers = {
     {"u_cbm_recharge_rule", "npc_cbm_recharge_rule", jarg::member, &conditional_fun::f_npc_cbm_recharge_rule },
     {"u_rule", "npc_rule", jarg::member, &conditional_fun::f_npc_rule },
     {"u_override", "npc_override", jarg::member, &conditional_fun::f_npc_override },
-    {"days_since_cataclysm", jarg::member | jarg::array, &conditional_fun::f_days_since },
     {"is_season", jarg::member, &conditional_fun::f_is_season },
     {"u_mission_goal", "mission_goal", jarg::member, &conditional_fun::f_mission_goal },
     {"u_mission_goal", "npc_mission_goal", jarg::member, &conditional_fun::f_mission_goal },
