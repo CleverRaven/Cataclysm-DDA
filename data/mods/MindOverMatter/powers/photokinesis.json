@@ -426,8 +426,7 @@
       "math": [
         "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 10 : max((1500 -(u_spell_level('photokinetic_hide_ugly') * 75)), 150)"
       ]
-    },
-    "learn_spells": { "photokinetic_light_image": 6 }
+    }
   },
   {
     "id": "photokinetic_light_image",

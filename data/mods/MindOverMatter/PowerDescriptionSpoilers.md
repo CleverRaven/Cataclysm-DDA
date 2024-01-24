@@ -501,7 +501,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 4000, minus 125 per level to a minimum of 1500<br />
 *Channeling Time*: 125 moves, minus 7 moves per level to a minimum of 25<br />
 *Effects*: Create the illusion of multiple other arms, following and preceding the psion's movements, making it very difficult to determine where they will strike. Adds a +4 bonus to hit in melee combat.<br />
-*Prerequisites*: Trick of the Light 8<br />
+*Prerequisites*: Trick of the Light 8, Chameleoflage 6, Candle's Glow 6<br />
 
 ## Mirror-Mask (C)
 *Difficulty*: 4<br />
@@ -510,7 +510,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Stamina Cost*: 6500, minus 150 per level to a minimum of 2000<br />
 *Channeling Time*: 1500 moves, minus 75 moves per level to a minimum of 150<br />
 *Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.<br />
-*Prerequisites*: Chameleoflage 8<br />
+*Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 
 ## Lucid Shadows
 *Difficulty*: 5<br />
