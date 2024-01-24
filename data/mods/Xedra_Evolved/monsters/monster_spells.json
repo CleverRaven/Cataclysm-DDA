@@ -61,5 +61,19 @@
     "range_increment": 1,
     "min_duration": 500,
     "max_duration": 2000
+  },
+  {
+    "id": "mon_shamir_dig_spell",
+    "type": "SPELL",
+    "name": "Shamir Dig Pit Spell",
+    "description": "This is a monster only spell.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "ter_transform",
+    "effect_str": "ierde_create_pits_transform",
+    "shape": "blast",
+    "min_range": 10,
+    "max_range": 10
   }
 ]

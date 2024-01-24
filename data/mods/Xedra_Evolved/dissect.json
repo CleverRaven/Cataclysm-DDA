@@ -25,6 +25,12 @@
     "entries": [ { "drop": "ierde_sample_single", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_ierde_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "ierde_sample_small", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_undine_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",

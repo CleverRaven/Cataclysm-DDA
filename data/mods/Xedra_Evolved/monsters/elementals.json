@@ -60,6 +60,65 @@
     "flags": [ "DIGS", "HEARS", "FAE_CREATURE", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
+    "id": "mon_shamir_worm",
+    "type": "MONSTER",
+    "name": { "str_sp": "shamir" },
+    "description": "Poking out of the ground, you see a what looks like a worm, barely bigger than your pinky finger.  Its skin has a craggy, rocky texture, however, and it very clearly has three black eyes on one end.  As you watch, it stares at the ground and in a greenish flash, some dirt and stones vanish.",
+    "default_faction": "ierde",
+    "bodytype": "snake",
+    "species": [ "IERDE" ],
+    "volume": "30 ml",
+    "weight": "30 g",
+    "hp": 4,
+    "speed": 90,
+    "material": [ "stone" ],
+    "symbol": ".",
+    "color": "brown",
+    "aggression": -10,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 2,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_shamir_dig_spell", "min_level": 1 },
+        "cooldown": 20,
+        "monster_message": "%1$s stares at the rock!"
+      }
+    ],
+    "armor": {
+      "bash": 80,
+      "cut": 120,
+      "acid": 50,
+      "stab": 500,
+      "bullet": 500,
+      "heat": 500,
+      "biological": 500,
+      "electric": 500,
+      "cold": 500
+    },
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "dissect": "dissect_ierde_small",
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "BORES",
+      "DIGS",
+      "HEARS",
+      "WARM",
+      "FAE_CREATURE",
+      "PATH_AVOID_DANGER_1",
+      "BIOLOGICALPROOF",
+      "FIREPROOF",
+      "NOHEAD",
+      "NO_BREATHE",
+      "STUN_IMMUNE"
+    ]
+  },
+  {
     "type": "MONSTER",
     "id": "mon_spitting_lizard",
     "name": { "str": "spitting lizard" },
