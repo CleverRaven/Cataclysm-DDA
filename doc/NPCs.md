@@ -1010,7 +1010,6 @@ Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 `"get_condition"` | string or [variable object](#variable-object) | Runs the condition stored in the variable `get_condition` for the current dialogue.
-`"get_game_option"` | string or [variable object](#variable-object) | gets the true or false game option for the provided string.
 
 ---
 

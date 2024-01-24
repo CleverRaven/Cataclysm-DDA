@@ -113,7 +113,7 @@ std::function<double( dialogue & )> option_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[option = params[0]]( dialogue const & d ) {
-        return get_option<float>( option.str( d ) );
+        return get_option<float>( option.str( d ), true );
     };
 }
 

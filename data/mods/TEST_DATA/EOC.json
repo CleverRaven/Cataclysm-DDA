@@ -428,7 +428,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_options_test_nested",
-    "condition": { "get_game_option": "AUTOSAVE" },
+    "condition": { "math": [ "game_option('AUTOSAVE')" ] },
     "effect": [ { "math": [ "key3", "=", "1" ] } ]
   },
   {
