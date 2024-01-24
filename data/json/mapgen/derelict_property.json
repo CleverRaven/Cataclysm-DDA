@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "derelict_palette",
     "parameters": {
+      "variant": { "type": "nested_mapgen_id", "default": { "distribution": [ "derelict_property_1", "derelict_property_2", "derelict_property_3", "derelict_property_4", "derelict_property_5", "derelict_property_6", "derelict_property_7" ] } },
       "broken_wall_type": {
         "type": "ter_str_id",
         "default": {
@@ -121,10 +122,46 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "om_terrain": "derelict_property",
+    "//": "rows only defined bc otherwise palettes throws an error",
     "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
       "predecessor_mapgen": "forest",
+      "palettes": [ "derelict_palette" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "derelict_property_1" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -158,10 +195,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_2",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -195,10 +231,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_3",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "     sss                ",
@@ -232,10 +267,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_4",
     "object": {
-      "predecessor_mapgen": "forest_water",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -270,10 +304,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_5",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F                 $ $$ F",
         "$  WW                  $",
@@ -307,10 +340,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_6",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F   F$$$FsF   F   F$$$F ",
         "         s       W   W  ",
@@ -344,10 +376,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_7",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F  F$$F  F$$F           ",
         "                    W   ",
