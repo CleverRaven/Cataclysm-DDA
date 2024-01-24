@@ -64,7 +64,7 @@
         ",": "t_door_boarded",
         "(": "t_door_metal_pickable"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 0, "chance": 80, "status": 0 } ],
       "furniture": { "!": "f_region_flower", ";": "f_console_broken", "{": "f_table", "}": "f_chair", ")": "f_locker" },
       "set": [
         { "point": "trap", "id": "tr_beartrap", "x": [ 10, 11 ], "y": 2, "repeat": [ 1, 2 ] },
