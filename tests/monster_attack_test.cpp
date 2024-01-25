@@ -112,18 +112,32 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
                                    const std::string &monster_ter, const std::string &target_ter,
-                                   bool expected )
+                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent )
 {
     clear_map();
     map &here = get_map();
 
     SECTION( title ) {
+        const ter_id attacker_ledge = offset.z > 0 ? ter_id( "t_floor" ) : ter_id( "t_open_air" );
+        const ter_id target_ledge = offset.z > 0 ? ter_id( "t_open_air" ) : ter_id( "t_floor" );
+
+        const tripoint target_location = attacker_location + offset;
         here.ter_set( attacker_location, ter_id( monster_ter ) );
-        here.ter_set( attacker_location + offset, ter_id( target_ter ) );
-        test_monster_attack( offset, expected, true );
+        here.ter_set( target_location, ter_id( target_ter ) );
+        if( ledge ) {
+            for( const tripoint &more_offset : eight_horizontal_neighbors ) {
+                here.ter_set( attacker_location + more_offset, attacker_ledge );
+                here.ter_set( target_location + more_offset, target_ledge );
+            }
+        }
+        test_monster_attack( offset, expected_vertical, expected_vertical );
+        if( ledge ) {
+            here.ter_set( target_location, target_ledge );
+        }
+
         for( const tripoint &more_offset : eight_horizontal_neighbors ) {
             here.ter_set( attacker_location + offset + more_offset, ter_id( "t_floor" ) );
-            test_monster_attack( offset + more_offset, false, expected );
+            test_monster_attack( offset + more_offset, false, expected_adjacent );
         }
     }
 }
@@ -159,13 +173,19 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
         test_monster_attack( { -2, -2, 0 }, false, true );
     }
 
-    monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down", true );
-    monster_attack_zlevel( "attack_down_stairs", tripoint_below, "t_stairs_down", "t_stairs_up", true );
-    monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor", false );
-    monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down",
+                           false, true, true );
+    monster_attack_zlevel( "attack_down_stairs", tripoint_below, "t_stairs_down", "t_stairs_up",
+                           false, true, true );
+    monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor",
+                           false, false, false );
+    monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor",
+                           false, false, false );
 
-    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor", false );
-    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor",
+                           true, false, true );
+    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor",
+                           true, false, true );
 }
 
 TEST_CASE( "monster_special_attack", "[vision][reachability]" )
