@@ -75,9 +75,6 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
-static const furn_str_id furn_f_console( "f_console" );
-static const furn_str_id furn_f_console_broken( "f_console_broken" );
-static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
@@ -99,7 +96,6 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const quality_id qual_CUT( "CUT" );
 
-static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -1478,27 +1474,22 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
+
+    auto deconstruction_practice_skill = [ &player_character ]( auto & skill ) {
+        if( player_character.get_skill_level( skill.id ) >= skill.min ) {
+            // Uses a modified version of the complete_construction formula using 20 minutes with halved yield before the multiplier
+            player_character.practice( skill.id,
+                                       static_cast<int>( skill.multiplier * ( 5.0 / 6.0 ) * ( 10 + 7.5 * ( skill.min +
+                                               skill.max ) ) ), skill.max );
+        }
+    };
+
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
-        }
-        if( f.id.id() == furn_f_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( f.id.id() == furn_f_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
-        }
-        if( f.id.id() == furn_f_machinery_electronic )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
         }
         if( f.deconstruct.furn_set.str().empty() ) {
             here.furn_set( p, f_null );
@@ -1509,6 +1500,9 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         const std::vector<item *> drop = here.spawn_items( p,
                                          item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        if( f.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( f.deconstruct.skill.value() );
+        }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
         if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
             for( item *it : drop ) {
@@ -1545,6 +1539,9 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
         here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+        if( t.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( t.deconstruct.skill.value() );
+        }
     }
 }
 
