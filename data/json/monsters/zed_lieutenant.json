@@ -430,7 +430,7 @@
     "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
       { "math": [ "Shadow_Lurking", "=", "1" ] },
-      { "u_add_effect": "blind", "duration": "0 second" },
+      { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
