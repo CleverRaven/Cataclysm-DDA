@@ -1095,5 +1095,26 @@
         "else": { "u_message": "Canceled" }
       }
     ]
+  },
+  {
+    "id": "druid_anti_heat",
+    "type": "SPELL",
+    "name": "Water's Cooling Touch",
+    "description": "Draw on some of the essence of water, providing protection against the summer's heat.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_druid_anti_heat",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 2,
+    "max_level": 15,
+    "min_duration": 90000,
+    "max_duration": 900000,
+    "duration_increment": 54000,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 6000
   }
 ]

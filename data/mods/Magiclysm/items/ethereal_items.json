@@ -1502,5 +1502,41 @@
         { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
       ]
     }
+  },
+  {
+    "id": "aura_druid_breathing_water",
+    "type": "ARMOR",
+    "name": "Breathing Water",
+    "description": "You can travel and breathe underwater as long as this spell is in effect.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "symbol": "O",
+    "color": "blue",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "REBREATHER",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "WATERPROOF"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   }
 ]

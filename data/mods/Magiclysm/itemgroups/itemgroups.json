@@ -1269,6 +1269,7 @@
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
           { "item": "spell_scroll_seed_of_growth", "prob": 15 },
+          { "item": "spell_scroll_druid_anti_heat", "prob": 40 },
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
           { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
         ],

@@ -1752,5 +1752,14 @@
     "name": { "str": "Scroll of Shape Wood", "str_pl": "Scrolls of Shape Wood" },
     "description": "Grow a log from a living tree and prune it without violence.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_wood_living_tree_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_anti_heat",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water's Cooling Touch", "str_pl": "Scrolls of Water's Cooling Touch" },
+    "description": "Using a bit of water, transfer water's refreshing chill to yourself.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_anti_heat" ] }
   }
 ]
