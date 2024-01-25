@@ -62,7 +62,7 @@
   {
     "id": "mon_shamir_worm",
     "type": "MONSTER",
-    "name": { "str_sp": "shamir" },
+    "name": { "//~": "Biblical Hebrew term", "str_sp": "shamir" },
     "description": "Poking out of the ground, you see a what looks like a worm, barely bigger than your pinky finger.  Its skin has a craggy, rocky texture, however, and it very clearly has three black eyes on one end.  As you watch, it stares at the ground and in a greenish flash, some dirt and stones vanish.",
     "default_faction": "ierde",
     "bodytype": "snake",
@@ -244,7 +244,7 @@
   {
     "id": "mon_ratatosk_children",
     "type": "MONSTER",
-    "name": { "str": "Ratatosk's child" },
+    "name": { "str": "Ratatosk's child", "str_pl": "Ratatosk's children" },
     "description": "A large granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
     "default_faction": "arvore",
     "bodytype": "pig",
@@ -333,7 +333,7 @@
   {
     "id": "mon_defender_wood",
     "type": "MONSTER",
-    "name": { "str": "defender of the wood" },
+    "name": { "str": "defender of the wood", "str_pl": "defenders of the wood" },
     "description": "An enormous man-like form with the head of a stag, over ten feet tall, covered in short fur and wearing a loincloth of leaves and vines and topped with a rack of majestic antlers.  It carries a long, sharpened stake of wood as thick as a man's arm in one hand.",
     "default_faction": "arvore",
     "bodytype": "human",
@@ -470,7 +470,11 @@
   {
     "id": "mon_elemental_saraph",
     "type": "MONSTER",
-    "name": { "str": "saraph", "str_pl": "seraphim" },
+    "name": {
+      "//~": "Here referencing the serpents in Numbers 21:6, but the same root as the modern word for the type of angel.",
+      "str": "saraph",
+      "str_pl": "seraphim"
+    },
     "description": "This four-winged serpent constantly twirls and spins as it flies through the air, its wings always in motion.  Or at least, you think so.  It's glowing so brightly it's painful to look at, and the air around it wavers like the heat haze over pavement at midsummer.",
     "default_faction": "salamander",
     "bodytype": "snake",

@@ -168,9 +168,23 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_IERDE",
     "monsters": [
-      { "monster": "mon_monstrous_badger", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_stoneling", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_monstrous_badger", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_stoneling", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_shamir_worm", "weight": 100, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_IERDE_LESSER",
+    "monsters": [
+      { "monster": "mon_monstrous_badger", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_stoneling", "weight": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_IERDE_MEDIAL",
+    "monsters": [ { "monster": "mon_shamir_worm", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
