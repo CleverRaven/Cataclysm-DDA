@@ -1041,7 +1041,8 @@
           "t_wall_half": "t_wall",
           "t_brick_wall_halfway": "t_brick_wall"
         }
-      }
+      },
+      "4": "t_gutter_downspout"
     },
     "furniture": {
       "r": "f_rubble",
@@ -1065,7 +1066,8 @@
     "nested": {
       "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
       "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] }
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] },
+      "4": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
     },
     "items": {
       "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },
