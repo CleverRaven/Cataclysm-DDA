@@ -533,6 +533,11 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
+    "id": "nails",
+    "type": "requirement",
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
+  },
+  {
     "id": "wax_any",
     "type": "requirement",
     "//": "Both wax types, for when the recipe doesn't really care.",

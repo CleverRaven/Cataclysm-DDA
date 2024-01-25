@@ -21,6 +21,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "input_context.h" // IWYU pragma: keep
 #include "json.h"
 #include "json_error.h"
 #include "json_loader.h"
