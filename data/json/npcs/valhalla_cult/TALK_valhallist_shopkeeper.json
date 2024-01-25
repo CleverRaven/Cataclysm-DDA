@@ -55,13 +55,7 @@
       },
       {
         "text": "How are those mushrooms coming along?",
-        "condition": {
-          "npc_compare_time_since_var": "npc_growing_mushrooms",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "30 d"
-        },
+        "condition": { "math": [ "time_since(n_timer_trade_npc_growing_mushrooms)", ">=", "time('30 d')" ] },
         "topic": "TALK_VALHALLIST_SHOPKEEPER_Sell_Mushrooms"
       },
       {

@@ -1,13 +1,11 @@
 #include "game.h"
 
 #include <functional>
-#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
 #include <climits>
 #include <cmath>
-#include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -22,7 +20,6 @@
 #include <memory>
 #include <numeric>
 #include <queue>
-#include <ratio>
 #include <set>
 #include <sstream>
 #include <string>
@@ -52,7 +49,6 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
-#include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
@@ -84,7 +80,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "explosion.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -97,10 +92,10 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
-#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -133,10 +128,8 @@
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
-#include "monattack.h"
 #include "monexamine.h"
 #include "monstergenerator.h"
-#include "morale_types.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
@@ -170,7 +163,6 @@
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
@@ -196,8 +188,6 @@
 #if defined(TILES)
 #include "sdl_utils.h"
 #endif // TILES
-
-class computer;
 
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -2030,6 +2020,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool exit = false;
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
+        catacurses::window w_info;
         do {
             //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
@@ -2118,8 +2109,6 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
                 data.without_getch = true;
-
-                catacurses::window w_info;
 
                 ui = std::make_unique<ui_adaptor>();
                 ui->on_screen_resize( [&]( ui_adaptor & ui ) {
@@ -5330,8 +5319,7 @@ bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_clas
                       std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
 {
     if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                              unique_id );
+        add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
         return false;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();

@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <tuple>
@@ -31,7 +30,7 @@
 #include "cursesdef.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
@@ -981,6 +980,12 @@ void avatar::initialize( character_type type )
     }
 
     prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
 }
 
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,

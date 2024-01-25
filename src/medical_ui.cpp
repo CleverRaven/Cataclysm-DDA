@@ -1,12 +1,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <numeric>
-#include <set>
 #include <string>
 #include <utility>
 
-#include "action.h"
 #include "addiction.h"
 #include "avatar_action.h"
 #include "creature.h"
@@ -16,9 +13,9 @@
 #include "effect.h"
 #include "flag.h"
 #include "game.h"
+#include "input_context.h"
 #include "output.h"
 #include "ui_manager.h"
-#include "vitamin.h"
 #include "weather.h"
 
 static const efftype_id effect_bite( "bite" );

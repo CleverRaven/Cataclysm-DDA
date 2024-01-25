@@ -53,41 +53,25 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": ">=",
-          "time": "2 days"
-        },
+        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] },
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
         ],
         "switch": true
       },
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": "<",
-          "time": "2 days"
-        },
+        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", "<", "time('2 d')" ] },
         "switch": true
       },
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
         ],
         "switch": true,
         "default": true
@@ -167,19 +151,19 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
           "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
           "no": {
-            "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
             "no": {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
               "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
@@ -193,9 +177,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
         },
@@ -207,9 +189,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
           ]
         },
@@ -221,9 +201,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
         },
@@ -235,9 +213,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
           ]
         },
@@ -288,7 +264,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] }
       ]
     },
     "responses": [

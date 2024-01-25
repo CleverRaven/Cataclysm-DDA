@@ -21,6 +21,7 @@ C++ flags used by all builds:
 /GF     Eliminate Duplicate Strings
 /wd4068 unknown pragma
 /wd4146 negate unsigned
+/wd4661 explicit template undefined
 /wd4819 codepage?
 /wd6237 short-circuit eval
 /wd6319 a, b: unused a
@@ -54,7 +55,7 @@ set(CMAKE_C_COMPILER   cl.exe)
 set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
-/wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
+/wd4068 /wd4146 /wd4661 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
 /TP /Zc:forScope /Zc:inline /Zc:wchar_t"
 )
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT
@@ -71,7 +72,6 @@ add_link_options(
     /OPT:REF
     /OPT:ICF
     /LTCG:OFF
-    /MANIFEST:NO
     /INCREMENTAL:NO
     /DYNAMICBASE
     /NXCOMPAT

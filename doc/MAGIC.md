@@ -765,7 +765,19 @@ This enchantment checks the amount of monsters near the character (in a 25 tile 
 
 Here's an enchantment that relies on a custom variable check, the full power of EOCs in your hand.
 
-First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
+First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside a math operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
+
+`condition` field support any EoC condition
+
+```json
+  {
+    "type": "enchantment",
+    "id": "BITE_STR",
+    "has": "WIELD",
+    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] },
+    "values": [ { "value": "STRENGTH", "add": 5 } ]
+  }
+```
 
 ### ID values
 
@@ -832,6 +844,7 @@ Character status value  | Description
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
+`SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.

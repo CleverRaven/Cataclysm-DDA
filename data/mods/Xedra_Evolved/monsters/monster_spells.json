@@ -39,5 +39,27 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat"
+  },
+  {
+    "id": "mon_arvore_roots_spell",
+    "type": "SPELL",
+    "name": { "str": "Hungry Thirsty Roots Monster" },
+    "description": "This is a monster only spell.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "teachable": false,
+    "effect": "attack",
+    "effect_str": "effect_hungry_roots",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_aoe": 0,
+    "max_aoe": 3,
+    "aoe_increment": 0.25,
+    "min_range": 4,
+    "max_range": 15,
+    "range_increment": 1,
+    "min_duration": 500,
+    "max_duration": 2000
   }
 ]

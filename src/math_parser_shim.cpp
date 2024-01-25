@@ -1,5 +1,6 @@
 #include "math_parser_shim.h"
-#include "math_parser_diag.h"
+
+#include "math_parser_diag_value.h"
 #include "math_parser_func.h"
 
 #include <map>

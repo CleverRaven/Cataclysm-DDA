@@ -142,16 +142,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
     "max_intensity": 3,
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "LUMINATION",
-            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
-          }
-        ]
-      }
-    ],
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": { "math": [ "u_effect_intensity('foxfire_imbibed') * 50" ] } } ] } ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -694,6 +685,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_underground_timer",
+    "name": [ "Underground in Dead Air" ],
+    "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_broke_fae_ban",
     "name": [ "Broken Ban" ],
     "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
@@ -753,7 +751,8 @@
     "desc": [ "Roots and vines clutch at you." ],
     "max_intensity": 4,
     "int_add_val": 1,
-    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "show_in_info": true,
+    "apply_message": "Roots and vines entangle you!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -822,6 +821,27 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_no_mind_problems",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "hallu", "taint", "hallucinogenic_acid_heavy", "hallucinogenic_acid_light", "visuals" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_sense_nearby_monsters",
+    "name": [ "Earth-Sensing" ],
+    "desc": [ "You are sensing the movements of nearby creatures upon the living earth." ],
+    "apply_message": "Nearby creatures' movements are revealed to you.",
+    "remove_message": "Your earth-sense fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -977,6 +997,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lucid_dream",
+    "name": [ "Lucid Dreaming" ],
+    "rating": "good",
+    "dur_add_perc": 0,
+    "desc": [ "While you may just be dreaming, you are still capable of affecting the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_smoke_form",
     "name": [ "Smoke Form" ],
     "desc": [ "You have transformed yourself into a cloud of smoke." ],
@@ -1007,6 +1035,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_levitation",
+    "name": [ "Wind-Walking" ],
+    "desc": [ "You are walking on the winds." ],
+    "apply_message": "",
+    "remove_message": "Your feet touch the ground once again.",
+    "rating": "good",
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_undine_escape_grabs",
     "name": [ "Flow Like Water" ],
     "desc": [ "Your movements are inhumanly fluid." ],
@@ -1021,6 +1059,17 @@
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
     "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_undine_spell_slow",
+    "name": [ "Slowed by the Current" ],
+    "desc": [ "Currents of aetherial water are hindering your movements." ],
+    "rating": "bad",
+    "apply_message": "You feel like you're wading through a rushing river!",
+    "remove_message": "The drag on your movements is gone.",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -25 ] }
   },
   {
     "type": "effect_type",
@@ -1097,6 +1146,27 @@
     "desc": [ "" ],
     "//": "Empty name and description to hide effect.  This is just a tracker to make learning gossamer recipes take time.",
     "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_paraclesian_see_fae",
+    "name": [ "Wyrd Sight" ],
+    "desc": [ "You can sense nearby creatures that come from under the hill." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_FAE",
+            "add": {
+              "math": [
+                "(u_val('perception') * 2) * max(( 1.5 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE'))),1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

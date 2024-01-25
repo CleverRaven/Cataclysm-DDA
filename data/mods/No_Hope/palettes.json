@@ -1012,7 +1012,8 @@
       "h": "t_floor",
       "H": "t_floor",
       "m": "t_floor",
-      "r": "t_floor",
+      "r": "t_floor_noroof",
+      ",": "t_floor_noroof",
       "{": "t_floor",
       "B": "t_floor",
       "c": "t_floor",
@@ -1023,7 +1024,7 @@
       "b": "t_linoleum_gray",
       "T": "t_linoleum_gray",
       "&": "t_linoleum_gray",
-      "v": "t_linoleum_gray",
+      "v": "t_linoleum_gray_no_roof",
       "=": "t_thconc_floor",
       "R": "t_thconc_floor",
       "0": [ [ "t_window_boarded_noglass", 2 ], [ "t_window_boarded", 2 ], "t_window_empty" ],
@@ -1041,7 +1042,8 @@
           "t_wall_half": "t_wall",
           "t_brick_wall_halfway": "t_brick_wall"
         }
-      }
+      },
+      "4": "t_gutter_downspout"
     },
     "furniture": {
       "r": "f_rubble",
@@ -1065,7 +1067,8 @@
     "nested": {
       "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
       "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] }
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] },
+      "4": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
     },
     "items": {
       "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },

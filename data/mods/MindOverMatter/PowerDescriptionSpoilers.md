@@ -3,6 +3,8 @@ Note that every power, unless otherwise specified, is affected by Intelligence s
 
 A (C) after a power name indicates that it can be maintained by concentration.
 
+All powers have a kCal cost equal to (Difficulty of power * 5) times a randomized factor from 0.3 to 1.7. This applies when the power is first used and when the power is maintained (if a concentration power).
+
 # Biokinesis
 **Note**: No biokinetic powers have a target listed because they only affect the psion. 
 
@@ -423,6 +425,148 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
 *Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />
 
+# Photokinesis
+
+**Passive Power: Photon Regulation**: The photokinetic regulates the amount of light their eyes receive. They can sleep in any light level, are immune to flashbangs, and are not impacted by sun glare.
+
+Powers causing photokinetic damage have a 40% chance to blind the target for 3 seconds and a 5% chance to blind the target for 10 seconds. Each of these is checked independently.
+
+## Candle's Glow (C)
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 26 minutes to 57 minutes, plus 4 minutes and 20 seconds to 14 minutes and 30 seconds per power level<br />
+*Stamina Cost*: 1500, minus 80 per level to a minimum of 450<br />
+*Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 50<br />
+*Effects*: Generate a small amount of photons near the psion, producing just enough light to read or work by. The light requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Starting power<br />
+
+## Field of Light
+*Difficulty*: 2<br />
+*Target*: An area of 1 square plus 0.8 squares per power level to a maximum of 50 squares, out to a distance of 5 squares plus 1.2 squares per power level to a maximum of 80 squares<br />
+*Duration*: Halflife of 5 minutes at levels 0-7, 15 minutes at levels 8-15, and 30 minutes at level 16+<br />
+*Stamina Cost*: 2500, minus 115 per level to a minimum of 1000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 75<br />
+*Effects*: Creates a large glow over an area, filling the entire area with light.<br />
+*Prerequisites*: Starting power<br />
+
+## Blackout
+*Difficulty*: 2<br />
+*Target*: An area of 1 square plus 0.8 squares per power level to a maximum of 50 squares, out to a distance of 5 squares plus 1.2 squares per power level to a maximum of 80 squares<br />
+*Duration*: Halflife of 5 minutes<br />
+*Stamina Cost*: 2500, minus 115 per level to a minimum of 1000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 75<br />
+*Effects*: Snuffs out all light in the targeted area. Visibility is reduced to zero.<br />
+*Prerequisites*: Candle's Glow 5 *or* Field of Light 4<br />
+
+## Trick of the Light
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 28 seconds to 2 minutes and 5 seconds, plus 13 to 27 seconds per power level, or until hit in combat<br />
+*Stamina Cost*: 2250, minus 135 per level to a minimum of 500<br />
+*Channeling Time*: 200 moves, minus 9.5 moves per level to a minimum of 65<br />
+*Effects*: Wreathe the psion on blurred illusions, confusing their form and making it unclear where exactly they are standing. Adds +6 to dodge, applies the UNCANNY_DODGE and HARDTOHIT flags, and provides a flat 15% + 2% per power level chance to evade the attack on top of normal dodge chance, to a maximum of 85% chance to evade. However, the power instantly ends if the psion is hit.<br />
+*Prerequisites*: Field of Light 5, Blackout 5<br />
+
+## Photon Beam
+*Difficulty*: 3<br />
+*Target*: A line up to 2 squares long plus 0.6 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2750, minus 125 per level to a minimum of 800<br />
+*Channeling Time*: 110 moves, minus 6 moves per level to a minimum of 35<br />
+*Effects*: Concentrate light into a searing beam, doing 3 to 15 damage plus 1.5 to 3.5 photokinetic damage to all enemies in the line of the power.<br />
+*Prerequisites*: Candle's Glow 8 *or* Field of Light 6<br />
+
+## Chameleoflage (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 11 minutes and 30 seconds to 23 minutes and 50 seconds, plus 48 seconds to 1 minute and 53 seconds per power level<br />
+*Stamina Cost*: 3500, minus 75 per level to a minimum of 1500<br />
+*Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 75<br />
+*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 15% from levels 1-3, 25% from levels 4-7, 35% from levels 8-11, 43% from levels 12-15, 50% from levels 16-19, and 55% at level 20+.<br />
+*Prerequisites*: Trick of the Light 6<br />
+
+## Lucent Barrier (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 6 minutes and 10 seconds to 13 minutes and 30 seconds, plus 18 seconds to 2 minutes and 22 seconds per power level<br />
+*Stamina Cost*: 3000, minus 125 per level to a minimum of 800<br />
+*Channeling Time*: 250 moves, minus 4.5 moves per level to a minimum of 100<br />
+*Effects*: Control the light and electromagnetic radiation near the psion, effectively forming a shield. This renders the psion immune to photokinetic attack as well as laser weapons and radiation. The barrier glows softly when in effect.<br />
+*Prerequisites*: Trick of the Light 9 *or* Blackout 6 *and* Chameleoflage 5<br />
+
+## Refracted Arms
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 26 seconds to 1 minutea nd 11 seconds, plus 8 seconds to 41 seconds per power level<br />
+*Stamina Cost*: 4000, minus 125 per level to a minimum of 1500<br />
+*Channeling Time*: 125 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Create the illusion of multiple other arms, following and preceding the psion's movements, making it very difficult to determine where they will strike. Adds a +4 bonus to hit in melee combat.<br />
+*Prerequisites*: Trick of the Light 8, Chameleoflage 6, Candle's Glow 6<br />
+
+## Mirror-Mask (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 7 minutes and 30 seconds to 14 minutes and 50 seconds, plus 22.5 seconds to 55 seconds per power level<br />
+*Stamina Cost*: 6500, minus 150 per level to a minimum of 2000<br />
+*Channeling Time*: 1500 moves, minus 75 moves per level to a minimum of 150<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.<br />
+*Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
+
+## Lucid Shadows
+*Difficulty*: 5<br />
+*Target*: A square up to squares aware plus 0.8 squares per power level to a maximum of 40 squares<br />
+*Duration*: 48 seconds to 2 minutes and 16.5 seconds, plus 5.5 to 13.5 seconds per power level<br />
+*Stamina Cost*: 4000, minus 145 per level to a minimum of 1750<br />
+*Channeling Time*: 150 moves, minus 4 moves per level to a minimum of 90<br />
+*Effects*: Create identical copies of the psion, anywhere from 1 to one-third of the power level copies. The copies will run around and confuse the psion's enemies while the power lasts.<br />
+*Prerequisites*: Refracted Arms 6 *or* Chameleoflage 6, Photon Beam 6<br />
+
+## Radio Transception (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 24 minutes and 12 seconds to 1 hour and 27 minutes, plus 2 minutes and 6 seconds to 12 minutes and 50 seconds per power level<br />
+*Stamina Cost*: 5000, minus 100 per level to a minimum of 2250<br />
+*Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 75<br />
+*Effects*: Open the psion up to radio waves, allowing them to scan any remaining radio broadcasts or broadcast to anyone with a functional radio.<br />
+*Prerequisites*: Field of Light 8 *or* Photon Beam 7, Lucent Barrier 6<br />
+
+## Veil of Light
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 16 seconds to 42 seconds, plus 6 seconds to 23 seconds per power level<br />
+*Stamina Cost*: 3500, minus 125 per level to a minimum of 1200<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 35<br />
+*Effects*: Warp light around the psion, making them completely invisible while still allowing them to perceive their surroundings. There is a chance when moving that the effect will break: 2% minus 0.1% per power level to a minmum of 0.4% per square when crawling or walking, and 8% minus 0.3% per power level to a minimum of 3% per square when running.<br />
+*Prerequisites*: Lucent Barrier 6 *or* Lucid Shadows 6, Mirror-Mask 6 *or* Chameleoflage 10<br />
+
+## Star Flash
+*Difficulty*: 6<br />
+*Target*: A line up to 2 squares long plus 0.6 squares per power level, and 1 additional square in breadth plus 0.3 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5500, minus 125 per level to a minimum of 2750<br />
+*Channeling Time*: 135 moves, minus 8.5 moves per level to a minimum of 40<br />
+*Effects*: Unleash a high-powered laser blast, doing 20 to 54 photokinetic damage plus 2.5 to 6 photokinetic damage per level to everything within the targeted line.<br />
+*Prerequisites*: Photon Beam 8, Lucent Barrier 6 *or* Refracted Arms 6<br />
+
+## Blinding Radiance
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 59 seconds to 2 minutes and 58 seconds, plus 11 seconds to 47 seconds per power level<br />
+*Stamina Cost*: 6500, minus 95 per level to a minimum of 3250<br />
+*Channeling Time*: 125 moves, minus 7.5 moves per level to a minimum of 25<br />
+*Effects*: Begin glowing brighter than a floodlight, illuminating the ground out to XXXX squares and gaining a +4 dodge bonus as enemies have a hard time targeting the psion.  When hit or when attacking enemies, there is a 33% chance the psion will unleash an even brighter flash that blinds everyone within 5 squares plus 1.2 squares per power level for between 5 and 20 seconds.<br />
+*Prerequisites*: Field of Light 12, Star Flash 6 *or* Lucent Barrier 10<br />
+
+## Luminous Disintegration
+*Difficulty*: 8<br />
+*Target*: One target within 2 squares long plus 0.8 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8000, minus 150 per level to a minimum of 4000<br />
+*Channeling Time*: 200 moves, minus 10 moves per level to a minimum of 50<br />
+*Effects*: Focus electromagnetic radiation onto a single point, doing immense damage to the target there.  This power does 45 to 135 photokinetic damage plus 5.5 to 17 photokinetic damage per power level<br />
+*Prerequisites*: Star Flash 8 *or* Photon Beam 14, Blinding Radiance 5<br />
+
+
 # Pyrokinesis
 
 **Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
@@ -555,7 +699,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, thogh they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+
+Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
 ## Far Hand 
 *Difficulty*: 1<br />
@@ -682,6 +828,129 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 45<br />
 *Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
 *Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
+
+# Telepathy
+
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+
+Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
+
+## Concentration Trance (C)
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 9 minutes and 20 seconds to 17 minutes and 13 seconds, plus 2 minutes and 12 seconds to 10 minutes and 5 seconds per power level<br />
+*Stamina Cost*: 4000, minus 175 per level to a minimum of 1500<br />
+*Channeling Time*: 300 moves, minus 12 moves per level to a minimum of 150<br />
+*Effects*: The psion enters a trance that facilitates learning, adding learning focus equal to 2.5 * the power level. The trance takes up most of the psion's concentration, however, increasing movement cost by 3x and reducing vision range the same as the nearsighted trait. The trance requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Starting power<br />
+
+## Sense Minds (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 1 minute 30 seconds to 10 minutes, plus 26 seconds to 2 minutes and 11 seconds per power level<br />
+*Stamina Cost*: 3500, minus 115 per level to a minimum of 1500<br />
+*Channeling Time*: 500 moves<br />
+*Effects*: Sense all sapient living beings within 2 squares per power level around the psion.  This includes all humans, sapient aliens such as mi-go or triffids (but not the triffids' vegetal defense biotechnology), most mutants who are not too far gone, Nether beings, and cyborgs, and excludes animals and robots.<br />
+*Prerequisites*: Starting power<br />
+
+## Telepathic Shield (C)
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
+*Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
+*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damag and most telepathy-related effects while this power is active.<br />
+*Prerequisites*: Concentration Trance 5<br />
+
+## Mood Stabilization (C)
+*Difficulty*: 3<br />
+*Target*: Self (or dialogue)<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
+*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
+
+## Synaptic Blast
+*Difficulty*: 4<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 125 per level to a minimum of 900<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, causing damage equal to a percentage of their current health, beginning at 5% and adding 1.5% to 3% per power level.  As such, Synaptic Blast is almost never capable of killing the target.<br />
+*Prerequisites*: Sense Minds 7, Mood Stabilization 4<br />
+
+## Beastmaster
+*Difficulty*: 4<br />
+*Target*: One mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 3 minutes to 7 minutes and 50 seconds, plus 11.25 seconds to 28 seconds per power level<br />
+*Stamina Cost*: 4500, minus 155 per level to a minimum of 2000<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 75<br />
+*Effects*: Take over the mind of an animal, making it friendly to you.  While still an animal and subject to its instincts, it will not be hostile to you or run while the power is active, and may fight to defend you, again subject to its instincts (a wolf is a much better battle companion than a lemming).<br />
+*Prerequisites*: Mood Stabilization 8<br />
+
+## Sensory Deprivation
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 to 8 seconds, plus 0.5 to 1.5 seconds per power level<br />
+*Stamina Cost*: 3750, minus 150 per level to a minimum of 1500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Assault the target's mind, disconnecting their senses. Blinds and stuns the target for the duration.<br />
+*Prerequisites*: Synaptic Blast 6 *or* Mood Stabilization 6, Telepathic Shield 5<br />
+
+## Primal Terror
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
+*Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
+*Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
+
+## Obscurity
+*Difficulty*: 6<br />
+*Target*: One target within 3 squares plus 1.1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: 2 minutes and 7 seconds to 8 minutes and 43 seconds, plus 13 to 52 seconds per power level<br />
+*Stamina Cost*: 4500, minus 115 per level to a minimum of 2250<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 25<br />
+*Effects*: The psion erases their presence from the target's mind. For the power's duration, the target will not be able to see the psion at all; they will react to any companions or allies the psion has as normal. Attacking the target will immediately cancel the power.<br />
+*Prerequisites*: Sensory Deprivation 8, Mood Stabilization 6 *or* Synaptic Blast 11 *or* Telepathic Shield 8<br />
+
+## Psychic Scream
+*Difficulty*: 7<br />
+*Target*: Everything within a radius of 2 squares plus 1.1 squares per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7000, minus 275 per level to a minimum of 3250<br />
+*Channeling Time*: 75 moves, minus 6.5 moves per level to a minimum of 30<br />
+*Effects*: Unleash an undirected telepathic shriek, doing 3% of maximum health as damage plus 1% to 2% per power level, +1 flat damage. This second flat damage counts as an additional attack for the purposes of the side effects of telepathic damage.<br />
+*Prerequisites*: Synaptic Blast 11 *or* Primal Fear 7, Telepathic Shield 5<br />
+
+## Beast Tamer
+*Difficulty*: 7<br />
+*Target*: One friendly mammal, bird, reptile, amphibian, or fish within target within 3 squares plus 1 square per power level<br />
+*Duration*: 28 days to 56 days, plus 1 day to 3 days per power level<br />
+*Stamina Cost*: 8000, minus 185 per level to a minimum of 5500<br />
+*Channeling Time*: 2 minutes<br />
+*Effects*: Deepen the psion's influence over a friendly animal, making it well-disposed toward the them. The animal counts as tamed and may be tied up, played with, ridden, and all other functions available to tame animals.<br />
+*Prerequisites*: Beastmaster 10<br />
+
+## Mind Control
+*Difficulty*: 8<br />
+*Target*: One target within 3 squares plus 1 square per power level. Does not affect creatures without a living mind (no robots, no portal storm entities, etc.)<br /><br />
+*Duration*: 6 to 52 seconds, plus 1.5 to 6.5 seconds per power level<br />
+*Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
+*Channeling Time*: 120 moves, minus 3.5 moves per level to a minimum of 65<br />
+*Effects*: Take over the mind of your target.  The target will not be hostile to you or run while the power is active, and may fight to defend you, subject to its normal behaviors; mind controlling a salmon is unlikely to provide a significant edge in battle.  Due to engine limitations, does not currently work on NPCs.<br />
+*Prerequisites*: Mood Stabilization 12 *or* Obscurity 6, Primal Terror 5 *or* Beastmaster 8 *or* Sensory Deprivation 7<br />
+
+## Network Effect
+*Difficulty*: 9<br />
+*Target*: All nearby NPC allies<br /><br />
+*Duration*: 1 minute and 40 seconds to 5 minutes, plus 7 to 34 seconds per power level<br />
+*Stamina Cost*: 6500, minus 135 per level to a minimum of 3750<br />
+*Channeling Time*: 500 moves, minus 9 moves per level to a minimum of 250<br />
+*Effects*: Forge a telepathic connection between nearby allies, allowing immediate reaction to threats and better coordination against danger. This provides a large array of bonuses: +1 dodge and block and another +1 per 12 power levels, +1 Perception and another +1 per 5 power levels, +3 ranged weapon range and another +1 per 4 power levels, a 5% chance to evade incoming attacks and another +1% per 2 power levels, 5% increased damage and another +1% per 2 power levels, increased combat skill gain, and the UNCANNY DODGE flag. It applies to all targets, but may only be used when at least 1 NPC ally is nearby.<br />
+*Prerequisites*: Mind Sense 10, Telepathic Concentration 10 *or* Mood Stabilization 8, Psychic Scream 6<br />
 
 # Teleportation
 

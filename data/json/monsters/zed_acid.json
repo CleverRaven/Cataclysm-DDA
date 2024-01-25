@@ -32,6 +32,7 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 30, "into": "mon_zombie_spitter" },
+    "fungalize_into": "mon_zombie_fungus_acidic",
     "flags": [
       "SEES",
       "HEARS",
@@ -106,6 +107,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus_acidic",
     "flags": [
       "SEES",
       "HEARS",
@@ -158,6 +160,7 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 42, "into": "mon_zombie_corrosive" },
+    "fungalize_into": "mon_zombie_fungus_acidic",
     "flags": [
       "SEES",
       "HEARS",

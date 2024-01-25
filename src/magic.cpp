@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <memory>
 #include <set>
-#include <tuple>
 #include <utility>
 
 #include "avatar.h"
@@ -26,21 +25,18 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
-#include "flat_set.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"
-#include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"

@@ -6,7 +6,7 @@
     "responses": [
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
       { "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -17,7 +17,7 @@
     "responses": [
       { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
       { "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -29,7 +29,7 @@
       { "text": "Where did you go then?", "topic": "BGSS_GUNG_HO_3_STORY2" },
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
       { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -40,7 +40,7 @@
     "responses": [
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
       { "text": "What was it you said before?", "topic": "BGSS_GUNG_HO_3_STORY1" },
-      { "text": "That's quite a story.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "That's quite a story.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "That's quite a story.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -50,7 +50,7 @@
     "dynamic_line": "We're all thinking the same thing, aren't we?  Not much this could be but some kind of secret military bullshit.  At first, I thought it was our own government, but after all that went down, it's just too much.  It must've been the Chinese.  I wonder if those sons of bitches are sitting back home, right as rain, watching us struggling down here and waiting for things to die down.",
     "responses": [
       { "text": "How could that have caused everything that went down?", "topic": "BGSS_GUNG_HO_3_IDEAS2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -59,7 +59,7 @@
     "type": "talk_topic",
     "dynamic_line": "I dunno, I'm no expert.  You might not remember, but there was that big news a couple years back that supposedly China had some kind of super fusion reactor.  I read a news article, apparently that was all a front for some other kind of secret weapon they were working on.  Made so much energy, there was no way to hide it, so they made it a story about fusion power instead.  That'd explain why we never saw fusion power Stateside, don't you think?  And if they were that much more advanced that they could make fusion power, who knows what else they could make.",
     "responses": [
-      { "text": "Huh.  Interesting stuff.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Huh.  Interesting stuff.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Huh.  Interesting stuff.  <end_talking>", "topic": "TALK_DONE" }
     ]
   }

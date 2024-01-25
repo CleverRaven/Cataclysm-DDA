@@ -1,8 +1,6 @@
 #include "scores_ui.h"
 
 #include <algorithm>
-#include <functional>
-#include <iosfwd>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -10,11 +8,10 @@
 #include <vector>
 
 #include "achievement.h"
-#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "event_statistics.h"
-#include "input.h"
+#include "input_context.h"
 #include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"

@@ -6,11 +6,9 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -20,25 +18,22 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "input.h"
+#include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "map.h"
-#include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
-#include "units.h"
 #include "units_fwd.h"
 
+class basecamp;
 class Character;
 class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
+class tinymap;
 class ui_adaptor;
-struct point;
-struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -56,7 +51,6 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
-struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
@@ -642,6 +636,8 @@ class inventory_selector
         bool empty() const;
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
+        uint64_t item_entry_count() const;
+        drop_location get_only_choice() const;
 
         /** Apply filter string to all columns */
         void set_filter( const std::string &str );
@@ -783,6 +779,7 @@ class inventory_selector
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
         bool _categorize_map_items = false;
+        bool force_single_column = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -943,6 +940,20 @@ class container_inventory_selector : public inventory_pick_selector
 
     private:
         item_location loc;
+};
+
+std::vector<item_location> get_possible_reload_targets( const item_location &target );
+class ammo_inventory_selector : public inventory_selector
+{
+    public:
+        explicit ammo_inventory_selector( Character &you, const item_location &reload_loc,
+                                          const inventory_selector_preset &preset = default_preset );
+
+        drop_location execute();
+        void set_all_entries_chosen_count();
+    private:
+        void mod_chosen_count( inventory_entry &entry, int val );
+        const item_location reload_loc;
 };
 
 class inventory_multiselector : public inventory_selector

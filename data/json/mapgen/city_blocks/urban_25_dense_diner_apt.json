@@ -1,11 +1,46 @@
 [
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_25_sewer_connector" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|||||||||||||||||||     ",
+        "oooooooooooooooooo|     ",
+        "----------|o  o  o|     ",
+        "~~~~~~~~=#|o  o  o|     ",
+        "~~~~~~~~=#|o  o  o|     ",
+        "-#--------|o  o  o|     ",
+        "o=oooooooooooooooo|     ",
+        "|~o||||||||||||||||     ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~o|                    ",
+        "|~ooooooooooooooo       "
+      ],
+      "palettes": [ "sewers" ]
+    }
+  },
+  {
     "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "                         :    iiiiiiiiiiiiiiiiii",
-        "                        :::   iZ,,JJJJ6|t|..117i",
+        "                        :!:   iiiiiiiiiiiiiiiiii",
+        "                        :!:   iZ,,JJJJ6|t|..117i",
         "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
         "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
         "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",

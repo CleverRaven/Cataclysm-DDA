@@ -238,9 +238,7 @@
       {
         "u_add_effect": "psionic_overload",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -455,9 +453,7 @@
       {
         "u_add_effect": "effect_psi_teleport_lock",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -486,9 +482,7 @@
       {
         "u_add_effect": "effect_biokin_overload",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -517,9 +511,7 @@
       {
         "u_add_effect": "effect_psi_reduced_breathing",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -548,9 +540,7 @@
       {
         "u_add_effect": "hallu",
         "duration": {
-          "math": [
-            "u_val('time: 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -606,9 +596,7 @@
       {
         "u_add_effect": "effect_psi_null_unbound",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]

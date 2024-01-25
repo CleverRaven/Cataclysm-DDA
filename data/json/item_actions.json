@@ -167,26 +167,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "CIRCSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON"
-  },
-  {
-    "type": "item_action",
     "id": "CHANGE_EYES",
     "name": { "str": "Change the eye color" }
   },
@@ -332,16 +312,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "CHEW",
     "name": { "str": "Chew" }
   },
@@ -369,29 +339,6 @@
     "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "TOOLWEAPON_DEACTIVATE",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_ON"
   },
   {
     "type": "item_action",
@@ -452,11 +399,6 @@
     "type": "item_action",
     "id": "EBOOKREAD",
     "name": { "str": "Read stored books" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -867,11 +809,6 @@
     "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",

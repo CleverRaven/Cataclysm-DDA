@@ -1354,7 +1354,7 @@
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
             { "u_message": "You have a slight feeling of being watched." },
-            { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 }
+            { "math": [ "u_migo_interest_interest_migo_interest", "++" ] }
           ]
         },
         {
@@ -1362,7 +1362,7 @@
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },
-            { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 10 }
+            { "math": [ "u_migo_interest_interest_migo_interest", "+=", "10" ] }
           ]
         },
         {
@@ -1397,7 +1397,7 @@
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "focus" },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
-            { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 30 } ], "max": 130 }
+            { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
           ]
         },
         {
@@ -1408,10 +1408,7 @@
         {
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "fatigue" },
-          "effect": [
-            { "u_message": "You instantly feel more awake!" },
-            { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 30 } ] }
-          ]
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('fatigue')", "-=", "30" ] } ]
         }
       ]
     }

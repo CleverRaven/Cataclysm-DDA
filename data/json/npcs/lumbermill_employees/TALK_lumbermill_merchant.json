@@ -38,6 +38,11 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
       { "text": "Can I purchase some of your wares?", "topic": "TALK_LUMBERMILL_FABRICATE" },
       {
         "text": "Any jobs you need done?",
@@ -50,7 +55,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_MERCHANT_STORY",
-    "dynamic_line": "I'm the manager here at the mill.  It's a tight-knit crew, unionized operation.  When <the_cataclysm> broke out, we didn't even know about it till some <zombies> wandered onto the yard.  Now, we've just held up here.  I imagine any folks left out there might be needing our machinery and skills to keep civilization alive.  Might make new customers yet.",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": "I mean, I don't remember a whole lot about this job I had, I just know that I managed this lumbermill and sold wood to… somebody.  I think it was some sort of company.  I'm just glad I remember my coworkers here, my <name_g>s.  They're helping me to try and remember who I was before all this.  You see, that's the weird thing; I remember what my job was and how to do it the right way, but I don't know where I learned that, or who taught me.  I just know that we're in this together, and we're gonna make it through Hell if we have too.",
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": "I mean, I don't remember a whole lot about this job I had, I just know that I managed this lumbermill and sold wood to… somebody.  I think it was some sort of company.  I'm just glad I remember my coworkers here, my <name_g>s.  They're helping me to try and remember who I was before all this.  You see, that's the weird thing; I remember what my job was and how to do it the right way, but I don't know where I learned that, or who taught me.  I just know that we're in this together, and we're gonna make it through Hell if we have too.",
+        "no": "I'm the manager here at the mill.  It's a tight-knit crew, unionized operation.  When <the_cataclysm> broke out, we were all running scared when some <zombies> broke onto the yard, had to fight them off.  Now, we've just held up here.  I imagine any folks left out there might be needing our machinery and skills to keep civilization alive.  Might make new customers yet."
+      }
+    },
     "responses": [ { "text": "Hm.", "topic": "TALK_NONE" } ]
   }
 ]

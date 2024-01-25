@@ -69,6 +69,8 @@ Use the `Home` key to return to the top.
       - [`age_lower`](#age_lower)
       - [`age_upper`](#age_upper)
       - [`pets`](#pets)
+      - [`hobbies`](#hobbies)
+      - [`whitelist_hobbies`](#whitelist_hobbies)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
       - [`cbms`](#cbms)
@@ -233,6 +235,7 @@ Use the `Home` key to return to the top.
         - [`items`](#items-1)
       - [`map_deconstruct_info`](#map_deconstruct_info)
         - [`furn_set`, `ter_set`](#furn_set-ter_set-1)
+        - [`skill`](#skill)
         - [`items`](#items-2)
       - [`plant_data`](#plant_data-1)
         - [`transform`](#transform)
@@ -253,6 +256,8 @@ Use the `Home` key to return to the top.
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
+  - [`hobbies`](#hobbies-1)
+  - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`reveal_locale`](#reveal_locale)
@@ -920,24 +925,16 @@ Addictions are defined in JSON using `"addiction_type"`:
 Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
 
 ```JSON
-{
-  "type": "effect_on_condition",
-  "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
-  "effect": [
-    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
-    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-    {
-      "run_eocs": [
-        {
-          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-        }
-      ]
-    }
-  ]
-}
+  {
+    "type": "effect_on_condition", 
+    "id": "EOC_MARLOSS_R_ADDICTION",
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "effect": [
+      { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+      { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+    ]
+  },
 ```
 
 Current hardcoded builtins:
@@ -2169,6 +2166,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
+"container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
@@ -5608,6 +5606,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 {
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
+    "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
     "items": "deconstructed_item_result_group"
 }
 ```
@@ -5615,6 +5614,12 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 ##### `furn_set`, `ter_set`
 
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
+
+##### `skill`
+
+(Optional) The skill that will be practised after deconstruction.
+Min is the minimum level to recieve xp, max is the level cap after which no xp is recieved but practise still occurs delaying rust and multiplier multiplies the base xp given which is based on the mean of min and max.
+If skill is specified, multiplier defaults to 1.0, min to 0 and max to 10.
 
 ##### `items`
 

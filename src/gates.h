@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_GATES_H
 #define CATA_SRC_GATES_H
 
-#include <iosfwd>
 #include <string>
 
 class Character;
