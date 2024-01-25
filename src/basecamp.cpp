@@ -85,13 +85,15 @@ std::string base_camps::faction_decode( const std::string_view full_type )
     return std::string{ full_type.substr( prefix_len, size_t( last_bar - prefix_len ) ) };
 }
 
+static const time_duration work_day_hours_time = work_day_hours * 1_hours;
+
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
-    if( work_time < 11_hours ) {
+    if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
-    int work_days = work_time / 10_hours;
-    time_duration excess_time = work_time - work_days * 10_hours;
+    int work_days = work_time / work_day_hours_time;
+    time_duration excess_time = work_time - work_days * work_day_hours_time;
     return excess_time + 24_hours * work_days;
 }
 
@@ -910,7 +912,27 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.getlocal( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( target_map, sel, batch_size_, is_crafting_component, src );
+        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                         is_preferred_crafting_component, src );
+        int left_to_consume = 0;
+
+        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
+            int consumed = 0;
+            for( item &itm : empty_consumed ) {
+                consumed += itm.charges;
+            }
+            left_to_consume = sel.comp.count * batch_size_ - consumed;
+        } else if( empty_consumed.size() < static_cast<size_t>( sel.comp.count ) * batch_size_ ) {
+            left_to_consume = static_cast<size_t>( sel.comp.count ) * batch_size_ - empty_consumed.size();
+        }
+
+        if( left_to_consume > 0 ) {
+            comp_selection<item_comp> remainder = sel;
+            remainder.comp.count = 1;
+            player_character.consume_items( target_map, remainder,
+                                            batch_size_ * static_cast<size_t>( sel.comp.count ) - empty_consumed.size(), is_crafting_component,
+                                            src );
+        }
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

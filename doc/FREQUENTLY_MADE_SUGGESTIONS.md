@@ -71,12 +71,6 @@ finally there's the opportunity cost issue.  for the effort of multithreading ke
 
 that's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code
 
-#### We should be able to turn off z-levels: No.
-
-Z-levels became a mandatory feature in 0.E experimental in order to support ground vehicles moving up and down ramps.  Having z-levels be optional was a large maintenance burden on the developers, and turning off z-levels breaks vehicle ramps.
-
-There has been an extensive optimization effort in the fall of 2020 to bring back performance, and it's been mostly successful.  Current experimentals should run faster with z-levels on than 0.E runs with z-levels off.
-
 #### Bringing charges back: No.
 
 We are in the process of removing charges, that's a fact that won't be changed.  We should have made this decision much earlier or never started implementing them in the first place, but it is what it is.
@@ -143,12 +137,12 @@ I’m 100% fine having a game mode available where this happens.  However, at le
 #### Psychic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, we’d be happy to have support for it in the code so that a mod can have psychic powers.
+However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Magic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic.
+However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](MAGIC.md) for more info.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
@@ -288,9 +282,6 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
 
-#### Saline infusions: yes, just waiting to be added.
-
-This is a realistic and sensible way to help with hypovolemia that circumvents all the previously mentioned issues. Though, it should still require someone with medical training and wouldn't be an immediate cure, and would require scavenging, it would not be player-craftable.
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
@@ -333,9 +324,9 @@ For a better outline on what we DO want to do, see https://github.com/CleverRave
 
 From a game balance perspective zombies are very abundant and should only be used under limited lore-friendly circumstances in consumables, trivial early items or with lasting risks and drawbacks.
 
-#### Conversations with monsters and other things: yes, planned for 0.G
+#### Conversations with monsters and other things: Partially implemented
 
-There is an extensive and sophisticated system for talking with NPCs, but you can't have a conversation with your genetically modified, super-intelligent dog, nor with your intelligent sword from Magiclysm, nor with your car.
+This is partially implemented already with monsters, items, furniture, as the player character can have conversations with them via NPC-style dialogue. However, support for dialogue functions is limited; you can't trade with monsters, and a significant quantity of edge cases for oddball functions remain unsupported for non-NPC talkers. Conversations with vehicles are entirely unsupported, meaning you can't talk with your car or some super-intelligent AI inside it.
 
 Work is being done to enable all these conversations.  It's not hard work at this point, it's just tedious bits that need to get done.
 
@@ -411,6 +402,10 @@ The old implementation of acid rain had a massive world consistency flaw, given 
 ## Failed Rationalizations
 
 These aren’t suggestions, but arguments that comes up in support of suggestions or alterations to the game. They come up constantly so I’m putting a note about them here.
+
+In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
+The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honestly shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
+More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
 

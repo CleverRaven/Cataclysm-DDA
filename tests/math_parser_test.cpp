@@ -285,10 +285,20 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 0 ) );
 
+    CHECK( testexp.parse( "value_or(_ctx, 13)" ) );
+    CHECK( testexp.eval( d ) == Approx( 13 ) );
+    CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
+    CHECK( testexp.eval( d ) == Approx( 20 ) );
+
     d.set_value( "npctalk_var_ctx", "14" );
 
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 14 ) );
+
+    CHECK( testexp.parse( "value_or(_ctx, 13)" ) );
+    CHECK( testexp.eval( d ) == Approx( 14 ) );
+    CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
+    CHECK( testexp.eval( d ) == Approx( 19 ) );
 
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
@@ -305,6 +315,9 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.eval( d ) == d.actor( false )->get_spell_level( spell_test_spell_pew ) );
     CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
     CHECK( testexp.eval( d ) == 60 );
+
+    CHECK( testexp.parse( "energy('25 kJ')" ) );
+    CHECK( testexp.eval( d ) == 25000000 );
 
     // evaluating string variables in dialogue functions
     globvars.set_global_value( "npctalk_var_someskill", "survival" );

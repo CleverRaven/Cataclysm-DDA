@@ -119,9 +119,16 @@
     "remove_message": "Your body rapidly returns to normal.",
     "rating": "good",
     "max_intensity": 4,
-    "int_add_val": 1,
-    "base_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 5 ], "speed_mod": [ 5, 10 ] },
-    "scaling_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 3 ], "speed_mod": [ 5, 10 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bio_grotesque') / 5) + 1)" ] } },
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bio_grotesque') / 4) + 5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -154,11 +161,7 @@
     "desc": [ "Light is distorting around you and making it easier for you to avoid attacks." ],
     "apply_message": "The edges of your vision ripple slightly.",
     "remove_message": "The aura of light distortion around you vanishes.",
-    "enchantments": [
-      {
-        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_val('spell_level', 'spell: obfuscated_body') / 7) + 1)" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "((u_spell_level('obfuscated_body') / 7) + 1)" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -179,12 +182,7 @@
     "remove_message": "The tingling fades.",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "ARMOR_ACID",
-            "multiply": { "math": [ "((u_val('spell_level', 'spell: acid_resistance') * -0.02) - 0.2)" ] }
-          }
-        ]
+        "values": [ { "value": "ARMOR_ACID", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
       }
     ]
   },
@@ -245,7 +243,7 @@
     "remove_message": "Your strength deflates.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
-    "base_mods": { "str_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": { "math": [ "( u_spell_level('ogres_strength') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -267,7 +265,7 @@
     "remove_message": "Your vision returns to normal.",
     "rating": "good",
     "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
-    "base_mods": { "per_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -278,7 +276,7 @@
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
-    "base_mods": { "dex_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -289,7 +287,7 @@
     "remove_message": "Your intelligence returns to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
-    "base_mods": { "int_mod": [ 4 ] }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": { "math": [ "( u_spell_level('foxs_cunning') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -516,7 +514,7 @@
     "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": 0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -641,7 +639,7 @@
       {
         "values": [
           { "value": "SPEED", "add": 30 },
-          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "ATTACK_SPEED", "add": -20 },
           { "value": "BONUS_DODGE", "add": 2 },
           { "value": "MELEE_DAMAGE", "multiply": 0.5 }
         ]
@@ -745,17 +743,14 @@
     "enchantments": [
       {
         "values": [
-          {
-            "value": "HUNGER",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
-          },
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] } },
           {
             "value": "THIRST",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] }
           },
           {
             "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] }
           },
           { "value": "REGEN_HP", "multiply": -1.0 }
         ]
@@ -773,12 +768,7 @@
     "max_duration": "30 minutes",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "MOTION_VISION_RANGE",
-            "add": { "math": [ "( u_val('spell_level', 'spell: earthshaper_danger_sense') * 3)" ] }
-          }
-        ]
+        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
       }
     ]
   },
@@ -792,12 +782,7 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "SIGHT_RANGE_NETHER",
-            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
-          }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_spell_level('animist_sense_outsiders') * 2.5) + 3)" ] } } ]
       }
     ]
   },
@@ -815,10 +800,7 @@
         "emitter": "emit_kelvinist_anti_cold",
         "values": [
           { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-          {
-            "value": "ARMOR_COLD",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
-          }
+          { "value": "ARMOR_COLD", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } }
         ]
       }
     ]
@@ -837,10 +819,7 @@
         "emitter": "emit_kelvinist_anti_heat",
         "values": [
           { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
-          }
+          { "value": "ARMOR_HEAT", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } }
         ]
       }
     ]
@@ -854,12 +833,7 @@
     "remove_message": "You can feel gravity take hold of you again.",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "FALL_DAMAGE",
-            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
-          }
-        ]
+        "values": [ { "value": "FALL_DAMAGE", "multiply": { "math": [ "(( u_spell_level('magus_slowfall') * -0.01) - 0.9 )" ] } } ]
       }
     ]
   },
@@ -957,11 +931,59 @@
   {
     "type": "effect_type",
     "id": "effect_biomancer_cure_disease_minor",
-    "name": [ "Cure Disease, Minor" ],
-    "desc": [ "Cold and flu begone." ],
-    "remove_message": "You feel much better.",
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "good",
-    "removes_effects": [ "common_cold", "flu" ]
+    "removes_effects": [
+      "pre_common_cold",
+      "common_cold",
+      "pre_flu",
+      "flu",
+      "pre_conjunctivitis_viral",
+      "conjunctivitis_viral",
+      "pre_conjunctivitis_bacterial",
+      "conjunctivitis_bacterial"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_hyper_regeneration",
+    "name": [ "Rapid Regeneration" ],
+    "desc": [ "You are healing unbelievably quickly." ],
+    "remove_message": "Your rapid regeneration slows and stops.",
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ],
+    "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_01",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_02",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_slow_bleeding_03",
+    "name": [ "Halt Bleeding" ],
+    "desc": [ "You do not bleed.  At all." ],
+    "rating": "good",
+    "removes_effects": [ "bleed" ],
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "effect_type",

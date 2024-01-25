@@ -596,7 +596,6 @@ std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.
-void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
 void replace_keybind_tag( std::string &input );
 

@@ -164,7 +164,7 @@
     "autolearn": [ [ "electronics", 4 ] ],
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "integrated_welder", 200 ] ] ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "soldering_iron_portable", 200 ], [ "integrated_welder", 200 ] ] ],
     "components": [
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "cable", 100 ] ],
@@ -185,7 +185,7 @@
     "autolearn": [ [ "electronics", 7 ] ],
     "book_learn": [ [ "textbook_atomic", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 50 ] ] ],
+    "tools": [ [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ] ] ],
     "components": [
       [ [ "nuclear_fuel", 2 ] ],
       [ [ "e_scrap", 5 ] ],

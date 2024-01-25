@@ -1,0 +1,85 @@
+[
+  {
+    "type": "trait_group",
+    "id": "NPC_starting_traits",
+    "subtype": "collection",
+    "traits": [ { "group": "trait_group_PSION", "prob": 1 } ]
+  },
+  {
+    "//": "This group picks out one of the traits, leading to a 1% chance for an NPC to be a psion.",
+    "type": "trait_group",
+    "id": "trait_group_PSION",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "trait_group_BIOKINETIC", "prob": 1 },
+      { "group": "trait_group_CLAIRSENTIENT", "prob": 1 },
+      { "group": "trait_group_ELECTROKINETIC", "prob": 1 },
+      { "group": "trait_group_PHOTOKINETIC", "prob": 1 },
+      { "group": "trait_group_PYROKINETIC", "prob": 1 },
+      { "group": "trait_group_TELEKINETIC", "prob": 1 },
+      { "group": "trait_group_TELEPATH", "prob": 1 },
+      { "group": "trait_group_TELEPORTER", "prob": 1 },
+      { "group": "trait_group_VITAKINETIC", "prob": 1 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_NULL",
+    "subtype": "collection",
+    "traits": [  ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_BIOKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "BIOKINETIC", "prob": 100 }, { "trait": "BIOKIN_NEEDS", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_CLAIRSENTIENT",
+    "subtype": "collection",
+    "traits": [ { "trait": "CLAIRSENTIENT", "prob": 100 }, { "trait": "CLAIR_SENSES", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_ELECTROKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "ELECTROKINETIC", "prob": 100 }, { "trait": "ELECTRO_SHIELD", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PHOTOKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "PHOTOKINETIC", "prob": 100 }, { "trait": "PHOTO_EYES", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_PYROKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "PYROKINETIC", "prob": 100 }, { "trait": "PYROKIN_ADAPTATION", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_TELEKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "TELEKINETIC", "prob": 100 }, { "trait": "TELEKINETIC_LIFTER_1", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_TELEPATH",
+    "subtype": "collection",
+    "traits": [ { "trait": "TELEPATH", "prob": 100 }, { "trait": "TELEPATHIC_SUGGESTION", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_TELEPORTER",
+    "subtype": "collection",
+    "traits": [ { "trait": "TELEPORTER", "prob": 100 }, { "trait": "TELEPORTER_PROTECT", "prob": 100 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_VITAKINETIC",
+    "subtype": "collection",
+    "traits": [ { "trait": "VITAKINETIC", "prob": 100 }, { "trait": "VITAKINETIC_HEALTH", "prob": 100 } ]
+  }
+]

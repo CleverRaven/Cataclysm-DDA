@@ -46,7 +46,7 @@
     "type": "item_group",
     "id": "REFUGEE_Jenny_carried",
     "subtype": "collection",
-    "entries": [ { "item": "paper" }, { "item": "soldering_iron", "ammo-item": "battery", "charges": 20 } ]
+    "entries": [ { "item": "paper" }, { "item": "soldering_iron_portable", "ammo-item": "battery", "charges": 20 } ]
   },
   {
     "type": "item_group",
@@ -385,6 +385,7 @@
         "effect": { "assign_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
         "condition": {
           "and": [
+            { "not": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" } },
             { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
             { "not": { "days_since_cataclysm": 60 } }
           ]
@@ -625,7 +626,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 4 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -654,7 +655,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -684,7 +685,7 @@
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
         { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   }

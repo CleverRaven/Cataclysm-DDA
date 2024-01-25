@@ -56,6 +56,32 @@
     "flags": [ "TOUGH_FEET" ]
   },
   {
+    "id": "ARVORE_MOSS",
+    "type": "mutation",
+    "name": { "str": "Patches of Moss" },
+    "points": 1,
+    "visibility": 5,
+    "ugliness": 3,
+    "bodytemp_modifiers": [ 250, 600 ],
+    "bodytemp_sleep": 250,
+    "wet_protection": [
+      { "part": "head", "neutral": 4, "good": 5 },
+      { "part": "leg_l", "neutral": 8, "good": 15 },
+      { "part": "leg_r", "neutral": 8, "good": 15 },
+      { "part": "foot_l", "neutral": 3, "good": 5 },
+      { "part": "foot_r", "neutral": 3, "good": 5 },
+      { "part": "arm_l", "neutral": 8, "good": 14 },
+      { "part": "arm_r", "neutral": 8, "good": 14 },
+      { "part": "hand_l", "neutral": 3, "good": 4 },
+      { "part": "hand_r", "neutral": 3, "good": 4 },
+      { "part": "torso", "neutral": 15, "good": 27 }
+    ],
+    "description": "A viridian moss has grown on your skin, forming whorls and eldritch patterns, providing some protection from the cold and the wet.  It also provides a small amount of armor against acid or fire.",
+    "armor": [ { "part_types": [ "ALL" ], "acid": 2, "heat": 4 } ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "category": [ "ARVORE" ]
+  },
+  {
     "type": "mutation",
     "id": "GREENSTRIDE",
     "name": { "str": "Greenstride" },
@@ -160,6 +186,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to induce decay and dissolution in the surrounding area.",
     "prereqs": [ "ARVORE_VERDANT_INFUSION" ],
+    "prereqs2": [ "ARVORE_TURN_INTO_TREE" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "spells_learned": [ [ "arvore_cause_decay", 1 ] ]
@@ -167,7 +194,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
-    "name": { "str": "Summon Wood Spirit" },
+    "name": { "str": "Summon the Children of the Boughs" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -190,12 +217,46 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_FOREST_TRANSLOCATION",
+    "name": { "str": "From Root to Root the Forest Is Joined" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_FOREST_TELEPORT" ],
+    "description": "Upon gaining this ability, the Arvore gains the ability to travel great distances, even dozens of miles, in moments, as long as they start and end their journey within the depths of a forest.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "spells_learned": [ [ "arvore_forest_translocate", 1 ], [ "arvore_forest_translocate_attune", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_TURN_INTO_TREE",
+    "name": { "str": "Overgrowth" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_SUMMON_BRIARS" ],
+    "prereqs2": [ "ARVORE_SUMMON_WOOD_WALL" ],
+    "description": "Upon gaining this ability, the Arvore gains the ability to cause rapid plant growth in a radius around themselves.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "spells_learned": [ [ "arvore_overgrowth_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_PERENNIAL_REBIRTH",
     "name": { "str": "Perennial Rebirth" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "prereqs": [
+      "ARVORE_SUN_NUTRIENTS_AND_MANA",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
+    ],
     "description": "Upon gaining this ability the Arvore gains the ability to bind their soul to the heart of the forest, rebirthing themselves when on the verge of death.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -208,6 +269,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
+    "valid": false,
     "description": "You have bound your soul to the forest, and death will merely be a momentary inconvenience.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ]
@@ -224,7 +286,11 @@
       "ARVORE_SUN_NUTRIENTS",
       "ARVORE_SUN_NUTRIENTS_ON",
       "ARVORE_SUN_NUTRIENTS_AND_MANA",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON"
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
     ],
     "description": "Upon gaining this ability the Arvore gains the ability to infuse their companions with the vitality of the forest.",
     "category": [ "ARVORE" ],
@@ -241,6 +307,18 @@
     "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_CLIMBING_VINE_SPELL",
+    "name": { "str": "Creeper Ascends the Wall" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "leads_to": [ "ARVORE_NURTURING_THE_GREEN" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to summon a thick climbing vine from diggable ground.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_climbing_vine_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -273,11 +351,34 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_FOREST_DETECT" ],
+    "prereqs": [
+      "ARVORE_FOREST_DETECT",
+      "ARVORE_FOREST_DETECT_ON",
+      "ARVORE_FOREST_DETECT_AND_OVERMAP",
+      "ARVORE_FOREST_DETECT_AND_OVERMAP_ON"
+    ],
     "description": "The Arvore are closely tied with the forests and may commune with the trees to learn the layout of the land.  Activate this ability to enter the communion.",
     "category": [ "ARVORE" ],
     "active": true,
     "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_WOOD_WEAPON_DAMAGE",
+    "name": { "str": "Bramble's Bite" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_NURTURING_THE_GREEN", "ARVORE_SUMMON_BRIARS" ],
+    "prereqs2": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "description": "Drawing out the power inherent in growing wood makes weapons composed of it more deadly in your hands.  You do increased damage when wielding a weapon primarily made of wood.",
+    "category": [ "ARVORE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "WOODEN_WEAPON" },
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 }, { "value": "RANGED_DAMAGE", "multiply": 0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -294,6 +395,24 @@
     "cost": 1,
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ],
+    "//": "Ideally this would be powered by mana, but thirst will work for now"
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_POISON_POLLEN",
+    "name": { "str": "Scent of Night-Blooming Flowers" },
+    "points": 5,
+    "description": "The Arvore may release clouds of pollen that ruin the coordination of their enemies when breathed in.",
+    "prereqs": [ "ARVORE_FLORAL_SCENT", "ARVORE_MIND_CONTROL_POLLEN" ],
+    "prereqs2": [ "ARVORE_TOXIC_FLESH" ],
+    "category": [ "ARVORE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "time": 60,
+    "thirst": true,
+    "cost": 1,
+    "activated_eocs": [ "EOC_ARVORE_POISON_POLLEN_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ],
     "//": "Ideally this would be powered by mana, but thirst will work for now"
   },
   {
@@ -489,10 +608,24 @@
     "visibility": 1,
     "types": [ "PAIN" ],
     "description": "Filled with the energy of life, pain does not affect you as strongly.",
-    "prereqs": [ "ARVORE_SKIN_1" ],
+    "prereqs": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "prereqs2": [ "ARVORE_NURTURING_THE_GREEN" ],
     "category": [ "ARVORE" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_VINE_DRAG",
+    "name": { "str": "Entangling Vines" },
+    "points": 6,
+    "description": "At will, you can extend a cluster of grasping vines to grab one target and drag them in.  They have a range equal to 1/2 your Dexterity.",
+    "prereqs": [ "ARVORE_ROOTS_SPELL" ],
+    "category": [ "ARVORE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "thirst": true,
+    "cost": 1,
+    "activated_eocs": [ "EOC_ARVORE_VINE_DRAG_activated" ]
   },
   {
     "type": "mutation",
@@ -502,7 +635,7 @@
     "active": true,
     "description": "At will, you can transform your hands into jagged wooden claws.  They are potent weapons but make anything other than combat more difficult.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
     "transform": {
       "target": "ARVORE_WOOD_CLAWS_active",
@@ -521,7 +654,7 @@
     "ugliness": 2,
     "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
     "transform": {
       "target": "ARVORE_WOOD_CLAWS",
@@ -563,6 +696,53 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_KNOW_TIME",
+    "name": { "str": "Sensing the Sun" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By the places of the sun and the moon, you can always tell exactly what time it is.",
+    "category": [ "ARVORE" ],
+    "triggers": [ [ { "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_KNOW_TIME_OFF", "msg_transform": "", "active": false, "moves": 0 },
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_KNOW_TIME_OFF",
+    "name": { "str": "Sensing the Sun" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By the places of the sun and the moon, you can always tell exactly what time it is.  Or you could, if you weren't underground.",
+    "category": [ "ARVORE" ],
+    "triggers": [ [ { "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_KNOW_TIME", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SURVIVAL_BONUS",
+    "name": { "str": "Among the Wilds" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs2": [
+      "ARVORE_SUN_NUTRIENTS",
+      "ARVORE_SUN_NUTRIENTS_ON",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA",
+      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+      "ARVORE_SUN_MANA_BONUS",
+      "ARVORE_SUN_MANA_BONUS_ON",
+      "ARVORE_SUN_POWER_MANA_STATS",
+      "ARVORE_SUN_POWER_MANA_STATS_ON"
+    ],
+    "description": "The wilderness welcomes you as one of its own, and you have an easier time surviving there and making things from its bounty.  +1.5 Survival skill.",
+    "category": [ "ARVORE" ],
+    "craft_skill_bonus": [ [ "survival", 6 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_DEX_BONUS",
     "name": { "str": "Supple As a Reed" },
     "points": 2,
@@ -594,7 +774,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_STR_BONUS_1" ],
-    "prereqs2": [ "ARVORE_SKIN_1" ],
+    "prereqs2": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "changes_to": [ "ARVORE_STR_BONUS_3" ],
     "description": "Like the young tree reaching for the sun, your limbs are filled with power.  +3 Strength.",
     "category": [ "ARVORE" ],
@@ -608,7 +788,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_STR_BONUS_2" ],
-    "prereqs2": [ "ARVORE_SKIN_2" ],
+    "prereqs2": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
     "category": [ "ARVORE" ],
     "passive_mods": { "str_mod": 5 }
@@ -622,7 +802,12 @@
     "ugliness": 0,
     "description": "When one tree in a grove is attacked by insects, soon all trees will produce the deterrent.  +3 Perception.",
     "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
-    "prereqs2": [ "ARVORE_FOREST_DETECT" ],
+    "prereqs2": [
+      "ARVORE_FOREST_DETECT",
+      "ARVORE_FOREST_DETECT_ON",
+      "ARVORE_FOREST_DETECT_AND_OVERMAP",
+      "ARVORE_FOREST_DETECT_AND_OVERMAP_ON"
+    ],
     "category": [ "ARVORE" ],
     "passive_mods": { "per_mod": 3 }
   },
@@ -737,13 +922,12 @@
     "points": 7,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air.  They are immune to losing any significant amount of blood and will not bleed.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds.  They will bleed more slowly than normal.",
     "prereqs": [ "ARVORE_BLOOD" ],
     "changes_to": "ARVORE_BLOOD_3",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
-    "flags": [ "BLEED_IMMUNE" ]
+    "flags": [ "BLEEDSLOW" ]
   },
   {
     "type": "mutation",
@@ -752,12 +936,12 @@
     "points": 10,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and has potent defensive properties.  They will bleed more slowly than normal and are immune to parasites and infection.",
     "prereqs": [ "ARVORE_BLOOD_2" ],
     "changes_to": "ARVORE_BLOOD_4",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+    "flags": [ "BLEEDSLOW", "PARAIMMUNE", "INFECTION_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -766,12 +950,31 @@
     "points": 13,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and aggressively fights back against invading organisms.  They will not bleed, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "description": "The Arvore's blood is a sticky sap that that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
     "prereqs": [ "ARVORE_BLOOD_3" ],
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
+    "flags": [ "BLEEDSLOW2", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_VINES",
+    "name": { "str": "Writhing Vines" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "At will, the Arvore can grow long vines from their shoulders and back.  They can be used to climb or to lash at enemies, and can also be detached to serve as a rope if necessary.  Activate to toggle vines on and off.",
+    "prereqs": [ "ARVORE_VINE_DRAG" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "category": [ "ARVORE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "time": 60,
+    "thirst": true,
+    "cost": 1,
+    "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
   },
   {
     "type": "mutation",
@@ -781,6 +984,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_EYES" ],
+    "changes_to": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
     "category": [ "ARVORE" ],
@@ -817,6 +1021,7 @@
     "ugliness": 0,
     "valid": false,
     "prereqs": [ "ARVORE_EYES" ],
+    "changes_to": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby.",
     "category": [ "ARVORE" ],
@@ -844,6 +1049,79 @@
       ]
     ],
     "transform": { "target": "ARVORE_FOREST_DETECT", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_DETECT_AND_OVERMAP",
+    "name": { "str": "The Whispers of the Leaves" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_EYES" ],
+    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.  Also, you can see further when you're standing in a forest.",
+    "category": [ "ARVORE" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_at_om_location": "forest" },
+                  { "u_at_om_location": "forest_thick" },
+                  { "u_at_om_location": "forest_water" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_DETECT_AND_OVERMAP_ON", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_DETECT_AND_OVERMAP_ON",
+    "name": { "str": "The Whispers of the Leaves (active)" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "prereqs": [ "ARVORE_EYES" ],
+    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby and revealing the lay of the land to you.",
+    "category": [ "ARVORE" ],
+    "enchantments": [ "arvore_forest_detect_enemies" ],
+    "overmap_sight": 5,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "not": "u_is_outside" },
+              {
+                "and": [
+                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                  { "not": { "u_is_on_terrain": "t_tree_young" } },
+                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                  { "not": { "u_at_om_location": "forest" } },
+                  { "not": { "u_at_om_location": "forest_thick" } },
+                  { "not": { "u_at_om_location": "forest_water" } }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_FOREST_DETECT_AND_OVERMAP", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -963,7 +1241,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  When in natural areas, your limbs will heal much faster.",
-    "prereqs": [ "ARVORE_SKIN_2" ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "prereqs2": [ "ARVORE_VERDANT_INFUSION" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -1084,7 +1362,6 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
     "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
-    "time": 120,
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {
@@ -1096,6 +1373,7 @@
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
+    "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,

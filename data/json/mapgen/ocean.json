@@ -1,0 +1,20 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ocean_surface" ],
+    "object": { "fill_ter": "t_swater_dp" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ocean_water_cube" ],
+    "object": { "fill_ter": "t_saltwater_cube" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ocean_bed" ],
+    "object": { "fill_ter": "t_ocean_bed" }
+  }
+]

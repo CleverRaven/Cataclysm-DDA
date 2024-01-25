@@ -69,6 +69,8 @@ Use the `Home` key to return to the top.
       - [`age_lower`](#age_lower)
       - [`age_upper`](#age_upper)
       - [`pets`](#pets)
+      - [`hobbies`](#hobbies)
+      - [`whitelist_hobbies`](#whitelist_hobbies)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
       - [`cbms`](#cbms)
@@ -253,6 +255,8 @@ Use the `Home` key to return to the top.
   - [`allowed_locs`](#allowed_locs)
   - [`start_name`](#start_name)
   - [`professions`](#professions)
+  - [`hobbies`](#hobbies-1)
+  - [`whitelist_hobbies`](#whitelist_hobbies-1)
   - [`map_special`](#map_special)
   - [`requirement`](#requirement-1)
   - [`reveal_locale`](#reveal_locale)
@@ -686,7 +690,8 @@ First is when snippet contain multiple fields, mainly `text` and `id` - in this 
       "id": "bread1",                                 // Id of this exact text, in this case "flatbread"
       "name": "flatbread because i love flatbread",   // Name of a snippet, not actually used anywhere except to describe the snippet
       "text": "flatbread",                            // Text, that would be used if this snippet category is called
-      "effect_on_examine": [ "effect_on_condition" ]  // Examining of this snippet will call effect_on_condition
+      "effect_on_examine": [ "effect_on_condition" ], // Examining of this snippet will call effect_on_condition
+      "weight": 10                                    // Weight of this specific snippet, in case of this group the probability to get this one would be 10/13 ~= 76%
     },
     { "id": "bread2", "text": "yeast bread" },
     { "id": "bread3", "text": "cornbread" },
@@ -919,24 +924,16 @@ Addictions are defined in JSON using `"addiction_type"`:
 Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
 
 ```JSON
-{
-  "type": "effect_on_condition",
-  "id": "EOC_MARLOSS_R_ADDICTION",
-  "condition": { "compare_num": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
-  "effect": [
-    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
-    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-    {
-      "run_eocs": [
-        {
-          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-          "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
-          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
-        }
-      ]
-    }
-  ]
-}
+  {
+    "type": "effect_on_condition", 
+    "id": "EOC_MARLOSS_R_ADDICTION",
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "effect": [
+      { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+      { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+    ]
+  },
 ```
 
 Current hardcoded builtins:
@@ -2066,6 +2063,18 @@ This places no limits on manual input, only on random generation (i.e. Play Now!
 A list of strings, each is the same as a monster id
 player will start with these as tamed pets.
 
+#### `hobbies`
+
+(optional, array of string profession_ids)
+
+A list of hobbies that will be the only hobbies this profession can choose from. If empty, all hobbies will be allowed.
+
+#### `whitelist_hobbies`
+
+(optional, bool)
+
+If this is false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from. This defaults to true.
+
 #### `vehicle`
 
 (optional, string vproto_id )
@@ -3035,7 +3044,7 @@ See [MUTATIONS.md](MUTATIONS.md)
     },
     "trigger_message_u": "A bear trap closes on your foot!", // This message will be printed when player steps on a trap
     "trigger_message_npc": "A bear trap closes on <npcname>'s foot!", // This message will be printed when NPC or monster steps on a trap
-    "sound_threshold": 5 // Optional. Minimum volume of sound that will trigger this trap. Defaults to 0 (Will not trigger from sound).
+    "sound_threshold": [5,10] // Optional.  Minimum volume of sound that will trigger this trap.  Defaults to [0,0] (Will not trigger from sound).  If two values [min,max] are provided, trap triggers on a linearly increasing chance depending on volume, from 25% (min) to 100%(max).  To always trigger at some noise, say noise level N, specify as [N,N].  IMPORTANT: Not all traps work with this system.  Make sure to double check and test.
 ```
 
 ### Vehicle Groups
@@ -4168,6 +4177,7 @@ Gun mods can be defined like this:
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
+"pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ], // Optional field, alters the original pockets of the weapon ; share the syntax with pocket_data; pocket type MAGAZINE and MAGAZINE_WELL are always overwritten, pocket type CONTAINER is always added to existing pockets; for MAGAZINE and MAGAZINE_WELL both ammo_modifier and magazine_adaptor fields are required to correctly migrate ammo type; type: TOOLMOD can use this field also
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
@@ -5768,6 +5778,16 @@ The name that is shown for the starting location. This is useful if the scenario
 (optional, array of strings)
 
 A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+
+## `hobbies`
+(optional, array of strings)
+
+A list of allowed hobbies that can be chosen when using this scenario. If this is empty, all hobbies are allowed.
+
+## `whitelist_hobbies`
+(optional, bool)
+
+When set to false, the hobbies in `hobbies` are hobbies that _cannot_ be chosen when using this scenario. This value defaults to true.
 
 ## `map_special`
 (optional, string)

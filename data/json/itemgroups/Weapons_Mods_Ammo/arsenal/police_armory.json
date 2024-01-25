@@ -592,9 +592,9 @@
     "//": "Pick a random ar-15 chambered in 223 weighted towards medium barrels.",
     "subtype": "distribution",
     "entries": [
-      { "item": "ar15_223medium", "prob": 50 },
-      { "item": "ar15_223long", "prob": 30 },
-      { "item": "ar15_223short", "prob": 20 }
+      { "group": "ar15_223medium", "prob": 50 },
+      { "group": "ar15_223long", "prob": 30 },
+      { "group": "ar15_223short", "prob": 20 }
     ]
   },
   {

@@ -14,9 +14,9 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_DEFENSE_MODE_RANDOM_NPC", { "const": 10 } ],
-          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", { "const": 6 } ],
-          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", { "const": 1 } ]
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC", 10 ],
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", 6 ],
+          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", 1 ]
         ]
       }
     ]

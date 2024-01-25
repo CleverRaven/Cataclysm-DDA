@@ -5,22 +5,23 @@
       "change existing magazine well": {
         "base_item": "debug_gun_with_mag_well",
         "mod_item": "debug_retool_mag_well",
-        "expected_pockets": { "MAGAZINE_WELL": 1 }
+        "//": "array values are before/after mod insertion",
+        "expected_pockets": { "MAGAZINE_WELL": [ 1, 1 ] }
       },
       "add magazine well to item without one": {
         "base_item": "debug_gun_no_mag_well",
         "mod_item": "debug_retool_mag_well",
-        "expected_pockets": { "MAGAZINE_WELL": 1 }
+        "expected_pockets": { "MAGAZINE_WELL": [ 0, 1 ] }
       },
       "add pocket to pocketless tool": {
         "base_item": "debug_tool_no_pockets",
         "mod_item": "debug_retool_container_no_mag_well",
-        "expected_pockets": { "CONTAINER": 1 }
+        "expected_pockets": { "CONTAINER": [ 0, 1 ] }
       },
       "add pocket to tool with pocket": {
         "base_item": "debug_tool_one_pocket",
         "mod_item": "debug_retool_container_no_mag_well",
-        "expected_pockets": { "CONTAINER": 2 }
+        "expected_pockets": { "CONTAINER": [ 1, 2 ] }
       }
     }
   },

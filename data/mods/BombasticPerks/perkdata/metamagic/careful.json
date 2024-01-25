@@ -1,0 +1,31 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_careful",
+    "condition": { "u_has_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "effect": [
+      { "u_message": "You activate your careful metamagic" },
+      { "u_add_var": "careful_deactivated", "context": "perk_metamagic", "value": "no" }
+    ],
+    "false_effect": [
+      { "u_message": "You deactivate your careful metamagic" },
+      { "u_add_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_careful",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_careful" },
+        { "not": { "u_has_var": "careful_deactivated", "context": "perk_metamagic", "value": "yes" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('casting_time' )", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('difficulty' )", "=", "-5" ] }
+    ]
+  }
+]

@@ -135,13 +135,6 @@
         "default": true
       },
       {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
-      },
-      {
         "text": "I want you to use this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND_Luo",

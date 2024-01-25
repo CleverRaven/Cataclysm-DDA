@@ -88,14 +88,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_FIREPROOF( "FIREPROOF" );
-static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
-static const mon_flag_str_id mon_flag_INSECTICIDEPROOF( "INSECTICIDEPROOF" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-static const mon_flag_str_id mon_flag_SLUDGEPROOF( "SLUDGEPROOF" );
-
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );

@@ -351,6 +351,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_liam_cabin",
+    "name": "Liam's Cabin",
+    "terrain": [ "cabin_liam_driveway" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_hospital",
     "name": "Hospital",
     "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]

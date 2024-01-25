@@ -8,20 +8,40 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CAUSE_PSIONIC_DRAIN",
+    "effect_str": "EOC_RAISE_NETHER_ATTUNEMENT",
     "shape": "blast"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CAUSE_PSIONIC_DRAIN",
+    "id": "EOC_RAISE_NETHER_ATTUNEMENT",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ],
+    "false_effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] }
     ],
     "false_effect": [
       { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) * u_nether_attunement_power_scaling" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "(rand(5) + 2) * u_nether_attunement_power_scaling" ] }
     ]
   },
   {
@@ -29,7 +49,7 @@
     "type": "SPELL",
     "name": { "str": "Five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "5% chance to get drained.",
+    "description": "5% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -64,7 +84,7 @@
     "type": "SPELL",
     "name": { "str": "Six point six Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "6.6% chance to get drained.",
+    "description": "6.6% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -94,7 +114,7 @@
     "type": "SPELL",
     "name": { "str": "Eight Point Three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "8.3% chance to get drained.",
+    "description": "8.3% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -121,7 +141,7 @@
     "type": "SPELL",
     "name": { "str": "Eleven Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "11% chance to get drained.",
+    "description": "11% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -145,7 +165,7 @@
     "type": "SPELL",
     "name": { "str": "Foirteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "14% chance to get drained.",
+    "description": "14% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -167,7 +187,7 @@
     "type": "SPELL",
     "name": { "str": "Twenty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "20% chance to get drained.",
+    "description": "20% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -187,7 +207,7 @@
     "type": "SPELL",
     "name": { "str": "Thirty-three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "33% chance to get drained.",
+    "description": "33% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -205,7 +225,7 @@
     "type": "SPELL",
     "name": { "str": "Fifty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "50% chance to get drained.",
+    "description": "50% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -219,7 +239,7 @@
     "type": "SPELL",
     "name": { "str": "Seventy-five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "75% chance to get drained.",
+    "description": "75% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -238,7 +258,7 @@
     "type": "SPELL",
     "name": { "str": "One hundred Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "100% chance to get drained.",
+    "description": "100% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -256,20 +276,40 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "message": "",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CAUSE_PSIONIC_MAINTENANCE_DRAIN",
+    "effect_str": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE",
     "shape": "blast"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CAUSE_PSIONIC_MAINTENANCE_DRAIN",
+    "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_BELOW_THRESHOLD" } ],
+    "false_effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_ABOVE_THRESHOLD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_BELOW_THRESHOLD",
     "condition": { "u_has_effect": "effect_noetic_resilience" },
     "effect": [
-      { "u_message": "Maintaining your powers is taking its toll on you.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
+      { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] }
     ],
     "false_effect": [
-      { "u_message": "Maintaining your powers is taking its toll on you.", "type": "bad" },
-      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,5 )" ] }
+      { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_ABOVE_THRESHOLD",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) * u_nether_attunement_power_scaling" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel a strange tingling sensation as you concentrate.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "(rand(5) + 2) * u_nether_attunement_power_scaling" ] }
     ]
   },
   {
@@ -277,7 +317,7 @@
     "type": "SPELL",
     "name": { "str": "Five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "5% chance to get drained.",
+    "description": "5% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -312,7 +352,7 @@
     "type": "SPELL",
     "name": { "str": "Six point six Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "6.6% chance to get drained.",
+    "description": "6.6% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -342,7 +382,7 @@
     "type": "SPELL",
     "name": { "str": "Eight Point Three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "8.3% chance to get drained.",
+    "description": "8.3% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -369,7 +409,7 @@
     "type": "SPELL",
     "name": { "str": "Eleven Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "11% chance to get drained.",
+    "description": "11% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -393,7 +433,7 @@
     "type": "SPELL",
     "name": { "str": "Foirteen Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "14% chance to get drained.",
+    "description": "14% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -415,7 +455,7 @@
     "type": "SPELL",
     "name": { "str": "Twenty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "20% chance to get drained.",
+    "description": "20% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -435,7 +475,7 @@
     "type": "SPELL",
     "name": { "str": "Thirty-three Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "33% chance to get drained.",
+    "description": "33% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -453,7 +493,7 @@
     "type": "SPELL",
     "name": { "str": "Fifty Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "50% chance to get drained.",
+    "description": "50% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -467,7 +507,7 @@
     "type": "SPELL",
     "name": { "str": "Seventy-five Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "75% chance to get drained.",
+    "description": "75% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -486,7 +526,7 @@
     "type": "SPELL",
     "name": { "str": "One hundred Percent Nether Attunement Chance" },
     "valid_targets": [ "self" ],
-    "description": "100% chance to get drained.",
+    "description": "100% chance to gain nether-attunement.",
     "flags": [ "SILENT", "WONDER", "NO_EXPLOSION_SFX" ],
     "message": "",
     "shape": "blast",
@@ -494,5 +534,44 @@
     "min_damage": 1,
     "max_damage": 1,
     "extra_effects": [ { "id": "psionic_maintenance_drain_spell", "max_level": 0, "hit_self": true } ]
+  },
+  {
+    "id": "nether_attunement_cold_chill",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Cold Chill" },
+    "valid_targets": [ "self" ],
+    "description": "Drops the temperature when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "message": "",
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_nether_chill"
+  },
+  {
+    "id": "nether_attunement_everyone_downed",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Everyone Downed" },
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "description": "Knocks you and everyone else nearby off their feet when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "extra_effects": [ { "id": "nether_attunement_everyone_dazed", "hit_self": true } ],
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] }
+  },
+  {
+    "id": "nether_attunement_everyone_dazed",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Everyone Dazed" },
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "description": "Dazes you and everyone else nearby when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "psi_dazed",
+    "shape": "blast",
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] },
+    "min_duration": 200,
+    "max_duration": 1500
   }
 ]

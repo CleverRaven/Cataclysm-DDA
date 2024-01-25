@@ -483,7 +483,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "3x3_trunks",
+    "nested_mapgen_id": "3x3_stumps",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
@@ -1015,118 +1015,6 @@
         "   ////////    "
       ],
       "palettes": [ "paddock" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_north",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".??////////??.",
-        "???////////???",
-        "??//////////??",
-        "??//////////??",
-        "?.///....///.?",
-        "../......../..",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        ".............."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_east",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".........????.",
-        "..........????",
-        "........////??",
-        "........./////",
-        "........./////",
-        "..........////",
-        "..........////",
-        "..........////",
-        "..........////",
-        "........./////",
-        "........./////",
-        "........////??",
-        "..........????",
-        ".........????."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_south",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "..............",
-        "../......../..",
-        "?.///....///.?",
-        "??//////////??",
-        "??//////////??",
-        "???////////???",
-        ".??////////??."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "14x14_forest_trail_intersection_west",
-    "object": {
-      "mapgensize": [ 14, 14 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        ".????.........",
-        "????..........",
-        "??////........",
-        "/////.........",
-        "/////.........",
-        "////..........",
-        "////..........",
-        "////..........",
-        "////..........",
-        "/////.........",
-        "/////.........",
-        "??////........",
-        "????..........",
-        ".????........."
-      ],
-      "palettes": [ "farm_lots" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

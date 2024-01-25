@@ -311,12 +311,6 @@ static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -1774,7 +1768,11 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
-        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        // this is a ridiculous way to find a good fishing spot, but I'm just trying
+        // to do oceans right now.  Maybe is_water_body() would be better?
+        // if you find this comment still here and it's later than 2025, LOL.
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_ocean() &&
+        !cur_omt->is_lake_shore() && !cur_omt->is_ocean_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
     }
@@ -4915,7 +4913,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint & )
     return std::nullopt;
 }
 
-std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
+std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt )
 {
     if( !p ) {
         debugmsg( "%s called action hacksaw that requires character but no character is present",
@@ -4954,8 +4952,11 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint & )
         }
         return std::nullopt;
     }
-
-    p->assign_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) );
+    if( p->pos() == it_pnt ) {
+        p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
+    } else {
+        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
 
     return std::nullopt;
 }

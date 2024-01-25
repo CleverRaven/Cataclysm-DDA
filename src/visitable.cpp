@@ -566,6 +566,11 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     }
 
     contents.remove_internal( filter, count, res );
+
+    // updating pockets is only necessary when removing mods,
+    // but no way to determine where something got removed here
+    update_modified_pockets();
+
     return res;
 }
 

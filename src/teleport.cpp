@@ -28,6 +28,7 @@ static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -62,7 +63,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     tripoint_abs_ms abs_ms( here.getabs( target ) );
     //The teleportee is dimensionally anchored so nothing happens
     if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                         p->has_effect_with_flag( json_flag_TELEPORT_LOCK ) ) ) {
         if( display_message ) {
             p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
         }

@@ -182,8 +182,12 @@
     "type": "effect_type",
     "id": "afs_isohypsa_overwatch",
     "name": [ "Isohypsa Overwatch" ],
-    "//~": "This is just a fragment of machine code, it needs no translation.",
-    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "desc": [
+      {
+        "//~": "This is just a fragment of machine code, it needs no translation.",
+        "str": "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n"
+      }
+    ],
     "rating": "good",
     "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
@@ -197,6 +201,31 @@
     "rating": "good",
     "flags": [ "LEVITATION" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff_trigger"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_combat_stims",
+    "name": [ "Combat Stimulants" ],
+    "desc": [ "You are under the effects of powerful military combat stimulants" ],
+    "rating": "good",
+    "blocks_effects": [ "stim_overdose", "shakes" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff",
+    "rating": "good",
+    "name": [ "Medigel" ],
+    "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "max_duration": "4 d",
+    "base_mods": { "healing_rate": [ 4 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
+    "scaling_mods": { "healing_rate": [ 2 ] }
   },
   {
     "type": "effect_type",

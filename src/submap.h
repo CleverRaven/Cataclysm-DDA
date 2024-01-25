@@ -295,6 +295,7 @@ class submap
 
         int field_count = 0;
         time_point last_touched = calendar::turn_zero;
+        bool reverted = false; // NOLINT(cata-serialize)
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).

@@ -174,14 +174,18 @@ enum class oter_flags : int {
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     should_not_spawn,
+    water,
     river_tile,
     has_sidewalk,
+    bridge,
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
     requires_predecessor,
     lake,
     lake_shore,
+    ocean,
+    ocean_shore,
     ravine,
     ravine_edge,
     generic_loot,
@@ -413,12 +417,23 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
+        bool is_water() const {
+            return type->has_flag( oter_flags::water );
+        }
         bool is_lake() const {
             return type->has_flag( oter_flags::lake );
         }
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ocean() const {
+            return type->has_flag( oter_flags::ocean );
+        }
+
+        bool is_ocean_shore() const {
+            return type->has_flag( oter_flags::ocean_shore );
         }
 
         bool is_ravine() const {

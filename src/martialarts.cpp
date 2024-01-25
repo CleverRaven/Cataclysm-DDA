@@ -40,6 +40,8 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const flag_id json_flag_PROVIDES_TECHNIQUES( "PROVIDES_TECHNIQUES" );
+
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
@@ -1320,6 +1322,13 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
     if( weap && !style.force_unarmed ) {
         const auto &weapon_techs = weap->get_techniques();
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
+    }
+    // If we have any items that also provide techniques
+    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+                json_flag_PROVIDES_TECHNIQUES );
+    for( const item *it : tech_providing_items ) {
+        const std::set<matec_id> &item_techs = it->get_techniques();
+        tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
     }
     // and martial art techniques
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );

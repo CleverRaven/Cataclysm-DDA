@@ -16,14 +16,14 @@ namespace cata
 template<typename Point>
 struct mdarray_default_size_impl;
 
-template<typename Point, coords::scale Scale>
-struct mdarray_default_size_impl<coords::coord_point<Point, coords::origin::reality_bubble, Scale>> {
+template<typename Point, coords::scale Scale, bool InBounds>
+struct mdarray_default_size_impl<coords::coord_point<Point, coords::origin::reality_bubble, Scale, InBounds>> {
     static constexpr size_t value = MAPSIZE_X / map_squares_per( Scale );
     static_assert( MAPSIZE_X % map_squares_per( Scale ) == 0, "Scale must be smaller than map" );
 };
 
-template<typename Point, coords::origin Origin, coords::scale Scale>
-struct mdarray_default_size_impl<coords::coord_point<Point, Origin, Scale>> {
+template<typename Point, coords::origin Origin, coords::scale Scale, bool InBounds>
+struct mdarray_default_size_impl<coords::coord_point<Point, Origin, Scale, InBounds>> {
     static constexpr coords::scale outer_scale = coords::scale_from_origin( Origin );
     static constexpr size_t value = map_squares_per( outer_scale ) / map_squares_per( Scale );
     static_assert( value > 0, "Scale must be smaller origin" );

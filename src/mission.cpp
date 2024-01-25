@@ -767,7 +767,7 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
-const std::vector<std::pair<int, itype_id>> &mission::get_likely_rewards() const
+const talk_effect_fun_t::likely_rewards_t &mission::get_likely_rewards() const
 {
     return type->likely_rewards;
 }

@@ -9,5 +9,19 @@
     "dependencies": [ "dda" ],
     "version": "0.80",
     "obsolete": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Set to the Honduran/Nicaraguan border.",
+    "stype": "float",
+    "value": 14.34
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Set to the Honduran/Nicaraguan border.",
+    "stype": "float",
+    "value": -84.75
   }
 ]

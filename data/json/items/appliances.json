@@ -58,14 +58,7 @@
     "volume": "290 L",
     "weight": "77 kg",
     "charged_qualities": [ [ "OVEN", 2 ] ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" },
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
     "type": "GENERIC",

@@ -233,7 +233,6 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
-        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
@@ -483,7 +482,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -724,7 +722,7 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
+    description << spl.enumerate_spell_data( chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
@@ -747,7 +745,7 @@ static void spell_description(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
                     _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
-                    spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
+                    spl.energy_cost_encumbered( chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
     dialogue d( get_talker_for( chrc ), nullptr );
     // Casting Time: 0 (impeded)
@@ -755,7 +753,7 @@ static void spell_description(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
                     _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
-                    spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
+                    spl.casting_time_encumbered( chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time.evaluate(
                                    d ) ) ) ) << '\n';
 
@@ -1904,7 +1902,7 @@ static void character_edit_menu()
     if( np != nullptr ) {
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
-             np->myclass->get_name() << std::endl;
+             np->myclass->get_name() << " " << _( "class ID:" ) << np->myclass.obj().id << std::endl;
         if( !np->get_unique_id().empty() ) {
             data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
         }
@@ -2203,7 +2201,8 @@ static void character_edit_menu()
             size_t i = 0;
             for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
-                classes.addentry( i, true, -1, cl.get_name() );
+                classes.addentry( i, true, -1, string_format( _( "%1$s (ID: %2$s)" ), cl.get_name(),
+                                  cl.id.c_str() ) );
                 i++;
             }
 
@@ -3300,9 +3299,6 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
-            break;
-        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reachability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
