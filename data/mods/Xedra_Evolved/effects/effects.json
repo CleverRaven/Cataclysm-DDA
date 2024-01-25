@@ -685,7 +685,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_sheyd_malediction",
+    "id": "effect_evil_eye",
     "name": [ "Malediction" ],
     "desc": [ "Something is definitely wrong." ],
     "rating": "bad",

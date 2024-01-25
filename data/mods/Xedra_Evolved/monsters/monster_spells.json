@@ -86,7 +86,7 @@
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "valid_targets": [ "ground", "hostile" ],
     "effect": "attack",
-    "effect_str": "effect_sheyd_malediction",
+    "effect_str": "effect_evil_eye",
     "shape": "blast",
     "min_range": 15,
     "max_range": 15,
