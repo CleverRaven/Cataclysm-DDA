@@ -15,13 +15,15 @@
       { "point": [ 1, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
       { "point": [ 0, 1, 1 ], "overmap": "full_basic_lab_roof_north" },
       { "point": [ 1, 1, 1 ], "overmap": "full_basic_lab_roof_north" },
+      { "point": [ -1, -2, 1 ], "overmap": "lab_surface_parking_blockE2_roof_west" },
       { "point": [ -1, -1, 1 ], "overmap": "lab_security_z0N_roof_north" },
       { "point": [ -1, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
       { "point": [ -1, 1, 1 ], "overmap": "lab_security_z0S_roof_north" },
-      { "point": [ 1, -2, 0 ], "overmap": "lab_res_8_SWU_ground_south", "locations": [ "land" ] },
-      { "point": [ 0, -2, 0 ], "overmap": "lab_res_8_SEU_ground_south", "locations": [ "land" ] },
-      { "point": [ 0, 2, 0 ], "overmap": "lab_res_8_SWD_ground_north", "locations": [ "land" ] },
-      { "point": [ 1, 2, 0 ], "overmap": "lab_res_8_SED_ground_north", "locations": [ "land" ] },
+      { "point": [ -1, 2, 1 ], "overmap": "lab_surface_parking_blockA2_roof_west" },
+      { "point": [ 1, -2, 0 ], "overmap": "lab_res_8_SWU_ground_south" },
+      { "point": [ 0, -2, 0 ], "overmap": "lab_res_8_SEU_ground_south" },
+      { "point": [ 0, 2, 0 ], "overmap": "lab_res_8_SWD_ground_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "lab_res_8_SED_ground_north" },
       { "point": [ 0, 2, -1 ], "overmap": "lab_2x1_CORE_-1W_north" },
       { "point": [ 1, 2, -1 ], "overmap": "lab_2x1_CORE_-1E_north" },
       { "point": [ 1, -2, -1 ], "overmap": "lab_2x1_CORE_-1W_south" },
@@ -126,12 +128,16 @@
       { "point": [ 1, 1, -6 ], "overmap": "lab_2x2_MUT_tier_2_NE_north" },
       { "point": [ 0, 2, -6 ], "overmap": "lab_2x2_MUT_tier_2_SW_north" },
       { "point": [ 1, 2, -6 ], "overmap": "lab_2x2_MUT_tier_2_SE_north" },
-      { "point": [ -4, 0, 0 ], "locations": [ "land", "road" ] }
+      { "point": [ -2, -3, 0 ], "locations": [ "land", "road" ] },
+      { "point": [ -2, 3, 0 ], "locations": [ "land", "road" ] }
     ],
-    "connections": [ { "point": [ -4, 0, 0 ], "connection": "local_road", "terrain": "road", "from": [ -3, 0, 0 ] } ],
+    "connections": [
+      { "point": [ -2, -3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, -2, 0 ] },
+      { "point": [ -2, 3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, 2, 0 ] }
+    ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
   }
 ]

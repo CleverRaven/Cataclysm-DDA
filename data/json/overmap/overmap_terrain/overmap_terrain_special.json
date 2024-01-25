@@ -77,6 +77,8 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "lab_surface_parking_blockA2_roof",
+      "lab_surface_parking_blockE2_roof",
       "mil_base_1a1",
       "mil_base_1c1",
       "mil_base_1d1",
