@@ -713,7 +713,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "mon_sheyd_malediction_spell", "min_level": 1 },
+        "spell_data": { "id": "mon_sheyd_eye_evil_spell", "min_level": 1 },
         "cooldown": 20,
         "monster_message": "%1$s glares at you!"
       }
@@ -726,6 +726,7 @@
     "flags": [
       "SEES",
       "HEARS",
+      "FAE_CREATURE",
       "HARDTOSHOOT",
       "NIGHT_INVISIBILITY",
       "CAMOUFLAGE",

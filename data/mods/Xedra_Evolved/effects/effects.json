@@ -686,7 +686,7 @@
   {
     "type": "effect_type",
     "id": "effect_evil_eye",
-    "name": [ "Malediction" ],
+    "name": [ "Evil Eye" ],
     "desc": [ "Something is definitely wrong." ],
     "rating": "bad",
     "show_in_info": true,

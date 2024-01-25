@@ -77,9 +77,9 @@
     "max_range": 10
   },
   {
-    "id": "mon_sheyd_malediction_spell",
+    "id": "mon_sheyd_eye_evil_spell",
     "type": "SPELL",
-    "name": "Sheyd Malediction Spell",
+    "name": "Sheyd Evil Eye Spell",
     "description": "This is a monster only spell.",
     "message": "",
     "teachable": false,
@@ -90,7 +90,24 @@
     "shape": "blast",
     "min_range": 15,
     "max_range": 15,
-    "min_duration": 1500,
-    "max_duration": 4500
+    "min_duration": 15000,
+    "max_duration": 180000
+  },
+  {
+    "id": "mon_flaming_eye_evil_spell",
+    "type": "SPELL",
+    "name": "Flaming Eye Evil Eye Spell",
+    "description": "This is a monster only spell.",
+    "message": "",
+    "teachable": false,
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_evil_eye",
+    "shape": "blast",
+    "min_range": 40,
+    "max_range": 40,
+    "min_duration": 360000,
+    "max_duration": 1080000
   }
 ]
