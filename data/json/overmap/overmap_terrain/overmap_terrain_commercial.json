@@ -11,7 +11,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_rural", "s_gas_g1", "s_gas_g0" ],
+    "id": [ "s_gas", "s_gas_rural", "s_gas_g1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
@@ -20,7 +20,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_rural_roof", "s_gas_g1_roof", "s_gas_g0_roof" ],
+    "id": [ "s_gas_g0" ],
+    "copy-from": "s_gas",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_roof_1", "s_gas_rural_roof", "s_gas_g1_roof" ],
     "copy-from": "generic_city_building",
     "name": "gas station roof",
     "color": "light_blue"
