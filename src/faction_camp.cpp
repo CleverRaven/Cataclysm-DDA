@@ -2,18 +2,15 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -35,7 +32,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -61,7 +58,6 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"

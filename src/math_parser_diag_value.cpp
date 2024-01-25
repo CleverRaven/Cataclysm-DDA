@@ -3,7 +3,6 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include <utility>
 #include <variant>
 
 #include "cata_utility.h"

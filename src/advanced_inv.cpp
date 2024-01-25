@@ -2,14 +2,11 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <initializer_list>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -25,22 +22,20 @@
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "localized_comparator.h"
 #include "map.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
@@ -60,7 +55,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>

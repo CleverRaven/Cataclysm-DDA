@@ -10,7 +10,6 @@
 #include <iterator>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -30,9 +29,9 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "construction.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -56,6 +55,7 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -63,7 +63,6 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "json_loader.h"
 #include "line.h"
@@ -103,18 +102,15 @@
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vitamin.h"
@@ -392,7 +388,6 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
 struct object_names_collection;
 
 static void item_save_monsters( Character &p, item &it, const std::vector<monster *> &monster_vec,

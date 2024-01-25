@@ -10,6 +10,7 @@
 #include "field.h"
 #include "game.h"
 #include "magic.h"
+#include "map.h"
 #include "math_parser_diag_value.h"
 #include "math_parser_shim.h"
 #include "mtype.h"

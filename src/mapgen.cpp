@@ -4,11 +4,8 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -39,12 +36,11 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"

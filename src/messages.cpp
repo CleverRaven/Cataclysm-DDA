@@ -8,7 +8,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "panels.h"
@@ -24,7 +24,6 @@
 #endif
 #include <algorithm>
 #include <deque>
-#include <functional>
 #include <iterator>
 #include <memory>
 #include <string>
