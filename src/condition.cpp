@@ -204,7 +204,7 @@ dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool r
     return ret_val;
 }
 
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string &member,
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
         bool required, time_duration default_val )
 {
     duration_or_var_part ret_val;
@@ -215,7 +215,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
         }
     } else if( jv.test_int() ) {
-        ret_val.dur_val = time_duration::from_turns( jv.get_int() );
+        ret_val.dur_val = time_duration::from_turns( jv.get_float() );
     } else if( jv.test_object() ) {
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
@@ -230,14 +230,15 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
             ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
-        jv.throw_error( "No valid value for " + member );
+        jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
         ret_val.dur_val = default_val;
     }
     return ret_val;
 }
 
-duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member, bool required,
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member,
+                                     bool required,
                                      time_duration default_val )
 {
     duration_or_var ret_val;
@@ -1666,6 +1667,19 @@ conditional_t::func f_get_condition( const JsonObject &jo, std::string_view memb
     str_or_var conditionalToGet = get_str_or_var( jo.get_member( member ), member, true );
     return [conditionalToGet]( dialogue & d ) {
         return d.evaluate_conditional( conditionalToGet.evaluate( d ), d );
+    };
+}
+
+conditional_t::func f_has_ammo()
+{
+    return []( dialogue & d ) {
+        item_location *it = d.actor( true )->get_item();
+        if( it ) {
+            return ( *it )->ammo_sufficient( d.actor( false )->get_character() );
+        } else {
+            debugmsg( "beta talker must be Item" );
+            return false;
+        }
     };
 }
 
@@ -3223,6 +3237,7 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_fun::f_is_monster },
     {"u_is_item", "npc_is_item", &conditional_fun::f_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
+    {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
 };
 

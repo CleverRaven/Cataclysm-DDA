@@ -116,7 +116,7 @@
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_armschina", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "casting_mold_long", -1 ] ] ],
     "components": [
       [
         [ "cotton_patchwork", 1 ],

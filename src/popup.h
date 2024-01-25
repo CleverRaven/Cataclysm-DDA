@@ -4,15 +4,13 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_enums.h"
 #include "point.h"
 #include "string_formatter.h"
 

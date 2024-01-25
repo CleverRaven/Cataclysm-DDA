@@ -1,7 +1,4 @@
 #include <cstdio>
-#include <functional>
-#include <iosfwd>
-#include <list>
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,13 +15,11 @@
 #include "effect.h"
 #include "event.h"
 #include "event_bus.h"
-#include "event_subscriber.h"
 #include "faction.h"
 #include "game.h"
-#include "input.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_category.h"
-#include "kill_tracker.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
@@ -35,7 +30,6 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "talker.h"
 #include "type_id.h"
 
 static const bionic_id bio_ads( "bio_ads" );

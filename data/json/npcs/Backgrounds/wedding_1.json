@@ -16,7 +16,7 @@
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_WEDDING_1_STORY3" },
       { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -26,7 +26,7 @@
     "dynamic_line": "After I saw what was going on, I turned around and headed out in the opposite direction.  I've seen zombie movies before.  I picked up some stuff from home and I managed to get out of town before things went really bad.  At the time I thought I was being a coward, but now I know if I'd stayed to help, I'd just be another dripping corpse.",
     "responses": [
       { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

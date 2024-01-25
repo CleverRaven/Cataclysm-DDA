@@ -5,7 +5,6 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <optional>
 #include <ostream>
 #include <queue>
@@ -40,8 +39,6 @@
 #include "do_turn.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "event.h"
-#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -51,6 +48,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -76,8 +74,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -94,7 +90,6 @@
 #include "string_formatter.h"
 #include "submap.h"
 #include "tileray.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -6497,6 +6492,26 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
 void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove )
 {
     return remove_field( p.raw(), field_to_remove );
+}
+
+void map::delete_field( const tripoint &p, const field_type_id &field_to_remove )
+{
+    submap *current_submap = this->unsafe_get_submap_at( p );
+    field &curfield = this->get_field( p );
+
+    // when displayed_field_type == fd_null it means that `curfield` has no fields inside
+    // avoids instantiating (relatively) expensive map iterator
+    if( !curfield.displayed_field_type() ) {
+        return;
+    }
+
+    for( auto it = curfield.begin(); it != curfield.end(); ) {
+        if( it->second.get_field_type() == field_to_remove ) {
+            --current_submap->field_count;
+            curfield.remove_field( it );
+            break;
+        }
+    }
 }
 
 void map::clear_fields( const tripoint &p )

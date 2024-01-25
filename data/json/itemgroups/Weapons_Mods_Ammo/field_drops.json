@@ -22,6 +22,183 @@
     ]
   },
   {
+    "id": "field_ar15_223",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for Armalite Rifles (though other stanag compliants could work too), loaded with .223 ammo",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "223", "charges": 30, "prob": 50 },
+          { "item": "stanag30", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "223", "charges": 30, "prob": 30 },
+          { "item": "stanag30", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "223", "charges": 30, "prob": 30 },
+          { "item": "stanag30", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_ar15_mk318",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for Armalite Rifles (though other stanag compliants could work too), loaded with Mk318-type 'duty' ammo",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": 30, "prob": 50 },
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "stanag30", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_mini14",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for Mini-14 rifles",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ruger20", "ammo-item": "223", "charges": 20, "prob": 50 },
+          { "item": "ruger20", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "ruger20", "ammo-item": "223", "charges": 20, "prob": 30 },
+          { "item": "ruger20", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "ruger20", "ammo-item": "223", "charges": 20, "prob": 30 },
+          { "item": "ruger20", "ammo-item": "223", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_g36",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for G36 rifles",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 50 },
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "g36mag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_steyraug",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for Steyr AUG rifles",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 50 },
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": 30, "prob": 30 },
+          { "item": "augmag_30rd", "ammo-item": "556_mk318", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_hk417",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for HK417 rifles",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "hk417mag_20rd", "charges": 20, "prob": 50 }, { "item": "hk417mag_20rd", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "hk417mag_20rd", "charges": 20, "prob": 30 }, { "item": "hk417mag_20rd", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "hk417mag_20rd", "charges": 20, "prob": 30 }, { "item": "hk417mag_20rd", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
     "id": "field_xedra_rifle",
     "type": "item_group",
     "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
@@ -106,6 +283,42 @@
     "entries": [ { "item": "3006", "charges": [ 1, 6 ], "prob": 100 } ]
   },
   {
+    "id": "field_308",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for any sniper in 308 since its just shells",
+    "subtype": "collection",
+    "entries": [ { "item": "308", "charges": [ 1, 6 ], "prob": 100 } ]
+  },
+  {
+    "id": "field_300",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for any sniper in 300 win mag since its just shells",
+    "subtype": "collection",
+    "entries": [ { "item": "300_winmag", "charges": [ 1, 6 ], "prob": 100 } ]
+  },
+  {
+    "id": "field_338",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for any sniper in 338 lapua since its just shells",
+    "subtype": "collection",
+    "entries": [ { "item": "338lapua_hpbt", "charges": [ 1, 6 ], "prob": 100 } ]
+  },
+  {
+    "id": "field_50bmg",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for any sniper in 3006 since its just shells",
+    "subtype": "collection",
+    "entries": [ { "item": "50match", "charges": [ 1, 6 ], "prob": 100 } ]
+  },
+  {
     "id": "field_fn57",
     "type": "item_group",
     "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
@@ -123,6 +336,50 @@
       },
       {
         "distribution": [ { "item": "fn57mag", "charges": 20, "prob": 30 }, { "item": "fn57mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_p90",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the P90",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "fnp90mag", "charges": 50, "prob": 50 }, { "item": "fnp90mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "fnp90mag", "charges": 50, "prob": 30 }, { "item": "fnp90mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "fnp90mag", "charges": 50, "prob": 30 }, { "item": "fnp90mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_mp7",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the MP7",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "hk46bigmag", "charges": 40, "prob": 50 }, { "item": "hk46bigmag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "hk46bigmag", "charges": 40, "prob": 30 }, { "item": "hk46bigmag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "hk46bigmag", "charges": 40, "prob": 30 }, { "item": "hk46bigmag", "charges": [ 0, 5 ], "prob": 70 } ],
         "prob": 50
       }
     ]
@@ -150,23 +407,23 @@
     ]
   },
   {
-    "id": "field_glock_22",
+    "id": "field_glock_17",
     "type": "item_group",
     "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
     "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
-    "//3": "this group is for the glock 22",
+    "//3": "this group is for the glock 17",
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "glock40mag", "charges": 15, "prob": 50 }, { "item": "glock40mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "distribution": [ { "item": "glock17_17", "charges": 17, "prob": 50 }, { "item": "glock17_17", "charges": [ 0, 5 ], "prob": 50 } ],
         "prob": 100
       },
       {
-        "distribution": [ { "item": "glock40mag", "charges": 15, "prob": 30 }, { "item": "glock40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "distribution": [ { "item": "glock17_17", "charges": 17, "prob": 30 }, { "item": "glock17_17", "charges": [ 0, 5 ], "prob": 70 } ],
         "prob": 70
       },
       {
-        "distribution": [ { "item": "glock40mag", "charges": 15, "prob": 30 }, { "item": "glock40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "distribution": [ { "item": "glock17_17", "charges": 17, "prob": 30 }, { "item": "glock17_17", "charges": [ 0, 5 ], "prob": 70 } ],
         "prob": 50
       }
     ]
@@ -194,6 +451,324 @@
     ]
   },
   {
+    "id": "field_usp_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the usp 9mm",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 50 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 30 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 30 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_sp2022_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the sig sp2022 9mm",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "sp2022mag_15rd_9mm", "charges": 15, "prob": 50 },
+          { "item": "sp2022mag_15rd_9mm", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "sp2022mag_15rd_9mm", "charges": 15, "prob": 30 },
+          { "item": "sp2022mag_15rd_9mm", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "sp2022mag_15rd_9mm", "charges": 15, "prob": 30 },
+          { "item": "sp2022mag_15rd_9mm", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_px4_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the px4 9mm",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "px4mag", "charges": 17, "prob": 50 }, { "item": "px4mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "px4mag", "charges": 17, "prob": 30 }, { "item": "px4mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "px4mag", "charges": 17, "prob": 30 }, { "item": "px4mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_mp5",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the MP5",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "mp5mag", "charges": 30, "prob": 50 }, { "item": "mp5mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "mp5mag", "charges": 30, "prob": 30 }, { "item": "mp5mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "mp5mag", "charges": 30, "prob": 30 }, { "item": "mp5mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_uzi",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the UZI/Colt SMG",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "uzimag", "charges": 32, "prob": 50 }, { "item": "uzimag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "uzimag", "charges": 32, "prob": 30 }, { "item": "uzimag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "uzimag", "charges": 32, "prob": 30 }, { "item": "uzimag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_apc9",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the APC9",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "btmp9mag_9x19mm_30", "charges": 30, "prob": 50 },
+          { "item": "btmp9mag_9x19mm_30", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "btmp9mag_9x19mm_30", "charges": 30, "prob": 30 },
+          { "item": "btmp9mag_9x19mm_30", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "btmp9mag_9x19mm_30", "charges": 30, "prob": 30 },
+          { "item": "btmp9mag_9x19mm_30", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_ump9",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the UMP in 9mm",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "ump9mag", "charges": 30, "prob": 50 }, { "item": "ump9mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "ump9mag", "charges": 30, "prob": 30 }, { "item": "ump9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "ump9mag", "charges": 30, "prob": 30 }, { "item": "ump9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_glock_31",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the glock 31",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": 15, "prob": 50 },
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": 15, "prob": 30 },
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": 15, "prob": 30 },
+          { "item": "glock40mag", "ammo-item": "357sig_jhp", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_p226_357sig",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the P226 .357 SIG",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "p226mag_12rd_357sig", "charges": 12, "prob": 50 },
+          { "item": "p226mag_12rd_357sig", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "p226mag_12rd_357sig", "charges": 12, "prob": 30 },
+          { "item": "p226mag_12rd_357sig", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "p226mag_12rd_357sig", "charges": 12, "prob": 30 },
+          { "item": "p226mag_12rd_357sig", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_p320_357sig",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the P320 .357 SIG",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "p320mag_13rd_357sig", "charges": 13, "prob": 50 },
+          { "item": "p320mag_13rd_357sig", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "p320mag_13rd_357sig", "charges": 13, "prob": 30 },
+          { "item": "p320mag_13rd_357sig", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "p320mag_13rd_357sig", "charges": 13, "prob": 30 },
+          { "item": "p320mag_13rd_357sig", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_glock_22",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the glock 22",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": 15, "prob": 50 },
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": [ 0, 5 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": 15, "prob": 30 },
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": 15, "prob": 30 },
+          { "item": "glock40mag", "ammo-item": "40sw", "charges": [ 0, 5 ], "prob": 70 }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_px4_40",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the px4 40",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "px4_40mag", "charges": 14, "prob": 50 }, { "item": "px4_40mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "px4_40mag", "charges": 14, "prob": 30 }, { "item": "px4_40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "px4_40mag", "charges": 14, "prob": 30 }, { "item": "px4_40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
     "id": "field_sig_40",
     "type": "item_group",
     "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
@@ -211,6 +786,50 @@
       },
       {
         "distribution": [ { "item": "sig40mag", "charges": 12, "prob": 30 }, { "item": "sig40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_ump40",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the UMP in .40 S&W",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "ump40mag", "charges": 30, "prob": 50 }, { "item": "ump40mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "ump40mag", "charges": 30, "prob": 30 }, { "item": "ump40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "ump40mag", "charges": 30, "prob": 30 }, { "item": "ump40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_glock_21",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the glock 21",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "glock_21mag", "charges": 13, "prob": 50 }, { "item": "glock_21mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "glock_21mag", "charges": 13, "prob": 30 }, { "item": "glock_21mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "glock_21mag", "charges": 13, "prob": 30 }, { "item": "glock_21mag", "charges": [ 0, 5 ], "prob": 70 } ],
         "prob": 50
       }
     ]
@@ -238,23 +857,54 @@
     ]
   },
   {
-    "id": "field_usp_9mm",
+    "id": "field_ump45",
     "type": "item_group",
     "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
     "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
-    "//3": "this group is for the glock 22",
+    "//3": "this group is for the UMP in .45 ACP",
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 50 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 50 } ],
+        "distribution": [ { "item": "ump45mag", "charges": 25, "prob": 50 }, { "item": "ump45mag", "charges": [ 0, 5 ], "prob": 50 } ],
         "prob": 100
       },
       {
-        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 30 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "distribution": [ { "item": "ump45mag", "charges": 25, "prob": 30 }, { "item": "ump45mag", "charges": [ 0, 5 ], "prob": 70 } ],
         "prob": 70
       },
       {
-        "distribution": [ { "item": "usp9mag", "charges": 15, "prob": 30 }, { "item": "usp9mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "distribution": [ { "item": "ump45mag", "charges": 25, "prob": 30 }, { "item": "ump40mag", "charges": [ 0, 5 ], "prob": 70 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "field_as50",
+    "type": "item_group",
+    "//": "this is a distribution for ammo and magazines an active combatant would have immediately on hand.  Most should be expended.",
+    "//2": "usually takes the form of 100% chance for first mag, 70% for second, 50% for third with reducing chances of them being mostly expended.",
+    "//3": "this group is for the AS50 AMR",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "as50mag", "ammo-item": "50match", "charges": 5, "prob": 50 },
+          { "item": "as50mag", "ammo-item": "50match", "charges": [ 0, 1 ], "prob": 50 }
+        ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "as50mag", "ammo-item": "50match", "charges": 5, "prob": 30 },
+          { "item": "as50mag", "ammo-item": "50match", "charges": [ 0, 1 ], "prob": 70 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "as50mag", "ammo-item": "50match", "charges": 5, "prob": 30 },
+          { "item": "as50mag", "ammo-item": "50match", "charges": [ 0, 1 ], "prob": 70 }
+        ],
         "prob": 50
       }
     ]

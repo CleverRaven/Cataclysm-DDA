@@ -7,12 +7,10 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -40,6 +38,7 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
