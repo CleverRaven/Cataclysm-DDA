@@ -9,7 +9,7 @@
         "text": "Have you decoded the disk?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", "<", "time('1 d')" ] },
             { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -20,7 +20,7 @@
         "text": "It's been a while.  Have you decoded that disk from the tower?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", ">", "time('1 d')" ] },
             { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -60,7 +60,7 @@
         "text": "How goes work on the HWP?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": "<", "time": "7 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", "<", "time('7 d')" ] },
             {
               "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
             },
@@ -140,7 +140,7 @@
         "text": "How is my ordered armor going?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -184,7 +184,7 @@
         "text": "How is my ordered armor going?  It should be done by now.",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -228,7 +228,7 @@
         "text": "The HWP should be complete by now, right?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": ">", "time": "7 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", ">", "time('7 d')" ] },
             {
               "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
             },
@@ -261,7 +261,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -276,7 +276,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -291,7 +291,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
@@ -301,7 +301,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
@@ -324,7 +324,7 @@
         "text": "Any progress on the anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "5 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('5 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
           ]
         },
@@ -334,7 +334,7 @@
         "text": "Any progress on the anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "5 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('5 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
           ]
         },
@@ -354,7 +354,7 @@
         "text": "Any progress on the Hub anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "2 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('2 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
           ]
         },
@@ -364,7 +364,7 @@
         "text": "Any progress on the Hub anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "2 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('2 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
           ]
         },
@@ -388,7 +388,7 @@
         "text": "Any progress on the exotic barrel?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "3 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
@@ -398,7 +398,7 @@
         "text": "Have you finished work on that exotic conversion kit?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "3 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
@@ -506,7 +506,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 8 },
           { "u_add_faction_trust": 2 },
-          { "u_add_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED"
@@ -551,7 +551,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 3 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -573,7 +573,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -595,7 +595,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 4 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -617,7 +617,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 4 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -639,7 +639,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 4 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -661,7 +661,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 12 },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -844,7 +844,7 @@
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           {
             "u_add_var": "u_current_project",
@@ -890,7 +890,7 @@
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
         ],
@@ -936,7 +936,7 @@
           { "u_sell_item": "RobofacCoin", "count": 2 },
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
         ],
@@ -985,7 +985,7 @@
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_consume_item": "robofac_armor_rig", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
         ],
@@ -1085,7 +1085,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_faction_trust": 1 },
-        { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
         { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
         { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
       ],

@@ -263,6 +263,8 @@
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SHOCK_TOUCH",
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ZAP_ENEMIES",
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_MELEE_ATTACKS",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_HACKING_INTERFACE",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ROBOT_INTERFACE",
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PARALYSIS",
           "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_REDUCE_PAIN",
@@ -309,6 +311,22 @@
       "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_electrokinetic_melee_attacks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_HACKING_INTERFACE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_hacking_interface" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ROBOT_INTERFACE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_robot_interface" } ]
   },
   {
     "type": "effect_on_condition",

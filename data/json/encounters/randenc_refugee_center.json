@@ -12,14 +12,12 @@
         "is_day",
         { "one_in_chance": 10 },
         { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": "<", "time": "1 d" }
-        }
+        { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc)", ">=", "time('1 d')" ] }
       ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "evac_center_13" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "time": true },
+      { "math": [ "u_timer_RC_Shoppers_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
@@ -34,12 +32,7 @@
     "global": true,
     "condition": {
       "and": [
-        {
-          "or": [
-            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": ">", "time": "6 h" },
-            "is_night"
-          ]
-        },
+        { "or": [ { "math": [ "time_since(u_timer_RC_Shoppers_RandEnc)", ">", "time('6 h')" ] }, "is_night" ] },
         { "math": [ "RC_Shoppers_visiting", "==", "1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
@@ -66,14 +59,12 @@
         "is_day",
         { "one_in_chance": 15 },
         { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": "<", "time": "3 d" }
-        }
+        { "math": [ "time_since(u_timer_JohnBailey_RandEnc)", ">=", "time('3 d')" ] }
       ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_JohnBailey_add", "om_terrain": "evac_center_13" },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "JohnBailey", "time": true },
+      { "math": [ "u_timer_JohnBailey_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
@@ -88,12 +79,7 @@
     "global": true,
     "condition": {
       "and": [
-        {
-          "or": [
-            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": ">", "time": "6 h" },
-            "is_night"
-          ]
-        },
+        { "or": [ { "math": [ "time_since(u_timer_JohnBailey_RandEnc)", ">", "time('6 h')" ] }, "is_night" ] },
         { "math": [ "RC_JohnBailey_visiting", "==", "1" ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]

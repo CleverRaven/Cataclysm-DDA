@@ -1,0 +1,87 @@
+[
+  {
+    "id": "zenfs_body_graph_temp",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "zenfs_body_graph_temp_text", "compact_body_graph_temp" ]
+  },
+  {
+    "id": "zenfs_body_graph_temp_text",
+    "type": "widget",
+    "style": "text",
+    "string": "  <color_white>Temp.</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_env_temp_desc",
+    "type": "widget",
+    "style": "layout",
+    "width": 19,
+    "arrange": "rows",
+    "widgets": [ "env_temp_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_env_temp_desc_17",
+    "type": "widget",
+    "copy-from": "zenfs_env_temp_desc",
+    "width": 17
+  },
+  {
+    "id": "zenfs_temperature_graph",
+    "type": "widget",
+    "style": "graph",
+    "symbols": "≣≡=−· ·−=≡≣",
+    "fill": "pool",
+    "colors": [ "h_light_blue", "c_light_blue", "c_blue", "c_cyan", "c_brown", "c_magenta", "c_red", "c_light_red", "h_light_red" ],
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_temperature_head_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "head",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  },
+  {
+    "id": "zenfs_temperature_torso_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "torso",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  },
+  {
+    "id": "zenfs_temperature_left_arm_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "arm_l",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  },
+  {
+    "id": "zenfs_temperature_right_arm_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "arm_r",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  },
+  {
+    "id": "zenfs_temperature_left_leg_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "leg_l",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  },
+  {
+    "id": "zenfs_temperature_right_leg_graph_5",
+    "type": "widget",
+    "var": "bp_warmth",
+    "bodypart": "leg_r",
+    "width": 5,
+    "copy-from": "zenfs_temperature_graph"
+  }
+]

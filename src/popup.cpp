@@ -6,7 +6,7 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "ui.h"
 #include "ui_manager.h"

@@ -155,6 +155,44 @@
     "casting_time_increment": -6
   },
   {
+    "id": "electrokinetic_hacking_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Hacking Interface (C)",
+    "description": "Create an electrical interface with your powers, allowing you to hack nearby devices as if you were using a computer.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_HACKING_INTERFACE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_spell_level('electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max((6500 - (u_spell_level('electrokinetic_hacking_interface') * 150)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_hacking_interface') * 9)), 150)"
+      ]
+    }
+  },
+  {
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
     "name": "[Ψ]Electron Overflow (C)",
@@ -173,12 +211,12 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
+        "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1440000)"
       ]
     },
     "energy_source": "STAMINA",
@@ -492,6 +530,45 @@
     "sound_description": "zzzzaaaaaapp!",
     "targeted_monster_species": [ "CYBORG", "ROBOT" ],
     "ignored_monster_species": [ "YRAX_CONSTRUCT", "PSI_NULL" ]
+  },
+  {
+    "id": "electrokinetic_robot_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Robotic Interface",
+    "description": "Use your powers to remotely interface with a robot's internal circuitry, allowing you to hack it if you have the skill.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_ROBOT_INTERFACE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 5000,
+    "energy_increment": -125,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5
+  },
+  {
+    "id": "electro_spawn_robot_interface",
+    "type": "SPELL",
+    "name": "[Ψ]Create Robotic Interface",
+    "description": "Creates a tool used to hack robots.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "electro_robot_interface",
+    "shape": "blast",
+    "min_duration": 0,
+    "max_duration": 0
   },
   {
     "id": "electrokinetic_lightning_aura",

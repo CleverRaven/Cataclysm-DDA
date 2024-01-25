@@ -45,7 +45,7 @@
     "effect": [
       { "math": [ "u_Shadow_Lurking", "--" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true }
+      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1 }
     ]
   },
   {
@@ -107,12 +107,13 @@
     "id": "EOC_BANDIT_ASSASSIN",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-40" ] },
         { "math": [ "u_val('faction_like: hells_raiders')", ">", "-60" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 9 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -179,12 +180,13 @@
     "id": "EOC_BANDIT_ASSASSIN_2",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-60" ] },
         { "math": [ "u_val('faction_like: hells_raiders')", ">", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 15 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -253,11 +255,12 @@
     "id": "EOC_BANDIT_ASSASSIN_3",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: hells_raiders')", "<", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
-        { "days_since_cataclysm": 21 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -326,11 +329,12 @@
     "id": "EOC_OLD_GUARD_ASSASSIN",
     "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
+    "global": true,
     "condition": {
       "and": [
         { "math": [ "u_val('faction_like: old_guard')", "<", "-45" ] },
         { "math": [ "u_government_assassins_sent", "<=", "6" ] },
-        { "days_since_cataclysm": 9 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
@@ -375,7 +379,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   },
   {
@@ -391,7 +395,7 @@
         "spawn_message": "A professional-looking individual steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Professional-looking individuals step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
     ]
   }
 ]

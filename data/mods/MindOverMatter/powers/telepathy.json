@@ -17,26 +17,25 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_concentration') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_concentration') * 13200) + 56000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_concentration') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_concentration') * 60500) + 103300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_telepathic_learning_bonus') > -1 ? 0 : max((4000 - (u_spell_level('telepathic_concentration') * 200)), 1500)"
+        "u_effect_intensity('effect_telepathic_learning_bonus') > -1 ? 0 : max((4000 - (u_spell_level('telepathic_concentration') * 175)), 1500)"
       ]
     },
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_telepathic_learning_bonus') > -1 ? 10 : max((300 -(u_spell_level('telepathic_concentration') * 12)), 150)"
       ]
-    },
-    "learn_spells": { "telepathic_mind_sense": 5, "telepathic_blast": 7, "telepathic_confusion": 15 }
+    }
   },
   {
     "id": "telepathic_shield",
@@ -61,7 +60,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_shield') * 2500) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_shield') * 3600) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -72,10 +71,43 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max((100 -(u_spell_level('telepathic_shield') * 7.5)), 10)"
+        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max((100 -(u_spell_level('telepathic_shield') * 6.5)), 10)"
+      ]
+    }
+  },
+  {
+    "id": "telepathic_mind_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Sense Minds (C)",
+    "description": "You can use your powers to detect the tell-tale hum of a living, sapient mind, no matter how strange or alien it may be.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPATH_SENSE_MINDS_INITIATE",
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_mind_sense') * 2600) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "learn_spells": { "telepathic_invisibility": 13 }
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_mind_sense') * 13100) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('telepathic_mind_sense') * 115)), 1500)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 10 : 500" ] }
   },
   {
     "id": "telepathic_morale",
@@ -95,12 +127,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_morale') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_morale') * 38100) + 98100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_morale') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_morale') * 89900) + 252000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -113,48 +145,7 @@
       "math": [
         "u_effect_intensity('effect_telepathic_morale') > -1 ? 10 : max((300 -(u_spell_level('telepathic_morale') * 9.5)), 150)"
       ]
-    },
-    "learn_spells": {
-      "telepathic_confusion": 7,
-      "telepathic_animal_mind_control": 9,
-      "telepathic_invisibility": 12,
-      "telepathic_mind_control": 15
     }
-  },
-  {
-    "id": "telepathic_mind_sense",
-    "type": "SPELL",
-    "name": "[Ψ]Sense Minds (C)",
-    "description": "You can use your powers to detect the tell-tale hum of a living, sapient mind, no matter how strange or alien it may be.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEPATH",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPATH_SENSE_MINDS_INITIATE",
-    "shape": "blast",
-    "difficulty": 3,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('telepathic_mind_sense') * 4000) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('telepathic_mind_sense') * 5000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "energy_source": "STAMINA",
-    "base_energy_cost": {
-      "math": [
-        "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('telepathic_mind_sense') * 115)), 1500)"
-      ]
-    },
-    "base_casting_time": { "math": [ "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 10 : 500" ] },
-    "learn_spells": { "telepathic_animal_mind_control": 8, "telepathic_network": 15 }
   },
   {
     "id": "telepathic_blast",
@@ -204,10 +195,9 @@
     "final_energy_cost": 900,
     "energy_increment": -125,
     "base_casting_time": 75,
-    "final_casting_time": 30,
+    "final_casting_time": 25,
     "casting_time_increment": -2.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "telepathic_confusion": 7, "telepathic_fear_spell": 10, "telepathic_blast_radius": 12 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "telepathic_animal_mind_control",
@@ -243,7 +233,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_animal_mind_control') * 2500) + 36000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_animal_mind_control') * 2800) + 47000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -253,15 +243,14 @@
     },
     "max_range": 70,
     "energy_source": "STAMINA",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 1500,
-    "energy_increment": -185,
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2000,
+    "energy_increment": -155,
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -3.5,
     "targeted_monster_species": [ "MAMMAL", "BIRD", "AMPHIBIAN", "REPTILE", "FISH" ],
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "telepathic_beast_taming": 7, "telepathic_mind_control": 12 }
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_confusion",
@@ -290,7 +279,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_confusion') * 100) + 800) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_confusion') * 150) + 800) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -300,14 +289,13 @@
     },
     "max_range": 80,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 900,
+    "base_energy_cost": 3750,
+    "final_energy_cost": 1500,
     "energy_increment": -150,
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ],
-    "learn_spells": { "telepathic_invisibility": 7, "telepathic_blast": 9, "telepathic_fear_spell": 12, "telepathic_mind_control": 15 }
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_confusion_blind",
@@ -337,7 +325,7 @@
         "( (u_spell_level('telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_fear",
@@ -379,10 +367,10 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 6000,
-    "final_energy_cost": 2500,
+    "final_energy_cost": 3500,
     "energy_increment": -100,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
     "casting_time_increment": -5,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
@@ -406,7 +394,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_fear') * 150) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_fear') * 175) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -444,12 +432,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 1200) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 1300) + 12700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 5200) + 52300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -465,11 +453,11 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
-    "final_energy_cost": 1750,
-    "energy_increment": -125,
+    "final_energy_cost": 2250,
+    "energy_increment": -115,
     "base_casting_time": 100,
     "final_casting_time": 25,
-    "casting_time_increment": -7.5,
+    "casting_time_increment": -6.5,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
@@ -486,12 +474,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 1300) + 12700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_invisibility') * 3000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_invisibility') * 5200) + 52300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
   },
@@ -541,9 +529,9 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5000,
-    "final_energy_cost": 2500,
-    "energy_increment": -175,
+    "base_energy_cost": 7000,
+    "final_energy_cost": 3250,
+    "energy_increment": -275,
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5
@@ -683,12 +671,12 @@
     },
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_mind_control') * 350) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_mind_control') * 150) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_mind_control') * 450) + 5200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_mind_control') * 650) + 5200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
@@ -700,9 +688,9 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 3500,
-    "energy_increment": -250,
+    "energy_increment": -165,
     "base_casting_time": 120,
-    "final_casting_time": 75,
+    "final_casting_time": 65,
     "casting_time_increment": -3.5,
     "ignored_monster_species": [ "ZOMBIE", "ROBOT", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
@@ -730,16 +718,16 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_network') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_network') * 3400) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 6500,
     "final_energy_cost": 3750,
-    "energy_increment": -175,
+    "energy_increment": -135,
     "base_casting_time": 500,
     "final_casting_time": 250,
-    "casting_time_increment": -15
+    "casting_time_increment": -9
   },
   {
     "id": "telepathic_network_real",
@@ -761,12 +749,12 @@
     "//": "Ideally range would scale with power level, but there would need to be a way to detect nearby allies first instead of just any ally in the bubble.",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_network') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_network') * 700) + 10000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('telepathic_network') * 3000) + 90000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_network') * 3400) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
   }

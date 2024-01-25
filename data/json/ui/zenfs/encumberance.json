@@ -1,0 +1,73 @@
+[
+  {
+    "id": "zenfs_body_graph_encumb",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "zenfs_body_graph_encumb_text", "compact_body_graph_encumb" ]
+  },
+  {
+    "id": "zenfs_body_graph_encumb_text",
+    "type": "widget",
+    "style": "text",
+    "string": " <color_white>Encumb.</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_encumberance_graph",
+    "type": "widget",
+    "style": "graph",
+    "symbols": "·−=≡≣",
+    "fill": "bucket",
+    "colors": [ "c_green", "c_light_green", "c_yellow", "h_yellow" ],
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_encumberance_head_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "head",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  },
+  {
+    "id": "zenfs_encumberance_torso_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "torso",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  },
+  {
+    "id": "zenfs_encumberance_left_arm_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "arm_l",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  },
+  {
+    "id": "zenfs_encumberance_right_arm_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "arm_r",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  },
+  {
+    "id": "zenfs_encumberance_left_leg_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "leg_l",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  },
+  {
+    "id": "zenfs_encumberance_right_leg_graph_5",
+    "type": "widget",
+    "var": "bp_encumb",
+    "bodypart": "leg_r",
+    "width": 5,
+    "copy-from": "zenfs_encumberance_graph"
+  }
+]

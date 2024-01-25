@@ -1362,10 +1362,10 @@
     "type": "GENERIC",
     "name": { "str": "estoc" },
     "description": "A dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
-    "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 } },
+    "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 }, "price": 0.05, "price_postapoc": 0.05 },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "extend": { "flags": [ "FRAGILE_MELEE" ], "price": 0.05, "price_postapoc": 0.05 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" }
   },
   {
@@ -2867,7 +2867,25 @@
     "ammo": [ "gasoline" ],
     "charges_per_use": 5,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
-    "use_action": [ "COMBATSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__combatsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "combatsaw_on",
+              "success_message": "With a snarl, the <npc_name> screams to life!",
+              "volume": "30",
+              "failure_message": "You yank the cord, but nothing happens."
+            }
+          }
+        }
+      ]
+    },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 8 }
@@ -2883,8 +2901,28 @@
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "COMBATSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__combatsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "combatsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__combatsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": { "sound_chance": "12", "sound_message": "Your combat chainsaw growls.", "volume": "18", "revert_to": "combatsaw_off" }
+          }
+        }
+      ]
+    },
     "extend": { "flags": [ "MESSY", "TRADER_AVOID", "POWERED" ] },
     "relative": { "melee_damage": { "cut": 50 } }
   },
@@ -2905,7 +2943,25 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": [ "E_COMBATSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__e_combatsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "e_combatsaw_on",
+              "success_message": "With a snarl, the <npc_name> screams to life!",
+              "volume": "30",
+              "failure_message": "You flip the switch, but nothing happens."
+            }
+          }
+        }
+      ]
+    },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -2929,8 +2985,33 @@
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "E_COMBATSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__e_combatsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "e_combatsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__e_combatsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "12",
+              "sound_message": "Your electric combat chainsaw growls.",
+              "volume": "18",
+              "revert_to": "e_combatsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "extend": { "flags": [ "MESSY", "TRADER_AVOID", "POWERED" ] },
     "relative": { "melee_damage": { "cut": 50 } }
   },

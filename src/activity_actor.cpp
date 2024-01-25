@@ -187,7 +187,6 @@ static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
@@ -209,6 +208,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
@@ -711,17 +711,21 @@ enum class hack_type : int {
     NONE
 };
 
-static int hack_level( const Character &who )
+static int hack_level( const Character &who, item_location &tool )
 {
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    // Quality of 2 is a base electrohack, which results in no modifier
+    int tool_quality_modifier = tool->get_quality( qual_HACK ) - 2;
+    ///\EFFECT_COMPUTER increases success chance of hacking
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + static_cast<float>
+    ///\EFFECT_INT increases success chance of hacking
+    // tool_quality_modifier may increase or reduce the success chance of hacking
+    return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
+                  static_cast<float>
                   ( who.int_cur ) / 2.0f - 8 );
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, item_location &tool )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
@@ -731,13 +735,13 @@ static hack_result hack_attempt( Character &who )
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        who.use_charges( itype_electrohack, 25 );
+        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
 
         if( success <= -5 ) {
-            who.use_charges( itype_electrohack, 50 );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -770,7 +774,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     // TODO: fix point types
     tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, tool ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -827,9 +831,11 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &jsin )
 {
-    hacking_activity_actor actor;
+    hacking_activity_actor actor( {} );
+    JsonObject data = jsin.get_object();
+    data.read( "tool", actor.tool );
     return actor.clone();
 }
 
@@ -3897,8 +3903,8 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
-            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
-            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, act.id().c_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, act.id().c_str() );
         }
     } else if( !rest_mode ) {
         rest_mode = true;

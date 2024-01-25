@@ -81,7 +81,7 @@
     "effect": [
       { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" },
       { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-      { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+      { "math": [ "u_timer_artisans_u_waiting_on_armor", "=", "time('now')" ] },
       { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
     ]
   },

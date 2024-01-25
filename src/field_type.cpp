@@ -20,6 +20,7 @@ const field_type_str_id fd_churned_earth( "fd_churned_earth" );
 const field_type_str_id fd_cold_air2( "fd_cold_air2" );
 const field_type_str_id fd_cold_air3( "fd_cold_air3" );
 const field_type_str_id fd_cold_air4( "fd_cold_air4" );
+const field_type_str_id fd_construction_site( "fd_construction_site" );
 const field_type_str_id fd_dazzling( "fd_dazzling" );
 const field_type_str_id fd_electricity( "fd_electricity" );
 const field_type_str_id fd_electricity_unlit( "fd_electricity_unlit" );
