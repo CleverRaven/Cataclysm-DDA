@@ -8019,7 +8019,7 @@
     "category": "CONSTRUCT",
     "time": "1 m",
     "difficulty": 0,
-    "using": [ [ "marking_soft", 10, "LIST" ] ],
+    "using": [ [ "marking_soft", 1, "LIST" ] ],
     "pre_terrain": "f_hay",
     "post_terrain": "f_archery_target_bale"
   },

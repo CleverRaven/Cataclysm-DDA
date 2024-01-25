@@ -452,14 +452,20 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [
+    "tools": [
       [
         [ "paint_red", 1 ],
-        [ "paint_blue", 1 ],
-        [ "paint_white", 1 ],
+        [ "paint_orange", 1 ],
+        [ "paint_yellow", 1 ],
         [ "paint_green", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_pink", 1 ],
         [ "paint_purple", 1 ],
-        [ "paint_yellow", 1 ]
+        [ "paint_white", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_brown", 1 ]
       ]
     ]
   },
