@@ -32,7 +32,6 @@
 #include "character_id.h"
 #include "city.h"
 #include "coordinates.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -48,7 +47,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
-#include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -66,6 +64,7 @@ class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -106,6 +105,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum class proficiency_bonus_type : int;
 
