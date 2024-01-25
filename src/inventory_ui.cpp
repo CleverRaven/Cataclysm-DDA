@@ -3293,7 +3293,7 @@ item_location inventory_pick_selector::execute()
                         return input.entry->any_item();
                     }
                 }
-            } else if( input.action == "ANY_INPUT" ) {
+            } else if( input.action != "MOUSE_MOVE" && input.action != "COORDINATE" ) {
                 return input.entry->any_item();
             } else {
                 if( !dragActive && highlight( input.entry->any_item() ) ) {

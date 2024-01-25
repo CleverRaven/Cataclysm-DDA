@@ -1977,7 +1977,7 @@ void load_construction( const JsonObject &jo )
                 failure_fallback =  "deconstruct";
             }
             assign_or_debugmsg( con.pre_special, special, pre_special_map );
-            con.pre_specials.push_back( *con.pre_special );
+            con.pre_specials.push_back( con.pre_special );
         }
     } else {
         const std::string special = jo.get_string( "pre_special", "" );
@@ -1990,7 +1990,7 @@ void load_construction( const JsonObject &jo )
         JsonArray jarr = jo.get_array( "post_special" );
         for( std::string special : jarr ) {
             assign_or_debugmsg( con.post_special, special, post_special_map );
-            con.post_specials.push_back( *con.post_special );
+            con.post_specials.push_back( con.post_special );
         }
     } else {
         assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );

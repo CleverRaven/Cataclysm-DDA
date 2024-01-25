@@ -877,24 +877,11 @@ void Character::add_msg_if_player( const game_message_params &params, const std:
     Messages::add_msg( params, msg );
 }
 
-void Character::add_msg_debug_if_player( debugmode::debug_filter type,
-        const std::string &msg ) const
-{
-    Messages::add_msg_debug( type, msg );
-}
-
 void Character::add_msg_player_or_npc( const game_message_params &params,
                                        const std::string &player_msg,
                                        const std::string &/*npc_msg*/ ) const
 {
     Messages::add_msg( params, player_msg );
-}
-
-void Character::add_msg_debug_player_or_npc( debugmode::debug_filter type,
-        const std::string &player_msg,
-        const std::string &/*npc_msg*/ ) const
-{
-    Messages::add_msg_debug( type, player_msg );
 }
 
 void Character::add_msg_player_or_say( const std::string &player_msg,
@@ -5152,7 +5139,7 @@ needs_rates Character::calc_needs_rates() const
 
     rates.kcal = get_bmr();
 
-    add_msg_debug_if_player( debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
+    add_msg_debug_if( is_avatar(), debugmode::DF_CHAR_CALORIES, "Metabolic rate: %.2f", rates.hunger );
 
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
@@ -10837,16 +10824,16 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
             if( bp == bodypart_str_id::NULL_ID() ) {
                 if( val > 5 ) {
-                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name( body_part_torso ) );
                 } else if( val > 0 ) {
-                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name( body_part_torso ) );
                 }
                 apply_damage( nullptr, body_part_torso, val, true );
             } else {
                 if( val > 5 ) {
-                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name( bp ) );
                 } else if( val > 0 )  {
-                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name( bp ) );
                 }
                 apply_damage( nullptr, bp, val, true );
             }

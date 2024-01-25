@@ -343,7 +343,7 @@ static void eff_fun_bleed( Character &u, effect &it )
             // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
             const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
                                                   suffer_string,
-                                                  blood_str, body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+                                                  blood_str, body_part_name( bp ) ) : _( "You lose some blood." );
             // display the final message
             u.add_msg_player_or_npc( m_bad,
                                      final_message,

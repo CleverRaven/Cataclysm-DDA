@@ -428,7 +428,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_options_test_nested",
-    "condition": { "get_game_option": "AUTOSAVE" },
+    "condition": { "math": [ "game_option('AUTOSAVE')" ] },
     "effect": [ { "math": [ "key3", "=", "1" ] } ]
   },
   {
@@ -514,12 +514,6 @@
     "type": "effect_on_condition",
     "id": "EOC_math_diag_assign",
     "effect": [ { "math": [ "u_val('stamina')", "/=", "2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_math_var",
-    "condition": { "days_since_cataclysm": { "math": [ "math_test_result" ] } },
-    "effect": [ { "u_message": "test var math" } ]
   },
   {
     "type": "effect_on_condition",
