@@ -109,6 +109,41 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "metalworking_tongs_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 3 ], [ "bronze_tiny", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "metalworking_tongs_bronze",
+    "id_suffix": "casting",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "125 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
+    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "metalworking_tongs",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -138,7 +173,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
   },
   {
@@ -283,7 +318,7 @@
     "tools": [
       [ [ "drift", -1 ], [ "punch_nail", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "casting_mold", -1 ] ]
+      [ [ "casting_mold_small", -1 ] ]
     ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "scrap_bronze", 2 ] ] ]
@@ -1584,16 +1619,76 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "casting_mold_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "clay_lump", 1 ] ],
+      [ [ "material_sand", 113 ] ],
+      [ [ "2x4", 2 ], [ "stick", 2 ] ],
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "casting_mold_large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 32 ], [ "water_clean", 32 ] ],
+      [ [ "clay_lump", 32 ] ],
+      [ [ "material_sand", 9000 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "casting_mold_long",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 9 ], [ "water_clean", 9 ] ],
+      [ [ "clay_lump", 9 ] ],
+      [ [ "material_sand", 2532 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "casting_mold",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "15 m",
+    "time": "1 h",
     "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "material_sand", 5 ] ],
-      [ [ "2x4", 8 ], [ "stick", 8 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "clay_lump", 5 ] ],
+      [ [ "material_sand", 1350 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ],
       [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
     ]
   },

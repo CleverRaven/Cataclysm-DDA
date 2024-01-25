@@ -401,6 +401,8 @@
       { "math": [ "triffs", "=", "u_mon_species_nearby('PLANT')" ] },
       { "math": [ "group", "=", "u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
       { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "math": [ "zombs_friends", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'friendly')" ] },
+      { "math": [ "zombs_both", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'both')" ] },
       { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
       { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
       { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
