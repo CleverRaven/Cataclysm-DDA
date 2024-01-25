@@ -6,7 +6,7 @@
     "recurrence": [ "5 h", "120 h" ],
     "condition": {
       "and": [
-        { "compare_num": [ "moon", "==", { "const": 3 } ] },
+        { "math": [ "moon_phase() == 3" ] },
         { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
       ]
     },

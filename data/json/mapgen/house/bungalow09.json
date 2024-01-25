@@ -50,7 +50,7 @@
         "l": "t_carpet_yellow",
         "s": "t_carpet_yellow"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 9, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 9, "y": 0, "chance": 80, "status": 0 } ],
       "place_loot": [ { "item": "laptop", "x": 17, "y": 5, "chance": 100 }, { "item": "television", "x": 9, "y": 7, "chance": 100 } ]
     }
   },

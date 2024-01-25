@@ -28,7 +28,7 @@ use_action_msg_keys = [
     "non_interactive_msg",
     "not_ready_msg",
     "out_of_power_msg",
-    "sound_msg",
+    "sound_message",
     "success_message",
     "unfold_msg",
     "use_message",

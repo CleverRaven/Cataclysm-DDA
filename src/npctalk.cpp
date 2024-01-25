@@ -15,7 +15,6 @@
 #include <vector>
 
 #include "achievement.h"
-#include "action.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -45,11 +44,10 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "help.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_category.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -2059,7 +2057,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
+    phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2070,6 +2068,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
+        // Skip the <color_XXX> and </color> tag
+        while( fa != std::string::npos && ( phrase.compare( fa + 1, 6, "color_" ) == 0 ||
+                                            phrase.compare( fa + 1, 7, "/color>" ) == 0 ) ) {
+            if( phrase.compare( fa + 1, 6, "color_" ) == 0 ) {
+                fa = phrase.find( '<', fa + 7 );
+            } else { // phrase.compare(fa + 1, 7, "/color>") == 0
+                fa = phrase.find( '<', fa + 8 );
+            }
+            fb = phrase.find( '>', fa );
+        }
         if( fa != std::string::npos ) {
             size_t nest = 0;
             fa_ = phrase.find( '<', fa + 1 );
@@ -4138,6 +4146,17 @@ talk_effect_fun_t::func f_forget_recipe( const JsonObject &jo, std::string_view 
     };
 }
 
+talk_effect_fun_t::func f_turn_cost( const JsonObject &jo, std::string_view member )
+{
+    duration_or_var cost = get_duration_or_var( jo, member, true );
+    return [cost]( dialogue & d ) {
+        Character *target = d.actor( false )->get_character();
+        if( target ) {
+            target->moves -= to_moves<int>( cost.evaluate( d ) );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_npc_first_topic( const JsonObject &jo, std::string_view member )
 {
     str_or_var chat_topic = get_str_or_var( jo.get_member( member ), member, true );
@@ -4926,13 +4945,31 @@ talk_effect_fun_t::func f_math( const JsonObject &jo, std::string_view member )
 }
 
 
+talk_effect_fun_t::func f_transform_item( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target_id = get_str_or_var( jo.get_member( member ), member, true );
+    bool activate = jo.get_bool( "active", false );
+
+    return [target_id, activate]( dialogue & d ) {
+        item_location *it = d.actor( true )->get_item();
+
+        if( it && it->get_item() ) {
+            const std::string target_str = target_id.evaluate( d );
+            ( *it )->convert( itype_id( target_str ), it->carrier() );
+            ( *it )->active = activate || ( *it )->has_temperature();
+        } else {
+            debugmsg( "beta talker must be Item." );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
     str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
 
-    int volume;
-    mandatory( jo, false, "volume", volume );
+    dbl_or_var volume = get_dbl_or_var( jo, "volume", true );
+    bool ambient = jo.get_bool( "ambient", false );
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
@@ -4968,8 +5005,8 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    return [is_npc, message, volume, type, target_var, snippet,
-            same_snippet]( dialogue const & d ) {
+    return [is_npc, message, volume, ambient, type, target_var, snippet,
+            same_snippet]( dialogue & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         std::string translated_message;
         if( snippet ) {
@@ -4989,7 +5026,8 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
+        sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message,
+                       ambient );
     };
 }
 
@@ -5213,12 +5251,6 @@ talk_effect_fun_t::func f_run_eoc_with( const JsonObject &jo, std::string_view m
             context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
                                                   true );
         }
-    }
-
-    std::optional<var_info> target_var;
-
-    if( jo.has_object( "beta_loc" ) ) {
-        target_var = read_var_info( jo.get_object( "beta_loc" ) );
     }
 
     str_or_var alpha_var;
@@ -6481,6 +6513,8 @@ parsers = {
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },
     { "add_debt", jarg::array, &talk_effect_fun::f_add_debt },
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun::f_set_talker },
+    { "turn_cost", jarg::member, &talk_effect_fun::f_turn_cost },
+    { "transform_item", jarg::member, &talk_effect_fun::f_transform_item },
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )

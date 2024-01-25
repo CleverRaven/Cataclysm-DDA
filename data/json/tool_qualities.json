@@ -75,6 +75,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HACK",
+    "name": { "str": "hacking" }
+  },
+  {
+    "type": "tool_quality",
     "id": "HAMMER",
     "name": { "str": "hammering" }
   },

@@ -46,7 +46,10 @@ endif()
 message(STATUS "${PROJECT_NAME} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-if (NOT CMAKE_BUILD_TYPE)
+get_property(GENERATOR_IS_MULTI_CONFIG GLOBAL
+    PROPERTY GENERATOR_IS_MULTI_CONFIG
+)
+if (NOT CMAKE_BUILD_TYPE AND NOT GENERATOR_IS_MULTI_CONFIG)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
@@ -94,6 +97,10 @@ endif ()
 
 include(CheckCXXCompilerFlag)
 
+if(DEFINED ENV{MSYSTEM})
+    set(MSYS2 True)
+    add_definitions(-DMSYS2)
+endif()
 #FIXME: Add dest build choice: m32 for 32 bit or m64 for 64 bit version
 #add_definitions("-m32")
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")

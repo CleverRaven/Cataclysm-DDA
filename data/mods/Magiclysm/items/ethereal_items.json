@@ -1502,5 +1502,138 @@
         { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
       ]
     }
+  },
+  {
+    "id": "item_earthshaper_map_01",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 15,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_02",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 20,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_03",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 25,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_04",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 30,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_05",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 35,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock",
+        "tream"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_06",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "earthshaper map",
+    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 40,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
   }
 ]
