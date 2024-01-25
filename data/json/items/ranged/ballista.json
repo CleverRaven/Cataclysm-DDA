@@ -34,21 +34,21 @@
     "id": "bolt_ballista_steel",
     "type": "AMMO",
     "name": { "str": "ballista bolt" },
-    "description": "A huge, steel tipped projectile, more akin to a spear than a crossbow bolt.",
-    "weight": "2200 g",
-    "volume": "1500 ml",
+    "description": "A big, steel tipped projectile, twice the size of a normal bolt and much heavier than one.  It gets thicker towards the base, and is fletched there with the portrusions of the shaft itself.",
+    "weight": "200 g",
+    "volume": "450 ml",
     "price": 2500,
     "price_postapoc": 250,
-    "longest_side": "120 cm",
+    "longest_side": "55 cm",
     "symbol": "=",
     "color": "green",
-    "material": [ { "type": "wood", "portion": 80 }, { "type": "steel", "portion": 20 } ],
+    "material": [ { "type": "wood", "portion": 85 }, { "type": "steel", "portion": 15 } ],
     "ammo_type": "bolt_ballista",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 2, "armor_penetration": 20 },
     "dispersion": 35,
     "loudness": 5,
     "critical_multiplier": 2,
     "effects": [ "RECOVER_50" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 12 }
   }
 ]
