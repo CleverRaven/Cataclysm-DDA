@@ -424,10 +424,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view
     }
     if( j.has_object( "skill" ) ) {
         JsonObject jo = j.get_object( "skill" );
-        skill.id = skill_id( jo.get_string( "skill" ) );
-        skill.multiplier = jo.get_float( "multiplier", 1 );
-        skill.min = jo.get_int( "min", 0 );
-        skill.max = jo.get_int( "max", 10 );
+        skill = { skill_id( jo.get_string( "skill" ) ), jo.get_int( "min", 0 ), jo.get_int( "max", 10 ), jo.get_float( "multiplier", 1.0 ) };
     }
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );

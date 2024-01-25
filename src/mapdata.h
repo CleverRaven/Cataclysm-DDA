@@ -86,7 +86,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    map_deconstruct_skill skill;
+    std::optional<map_deconstruct_skill> skill;
     bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };

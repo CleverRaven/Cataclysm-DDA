@@ -1493,14 +1493,12 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
 {
     map &here = get_map();
 
-    auto deconstruction_practice_skill = [ &player_character ]( auto &skill ) {
-        if( skill.id )  { // Practise a skill if specified and within the level range
-            if( player_character.get_skill_level( skill.id ) >= skill.min ) {
-                // Uses a modified version of the complete_construction formula using 20 minutes with halved yield before the multiplier
-                player_character.practice( skill.id,
-                                           static_cast<int>( skill.multiplier * ( 5 / 6 ) * ( 10 + 7.5 * ( skill.min +
-                                                   skill.max ) ) ), skill.max );
-            }
+    auto deconstruction_practice_skill = [ &player_character ]( auto & skill ) {
+        if( player_character.get_skill_level( skill.id ) >= skill.min ) {
+            // Uses a modified version of the complete_construction formula using 20 minutes with halved yield before the multiplier
+            player_character.practice( skill.id,
+                                       static_cast<int>( skill.multiplier * ( 5.0 / 6.0 ) * ( 10 + 7.5 * ( skill.min +
+                                               skill.max ) ) ), skill.max );
         }
     };
 
@@ -1520,7 +1518,9 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         const std::vector<item *> drop = here.spawn_items( p,
                                          item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
-        deconstruction_practice_skill( f.deconstruct.skill );
+        if( f.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( f.deconstruct.skill.value() );
+        }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
         if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
             for( item *it : drop ) {
@@ -1557,7 +1557,9 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
         here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
-        deconstruction_practice_skill( t.deconstruct.skill );
+        if( t.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( t.deconstruct.skill.value() );
+        }
     }
 }
 
