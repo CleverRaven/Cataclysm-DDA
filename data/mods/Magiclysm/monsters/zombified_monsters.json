@@ -256,7 +256,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_magician",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }

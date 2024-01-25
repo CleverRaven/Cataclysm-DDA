@@ -175,7 +175,7 @@
       }
     ],
     "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
   {
