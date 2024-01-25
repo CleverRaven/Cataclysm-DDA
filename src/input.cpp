@@ -179,6 +179,8 @@ void input_manager::init()
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );
     }
+    // save non customized keybindings
+    basic_action_contexts = action_contexts;
     try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
@@ -769,13 +771,17 @@ int input_manager::get_first_char_for_action( const std::string &action_descript
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string &context,
-    bool *overwrites_default )
+    bool *overwrites_default,
+    bool use_basic_action_contexts )
 {
+    t_action_contexts &action_contexts_ref = use_basic_action_contexts
+            ? basic_action_contexts
+            : action_contexts;
 
     if( context != default_context_id ) {
         // Check if the action exists in the provided context
-        const t_action_contexts::const_iterator action_context = action_contexts.find( context );
-        if( action_context != action_contexts.end() ) {
+        const t_action_contexts::const_iterator action_context = action_contexts_ref.find( context );
+        if( action_context != action_contexts_ref.end() ) {
             const t_actions::const_iterator action = action_context->second.find( action_id );
             if( action != action_context->second.end() ) {
                 if( overwrites_default ) {
@@ -792,7 +798,7 @@ const action_attributes &input_manager::get_action_attributes(
         *overwrites_default = false;
     }
 
-    t_actions &default_action_context = action_contexts[default_context_id];
+    t_actions &default_action_context = action_contexts_ref[default_context_id];
     const t_actions::const_iterator default_action = default_action_context.find( action_id );
     if( default_action == default_action_context.end() ) {
         // A new action is created in the event that the requested action is
