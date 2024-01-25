@@ -162,6 +162,7 @@
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
         "real_count": 6,
+        "outdoor_only": true,
         "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
