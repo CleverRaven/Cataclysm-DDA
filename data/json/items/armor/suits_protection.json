@@ -569,7 +569,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -630,7 +630,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "medium steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -646,7 +646,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "high steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -662,7 +662,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "hardened steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -678,7 +678,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "tempered steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -694,7 +694,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "20 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -755,7 +755,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "medium steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -772,7 +772,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -789,7 +789,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -806,7 +806,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -822,7 +822,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -883,7 +883,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "medium steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -899,7 +899,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "high steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -915,7 +915,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "hardened steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -931,7 +931,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "tempered steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -3339,7 +3339,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [
@@ -3408,7 +3408,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [
@@ -3477,7 +3477,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [
