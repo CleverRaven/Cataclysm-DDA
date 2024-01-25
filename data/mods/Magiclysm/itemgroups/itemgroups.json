@@ -1281,21 +1281,24 @@
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
-          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
+          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
+          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
         ],
         "prob": 35
       },
       {
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "plant_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 },
-          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 100 }
+          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
+          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 }
         ],
         "prob": 10
       }

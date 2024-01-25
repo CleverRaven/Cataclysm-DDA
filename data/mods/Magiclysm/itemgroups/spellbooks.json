@@ -145,6 +145,7 @@
       [ "spell_scroll_eshaper_crystal_wrap", 50 ],
       [ "spell_scroll_druid_healing", 25 ],
       [ "spell_scroll_druid_summon_tanglevine", 35 ],
+      [ "spell_scroll_druid_wood_living_tree_spell", 40 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
       [ "spell_scroll_hoary_blast", 50 ],
@@ -205,6 +206,7 @@
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_druid_beguile_savage_beast", 10 ],
       [ "spell_scroll_druid_thornskin", 20 ],
+      [ "spell_scroll_druid_renew_forest_spell", 5 ],
       [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
       [ "spell_scroll_freezing_touch", 40 ],
@@ -267,7 +269,8 @@
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],
       [ "light_manipulation_spellbook", 15 ],
-      [ "recovery_spellbook", 30 ]
+      [ "recovery_spellbook", 30 ],
+      [ "plant_spellbook", 15 ]
     ]
   },
   {

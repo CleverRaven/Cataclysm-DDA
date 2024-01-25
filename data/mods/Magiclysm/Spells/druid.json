@@ -1004,5 +1004,96 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000
+  },
+  {
+    "id": "druid_renew_forest_spell",
+    "type": "SPELL",
+    "name": "Renewing the Forest",
+    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "condition": "u_is_outside",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
+          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
+          "false_effect": {
+            "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
+            "type": "bad"
+          }
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "You must be outside to cast Renewing the Forest!", "type": "bad" } ]
+  },
+  {
+    "id": "druid_renew_forest_spell_real",
+    "type": "SPELL",
+    "name": "Renewing the Forest Real",
+    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_renew_forest",
+    "min_aoe": { "math": [ "(u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)" ] },
+    "max_aoe": { "math": [ "(u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)" ] }
+  },
+  {
+    "id": "druid_wood_living_tree_spell",
+    "type": "SPELL",
+    "name": "Shape Wood",
+    "description": "Using druidic magic, shape living wood into a log that you can use for other projects without harming the tree.  You must cast this spell on a living tree.",
+    "flags": [ "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": 180000,
+    "base_energy_cost": 600
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "arvore_treesung_location" },
+          "message": "Select nearby tree"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
+          "then": [
+            {
+              "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
+              "type": "good"
+            },
+            { "u_spawn_item": "log", "count": 1, "suppress_message": true }
+          ],
+          "else": { "u_message": "You must be near a tree to treesing to it." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
   }
 ]
