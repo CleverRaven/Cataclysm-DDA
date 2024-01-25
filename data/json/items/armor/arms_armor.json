@@ -160,7 +160,7 @@
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
-    "material": [ "acidchitin" ]
+    "material": [ "acidchitin" ],
   },
   {
     "id": "xl_armguard_acidchitin",
