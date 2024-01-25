@@ -716,7 +716,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
             std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
             std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
             std::forward_as_tuple( effect_hunger_blank, "", c_white ),
-            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Peckish" ), c_light_gray )
+            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Peckish" ), c_light_gray ),
             std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Hungry" ), c_yellow ),
             std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
             std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
