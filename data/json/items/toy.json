@@ -887,12 +887,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Spin",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_spinner_spinning",
-          "effect": { "u_message": "You spin your fidget spinner." }
-        }
-      ]
+      "effect_on_conditions": [ { "id": "EOC_spinner_spinning", "effect": { "u_message": "You spin your fidget spinner." } } ]
     },
     "price": 500,
     "price_postapoc": 5,
