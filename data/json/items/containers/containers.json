@@ -2406,34 +2406,6 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "id": "dvd_case",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "DVD case" },
-    "description": "A protective container designed to hold a Digital Versatile Disc (or DVD, for short).  It is made of plastic and, before the Cataclysm, was used to package and store DVDs, providing protection against scratches, dust, and damage.",
-    "weight": "100 g",
-    "volume": "184 ml",
-    "longest_side": "19 cm",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "black",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "16 g",
-        "max_item_length": "1 mm",
-        "moves": 100,
-        "watertight": false,
-        "rigid": true,
-        "item_restriction": [ "dvd_drama", "dvd_animation", "dvd_horror", "dvd_action", "dvd_comedy", "dvd_documentary" ]
-      }
-    ]
-    NOT FINISHED YET!!!
-  },
-  {
     "id": "waterproof_smart_phone_case",
     "type": "GENERIC",
     "category": "container",
