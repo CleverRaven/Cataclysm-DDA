@@ -418,7 +418,12 @@
       ],
       [
         {
-          "condition": { "or": [ { "compare_num": [ "hour", "<", { "const": 6 } ] }, { "compare_num": [ "hour", ">", { "const": 21 } ] } ] },
+          "condition": {
+            "or": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 6" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 21" ] }
+            ]
+          },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -437,7 +442,12 @@
     "triggers": [
       [
         {
-          "condition": { "and": [ { "compare_num": [ "hour", ">", { "const": 6 } ] }, { "compare_num": [ "hour", "<", { "const": 21 } ] } ] },
+          "condition": {
+            "and": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 6" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 21" ] }
+            ]
+          },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]

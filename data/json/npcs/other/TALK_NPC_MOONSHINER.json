@@ -38,6 +38,16 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "Could you tell me a bit about yourself?", "topic": "TALK_NPC_MOONSHINER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Can I purchase any of your liquor?", "topic": "TALK_NPC_MOONSHINER_INTRO", "effect": "start_trade" },
       {
         "text": "It's a bit dangerous to be out here alone.  Why don't you come with me?",

@@ -185,6 +185,7 @@ extern const flag_id flag_LEAK_ALWAYS;
 extern const flag_id flag_LEAK_DAM;
 extern const flag_id flag_LITCIG;
 extern const flag_id flag_LUPINE;
+extern const flag_id flag_MAGICAL;
 extern const flag_id flag_MAGIC_FOCUS;
 extern const flag_id flag_MAG_BELT;
 extern const flag_id flag_MAG_BULKY;

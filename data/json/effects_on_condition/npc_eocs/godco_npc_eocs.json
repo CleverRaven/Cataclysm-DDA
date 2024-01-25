@@ -64,7 +64,7 @@
     "condition": {
       "and": [
         { "math": [ "godco_met_merchants", "==", "0" ] },
-        { "days_since_cataclysm": 7 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]

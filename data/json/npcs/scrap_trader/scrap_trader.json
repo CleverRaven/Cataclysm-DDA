@@ -20,6 +20,7 @@
     "sells_belongings": false,
     "bonus_str": 4,
     "traits": [
+      { "group": "BG_survival_story_RURAL" },
       { "group": "Appearance_demographics" },
       { "trait": "STRONGBACK" },
       { "trait": "OUTDOORSMAN" },
@@ -226,6 +227,16 @@
     "dynamic_line": "Do you need something?",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
       { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
       {
@@ -239,13 +250,29 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_STORY",
-    "dynamic_line": "Well, I held a modest job here as a scrap yard worker.  Business was fair most days, but when <the_cataclysm> hit, I was on a solo shift.  With all the craziness going on in the cities and whatnot, I decided to just stay here for while.  I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": "I know I worked in salvage, but I don't remember much else about it.  I just remember finding this place and deciding to stay here.",
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": "I know I worked in salvage, but I don't remember much else about it.  I just remember finding this place and deciding to stay here.",
+        "no": "Well, I held a modest job here as a scrap yard worker.  Business was fair most days, but when <the_cataclysm> hit, I decided to head out here.  With all the craziness going on in the cities and whatnot, I decided to just stay here for while.  I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by."
+      }
+    },
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_FORT",
-    "dynamic_line": "Like I said, I was already here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making.",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+        "no": "Like I said, I came out here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making."
+      }
+    },
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NONE" },
       { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }

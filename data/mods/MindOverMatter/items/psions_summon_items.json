@@ -260,6 +260,33 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
+    "id": "electro_robot_interface",
+    "type": "GENERIC",
+    "name": { "str": "Robotic Interface" },
+    "description": "Interface with robots remotely",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "!",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "TRANSPARENT",
+      "INTEGRATED",
+      "MAGICAL"
+    ],
+    "use_action": [ "ROBOTCONTROL" ]
+  },
+  {
     "id": "electrokinetic_electrohack_1",
     "type": "TOOL_ARMOR",
     "name": { "str": "hacking interface" },
@@ -281,7 +308,8 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "TRANSPARENT",
-      "INTEGRATED"
+      "INTEGRATED",
+      "MAGICAL"
     ],
     "qualities": [ [ "HACK", 0 ] ]
   },

@@ -11,7 +11,7 @@
         "topic": "BGSS_EVACUEE_5_WASPS",
         "condition": { "u_has_perception": 8 }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -35,7 +35,7 @@
     "dynamic_line": "Well, excuse me if I didn't stop to <swear> ask what kind of killer bugs they were.",
     "responses": [
       { "text": "Sorry.  Could you tell me more about them?", "topic": "BGSS_EVACUEE_5_BEES" },
-      { "text": "Right.  Sorry.", "topic": "TALK_FRIEND" }
+      { "text": "Right.  Sorry.", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {
@@ -52,6 +52,9 @@
     "id": "CWH_EVACUEE_5_IDEAS2",
     "type": "talk_topic",
     "dynamic_line": "You ever see the Matrix?  This is it.  In real life.  To keep us locked in here, the creators of the simulation have to make sure we're just the right level of miserable.  I think their algorithms got messed up though, and went into overdrive, because all this is a little implausible.  Still, I guess we're still jacked in, so maybe it's working.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

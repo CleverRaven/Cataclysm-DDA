@@ -975,7 +975,7 @@
     "difficulty": 2,
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "casting_mold_small", -1 ] ] ],
     "components": [ [ [ "scrap_tin", 138 ] ] ]
   },
   {
@@ -1092,7 +1092,13 @@
     "//4": "This recipe produces 300g of glass, so it costs about 768kJ. Say 800.",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold_small", -1 ]
+      ],
       [ [ "forge", 26 ], [ "oxy_torch", 3 ] ]
     ],
     "components": [
@@ -1115,7 +1121,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal_small", -1 ], [ "sheet_metal", -1 ] ],
       [ [ "forge", 60 ] ]
@@ -1173,7 +1179,7 @@
     "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "nail", -1 ], [ "bronze_nail", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "nail", -1 ], [ "bronze_nail", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1222,11 +1228,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "forge", 500 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
   },
   {
@@ -1241,11 +1243,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "forge", 500 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
   },
   {
@@ -1260,11 +1258,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "forge", 500 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
   },
   {
@@ -1280,11 +1274,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "forge", 200 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
     "components": [
       [
         [ "hc_steel_lump", 1 ],

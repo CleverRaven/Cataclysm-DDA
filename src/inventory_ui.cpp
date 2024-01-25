@@ -9,19 +9,18 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "inventory.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "item_tname.h"
-#include "iteminfo_query.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -3293,7 +3292,7 @@ item_location inventory_pick_selector::execute()
                         return input.entry->any_item();
                     }
                 }
-            } else if( input.action == "ANY_INPUT" ) {
+            } else if( input.action != "MOUSE_MOVE" && input.action != "COORDINATE" ) {
                 return input.entry->any_item();
             } else {
                 if( !dragActive && highlight( input.entry->any_item() ) ) {

@@ -4,7 +4,6 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
-#include <new>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -19,7 +18,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -770,9 +769,29 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
     return "";
 }
 
-template<>
-std::string options_manager::cOpt::value_as<std::string>() const
+template<typename T>
+std::optional<T> options_manager::cOpt::_convert() const
 {
+    if constexpr( std::is_same_v<T, std::string> ) {
+        return getValue( true );
+    } else {
+        if( eType == CVT_BOOL ) {
+            return static_cast<T>( bSet );
+        } else if( eType == CVT_FLOAT ) {
+            return static_cast<T>( fSet );
+        } else if( eType == CVT_INT ) {
+            return static_cast<T>( iSet );
+        }
+    }
+    return std::nullopt;
+}
+
+template<>
+std::string options_manager::cOpt::value_as<std::string>( bool convert ) const
+{
+    if( std::optional<std::string> ret = _convert<std::string>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_STRING ) {
         debugmsg( "%s tried to get string value from option of type %s", sName, sType );
     }
@@ -780,8 +799,11 @@ std::string options_manager::cOpt::value_as<std::string>() const
 }
 
 template<>
-bool options_manager::cOpt::value_as<bool>() const
+bool options_manager::cOpt::value_as<bool>( bool convert ) const
 {
+    if( std::optional<bool> ret = _convert<bool>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_BOOL ) {
         debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
     }
@@ -789,8 +811,11 @@ bool options_manager::cOpt::value_as<bool>() const
 }
 
 template<>
-float options_manager::cOpt::value_as<float>() const
+float options_manager::cOpt::value_as<float>( bool convert ) const
 {
+    if( std::optional<float> ret = _convert<float>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_FLOAT ) {
         debugmsg( "%s tried to get float value from option of type %s", sName, sType );
     }
@@ -798,8 +823,11 @@ float options_manager::cOpt::value_as<float>() const
 }
 
 template<>
-int options_manager::cOpt::value_as<int>() const
+int options_manager::cOpt::value_as<int>( bool convert ) const
 {
+    if( std::optional<int> ret = _convert<int>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_INT ) {
         debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
     }

@@ -289,7 +289,7 @@
     "type": "talk_topic",
     "//TODO": "talked_to_hub global val should be ported to u_val",
     "dynamic_line": {
-      "days_since_cataclysm": 28,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 28" ],
       "yes": {
         "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
         "str": "Well an surely, fruit gum!  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."

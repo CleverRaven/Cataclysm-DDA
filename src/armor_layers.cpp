@@ -1,10 +1,8 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <functional>
 #include <iterator>
 #include <memory>
-#include <new>
 #include <string>
 #include <vector>
 
@@ -19,7 +17,7 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
