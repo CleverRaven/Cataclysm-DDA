@@ -108,7 +108,7 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       [ "magnifying_glass", 1 ],
-      [ "material_quicklime", 10 ],
+      { "group": "quicklime_bag", "prob": 10 },
       [ "tin", 5 ],
       { "item": "chem_nitric_acid", "prob": 1, "charges-min": 1 },
       { "item": "chem_sulphuric_acid", "prob": 1, "charges-min": 1 },

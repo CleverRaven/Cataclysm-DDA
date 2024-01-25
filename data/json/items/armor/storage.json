@@ -1906,7 +1906,32 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You slide the bag to your side.",
+      "menu_text": "Adjust",
+      "target": "mbag_sided",
+      "moves": 120
+    }
+  },
+  {
+    "id": "mbag_sided",
+    "type": "ARMOR",
+    "name": { "str": "messenger bag" },
+    "copy-from": "mbag",
+    "sided": true,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ],
+    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
   },
   {
     "id": "molle_pack",

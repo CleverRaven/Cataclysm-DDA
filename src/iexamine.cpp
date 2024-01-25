@@ -4,14 +4,11 @@
 #include <climits>
 #include <cmath>
 #include <cstdio>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "activity_actor_definitions.h"
@@ -23,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "colony.h"
 #include "color.h"
@@ -35,7 +31,6 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
-#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -49,7 +44,7 @@
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -65,10 +60,8 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "material.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -76,7 +69,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -86,7 +78,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"

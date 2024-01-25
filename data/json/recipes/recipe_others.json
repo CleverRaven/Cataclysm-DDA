@@ -7,11 +7,13 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "10 m",
+    "time": "30 s",
+    "batch_time_factors": [ 80, 2 ],
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ], [ "material_gravel", 100 ] ] ]
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "result_mult": 2,
+    "using": [ [ "concrete_materials_dry", 1 ] ]
   },
   {
     "type": "recipe",
@@ -3133,11 +3135,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "marking_hard", 1, "LIST" ] ],
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 30 ], [ "bronze_nail", 30 ] ],
-      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 1, "LIST" ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
   },
@@ -3267,7 +3269,7 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 10, "LIST" ] ],
+    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 1, "LIST" ] ],
     "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
