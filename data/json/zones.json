@@ -6,23 +6,39 @@
     "description": "Items in this zone are marked for disassembly"
   },
   {
-    "id": "STRIP_CORPSES",
+    "id": "NO_AUTO_PICKUP",
     "type": "LOOT_ZONE",
-    "name": "Loot: Strip Corpses",
-    "can_be_personal": true,
-    "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
+    "name": "No Auto Pickup",
+    "description": "You won't auto-pickup items inside the zone."
+  },
+  {
+    "id": "NO_NPC_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No NPC Pickup",
+    "description": "Friendly NPCs don't pickup items inside the zone."
+  },
+  {
+    "id": "NPC_NO_INVESTIGATE",
+    "type": "LOOT_ZONE",
+    "name": "NPC Ignore Sounds",
+    "description": "Friendly NPCs won't investigate unseen sounds coming from this zone."
+  },
+  {
+    "id": "NPC_INVESTIGATE_ONLY",
+    "type": "LOOT_ZONE",
+    "name": "NPC Investigation Area",
+    "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
+  },
+  {
+    "id": "NPC_RETREAT",
+    "type": "LOOT_ZONE",
+    "name": "NPC Retreat",
+    "description": "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles."
   },
   {
     "id": "ZONE_START_POINT",
     "type": "LOOT_ZONE",
     "name": "Start Point",
     "description": "A prioritized spawn point."
-  },
-  {
-    "id": "UNLOAD_ALL",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Unload Everything",
-    "can_be_personal": true,
-    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses, magazines, and magazine wells."
   }
 ]
