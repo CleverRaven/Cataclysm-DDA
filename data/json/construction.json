@@ -6625,12 +6625,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "360 m",
+    "//": "30 cm x 1 m x 4 m wall, 3 parts of soil (558 L), 2 parts of sand (372 L), 1 part of gravel (186 L), 7% of cement/quicklime (84 L), and then water is added as 10% of total mass of a wall (120 kg)",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ "frame_wood_light" ], [ "log" ] ],
     "components": [
-      [ [ "material_soil", 240 ] ],
-      [ [ "water", 100 ], [ "water_clean", 100 ] ],
-      [ [ "material_sand", 20 ], [ "material_quicklime", 20 ], [ "concrete", 1 ] ]
+      [ [ "material_soil", 112 ] ],
+      [ [ "material_sand", 46500 ] ],
+      [ [ "material_gravel", 37200 ] ],
+      [ [ "material_quicklime", 16800 ], [ "material_cement", 16800 ] ],
+      [ [ "water", 480 ], [ "water_clean", 480 ] ]
     ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"

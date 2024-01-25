@@ -7,11 +7,13 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "10 m",
+    "time": "30 s",
+    "batch_time_factors": [ 80, 2 ],
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ], [ "material_gravel", 100 ] ] ]
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "result_mult": 2,
+    "using": [ [ "concrete_materials_dry", 1 ] ]
   },
   {
     "type": "recipe",
