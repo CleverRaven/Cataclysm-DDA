@@ -148,7 +148,7 @@
       {
         "sentinel": "first_meeting_effects",
         "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": [ { "u_add_var": "u_met_Rubik", "type": "timer", "context": "first_meeting", "time": true } ]
+        "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik", "=", "time('now')" ] } ]
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",

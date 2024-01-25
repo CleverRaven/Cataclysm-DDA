@@ -73,8 +73,8 @@
     "type": "talk_topic",
     "dynamic_line": "Anyway, long story short, I were headin' back up to Mount Greenwood to check on th'old ranger station again when I heard them bombs fallin and choppers flyin.  Decided to camp out there to see it all through, but it didn't ever end, now, did it?  So here I am.",
     "responses": [
-      { "text": "Thanks for the story!", "topic": "TALK_FRIEND" },
-      { "text": "…", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for the story!", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "…", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<name_b>.", "topic": "TALK_DONE" }
     ]
   }

@@ -27,7 +27,7 @@
     "common": false,
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [
-      { "group": "BG_survival_story_RURAL" },
+      { "group": "BG_survival_story_LUMBERMILL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "NO_BASH" },
@@ -50,7 +50,7 @@
     "name": { "str": "Lumberjack" },
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [
-      { "group": "BG_survival_story_RURAL" },
+      { "group": "BG_survival_story_LUMBERMILL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "IGNORE_SOUND" },

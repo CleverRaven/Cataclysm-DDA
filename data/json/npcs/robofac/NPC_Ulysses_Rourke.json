@@ -62,9 +62,7 @@
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "goggles_nv", "charges": [ 50, 100 ] },
       { "item": "flashbang", "count": 2 },
-      { "item": "plut_cell", "count": 5 },
       { "item": "20x66_40_mag", "count": 2, "charges": 40, "ammo-item": "20x66_shot" },
       { "item": "20x66_beanbag", "count": 1 },
       { "item": "20x66_frag", "count": 2 }

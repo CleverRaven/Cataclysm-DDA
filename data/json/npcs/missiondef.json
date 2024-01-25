@@ -818,7 +818,7 @@
     "name": { "str": "Prove You're A Survivor" },
     "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 10 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 10" ] },
     "difficulty": 1,
     "value": 0,
     "origins": [ "ORIGIN_OPENER_NPC" ],
@@ -960,7 +960,7 @@
     "invisible_on_complete": true,
     "start": {
       "effect": [
-        { "u_add_var": "time_of_last_succession", "type": "timer", "time": true },
+        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
         { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
       ]
     }
@@ -970,7 +970,7 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "u_compare_time_since_var": "time_of_last_succession", "type": "timer", "op": ">", "time": "90 d" },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
   },
@@ -999,7 +999,7 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1007,7 +1007,12 @@
     "eoc_type": "EVENT",
     "required_event": "broken_bone",
     "//1": "Only run EOC if character is currently on succession cooldown!",
-    "condition": { "math": [ "u_val('time_since_var', 'var_name: timer_time_of_last_succession')", "<", "time_between_succession" ] },
+    "condition": {
+      "and": [
+        { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
+        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+      ]
+    },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },

@@ -246,7 +246,7 @@
     "speaker_effect": {
       "effect": [
         { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
-        { "math": [ "nunez_travel_timer", "=", "u_val('time_since_cataclysm: days') + 2" ] },
+        { "math": [ "nunez_travel_timer", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
         { "math": [ "nunez_travel_stage", "=", "1" ] }
       ]
     }

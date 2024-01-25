@@ -40,10 +40,10 @@ dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool r
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member,
                                      bool required = true,
                                      double default_val = 0.0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member,
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member,
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string &member,
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
         bool required = true,
         time_duration default_val = 0_seconds );
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
@@ -81,7 +81,7 @@ struct conditional_t {
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
-        static std::function<double( dialogue & )> get_get_dbl( const std::string &value,
+        static std::function<double( dialogue & )> get_get_dbl[[noreturn]]( const std::string &value,
                 const JsonObject &jo );
         template <class J>
         std::function<void( dialogue &, double )>

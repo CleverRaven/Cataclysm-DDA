@@ -54,7 +54,7 @@
         "*": "t_door_metal_pickable",
         "§": "t_region_groundcover_urban"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 0, "chance": 80, "status": 0 } ],
       "furniture": { "?": "f_beaded_door", ",": "f_pinball_machine", "§": "f_wooden_flagpole" },
       "place_item": [
         { "item": "television", "repeat": 1, "x": 2, "y": 4 },

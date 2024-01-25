@@ -3,7 +3,6 @@
 #include <algorithm> //std::min
 #include <cstddef>
 #include <functional>
-#include <new>
 #include <string>
 #include <unordered_map>
 
@@ -11,7 +10,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"

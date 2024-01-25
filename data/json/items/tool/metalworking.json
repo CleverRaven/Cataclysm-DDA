@@ -471,20 +471,54 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "casting_mold_small",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "small sandcasting mold" },
+    "description": "A small mold for casting molten metals into different shapes.",
+    "volume": "8 L",
+    "weight": "6000 g",
+    "longest_side": "20 cm",
+    "sub": ""
+  },
+  {
+    "id": "casting_mold_large",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "large sandcasting mold" },
+    "description": "A large mold for casting molten metals into different shapes.",
+    "volume": "150 L",
+    "weight": "76600 g",
+    "longest_side": "60 cm",
+    "sub": "casting_mold"
+  },
+  {
+    "id": "casting_mold_long",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "long sandcasting mold" },
+    "description": "A large, long, mold for casting molten metals into different shapes.",
+    "volume": "69 L",
+    "weight": "37000 g",
+    "longest_side": "110 cm",
+    "sub": "casting_mold"
+  },
+  {
     "id": "casting_mold",
     "type": "TOOL",
     "name": { "str": "sand casting mold" },
-    "description": "A mold for casting molten metals into different shapes.",
-    "weight": "540 g",
-    "volume": "400 ml",
-    "longest_side": "100 cm",
+    "description": "A medium mold for casting molten metals into different shapes.",
+    "weight": "19200 g",
+    "volume": "36 L",
+    "longest_side": "40 cm",
     "price": 800,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": [ "clay", "wood" ],
+    "material": [ "sand", "clay", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "sub": "casting_mold_small"
   },
   {
     "id": "stone_polishing",

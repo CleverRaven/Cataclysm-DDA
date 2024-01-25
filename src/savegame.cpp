@@ -1,6 +1,5 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <clocale>
 #include <algorithm>
 #include <fstream>
 #include <map>
@@ -18,11 +17,11 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
-#include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
 #include "hash_utils.h"
+#include "input.h"
 #include "json.h"
 #include "json_loader.h"
 #include "kill_tracker.h"

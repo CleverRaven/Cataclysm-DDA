@@ -3,11 +3,11 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <utility>
 
 #include "inventory_ui.h"
+#include "item.h"
 #include "item_location.h"
 #include "type_id.h"
 
@@ -15,7 +15,6 @@ class Character;
 struct tripoint;
 
 class avatar;
-class item;
 class repair_item_actor;
 class salvage_actor;
 
