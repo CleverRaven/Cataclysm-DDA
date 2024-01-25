@@ -109,11 +109,11 @@
         " C~~~~~~~~~~~~~#####~~C ",
         " C~~ooooooo~~~~#---#~~C ",
         " C~~~~~~~~o~~~~e---q~~C ",
-        " C~~ooooooooooo#AAA#~~C ",
-        " C~~~~~~~~~~~~~#####~~C ",
-        " C~~~~~~~~~~~~~~~~~~~~C ",
-        " C~~~~~~~~~~~~~~~~~~~~C ",
-        " CCCCCCCCCCCCCCCCCCCCCC ",
+        " C~~ooooooooooo#---#~~C ",
+        " C~~~~~~~~~~~~~#--A#~~C ",
+        " C~~~~~~~~~~~~~#--A#~~C ",
+        " C~~~~~~~~~~~~~#--A#~~C ",
+        " CCCCCCCCCCCCCC#####CCC ",
         "                        "
       ],
       "terrain": {
@@ -131,6 +131,7 @@
         "e": "t_door_locked",
         "#": "t_wall_wood",
         "-": "t_metal_floor",
+        "A": "t_metal_floor",
         ",": "t_thconc_floor",
         "u": "t_thconc_floor",
         "S": "t_thconc_floor",
@@ -184,7 +185,7 @@
       "toilets": { "T": {  } },
       "gaspumps": { "!": { "amount": [ 2500, 12500 ], "fuel": "gasoline" }, "?": { "amount": [ 2500, 12500 ], "fuel": "diesel" } },
       "vehicles": { "v": { "vehicle": "parking_garage", "chance": 40, "rotation": 90 } },
-      "place_nested": [ { "chunks": [ "s_gas_g1_bunker_below" ], "x": 15, "y": 43, "neighbors": { "below": "s_gas_b11" } } ]
+      "place_nested": [ { "chunks": [ "s_gas_g1_bunker_below" ], "x": 15, "y": 42, "neighbors": { "below": "s_gas_b11" } } ]
     }
   },
   {
@@ -194,13 +195,14 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
+        "#AAA#",
         "##+##",
         "#---#",
         "#-B-#",
-        "#####",
-        "     "
+        "#####"
       ],
-      "terrain": { "#": "t_wall_wood", "+": "t_door_metal_pickable", "B": "t_ladder_down", "-": "t_metal_floor" },
+      "terrain": { "#": "t_wall_wood", "+": "t_door_metal_pickable", "B": "t_ladder_down", "-": "t_metal_floor", "A": "t_metal_floor" },
+      "furniture": { "A": "f_locker" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
