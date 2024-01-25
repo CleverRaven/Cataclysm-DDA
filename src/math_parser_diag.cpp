@@ -185,6 +185,19 @@ std::function<double( dialogue & )> distance_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> damage_level_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[params, beta = is_beta( scope )]( dialogue const & d ) {
+        item_location *it = d.actor( beta )->get_item();
+        if( !it ) {
+            debugmsg( "subject of damage_level() must be an item" );
+            return 0;
+        }
+        return ( *it )->damage_level();
+    };
+}
+
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1088,6 +1101,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
+    { "damage_level", { "un", 0, damage_level_eval } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },

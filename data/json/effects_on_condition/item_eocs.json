@@ -73,5 +73,53 @@
     "id": "EOC_swap_glass_apple_for_arms",
     "type": "effect_on_condition",
     "effect": [ { "u_remove_item_with": "glass_apple" }, { "u_spawn_item": "imperfect_doll_arms", "suppress_message": true } ]
+  },
+  {
+    "id": "EOC_toolweapon_activate",
+    "type": "effect_on_condition",
+    "condition": { "not": "u_is_underwater" },
+    "effect": [
+      {
+        "if": "has_ammo",
+        "then": [
+          { "turn_cost": { "context_val": "turn_cost" } },
+          {
+            "u_make_sound": { "context_val": "success_message" },
+            "type": "combat",
+            "volume": { "context_val": "volume" }
+          },
+          { "u_message": { "context_val": "success_message" } },
+          { "transform_item": { "context_val": "transform_target" }, "active": true }
+        ],
+        "else": { "u_message": { "context_val": "failure_message" } }
+      }
+    ],
+    "false_effect": { "u_message": "The <npc_name> won't start underwater." }
+  },
+  {
+    "id": "EOC_toolweapon_running",
+    "type": "effect_on_condition",
+    "condition": { "not": "u_is_underwater" },
+    "effect": {
+      "if": { "one_in_chance": { "context_val": "sound_chance" } },
+      "then": [
+        { "u_message": { "context_val": "sound_message" }, "sound": true },
+        {
+          "u_make_sound": { "context_val": "sound_message" },
+          "type": "activity",
+          "volume": { "context_val": "volume" },
+          "ambient": true
+        }
+      ]
+    },
+    "false_effect": [
+      { "u_message": "Your <npc_name> gurgles in the water and stops." },
+      { "transform_item": { "context_val": "revert_to" } }
+    ]
+  },
+  {
+    "id": "EOC_toolweapon_deactivate",
+    "type": "effect_on_condition",
+    "effect": [ { "u_message": "Your <npc_name> goes quiet." }, { "transform_item": { "context_val": "transform_target" } } ]
   }
 ]
