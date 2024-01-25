@@ -17,7 +17,6 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "craft_command.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
