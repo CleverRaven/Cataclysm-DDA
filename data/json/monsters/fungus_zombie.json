@@ -616,7 +616,7 @@
         "type": "spell",
         "spell_data": { "id": "spread_fungal_acid", "min_level": 1 },
         "cooldown": 3,
-        "monster_message": "the % spews hallucinogenic gas!"
+        "monster_message": "the %s spews hallucinogenic gas!"
       }
     ],
     "emit_fields": [ { "emit_id": "emit_hallucinogenic_spores", "delay": "2 s" } ],
