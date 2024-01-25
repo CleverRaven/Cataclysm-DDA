@@ -311,7 +311,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "soviet tanker helmet" },
-    "description": "A soviet era tanker helmet.  It's distinctive foam pads are meant to protect a vehicle driver from bumps against the cramped interior.",
+    "description": "A Soviet era tanker helmet.  It's distinctive foam pads are meant to protect a tank driver from bumps against the cramped interior.",
     "price": 10000,
     "price_postapoc": 1200,
     "weight": "950 g",
