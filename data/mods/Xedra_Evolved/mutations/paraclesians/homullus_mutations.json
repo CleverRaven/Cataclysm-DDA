@@ -112,5 +112,77 @@
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
     "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_ALPHA",
+    "copy-from": "STR_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP",
+    "copy-from": "DEX_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_2",
+    "copy-from": "DEX_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_ALPHA",
+    "copy-from": "DEX_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP",
+    "copy-from": "INT_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_2",
+    "copy-from": "INT_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_ALPHA",
+    "copy-from": "INT_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP",
+    "copy-from": "PER_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_2",
+    "copy-from": "PER_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_ALPHA",
+    "copy-from": "PER_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
   }
 ]
