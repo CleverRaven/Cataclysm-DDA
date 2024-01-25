@@ -542,11 +542,6 @@
   },
   {
     "type": "item_action",
-    "id": "SPIN",
-    "name": { "str": "Spin" }
-  },
-  {
-    "type": "item_action",
     "id": "MARLOSS",
     "name": { "str": "Consume" }
   },
