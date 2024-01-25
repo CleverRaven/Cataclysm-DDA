@@ -6494,6 +6494,26 @@ void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_
     return remove_field( p.raw(), field_to_remove );
 }
 
+void map::delete_field( const tripoint &p, const field_type_id &field_to_remove )
+{
+    submap *current_submap = this->unsafe_get_submap_at( p );
+    field &curfield = this->get_field( p );
+
+    // when displayed_field_type == fd_null it means that `curfield` has no fields inside
+    // avoids instantiating (relatively) expensive map iterator
+    if( !curfield.displayed_field_type() ) {
+        return;
+    }
+
+    for( auto it = curfield.begin(); it != curfield.end(); ) {
+        if( it->second.get_field_type() == field_to_remove ) {
+            --current_submap->field_count;
+            curfield.remove_field( it );
+            break;
+        }
+    }
+}
+
 void map::clear_fields( const tripoint &p )
 {
     if( !inbounds( p ) ) {
