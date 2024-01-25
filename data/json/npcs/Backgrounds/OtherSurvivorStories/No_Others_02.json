@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "dynamic_line": "I'm sorry.  I've seen hints there are other wanderers out there but I don't know how to find any of them.",
     "responses": [
-      { "text": "Oh well.  Let's see what happens I guess.", "topic": "TALK_FRIEND" },
+      { "text": "Oh well.  Let's see what happens I guess.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

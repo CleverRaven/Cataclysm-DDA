@@ -169,19 +169,23 @@
     "id": "psi_photokinetic_magician",
     "name": "Magician",
     "description": "Ever since you were a young kid, you just loved magic.  Growing up you managed to become a professional magician and even performed at a few big shows.  You were practicing a new trick when the Cataclysm hit, when you realized you don't need to practice anymore.  You can just do it, for real.",
-    "points": 4,
+    "points": 8,
     "skills": [
       { "level": 2, "name": "cooking" },
       { "level": 1, "name": "driving" },
-      { "level": 2, "name": "metaphysics" },
-      { "level": 4, "name": "speech" }
+      { "level": 3, "name": "swimming" },
+      { "level": 3, "name": "metaphysics" },
+      { "level": 5, "name": "speech" }
     ],
     "traits": [ "FAST_REFLEXES", "PHOTOKINETIC", "PHOTO_EYES" ],
     "spells": [
-      { "id": "photokinetic_snuff_light", "level": 4 },
-      { "id": "photokinetic_light_dodge", "level": 3 },
-      { "id": "photokinetic_light_beam", "level": 4 },
-      { "id": "photokinetic_light_arms", "level": 2 }
+      { "id": "photokinetic_light_local", "level": 6 },
+      { "id": "photokinetic_create_light", "level": 9 },
+      { "id": "photokinetic_snuff_light", "level": 9 },
+      { "id": "photokinetic_camouflage", "level": 6 },
+      { "id": "photokinetic_light_dodge", "level": 8 },
+      { "id": "photokinetic_light_beam", "level": 6 },
+      { "id": "photokinetic_light_arms", "level": 7 }
     ],
     "items": {
       "both": {
@@ -189,6 +193,7 @@
           { "item": "socks" },
           { "item": "jeans" },
           { "item": "sneakers" },
+          { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "deck_of_cards" },
           { "item": "tophat" },

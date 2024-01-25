@@ -3,6 +3,9 @@
     "id": "BGSS_METEOROLOGIST_1",
     "type": "talk_topic",
     "dynamic_line": "Before <the_cataclysm>, I was just a regular meteorologist.  I worked for the local weather station doing data analysis and stuff.  In general, ordinary boredom.  In my free time I was studying electronics and radio engineering, a bit for work but mostly just as a hobby.  When the riots got serious, my neighborhood was looking pretty sketchy.  I gathered all my things that I managed to carry with me and settled in a radio station that seemed abandoned.  I lived there for a while, doing all sorts of nonsense, until I met you.  I guess you know the rest.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

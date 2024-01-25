@@ -975,7 +975,7 @@
     "difficulty": 2,
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "casting_mold_small", -1 ] ] ],
     "components": [ [ [ "scrap_tin", 138 ] ] ]
   },
   {
@@ -1092,7 +1092,13 @@
     "//4": "This recipe produces 300g of glass, so it costs about 768kJ. Say 800.",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold_small", -1 ]
+      ],
       [ [ "forge", 26 ], [ "oxy_torch", 3 ] ]
     ],
     "components": [
