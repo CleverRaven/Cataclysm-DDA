@@ -84,7 +84,19 @@
     "copy-from": "holster",
     "type": "ARMOR",
     "name": { "str": "Ch47 holster" },
-    "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to."
+    "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to.",
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_tunic",
