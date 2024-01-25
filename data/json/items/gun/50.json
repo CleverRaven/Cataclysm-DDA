@@ -97,7 +97,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "McMillan TAC-50" },
-    "description": "A long-range anti-materiel and anti-personnel sniper rifle made by McMillan Firearms, serving the Canadian Army since 2000 as the C15, and the Navy Seals as the Mk 15 Mod 0.  This .50 caliber bolt-action rifle is capable of defeating light vehicles, radar installations and crew-served weapons at extreme distances.  It notably holds the longest-range confirmed sniper kill, as well as the 4th and 5th longest.",
+    "description": "A long-range anti-materiel and anti-personnel sniper rifle made by McMillan Firearms, serving the Canadian Army since 2000 as the C15, and the Navy Seals as the Mk 15 Mod 0.  This .50 caliber bolt-action rifle is capable of defeating light vehicles, radar installations and crew-served weapons at extreme distances.  It notably holds the second longest-range confirmed sniper kill, as well as the 6th and 7th longest.",
     "weight": "11790 g",
     "volume": "6500 ml",
     "longest_side": "146 cm",
