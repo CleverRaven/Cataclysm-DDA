@@ -102,8 +102,8 @@
     },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "dissect": "dissect_ierde_small",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "weakpoint_sets": [ "wps_alien_biology" ],
+    "families": [ "prof_alien_biology" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -512,7 +512,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
     ],
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "HOSTILE_SEEN" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -697,7 +697,7 @@
     "material": [ "fae_flesh" ],
     "hp": 60,
     "speed": 110,
-    "symbol": "/",
+    "symbol": "S",
     "color": "white",
     "aggro_character": false,
     "aggression": 0,
