@@ -222,8 +222,8 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "max_duration": "1 minutes",
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1.5 }, { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
+    "max_duration": "2 minutes",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",

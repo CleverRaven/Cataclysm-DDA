@@ -184,15 +184,15 @@
     "spell_class": "MAGUS",
     "energy_source": "MANA",
     "components": "spell_components_haste",
-    "difficulty": 9,
+    "difficulty": 8,
     "base_casting_time": 400,
     "casting_time_increment": -10,
     "final_casting_time": 200,
     "base_energy_cost": 450,
     "max_level": 20,
-    "min_duration": 300,
-    "max_duration": 6000,
-    "duration_increment": 300
+    "min_duration": 600,
+    "max_duration": 12000,
+    "duration_increment": 600
   },
   {
     "id": "magus_baleful_polymorph",
