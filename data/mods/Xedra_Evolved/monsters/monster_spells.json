@@ -75,5 +75,22 @@
     "shape": "blast",
     "min_range": 10,
     "max_range": 10
+  },
+  {
+    "id": "mon_sheyd_malediction_spell",
+    "type": "SPELL",
+    "name": "Sheyd Malediction Spell",
+    "description": "This is a monster only spell.",
+    "message": "",
+    "teachable": false,
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "attack",
+    "effect_str": "effect_sheyd_malediction",
+    "shape": "blast",
+    "min_range": 15,
+    "max_range": 15,
+    "min_duration": 1500,
+    "max_duration": 4500
   }
 ]
