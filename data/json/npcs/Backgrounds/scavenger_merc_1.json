@@ -42,7 +42,7 @@
       {
         "text": "Fine, then.  Let's talk about something else.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Have it your way.",
@@ -59,7 +59,7 @@
       {
         "text": "Fine, then.  Let's talk about something else.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Have it your way.",
@@ -76,7 +76,7 @@
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "I'll get back to you on that.",
@@ -93,7 +93,7 @@
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "I'll get back to you on that.",
@@ -127,7 +127,7 @@
       },
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -138,7 +138,7 @@
     "//": "UPCOMING: this merc will offer a mission for you to explore the warehouse in question.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -153,7 +153,7 @@
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -168,7 +168,7 @@
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },

@@ -12,7 +12,7 @@
     "responses": [
       { "text": "I'm sorry to hear it.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -27,7 +27,7 @@
         "topic": "BGSS_LOST_PARTNER_1_YEAH"
       },
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -37,7 +37,7 @@
     "dynamic_line": "I guess those of us who made it this far have to have made it for a reason, or something.  I don't mean like a religious reason, just… we're survivors.",
     "responses": [
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -47,7 +47,7 @@
     "dynamic_line": "Haha, yeah, I can see why you'd think that.  I don't mean it's a good apocalypse.  I just mean that at least now I know what I'm doing every day.  I'd still kill a hundred zombies for an internet connection and a night watching crappy movies with… sorry.  Let's change the subject.",
     "responses": [
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -58,7 +58,7 @@
     "//": "In a future version this NPC might give you directions to a triffid grove.",
     "responses": [
       { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }
