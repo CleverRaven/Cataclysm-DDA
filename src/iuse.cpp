@@ -5410,28 +5410,44 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & )
 {
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
-        return std::nullopt;
 
-    }
-    if( p->has_trait( trait_ILLITERATE ) ) {
-        p->add_msg_if_player( _( "You can't read a computer screen." ) );
-        return std::nullopt;
-    }
+    bool isComputer = !it->has_flag( flag_MAGICAL );
+    int choice = 0;
 
-    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
-        p->add_msg_if_player( m_info,
-                              _( "You'll need to put on reading glasses before you can see the screen." ) );
-        return std::nullopt;
-    }
+    if( isComputer ) {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
+            return std::nullopt;
+        }
 
-    int choice = uilist( _( "Welcome to hackPRO!" ), {
-        _( "Prepare IFF protocol override" ),
-        _( "Set friendly robots to passive mode" ),
-        _( "Set friendly robots to combat mode" )
-    } );
+        if( p->has_trait( trait_ILLITERATE ) ) {
+            p->add_msg_if_player( _( "You can't read a computer screen." ) );
+            return std::nullopt;
+        }
+
+        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+            !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+            p->add_msg_if_player( m_info,
+                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
+            return std::nullopt;
+        }
+
+        choice = uilist( _( "Welcome to hackPRO!" ), {
+            _( "Prepare IFF protocol override" ),
+            _( "Set friendly robots to passive mode" ),
+            _( "Set friendly robots to combat mode" )
+        } );
+    } else {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s lacks charge to function." ), it->tname() );
+            return std::nullopt;
+        }
+        choice = uilist( _( "You prepare to manipulate nearby robots!" ), {
+            _( "Prepare IFF protocol override" ),
+            _( "Set friendly robots to passive mode" ),
+            _( "Set friendly robots to combat mode" )
+        } );
+    }
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
             uilist pick_robot;
