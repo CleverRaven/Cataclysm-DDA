@@ -9351,31 +9351,25 @@ std::string item::variant_description() const
         return ""; // Shouldn't this throw an error?
     }
     auto variant = itype_variant();
-    std::string base_description;
+    std::string ret;
     if( variant.alt_description.empty() ) {
         if( type->extend_description ) {
-            base_description = type->description.translated();
+            ret = type->description.translated();
         } else {
-            base_description = type->extended_description();
+            ret = type->extended_description();
         }
     } else {
-        base_description = variant.alt_description.translated();
+        ret = variant.alt_description.translated();
     }
-    if( variant.alt_extend_description ) {
-        if( variant.alt_description_prepend.empty() ) {
-            return _( string_format( "%s  %s", base_description,
-                                     variant.alt_description_append.translated() ) );
-        } else if( variant.alt_description_append.empty() ) {
-            return _( string_format( "%s  %s", variant.alt_description_prepend.translated(),
-                                     base_description ) );
-        } else {
-            return _( string_format( "%s  %s  %s", variant.alt_description_prepend.translated(),
-                                     base_description,
-                                     variant.alt_description_append.translated() ) );
-        }
-    } else {
-        return base_description;
+    if( !variant.alt_description_prepend.empty() ) {
+        ret = string_format( "%s  %s", variant.alt_description_prepend.translated(),
+                             ret );
     }
+    if( !variant.alt_description_append.empty() ) {
+        ret = string_format( "%s  %s", ret,
+                             variant.alt_description_append.translated() );
+    }
+    return _( ret );
 }
 
 void item::clear_itype_variant()

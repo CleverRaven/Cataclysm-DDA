@@ -155,19 +155,18 @@ int itype::charges_per_volume( const units::volume &vol ) const
     return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }
 
-std::string itype::extended_description() const
+std::string itype::extended_description( const bool append = true, const bool prepend = true ) const
 {
-    if( description_prepend.empty() ) {
-        return _( string_format( "%s  %s", description.translated(),
-                                 description_append.translated() ) );
-    } else if( description_append.empty() ) {
-        return _( string_format( "%s  %s", description_prepend.translated(),
-                                 description.translated() ) );
-    } else {
-        return _( string_format( "%s  %s  %s", description_prepend.translated(),
-                                 description.translated(),
-                                 description_append.translated() ) );
+    std::string ret = description.translated();
+    if( prepend && !description_prepend.empty() ) {
+        ret = string_format( "%s  %s", description_prepend.translated(),
+                             ret );
     }
+    if( append && !description_append.empty() ) {
+        ret = string_format( "%s  %s", ret,
+                             description_append.translated() );
+    }
+    return _( ret );
 }
 
 // Members of iuse struct, which is slowly morphing into a class.

@@ -657,7 +657,6 @@ struct itype_variant_data {
     translation alt_description;
     translation alt_description_append;
     translation alt_description_prepend;
-    bool alt_extend_description = false;
     ascii_art_id art;
     std::optional<std::string> alt_sym;
     std::optional<nc_color> alt_color = std::nullopt;

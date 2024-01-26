@@ -2778,16 +2778,12 @@ void itype_variant_data::load( const JsonObject &jo )
     if( jo.has_member( "description" ) ) {
         if( jo.has_bool( "append" ) && jo.get_bool( "append" ) ) { // Legacy behaviour
             jo.read( "description", alt_description_append );
-            alt_extend_description = true;
         } else {
             jo.read( "description", alt_description );
         }
     }
-
-    if( jo.read( "description_prepend", alt_description_prepend ) ||
-        jo.read( "description_append", alt_description_append ) ) {
-        alt_extend_description = true;
-    }
+    jo.read( "description_prepend", alt_description_prepend );
+    jo.read( "description_append", alt_description_append );
 
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
