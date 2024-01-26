@@ -655,11 +655,12 @@ struct itype_variant_data {
     std::string id;
     translation alt_name;
     translation alt_description;
+    translation alt_description_append;
+    translation alt_description_prepend;
+    bool alt_extend_description = false;
     ascii_art_id art;
     std::optional<std::string> alt_sym;
     std::optional<nc_color> alt_color = std::nullopt;
-
-    bool append = false; // if the description should be appended to the base description.
     // Expand the description when generated and save it on the item
     bool expand_snippets = false;
 

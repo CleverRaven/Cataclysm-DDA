@@ -9348,19 +9348,33 @@ void item::set_itype_variant( const std::string &variant )
 std::string item::variant_description() const
 {
     if( !has_itype_variant() ) {
-        return "";
+        return ""; // Shouldn't this throw an error?
     }
-
-    // append the description instead of fully overwriting it
-    if( itype_variant().append ) {
-        if( !type->extend_description ) {
-            return _( string_format( "%s  %s", type->description.translated(),
-                                     itype_variant().alt_description.translated() ) );
+    auto variant = itype_variant();
+    std::string base_description;
+    if( variant.alt_description.empty() ) {
+        if( type->extend_description ) {
+            base_description = type->description.translated();
+        } else {
+            base_description = type->extended_description();
         }
-        return _( string_format( "%s  %s", type->extended_description(),
-                                 itype_variant().alt_description.translated() ) );
     } else {
-        return itype_variant().alt_description.translated();
+        base_description = variant.alt_description.translated();
+    }
+    if( variant.alt_extend_description ) {
+        if( variant.alt_description_prepend.empty() ) {
+            return _( string_format( "%s  %s", base_description,
+                                     variant.alt_description_append.translated() ) );
+        } else if( variant.alt_description_append.empty() ) {
+            return _( string_format( "%s  %s", variant.alt_description_prepend.translated(),
+                                     base_description ) );
+        } else {
+            return _( string_format( "%s  %s  %s", variant.alt_description_prepend.translated(),
+                                     base_description,
+                                     variant.alt_description_append.translated() ) );
+        }
+    } else {
+        return base_description;
     }
 }
 

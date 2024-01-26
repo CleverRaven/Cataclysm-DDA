@@ -2774,14 +2774,27 @@ void itype_variant_data::load( const JsonObject &jo )
     alt_name.make_plural();
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
-    mandatory( jo, false, "description", alt_description );
+
+    if( jo.has_member( "description" ) ) {
+        if( jo.has_bool( "append" ) && jo.get_bool( "append" ) ) { // Legacy behaviour
+            jo.read( "description", alt_description_append );
+            alt_extend_description = true;
+        } else {
+            jo.read( "description", alt_description );
+        }
+    }
+
+    if( jo.read( "description_prepend", alt_description_prepend ) ||
+        jo.read( "description_append", alt_description_append ) ) {
+        alt_extend_description = true;
+    }
+
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );
     }
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight, 1 );
-    optional( jo, false, "append", append );
     optional( jo, false, "expand_snippets", expand_snippets );
 }
 
