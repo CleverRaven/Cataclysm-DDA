@@ -167,7 +167,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view membe
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
         if( jo.has_array( "arithmetic" ) ) {
-            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
+            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true )
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
