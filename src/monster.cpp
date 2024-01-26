@@ -228,7 +228,8 @@ static int compute_kill_xp( const mtype_id &mon_type )
 // For tracking what few effects of enchants 
 // are relevant to monsters.
 struct monster_enchant_effects {
-    resistances armor_mod = resistances();
+    resistances armor_mod_abs = resistances();
+    resistances armor_mod_mult = resistances();
     int speed_mod_abs = 0;
     int regen_hp_mod = 0;
     int max_hp_abs = 0;
