@@ -3433,6 +3433,17 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_ZONE_DISPLAY",
+    "category": "ZONES_MANAGER",
+    "name": "Toggle display of zone markers",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "t" },
+      { "input_method": "keyboard_char", "key": "T" },
+      { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ENABLE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Enable zone",
