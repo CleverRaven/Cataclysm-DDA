@@ -1274,7 +1274,7 @@
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
           { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
           { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
-          { "item": "spell_scroll_druid_water_walking", "prog": 30 }
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
         ],
         "prob": 45
       },
