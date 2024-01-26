@@ -9,7 +9,6 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "math_parser_shim.h"
 #include "mission.h"
 
 class JsonObject;
