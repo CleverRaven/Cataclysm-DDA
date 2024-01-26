@@ -72,7 +72,7 @@
       "furniture": { "!": "f_region_flower", "0": "f_stool", "]": "f_sofa", "}": "f_table" },
       "place_loot": [ { "item": "television", "x": 28, "y": 14, "chance": 100 }, { "item": "stereo", "x": 28, "y": 15, "chance": 100 } ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 17, "y": 23, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 17, "y": 22, "chance": 80, "status": 0 },
         { "vehicle": "suburban_home", "x": 37, "y": 12, "chance": 30, "rotation": 270 }
       ]
     }

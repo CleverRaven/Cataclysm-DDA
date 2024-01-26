@@ -455,6 +455,46 @@
   },
   {
     "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_eater",
+    "name": "Awakened Eater",
+    "description": "Ever since the Cataclysm you've been able to clearly see elements of other realities that have intruded your own.  You also think you'd be able to consume these intrusions to give you power far beyond a normal human.",
+    "points": 4,
+    "spells": [ { "id": "spring_heeled_leap", "level": 4 }, { "id": "spell_dodge", "level": 4 } ],
+    "traits": [ "EATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamer",
+    "name": "Awakened Dreamer",
+    "description": "Ever since the Cataclysm you've become far more aware of the weakened gap between realities.  Specifically, of what is on the other side.  Surprisingly, it doesn't seem universally hostile, and you think you'd be able to bring some of these entities over if you desired.",
+    "points": 4,
+    "spells": [ { "id": "create_dream_dross", "level": 4 }, { "id": "summon_shifter", "level": 4 } ],
+    "traits": [ "DREAMER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_inventor",
+    "name": "Awakened Inventor",
+    "description": "Ever since the Cataclysm you've begun having crazy ideas on how to create technological devices.  While conventional logic would label these designs as silly or even insane, something tells you that they'd work regardless.",
+    "points": 4,
+    "traits": [ "INVENTOR" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamsmith",
+    "name": "Awakened Dreamsmith",
+    "description": "Ever since the Cataclysm you've gained an instinctive sense of how to work dreamdross into tools and armor.  It will still take some effort to put these vague ideas to proper use",
+    "//": "TODO: add some basic recipes they could know, if possible",
+    "points": 4,
+    "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
+    "traits": [ "DREAMSMITH" ]
+  },
+  {
+    "type": "profession",
     "id": "paraclesian_ierde",
     "name": { "male": "Ierde", "female": "Ierda" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",

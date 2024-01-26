@@ -398,13 +398,22 @@
     "id": "EOC_mon_nearby_test",
     "effect": [
       { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "triffs", "=", "u_mon_species_nearby('PLANT')" ] },
+      { "math": [ "group", "=", "u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
       { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "math": [ "zombs_friends", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'friendly')" ] },
+      { "math": [ "zombs_both", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'both')" ] },
       { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
       { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
       { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
       { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
       { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_mon_nearby_test",
+    "monsters": [ { "monster": "mon_triffid", "weight": 1 }, { "monster": "mon_zombie_tough", "weight": 1 } ]
   },
   {
     "type": "effect_on_condition",
@@ -421,7 +430,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_options_test_nested",
-    "condition": { "get_game_option": "AUTOSAVE" },
+    "condition": { "math": [ "game_option('AUTOSAVE')" ] },
     "effect": [ { "math": [ "key3", "=", "1" ] } ]
   },
   {
@@ -507,12 +516,6 @@
     "type": "effect_on_condition",
     "id": "EOC_math_diag_assign",
     "effect": [ { "math": [ "u_val('stamina')", "/=", "2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_math_var",
-    "condition": { "days_since_cataclysm": { "math": [ "math_test_result" ] } },
-    "effect": [ { "u_message": "test var math" } ]
   },
   {
     "type": "effect_on_condition",
@@ -816,5 +819,61 @@
     "//": "tests forgetting a martial art from the player",
     "condition": { "not": { "u_using_martial_art": "style_aikido" } },
     "effect": { "u_forget_martial_art": "style_aikido" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spawn_item_group_test",
+    "//": "tests for spawning item group (collection / distribution). Alpha and beta talker is for showing the popup message",
+    "effect": [
+      { "message": "collection: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_collection",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_collection",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      },
+      { "message": "distribution: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_distribution",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_distribution",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_test_weapon_damage",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_tell_me_about_it",
+            "effect": [
+              { "math": [ "mymelee", "=", "n_melee_damage('ALL')" ] },
+              { "math": [ "mymelee_bash", "=", "n_melee_damage('bash')" ] },
+              { "math": [ "mygun", "=", "n_gun_damage('ALL')" ] },
+              { "math": [ "mygun_bullet", "=", "n_gun_damage('bullet')" ] }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

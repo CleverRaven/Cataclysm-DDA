@@ -70,7 +70,7 @@
     "id": "bronze_book",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "The Bronze Age encyclopedia" },
+    "name": { "str": "The Bronze Age Encyclopedia", "str_pl": "copies of The Bronze Age Encyclopedia" },
     "description": "A huge textbook with information about the historic use of bronze around the world, with well illustrated instructions of the manufacturing process of armor, weapons and bronze tools.",
     "weight": "1500 g",
     "volume": "1250 ml",
@@ -405,6 +405,29 @@
     "fun": -1
   },
   {
+    "id": "textbook_mesoam",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Art of Warfare in Precolumbian Mesoamericas",
+      "str_pl": "copies of The Art of Warfare in Precolumbian Mesoamericas"
+    },
+    "description": "This intricate history book details the history of Mesoamerican warfare from the sources of the native codices, Spanish records and contemporary historians.  It contains descriptive diagrams and information on few of the weapons used, mainly of the Nahuatl speaking peoples.  You reckon you could craft a few of them with steel instead of obsidian.",
+    "weight": "654 g",
+    "volume": "1250 ml",
+    "price": 6400,
+    "price_postapoc": 3000,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 8,
+    "intelligence": 9,
+    "time": "60 m",
+    "fun": 1
+  },
+  {
     "id": "textbook_fabrication",
     "type": "BOOK",
     "category": "manuals",
@@ -678,5 +701,25 @@
     "required_level": 1,
     "intelligence": 8,
     "time": "15 m"
+  },
+  {
+    "id": "ballista_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Artillery of the Ancients", "str_pl": "copies of Artillery of the Ancients" },
+    "description": "This is a history book detailing the siege machines and field artillery of some ancient civilizations.  It contains detailed diagrams that explain how such devices were assembled and maintained.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 500,
+    "symbol": "?",
+    "color": "blue",
+    "looks_like": "recipe_lab_elec",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "25 m",
+    "melee_damage": { "bash": 4 }
   }
 ]

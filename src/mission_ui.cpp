@@ -9,7 +9,7 @@
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "input.h"
+#include "input_context.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"

@@ -539,6 +539,9 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
+        // returns true if the creature is a faerie creature
+        virtual bool is_fae() const = 0;
+
         // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
 
@@ -675,6 +678,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
         void clear_values();
 
         virtual units::mass get_weight() const = 0;
@@ -1109,68 +1113,6 @@ class Creature : public viewer
             }
             return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
-        }
-
-        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
-                                              const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
-                                      Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
-                                      Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
-                                           const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
-                                   Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
-                                   Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                const std::string &/*player_msg*/,
-                const std::string &/*npc_msg*/ ) const {}
-        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                                          const translation &/*player_msg*/,
-                                          const translation &/*npc_msg*/ ) const;
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
-                                          const char *const npc_msg, Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg, Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
         }
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,

@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "bolt_ballista",
+    "name": "ballista bolts",
+    "default": "bolt_ballista_steel"
+  },
+  {
+    "type": "ammunition_type",
     "id": "bolt",
     "name": "bolts",
     "default": "bolt_wood"
@@ -94,6 +100,12 @@
     "id": "strange_arrow",
     "name": "strange arrows",
     "default": "arrow_meteor"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "atlatl",
+    "name": "atlatl spears",
+    "default": "steel_atlatl_spear"
   },
   {
     "type": "ammunition_type",

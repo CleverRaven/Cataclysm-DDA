@@ -38,23 +38,6 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
-    "id": "butter_churn",
-    "type": "TOOL",
-    "name": { "str": "pseudo butter churn" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
-    "weight": "6464 g",
-    "volume": "9 L",
-    "price": 20000,
-    "price_postapoc": 100,
-    "to_hit": -2,
-    "material": [ "wood" ],
-    "qualities": [ [ "CHURN", 1 ] ],
-    "symbol": "H",
-    "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "id": "screw_press",
     "type": "TOOL",
     "name": { "str": "screw press", "str_pl": "screw presses" },
@@ -101,7 +84,25 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": [ "CARVER_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__carver",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "carver_on",
+              "success_message": "The electric carver's serrated blades start buzzing!",
+              "volume": "20",
+              "failure_message": "You pull the trigger, but nothing happens."
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
@@ -124,9 +125,29 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CARVER_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__carver",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__carver",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": { "sound_chance": "10", "sound_message": "Your electric carver buzzes.", "volume": "8", "revert_to": "carver_off" }
+          }
+        }
+      ]
+    },
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK" ],
     "melee_damage": { "bash": 2, "cut": 30 }
   },
   {

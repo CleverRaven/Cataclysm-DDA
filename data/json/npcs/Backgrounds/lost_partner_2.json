@@ -35,7 +35,7 @@
         "condition": { "npc_has_effect": "player_BGSS_SAIDYES" },
         "topic": "BGSS_LOST_PARTNER_2_STORY3"
       },
-      { "text": "Never mind.  Sorry I brought it up.", "topic": "TALK_FRIEND" }
+      { "text": "Never mind.  Sorry I brought it up.", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {
@@ -43,7 +43,11 @@
     "type": "talk_topic",
     "dynamic_line": "I appreciate the sentiment, but I don't think it would.  Drop it.",
     "responses": [
-      { "text": "OK.", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 }, "topic": "TALK_FRIEND" },
+      {
+        "text": "OK.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
+        "topic": "TALK_FRIEND_CONVERSATION"
+      },
       {
         "text": "<end_talking>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
@@ -76,7 +80,7 @@
       {
         "text": "Never mind.  Sorry I brought it up.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "<end_talking>",
@@ -98,7 +102,7 @@
     "responses": [
       { "text": "You must have seen some shit.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
       { "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -108,7 +112,7 @@
     "dynamic_line": "Yeah.  I really did.  It took me two days to make it across the city on foot, camping out in dumpsters and places like that.  I started moving more by night, and I learned right away to avoid the military.  They were a magnet for the <zombies>, and they were usually stationed where the monsters were coming.  Some parts of the city were pretty tame at first.  There were a few chunks where people had been evacuated or cleared out, and the <zombies> didn't really go there.  Later on, others like me started moving into those neighborhoods, so I switched and started running through the blasted out downtown.  I had to anyway, to get home.  By the time I made the switch though, the fighting was starting to die off, and I was mostly just avoiding attention from zombies and other things.",
     "responses": [
       { "text": "I take it home was bad.", "topic": "BGSS_LOST_PARTNER_2_HOME1" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -119,7 +123,7 @@
     "responses": [
       { "text": "You must have seen some shit on the way there.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
       { "text": "Did you make it into the house?", "topic": "BGSS_LOST_PARTNER_2_HOME2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -134,7 +138,7 @@
       }
     ],
     "responses": [
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

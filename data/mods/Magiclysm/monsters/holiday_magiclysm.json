@@ -2,7 +2,7 @@
   {
     "id": "mon_yulecat",
     "type": "MONSTER",
-    "name": "Yule Cat",
+    "name": "Yule cat",
     "description": "Magical beast from Icelandic folklore, known for their catlike appearance and their hobby of eating Workshop Elves.",
     "bodytype": "lion",
     "default_faction": "magical_beast",
@@ -37,8 +37,8 @@
     "id": "mon_yulecat_cub",
     "type": "MONSTER",
     "copy-from": "mon_yulecat",
-    "name": { "str": "Yulecat Cub" },
-    "description": "The child of a yulecat, this catlike creature looks as if it poses no threat to you, but looks can be deceiving.",
+    "name": { "str": "Yule cat cub" },
+    "description": "The child of a Yule cat, this catlike creature looks as if it poses no threat to you, but looks can be deceiving.",
     "volume": "120 ml",
     "weight": "345 g",
     "hp": 56,
@@ -58,7 +58,7 @@
   {
     "id": "mon_workshop_elf",
     "type": "MONSTER",
-    "name": { "str": "Workshop Elf", "str_pl": "Workshop Elves" },
+    "name": { "str": "workshop elf", "str_pl": "workshop elves" },
     "description": "Magical humanoids who are known for working in workshops, wearing green, and being proficient at making toys.",
     "default_faction": "elves",
     "bodytype": "human",
@@ -87,7 +87,7 @@
   {
     "id": "mon_leprechaun",
     "type": "MONSTER",
-    "name": "Leprechaun",
+    "name": "leprechaun",
     "description": "Mischievous shoemakers who wear green and love pulling pranks on mortals.",
     "default_faction": "leprechaun",
     "bodytype": "human",
@@ -110,6 +110,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "HAS_MIND", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
   }
 ]

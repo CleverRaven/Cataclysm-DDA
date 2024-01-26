@@ -2516,7 +2516,7 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "harvest": "mammal_large_fur",
+    "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_cattle_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "upgrades": { "age_grow": 120, "into": "mon_tusked_moose" },

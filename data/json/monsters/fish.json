@@ -228,6 +228,33 @@
     "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
+    "abstract": "mon_fry_mutant",
+    "type": "MONSTER",
+    "name": { "str_sp": "mutant fish fry" },
+    "//": "a default fish type - does not appear in-game",
+    "description": "A half-translucent fish larva… though this one is far larger than the usual.  Impossible to identify which species it belongs to but you can safely tell that it is going to outgrow normal fish you're used to seeing.",
+    "default_faction": "fish_mutant_passive",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "275 g",
+    "hp": 3,
+    "speed": 150,
+    "dodge": 10,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "white",
+    "aggression": -60,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_single",
+    "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
     "id": "mon_fish_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
@@ -236,14 +263,14 @@
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "18320 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_brown_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_brown_trout" }
   },
   {
     "id": "mon_fish_brook_trout",
@@ -254,14 +281,14 @@
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "900 ml",
     "weight": "1650 g",
-    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brook_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_brook_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_brook_trout" }
   },
   {
     "id": "mon_fish_lake_trout",
@@ -272,14 +299,14 @@
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "6140 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_lake_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_lake_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_lake_trout" }
   },
   {
     "id": "mon_fish_rainbow_trout",
@@ -290,14 +317,14 @@
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "10600 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_rainbow_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_rainbow_trout" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_rainbow_trout" }
   },
   {
     "id": "mon_fish_salmon",
@@ -307,14 +334,14 @@
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "10600 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_salmon" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_salmon" }
   },
   {
     "id": "mon_fish_kokanee_salmon",
@@ -325,14 +352,14 @@
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "4470 ml",
     "weight": "3500 g",
-    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_kokanee_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_kokanee_salmon" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_kokanee_salmon" }
   },
   {
     "id": "mon_fish_whitefish",
@@ -342,14 +369,14 @@
     "description": "A lake whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "7730 ml",
     "weight": "2 kg",
-    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_whitefish" }
   },
   {
     "id": "mon_fish_whitefish_round",
@@ -360,14 +387,14 @@
     "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "850 ml",
     "weight": "355 g",
-    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish_round",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_whitefish_round" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_whitefish_round" }
   },
   {
     "id": "mon_fish_lbass",
@@ -382,8 +409,7 @@
     "id": "mon_fry_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_lbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_lbass" }
   },
   {
     "id": "mon_fish_sbass",
@@ -399,8 +425,7 @@
     "id": "mon_fry_sbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sbass" }
   },
   {
     "id": "mon_fish_pbass",
@@ -416,8 +441,7 @@
     "id": "mon_fry_pbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pbass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pbass" }
   },
   {
     "id": "mon_fish_perch",
@@ -434,8 +458,7 @@
     "id": "mon_fry_perch",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_perch" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_perch" }
   },
   {
     "id": "mon_fish_walleye",
@@ -452,8 +475,7 @@
     "id": "mon_fry_walleye",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_walleye" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_walleye" }
   },
   {
     "id": "mon_fish_sunfish",
@@ -469,8 +491,7 @@
     "id": "mon_fry_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sunfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sunfish" }
   },
   {
     "id": "mon_fish_pumpkinseed",
@@ -487,8 +508,7 @@
     "id": "mon_fry_pumpkinseed",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pumpkinseed" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pumpkinseed" }
   },
   {
     "id": "mon_fish_bluegill",
@@ -504,8 +524,7 @@
     "id": "mon_fry_bluegill",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluegill" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluegill" }
   },
   {
     "id": "mon_fish_redbreast",
@@ -522,8 +541,7 @@
     "id": "mon_fry_redbreast",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_redbreast" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_redbreast" }
   },
   {
     "id": "mon_fish_green_sunfish",
@@ -540,8 +558,7 @@
     "id": "mon_fry_green_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_green_sunfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_green_sunfish" }
   },
   {
     "id": "mon_fish_rock_bass",
@@ -558,8 +575,7 @@
     "id": "mon_fry_rock_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_rock_bass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_rock_bass" }
   },
   {
     "id": "mon_fish_calico_bass",
@@ -576,8 +592,7 @@
     "id": "mon_fry_calico_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_calico_bass" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_calico_bass" }
   },
   {
     "id": "mon_fish_warmouth",
@@ -594,8 +609,7 @@
     "id": "mon_fry_warmouth",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_warmouth" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_warmouth" }
   },
   {
     "id": "mon_fish_bullhead",
@@ -611,8 +625,7 @@
     "id": "mon_fry_bullhead",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bullhead" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bullhead" }
   },
   {
     "id": "mon_fish_bullhead_yellow",
@@ -629,8 +642,7 @@
     "id": "mon_fry_bullhead_yellow",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bullhead_yellow" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bullhead_yellow" }
   },
   {
     "id": "mon_fish_channel_catfish",
@@ -647,8 +659,7 @@
     "id": "mon_fry_channel_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_channel_catfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_channel_catfish" }
   },
   {
     "id": "mon_fish_white_catfish",
@@ -665,8 +676,7 @@
     "id": "mon_fry_white_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_white_catfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_white_catfish" }
   },
   {
     "id": "mon_fish_pike",
@@ -682,8 +692,7 @@
     "id": "mon_fry_pike",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pike" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pike" }
   },
   {
     "id": "mon_fish_pickerel",
@@ -699,8 +708,7 @@
     "id": "mon_fry_pickerel",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pickerel" }
   },
   {
     "id": "mon_fish_pickerel_american",
@@ -716,8 +724,7 @@
     "id": "mon_fry_pickerel_american",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pickerel_american" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pickerel_american" }
   },
   {
     "id": "mon_fish_muskellunge",
@@ -734,8 +741,7 @@
     "id": "mon_fry_muskellunge",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_muskellunge" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_muskellunge" }
   },
   {
     "id": "mon_fish_white_sucker",
@@ -752,8 +758,7 @@
     "id": "mon_fry_white_sucker",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_white_sucker" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_white_sucker" }
   },
   {
     "id": "mon_fish_carp",
@@ -769,8 +774,7 @@
     "id": "mon_fry_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_carp" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_carp" }
   },
   {
     "id": "mon_fish_grass_carp",
@@ -787,8 +791,7 @@
     "id": "mon_fry_grass_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_grass_carp" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_grass_carp" }
   },
   {
     "id": "mon_fish_goldfish",
@@ -805,8 +808,7 @@
     "id": "mon_fry_goldfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_goldfish" }
   },
   {
     "id": "mon_fish_bowfin",
@@ -822,14 +824,13 @@
     "id": "mon_fry_bowfin",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bowfin" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bowfin" }
   },
   {
     "id": "mon_fish_gar_longnose",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "longnose gar" },
+    "name": { "str_sp": "longnose gar" },
     "looks_like": "mon_fish_pike",
     "description": "A large ancient type of fish with a mean jaw and poisonous eggs.",
     "volume": "4820 ml",
@@ -840,8 +841,7 @@
     "id": "mon_fry_gar_longnose",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_gar_longnose" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_gar_longnose" }
   },
   {
     "id": "mon_fish_burbot",
@@ -857,14 +857,13 @@
     "id": "mon_fry_burbot",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_burbot" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_burbot" }
   },
   {
     "id": "mon_fish_sturgeon_lake",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": { "str": "lake sturgeon" },
+    "name": { "str_sp": "lake sturgeon" },
     "description": "A very large armored bottom-feeder, the lake sturgeon is one of the largest unmutated fish one can find in the freshwater regions of New England.",
     "volume": "20220 ml",
     "weight": "14500 g",
@@ -874,14 +873,13 @@
     "id": "mon_fry_sturgeon_lake",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_lake" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sturgeon_lake" }
   },
   {
     "id": "mon_fish_sturgeon_shortnose",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": { "str": "shortnose sturgeon" },
+    "name": { "str_sp": "shortnose sturgeon" },
     "looks_like": "mon_fish_sturgeon_lake",
     "description": "While the shortnose sturgeon is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
     "volume": "2720 ml",
@@ -892,8 +890,7 @@
     "id": "mon_fry_sturgeon_shortnose",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_sturgeon_shortnose" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_sturgeon_shortnose" }
   },
   {
     "id": "mon_fish_fallfish",
@@ -910,8 +907,7 @@
     "id": "mon_fry_fallfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_fallfish" },
-    "name": { "str_sp": "fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_fallfish" }
   },
   {
     "id": "mon_fish_lobster",
@@ -1147,7 +1143,7 @@
     "type": "MONSTER",
     "name": { "str": "giant carp" },
     "description": "This thing looks like a carp, but huge and very, very angry.  Death is the gift of the carp god.",
-    "default_faction": "mutant",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
@@ -1175,32 +1171,105 @@
   {
     "id": "mon_mutant_salmon",
     "type": "MONSTER",
-    "name": { "str": "giant salmon" },
-    "description": "A mutated salmon, the size of a large dog and quite dangerous to the inexperienced angler.",
-    "default_faction": "mutant",
+    "name": { "str_sp": "giant salmon" },
+    "description": "A mutated salmon roughly the size of a person.  Quite dangerous to the inexperienced angler.",
+    "default_faction": "fish_mutant_passive",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 180,
-    "speed": 150,
+    "hp": 110,
+    "armor": { "bash": 4, "cut": 3, "bullet": 2 },
+    "speed": 175,
+    "attack_cost": 145,
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "white_magenta",
-    "aggression": 100,
-    "morale": 105,
+    "aggression": 9,
+    "morale": 50,
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 5,
-    "luminance": 0,
     "harvest": "mutant_fish",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon_huge" },
+    "anger_triggers": [ "HURT" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_mutant_salmon_huge",
+    "type": "MONSTER",
+    "name": { "str_sp": "huge salmon" },
+    "description": "A huge mutant salmon grown almost to the size of an alligator.",
+    "default_faction": "fish_mutant_passive",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "312 L",
+    "weight": "265 kg",
+    "hp": 225,
+    "armor": { "bash": 8, "cut": 6, "bullet": 3 },
+    "speed": 175,
+    "attack_cost": 150,
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "color": "white_magenta",
+    "aggression": 9,
+    "morale": 80,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "dodge": 4,
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_large",
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
+    "baby_flags": [ "AUTUMN" ],
+    "upgrades": { "age_grow": 42, "into": "mon_mutant_salmon_mega" },
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_fry_mutant_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fry_mutant",
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon" }
+  },
+  {
+    "id": "mon_mutant_salmon_mega",
+    "type": "MONSTER",
+    "name": { "str_sp": "leaper salmon" },
+    "description": "A huge mutant salmon, one that outgrows even the other ones present.  On its sides, beneath the fins, are visible two flesh-colored tubes which propel water as it leaps.",
+    "default_faction": "fish_mutant_passive",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "400 L",
+    "weight": "340 kg",
+    "hp": 240,
+    "armor": { "bash": 10, "cut": 9, "bullet": 3 },
+    "speed": 200,
+    "attack_cost": 150,
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "color": "white_magenta",
+    "aggression": 9,
+    "morale": 90,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 30, "max_range": 10, "min_consider_range": 2, "ignore_dest_terrain": true } ],
+    "dodge": 4,
+    "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_large",
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 5, "baby_timer": 50 },
+    "baby_flags": [ "AUTUMN" ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_sewer_fish",
@@ -1237,27 +1306,26 @@
   {
     "id": "mon_fish_mackerel",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str_sp": "atlantic mackerel" },
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "Atlantic mackerel" },
     "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
-    "volume": "3000 ml",
-    "weight": "1600 g",
+    "volume": "850 ml",
+    "weight": "425 g",
     "reproduction": { "baby_egg": "egg_mackerel", "baby_count": 3, "baby_timer": 20 }
   },
   {
     "id": "mon_fry_mackerel",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_mackerel" },
-    "name": { "str_sp": "mackerel fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_mackerel" }
   },
   {
     "id": "mon_fish_flounder",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str_sp": "flounder" },
-    "description": "A flatfish, the flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
-    "volume": "2500 ml",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "summer flounder" },
+    "description": "A flatfish, the summer flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
+    "volume": "4 L",
     "weight": "1400 g",
     "reproduction": { "baby_egg": "egg_flounder", "baby_count": 2, "baby_timer": 22 }
   },
@@ -1265,8 +1333,7 @@
     "id": "mon_fry_flounder",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_flounder" },
-    "name": { "str_sp": "flounder fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_flounder" }
   },
   {
     "id": "mon_fish_blackfish",
@@ -1274,33 +1341,30 @@
     "copy-from": "mon_fish_small",
     "name": { "str_sp": "black sea bass" },
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
-    "volume": "1500 ml",
-    "weight": "600 g",
+    "volume": "1330 ml",
+    "weight": "850 g",
     "reproduction": { "baby_egg": "egg_blackfish", "baby_count": 2, "baby_timer": 15 }
   },
   {
     "id": "mon_fry_blackfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_blackfish" },
-    "name": { "str_sp": "black sea bass fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_blackfish" }
   },
   {
     "id": "mon_fish_porgy",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
-    "volume": "1300 ml",
-    "weight": "550 g",
+    "weight": "500 g",
     "reproduction": { "baby_egg": "egg_porgy", "baby_count": 3, "baby_timer": 16 }
   },
   {
     "id": "mon_fry_porgy",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_porgy" },
-    "name": { "str_sp": "scup (porgy) fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_porgy" }
   },
   {
     "id": "mon_fish_bluefish",
@@ -1308,16 +1372,14 @@
     "copy-from": "mon_fish_small",
     "name": { "str_sp": "bluefish" },
     "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth.  It sports a distinct blue-green coloration.",
-    "volume": "1600 ml",
-    "weight": "700 g",
+    "volume": "6785 ml",
     "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
   },
   {
     "id": "mon_fry_bluefish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefish" },
-    "name": { "str_sp": "bluefish fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluefish" }
   },
   {
     "id": "mon_fish_cod",
@@ -1325,33 +1387,31 @@
     "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic cod" },
     "description": "A large, white-meat fish known for its mild flavor and flaky texture.  Highly prized in both commercial and recreational fishing.",
-    "volume": "35000 ml",
-    "weight": "22 kg",
+    "volume": "31450 ml",
+    "weight": "30 kg",
     "reproduction": { "baby_egg": "egg_cod", "baby_count": 3, "baby_timer": 19 }
   },
   {
     "id": "mon_fry_cod",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_cod" },
-    "name": { "str_sp": "cod fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_cod" }
   },
   {
     "id": "mon_fish_haddock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "haddock" },
     "description": "A popular food fish, the haddock is recognized by its dark lateral line and a black blotch above the pectoral fin.",
-    "volume": "25500 ml",
-    "weight": "11 kg",
+    "volume": "6785 ml",
+    "weight": "1800 g",
     "reproduction": { "baby_egg": "egg_haddock", "baby_count": 3, "baby_timer": 18 }
   },
   {
     "id": "mon_fry_haddock",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_haddock" },
-    "name": { "str_sp": "haddock fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_haddock" }
   },
   {
     "id": "mon_fish_bluefin_tuna",
@@ -1359,50 +1419,47 @@
     "copy-from": "mon_fish_huge",
     "name": { "str_sp": "Atlantic bluefin tuna" },
     "description": "One of the largest and fastest fish in the waters of New England, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
-    "volume": "125000 ml",
-    "weight": "98 kg",
+    "volume": "250 L",
+    "weight": "200 kg",
     "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
   },
   {
     "id": "mon_fry_bluefin_tuna",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_bluefin_tuna" },
-    "name": { "str_sp": "bluefin tuna fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_bluefin_tuna" }
   },
   {
     "id": "mon_fish_halibut",
     "type": "MONSTER",
-    "copy-from": "mon_fish_huge",
+    "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic halibut" },
     "description": "The largest flatfish in the ocean, known for its dense, firm texture and mild flavor.",
-    "volume": "75000 ml",
-    "weight": "42 kg",
+    "volume": "75 L",
+    "weight": "25 kg",
     "reproduction": { "baby_egg": "egg_halibut", "baby_count": 2, "baby_timer": 20 }
   },
   {
     "id": "mon_fry_halibut",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_halibut" },
-    "name": { "str_sp": "halibut fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_halibut" }
   },
   {
     "id": "mon_fish_pollock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "pollock" },
     "looks_like": "mon_fish_cod",
     "description": "A member of the cod family, pollock is a versatile fish known for its white, delicate meat and mild taste.",
-    "volume": "28000 ml",
-    "weight": "17 kg",
+    "volume": "6785 ml",
+    "weight": "2250 g",
     "reproduction": { "baby_egg": "egg_pollock", "baby_count": 3, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pollock",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_pollock" },
-    "name": { "str_sp": "pollock fry" }
+    "upgrades": { "age_grow": 14, "into": "mon_fish_pollock" }
   }
 ]

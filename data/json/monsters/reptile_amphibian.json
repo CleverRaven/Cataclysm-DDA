@@ -552,6 +552,7 @@
     "weight": "750 g",
     "hp": 4,
     "color": "green",
+    "harvest": "bullfrog",
     "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 },
     "baby_flags": [ "SPRING", "SUMMER" ]
   },
@@ -811,6 +812,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "MATING_SEASON" ],
     "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 12, "baby_timer": 20 },
     "delete": { "flags": [ "SWARMS" ] },
+    "harvest": "bullfrog",
     "//": "Give climbing (Z axis) ability when available."
   },
   {

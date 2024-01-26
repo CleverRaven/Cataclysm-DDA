@@ -1637,6 +1637,13 @@ class map
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
         void remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove );
         /**
+        * Deletes the field without regard for any possible need for cleanup. Circumvents
+        * the normal method of marking the field for removal which is then taken place during
+        * a regular cleanup. Intended for use with fields that have a display function only,
+        * with the effect of using it for other kinds of fields being untested.
+        */
+        void delete_field( const tripoint &p, const field_type_id &field_to_remove );
+        /**
          * Remove all field entries at location.
          */
         void clear_fields( const tripoint &p );

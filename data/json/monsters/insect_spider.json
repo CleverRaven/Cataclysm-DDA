@@ -82,7 +82,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "bleed_rate": 60,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "dissect": "dissect_troglobite_sample_large",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],

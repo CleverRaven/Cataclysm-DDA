@@ -255,7 +255,7 @@
       {
         "group": "GODCO_russell_carried",
         "rigid": true,
-        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],

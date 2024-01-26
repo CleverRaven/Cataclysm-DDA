@@ -15,12 +15,7 @@
     "id": "TALK_RC_SURVIVOR_1",
     "dynamic_line": "Hey there.  Do you work here, or what?",
     "speaker_effect": {
-      "effect": [
-        { "npc_first_topic": "TALK_RC_SURVIVOR_2" },
-        {
-          "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 3 } ]
-        }
-      ]
+      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] } ]
     },
     "responses": [
       { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },
@@ -54,16 +49,16 @@
     "type": "talk_topic",
     "id": "TALK_RC_SURVIVOR_Tips",
     "dynamic_line": {
-      "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
       "yes": "Sure.  Seen more'n I'd like to think about honestly.  Like, I think these zombies are evolving?  I've seen new things come out that I swear aren't natural.  One of them looked like it was sparking with electricity.",
       "no": {
-        "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
         "yes": "Come to think of it, yeah.  The other day, I met this weird old man in the woods.  Obsessed with rabbits.  He seemed like a nice fellow, open to visitors, if you'd like I can send you his way to trade.",
         "no": {
-          "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
           "yes": "I could point you to some acquaintances of mine that have a farm, they're decent folk, if you have goods to trade.  Be careful around them, I get a vibe like they don't like visitors too much, and honestly it makes me nervous that they made it through this so together.  Kinda of ominous, you know?",
           "no": {
-            "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "There's so much weird stuff out there in the wilderness now.  A while back, I found this weird cartoon sign with a map on it, pointing to some kind of trade center.  Haven't been there yet but I can show you my copy of the map if you want.",
             "no": "ERROR: out of bounds on randomize_directions."
           }
@@ -76,9 +71,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "lapin" } }
           ]
         },
@@ -90,9 +83,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
         },
@@ -104,9 +95,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
         },

@@ -13,22 +13,20 @@
         { "expects_vars": [ "map_update", "omt", "map_removal", "chance", "days_till_spawn" ] },
         { "one_in_chance": { "context_val": "chance" } },
         { "u_near_om_location": { "context_val": "omt" }, "range": 30 },
-        { "days_since_cataclysm": { "context_val": "days_till_spawn" } },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
-        },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= _days_till_spawn" ] },
+        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">=", "time('1 d')" ] },
         { "not": { "u_near_om_location": { "context_val": "omt" }, "range": 2 } },
         { "get_condition": "random_enc_condition" }
       ]
     },
     "effect": [
       { "mapgen_update": [ { "context_val": "map_update" } ], "om_terrain": { "context_val": "omt" } },
-      { "u_add_var": "RandEnc", "type": "timer", "context": "caravan", "time": true },
+      { "math": [ "u_timer_caravan_RandEnc", "=", "time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_loc" },
         "target_params": { "om_terrain": { "context_val": "omt" } }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc" }, "=", { "const": 1 } ] },
+      { "math": [ "RandEnc", "=", "1" ] },
       { "set_string_var": { "context_val": "omt" }, "target_var": { "global_val": "random_encounter_omt" } },
       {
         "set_string_var": { "context_val": "map_removal" },
@@ -43,9 +41,9 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
+        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] },
         { "not": { "u_near_om_location": { "global_val": "random_encounter_omt" }, "range": 2 } },
-        { "compare_num": [ { "global_val": "var", "var_name": "RandEnc" }, "==", { "const": 1 } ] }
+        { "math": [ "RandEnc", "==", "1" ] }
       ]
     },
     "effect": [
@@ -54,7 +52,7 @@
         "om_terrain": { "global_val": "random_encounter_omt" },
         "target_var": { "global_val": "randenc_loc" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc" }, "=", { "const": 0 } ] }
+      { "math": [ "RandEnc", "=", "0" ] }
     ]
   }
 ]

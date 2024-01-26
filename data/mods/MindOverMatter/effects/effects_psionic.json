@@ -564,7 +564,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -581,7 +581,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -598,7 +598,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -615,7 +615,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -632,7 +632,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -649,7 +649,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -666,7 +666,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -683,7 +683,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -1041,6 +1041,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_personal_battery",
     "name": [ "Electron Overflow" ],
     "desc": [ "You are generating a wireless aura of electrical power." ],
@@ -1384,7 +1394,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
-    "flags": [ "HEAT_IMMUNE" ]
+    "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
     "type": "effect_type",

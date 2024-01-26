@@ -2,7 +2,7 @@
   {
     "id": "tank_little",
     "type": "vehicle_part",
-    "name": { "str": "vehicle tank (2L)" },
+    "name": { "str": "vehicle tank (2 L)" },
     "item": "metal_tank_little",
     "location": "fuel_source",
     "broken_color": "red",
@@ -12,7 +12,7 @@
     "damage_modifier": 80,
     "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "//": "weld repairs would involve patching up holes, for a small tank assume 5cm squares (20 cm weld total)",
+    "//": "weld repairs would involve patching up holes, for a small tank assume 5 cm squares (20 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -29,7 +29,7 @@
   {
     "id": "tank_small",
     "type": "vehicle_part",
-    "name": { "str": "vehicle tank (10L)" },
+    "name": { "str": "vehicle tank (10 L)" },
     "item": "jerrycan",
     "location": "fuel_source",
     "broken_color": "red",
@@ -54,7 +54,7 @@
   {
     "id": "tank_medium",
     "type": "vehicle_part",
-    "name": { "str": "vehicle tank (20L)" },
+    "name": { "str": "vehicle tank (20 L)" },
     "item": "jerrycan_big",
     "location": "fuel_source",
     "broken_color": "red",
@@ -62,7 +62,7 @@
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "categories": [ "movement" ],
     "damage_modifier": 80,
-    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
@@ -84,7 +84,7 @@
   {
     "id": "tank",
     "type": "vehicle_part",
-    "name": { "str": "vehicle tank (60L)" },
+    "name": { "str": "vehicle tank (60 L)" },
     "item": "metal_tank",
     "location": "fuel_source",
     "broken_color": "red",
@@ -97,7 +97,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -114,12 +114,12 @@
   {
     "id": "fridgetank",
     "type": "vehicle_part",
-    "name": { "str": "refrigerated tank (60L)" },
+    "name": { "str": "refrigerated tank (60 L)" },
     "item": "fridgetank",
     "location": "fuel_source",
     "broken_color": "red",
     "durability": 150,
-    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "description": "A 60 L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "categories": [ "cargo" ],
     "damage_modifier": 80,
     "epower": "-40 W",
@@ -128,7 +128,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -145,12 +145,12 @@
   {
     "id": "fridgetank_large",
     "type": "vehicle_part",
-    "name": { "str": "refrigerated tank (100L)" },
+    "name": { "str": "refrigerated tank (100 L)" },
     "item": "fridgetank_large",
     "location": "fuel_source",
     "broken_color": "red",
     "durability": 170,
-    "description": "A 100L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
+    "description": "A 100 L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "categories": [ "cargo" ],
     "damage_modifier": 80,
     "epower": "-80 W",
@@ -159,7 +159,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -176,24 +176,24 @@
   {
     "id": "heattank",
     "type": "vehicle_part",
-    "name": { "str": "heated tank (60L)" },
+    "name": { "str": "heated tank (60 L)" },
     "item": "heattank",
     "copy-from": "fridgetank",
-    "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
+    "description": "A 60 L heated tank.  When turned on, it will prevent the contents from freezing.",
     "epower": "-60 W",
     "flags": [ "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "external_tank_small",
     "type": "vehicle_part",
-    "name": { "str": "external tank (100L)" },
+    "name": { "str": "external tank (100 L)" },
     "item": "30gal_drum",
     "location": "structure",
     "broken_color": "red",
     "durability": 160,
     "description": "A storage space for holding liquids, mounted outside the vehicle's walls and armor.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "categories": [ "movement" ],
-    "//": "45cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "45 cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "damage_modifier": 80,
     "requirements": {
       "install": {
@@ -212,7 +212,7 @@
     "id": "afs_small_roof_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": { "str": "roof-mounted external tank (100L)" },
+    "name": { "str": "roof-mounted external tank (100 L)" },
     "looks_like": "afs_roof_external_tank",
     "location": "on_roof",
     "extend": { "flags": [ "ON_ROOF" ] }
@@ -221,7 +221,7 @@
     "id": "external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": { "str": "external tank (200L)" },
+    "name": { "str": "external tank (200 L)" },
     "item": "55gal_drum",
     "damage_reduction": { "all": 30, "stab": 12 }
   },
@@ -229,7 +229,7 @@
     "id": "afs_roof_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": { "str": "roof-mounted external tank (200L)" },
+    "name": { "str": "roof-mounted external tank (200 L)" },
     "item": "55gal_drum",
     "location": "on_roof",
     "extend": { "flags": [ "ON_ROOF" ] }
@@ -237,7 +237,7 @@
   {
     "id": "tank_barrel",
     "type": "vehicle_part",
-    "name": { "str": "wooden barrel (100L)" },
+    "name": { "str": "wooden barrel (100 L)" },
     "item": "wooden_barrel",
     "location": "center",
     "categories": [ "movement" ],
@@ -263,7 +263,7 @@
   {
     "id": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": { "str": "steel drum (100L)" },
+    "name": { "str": "steel drum (100 L)" },
     "item": "30gal_drum",
     "location": "fuel_source",
     "categories": [ "movement" ],
@@ -276,7 +276,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "50cm weld install. weld repairs would involve patching up holes, for a medium-large tank assume 10cm squares (40 cm weld total)",
+    "//": "50 cm weld install. weld repairs would involve patching up holes, for a medium-large tank assume 10 cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -294,7 +294,7 @@
     "id": "tank_55gal_drum",
     "copy-from": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": { "str": "steel drum (200L)" },
+    "name": { "str": "steel drum (200 L)" },
     "item": "55gal_drum",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 4 ] },
@@ -322,7 +322,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "80cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
+    "//": "80 cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10 cm squares (40 cm weld total)",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -430,7 +430,7 @@
     "id": "tank_55gal_drum_aluminum",
     "copy-from": "tank_55gal_drum",
     "type": "vehicle_part",
-    "name": { "str": "aluminum tank (200L)" },
+    "name": { "str": "aluminum tank (200 L)" },
     "item": "55gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
     "requirements": {
@@ -443,7 +443,7 @@
     "id": "tank_30gal_drum_aluminum",
     "copy-from": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": { "str": "aluminum tank (100L)" },
+    "name": { "str": "aluminum tank (100 L)" },
     "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
@@ -456,7 +456,7 @@
     "id": "external_tank_small_aluminum",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": { "str": "external aluminum tank (100L)" },
+    "name": { "str": "external aluminum tank (100 L)" },
     "looks_like": "afs_roof_external_tank",
     "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
@@ -470,7 +470,7 @@
     "id": "afs_small_roof_external_tank_aluminum",
     "copy-from": "external_tank_small_aluminum",
     "type": "vehicle_part",
-    "name": { "str": "roof-mounted external aluminum tank (100L)" },
+    "name": { "str": "roof-mounted external aluminum tank (100 L)" },
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
@@ -482,7 +482,7 @@
     "id": "external_tank_aluminum",
     "copy-from": "external_tank",
     "type": "vehicle_part",
-    "name": { "str": "external aluminum tank (200L)" },
+    "name": { "str": "external aluminum tank (200 L)" },
     "item": "55gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
     "requirements": {
@@ -495,7 +495,7 @@
     "id": "afs_roof_external_tank_aluminum",
     "copy-from": "afs_roof_external_tank",
     "type": "vehicle_part",
-    "name": { "str": "roof-mounted external aluminum tank (200L)" },
+    "name": { "str": "roof-mounted external aluminum tank (200 L)" },
     "item": "55gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
     "requirements": {

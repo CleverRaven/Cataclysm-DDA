@@ -87,6 +87,49 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
-    "activated_eocs": [ "EOC_LUCID_DREAM" ]
+    "activated_eocs": [ "EOC_LUCID_DREAM_FORCE_END" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VERDANT_HELMET",
+    "name": "Verdant Helmet Enchant",
+    "description": "The enchantment for the Verdant Helmet.  Enhances your senses.",
+    "player_display": false,
+    "valid": false,
+    "points": 2,
+    "flags": [ "ENHANCED_VISION", "GLARE_RESIST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VERDANT_BODY",
+    "name": "Verdant Body Enchant",
+    "description": "The enchantment for the Verdant Cuirass.  Hides your scent and increases your mana regen slightly.",
+    "player_display": false,
+    "valid": false,
+    "points": 2,
+    "mana_regen_multiplier": 1.15,
+    "flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VERDANT_GAUNTLETS",
+    "name": "Verdant Gauntlet Enchant",
+    "description": "The enchantment for the Verdant Gauntlets.  Makes spellcasting easier.",
+    "player_display": false,
+    "valid": false,
+    "points": 2,
+    "casting_time_multiplier": 0.85,
+    "flags": [ "SUBTLE_SPELL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VERDANT_BOOTS",
+    "name": "Verdant Boots Enchant",
+    "description": "The enchantment for the Verdant Boots.  Makes you quieter and you can't be slowed too much.",
+    "player_display": false,
+    "valid": false,
+    "points": 2,
+    "noise_modifier": 0.4,
+    "flags": [ "STEADY", "SLUDGE_IMMUNE" ]
   }
 ]

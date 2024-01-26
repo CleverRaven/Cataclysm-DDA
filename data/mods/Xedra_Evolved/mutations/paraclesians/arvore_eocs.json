@@ -27,6 +27,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
@@ -140,6 +147,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
@@ -222,6 +236,35 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_summon_preservation_container_real" } } ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to cast To Oppose Decay.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK",
     "condition": { "not": { "u_has_effect": "arvore_perennial_rebirth_cooldown" } },
     "effect": {
@@ -289,13 +332,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_HEAL",
     "effect": [
-      { "u_set_hp": 999, "only_increase": true },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "torso" },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "head" },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_l" },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "arm_r" },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_r" },
-      { "u_set_hp": 45, "only_increase": false, "target_part": "leg_l" },
+      { "math": [ "u_hp('ALL')", "=", "999" ] },
+      { "math": [ "u_hp('ALL_MAJOR')", "=", "45" ] },
       { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
@@ -397,6 +435,177 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "math": [
+          "u_latest_arvore_embrace_of_verdant_mother_aoe",
+          "=",
+          "( (u_spell_level('arvore_damage_zombies_heal_living') * rng(0.8,1.2)) + rng(1.5,4)) * scaling_factor(u_val('intelligence') )"
+        ]
+      },
+      {
+        "math": [
+          "u_latest_arvore_embrace_of_verdant_mother_damage",
+          "=",
+          " ( (u_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(u_val('intelligence') )"
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING_2",
+            "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+            "effect": [
+              { "u_cast_spell": { "id": "arvore_verdant_mother_damage_zombies_and_aliens" } },
+              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_animals" } },
+              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_npcs" } },
+              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_ferals" } }
+            ],
+            "false_effect": {
+              "u_message": "You must be on the surface and not on a building's upper stories to cast Embrace of the Verdant Mother!",
+              "type": "bad"
+            }
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be outside to cast Embrace of the Verdant Mother!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "arvore_treesung_location" },
+          "message": "Select nearby tree"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
+          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
+          "else": { "u_message": "You must be near a tree to treesing to it." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "ACT_ARVORE_TREESINGING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "treesinging",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_ARVORE_TREE_SINGING_COMPLETE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING_COMPLETE",
+    "effect": [
+      {
+        "u_message": "As your song fades, you open your eyes to find a large growth of wood lying on the ground in front of you, separated from the tree without violence.",
+        "type": "good"
+      },
+      { "u_spawn_item": "log_treesung", "count": 1, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_TREE_SINGING_LEARN_RECIPES",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ARVORE" },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "1" ] },
+        {
+          "or": [
+            { "not": { "u_know_recipe": "create_chair_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_wardrobe_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_table_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_bedframe_wood_treesung" } },
+            { "not": { "u_know_recipe": "create_verdant_helm" } },
+            { "not": { "u_know_recipe": "create_verdant_cuirass" } },
+            { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_boots" } },
+            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+          ]
+        },
+        {
+          "or": [
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
+            {
+              "and": [
+                "u_is_outside",
+                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "not": { "u_at_om_location": "field" } }
+              ]
+            },
+            { "u_at_om_location": "arvore_genius_loci_NW" },
+            { "u_at_om_location": "arvore_genius_loci_NE" },
+            { "u_at_om_location": "arvore_genius_loci_SW" },
+            { "u_at_om_location": "arvore_genius_loci_SE" },
+            { "u_is_on_terrain": "t_barkfloor" },
+            { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z0_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z1_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z2_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z3_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z3_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z4_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z4_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z5_06", "range": 2 },
+            { "u_near_om_location": "great_tree_z5_11", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
+            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+            { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
+            { "u_near_om_location": "great_tree_z7_se", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_06", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_11", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
+            { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
+            { "u_near_om_location": "great_tree_roots", "range": 2 },
+            { "u_near_om_location": "great_tree_roots_se", "range": 2 },
+            { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "create_chair_wood_treesung",
+          "create_wardrobe_wood_treesung",
+          "create_table_wood_treesung",
+          "create_bedframe_wood_treesung",
+          "create_verdant_helm",
+          "create_verdant_cuirass",
+          "create_verdant_gauntlets",
+          "create_verdant_boots",
+          "create_verdant_cloak"
+        ],
+        "type": "recipe"
+      },
+      { "u_message": "The trees whisper their knowledge of a recipe to you", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": {
       "and": [
@@ -404,6 +613,7 @@
         {
           "or": [
             { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
             { "u_is_on_terrain": "t_tree_young" },
             { "u_is_on_terrain": "t_bamboo_tall" },
             { "u_is_on_terrain": "t_dirt" },

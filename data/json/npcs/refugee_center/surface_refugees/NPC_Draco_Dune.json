@@ -148,7 +148,7 @@
       {
         "text": "What about you, what's your story?",
         "topic": "TALK_REFUGEE_Draco_3",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
       },
       { "text": "No more indeed.", "topic": "TALK_DONE" }
     ]
@@ -265,7 +265,7 @@
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
       "no": "Man, just imagine what I could do with a new guitar."
     },
-    "speaker_effect": { "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" } },
+    "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "7" ] } },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
@@ -307,7 +307,7 @@
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
       },
       { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
     ]
@@ -321,7 +321,7 @@
       {
         "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
       },
       { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
       { "text": "I'm not doing this.", "topic": "TALK_DONE" }
@@ -335,7 +335,7 @@
       {
         "text": "I can help.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
       },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]
@@ -471,7 +471,7 @@
         "switch": true
       },
       {
-        "text": "[Perform an masterful dance]",
+        "text": "[Perform a masterful dance]",
         "topic": "TALK_REFUGEE_Draco_Dance_5",
         "condition": { "math": [ "u_val('dodge')", "<", "20" ] },
         "switch": true
@@ -536,7 +536,7 @@
     "end": {
       "effect": [
         { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     },
     "dialogue": {

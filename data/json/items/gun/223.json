@@ -100,7 +100,7 @@
     "variants": [
       {
         "id": "plr16",
-        "name": { "str_sp": "Kel-Tec PLR16" },
+        "name": { "str": "Kel-Tec PLR16 pistol" },
         "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard."
       }
     ],
@@ -251,18 +251,18 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5" },
+        "name": { "str": "H&K416 A5 rifle" },
         "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
-        "name": { "str": "M27 IAR" },
+        "name": { "str": "M27 IAR carbine" },
         "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
         "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
-        "name": { "str": "M38 DMR" },
+        "name": { "str": "M38 DMR rifle" },
         "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
     ],
@@ -369,7 +369,7 @@
     "variants": [
       {
         "id": "hk_g36",
-        "name": { "str": "H&K G36" },
+        "name": { "str": "H&K G36 rifle" },
         "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity."
       }
     ],
@@ -390,7 +390,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M249" },
+    "name": { "str": "M249 machine gun" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
     "ascii_picture": "m249_saw",
     "weight": "7500 g",
@@ -455,7 +455,7 @@
     "id": "m249_semi",
     "type": "GUN",
     "copy-from": "m249",
-    "name": { "str": "M249S" },
+    "name": { "str": "M249S machine gun" },
     "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
@@ -477,13 +477,13 @@
     "variants": [
       {
         "id": "modular_m4a1",
-        "name": { "str": "M4A1" },
+        "name": { "str": "M4A1 carbine" },
         "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
         "ascii_picture": "modular_m4a1"
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "Mk 18 CQBR" },
+        "name": { "str": "Mk 18 CQBR carbine" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
         "weight": 1
       }
@@ -521,7 +521,7 @@
     "variants": [
       {
         "id": "modular_m16a4",
-        "name": { "str": "M16A4" },
+        "name": { "str": "M16A4 rifle" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
       }
     ],
@@ -550,12 +550,12 @@
     "variants": [
       {
         "id": "modular_m16a3",
-        "name": { "str": "M16A3" },
+        "name": { "str": "M16A3 rifle" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
       },
       {
         "id": "modular_acr",
-        "name": { "str": "Remington ACR" },
+        "name": { "str": "Remington ACR carbine" },
         "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
@@ -636,7 +636,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "OA-93" },
+    "name": { "str": "OA-93 pistol" },
     "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
     "weight": "2023 g",
     "volume": "2135 ml",
@@ -699,7 +699,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Ruger Mini-14" },
+    "name": { "str": "Ruger Mini-14 carbine" },
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "ascii_picture": "mini-14",
     "weight": "3180 g",
@@ -849,7 +849,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm AK" },
+    "name": { "str": "5.56x45mm AK rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
     "variants": [
@@ -894,13 +894,13 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm Mini Draco" },
+    "name": { "str": "5.56x45mm Mini Draco rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
     "variant_type": "gun",
     "variants": [
       {
         "id": "zpap85",
-        "name": { "str": "ZPAP 85" },
+        "name": { "str": "ZPAP 85 rifle" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock"
       }
     ],
@@ -944,7 +944,7 @@
     "variants": [
       {
         "id": "mdrx",
-        "name": { "str": "Desert Tech MDRX" },
+        "name": { "str": "Desert Tech MDRX carbine" },
         "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout."
       }
     ],
@@ -1017,7 +1017,7 @@
     "variants": [
       {
         "id": "bren2_556",
-        "name": { "str": "CZ Bren 2" },
+        "name": { "str": "CZ Bren 2 carbine" },
         "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       }
     ],
@@ -1086,7 +1086,7 @@
     "variants": [
       {
         "id": "cz600",
-        "name": { "str": "CZ 600 TRAIL" },
+        "name": { "str": "CZ 600 TRAIL rifle" },
         "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
       }
     ],
@@ -1129,7 +1129,7 @@
     "variants": [
       {
         "id": "rdb_223",
-        "name": { "str_sp": "Kel-Tec RDB" },
+        "name": { "str": "Kel-Tec RDB rifle" },
         "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
       }
     ],

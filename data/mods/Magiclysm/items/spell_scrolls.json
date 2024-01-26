@@ -1698,5 +1698,41 @@
     "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
     "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
     "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_hyper_regeneration",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Rapid Regeneration", "str_pl": "Scrolls of Rapid Regeneration" },
+    "description": "Cuts?  Lacerations?  Torn organs?  Fix all that with this handy spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_slow_bleeding",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Halt Bleeding", "str_pl": "Scrolls of Halt Bleeding" },
+    "description": "Keep all that blood in your body.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_slow_bleeding" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_scalpel_fingers",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Flensing Fingers", "str_pl": "Scrolls of Flensing Fingers" },
+    "description": "Turn your fingers into myriad bone knives.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_scalpel_fingers" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_caustic_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Caustic Blood", "str_pl": "Scrolls of Caustic Blood" },
+    "description": "Turn your blood into acid, just like that movie you used to watch all that time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_blood" ] }
   }
 ]

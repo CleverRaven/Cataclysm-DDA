@@ -5,7 +5,6 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <optional>
 #include <ostream>
 #include <queue>
@@ -40,8 +39,6 @@
 #include "do_turn.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "event.h"
-#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -51,6 +48,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -76,8 +74,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -94,7 +90,6 @@
 #include "string_formatter.h"
 #include "submap.h"
 #include "tileray.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -1726,6 +1721,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
 
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
+        !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
         new_target_furniture != f_null ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
@@ -2708,7 +2704,7 @@ void map::drop_everything( const tripoint &p )
 void map::drop_furniture( const tripoint &p )
 {
     const furn_id frn = furn( p );
-    if( frn == f_null ) {
+    if( frn == f_null || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
         return;
     }
 
@@ -6099,7 +6095,7 @@ const trap &map::tr_at( const tripoint &p ) const
 
 const trap &map::tr_at( const tripoint_abs_ms &p ) const
 {
-    return tr_at( p.raw() );
+    return tr_at( bub_from_abs( p ) );
 }
 
 const trap &map::tr_at( const tripoint_bub_ms &p ) const
@@ -6496,6 +6492,26 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
 void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove )
 {
     return remove_field( p.raw(), field_to_remove );
+}
+
+void map::delete_field( const tripoint &p, const field_type_id &field_to_remove )
+{
+    submap *current_submap = this->unsafe_get_submap_at( p );
+    field &curfield = this->get_field( p );
+
+    // when displayed_field_type == fd_null it means that `curfield` has no fields inside
+    // avoids instantiating (relatively) expensive map iterator
+    if( !curfield.displayed_field_type() ) {
+        return;
+    }
+
+    for( auto it = curfield.begin(); it != curfield.end(); ) {
+        if( it->second.get_field_type() == field_to_remove ) {
+            --current_submap->field_count;
+            curfield.remove_field( it );
+            break;
+        }
+    }
 }
 
 void map::clear_fields( const tripoint &p )
@@ -8810,10 +8826,12 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
             }
 
             if( i.mission_id > 0 ) {
-                tmp.mission_ids = { i.mission_id };
                 mission *found_mission = mission::find( i.mission_id );
-                if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
-                    found_mission->register_kill_needed();
+                if( found_mission != nullptr ) {
+                    tmp.mission_ids = { i.mission_id };
+                    if( found_mission->get_type().goal == MGOAL_KILL_MONSTERS ) {
+                        found_mission->register_kill_needed();
+                    }
                 }
             }
             if( i.name != "NONE" ) {
@@ -9715,7 +9733,7 @@ void map::creature_on_trap( Creature &c, const bool may_avoid ) const
     // gliding or boarded in a vehicle means the player is above the trap
     // like a flying monster and can never trigger the trap.
     const Character *const you = c.as_character();
-    if( you != nullptr && ( you->in_vehicle || !you->has_effect( effect_gliding ) ) ) {
+    if( you != nullptr && ( you->in_vehicle || you->has_effect( effect_gliding ) ) ) {
         return;
     }
 
