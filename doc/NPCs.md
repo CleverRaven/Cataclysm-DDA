@@ -983,7 +983,7 @@ Condition | Type | Description
 `"u_rule" or "npc_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for that matches string is set.
 `"u_override" or "npc_override"` | string or [variable object](#variable-object)| `true` if u or the NPC has an override for the string.
 `"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | simple string | `true` if u or the NPC has a pickup list.
-`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [int expression](#compare-integers-and-arithmetics) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "u_val": "strength" }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
+`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [math expression](#math) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "u_val": "strength" }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
 
 #### NPC only conditions
 
@@ -1153,7 +1153,7 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, a `math` [expression](#math) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, `context_val`, `var_val` or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `context_val` is used it describes a variable on the current dialogue context, `var_val` tries to resolve a variable stored in a `context_val` (more explanation bellow), if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
 ```json
@@ -1200,26 +1200,6 @@ Mutator Name | Required Keys | Description
 `"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
 `"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 `"topic_item"` | | Returns current topic_item as a string. See [Repeat Responses](#repeat-responses)
-
-
-### Compare Numbers and Arithmetics
-*`arithmetic` and `compare_num` are deprecated in the long term. See [Math](#math) for the replacement.*
-
-`"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
-```json
-{
-  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
-  "topic": "TALK_DONE",
-  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] },
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
-},
-```
-`min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
-`"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
-
-`"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(division), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
-
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
 
 #### List of values that can be read and/or written to
 
@@ -1274,7 +1254,6 @@ Example | Description
 `"u_val": "grab_strength"` | Grab strength as defined in the monster definition. Read-only, returns false on characters.
 `"u_val": "volume"` | Current volume in ml. read only. Cullently, doesn't work for characters, but for monsters and items.
 `"u_val": "weight"` | Current weight in mg. read only.
-`"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
 `"math"` | An array math object.
 
 ### Math
@@ -1381,8 +1360,6 @@ Examples:
 Dialogue functions return or manipulate game values. They are scoped just like [variables](#variables).
 
 These functions support keyword-value pairs as optional arguments (kwargs) of the form `'keyword': argument`.
-
-This section is a work in progress as functions are ported from `arithmetic` to `math`.
 
 _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariables](#variables)_<br/>
 _some functions support array arguments or kwargs, denoted with square brackets [] (ex: [`d`/`v`])_
