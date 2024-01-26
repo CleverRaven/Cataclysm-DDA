@@ -1147,7 +1147,8 @@
           { "item": "spell_scroll_knock", "prob": 50 },
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
-          { "item": "spell_scroll_technomancer_welder", "prob": 35 }
+          { "item": "spell_scroll_technomancer_welder", "prob": 35 },
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
         ],
         "prob": 35
       },
@@ -1271,7 +1272,8 @@
           { "item": "spell_scroll_seed_of_growth", "prob": 15 },
           { "item": "spell_scroll_druid_anti_heat", "prob": 40 },
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
-          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
+          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
+          { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 }
         ],
         "prob": 45
       },

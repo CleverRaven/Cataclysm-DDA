@@ -419,7 +419,8 @@
     "spells": [
       { "id": "create_atomic_lamp", "level": 8 },
       { "id": "invisibility", "level": 2 },
-      { "id": "technomancer_conjure_ups", "level": 3 }
+      { "id": "technomancer_conjure_ups", "level": 3 },
+      { "id": "technomancer_recharge_vehicle", "level": 5 }
     ],
     "points": 5,
     "skills": [

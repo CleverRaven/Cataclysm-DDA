@@ -1761,5 +1761,23 @@
     "name": { "str": "Scroll of Water's Cooling Touch", "str_pl": "Scrolls of Water's Cooling Touch" },
     "description": "Using a bit of water, transfer water's refreshing chill to yourself.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_anti_heat" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_breathing_underwater",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Aquatic Mantle", "str_pl": "Scrolls of Aquatic Mantle" },
+    "description": "Grow magical seaweed to form a protective coating, allowing you to travel the depths.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_breathing_underwater" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_recharge_vehicle",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },
+    "description": "Charge a battery using only your mana!  Once of niche use, now a vital skill.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_recharge_vehicle" ] }
   }
 ]

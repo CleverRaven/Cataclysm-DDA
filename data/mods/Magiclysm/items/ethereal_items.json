@@ -1511,6 +1511,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
+    "material": [ "concentrated_mana" ],
     "symbol": "O",
     "color": "blue",
     "flags": [
