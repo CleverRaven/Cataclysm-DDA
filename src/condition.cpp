@@ -2705,6 +2705,3 @@ const std::unordered_set<std::string> &dialogue_data::complex_conds()
 
 template std::function<double( dialogue & )>
 conditional_t::get_get_dbl<>( kwargs_shim const & );
-
-template std::function<double( dialogue & )>
-conditional_t::get_get_dbl<>( JsonObject const & );
