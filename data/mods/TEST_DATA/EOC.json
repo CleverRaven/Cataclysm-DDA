@@ -854,5 +854,26 @@
         "beta_talker": "avatar"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_test_weapon_damage",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_tell_me_about_it",
+            "effect": [
+              { "math": [ "mymelee", "=", "n_melee_damage('ALL')" ] },
+              { "math": [ "mymelee_bash", "=", "n_melee_damage('bash')" ] },
+              { "math": [ "mygun", "=", "n_gun_damage('ALL')" ] },
+              { "math": [ "mygun_bullet", "=", "n_gun_damage('bullet')" ] }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

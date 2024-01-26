@@ -135,10 +135,8 @@
   {
     "id": "xl_armguard_chitin",
     "copy-from": "armguard_chitin",
-    "looks_like": "armguard_chitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL chitin arm guards", "str_pl": "pairs of XL chitin arm guards" },
-    "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.23 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -146,42 +144,32 @@
     "id": "xs_armguard_chitin",
     "type": "ARMOR",
     "copy-from": "armguard_chitin",
-    "looks_like": "armguard_chitin",
     "name": { "str": "pair of XS chitin arm guards", "str_pl": "pairs of XS chitin arm guards" },
-    "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_acidchitin",
     "copy-from": "armguard_chitin",
-    "looks_like": "armguard_chitin",
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
-    "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "material_thickness": 4
+    "material": [ "acidchitin" ]
   },
   {
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
-    "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "material_thickness": 5,
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_acidchitin",
     "type": "ARMOR",
     "copy-from": "armguard_acidchitin",
-    "looks_like": "armguard_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin arm guards", "str_pl": "pairs of XS biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the smallest of survivors.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -229,6 +217,7 @@
     "to_hit": 1,
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
+    "looks_like": "arm_warmers",
     "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 3,
@@ -272,7 +261,6 @@
     "id": "xl_armguard_hard",
     "type": "ARMOR",
     "name": { "str": "pair of XL hard arm guards", "str_pl": "pairs of XL hard arm guards" },
-    "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Epic sized.",
     "weight": "550 g",
     "volume": "4 L",
     "copy-from": "armguard_hard",
@@ -282,9 +270,7 @@
     "id": "xs_armguard_hard",
     "type": "ARMOR",
     "copy-from": "armguard_hard",
-    "looks_like": "armguard_hard",
     "name": { "str": "pair of XS hard arm guards", "str_pl": "pairs of XS hard arm guards" },
-    "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Tiny sized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -323,7 +309,6 @@
     "id": "xl_armguard_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
-    "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
     "copy-from": "armguard_larmor",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -332,9 +317,7 @@
     "id": "xs_armguard_larmor",
     "type": "ARMOR",
     "copy-from": "armguard_larmor",
-    "looks_like": "armguard_larmor",
     "name": { "str": "pair of XS leather arm guards", "str_pl": "pairs of XS leather arm guards" },
-    "description": "A pair of tiny, tough leather arm guards.  Light and comfortable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -372,7 +355,6 @@
     "id": "xl_armguard_lightplate",
     "type": "ARMOR",
     "name": { "str": "pair of XL steel arm guards", "str_pl": "pairs of XL steel arm guards" },
-    "description": "A full assembly of medieval arm protection, made for Jotun.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
     "weight": "3243 g",
     "volume": "7 L",
     "copy-from": "armguard_lightplate",
@@ -382,9 +364,7 @@
     "id": "xs_armguard_lightplate",
     "type": "ARMOR",
     "copy-from": "armguard_lightplate",
-    "looks_like": "armguard_lightplate",
     "name": { "str": "pair of XS steel arm guards", "str_pl": "pairs of XS steel arm guards" },
-    "description": "A full assembly of medieval arm protection.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -555,7 +535,6 @@
     "id": "xl_armguard_metal",
     "type": "ARMOR",
     "name": { "str": "pair of XL sheet metal arm guards", "str_pl": "pairs of XL sheet metal arm guards" },
-    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "copy-from": "armguard_metal",
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -564,9 +543,7 @@
     "id": "xs_armguard_metal",
     "type": "ARMOR",
     "copy-from": "armguard_metal",
-    "looks_like": "armguard_metal",
     "name": { "str": "pair of XS sheet metal arm guards", "str_pl": "pairs of XS sheet metal arm guards" },
-    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -665,7 +642,6 @@
     "id": "xl_armguard_scrap",
     "type": "ARMOR",
     "name": { "str": "pair of XL scrap arm guards", "str_pl": "pairs of XL scrap arm guards" },
-    "description": "A pair of oversized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
@@ -675,9 +651,7 @@
     "id": "xs_armguard_scrap",
     "type": "ARMOR",
     "copy-from": "armguard_scrap",
-    "looks_like": "armguard_scrap",
     "name": { "str": "pair of XS scrap arm guards", "str_pl": "pairs of XS scrap arm guards" },
-    "description": "A pair of undersized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -715,7 +689,6 @@
     "id": "xl_armguard_tire",
     "type": "ARMOR",
     "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
-    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -724,9 +697,7 @@
     "id": "xs_armguard_tire",
     "type": "ARMOR",
     "copy-from": "armguard_tire",
-    "looks_like": "armguard_tire",
     "name": { "str": "pair of XS tire arm guards", "str_pl": "pairs of XS tire arm guards" },
-    "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -763,7 +734,6 @@
     "id": "xl_armguard_soft",
     "type": "ARMOR",
     "name": { "str": "pair of XL neoprene arm sleeves", "str_pl": "pairs of XL neoprene arm sleeves" },
-    "description": "A pair of extra large soft neoprene arm sleeves.  Often used in contact sports, by giants.",
     "weight": "330 g",
     "volume": "1750 ml",
     "copy-from": "armguard_soft",
@@ -773,9 +743,7 @@
     "id": "xs_armguard_soft",
     "type": "ARMOR",
     "copy-from": "armguard_soft",
-    "looks_like": "armguard_soft",
     "name": { "str": "pair of XS neoprene arm sleeves", "str_pl": "pairs of XS neoprene arm sleeves" },
-    "description": "A pair of extra small soft neoprene arm sleeves.  Often used in contact sports.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -804,7 +772,6 @@
     "id": "xl_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XL gambeson sleeves", "str_pl": "pairs of XL gambeson sleeves" },
-    "description": "A pair of extra large arm sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -813,7 +780,6 @@
     "id": "xs_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XS gambeson sleeves", "str_pl": "pairs of XS gambeson sleeves" },
-    "description": "A pair of extra small arm sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -865,7 +831,6 @@
     "id": "xl_k_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XL Kevlar gambeson sleeves", "str_pl": "pairs of XL Kevlar gambeson sleeves" },
-    "description": "A pair of extra large arm sleeves made from layers of Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -874,7 +839,6 @@
     "id": "xs_k_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XS Kevlar gambeson sleeves", "str_pl": "pairs of XS Kevlar gambeson sleeves" },
-    "description": "A pair of extra small arm sleeves made from heavy quilted fabric and Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -884,6 +848,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "base chainmail sleeves" },
+    "description": "Customized chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
     "longest_side": "9 cm",
@@ -933,7 +898,6 @@
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
     "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
-    "description": "Customized chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -965,8 +929,7 @@
     "abstract": "xs_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
-    "name": { "str": "pair of XS  chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
+    "name": { "str": "pair of XS chainmail sleeves", "str_pl": "pairs of XS chainmail sleeves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1022,24 +985,21 @@
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" }
   },
   {
     "id": "xl_lc_chainmail_arms",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+    "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" }
   },
   {
     "id": "xs_lc_chainmail_arms",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+    "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" }
   },
   {
     "id": "mc_chainmail_arms",
@@ -1047,7 +1007,6 @@
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1062,88 +1021,77 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "pair of XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+    "name": { "str": "pair of XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" }
   },
   {
     "id": "xs_mc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "pair of XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+    "name": { "str": "pair of XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" }
   },
   {
     "id": "hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" }
   },
   {
     "id": "xl_hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+    "name": { "str": "pair of XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" }
   },
   {
     "id": "xs_hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+    "name": { "str": "pair of XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" }
   },
   {
     "id": "ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" }
   },
   {
     "id": "xl_ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+    "name": { "str": "pair of XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" }
   },
   {
     "id": "xs_ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+    "name": { "str": "pair of XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" }
   },
   {
     "id": "qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves."
+    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" }
   },
   {
     "id": "xl_qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized."
+    "name": { "str": "pair of XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" }
   },
   {
     "id": "xs_qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized."
+    "name": { "str": "pair of XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" }
   },
   {
     "id": "elbow_pads",
@@ -1209,7 +1157,6 @@
     "type": "ARMOR",
     "copy-from": "armguard_bronze",
     "name": { "str": "pair of XL bronze vambraces", "str_pl": "pairs of XL bronze vambraces" },
-    "description": "A pair of gigantic bronze arm guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1218,7 +1165,6 @@
     "type": "ARMOR",
     "copy-from": "armguard_bronze",
     "name": { "str": "pair of XS bronze vambraces", "str_pl": "pairs of XS bronze vambraces" },
-    "description": "A pair of tiny bronze arm guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1257,7 +1203,6 @@
     "id": "xl_vambrace_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
-    "description": "Customized and oversized leather vambraces, made for archery.",
     "weight": "531 g",
     "volume": "1250 ml",
     "copy-from": "vambrace_larmor",
@@ -1269,7 +1214,6 @@
     "copy-from": "vambrace_larmor",
     "looks_like": "vambrace_larmor",
     "name": { "str": "pair of XS leather vambraces", "str_pl": "pairs of XS leather vambraces" },
-    "description": "A pair of light leather arm guards, made for archery.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

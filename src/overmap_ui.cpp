@@ -1186,6 +1186,7 @@ static void draw_om_sidebar(
             print_hint( "PLACE_TERRAIN", c_light_blue );
             print_hint( "PLACE_SPECIAL", c_light_blue );
             print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+            print_hint( "LONG_TELEPORT", c_light_blue );
             ++y;
         }
 
@@ -1826,6 +1827,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
         ictxt.register_action( "SET_SPECIAL_ARGS" );
+        ictxt.register_action( "LONG_TELEPORT" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -1996,6 +1998,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             place_ter_or_special( ui, curs, action );
         } else if( action == "SET_SPECIAL_ARGS" ) {
             set_special_args( curs );
+        } else if( action == "LONG_TELEPORT" && curs != overmap::invalid_tripoint ) {
+            g->place_player_overmap( curs );
+            add_msg( _( "You teleport to submap %s." ), curs.to_string() );
+            action = "QUIT";
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }

@@ -368,12 +368,7 @@
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
           { "item": "matrix_crystal_teleportation" },
-          {
-            "item": "mom_fusion_pistol",
-            "ammo-item": "mom_fusion_ammo",
-            "charges": 40,
-            "contents-item": [ "mom_fusion_mag" ]
-          },
+          { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }
         ]
       },

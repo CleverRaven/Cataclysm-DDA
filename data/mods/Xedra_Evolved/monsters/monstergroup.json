@@ -168,9 +168,23 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_IERDE",
     "monsters": [
-      { "monster": "mon_monstrous_badger", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_stoneling", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_monstrous_badger", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_stoneling", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_shamir_worm", "weight": 50, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_IERDE_LESSER",
+    "monsters": [
+      { "monster": "mon_monstrous_badger", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_stoneling", "weight": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_IERDE_MEDIAL",
+    "monsters": [ { "monster": "mon_shamir_worm", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
@@ -185,25 +199,53 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_UNDINE_LESSER",
     "monsters": [
-      { "monster": "mon_water_sprite", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_spitting_lizard", "weight": 40, "cost_multiplier": 0 }
+      { "monster": "mon_water_sprite", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_spitting_lizard", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_GENIUS_SALAMANDER",
     "monsters": [
-      { "monster": "mon_smoke_mephit", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_salamander_tiny", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 300, "cost_multiplier": 0 },
+      { "monster": "mon_elemental_saraph", "weight": 5, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SALAMANDER_LESSER",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 100, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SALAMANDER_GREATER",
+    "monsters": [ { "monster": "mon_elemental_saraph", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_GENIUS_SYLPH",
     "monsters": [
+      { "monster": "mon_skyglass_butterflies", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dragonfly_fae", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_sheyd", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SYLPH_LESSER",
+    "monsters": [
       { "monster": "mon_skyglass_butterflies", "weight": 80, "cost_multiplier": 0 },
       { "monster": "mon_dragonfly_fae", "weight": 40, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_SYLPH_MEDIAL",
+    "monsters": [ { "monster": "mon_sheyd", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
