@@ -7,7 +7,7 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -25,16 +25,27 @@
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
-    "vision_day": 30,
+    "vision_day": 45,
     "vision_night": 3,
+    "stomach_size": 700,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       {
+        "type": "monster_attack",
+        "attack_type": "melee",
         "id": "feral_thaum_sci_spell_magicmissile",
-        "type": "spell",
-        "spell_data": { "id": "magic_missile", "min_level": 3 },
         "cooldown": 10,
-        "monster_message": "%1$s screams out a word of power!"
+        "move_cost": 100,
+        "range": 12,
+        "damage_max_instance": [ { "damage_type": "pure", "amount": 5 } ],
+        "dodgeable": false,
+        "blockable": false,
+        "hit_dmg_u": "%1$s screams words of magic and a bolt of magic impacts your %2$s!",
+        "hit_dmg_npc": "%1$s screams words of magic and a bolt of magic impacts <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid a bolt of magic!",
+        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids a bolt of magic!",
+        "no_dmg_msg_u": "%1$s screams words of magic your %2$s is impacted by a bolt of magic, but it does no damage.",
+        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by a bolt of magic, but it does no damage."
       },
       {
         "id": "feral_thaum_sci_spell_blindflash",
@@ -56,14 +67,16 @@
         "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s gestures at <npcname> but nothing happens!"
-      }
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
     ],
     "death_drops": "mon_zombie_research_thaumaturge_death_drops",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ]
   },
   {
     "id": "mon_feral_radiation_mage",
@@ -73,7 +86,7 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -92,8 +105,9 @@
     "harvest": "human",
     "emit_fields": [ { "emit_id": "emit_rad_leak", "delay": "5 s" } ],
     "dissect": "dissect_human_sample_single",
-    "vision_day": 30,
+    "vision_day": 45,
     "vision_night": 3,
+    "stomach_size": 700,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       {
@@ -130,7 +144,9 @@
         "spell_data": { "id": "disjunction_monster", "min_level": 8 },
         "cooldown": 50,
         "monster_message": "%1$s waves their hands in a gesture of negation!"
-      }
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
     ],
     "death_drops": {
       "subtype": "collection",
@@ -151,7 +167,82 @@
       "NO_BREATHE",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1"
+      "PATH_AVOID_DANGER_1",
+      "EATS"
     ]
+  },
+  {
+    "id": "mon_feral_druid",
+    "type": "MONSTER",
+    "name": { "str": "feral druid" },
+    "description": "A member of a druidic order with the bloodshot eyes you've come to recognize and dread.  Patches of their skin are covered in bark and fur, leaves grow in their hair, and long claws grow from the ends of their fingers.  Protecting nature is obviously the last thing on their mind now.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "FERAL" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 84,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "green",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "dodge": 1,
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "vision_day": 45,
+    "vision_night": 3,
+    "stomach_size": 700,
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      { "id": "scratch", "cooldown": 10 },
+      {
+        "id": "feral_druid_healing_spell",
+        "type": "spell",
+        "spell_data": { "id": "monster_heal_spell", "min_level": 5 },
+        "cooldown": 25,
+        "monster_message": "%1$s weaves their hands in a complicated gesture!"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_druid_wood_shaft_spell",
+        "cooldown": 8,
+        "move_cost": 100,
+        "range": 10,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
+        "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
+        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids jagged shards of wood!",
+        "no_dmg_msg_u": "%1$s screams words of magic your %2$s is impacted by jagged shards of wood, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by jagged shards of wood, but they do no damage."
+      },
+      {
+        "id": "feral_druid_veggrasp_spell",
+        "type": "spell",
+        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "cooldown": 35,
+        "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "mon_zombie_feral_druid_death_drops",
+    "zombify_into": "mon_zombie",
+    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
+    "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   }
 ]
