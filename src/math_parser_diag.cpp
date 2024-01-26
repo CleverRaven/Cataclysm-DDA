@@ -102,13 +102,7 @@ std::function<double( dialogue & )> u_val( char scope,
 std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_set_dbl( shim, {}, {}, false );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const &, double ) {};
-    }
+    return conditional_t::get_set_dbl( params[0].str(), scope );
 }
 
 std::function<double( dialogue & )> option_eval( char /* scope */,
@@ -1308,7 +1302,7 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
-    { "val", { "un", -1, u_val_ass } },
+    { "val", { "un", 1, u_val_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };
