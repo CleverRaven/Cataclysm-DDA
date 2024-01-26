@@ -1138,5 +1138,36 @@
     "min_duration": 36000,
     "max_duration": 360000,
     "duration_increment": 36000
+  },
+  {
+    "id": "druid_disinfectant",
+    "type": "SPELL",
+    "name": "Wash the Wounds Clean",
+    "description": "Transform a bit of water into a magical disinfectant as you pour it over your wounds.",
+    "//": "Using spawn_item with a liquid just dumps it on the floor at the moment.  Once that's fixed, this can be extended so it can be used on NPCs.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_DISINFECTANT",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 4,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 1000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_DISINFECTANT",
+    "effect": [
+      { "u_spawn_item": "item_druid_disinfectant" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_druid_disinfectant" } ],
+        "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
   }
 ]

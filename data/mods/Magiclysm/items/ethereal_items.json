@@ -1672,5 +1672,12 @@
       ],
       "message": "The earth reveals its secrets."
     }
+  },
+  {
+    "id": "item_druid_disinfectant",
+    "copy-from": "disinfectant_makeshift",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "druid antiseptic" },
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.9, "move_cost": 1 }
   }
 ]

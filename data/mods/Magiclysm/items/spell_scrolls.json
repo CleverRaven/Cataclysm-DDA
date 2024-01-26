@@ -1774,6 +1774,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_disinfectant",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Wash the Wounds Clean", "str_pl": "Scrolls of Wash the Wounds Clean" },
+    "description": "Disinfect your wounds with just a bit of water and magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_disinfectant" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_recharge_vehicle",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },

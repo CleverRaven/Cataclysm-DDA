@@ -70,6 +70,7 @@
       [ "spell_scroll_druid_harvest_hunter", 40 ],
       [ "spell_scroll_druid_bramble_spear", 30 ],
       [ "spell_scroll_druid_summon_brambles", 20 ],
+      [ "spell_scroll_druid_disinfectant", 20 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],

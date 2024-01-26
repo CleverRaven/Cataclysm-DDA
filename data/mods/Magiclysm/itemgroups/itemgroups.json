@@ -1285,6 +1285,7 @@
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_druid_bandage", "prob": 100 },
+          { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
