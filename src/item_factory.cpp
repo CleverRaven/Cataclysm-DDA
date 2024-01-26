@@ -4217,26 +4217,24 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.throw_error( "name unspecified for item type" );
     }
 
-    if( jo.has_member( "description" ) ) {
-        jo.read( "description", def.description );
-    } else if( !def.description.empty() && ( !def.description_prepend.empty() ||
-               !def.description_append.empty() ) ) {
+    if( !jo.read( "description", def.description ) && ( !def.description_prepend.empty() ||
+            !def.description_append.empty() ) ) {
+        if( !jo.read( "inherit_extended_description", def.inherit_extended_description ) ) {
+            def.inherit_extended_description = true;
+        }
         if( def.inherit_extended_description ) {
             def.description = no_translation( def.extended_description() );
         }
-        def.description_prepend = no_translation( "" );
-        def.description_append = no_translation( "" );
-        def.extend_description = false;
     }
-
+    def.description_prepend = no_translation( "" );
+    def.description_append = no_translation( "" );
+    def.extend_description = false;
     if( jo.read( "description_prepend", def.description_prepend ) ) {
         def.extend_description = true;
     }
     if( jo.read( "description_append", def.description_append ) ) {
         def.extend_description = true;
     }
-
-    jo.read( "inherit_extended_description", def.inherit_extended_description, true );
 
     if( jo.has_string( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" );
