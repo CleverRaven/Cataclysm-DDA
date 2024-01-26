@@ -183,7 +183,7 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "pure"
+    "damage_type": "light"
   },
   {
     "id": "ethereal_grasp",
@@ -417,6 +417,7 @@
     "effect": "noise",
     "shape": "blast",
     "sound_description": "a loud, high pitched sound",
+    "damage_type": "sonic",
     "min_damage": 12,
     "max_damage": 120,
     "damage_increment": 5,

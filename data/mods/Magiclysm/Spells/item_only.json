@@ -11,7 +11,7 @@
     "min_damage": 10,
     "max_damage": 10,
     "damage_increment": 0,
-    "damage_type": "biological",
+    "damage_type": "poison",
     "difficulty": 0,
     "spell_class": "NONE",
     "effect": "attack",
@@ -40,7 +40,7 @@
     "min_damage": 8,
     "max_damage": 8,
     "damage_increment": 0,
-    "damage_type": "biological",
+    "damage_type": "poison",
     "difficulty": 0,
     "spell_class": "NONE",
     "effect": "attack",
@@ -276,7 +276,7 @@
     "shape": "blast",
     "min_damage": 60,
     "max_damage": 90,
-    "damage_type": "pure",
+    "damage_type": "nether",
     "min_range": 7,
     "max_range": 7
   },
@@ -322,7 +322,7 @@
     "effect": "attack",
     "shape": "cone",
     "effect_str": "stunned",
-    "damage_type": "pure",
+    "damage_type": "psionic",
     "min_range": 6,
     "max_range": 6,
     "min_aoe": 120,
@@ -370,7 +370,7 @@
     "shape": "cone",
     "min_damage": 150,
     "max_damage": 250,
-    "damage_type": "pure",
+    "damage_type": "stab",
     "min_range": 15,
     "max_range": 15
   },
@@ -732,7 +732,7 @@
     "max_range": 15,
     "min_duration": 90000,
     "max_duration": 90000,
-    "damage_type": "biological"
+    "damage_type": "poison"
   },
   {
     "id": "alchemist_mine_pull",
@@ -761,7 +761,7 @@
     "shape": "blast",
     "min_damage": 110,
     "max_damage": 220,
-    "damage_type": "pure",
+    "damage_type": "necrotic",
     "min_aoe": 4,
     "max_aoe": 4,
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
