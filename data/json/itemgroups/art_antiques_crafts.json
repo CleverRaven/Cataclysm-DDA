@@ -121,6 +121,7 @@
       { "item": "textbook_armeast", "prob": 5 },
       { "item": "textbook_armschina", "prob": 5 },
       { "item": "textbook_mesoam", "prob": 5 },
+      { "item": "ballista_book", "prob": 5 },
       { "item": "q_staff", "prob": 10 },
       { "item": "i_staff", "prob": 5 },
       { "item": "sword_bayonet", "prob": 10 },
@@ -206,6 +207,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "helmet_army_outdated", "prob": 5 },
+      { "item": "helmet_soviet_tanker", "prob": 2 },
       { "item": "spiral_stone", "prob": 2 },
       { "item": "kris", "prob": 2 },
       { "item": "cavalry_sabre_fake", "prob": 2 },

@@ -228,5 +228,20 @@
     "families": [ "prof_intro_biology" ],
     "special_attacks": [ [ "RATKING", 3 ] ],
     "death_function": { "effect": { "id": "death_ratking" }, "message": "Rats suddenly swarm into view." }
+  },
+  {
+    "id": "mon_flaming_eye",
+    "copy-from": "mon_flaming_eye",
+    "type": "MONSTER",
+    "name": { "str": "flaming eye" },
+    "special_attacks": [
+      [ "STARE", 12 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_flaming_eye_evil_spell", "min_level": 1 },
+        "cooldown": 20,
+        "monster_message": "%1$s stares at you and you feel a sense of doom!"
+      }
+    ]
   }
 ]

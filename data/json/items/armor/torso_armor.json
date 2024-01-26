@@ -190,7 +190,6 @@
     "id": "xs_armor_lamellar_lc",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_lc",
-    "looks_like": "armor_lamellar_lc",
     "name": { "str": "XS mild steel lamellar cuirass", "str_pl": "XS mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -218,7 +217,6 @@
     "id": "xs_armor_lamellar_ch",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_ch",
-    "looks_like": "armor_lamellar_ch",
     "name": { "str": "XS hardened steel lamellar cuirass", "str_pl": "XS hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -522,6 +520,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "base chainmail vest" },
+    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": "6894 g",
     "volume": "1 L",
     "longest_side": "10 cm",
@@ -625,120 +624,105 @@
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "mild steel chainmail vest" },
-    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "xl_lc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chainmail vest" },
-    "description": "A customized XL mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL mild steel chainmail vest" }
   },
   {
     "id": "xs_lc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS mild steel chainmail vest" },
-    "description": "A customized XS mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS mild steel chainmail vest" }
   },
   {
     "id": "mc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "medium steel chainmail vest" },
-    "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "xl_mc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail vest" },
-    "description": "A customized XL medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL medium steel chainmail vest" }
   },
   {
     "id": "xs_mc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS medium steel chainmail vest" },
-    "description": "A customized XS medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS medium steel chainmail vest" }
   },
   {
     "id": "hc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "high steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "xl_hc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail vest" },
-    "description": "A customized XL high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL high steel chainmail vest" }
   },
   {
     "id": "xs_hc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS high steel chainmail vest" },
-    "description": "A customized XS high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS high steel chainmail vest" }
   },
   {
     "id": "ch_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "hardened steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "xl_ch_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail vest" },
-    "description": "A customized XL hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL hardened steel chainmail vest" }
   },
   {
     "id": "xs_ch_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS hardened steel chainmail vest" },
-    "description": "A customized XS hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS hardened steel chainmail vest" }
   },
   {
     "id": "qt_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "tempered steel chainmail vest" },
-    "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "xl_qt_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail vest" },
-    "description": "A customized XL tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL tempered steel chainmail vest" }
   },
   {
     "id": "xs_qt_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS tempered steel chainmail vest" },
-    "description": "A customized XS tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS tempered steel chainmail vest" }
   },
   {
     "id": "cloth_shirt_padded",
@@ -881,7 +865,6 @@
     "id": "xs_cuirass_lightplate",
     "type": "ARMOR",
     "copy-from": "cuirass_lightplate",
-    "looks_like": "cuirass_lightplate",
     "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

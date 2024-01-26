@@ -478,6 +478,8 @@ carabiners
 carapace
 carapaces
 caret
+carroballista
+carroballistae
 carryin
 cartilaginous
 casehead
