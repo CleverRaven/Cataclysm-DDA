@@ -42,34 +42,19 @@
   {
     "id": "chainmail_junk_hands",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
-    "description": "A pair of customized chainmail gloves that fully enclose the hands.  The metal shows signs of rust and corrosion.",
-    "weight": "957 g",
-    "volume": "500 ml",
-    "price": 5012,
-    "price_postapoc": 2500,
-    "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
-    "symbol": "[",
-    "color": "light_red",
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "description_append": "The metal shows signs of rust and corrosion.",
+    "inherit_extended_description": false,
+    "replace_materials": { "lc_steel_chain": "budget_steel_chain" }
   },
   {
     "id": "lc_chainmail_hands",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
-    "description": "A pair of customized steel chainmail gloves that fully enclose the hands.",
+    "description": "A pair of customized chainmail gloves that fully enclose the hands.",
+    "description_append": "Made from mild steel.",
     "weight": "957 g",
     "volume": "500 ml",
     "price": 5012,
@@ -110,6 +95,8 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
+    "description_append": "Made from medium steel.",
+    "inherit_extended_description": false,
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -133,6 +120,8 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
+    "description_append": "Made from high steel.",
+    "inherit_extended_description": false,
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -156,6 +145,8 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
+    "description_append": "Made from hardened steel.",
+    "inherit_extended_description": false,
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -178,8 +169,9 @@
     "id": "qt_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
+    "description_append": "Made from tempered steel.",
+    "inherit_extended_description": false,
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {

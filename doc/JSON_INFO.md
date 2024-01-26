@@ -769,16 +769,14 @@ Same works with variants
     {
       "id": "fuck_you",
       "name": { "str": "insulting mug" },
-      "description": "It says \"<fuck_you>, <name_b>!\"",
-      "append": true,
+      "description_append": "It says \"<fuck_you>, <name_b>!\"",
       "expand_snippets": true,
       "weight": 1
     },
     {
       "id": "worst_dad",
       "name": { "str": "bad dad mug" },
-      "description": "It says \"Worlds Worst Dad\"",
-      "append": true,
+      "description_append": "It says \"Worlds Worst Dad\"",
       "weight": 1
     }
   ],
@@ -803,15 +801,13 @@ Using `expand_snippets` on item itself will work as all variants have `"expand_s
     {
       "id": "fuck_you",
       "name": { "str": "insulting mug" },
-      "description": "It says \"<fuck_you>, <name_b>!\"",
-      "append": true,
+      "description_append": "It says \"<fuck_you>, <name_b>!\"",
       "weight": 1
     },
     {
       "id": "worst_dad",
       "name": { "str": "bad mug" },
-      "description": "This mug never appears, because it doesnn't have any snippets",
-      "append": true,
+      "description_append": "This mug never appears, because it doesn't have any snippets",
       "weight": 1
     }
   ],
@@ -3354,6 +3350,9 @@ Weakpoints only match if they share the same id, so it's important to define the
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "sheet_cotton",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"description_prepend": "Come in a pair.",      // Description to add to the beginning of its inherited item's (potentially prepended/appended/both) description
+"description_append": "Before one gets lost!", // Description to add to the end of its inherited item's (potentially prepended/appended/both) description
+"inherit_extended_description": false,         // Whether this item should combine the prepend/append from its copy-from into its base description. Shouldn't be used with "description". Defaults to true.
 "snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
@@ -3391,15 +3390,16 @@ Weakpoints only match if they share the same id, so it's important to define the
 "variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
 "variants": [              // Cosmetic variants this item can have
   {
-    "id": "variant_a",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
-    "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
-    "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
-    "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
-    "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 1. If it is 0, this variant will not be selected
-    "append": true,                             // If this description should just be appended to the base item description instead of completely overwriting it.
-    "expand_snippets": true                     // Allows to use snippet tags, see #Snippets
+    "id": "variant_a",                                  // id used in spawning to spawn this variant specifically
+    "name": { "str": "Variant A" },                     // The name used instead of the default name when this variant is selected
+    "description": "A fancy variant A.",                // The description used instead of the default when this variant is selected
+    "description_prepend": "A very fancy pair indeed.", // The description to be added to the front of the base item description instead of completely overwriting it. Shouldn't be used alongside "description".
+    "description_append": "This pair is very fancy",    // The description to be added to the end of to the base item description instead of completely overwriting it. Shouldn't be used alongside "description".
+    "ascii_picture": "valid_ascii_art_id",              // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
+    "symbol": "/",                                      // Valid unicode character to replace the item symbol. If not specified, no change will be made.
+    "color": "red",                                     // Replacement color of item symbol. If not specified, no change will be made.
+    "weight": 2,                                        // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 1. If it is 0, this variant will not be selected
+    "expand_snippets": true                             // Allows to use snippet tags, see #Snippets
   }
 ],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
