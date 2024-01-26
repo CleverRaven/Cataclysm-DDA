@@ -819,6 +819,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
+    if( was_loaded && jo.has_object( "extend" ) ) {
+        JsonObject ext = jo.get_object( "extend" );
+        ext.allow_omitted_members();
+        if( ext.has_object( "armor" ) ) {
+            armor = extend_resistances_instance( armor, ext.get_object( "armor" ) );
+        }
+    }
     armor_proportional.reset();
     if( jo.has_object( "proportional" ) ) {
         JsonObject jprop = jo.get_object( "proportional" );
