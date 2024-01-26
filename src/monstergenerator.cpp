@@ -1147,7 +1147,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             }
             mandatory( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {} );
             upgrade_into = mtype_id::NULL_ID();
-        } else if ( up.has_string( "into" ) ) {
+        } else if( up.has_string( "into" ) ) {
             mandatory( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {} );
             upgrade_group = mongroup_id::NULL_ID();
         }
