@@ -2950,9 +2950,6 @@ void veh_interact::display_details( const vpart_info *part )
                         battery->capacity );
     } else {
         units::power part_power = part->power;
-        if( part_power == 0_W ) {
-            part_power = units::from_watt( item( part->base_item ).engine_displacement() );
-        }
         if( part_power != 0_W ) {
             fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                             _( "Power: <color_light_gray>%+8d</color>" ), units::to_watt( part_power ) );
