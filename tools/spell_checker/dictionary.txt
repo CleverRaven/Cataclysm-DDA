@@ -191,6 +191,8 @@ ategory
 aterial
 athame
 athames
+atlatl
+atlatls
 atmmonoid
 atomically
 atompot
@@ -205,8 +207,6 @@ augmentations
 auk
 auroral
 ausgegangen
-atlatl
-atlatls
 autoclave
 autoclaving
 autohaul
@@ -478,6 +478,8 @@ carabiners
 carapace
 carapaces
 caret
+carroballista
+carroballistae
 carryin
 cartilaginous
 casehead
@@ -496,6 +498,7 @@ cavewoman
 cavewomen
 cavitation
 cbm
+cc
 cdc
 cdda
 cegamente
@@ -799,6 +802,7 @@ dewlap
 dextrous
 dharmachakra
 diaspora
+didn
 dieselpunk
 diffract
 diffracting
@@ -1146,6 +1150,7 @@ fluidly
 flummox
 flummoxing
 flump
+fluoxetine
 flusteration
 flyable
 flyin
@@ -1338,6 +1343,7 @@ gymnocladus
 h
 hability
 hacksaws
+hadn
 hadrosaur
 hadrosaurus
 haematopoiesis
@@ -1797,8 +1803,8 @@ macuahuitl
 macuahuitls
 maculata
 magick
-magicks
 magickal
+magicks
 magicks
 magwells
 maiasaura
@@ -3053,6 +3059,7 @@ tangrams
 tankbot
 tannin
 tarket
+tartarate
 tassed
 tassin
 tastemakers
@@ -3077,9 +3084,9 @@ telepads
 temaki
 tenderloins
 tenontosaurus
-tequini
 tepoztopili
 tepoztopilis
+tequini
 teravolt
 terpenes
 terranean
@@ -3344,6 +3351,7 @@ varanid
 vars
 vatgrown
 vaulters
+ve
 veggy
 vegital
 veined
@@ -3420,6 +3428,7 @@ weatherworn
 weiler
 wek
 welcher
+weren
 wetsuits
 wetworks
 whap
@@ -3534,8 +3543,7 @@ zentai
 zeriatric
 zincite
 zischt
-zorc
-zorcs
+zolpidem
 zombaby
 zombear
 zombeaver
@@ -3549,6 +3557,8 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zorc
+zorcs
 zowlbear
 zowlbears
 zpzzzzpzz

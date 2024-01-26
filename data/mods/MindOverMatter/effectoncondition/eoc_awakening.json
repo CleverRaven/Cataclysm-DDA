@@ -1145,7 +1145,7 @@
       { "u_add_trait": "BIOKINETIC" },
       { "u_add_trait": "BIOKIN_NEEDS" },
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1153,10 +1153,10 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your muscles begin cramping uncontrollably.  They suddenly seize up and you collapse to the ground, staring up at the sky, unable to move."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "effect_biokin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 5 s')" ] } },
-      { "u_add_effect": "motor_seizure", "duration": { "math": [ "ps_str * u_val('time: 5 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_biokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
+      { "u_add_effect": "motor_seizure", "duration": { "math": [ "ps_str * time(' 5 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1178,7 +1178,7 @@
       { "u_add_trait": "CLAIRSENTIENT" },
       { "u_add_trait": "CLAIR_SENSES" },
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1186,10 +1186,10 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your vision wavers.  The sky grows bright, and then dark.  Sounds fade away before roaring in your ears, and then the entire world suddenly vanishes, leaving you in silent darkness."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "hallu", "duration": { "math": [ "ps_str * u_val('time: 3 h')" ] } },
-      { "u_add_effect": "blind_clair_overload", "duration": { "math": [ "ps_str * u_val('time: 15 s')" ] } },
-      { "u_add_effect": "deaf_clair_overload", "duration": { "math": [ "ps_str * u_val('time: 15 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "hallu", "duration": { "math": [ "ps_str * time(' 3 h')" ] } },
+      { "u_add_effect": "blind_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
+      { "u_add_effect": "deaf_clair_overload", "duration": { "math": [ "ps_str * time(' 15 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1211,7 +1211,7 @@
       { "u_add_trait": "ELECTROKINETIC" },
       { "u_add_trait": "ELECTRO_SHIELD" },
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1219,8 +1219,8 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Multi-colored lightning flashes across the sky, first once and then again, then faster and faster until the thunder comes *before* the lightning.  Bolts crash into the ground around you and suddenly one strikes the ground right next to you, hurling you off your feet."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "effect_electrokin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_electrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP" },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
@@ -1245,7 +1245,7 @@
       { "u_add_effect": "effect_photokin_arms", "duration": "5 minutes" },
       { "u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes" },
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1253,16 +1253,10 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your vision blurs.  Your vision is filled with light, twisting distance and making it impossible to judge your surroundings, and you fall to your knees as you struggle to resist the searing headache and disorientation of the ever-shifting light."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 3 s')" ] } },
-      {
-        "u_add_effect": "effect_photokin_myopia_overload",
-        "duration": { "math": [ "ps_str * u_val('time: 10 m')" ] }
-      },
-      {
-        "u_add_effect": "effect_photokin_lumination_overload",
-        "duration": { "math": [ "ps_str * u_val('time: 20 m')" ] }
-      },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
+      { "u_add_effect": "effect_photokin_myopia_overload", "duration": { "math": [ "ps_str * time(' 10 m')" ] } },
+      { "u_add_effect": "effect_photokin_lumination_overload", "duration": { "math": [ "ps_str * time(' 20 m')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1284,7 +1278,7 @@
       { "u_add_trait": "PYROKINETIC" },
       { "u_add_trait": "PYROKIN_ADAPTATION" },
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1292,9 +1286,9 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your skin prickles.  The air grows warm, then hot, and sweat springs from every pore.  The air around you takes on a lambent glow as the heat continues to rise, until your muscles give out and you collapse to your knees."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "u_set_field": "fd_hot_air3", "outdoor_only": true },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
@@ -1311,13 +1305,13 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You look around for shelter, but you're out in the open.  You reach down toward the ground but the ground starts rising--bits of grass and rock and dirt lifting up and swirling around you.  The roar in your head grows louder as you slowly rise off the ground, the debris around you whirling faster and faster, until the your mind suddenly stills and you collapse back to the earth with a thump.  The pebbles around start to fall--but one catches your eye, and as you look at it, it stops and hovers in the air for a moment.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You look around for shelter, but you're out in the open.  You reach down toward the ground but the ground starts rising--bits of grass and rock and dirt lifting up and swirling around you.  The roar in your head grows louder as you slowly rise off the ground, the debris around you whirling faster and faster, until your mind suddenly stills and you collapse back to the earth with a thump.  The pebbles around start to fall--but one catches your eye, and as you look at it, it stops and hovers in the air for a moment.",
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },
       { "u_add_trait": "TELEKINETIC_LIFTER_1" },
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1325,9 +1319,9 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as you stagger.  The very air seems to press down on you, its weight growing steadily more oppressive.  Every step takes more effort than a sprint.  You concentrate on putting one foot in front of the other but it takes almost all of your concentration to do so."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "effect_telekin_overload", "duration": { "math": [ "ps_str * u_val('time: 30 m')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_telekin_overload", "duration": { "math": [ "ps_str * time(' 30 m')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1349,7 +1343,7 @@
       { "u_add_trait": "TELEPATH" },
       { "u_add_trait": "TELEPATHIC_SUGGESTION" },
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1357,10 +1351,10 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as whispers begin.  First only a murmur, steadily growing louder and louder until they grow into a cacophony of voices.  You hear pleas for mercy, screams of agony, cries of rage and sorrow, all mixed together in an avalanche of sound that drives you to your knees as you clutch your ears to shut them out.  It doesn't help."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "nightmares", "duration": { "math": [ "ps_str * u_val('time: 4 h')" ] } },
-      { "u_add_effect": "disrupted_sleep", "duration": { "math": [ "ps_str * u_val('time: 4 h')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "nightmares", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
+      { "u_add_effect": "disrupted_sleep", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1382,7 +1376,7 @@
       { "u_add_trait": "TELEPORTER" },
       { "u_add_trait": "TELEPORTER_PROTECT" },
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1390,9 +1384,9 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your vision wavers.  The world seems to grow far away, then close, and you stumble as your legs can't seem to tell where the ground is.  As you recover and look up, you find yourself somewhere else."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "effect_portal_storm_teleport", "duration": { "math": [ "ps_str * u_val('time: 20 s')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_portal_storm_teleport", "duration": { "math": [ "ps_str * time(' 20 s')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   },
@@ -1414,7 +1408,7 @@
       { "u_add_trait": "VITAKINETIC" },
       { "u_add_trait": "VITAKINETIC_HEALTH" },
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
-      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
+      { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
@@ -1422,10 +1416,10 @@
       {
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as the beating of your heart thuds in your ears.  You can feel the blood rushing through your veins, warmth slowly spreading through your body, and a sensation of heat that gets stronger and stronger until it becomes an feverish itching across your entire body, driving you to your knees."
       },
-      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * u_val('time: 1 h')" ] } },
-      { "u_add_effect": "flu", "duration": { "math": [ "ps_str * u_val('time: 4 h')" ] } },
-      { "u_add_effect": "effect_vitakin_overload", "duration": { "math": [ "ps_str * u_val('time: 2 h')" ] } },
-      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * u_val('time: 3 s')" ] } },
+      { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "flu", "duration": { "math": [ "ps_str * time(' 4 h')" ] } },
+      { "u_add_effect": "effect_vitakin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
+      { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 3 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
   }

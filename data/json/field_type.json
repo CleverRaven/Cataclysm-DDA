@@ -1985,5 +1985,13 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_construction_site",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "Construction site", "sym": ".", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true,
+    "looks_like": "fd_shadow"
   }
 ]

@@ -580,7 +580,7 @@
     "effect": [
       { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + ps_str + 20, 1200)" ] },
       { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
+      { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
   },
   {

@@ -9,7 +9,7 @@
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -23,7 +23,7 @@
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -37,7 +37,7 @@
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "I'm sorry to hear that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I'm sorry to hear that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
