@@ -22,6 +22,7 @@
 #include "coordinates.h"
 #include "dialogue.h"
 #include "debug.h"
+#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "field.h"
 #include "flag.h"
@@ -166,9 +167,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view membe
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
         if( jo.has_array( "arithmetic" ) ) {
-            talk_effect_fun_t arith;
-            arith.set_arithmetic( jo, "arithmetic", true );
-            ret_val.arithmetic_val = arith;
+            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
@@ -220,9 +219,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
         JsonObject jo = jv.get_object();
         jo.allow_omitted_members();
         if( jo.has_array( "arithmetic" ) ) {
-            talk_effect_fun_t arith;
-            arith.set_arithmetic( jo, "arithmetic", true );
-            ret_val.arithmetic_val = arith;
+            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
         } else if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
@@ -2565,7 +2562,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
     } else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t arith;
         if constexpr( std::is_same_v<JsonObject, J> ) {
-            arith.set_arithmetic( jo, "arithmetic", true );
+            arith = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
         }
         return [arith]( dialogue & d ) {
             arith( d );
