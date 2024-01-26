@@ -4,6 +4,7 @@
 #include "character_martial_arts.h"
 #include "effect_on_condition.h"
 #include "game.h"
+#include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
 #include "timed_event.h"
@@ -108,6 +109,8 @@ effect_on_condition_EOC_string_test_nest( "EOC_string_test_nest" );
 static const effect_on_condition_id
 effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_test_weapon_damage( "EOC_test_weapon_damage" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
@@ -117,6 +120,7 @@ static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_sword_wood( "sword_wood" );
+static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const matype_id style_aikido( "style_aikido" );
@@ -1036,6 +1040,33 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
     CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );
     CHECK( std::stod( check_item.get_var( "npctalk_var_key2" ) ) == Approx( 2 ) );
+}
+
+TEST_CASE( "math_weapon_damage", "[eoc]" )
+{
+    clear_avatar();
+    item myweapon( GENERATE( true, false ) ? itype_test_knife_combat : itype_test_glock );
+    get_avatar().set_wielded_item( myweapon );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( effect_on_condition_EOC_test_weapon_damage->activate( d ) );
+
+    int total_damage{};
+    for( damage_type const &dt : damage_type::get_all() ) {
+        total_damage += myweapon.damage_melee( dt.id );
+    }
+    int const bash_damage = myweapon.damage_melee( STATIC( damage_type_id( "bash" ) ) );
+    int const gun_damage = myweapon.gun_damage().total_damage();
+    int const bullet_damage = myweapon.gun_damage().type_damage( STATIC( damage_type_id( "bullet" ) ) );
+
+    CAPTURE( myweapon.typeId().c_str() );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee" ) ) ==  total_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee_bash" ) ) == bash_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun" ) ) == gun_damage );
+    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun_bullet" ) ) == bullet_damage );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
