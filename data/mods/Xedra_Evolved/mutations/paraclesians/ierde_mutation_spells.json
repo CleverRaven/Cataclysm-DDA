@@ -134,7 +134,7 @@
     "max_level": 35,
     "difficulty": 3,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_IERDE",
+    "effect_str": "GROUP_GENIUS_IERDE_LESSER",
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 200,

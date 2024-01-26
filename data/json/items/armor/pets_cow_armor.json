@@ -36,7 +36,7 @@
     "material": [ "acidchitin" ],
     "weight": "40 kg",
     "volume": "180 L",
-    "material_thickness": 5,
+    "material_thickness": 7,
     "environmental_protection": 7
   },
   {
@@ -48,7 +48,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly cow.",
     "price": 110000,
     "price_postapoc": 7000,
-    "material": [ "chitin", "steel" ],
+    "material": [ "chitin" ],
     "weight": "40 kg",
     "volume": "180 L",
     "material_thickness": 7,

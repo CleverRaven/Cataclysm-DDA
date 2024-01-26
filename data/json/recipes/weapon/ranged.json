@@ -1271,6 +1271,43 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "ballista",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ], [ "archery", 1 ], [ "traps", 2 ] ],
+    "difficulty": 6,
+    "time": "15 h",
+    "book_learn": [ [ "ballista_book", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 4 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_carving", "time_multiplier": 2 },
+      { "proficiency": "prof_carpentry_basic", "time_multiplier": 2 },
+      { "proficiency": "prof_gunsmithing_spring" },
+      { "proficiency": "prof_metalworking", "time_multiplier": 1.5 }
+    ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "rope_superior_short", 2, "LIST" ] ],
+      [ [ "nail", 60 ], [ "bronze_nail", 60 ] ],
+      [ [ "nuts_bolts", 60 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
+      [ [ "spring", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "huge_crossbow",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",

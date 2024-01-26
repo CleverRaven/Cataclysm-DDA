@@ -1967,7 +1967,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "acidchitin_piece", 25 ] ],
+      [ [ "acidchitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ]
     ]

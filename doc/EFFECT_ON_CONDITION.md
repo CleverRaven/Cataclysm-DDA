@@ -1107,6 +1107,10 @@ You can see selected location.
 }
 ```
 
+### `has_ammo`
+- type: simple string
+- return true if beta talker is an item and has enough ammo for at least one "shot".
+
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 
@@ -3767,3 +3771,54 @@ Spawn blood 10 tiles around the player outdoor
 ```json
 { "u_set_field": "fd_blood", "radius": 10, "outdoor_only": true, "intensity": 3 }
 ```
+
+#### `turn_cost`
+Subtract this many turns from the alpha talker's moves.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "turn_cost" | **mandatory** | number, duration, [variable object](##variable-object) or value between two | how long the action takes (can be specified in number of turns, or as a duration) |
+
+##### Examples
+
+```json
+{
+  "effect": [
+    { "turn_cost": "1 sec" }
+  ]
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### `transform_item`
+Convert the beta talker (which must be an item) into a different item, optionally activating it. Works similarly to the "transform" use_action.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "transform_item" | **mandatory** | string or [variable object](##variable-object) | item ID to transform to |
+| "active" | optional | boolean | if true, activate the item |
+
+##### Examples
+
+```json
+{
+  "condition": "has_ammo",
+  "effect": [
+    { "transform_item": "chainsaw_on", "active": true }
+  ],
+  "false_effect": {
+    "u_message": "You yank the cord, but nothing happens."
+  }
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |

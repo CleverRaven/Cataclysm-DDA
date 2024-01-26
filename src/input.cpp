@@ -21,6 +21,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "input_context.h" // IWYU pragma: keep
 #include "json.h"
 #include "json_error.h"
 #include "json_loader.h"
@@ -178,6 +179,8 @@ void input_manager::init()
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );
     }
+    // save non customized keybindings
+    basic_action_contexts = action_contexts;
     try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
@@ -395,55 +398,61 @@ void input_manager::save()
                     jsout.member( "is_user_created", is_user_created );
                 }
 
-                jsout.member( "bindings" );
-                jsout.start_array();
-                for( const input_event &event : events ) {
-                    jsout.start_object();
-                    switch( event.type ) {
-                        case input_event_t::keyboard_char:
-                            jsout.member( "input_method", "keyboard_char" );
-                            break;
-                        case input_event_t::keyboard_code:
-                            jsout.member( "input_method", "keyboard_code" );
-                            break;
-                        case input_event_t::gamepad:
-                            jsout.member( "input_method", "gamepad" );
-                            break;
-                        case input_event_t::mouse:
-                            jsout.member( "input_method", "mouse" );
-                            break;
-                        default:
-                            throw std::runtime_error( "unknown input_event_t" );
-                    }
-
-                    jsout.member( "mod" );
+                // optimization: no writing if empty
+                if( !events.empty() ) {
+                    jsout.member( "bindings" );
                     jsout.start_array();
-                    for( const keymod_t mod : event.modifiers ) {
-                        switch( mod ) {
-                            case keymod_t::ctrl:
-                                jsout.write( "ctrl" );
+                    for( const input_event &event : events ) {
+                        jsout.start_object();
+                        switch( event.type ) {
+                            case input_event_t::keyboard_char:
+                                jsout.member( "input_method", "keyboard_char" );
                                 break;
-                            case keymod_t::alt:
-                                jsout.write( "alt" );
+                            case input_event_t::keyboard_code:
+                                jsout.member( "input_method", "keyboard_code" );
                                 break;
-                            case keymod_t::shift:
-                                jsout.write( "shift" );
+                            case input_event_t::gamepad:
+                                jsout.member( "input_method", "gamepad" );
+                                break;
+                            case input_event_t::mouse:
+                                jsout.member( "input_method", "mouse" );
                                 break;
                             default:
-                                throw std::runtime_error( "unknown keymod_t" );
+                                throw std::runtime_error( "unknown input_event_t" );
                         }
-                    }
-                    jsout.end_array();
 
-                    jsout.member( "key" );
-                    jsout.start_array();
-                    for( size_t i = 0; i < event.sequence.size(); i++ ) {
-                        jsout.write( get_keyname( event.sequence[i], event.type, true ) );
+                        // optimization: no writing if empty
+                        if( !event.modifiers.empty() ) {
+                            jsout.member( "mod" );
+                            jsout.start_array();
+                            for( const keymod_t mod : event.modifiers ) {
+                                switch( mod ) {
+                                    case keymod_t::ctrl:
+                                        jsout.write( "ctrl" );
+                                        break;
+                                    case keymod_t::alt:
+                                        jsout.write( "alt" );
+                                        break;
+                                    case keymod_t::shift:
+                                        jsout.write( "shift" );
+                                        break;
+                                    default:
+                                        throw std::runtime_error( "unknown keymod_t" );
+                                }
+                            }
+                            jsout.end_array();
+                        }
+
+                        jsout.member( "key" );
+                        jsout.start_array();
+                        for( size_t i = 0; i < event.sequence.size(); i++ ) {
+                            jsout.write( get_keyname( event.sequence[i], event.type, true ) );
+                        }
+                        jsout.end_array();
+                        jsout.end_object();
                     }
                     jsout.end_array();
-                    jsout.end_object();
                 }
-                jsout.end_array();
 
                 jsout.end_object();
             }
@@ -762,13 +771,17 @@ int input_manager::get_first_char_for_action( const std::string &action_descript
 const action_attributes &input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string &context,
-    bool *overwrites_default )
+    bool *overwrites_default,
+    bool use_basic_action_contexts )
 {
+    t_action_contexts &action_contexts_ref = use_basic_action_contexts
+            ? basic_action_contexts
+            : action_contexts;
 
     if( context != default_context_id ) {
         // Check if the action exists in the provided context
-        const t_action_contexts::const_iterator action_context = action_contexts.find( context );
-        if( action_context != action_contexts.end() ) {
+        const t_action_contexts::const_iterator action_context = action_contexts_ref.find( context );
+        if( action_context != action_contexts_ref.end() ) {
             const t_actions::const_iterator action = action_context->second.find( action_id );
             if( action != action_context->second.end() ) {
                 if( overwrites_default ) {
@@ -785,7 +798,7 @@ const action_attributes &input_manager::get_action_attributes(
         *overwrites_default = false;
     }
 
-    t_actions &default_action_context = action_contexts[default_context_id];
+    t_actions &default_action_context = action_contexts_ref[default_context_id];
     const t_actions::const_iterator default_action = default_action_context.find( action_id );
     if( default_action == default_action_context.end() ) {
         // A new action is created in the event that the requested action is
