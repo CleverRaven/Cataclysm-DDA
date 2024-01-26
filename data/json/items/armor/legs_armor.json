@@ -156,9 +156,7 @@
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
     "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
-    "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "material_thickness": 5
+    "material": [ "acidchitin" ]
   },
   {
     "id": "xl_legguard_acidchitin",
