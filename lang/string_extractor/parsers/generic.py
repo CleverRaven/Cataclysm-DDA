@@ -60,15 +60,15 @@ def parse_generic(json, origin):
             write_text(variant["name"], origin,
                     comment="Variant name of item \"{}\"".format(name),
                     plural=True)
-            if "description" in json["variants":
+            if "description" in json["variants"]:
                 write_text(variant["description"], origin,
                         comment="Description of variant \"{}\" of item \"{}\""
                         .format(variant_name, name))
-            if "description_prepend" in json["variants":
+            if "description_prepend" in json["variants"]:
                 write_text(variant["description_prepend"], origin,
                         comment="Partial description of variant \"{}\" of item \"{}\" to add to the start of \"{}\""
                         .format(variant_name, name, description))
-            if "description_append" in json["variants":
+            if "description_append" in json["variants"]:
                 write_text(variant["description_append"], origin,
                         comment="Partial description of variant \"{}\" of item \"{}\" to add to the end of \"{}\""
                         .format(variant_name, name, description))
