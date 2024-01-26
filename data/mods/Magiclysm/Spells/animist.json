@@ -744,7 +744,7 @@
     "effect_str": "decaying_boneclub",
     "shape": "blast",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
     "components": "spell_components_decayingboneclub",
     "max_level": 25,
     "min_damage": 1,
