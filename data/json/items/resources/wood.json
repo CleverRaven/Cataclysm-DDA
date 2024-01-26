@@ -135,7 +135,7 @@
   {
     "type": "GENERIC",
     "id": "tonewood",
-    "name": { "str": "tonewood" },
+    "name": { "str": "tonewood", "str_pl": "blocks of tonewood" },
     "description": "A block of tonally appropriate wood that has been air dryed for a year in preparation for being turned into a musical instrument.",
     "category": "spare_parts",
     "weight": "1830 g",
@@ -153,7 +153,7 @@
   {
     "type": "GENERIC",
     "id": "tuning_pegs",
-    "name": { "str": "tuning pegs" },
+    "name": { "str": "tuning peg", "str_pl": "tuning pegs" },
     "description": "Tuning pegs go on stringed instruments to both provide an anchor for the strings and to control the tightness of the wire which in turn controls the tune of the notes produced.",
     "category": "spare_parts",
     "weight": "1 g",
