@@ -17,7 +17,7 @@
     "responses": [
       { "text": "How did you survive?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY3" },
       { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -28,7 +28,7 @@
     "responses": [
       { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },
       { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -38,7 +38,7 @@
     "dynamic_line": "I honestly don't know.  I wonder if some of the others would have come back to their senses, given time.  I don't think I'm anything special.  Maybe a lot of them did, and just weren't on the edge of the crowd at the time.  I'll tell you, almost as soon as I came back to myself, I could see some of the rioters looking at me like I was prey.  I didn't stick around to see what would happen.",
     "responses": [
       { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -47,7 +47,7 @@
     "type": "talk_topic",
     "dynamic_line": "I knew the city pretty well.  I went for an abandoned building I knew about, headed through a broken window, and holed up in there for a few days.  I had a fair bit of stolen food and I just kept to myself.  When things started to quiet down, I headed out, and here I am.",
     "responses": [
-      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for telling me all that.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },

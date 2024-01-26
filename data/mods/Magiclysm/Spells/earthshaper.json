@@ -781,21 +781,126 @@
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_MAP",
     "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
-    "effect": [ { "u_cast_spell": { "id": "earthshaper_map_real" } } ],
+    "effect": {
+      "switch": { "math": [ "u_spell_level('earthshaper_reveal_world_map')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_01", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_01" },
+            { "u_remove_item_with": "item_earthshaper_map_01" }
+          ]
+        },
+        {
+          "case": 3,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_02", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_02" },
+            { "u_remove_item_with": "item_earthshaper_map_02" }
+          ]
+        },
+        {
+          "case": 6,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_03", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_03" },
+            { "u_remove_item_with": "item_earthshaper_map_03" }
+          ]
+        },
+        {
+          "case": 9,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_04", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_04" },
+            { "u_remove_item_with": "item_earthshaper_map_04" }
+          ]
+        },
+        {
+          "case": 12,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_05", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_05" },
+            { "u_remove_item_with": "item_earthshaper_map_05" }
+          ]
+        },
+        {
+          "case": 15,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_06", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_06" },
+            { "u_remove_item_with": "item_earthshaper_map_06" }
+          ]
+        }
+      ]
+    },
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
   },
   {
-    "id": "earthshaper_map_real",
-    "type": "SPELL",
-    "name": "Reading the Earthbones Real Spell",
-    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
-    "valid_targets": [ "none" ],
-    "message": "The secrets of the living earth are revealed to you.",
-    "flags": [ "NO_HANDS", "SILENT" ],
-    "effect": "map",
-    "shape": "blast",
-    "max_level": 1,
-    "min_aoe": { "math": [ "( 7 + (u_spell_level('earthshaper_reveal_world_map') * 2.2) )" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_01" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_01_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_02" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_02_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_03" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_03_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_04",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_04" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_04_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_05",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_05" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_05_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_06",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_06" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_06_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
   },
   {
     "id": "earthshaper_danger_sense",
@@ -813,7 +918,7 @@
     "max_level": 10,
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "min_duration": 30000,
+    "min_duration": 0,
     "max_duration": 300000,
     "duration_increment": 30000
   },
@@ -824,7 +929,7 @@
     "effect": [
       {
         "u_add_effect": "effect_tremorsense",
-        "duration": { "math": [ "(u_spell_level('earthshaper_danger_sense') * 30000)" ] }
+        "duration": { "math": [ "(u_spell_level('earthshaper_danger_sense') * 300)" ] }
       }
     ],
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails.", "type": "bad" } ]
@@ -832,7 +937,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
-    "recurrence": 1,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
     "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },

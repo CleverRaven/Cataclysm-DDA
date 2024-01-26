@@ -1215,6 +1215,13 @@
   },
   {
     "type": "keybinding",
+    "id": "LONG_TELEPORT",
+    "category": "OVERMAP",
+    "name": "Teleport to cursor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",

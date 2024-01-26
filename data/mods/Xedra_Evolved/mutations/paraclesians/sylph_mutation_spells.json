@@ -273,7 +273,7 @@
     "max_level": 35,
     "difficulty": 3,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_SYLPH",
+    "effect_str": "GROUP_GENIUS_SYLPH_LESSER",
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 200,

@@ -374,60 +374,35 @@
     "separator": ": ",
     "style": "clause",
     "clauses": [
-      {
-        "id": "new_moon",
-        "text": "New moon",
-        "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
-      },
+      { "id": "new_moon", "text": "New moon", "color": "white", "condition": { "math": [ "moon_phase() == 0" ] } },
       {
         "id": "waxing_crescent",
         "text": "Waxing crescent",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "math": [ "moon_phase() == 1" ] }
       },
-      {
-        "id": "half_moon",
-        "text": "Half moon",
-        "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
-      },
+      { "id": "half_moon", "text": "Half moon", "color": "white", "condition": { "math": [ "moon_phase() == 2" ] } },
       {
         "id": "waxing_gibbous",
         "text": "Waxing gibbous",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "math": [ "moon_phase() == 3" ] }
       },
-      {
-        "id": "full_moon",
-        "text": "Full moon",
-        "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
-      },
+      { "id": "full_moon", "text": "Full moon", "color": "white", "condition": { "math": [ "moon_phase() == 4" ] } },
       {
         "id": "waning_gibbous",
         "text": "Waning gibbous",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "math": [ "moon_phase() == 5" ] }
       },
-      {
-        "id": "half_moon",
-        "text": "Half moon",
-        "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
-      },
+      { "id": "half_moon", "text": "Half moon", "color": "white", "condition": { "math": [ "moon_phase() == 6" ] } },
       {
         "id": "waning_crescent",
         "text": "Waning crescent",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "math": [ "moon_phase() == 7" ] }
       },
-      {
-        "id": "dark_moon",
-        "text": "Dark moon",
-        "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
-      }
+      { "id": "dark_moon", "text": "Dark moon", "color": "white", "condition": { "math": [ "moon_phase() == 8" ] } }
     ]
   },
   {

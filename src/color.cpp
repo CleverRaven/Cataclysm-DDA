@@ -1,7 +1,6 @@
 #include "color.h"
 
 #include <algorithm> // for std::count
-#include <functional>
 #include <iterator>
 #include <map>
 #include <utility>
@@ -14,7 +13,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "path_info.h"

@@ -136,7 +136,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('21 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
@@ -148,7 +148,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('21 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
@@ -160,7 +160,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('28 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
@@ -172,7 +172,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('28 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
@@ -184,7 +184,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('35 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
@@ -196,7 +196,7 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('35 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }

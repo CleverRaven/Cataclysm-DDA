@@ -955,7 +955,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( food.charges > 0 && food.is_food() &&
+    if( food.is_food() &&
         ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
           has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
         if( edible ) {

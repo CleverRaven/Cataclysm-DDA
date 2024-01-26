@@ -137,10 +137,12 @@
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
     "int_add_val": 1,
+    "show_in_info": true,
     "apply_message": "Roots and vines entangle your foes to slow them!",
     "remove_message": "The roots and vines wither up and die.",
-    "base_mods": { "speed_mod": [ -60 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "base_mods": { "speed_mod": [ -20 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "flags": [ "EFFECT_IMPEDING" ]
   },
   {
     "type": "effect_type",
@@ -152,7 +154,7 @@
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "scaling_mods": { "speed_mod": [ -5 ] }
   },
   {
     "type": "effect_type",
@@ -222,7 +224,8 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
+    "max_duration": "2 minutes",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -765,7 +768,7 @@
     "apply_message": "",
     "remove_message": "You can no longer discern the vibrations of the living earth.",
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "50 minutes",
     "enchantments": [
       {
         "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
@@ -910,6 +913,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_burning_trail",
+    "name": [ "Burning Trail" ],
+    "desc": [ "Fire trails in your wake." ],
+    "apply_message": "",
+    "remove_message": "The flames you leave behind die down.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_cloak_of_fog",
     "name": [ "Cloak of Fog" ],
     "desc": [ "The fog shields you from sight." ],
@@ -1006,6 +1018,16 @@
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_flame_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to heat and fire." ],
+    "rating": "good",
+    "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ "ench_heat_and_fire_immunity" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1053,6 +1075,9 @@
       "effect_magus_spiderclimb",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
+      "effect_biomancer_slow_bleeding_01",
+      "effect_biomancer_slow_bleeding_02",
+      "effect_biomancer_slow_bleeding_03",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1115,6 +1140,9 @@
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
+      "effect_biomancer_slow_bleeding_01",
+      "effect_biomancer_slow_bleeding_02",
+      "effect_biomancer_slow_bleeding_03",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
@@ -1125,9 +1153,12 @@
       "ice_energy",
       "ice_age_eff",
       "effect_biomancer_remove_instability",
+      "effect_biomancer_hyper_regeneration",
       "effect_terra_armor",
       "gravity_mage_melee",
-      "eff_storm_elemental_electric_melee"
+      "eff_storm_elemental_electric_melee",
+      "effect_flame_immunity",
+      "effect_burning_trail"
     ]
   }
 ]

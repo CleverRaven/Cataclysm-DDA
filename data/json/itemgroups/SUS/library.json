@@ -119,7 +119,8 @@
       { "item": "bronze_book", "count": [ 1, 3 ], "prob": 50 },
       { "item": "bronze_mag", "count": [ 1, 2 ], "prob": 30 },
       { "item": "recipe_arrows", "count": [ 1, 3 ], "prob": 60 },
-      { "item": "recipe_bows", "count": [ 1, 3 ], "prob": 80 }
+      { "item": "recipe_bows", "count": [ 1, 3 ], "prob": 80 },
+      { "item": "ballista_book", "count": [ 1, 2 ], "prob": 40 }
     ]
   },
   {
@@ -142,7 +143,8 @@
       { "item": "recipe_arrows", "count": [ 0, 1 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "recipe_bows", "count": [ 0, 2 ], "prob": 20 }
+      { "item": "recipe_bows", "count": [ 0, 2 ], "prob": 20 },
+      { "item": "ballista_book", "count": [ 0, 1 ], "prob": 15 }
     ]
   },
   {

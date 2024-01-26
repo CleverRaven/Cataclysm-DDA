@@ -288,7 +288,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail partial aventail" },
-    "description": "A wide mild steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
+    "description": "A wide chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
     "weight": "1000 g",
     "volume": "300 ml",
     "price": 5012,
@@ -320,7 +320,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
     "name": { "str": "XL mild steel chainmail partial aventail" },
-    "description": "A customized mild steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -329,7 +328,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
     "name": { "str": "XS mild steel chainmail partial aventail" },
-    "description": "A customized mild steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -338,7 +336,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
     "name": { "str": "medium steel chainmail partial aventail" },
-    "description": "A wide medium steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -346,7 +343,6 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_face",
     "name": { "str": "XL medium steel chainmail partial aventail" },
-    "description": "A customized medium steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -355,7 +351,6 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_face",
     "name": { "str": "XS medium steel chainmail partial aventail" },
-    "description": "A customized medium steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -364,7 +359,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
     "name": { "str": "high steel chainmail partial aventail" },
-    "description": "A wide high steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -372,7 +366,6 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_face",
     "name": { "str": "XL high steel chainmail partial aventail" },
-    "description": "A customized high steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -381,7 +374,6 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_face",
     "name": { "str": "XS high steel chainmail partial aventail" },
-    "description": "A customized high steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -390,7 +382,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
     "name": { "str": "tempered steel chainmail partial aventail" },
-    "description": "A wide tempered steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -398,7 +389,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_face",
     "name": { "str": "XL tempered steel chainmail partial aventail" },
-    "description": "A customized tempered steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -407,7 +397,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_face",
     "name": { "str": "XS tempered steel chainmail partial aventail" },
-    "description": "A customized tempered steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -417,7 +406,6 @@
     "copy-from": "lc_chainmail_face",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail partial aventail" },
-    "description": "A wide hardened steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -425,7 +413,6 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_face",
     "name": { "str": "XL hardened steel chainmail partial aventail" },
-    "description": "A customized hardened steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -434,7 +421,6 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_face",
     "name": { "str": "XS hardened steel chainmail partial aventail" },
-    "description": "A customized hardened steel partial aventail, designed to attach to a cap helmet, hanging down to extend protection to the face and neck.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -443,7 +429,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail aventail" },
-    "description": "A wide mild steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
+    "description": "A wide chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "weight": "1300 g",
     "volume": "450 ml",
     "price": 5012,
@@ -475,7 +461,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "XL mild steel chainmail aventail" },
-    "description": "A customized mild steel aventail, designed to attach to cap helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -484,7 +469,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "XS mild steel chainmail aventail" },
-    "description": "A customized mild steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -493,7 +477,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "medium steel chainmail aventail" },
-    "description": "A wide medium steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -501,7 +484,6 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_aventail",
     "name": { "str": "XL medium steel chainmail aventail" },
-    "description": "A customized medium steel aventail, designed to attach to cap helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -510,7 +492,6 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_aventail",
     "name": { "str": "XS medium steel chainmail aventail" },
-    "description": "A customized medium steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -519,7 +500,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "high steel chainmail aventail" },
-    "description": "A wide high steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -527,7 +507,6 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_aventail",
     "name": { "str": "XL high steel chainmail aventail" },
-    "description": "A customized high steel aventail, designed to attach to cap helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -536,7 +515,6 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_aventail",
     "name": { "str": "XS high steel chainmail aventail" },
-    "description": "A customized high steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -545,7 +523,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "tempered steel chainmail aventail" },
-    "description": "A wide tempered steel draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -553,7 +530,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_aventail",
     "name": { "str": "XL tempered steel chainmail aventail" },
-    "description": "A customized tempered steel aventail, designed to attach to cap helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -562,7 +538,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_aventail",
     "name": { "str": "XS tempered steel chainmail aventail" },
-    "description": "A customized tempered steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -571,7 +546,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
     "name": { "str": "hardened steel chainmail aventail" },
-    "description": "A wide hardened steel draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -579,7 +553,6 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_aventail",
     "name": { "str": "XL hardened steel chainmail aventail" },
-    "description": "A customized hardened steel aventail, designed to attach to cap helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -588,7 +561,6 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_aventail",
     "name": { "str": "XS hardened steel chainmail aventail" },
-    "description": "A customized hardened steel aventail, designed to attach to cap helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -629,7 +601,6 @@
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
     "name": { "str": "XL mild steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of mild steel.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -638,7 +609,6 @@
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
     "name": { "str": "XS mild steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of mild steel.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -655,7 +625,6 @@
     "type": "ARMOR",
     "copy-from": "mc_steel_facemask",
     "name": { "str": "XL medium steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium steel, and at least has some ornamentation, but not much.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -664,7 +633,6 @@
     "type": "ARMOR",
     "copy-from": "mc_steel_facemask",
     "name": { "str": "XS medium steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium steel, and at least has some ornamentation, but not much.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -681,7 +649,6 @@
     "type": "ARMOR",
     "copy-from": "hc_steel_facemask",
     "name": { "str": "XL high steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high steel, and you've got it with a fancy mustache and everything.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -690,7 +657,6 @@
     "type": "ARMOR",
     "copy-from": "hc_steel_facemask",
     "name": { "str": "XS high steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high steel, and you've got it with a fancy mustache and everything.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -719,7 +685,6 @@
     "type": "ARMOR",
     "copy-from": "qt_steel_facemask",
     "name": { "str": "XL tempered steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -728,7 +693,6 @@
     "type": "ARMOR",
     "copy-from": "qt_steel_facemask",
     "name": { "str": "XS tempered steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -766,7 +730,6 @@
     "type": "ARMOR",
     "copy-from": "ch_steel_facemask",
     "name": { "str": "XL hardened steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of hardened steel with fancy gold inlays, who says armor can't be stylish!  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -775,7 +738,6 @@
     "type": "ARMOR",
     "copy-from": "ch_steel_facemask",
     "name": { "str": "XS hardened steel armored face mask" },
-    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of hardened steel with fancy gold inlays, who says armor can't be stylish!  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }

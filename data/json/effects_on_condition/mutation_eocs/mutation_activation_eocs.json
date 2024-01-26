@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_GENERIC_SPELL_MUTATION",
     "//energy_amount": "optional, how much stamina you spend on activation of the mutation - EoC works exclusively with stamina, to consume calories, fatigue or thirst use corresponding booleans in mutation; default zero if you don't need to consume stamina",
-    "//prep_time": "time you spend to prepare the activation, in seconds. Omit to make activation instant",
+    "//prep_time": "time you spend to prepare the activation, in seconds. Use 0 to make activation instant",
     "//spell_to_cast": "spell that would be casted if activation is successful",
     "//message_success": "message that would be printed if activation is successful",
     "//message_fail": "message, that would be printed, if you have less stamina than required",
@@ -15,16 +15,20 @@
     },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "context_val": "prep_time" } },
-      { "math": [ "stamina", "-=", "_energy_amount" ] },
-      { "queue_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ], "time_in_future": { "context_val": "prep_time" } }
+      { "math": [ "u_val('stamina')", "-=", "_energy_amount" ] },
+      {
+        "if": { "math": [ "_prep_time", ">", "1" ] },
+        "then": { "queue_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ], "time_in_future": { "math": [ "_prep_time - 1" ] } },
+        "else": { "run_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ] }
+      }
     ],
     "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_GENERIC_SPELL_MUTATION_ACT",
-    "//": "no proper way to check activity type to ensure player still prepare the mutation, so only level is checked for now",
-    "condition": { "math": [ "u_val('activity_level')", "==", "0" ] },
+    "//": "no proper way to check activity type to ensure player still prepare the mutation, so only level is checked for now (if spell is not instant)",
+    "condition": { "or": [ { "math": [ "u_val('activity_level')", "==", "0" ] }, { "math": [ "_prep_time", "==", "0" ] } ] },
     "effect": [
       {
         "u_cast_spell": { "id": { "context_val": "spell_to_cast" }, "message": { "context_val": "message_success" } },

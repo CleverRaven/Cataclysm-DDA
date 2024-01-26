@@ -317,7 +317,9 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "Lieutenants_active", "<", "1" ] } ] },
+    "condition": {
+      "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active", "<", "1" ] } ]
+    },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
     "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
@@ -345,12 +347,14 @@
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      {
-        "u_message": "You shiver as the night closes in…",
-        "type": "bad",
-        "popup": true,
-        "popup_w_interrupt_query": true
-      }
+      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
+    "effect": [
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
     ]
   },
   {

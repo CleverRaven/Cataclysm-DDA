@@ -685,6 +685,37 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_evil_eye",
+    "name": [ "Evil Eye" ],
+    "desc": [ "Something is definitely wrong." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "max_intensity": 5,
+    "show_intensity": false,
+    "base_mods": {
+      "hit_mod": [ -3 ],
+      "dodge_mod": [ -4 ],
+      "per_mod": [ -2 ],
+      "health_chance": [ 20 ],
+      "health_tick": [ 30 ],
+      "fatigue_tick": [ 30 ],
+      "fatigue_chance": [ 20 ],
+      "fatigue_min": [ 1 ]
+    },
+    "scaling_mods": {
+      "hit_mod": [ -0.5 ],
+      "dodge_mod": [ -0.5 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.6 ],
+      "health_chance": [ -3 ],
+      "health_tick": [ -5 ],
+      "fatigue_chance": [ -3 ],
+      "fatigue_tick": [ -5 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_underground_timer",
     "name": [ "Underground in Dead Air" ],
     "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
@@ -751,7 +782,8 @@
     "desc": [ "Roots and vines clutch at you." ],
     "max_intensity": 4,
     "int_add_val": 1,
-    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "show_in_info": true,
+    "apply_message": "Roots and vines entangle you!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -820,6 +852,27 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_no_mind_problems",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "hallu", "taint", "hallucinogenic_acid_heavy", "hallucinogenic_acid_light", "visuals" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_sense_nearby_monsters",
+    "name": [ "Earth-Sensing" ],
+    "desc": [ "You are sensing the movements of nearby creatures upon the living earth." ],
+    "apply_message": "Nearby creatures' movements are revealed to you.",
+    "remove_message": "Your earth-sense fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -975,6 +1028,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lucid_dream",
+    "name": [ "Lucid Dreaming" ],
+    "rating": "good",
+    "dur_add_perc": 0,
+    "desc": [ "While you may just be dreaming, you are still capable of affecting the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_smoke_form",
     "name": [ "Smoke Form" ],
     "desc": [ "You have transformed yourself into a cloud of smoke." ],
@@ -1029,6 +1090,17 @@
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
     "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_undine_spell_slow",
+    "name": [ "Slowed by the Current" ],
+    "desc": [ "Currents of aetherial water are hindering your movements." ],
+    "rating": "bad",
+    "apply_message": "You feel like you're wading through a rushing river!",
+    "remove_message": "The drag on your movements is gone.",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -25 ] }
   },
   {
     "type": "effect_type",

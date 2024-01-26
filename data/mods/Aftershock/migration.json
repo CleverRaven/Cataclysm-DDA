@@ -8,5 +8,17 @@
     "id": [ "afs_quilt_patchwork" ],
     "type": "MIGRATION",
     "replace": "quilt_patchwork"
+  },
+  {
+    "id": [ "bio_trickle" ],
+    "type": "MIGRATION",
+    "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",
+    "replace": "bio_microgen"
+  },
+  {
+    "to": "bio_microgen",
+    "type": "bionic_migration",
+    "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",
+    "from": "bio_trickle"
   }
 ]

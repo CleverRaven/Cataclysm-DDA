@@ -67,6 +67,12 @@
     "components": [ [ [ "sling", 1 ] ] ]
   },
   {
+    "id": "spell_components_haste",
+    "type": "requirement",
+    "//": "Mercury for the Haste spell",
+    "components": [ [ [ "mercury", 50 ] ] ]
+  },
+  {
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",

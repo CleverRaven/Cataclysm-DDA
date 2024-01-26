@@ -8,7 +8,7 @@
         "text": "Do you think there's some way your knowledge could help us understand all this?",
         "topic": "BGSS_SCIENTIST_2_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

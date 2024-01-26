@@ -464,5 +464,29 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_WISHES_TO_CONVERSE",
+    "name": { "str": "Desire for Conversation" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin casts this spell to force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",
+    "category": [ "HOMULLUS" ],
+    "active": true,
+    "starts_active": true,
+    "spells_learned": [ [ "homullus_spell_wish_to_converse", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FINAL_DISCUSSION",
+    "name": { "str": "FINAL DISCUSSION" },
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "This person won't speak with them again if this goes poorly."
   }
 ]

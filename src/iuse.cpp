@@ -10,7 +10,6 @@
 #include <iterator>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -30,9 +29,9 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "construction.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -56,6 +55,7 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -63,7 +63,6 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "json_loader.h"
 #include "line.h"
@@ -103,18 +102,15 @@
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vitamin.h"
@@ -259,8 +255,6 @@ static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
-static const itype_id itype_chainsaw_off( "chainsaw_off" );
-static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
@@ -392,7 +386,6 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
 struct object_names_collection;
 
 static void item_save_monsters( Character &p, item &it, const std::vector<monster *> &monster_vec,
@@ -3031,174 +3024,6 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint & )
     return 1;
 }
 
-static int toolweapon_off( Character &p, item &it, const bool fast_startup,
-                           const bool condition, const int volume,
-                           const std::string &msg_success, const std::string &msg_failure )
-{
-    p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.ammo_sufficient( &p ) ) {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_ambient_variant_sound( "chainsaw_idle", "chainsaw_on", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::idle_chainsaw, 1000 );
-            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::chainsaw_theme,
-                                             3000 );
-        }
-        sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
-        // 4 is the length of "_off".
-        it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ), &p );
-        it.active = true;
-        return 1;
-    } else {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-        }
-        p.add_msg_if_player( msg_failure );
-        return 0; // No charges consumed on failure.
-    }
-}
-
-std::optional<int> iuse::combatsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the combat chainsaw screams to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-std::optional<int> iuse::e_combatsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
-std::optional<int> iuse::chainsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the chainsaw screams to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-std::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the electric chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
-std::optional<int> iuse::carver_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           true,
-                           20, _( "The electric carver's serrated blades start buzzing!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
-std::optional<int> iuse::trimmer_off( Character *p, item *it, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 3,
-                           15, _( "With a roar, the hedge trimmer leaps to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-static int toolweapon_running( Character *p, item &it, const tripoint &pos,
-                               const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
-                               const bool double_charge_cost = false )
-{
-    if( double_charge_cost && it.ammo_sufficient( p ) ) {
-        it.ammo_consume( 1, pos, p );
-    }
-    bool drown = false;
-    if( !works_underwater ) {
-        if( !p ) {
-            map &here = get_map();
-            if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
-                // Item is on ground on water
-                drown = true;
-            }
-        } else if( p->is_underwater() ) {
-            drown = true;
-        }
-    }
-
-    if( drown ) {
-        if( p ) {
-            p->add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
-        }
-        it.convert( *it.type->revert_to, p ).active = false;
-    } else if( one_in( sound_chance ) ) {
-        sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
-    }
-
-    return 0; // Ammo consumption handled elsewhere
-}
-
-std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tripoint &pos )
-{
-    if( it->typeId() == itype_chainsaw_on ) {
-        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
-        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
-        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
-    }
-    p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
-    it->convert( *it->type->revert_to, p ).active = false;
-    return 0; // Don't consume charges when turning off.
-}
-
-std::optional<int> iuse::combatsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
-}
-
-std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 12, 18,
-                               _( "Your electric combat chainsaw growls." ) );
-}
-
-std::optional<int> iuse::chainsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
-}
-
-std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-std::optional<int> iuse::carver_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
-}
-
-std::optional<int> iuse::trimmer_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
-}
-
-std::optional<int> iuse::circsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
-}
-
-std::optional<int> iuse::e_circsaw_on( Character *p, item *it, const tripoint &pos )
-{
-    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your electric circular saw buzzes." ) );
-}
-
 std::optional<int> iuse::change_eyes( Character *p, item *, const tripoint & )
 {
     if( p->is_avatar() ) {
@@ -5585,28 +5410,44 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & )
 {
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
-        return std::nullopt;
 
-    }
-    if( p->has_trait( trait_ILLITERATE ) ) {
-        p->add_msg_if_player( _( "You can't read a computer screen." ) );
-        return std::nullopt;
-    }
+    bool isComputer = !it->has_flag( flag_MAGICAL );
+    int choice = 0;
 
-    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
-        p->add_msg_if_player( m_info,
-                              _( "You'll need to put on reading glasses before you can see the screen." ) );
-        return std::nullopt;
-    }
+    if( isComputer ) {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
+            return std::nullopt;
+        }
 
-    int choice = uilist( _( "Welcome to hackPRO!" ), {
-        _( "Prepare IFF protocol override" ),
-        _( "Set friendly robots to passive mode" ),
-        _( "Set friendly robots to combat mode" )
-    } );
+        if( p->has_trait( trait_ILLITERATE ) ) {
+            p->add_msg_if_player( _( "You can't read a computer screen." ) );
+            return std::nullopt;
+        }
+
+        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+            !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+            p->add_msg_if_player( m_info,
+                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
+            return std::nullopt;
+        }
+
+        choice = uilist( _( "Welcome to hackPRO!" ), {
+            _( "Prepare IFF protocol override" ),
+            _( "Set friendly robots to passive mode" ),
+            _( "Set friendly robots to combat mode" )
+        } );
+    } else {
+        if( !it->ammo_sufficient( p ) ) {
+            p->add_msg_if_player( _( "The %s lacks charge to function." ), it->tname() );
+            return std::nullopt;
+        }
+        choice = uilist( _( "You prepare to manipulate nearby robots!" ), {
+            _( "Prepare IFF protocol override" ),
+            _( "Set friendly robots to passive mode" ),
+            _( "Set friendly robots to combat mode" )
+        } );
+    }
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
             uilist pick_robot;
@@ -8473,7 +8314,6 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
     };
     inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
                                    make_raw_stats, /*allow_select_contained=*/true );
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( _( "Multiclean" ) );
