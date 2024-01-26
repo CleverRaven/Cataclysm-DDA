@@ -307,6 +307,36 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "helmet_soviet_tanker",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "soviet tanker helmet" },
+    "description": "A Soviet era tanker helmet.  It's distinctive foam pads are meant to protect a tank driver from bumps against the cramped interior.",
+    "price": 10000,
+    "price_postapoc": 1200,
+    "weight": "950 g",
+    "volume": "1200 ml",
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "green",
+    "warmth": 30,
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 10,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "material": [
+          { "type": "canvas", "thickness": 1 },
+          { "type": "canvas", "covered_by_mat": 40, "thickness": 1 },
+          { "type": "plastic_pad", "covered_by_mat": 40, "thickness": 15 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "tac_fullhelmet",
     "type": "ARMOR",
     "category": "armor",
