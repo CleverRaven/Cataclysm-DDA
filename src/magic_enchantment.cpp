@@ -262,6 +262,7 @@ bool enchantment::is_active(const monster& mon) const
     return false;
 }
 
+// Returns true if this enchantment is relevant to monsters. Enchantments that are not relevant to monsters are not processed by monsters.
 bool enchantment::is_monster_relevant() const {
     // Check add values.
     for (const std::pair<const enchant_vals::mod, dbl_or_var>& pair_values :
