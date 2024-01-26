@@ -38,38 +38,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_HEDGE_RAIN_WARD_FAIL",
-    "eoc_type": "EVENT",
-    "required_event": "avatar_moves",
-    "condition": {
-      "and": [
-        { "u_has_item": "aura_ward_off_rain" },
-        {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        }
-      ]
-    },
-    "effect": [ { "u_remove_item_with": "aura_ward_off_rain" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL",
     "effect": [ { "u_message": "The witchlight vanishes without a sound." }, { "u_remove_item_with": "item_hedge_witchlight" } ]
   },

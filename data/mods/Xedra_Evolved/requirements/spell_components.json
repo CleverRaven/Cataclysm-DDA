@@ -140,5 +140,11 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "wild_herbs", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_evil_eye_ward",
+    "type": "requirement",
+    "tools": [  ],
+    "components": [ [ [ "salt", 1 ] ] ]
   }
 ]

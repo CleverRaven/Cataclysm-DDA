@@ -22,7 +22,7 @@
       "ZERO_WEIGHT",
       "NONCONDUCTIVE",
       "TRANSPARENT",
-      "WATERPROOF"
+      "RAINPROOF"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
@@ -164,7 +164,7 @@
   {
     "id": "item_hedge_nether_eye_paste",
     "name": { "str_sp": "Blood-and-Ash Paste" },
-    "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherwordly creatures even through walls or in darkness.",
+    "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherworldly creatures even through walls or in darkness.",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "weight": "265 g",
@@ -186,7 +186,7 @@
   {
     "id": "item_hedge_cure_cold_or_flu",
     "copy-from": "tea",
-    "name": { "str": "Blood-and-Ash Paste" },
-    "description": "Tea with herbs, metal, and a bit of magick.  If you're sick, there's nothing better for your body than this."
+    "name": { "str": "Curative tea" },
+    "description": "Tea with herbs, iron, and a bit of magick.  If you're sick, there's nothing better for your body than this."
   }
 ]

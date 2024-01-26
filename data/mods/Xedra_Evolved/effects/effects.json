@@ -1148,6 +1148,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_magic_no_evil_eye",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_evil_eye" ]
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [
