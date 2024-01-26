@@ -999,6 +999,7 @@
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "drum_percussion", "prob": 10 },
           { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
