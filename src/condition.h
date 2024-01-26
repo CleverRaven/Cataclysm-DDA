@@ -79,8 +79,8 @@ struct conditional_t {
 
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
-        template<class J>
-        static std::function<double( dialogue & )> get_get_dbl( J const &jo );
+        static std::function<double( dialogue & )> get_get_dbl( std::string_view checked_value,
+                char scope );
         std::function<void( dialogue &, double )>
         static get_set_dbl( std::string_view checked_value, char scope );
         bool operator()( dialogue &d ) const {
@@ -93,8 +93,5 @@ struct conditional_t {
     private:
         func condition;
 };
-
-extern template std::function<double( dialogue & )>
-conditional_t::get_get_dbl<>( kwargs_shim const & );
 
 #endif // CATA_SRC_CONDITION_H

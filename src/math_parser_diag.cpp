@@ -88,15 +88,7 @@ T _read_from_string( std::string_view s, const std::vector<std::pair<std::string
 std::function<double( dialogue & )> u_val( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_get_dbl( shim );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const & ) {
-            return 0;
-        };
-    }
+    return conditional_t::get_get_dbl( params[0].str(), scope );
 }
 
 std::function<void( dialogue &, double )> u_val_ass( char scope,
@@ -1279,7 +1271,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "time_since", { "g", 1, time_since_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
-    { "val", { "un", -1, u_val } },
+    { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
