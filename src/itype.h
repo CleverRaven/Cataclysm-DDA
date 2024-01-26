@@ -1333,13 +1333,18 @@ struct itype {
         // How should the item explode
         explosion_data explosion;
 
-        translation description; // Flavor text
-        translation description_prepend; // Flavor text to add to the front of the description
-        translation description_append; // Flavor text to add to the end of the description
-        bool extend_description = false; // Whether the desciption needs appending/prepending
-
-        std::string extended_description()
-        const; // Extended description after appending // No idea if this belongs here or not
+        // Flavor text
+        translation description;
+        // Flavor text to add to the front of the description
+        translation description_prepend;
+        // Flavor text to add to the end of the description
+        translation description_append;
+        // Whether the desciption needs appending/prepending
+        bool extend_description = false;
+        // Whether the inherited item should use the extended base item's desciption
+        bool inherit_extended_description = true;
+        // Extended description after appending // No idea if this belongs here or not
+        std::string extended_description() const;
 
     protected:
         // private because is should only be accessed through itype::nname!

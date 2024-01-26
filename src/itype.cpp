@@ -155,14 +155,14 @@ int itype::charges_per_volume( const units::volume &vol ) const
     return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }
 
-std::string itype::extended_description( const bool append = true, const bool prepend = true ) const
+std::string itype::extended_description() const
 {
     std::string ret = description.translated();
-    if( prepend && !description_prepend.empty() ) {
+    if( !description_prepend.empty() ) {
         ret = string_format( "%s  %s", description_prepend.translated(),
                              ret );
     }
-    if( append && !description_append.empty() ) {
+    if( !description_append.empty() ) {
         ret = string_format( "%s  %s", ret,
                              description_append.translated() );
     }

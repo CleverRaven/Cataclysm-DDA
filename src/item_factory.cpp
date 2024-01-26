@@ -4221,21 +4221,20 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "description", def.description );
     } else if( !def.description.empty() && ( !def.description_prepend.empty() ||
                !def.description_append.empty() ) ) {
-        def.description = no_translation( def.extended_description() );
+        if( def.inherit_extended_description ) {
+            def.description = no_translation( def.extended_description() );
+        }
         def.description_prepend = no_translation( "" );
         def.description_append = no_translation( "" );
         def.extend_description = false;
     }
 
-    if( jo.has_member( "description_prepend" ) ) {
-        jo.read( "description_prepend", def.description_prepend );
+    if( jo.read( "description_prepend", def.description_prepend ) ||
+        jo.read( "description_append", def.description_append ) ) {
         def.extend_description = true;
     }
 
-    if( jo.has_member( "description_append" ) ) {
-        jo.read( "description_append", def.description_append );
-        def.extend_description = true;
-    }
+    jo.read( "inherit_extended_description", def.inherit_extended_description, true );
 
     if( jo.has_string( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" );
