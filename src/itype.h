@@ -1339,11 +1339,11 @@ struct itype {
         translation description_prepend;
         // Flavor text to add to the end of the description
         translation description_append;
-        // Whether the desciption needs appending/prepending
+        // Whether the desciption needs appending/prepending/both
         bool extend_description = false;
-        // Whether the inherited item should use the extended base item's desciption
+        // Whether the inherited item should use the base item's extended_desciption()
         bool inherit_extended_description = true;
-        // Extended description after appending // No idea if this belongs here or not
+        // Extended description after prepending/appending/both
         std::string extended_description() const;
 
     protected:

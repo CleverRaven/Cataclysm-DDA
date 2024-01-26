@@ -9354,9 +9354,9 @@ std::string item::variant_description() const
     std::string ret;
     if( variant.alt_description.empty() ) {
         if( type->extend_description ) {
-            ret = type->description.translated();
-        } else {
             ret = type->extended_description();
+        } else {
+            ret = type->description.translated();
         }
     } else {
         ret = variant.alt_description.translated();
