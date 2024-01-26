@@ -5464,8 +5464,7 @@ talk_effect_fun_t::func f_if( const JsonObject &jo, std::string_view member )
 
 talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member )
 {
-    std::function<double( dialogue & /* d */ )> eoc_switch =
-        conditional_t::get_get_dbl( jo.get_object( member ) );
+    dbl_or_var eoc_switch = get_dbl_or_var( jo, member );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -5474,7 +5473,7 @@ talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member 
         case_pairs.emplace_back( get_dbl_or_var( array_case, "case" ), case_effect );
     }
     return [eoc_switch, case_pairs]( dialogue & d ) {
-        const double switch_int = eoc_switch( d );
+        const double switch_int = eoc_switch.evaluate( d );
         talk_effect_t case_effect;
         for( const std::pair<dbl_or_var, talk_effect_t> &case_pair :
              case_pairs ) {

@@ -5,7 +5,6 @@
 #include <functional>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -1609,12 +1608,12 @@ conditional_t::func f_has_reason()
 
 conditional_t::func f_roll_contested( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue & )> get_check = conditional_t::get_get_dbl( jo.get_object(
-                member ) );
+    dbl_or_var get_check = get_dbl_or_var( jo, member );
     dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
     dbl_or_var die_size = get_dbl_or_var( jo, "die_size", false, 10 );
     return [get_check, difficulty, die_size]( dialogue & d ) {
-        return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
+        return rng( 1, die_size.evaluate( d ) ) + get_check.evaluate( d ) >
+               difficulty.evaluate( d );
     };
 }
 
@@ -1882,6 +1881,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [max_value]( dialogue const & ) {
             return rng( 0, max_value );
         };
+
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) || jo.has_member( "context_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
@@ -2705,3 +2705,6 @@ const std::unordered_set<std::string> &dialogue_data::complex_conds()
 
 template std::function<double( dialogue & )>
 conditional_t::get_get_dbl<>( kwargs_shim const & );
+
+template std::function<double( dialogue & )>
+conditional_t::get_get_dbl<>( JsonObject const & );
