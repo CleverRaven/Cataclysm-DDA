@@ -44,6 +44,7 @@ class zone_type
     private:
         translation name_;
         translation desc_;
+        field_type_str_id field_;
     public:
 
         zone_type_id id;
@@ -51,11 +52,13 @@ class zone_type
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
-            desc_( desc ) {}
+        explicit zone_type( const translation &name, const translation &desc,
+                            const field_type_str_id &field ) : name_( name ),
+            desc_( desc ), field_( field ) {}
 
         std::string name() const;
         std::string desc() const;
+        field_type_str_id get_field() const;
 
         bool can_be_personal = false;
         bool hidden = false;

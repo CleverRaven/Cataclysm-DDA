@@ -50,137 +50,29 @@ static const item_category_id item_category_food( "food" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_null( "null" );
 
-static const field_type_str_id fd_ammo_loot_zone( "fd_ammo_loot_zone" );
-static const field_type_str_id fd_armor_loot_zone( "fd_armor_loot_zone" );
-static const field_type_str_id fd_artifacts_loot_zone( "fd_artifacts_loot_zone" );
-static const field_type_str_id fd_auto_drink_zone( "fd_auto_drink_zone" );
-static const field_type_str_id fd_auto_eat_zone( "fd_auto_eat_zone" );
-static const field_type_str_id fd_basecamp_food_zone( "fd_basecamp_food_zone" );
-static const field_type_str_id fd_basecamp_storage_zone( "fd_basecamp_storage_zone" );
-static const field_type_str_id fd_bionics_loot_zone( "fd_bionics_loot_zone" );
-static const field_type_str_id fd_books_loot_zone( "fd_books_loot_zone" );
-static const field_type_str_id fd_chemical_loot_zone( "fd_chemical_loot_zone" );
-static const field_type_str_id fd_chop_trees_zone( "fd_chop_trees_zone" );
-static const field_type_str_id fd_clothing_loot_zone( "fd_clothing_loot_zone" );
-static const field_type_str_id fd_construction_blueprint_zone( "fd_construction_blueprint_zone" );
-static const field_type_str_id fd_containers_loot_zone( "fd_containers_loot_zone" );
-static const field_type_str_id fd_corpses_loot_zone( "fd_corpses_loot_zone" );
-static const field_type_str_id fd_currency_loot_zone( "fd_currency_loot_zone" );
-static const field_type_str_id fd_custom_loot_zone( "fd_custom_loot_zone" );
-static const field_type_str_id fd_default_loot_zone( "fd_default_loot_zone" );
-static const field_type_str_id fd_disassembly_work_zone( "fd_disassembly_work_zone" );
-static const field_type_str_id fd_drink_loot_zone( "fd_drink_loot_zone" );
-static const field_type_str_id fd_drugs_loot_zone( "fd_drugs_loot_zone" );
-static const field_type_str_id fd_farm_plot_zone( "fd_farm_plot_zone" );
-static const field_type_str_id fd_filthy_armor_loot_zone( "fd_filthy_armor_loot_zone" );
-static const field_type_str_id fd_filthy_clothing_loot_zone( "fd_filthy_clothing_loot_zone" );
-static const field_type_str_id fd_firewood_source_zone( "fd_firewood_source_zone" );
-static const field_type_str_id fd_fishing_spot_zone( "fd_fishing_spot_zone" );
-static const field_type_str_id fd_food_loot_zone( "fd_food_loot_zone" );
-static const field_type_str_id fd_fuel_loot_zone( "fd_fuel_loot_zone" );
-static const field_type_str_id fd_guns_loot_zone( "fd_guns_loot_zone" );
-static const field_type_str_id fd_ignore_loot_zone( "fd_ignore_loot_zone" );
-static const field_type_str_id fd_ignore_favorites_loot_zone( "fd_ignore_favorites_loot_zone" );
-static const field_type_str_id fd_item_group_loot_zone( "fd_item_group_loot_zone" );
-static const field_type_str_id fd_keys_loot_zone( "fd_keys_loot_zone" );
-static const field_type_str_id fd_magazines_loot_zone( "fd_magazines_loot_zone" );
-static const field_type_str_id fd_manuals_loot_zone( "fd_manuals_loot_zone" );
-static const field_type_str_id fd_maps_loot_zone( "fd_maps_loot_zone" );
-static const field_type_str_id
-fd_martial_arts_manuals_loot_zone( "fd_martial_arts_manuals_loot_zone" );
-static const field_type_str_id fd_mine_terrain_zone( "fd_mine_terrain_zone" );
-static const field_type_str_id fd_mods_loot_zone( "fd_mods_loot_zone" );
-static const field_type_str_id fd_mop_tile_zone( "fd_mop_tile_zone" );
-static const field_type_str_id fd_mutagens_loot_zone( "fd_mutagens_loot_zone" );
-static const field_type_str_id fd_no_auto_pickup_zone( "fd_no_auto_pickup_zone" );
-static const field_type_str_id fd_no_npc_pickup_zone( "fd_no_npc_pickup_zone" );
-static const field_type_str_id fd_npc_ignore_sounds_zone( "fd_npc_ignore_sounds_zone" );
-static const field_type_str_id fd_npc_investigation_area_zone( "fd_npc_investigation_area_zone" );
-static const field_type_str_id fd_npc_retreat_zone( "fd_npc_retreat_zone" );
-static const field_type_str_id fd_other_loot_zone( "fd_other_loot_zone" );
-static const field_type_str_id fd_perishable_drink_loot_zone( "fd_perishable_drink_loot_zone" );
-static const field_type_str_id fd_perishable_food_loot_zone( "fd_perishable_food_loot_zone" );
-static const field_type_str_id fd_seeds_loot_zone( "fd_seeds_loot_zone" );
-static const field_type_str_id fd_spare_parts_loot_zone( "fd_spare_parts_loot_zone" );
-static const field_type_str_id fd_start_point_zone( "fd_start_point_zone" );
-static const field_type_str_id fd_strip_corpses_loot_zone( "fd_strip_corpses_loot_zone" );
-static const field_type_str_id fd_tool_magazines_loot_zone( "fd_tool_magazines_loot_zone" );
-static const field_type_str_id fd_tools_loot_zone( "fd_tools_loot_zone" );
-static const field_type_str_id fd_traps_loot_zone( "fd_traps_loot_zone" );
-static const field_type_str_id fd_unsorted_loot_zone( "fd_unsorted_loot_zone" );
-static const field_type_str_id fd_vehicle_parts_loot_zone( "fd_vehicle_parts_loot_zone" );
-static const field_type_str_id fd_weapons_loot_zone( "fd_weapons_loot_zone" );
-static const field_type_str_id fd_wood_loot_zone( "fd_wood_loot_zone" );
-static const field_type_str_id fd_unload_everything_loot_zone( "fd_unload_everything_loot_zone" );
-static const field_type_str_id fd_vehicle_deconstruct_zone( "fd_vehicle_deconstruct_zone" );
-static const field_type_str_id fd_vehicle_patrol_zone( "fd_vehicle_patrol_zone" );
-static const field_type_str_id fd_vehicle_repair_zone( "fd_vehicle_repair_zone" );
-
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
-static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
-static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
-static const zone_type_id zone_type_LOOT_AMMO( "LOOT_AMMO" );
-static const zone_type_id zone_type_LOOT_ARMOR( "LOOT_ARMOR" );
-static const zone_type_id zone_type_LOOT_ARTIFACTS( "LOOT_ARTIFACTS" );
-static const zone_type_id zone_type_LOOT_BIONICS( "LOOT_BIONICS" );
-static const zone_type_id zone_type_LOOT_BOOKS( "LOOT_BOOKS" );
-static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
-static const zone_type_id zone_type_LOOT_CLOTHING( "LOOT_CLOTHING" );
-static const zone_type_id zone_type_LOOT_CONTAINERS( "LOOT_CONTAINERS" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
-static const zone_type_id zone_type_LOOT_CURRENCY( "LOOT_CURRENCY" );
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_DEFAULT( "LOOT_DEFAULT" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
-static const zone_type_id zone_type_LOOT_DRUGS( "LOOT_DRUGS" );
-static const zone_type_id zone_type_LOOT_FARMOR( "LOOT_FARMOR" );
-static const zone_type_id zone_type_LOOT_FCLOTHING( "LOOT_FCLOTHING" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
-static const zone_type_id zone_type_LOOT_FUEL( "LOOT_FUEL" );
-static const zone_type_id zone_type_LOOT_GUNS( "LOOT_GUNS" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
-static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
-static const zone_type_id zone_type_LOOT_KEYS( "LOOT_KEYS" );
-static const zone_type_id zone_type_LOOT_MAGAZINES( "LOOT_MAGAZINES" );
-static const zone_type_id zone_type_LOOT_MANUALS( "LOOT_MANUALS" );
-static const zone_type_id zone_type_LOOT_MAPS( "LOOT_MAPS" );
-static const zone_type_id zone_type_LOOT_MA_MANUALS( "LOOT_MA_MANUALS" );
-static const zone_type_id zone_type_LOOT_MODS( "LOOT_MODS" );
-static const zone_type_id zone_type_LOOT_MUTAGENS( "LOOT_MUTAGENS" );
-static const zone_type_id zone_type_LOOT_OTHER( "LOOT_OTHER" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 static const zone_type_id zone_type_LOOT_SEEDS( "LOOT_SEEDS" );
-static const zone_type_id zone_type_LOOT_SPARE_PARTS( "LOOT_SPARE_PARTS" );
-static const zone_type_id zone_type_LOOT_TOOL_MAGAZINE( "LOOT_TOOL_MAGAZINE" );
-static const zone_type_id zone_type_LOOT_TOOLS( "LOOT_TOOLS" );
-static const zone_type_id zone_type_LOOT_TRAPS( "LOOT_TRAPS" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
-static const zone_type_id zone_type_LOOT_VEHICLE_PARTS( "LOOT_VEHICLE_PARTS" );
-static const zone_type_id zone_type_LOOT_WEAPONS( "LOOT_WEAPONS" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
-static const zone_type_id zone_type_MINING( "MINING" );
-static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
-static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
-static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY" );
-static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
-static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
-static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
-static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
-
 
 const std::vector<zone_type_id> ignorable_zone_types = {
     zone_type_AUTO_EAT,
@@ -200,51 +92,6 @@ zone_manager::zone_manager()
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }
-
-    types.emplace( zone_type_AUTO_DRINK,
-                   zone_type( to_translation( "Auto Drink" ),
-                              to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
-    types.emplace( zone_type_AUTO_EAT,
-                   zone_type( to_translation( "Auto Eat" ),
-                              to_translation( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
-    types.emplace( zone_type_CAMP_FOOD,
-                   zone_type( to_translation( "Basecamp: Food" ),
-                              to_translation( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
-    types.emplace( zone_type_CAMP_STORAGE,
-                   zone_type( to_translation( "Basecamp: Storage" ),
-                              to_translation( "Items in this zone will be added to a basecamp's inventory for use by its workers." ) ) );
-    types.emplace( zone_type_CHOP_TREES,
-                   zone_type( to_translation( "Chop Trees" ),
-                              to_translation( "Designate an area to chop down trees." ) ) );
-    types.emplace( zone_type_CONSTRUCTION_BLUEPRINT,
-                   zone_type( to_translation( "Construction: Blueprint" ),
-                              to_translation( "Designate a blueprint zone for construction." ) ) );
-    types.emplace( zone_type_FARM_PLOT,
-                   zone_type( to_translation( "Farm: Plot" ),
-                              to_translation( "Designate a farm plot for tilling and planting." ) ) );
-    types.emplace( zone_type_FISHING_SPOT,
-                   zone_type( to_translation( "Fishing Spot" ),
-                              to_translation( "Designate an area to fish from." ) ) );
-    types.emplace( zone_type_MINING,
-                   zone_type( to_translation( "Mine Terrain" ),
-                              to_translation( "Designate an area to mine." ) ) );
-    types.emplace( zone_type_MOPPING,
-                   zone_type( to_translation( "Mop Tile" ),
-                              to_translation( "Designate an area to mop clean." ) ) );
-    types.emplace( zone_type_SOURCE_FIREWOOD,
-                   zone_type( to_translation( "Source: Firewood" ),
-                              to_translation( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
-                                      "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
-    types.emplace( zone_type_VEHICLE_DECONSTRUCT,
-                   zone_type( to_translation( "Vehicle Deconstruct Zone" ),
-                              to_translation( "Any vehicles in this area are marked for deconstruction." ) ) );
-    types.emplace( zone_type_VEHICLE_PATROL,
-                   zone_type( to_translation( "Vehicle Patrol Zone" ),
-                              to_translation( "Vehicles with an autopilot will patrol in this zone." ) ) );
-    types.emplace( zone_type_VEHICLE_REPAIR,
-                   zone_type( to_translation( "Vehicle Repair Zone" ),
-                              to_translation( "Any vehicles in this area are marked for repair work." ) ) );
-
 }
 
 void zone_manager::clear()
@@ -266,6 +113,11 @@ std::string zone_type::name() const
 std::string zone_type::desc() const
 {
     return desc_.translated();
+}
+
+field_type_str_id zone_type::get_field() const
+{
+    return field_;
 }
 
 namespace
@@ -304,6 +156,7 @@ void zone_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "display_field", field_ );
     optional( jo, was_loaded, "description", desc_, translation() );
     optional( jo, was_loaded, "can_be_personal", can_be_personal );
     optional( jo, was_loaded, "hidden", hidden );
@@ -813,8 +666,18 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
+    bool displayed = is_displayed;
+
+    if( displayed ) {
+        toggle_display();
+    }
+
     start = position.first;
     end = position.second;
+
+    if( displayed ) {
+        toggle_display();
+    }
 
     if( !skip_cache_update ) {
         zone_manager::get_manager().cache_data( update_avatar );
@@ -832,147 +695,11 @@ void zone_data::set_temporary_disabled( const bool enabled_arg )
     temporarily_disabled = enabled_arg;
 }
 
-static field_type_str_id field_of( zone_data *zone )
-{
-    zone_type_id type = zone->get_type();
-
-    if( type == zone_type_AUTO_DRINK ) {
-        return fd_auto_drink_zone;
-    } else if( type == zone_type_AUTO_EAT ) {
-        return fd_auto_eat_zone;
-    } else if( type == zone_type_CAMP_FOOD ) {
-        return fd_basecamp_food_zone;
-    } else if( type == zone_type_CAMP_STORAGE ) {
-        return fd_basecamp_storage_zone;
-    } else if( type == zone_type_CHOP_TREES ) {
-        return fd_chop_trees_zone;
-    } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
-        return fd_construction_blueprint_zone;
-    } else if( type == zone_type_DISASSEMBLE ) {
-        return fd_disassembly_work_zone;
-    } else if( type == zone_type_FARM_PLOT ) {
-        return fd_farm_plot_zone;
-    } else if( type == zone_type_FISHING_SPOT ) {
-        return fd_fishing_spot_zone;
-    } else if( type == zone_type_LOOT_AMMO ) {
-        return fd_ammo_loot_zone;
-    } else if( type == zone_type_LOOT_ARMOR ) {
-        return fd_armor_loot_zone;
-    } else if( type == zone_type_LOOT_ARTIFACTS ) {
-        return fd_artifacts_loot_zone;
-    } else if( type == zone_type_LOOT_BIONICS ) {
-        return fd_bionics_loot_zone;
-    } else if( type == zone_type_LOOT_BOOKS ) {
-        return fd_books_loot_zone;
-    } else if( type == zone_type_LOOT_CHEMICAL ) {
-        return fd_chemical_loot_zone;
-    } else if( type == zone_type_LOOT_CLOTHING ) {
-        return fd_clothing_loot_zone;
-    } else if( type == zone_type_LOOT_CONTAINERS ) {
-        return fd_containers_loot_zone;
-    } else if( type == zone_type_LOOT_CORPSE ) {
-        return fd_corpses_loot_zone;
-    } else if( type == zone_type_LOOT_CURRENCY ) {
-        return fd_currency_loot_zone;
-    } else if( type == zone_type_LOOT_CUSTOM ) {
-        return fd_custom_loot_zone;
-    } else if( type == zone_type_LOOT_DEFAULT ) {
-        return fd_default_loot_zone;
-    } else if( type == zone_type_LOOT_DRINK ) {
-        return fd_drink_loot_zone;
-    } else if( type == zone_type_LOOT_DRUGS ) {
-        return fd_drugs_loot_zone;
-    } else if( type == zone_type_LOOT_FARMOR ) {
-        return fd_filthy_armor_loot_zone;
-    } else if( type == zone_type_LOOT_FCLOTHING ) {
-        return fd_filthy_clothing_loot_zone;
-    } else if( type == zone_type_LOOT_FOOD ) {
-        return fd_food_loot_zone;
-    } else if( type == zone_type_LOOT_FUEL ) {
-        return fd_fuel_loot_zone;
-    } else if( type == zone_type_LOOT_GUNS ) {
-        return fd_guns_loot_zone;
-    } else if( type == zone_type_LOOT_IGNORE ) {
-        return fd_ignore_loot_zone;
-    } else if( type == zone_type_LOOT_IGNORE_FAVORITES ) {
-        return fd_ignore_favorites_loot_zone;
-    } else if( type == zone_type_LOOT_ITEM_GROUP ) { //### not in UI list...
-        return fd_item_group_loot_zone;
-    } else if( type == zone_type_LOOT_KEYS ) {
-        return fd_keys_loot_zone;
-    } else if( type == zone_type_LOOT_MAGAZINES ) {
-        return fd_magazines_loot_zone;
-    } else if( type == zone_type_LOOT_MANUALS ) {
-        return fd_manuals_loot_zone;
-    } else if( type == zone_type_LOOT_MAPS ) {
-        return fd_maps_loot_zone;
-    } else if( type == zone_type_LOOT_MA_MANUALS ) {
-        return fd_martial_arts_manuals_loot_zone;
-    } else if( type == zone_type_LOOT_MODS ) {
-        return fd_mods_loot_zone;
-    } else if( type == zone_type_LOOT_MUTAGENS ) {
-        return fd_mutagens_loot_zone;
-    } else if( type == zone_type_LOOT_OTHER ) {
-        return fd_other_loot_zone;
-    } else if( type == zone_type_LOOT_PDRINK ) {
-        return fd_perishable_drink_loot_zone;
-    } else if( type == zone_type_LOOT_PFOOD ) {
-        return fd_perishable_food_loot_zone;
-    } else if( type == zone_type_LOOT_SEEDS ) {
-        return fd_seeds_loot_zone;
-    } else if( type == zone_type_LOOT_SPARE_PARTS ) {
-        return fd_spare_parts_loot_zone;
-    } else if( type == zone_type_STRIP_CORPSES ) {
-        return fd_strip_corpses_loot_zone;
-    } else if( type == zone_type_LOOT_TOOL_MAGAZINE ) {
-        return fd_tool_magazines_loot_zone;
-    } else if( type == zone_type_LOOT_TOOLS ) {
-        return fd_tools_loot_zone;
-    } else if( type == zone_type_LOOT_TRAPS ) {
-        return fd_traps_loot_zone;
-    } else if( type == zone_type_UNLOAD_ALL ) {
-        return fd_unload_everything_loot_zone;
-    } else if( type == zone_type_LOOT_UNSORTED ) {
-        return fd_unsorted_loot_zone;
-    } else if( type == zone_type_LOOT_VEHICLE_PARTS ) {
-        return fd_vehicle_parts_loot_zone;
-    } else if( type == zone_type_LOOT_WEAPONS ) {
-        return fd_weapons_loot_zone;
-    } else if( type == zone_type_LOOT_WOOD ) {
-        return fd_wood_loot_zone;
-    } else if( type == zone_type_MINING ) {
-        return fd_mine_terrain_zone;
-    } else if( type == zone_type_MOPPING ) {
-        return fd_mop_tile_zone;
-    } else if( type == zone_type_NO_AUTO_PICKUP ) {
-        return fd_no_auto_pickup_zone;
-    } else if( type == zone_type_NO_NPC_PICKUP ) {
-        return fd_no_npc_pickup_zone;
-    } else if( type == zone_type_NPC_NO_INVESTIGATE ) {
-        return fd_npc_ignore_sounds_zone;
-    } else if( type == zone_type_NPC_INVESTIGATE_ONLY ) {
-        return fd_npc_investigation_area_zone;
-    } else if( type == zone_type_NPC_RETREAT ) {
-        return fd_npc_retreat_zone;
-    } else if( type == zone_type_SOURCE_FIREWOOD ) {
-        return fd_firewood_source_zone;
-    } else if( type == zone_type_ZONE_START_POINT ) {
-        return fd_start_point_zone;
-    } else if( type == zone_type_VEHICLE_DECONSTRUCT ) {
-        return fd_vehicle_deconstruct_zone;
-    } else if( type == zone_type_VEHICLE_PATROL ) {
-        return fd_vehicle_patrol_zone;
-    } else if( type == zone_type_VEHICLE_REPAIR ) {
-        return fd_vehicle_repair_zone;
-    } else {
-        return fd_null;
-    }
-}
-
 void zone_data::toggle_display()
 {
     if( this->is_vehicle ) {
         popup( colorize( _( "Zones tied to vehicles cannot be displayed" ), c_magenta ) );
+        return;
     }
 
     is_displayed = !is_displayed;
@@ -999,7 +726,16 @@ void zone_data::toggle_display()
     int y_start = std::min( start_remainder.y(), end_remainder.y() );
     int y_end = std::max( start_remainder.y(), end_remainder.y() );
     int z = get_start_point().z();
-    field_type_str_id field = field_of( this );
+    zone_type_id type = this->get_type();
+
+    field_type_str_id field = fd_null;
+    static const std::vector<zone_type> &all_zone_types = zone_type::get_all();
+    for( zone_type zone : all_zone_types ) {
+        if( zone.id == type ) {
+            field = zone.get_field();
+            break;
+        }
+    }
 
     if( field != fd_null ) {
         for( int x = x_start; x <= x_end; x++ ) {
