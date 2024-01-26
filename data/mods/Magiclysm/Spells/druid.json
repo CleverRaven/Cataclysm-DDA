@@ -1123,7 +1123,7 @@
     "name": "Aquatic Mantle ",
     "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -1162,12 +1162,66 @@
     "type": "effect_on_condition",
     "id": "EOC_DRUID_DISINFECTANT",
     "effect": [
-      { "u_spawn_item": "item_druid_disinfectant" },
+      { "u_spawn_item": "item_druid_disinfectant", "suppress_message": true },
       {
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       }
+    ]
+  },
+  {
+    "id": "druid_water_walking",
+    "type": "SPELL",
+    "name": "Water Strider's Walk",
+    "description": "While standing in water, enchant yourself so that the water will buoy you up and prevent you from sinking.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_WATER_WALKING",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "max_level": 15,
+    "base_casting_time": 250,
+    "base_energy_cost": 250,
+    "min_duration": 30000,
+    "max_duration": 480000,
+    "duration_increment": 30000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATER_WALKING",
+    "condition": { "u_is_on_terrain_with_flag": "LIQUID" },
+    "effect": { "u_cast_spell": { "id": "druid_water_walking_real", "hit_self": true } },
+    "false_effect": { "u_message": "You must be standing on water to cast Water Strider's Walk", "type": "bad" }
+  },
+  {
+    "id": "druid_water_walking_real",
+    "type": "SPELL",
+    "name": "Water Strider's Walk Real",
+    "description": "The actual spell that lets you walk on water.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_druid_waterwalk",
+    "shape": "blast",
+    "difficulty": 4,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + 30000)" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + 30000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATERWALKING_REMOVERE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_item": "aura_druid_waterwalk" }, { "not": { "u_is_on_terrain_with_flag": "LIQUID" } } ] },
+    "effect": [
+      { "u_remove_item_with": "aura_druid_waterwalk" },
+      { "u_message": "As you leave the water, your spell fades.", "type": "bad" }
     ]
   }
 ]

@@ -1783,6 +1783,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_water_walking",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water Strider's Walk", "str_pl": "Scrolls of Water Strider's Walk" },
+    "description": "Walk on water using the power of your magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_water_walking" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_technomancer_recharge_vehicle",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },

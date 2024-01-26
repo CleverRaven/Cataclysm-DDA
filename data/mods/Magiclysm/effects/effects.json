@@ -790,7 +790,7 @@
     "type": "effect_type",
     "id": "effect_druid_anti_heat",
     "name": [ "Water's Cooling Touch" ],
-    "desc": [ "Your feels like you just splashed cool water on it." ],
+    "desc": [ "Your skin feels like you just splashed cool water on it." ],
     "apply_message": "",
     "remove_message": "A warm breeze hits your skin.",
     "rating": "good",
