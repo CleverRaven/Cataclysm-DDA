@@ -15,7 +15,6 @@
 #include <vector>
 
 #include "achievement.h"
-#include "action.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -44,11 +43,10 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "help.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_category.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -2043,7 +2041,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me, c
 void parse_tags( std::string &phrase, const talker &u, const talker &me, const dialogue &d,
                  const itype_id &item_type )
 {
-    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
+    phrase = SNIPPET.expand( phrase );
 
     const Character *u_chr = u.get_character();
     const Character *me_chr = me.get_character();
@@ -2054,6 +2052,16 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
     do {
         fa = phrase.find( '<' );
         fb = phrase.find( '>' );
+        // Skip the <color_XXX> and </color> tag
+        while( fa != std::string::npos && ( phrase.compare( fa + 1, 6, "color_" ) == 0 ||
+                                            phrase.compare( fa + 1, 7, "/color>" ) == 0 ) ) {
+            if( phrase.compare( fa + 1, 6, "color_" ) == 0 ) {
+                fa = phrase.find( '<', fa + 7 );
+            } else { // phrase.compare(fa + 1, 7, "/color>") == 0
+                fa = phrase.find( '<', fa + 8 );
+            }
+            fb = phrase.find( '>', fa );
+        }
         if( fa != std::string::npos ) {
             size_t nest = 0;
             fa_ = phrase.find( '<', fa + 1 );
@@ -3994,6 +4002,17 @@ void talk_effect_fun_t::set_forget_recipe( const JsonObject &jo, std::string_vie
     };
 }
 
+void talk_effect_fun_t::set_turn_cost( const JsonObject &jo, std::string_view member )
+{
+    duration_or_var cost = get_duration_or_var( jo, member, true );
+    function = [cost]( dialogue & d ) {
+        Character *target = d.actor( false )->get_character();
+        if( target ) {
+            target->moves -= to_moves<int>( cost.evaluate( d ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, std::string_view member )
 {
     str_or_var chat_topic = get_str_or_var( jo.get_member( member ), member, true );
@@ -4603,13 +4622,31 @@ void talk_effect_fun_t::set_activate( const JsonObject &jo, std::string_view mem
     };
 }
 
+void talk_effect_fun_t::set_transform_item( const JsonObject &jo, std::string_view member )
+{
+    str_or_var target_id = get_str_or_var( jo.get_member( member ), member, true );
+    bool activate = jo.get_bool( "active", false );
+
+    function = [target_id, activate]( dialogue & d ) {
+        item_location *it = d.actor( true )->get_item();
+
+        if( it && it->get_item() ) {
+            const std::string target_str = target_id.evaluate( d );
+            ( *it )->convert( itype_id( target_str ), it->carrier() );
+            ( *it )->active = activate || ( *it )->has_temperature();
+        } else {
+            debugmsg( "beta talker must be Item." );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view member,
                                         bool is_npc )
 {
     str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
 
-    int volume;
-    mandatory( jo, false, "volume", volume );
+    dbl_or_var volume = get_dbl_or_var( jo, "volume", true );
+    bool ambient = jo.get_bool( "ambient", false );
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
     sounds::sound_t type = sounds::sound_t::background;
@@ -4645,8 +4682,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    function = [is_npc, message, volume, type, target_var, snippet,
-            same_snippet]( dialogue const & d ) {
+    function = [is_npc, message, volume, ambient, type, target_var, snippet,
+            same_snippet]( dialogue & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         std::string translated_message;
         if( snippet ) {
@@ -4666,7 +4703,8 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, std::string_view m
         } else {
             translated_message = _( message.evaluate( d ) );
         }
-        sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
+        sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message,
+                       ambient );
     };
 }
 
@@ -4921,12 +4959,6 @@ void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, std::string_view
             context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
                                                   true );
         }
-    }
-
-    std::optional<var_info> target_var;
-
-    if( jo.has_object( "beta_loc" ) ) {
-        target_var = read_var_info( jo.get_object( "beta_loc" ) );
     }
 
     str_or_var alpha_var;
@@ -5714,6 +5746,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
+        bool use_target_monster = single_target;
 
         if( group ) {
             if( monster_id.evaluate( d ).empty() ) {
@@ -5756,16 +5789,18 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
                 } else if( valid_monsters == 1 ) {
                     Creature *copy = monsters_in_range[0];
                     target_monster = *copy->as_monster();
+                    use_target_monster = true;
                 } else {
                     target_monsters = monsters_in_range;
                 }
             }
         } else {
             if( single_target ) {
-                debugmsg( "single_target should not be defined for a singlular monster_id.  %s",
+                debugmsg( "single_target doesn't need to be defined for a singlular monster_id.  %s",
                           d.get_callstack() );
             }
             target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
+            use_target_monster = true;
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -5780,7 +5815,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
@@ -5810,7 +5845,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, std::string_vie
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
-            if( !single_target ) {
+            if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
                 } else {
@@ -6032,6 +6067,22 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, std::string_view mem
             map_add_item( *it->get_item(), target_pos );
             add_msg( _( success_message.evaluate( d ) ) );
             it->remove_item();
+        }
+    };
+}
+
+void talk_effect_fun_t::set_wants_to_talk( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        npc *p = d.actor( is_npc )->get_npc();
+        if( p ) {
+            if( p->get_attitude() == NPCATT_TALK ) {
+                return;
+            }
+            if( p->sees( get_player_character() ) ) {
+                add_msg( _( "%s wants to talk to you." ), p->get_name() );
+            }
+            p->set_attitude( NPCATT_TALK );
         }
     };
 }
@@ -6432,8 +6483,10 @@ parsers = {
     { "open_dialogue", jarg::member, &talk_effect_fun_t::set_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun_t::set_take_control },
     { "add_debt", jarg::array, &talk_effect_fun_t::set_add_debt },
+    { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker },
+    { "turn_cost", jarg::member, &talk_effect_fun_t::set_turn_cost },
+    { "transform_item", jarg::member, &talk_effect_fun_t::set_transform_item },
     { "trigger_event", jarg::member, &talk_effect_fun_t::set_trigger_event },
-    { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun_t::set_set_talker}
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
@@ -6621,6 +6674,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         subeffect_fun.set_take_control_menu();
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "u_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+    if( effect_id == "npc_wants_to_talk" ) {
+        subeffect_fun.set_wants_to_talk( true );
         set_effect( subeffect_fun );
         return;
     }

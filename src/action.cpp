@@ -5,7 +5,6 @@
 #include <istream>
 #include <iterator>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -14,13 +13,12 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"

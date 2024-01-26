@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <limits>
-#include <list>
 #include <memory>
 #include <optional>
 #include <string>
@@ -17,10 +16,10 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_pocket.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"

@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <list>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <tuple>
 
@@ -25,13 +24,11 @@
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"
-#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
 #include "game_inventory.h"
-#include "json.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -39,9 +36,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "output.h"
 #include "overmapbuffer.h"
-#include "pickup.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "requirements.h"

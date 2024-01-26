@@ -1,0 +1,172 @@
+[
+  {
+    "id": "zenfs_hp_bars_and_stats",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "zenfs_hp_bars_and_physical", "zenfs_graphs_diet_stats_movement" ]
+  },
+  {
+    "id": "zenfs_hp_bars_and_stats_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "zenfs_hp_bars_with_labels", "zenfs_diet_stats_movement" ]
+  },
+  {
+    "id": "zenfs_physical_block",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_carrywt_malus", "zenfs_fatigue_weariness_activity", "zenfs_pain_power_mana" ]
+  },
+  {
+    "id": "zenfs_hp_bars_and_physical",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 20,
+    "widgets": [
+      "zenfs_hp_bars_14",
+      "zenfs_blank_line",
+      "zenfs_health_stack_20",
+      "zenfs_bionic_bar_14_with_balance",
+      "zenfs_mana_bar"
+    ]
+  },
+  {
+    "id": "zenfs_hp_bars_with_labels",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 35,
+    "widgets": [ "zenfs_hp_bar_labels", "zenfs_hp_bars_28" ]
+  },
+  {
+    "id": "zenfs_hp_bar_labels",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>State  Hit points   Wet Temp Encum</color>",
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_hp_bars_14",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 21,
+    "widgets": [
+      "zenfs_status_hpg_layout_head",
+      "zenfs_status_hpg_layout_torso",
+      "zenfs_status_hpg_layout_larm",
+      "zenfs_status_hpg_layout_rarm",
+      "zenfs_status_hpg_layout_lleg",
+      "zenfs_status_hpg_layout_rleg"
+    ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_hp_bars_28",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 36,
+    "widgets": [
+      "zenfs_status_bar_layout_head",
+      "zenfs_status_bar_layout_torso",
+      "zenfs_status_bar_layout_larm",
+      "zenfs_status_bar_layout_rarm",
+      "zenfs_status_bar_layout_lleg",
+      "zenfs_status_bar_layout_rleg"
+    ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_health_stack_20",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 20,
+    "widgets": [
+      "zenfs_pain_bar_15",
+      "zenfs_carry_weight_bar_12",
+      "zenfs_stamina_bar_12",
+      "zenfs_fatigue_bar",
+      "zenfs_weariness_bar_10",
+      "zenfs_activity_desc",
+      "zenfs_weariness_trans_malus"
+    ]
+  },
+  {
+    "id": "zenfs_graphs_diet_stats_movement",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 29,
+    "widgets": [ "zenfs_body_graphs_narrow", "zenfs_blank_line", "zenfs_diet_stats_movement" ]
+  },
+  {
+    "id": "zenfs_diet_stats_movement",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 29,
+    "widgets": [ "zenfs_diet_block", "zenfs_stat_block_movement" ]
+  },
+  {
+    "id": "zenfs_diet_block",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "zenfs_health_label",
+      "zenfs_health_desc",
+      "zenfs_weight_health_clause",
+      "zenfs_thirst_label",
+      "zenfs_thirst_desc",
+      "zenfs_hunger_label",
+      "zenfs_hunger_desc"
+    ]
+  },
+  {
+    "id": "zenfs_stat_block_movement",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 18,
+    "widgets": [ "zenfs_stat_block", "zenfs_blank_line", "zenfs_movement_block" ]
+  },
+  {
+    "id": "zenfs_stamina_carrywt_malus",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 22,
+    "widgets": [ "zenfs_stamina_bar_14", "zenfs_carry_weight_bar_14", "zenfs_weariness_trans_malus_alt" ]
+  },
+  {
+    "id": "zenfs_fatigue_weariness_activity",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 20,
+    "widgets": [ "zenfs_fatigue_bar_alt", "zenfs_weariness_bar_10", "zenfs_activity_desc" ]
+  },
+  {
+    "id": "zenfs_pain_power_mana",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 20,
+    "widgets": [ "zenfs_pain_bar_14", "zenfs_bionic_bar_14_with_balance", "zenfs_mana_bar" ]
+  },
+  {
+    "id": "zenfs_stat_block",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 17,
+    "widgets": [ "zenfs_mood_focus_speed_sound", "zenfs_main_stats" ]
+  }
+]

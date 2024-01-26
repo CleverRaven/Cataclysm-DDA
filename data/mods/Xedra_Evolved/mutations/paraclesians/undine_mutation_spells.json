@@ -16,7 +16,11 @@
     "id": "ench_undine_water_body",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "ARMOR_BASH", "multiply": -0.1 }, { "value": "ARMOR_BULLET", "multiply": -0.5 } ]
+    "values": [
+      { "value": "ARMOR_BASH", "multiply": -0.1 },
+      { "value": "ARMOR_CUT", "multiply": -0.2 },
+      { "value": "ARMOR_BULLET", "multiply": -0.5 }
+    ]
   },
   {
     "type": "enchantment",
@@ -35,7 +39,7 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "values": [
-      { "value": "ARMOR_BASH", "multiply": -0.5 },
+      { "value": "ARMOR_BASH", "multiply": -0.4 },
       { "value": "ARMOR_CUT", "multiply": -0.6 },
       { "value": "ARMOR_STAB", "multiply": -0.8 },
       { "value": "ARMOR_BULLET", "multiply": -1.0 },
@@ -255,6 +259,325 @@
     "base_energy_cost": 450
   },
   {
+    "id": "undine_bash_and_slow_spell",
+    "type": "SPELL",
+    "name": "Crushing Pressure",
+    "description": "You may bring the force of the ocean's depths onto your enemy, crushing them and slowing them briefly.",
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "spell_class": "UNDINE",
+    "teachable": false,
+    "effect": "attack",
+    "effect_str": "effect_undine_spell_slow",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "difficulty": 3,
+    "min_damage": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 2) + 15) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 5) + 55) * (scaling_factor(u_val('strength') ) )" ] },
+    "damage_type": "bash",
+    "min_duration": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 75) + 200) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 150) + 800) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 1.1) + 3) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_range": { "math": [ "( (u_spell_level('undine_bash_and_slow_spell') * 1.1) + 3) * (scaling_factor(u_val('strength') ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 100,
+    "energy_increment": -10,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -7
+  },
+  {
+    "id": "undine_drag_inward_spell",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal",
+    "description": "Create a whirling field of magickal waters, draging everything within it toward a central point and slowing them with the force of the current.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "UNDINE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_UNDINE_DRAG_INWARD_SELECTOR",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "final_energy_cost": 450,
+    "energy_increment": -3,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "undine_drag_inward_spell_01",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 01",
+    "description": "Version 1 of the Whirlpool Catches the Shoal drag, with 2 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_02",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 02",
+    "description": "Version 2 of the Whirlpool Catches the Shoal drag, with 3 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_03",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 03",
+    "description": "Version 3 of the Whirlpool Catches the Shoal drag, with 4 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_04",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 04",
+    "description": "Version 4 of the Whirlpool Catches the Shoal drag, with 5 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_05",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 05",
+    "description": "Version 5 of the Whirlpool Catches the Shoal drag, with 6 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_06",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 06",
+    "description": "Version 6 of the Whirlpool Catches the Shoal drag, with 7 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_07",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal 07",
+    "description": "Version 7 of the Whirlpool Catches the Shoal drag, with 8 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_pull", "hit_self": false },
+      { "id": "undine_drag_inward_spell_slow", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_pull",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal Real",
+    "description": "The actual Whirlpool Catches the Shoal drag that pulls in monsters.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
+    "id": "undine_drag_inward_spell_slow",
+    "type": "SPELL",
+    "name": "Whirlpool Catches the Shoal Real Slow",
+    "description": "The actual Whirlpool Catches the Shoal drag that slows monsters after they're pulled.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_undine_spell_slow",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('undine_drag_inward_spell') * 100) + 200) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('undine_drag_inward_spell') * 200) + 800) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.8) + 5) * (scaling_factor(u_val('strength') ) )), 40)" ]
+    },
+    "max_range": 40,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    },
+    "max_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_drag_inward_spell') * 0.25) + 3) * (scaling_factor(u_val('strength') ) )), 15)" ]
+    }
+  },
+  {
     "id": "wave_rider",
     "type": "SPELL",
     "name": "Summon Wave Rider",
@@ -369,7 +692,7 @@
   {
     "id": "summon_water_sprite",
     "type": "SPELL",
-    "name": "Summon Water Sprite",
+    "name": "Calling the Children of the Waves",
     "description": "A lesser water elemental is summoned to support you.",
     "valid_targets": [ "ground" ],
     "skill": "deduction",
@@ -384,7 +707,7 @@
     "max_level": 35,
     "difficulty": 3,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_UNDINE",
+    "effect_str": "GROUP_GENIUS_UNDINE_LESSER",
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 200,
@@ -408,5 +731,110 @@
     "min_range": 0,
     "min_aoe": 1,
     "max_aoe": 3
+  },
+  {
+    "id": "undine_acid_body_spell",
+    "type": "SPELL",
+    "name": "Beouled Water Rebuke spell",
+    "description": "The actual spell that sprays enemies with acid.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 3,
+    "max_damage": 30,
+    "min_range": 1,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_chance": 3
+  },
+  {
+    "id": "undine_tidal_wave_spell",
+    "type": "SPELL",
+    "name": "Tidal Wave",
+    "description": "Create a magickal wall of water and bring it crashing down on your enemies, buffeting and carrying them away.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "downed",
+    "extra_effects": [
+      { "id": "undine_tidal_wave_spell_bash", "hit_self": false },
+      { "id": "undine_tidal_wave_spell_push", "hit_self": false }
+    ],
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 40) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 9) + 100) * (scaling_factor(u_val('strength') ) )" ] },
+    "damage_type": "bash",
+    "min_duration": 200,
+    "max_duration": 900,
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6,
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 650,
+    "energy_increment": -25,
+    "base_casting_time": 250,
+    "final_casting_time": 50,
+    "casting_time_increment": -12
+  },
+  {
+    "id": "undine_tidal_wave_spell_bash",
+    "type": "SPELL",
+    "name": "Tidal Wave Bash",
+    "description": "The Bash effect of the Tidal Wave spell.  It's a bug if you have it directly.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "bash",
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 35) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 7) + 80) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6
+  },
+  {
+    "id": "undine_tidal_wave_spell_push",
+    "type": "SPELL",
+    "name": "Tidal Wave Directed Push",
+    "description": "The Directed Push effect of the Tidal Wave spell.  It's a bug if you have it directly.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "UNDINE",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "line",
+    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 0.25) + 1) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 0.5) + 2) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
+    },
+    "max_aoe": 6
   }
 ]

@@ -5,24 +5,19 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdlib>
 #include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <locale>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -52,7 +47,6 @@
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -64,6 +58,7 @@
 #include "game_inventory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -80,7 +75,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -98,7 +92,6 @@
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
-#include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -1603,60 +1596,34 @@ static void character_edit_needs_menu( Character &you )
 
 static void character_edit_hp_menu( Character &you )
 {
-    const int torso_hp = you.get_part_hp_cur( bodypart_id( "torso" ) );
-    const int head_hp = you.get_part_hp_cur( bodypart_id( "head" ) );
-    const int arm_l_hp = you.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    const int arm_r_hp = you.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    const int leg_l_hp = you.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    const int leg_r_hp = you.get_part_hp_cur( bodypart_id( "leg_r" ) );
     uilist smenu;
-    smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-    smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-    smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-    smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-    smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-    smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
-    smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
+    int pos = 0;
+    char hotkey = 'a';
+    std::vector<bodypart_id> part_ids = you.get_all_body_parts( get_body_part_flags::only_main );
+    for( bodypart_id part_id : part_ids ) {
+        smenu.addentry( pos, true, hotkey, "%s: %d", part_id->name, you.get_part_hp_cur( part_id ) );
+        pos++;
+        hotkey++;
+    }
+    smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
+    part_ids.emplace_back( body_part_bp_null );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
-    int bp_ptr = -1;
     bool all_select = false;
 
-    switch( smenu.ret ) {
-        case 0:
-            bp = body_part_torso;
-            bp_ptr = torso_hp;
-            break;
-        case 1:
-            bp = body_part_head;
-            bp_ptr = head_hp;
-            break;
-        case 2:
-            bp = body_part_arm_l;
-            bp_ptr = arm_l_hp;
-            break;
-        case 3:
-            bp = body_part_arm_r;
-            bp_ptr = arm_r_hp;
-            break;
-        case 4:
-            bp = body_part_leg_l;
-            bp_ptr = leg_l_hp;
-            break;
-        case 5:
-            bp = body_part_leg_r;
-            bp_ptr = leg_r_hp;
-            break;
-        case 6:
-            all_select = true;
-            break;
-        default:
-            break;
+    if( smenu.ret > static_cast<int>( part_ids.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    bp = part_ids.at( smenu.ret ).id();
+    if( bp == body_part_bp_null ) {
+        all_select = true;
     }
 
-    if( bp.is_valid() ) {
+    if( bp.is_valid() && bp != body_part_bp_null ) {
         int value;
-        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
+                       you.get_part_hp_cur( bp.id() ) ) &&
+            value >= 0 )  {
             you.set_part_hp_cur( bp.id(), value );
             you.reset_stats();
         }

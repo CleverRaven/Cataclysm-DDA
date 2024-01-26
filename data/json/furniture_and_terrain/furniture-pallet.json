@@ -68,11 +68,7 @@
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [
-        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": 100 },
-        { "item": "pallet", "count": 1 },
-        { "item": "plastic_sheet", "count": 1 }
-      ]
+      "items": [ { "group": "cement_bag", "count": 64 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
     "bash": {
       "str_min": 30,

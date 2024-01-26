@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel brigandine" },
-    "description": "A vest made from tough fabric with mild steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A vest made from tough fabric with steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "6873 g",
     "volume": "6137 ml",
     "price": 60000,
@@ -63,7 +63,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel brigandine with shoulder guards", "str_pl": "mild steel brigandines with shoulder guards" },
-    "description": "A vest made from tough fabric with mild steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A vest made from tough fabric with steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "7311 g",
     "volume": "6593 ml",
     "price": 60000,
@@ -130,7 +130,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel brigandine coat" },
-    "description": "A coat made from tough fabric with mild steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A coat made from tough fabric with steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "7646 g",
     "volume": "6880 ml",
     "price": 60000,
@@ -203,7 +203,7 @@
       "str": "mild steel brigandine coat with shoulder guards",
       "str_pl": "mild steel brigandine coats with shoulder guards"
     },
-    "description": "A coat made from tough fabric with mild steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A coat made from tough fabric with steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "8084 g",
     "volume": "7336 ml",
     "price": 60000,
@@ -287,7 +287,6 @@
     "type": "ARMOR",
     "name": { "str": "medium steel brigandine" },
     "copy-from": "armor_lc_brigandine",
-    "description": "A vest made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -311,7 +310,6 @@
     "type": "ARMOR",
     "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
-    "description": "A vest made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -341,7 +339,6 @@
     "type": "ARMOR",
     "name": { "str": "medium steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
-    "description": "A coat made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -368,7 +365,6 @@
       "str_pl": "medium steel brigandine coats with shoulder guards"
     },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
-    "description": "A coat made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -398,7 +394,6 @@
     "type": "ARMOR",
     "name": { "str": "high steel brigandine" },
     "copy-from": "armor_lc_brigandine",
-    "description": "A vest made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -422,7 +417,6 @@
     "type": "ARMOR",
     "name": { "str": "high steel brigandine with shoulder guards", "str_pl": "high steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
-    "description": "A vest made from tough fabric with high steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -446,7 +440,6 @@
     "type": "ARMOR",
     "name": { "str": "high steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
-    "description": "A coat made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -473,7 +466,6 @@
       "str_pl": "high steel brigandine coats with shoulder guards"
     },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
-    "description": "A coat made from tough fabric with high steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -503,7 +495,6 @@
     "type": "ARMOR",
     "name": { "str": "hardened brigandine" },
     "copy-from": "armor_lc_brigandine",
-    "description": "A vest made from tough fabric with hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -527,7 +518,6 @@
     "type": "ARMOR",
     "name": { "str": "hardened brigandine with shoulder guards", "str_pl": "hardened brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
-    "description": "A vest made from tough fabric with hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -551,7 +541,6 @@
     "type": "ARMOR",
     "name": { "str": "hardened brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
-    "description": "A coat made from tough fabric with hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -575,7 +564,6 @@
     "type": "ARMOR",
     "name": { "str": "hardened brigandine coat with shoulder guards", "str_pl": "hardened brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
-    "description": "A coat made from tough fabric with hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -605,7 +593,6 @@
     "type": "ARMOR",
     "name": { "str": "tempered brigandine" },
     "copy-from": "armor_lc_brigandine",
-    "description": "A vest made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -629,7 +616,6 @@
     "type": "ARMOR",
     "name": { "str": "tempered brigandine with shoulder guards", "str_pl": "tempered brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
-    "description": "A vest made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -653,7 +639,6 @@
     "type": "ARMOR",
     "name": { "str": "tempered brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
-    "description": "A coat made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -677,7 +662,6 @@
     "type": "ARMOR",
     "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
-    "description": "A coat made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -707,7 +691,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel splint arm guards", "str_pl": "pairs of mild steel splint arm guards" },
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "1744 g",
     "volume": "2138 ml",
     "longest_side": "30 cm",
@@ -757,7 +741,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel splint arm guards", "str_pl": "pairs of medium steel splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -781,7 +764,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel splint arm guards", "str_pl": "pairs of high steel splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -805,7 +787,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened splint arm guards", "str_pl": "pairs of hardened splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -829,7 +810,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered splint arm guards", "str_pl": "pairs of tempered splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -853,7 +833,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel splint leg guards", "str_pl": "pairs of mild steel splint leg guards" },
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "2674 g",
     "volume": "3278 ml",
     "price": 40000,
@@ -902,7 +882,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel splint leg guards", "str_pl": "pairs of medium steel splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -926,7 +905,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel splint leg guards", "str_pl": "pairs of high steel splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -950,7 +928,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened splint leg guards", "str_pl": "pairs of hardened splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -974,7 +951,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered splint leg guards", "str_pl": "pairs of tempered splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -998,7 +974,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel splint vambraces" },
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "600 g",
     "volume": "1400 ml",
     "longest_side": "12 cm",
@@ -1048,7 +1024,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel splint vambraces", "str_pl": "pairs of medium steel splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1072,7 +1047,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel splint vambraces", "str_pl": "pairs of high steel splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1096,7 +1070,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened splint vambraces", "str_pl": "pairs of hardened splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1120,7 +1093,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered splint vambraces", "str_pl": "pairs of tempered splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1144,7 +1116,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel splint greaves", "str_pl": "pairs of mild steel splint greaves" },
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "600 g",
     "volume": "1400 ml",
     "price": 40000,
@@ -1193,7 +1165,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
     "copy-from": "lc_greaves_brigandine",
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1217,7 +1188,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel splint greaves", "str_pl": "pairs of high steel splint greaves" },
     "copy-from": "lc_greaves_brigandine",
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1241,7 +1211,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened splint greaves", "str_pl": "pairs of hardened splint greaves" },
     "copy-from": "lc_greaves_brigandine",
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1265,7 +1234,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered splint greaves", "str_pl": "pairs of tempered splint greaves" },
     "copy-from": "lc_greaves_brigandine",
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1289,7 +1257,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
-    "description": "A pair of gloves made of tough fabric, with mild steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
+    "description": "A pair of gloves made of tough fabric, with steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "weight": "684 g",
     "volume": "750 ml",
     "price": 5012,
@@ -1344,7 +1312,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel brigandine gloves", "str_pl": "pairs of medium steel brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
-    "description": "A pair of gloves made of tough fabric, with medium steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1368,7 +1335,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel brigandine gloves", "str_pl": "pairs of high steel brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
-    "description": "A pair of gloves made of tough fabric, with high steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1392,7 +1358,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened brigandine gloves", "str_pl": "pairs of hardened brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
-    "description": "A pair of gloves made of tough fabric, with hardened steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1416,7 +1381,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered brigandine gloves", "str_pl": "pairs of tempered brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
-    "description": "A pair of gloves made of tough fabric, with tempered steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1440,7 +1404,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel knee guards", "str_pl": "pairs of mild steel knee guards" },
-    "description": "A pair of thin knee guards, forged from mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of thin knee guards, forged from steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "157 g",
     "volume": "800 ml",
     "price": 2500,
@@ -1485,7 +1449,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel knee guards", "str_pl": "pairs of medium steel knee guards" },
     "copy-from": "lc_knee_guards",
-    "description": "A pair of thin knee guards, forged from medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1509,7 +1472,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel knee guards", "str_pl": "pairs of high steel knee guards" },
     "copy-from": "lc_knee_guards",
-    "description": "A pair of thin knee guards, forged from high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1533,7 +1495,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened knee guards", "str_pl": "pairs of hardened steel knee guards" },
     "copy-from": "lc_knee_guards",
-    "description": "A pair of thin knee guards, made from hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1557,7 +1518,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered knee guards", "str_pl": "pairs of tempered knee guards" },
     "copy-from": "lc_knee_guards",
-    "description": "A pair of thin knee guards, made from tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1581,7 +1541,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel elbow guards", "str_pl": "pairs of mild steel elbow guards" },
-    "description": "A pair of thin elbow guards, forged from mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of thin elbow guards, forged from steel.  Can be comfortably worn over chainmail for extra protection.",
     "weight": "103 g",
     "volume": "600 ml",
     "price": 3500,
@@ -1626,7 +1586,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of medium steel elbow guards", "str_pl": "pairs of medium steel elbow guards" },
     "copy-from": "lc_elbow_guards",
-    "description": "A pair of thin elbow guards, forged from medium steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1650,7 +1609,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of high steel elbow guards", "str_pl": "pairs of high steel elbow guards" },
     "copy-from": "lc_elbow_guards",
-    "description": "A pair of thin elbow guards, forged from high steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1674,7 +1632,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of hardened elbow guards", "str_pl": "pairs of hardened elbow guards" },
     "copy-from": "lc_elbow_guards",
-    "description": "A pair of thin elbow guards, made from hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1698,7 +1655,6 @@
     "type": "ARMOR",
     "name": { "str": "pair of tempered elbow guards", "str_pl": "pairs of tempered elbow guards" },
     "copy-from": "lc_elbow_guards",
-    "description": "A pair of thin elbow guards, made from tempered steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1722,7 +1678,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
-    "description": "A pair of thin shoulder guards, made of mild steel.  Designed to be attached to brigandine.",
+    "description": "A pair of thin shoulder guards, made of steel.  Designed to be attached to brigandine.",
     "weight": "438 g",
     "volume": "600 ml",
     "price": 60000,
@@ -1750,7 +1706,6 @@
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
-    "description": "A pair of thin shoulder guards, made of medium steel.  Designed to be attached to brigandine.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1772,7 +1727,6 @@
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
-    "description": "A pair of thin shoulder guards, made of high steel.  Designed to be attached to brigandine.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1794,7 +1748,6 @@
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
-    "description": "A pair of thin shoulder guards, made from hardened steel.  Designed to be attached to brigandine.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1816,7 +1769,6 @@
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
-    "description": "A pair of thin shoulder guards, made from tempered steel.  Designed to be attached to brigandine.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {

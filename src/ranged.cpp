@@ -7,12 +7,10 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -40,6 +38,7 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -88,6 +87,7 @@ static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
 static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_bolt_ballista( "bolt_ballista" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
@@ -2169,7 +2169,9 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
+    tname::segment_bitset segs( tname::unprefixed_tname );
+    segs.set( tname::segments::CONTENTS, false );
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, segs ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -2207,7 +2209,7 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "whizz!" ) };
     } else if( at.count( ammo_strange_arrow ) ) {
         return { noise, _( "Crack!" ) };
-    } else if( at.count( ammo_bolt ) ) {
+    } else if( at.count( ammo_bolt ) || at.count( ammo_bolt_ballista ) ) {
         return { noise, _( "thonk!" ) };
     } else if( at.count( ammo_atlatl ) ) {
         return { noise, _( "swoosh!" ) };

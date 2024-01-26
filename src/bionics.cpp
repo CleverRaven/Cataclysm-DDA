@@ -482,6 +482,12 @@ void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string
                          ? bionic_id( jo.get_string( "to" ) )
                          : bionic_id::NULL_ID();
     migrations.emplace( from, to );
+    // if delete bionics id before migration, cant migration
+    // if key showed once, and its null, delete previous null one
+    auto iter = migrations.find( from );
+    if( iter != migrations.end() && ( *iter ).second.is_null() ) {
+        migrations.erase( iter );
+    }
 }
 
 void bionic_data::finalize_bionic()

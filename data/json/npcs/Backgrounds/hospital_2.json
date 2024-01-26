@@ -35,7 +35,7 @@
         "condition": { "npc_has_effect": "player_BGSS_SAIDYES" },
         "topic": "BGSS_HOSPITAL_2_STORY2"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -64,7 +64,7 @@
       {
         "text": "<done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "<end_talking>",
@@ -79,7 +79,7 @@
     "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there.  I think it might have started with me hyperventilating and passing out.  When I woke up it was night, I was starving and parched, and… and the screaming had died down.  At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up.  Her name was Becky.  She wasn't Becky anymore.  So, I went back up and somehow made it into the storage area.  From there, the roof.  I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn.",
     "responses": [
       { "text": "What finally brought you down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -105,13 +105,7 @@
               "not": {
                 "and": [
                   { "u_has_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "hospital_2_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }
@@ -129,12 +123,12 @@
           "topic": "BGSS_HOSPITAL_2_CABINFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
-            { "u_add_var": "hospital_2_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_hospital_2_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }
       },
-      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -144,7 +138,7 @@
     "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, traveling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
     "responses": [
       { "text": "How did you get down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

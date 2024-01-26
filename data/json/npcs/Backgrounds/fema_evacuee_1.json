@@ -12,7 +12,7 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -29,7 +29,7 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -45,7 +45,7 @@
         "success": { "topic": "BGSS_FEMA_EVACUEE_1_ESCAPE1" },
         "failure": { "topic": "BGSS_FEMA_EVACUEE_1_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -56,7 +56,7 @@
     "//": "TK: In a future version this character will give you directions to the FEMA camp.",
     "responses": [
       { "text": "Tell me more about that FEMA camp.", "topic": "BGSS_FEMA_EVACUEE_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -73,7 +73,7 @@
       {
         "text": "Sorry for asking.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 600 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Sorry for asking.  <end_talking>",
@@ -98,7 +98,7 @@
     "dynamic_line": "Damn right.  They lied to us for god knows how long about what was going on because they didn't want us to figure it out.  It probably started as a way to keep the people in line, but it backfired somehow.  My guess is they tried to de-educate us, tried to mislead us, and when that wasn't working they tried actual drugs in the water to make us stupid or something.  Instead of just stupid, some people got violent.  Then they tried to leverage that to put in martial law, but that didn't work and they wound up fighting hordes of people.  Only they didn't realize their <swear> brain drugs were some kind of mutagen that turn people into zombies.",
     "responses": [
       { "text": "What about all the other stuff?", "topic": "CWH_FEMA_EVACUEE_1_IDEAS3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -106,6 +106,9 @@
     "id": "CWH_FEMA_EVACUEE_1_IDEAS3",
     "type": "talk_topic",
     "dynamic_line": "I think it's mostly mutation.  I don't know what they used, but it's some real mad science shit, I didn't think most of this was even possible.  I also wonder if whatever they put in the water has made us a bit crazy.  Maybe some of this is just a hallucination?  That one blows my mind a bit, I'm not sure I believe it but I got nothin' else.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

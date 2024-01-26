@@ -28,7 +28,7 @@
     "eoc_type": "EVENT",
     "required_event": "player_levels_spell",
     "//": "time_since_cataclysm check is used because spells, given by scenario, call player_levels_spell event also",
-    "condition": { "and": [ { "one_in_chance": 16 }, { "math": [ "u_val('time_since_cataclysm: turns')", ">", "2" ] } ] },
+    "condition": { "and": [ { "one_in_chance": 16 }, { "math": [ "time_since('cataclysm') > 2" ] } ] },
     "effect": [
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },

@@ -148,9 +148,7 @@
       "effect": [
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
-        {
-          "arithmetic": [ { "npc_val": "var", "var_name": "zkc_john" }, "=", { "const": 2 }, "*", { "time_since_cataclysm": "days" } ]
-        },
+        { "math": [ "n_zkc_john", "=", "2 * time_since('cataclysm', 'unit': 'days')" ] },
         { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
       ]
     },

@@ -15,7 +15,7 @@
     "dynamic_line": "I ran until I felt like my lungs were going to jump right out of my mouth.  I holed up in the forest for the night, under a fir tree.  In the morning I heard someone talking, so I went to see.  I was playing it pretty careful though, there were still a lot of psychos and rioters around.  I snuck up on some kind of thing, some monster worse than any zombie.  Some huge bug thing, saying random phrases like some kind of broken tape recorder.  It was dragging a few human bodies behind it, I couldn't tell if they were dead or unconscious.  Honestly I didn't wait to find out, I ducked into the bushes and tried not to breath until I couldn't hear it anymore.",
     "responses": [
       { "text": "Where did you go from there?", "topic": "BGSS_EVACUEE_4_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -23,7 +23,10 @@
     "id": "BGSS_EVACUEE_4_STORY3",
     "type": "talk_topic",
     "dynamic_line": "Once I was okay leaving the bushes, I made my way to an old shed I could see a ways off.  It was falling in but it kept the rain and wind off and gave me a place out of sight.  I stayed there until I ran out of those ass-tasting ration bars I'd filled my backpack with.  Then I took on the wanderin' life until we met.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "CWH_EVACUEE_4_IDEAS1",

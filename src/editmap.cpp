@@ -5,11 +5,8 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
-#include <ostream>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -32,7 +29,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"

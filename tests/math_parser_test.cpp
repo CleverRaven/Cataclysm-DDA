@@ -313,9 +313,12 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     get_avatar().magic->set_spell_level( spell_test_spell_pew, 4, &get_avatar() );
     REQUIRE( d.actor( false )->get_spell_level( spell_test_spell_pew ) != 0 );
     CHECK( testexp.eval( d ) == d.actor( false )->get_spell_level( spell_test_spell_pew ) );
-    CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
-    CHECK( testexp.eval( d ) == 60 );
 
+    // units test
+    CHECK( testexp.parse( "time('1 m')" ) );
+    CHECK( testexp.eval( d ) == 60 );
+    CHECK( testexp.parse( "time('1 m', 'unit':'minutes')" ) );
+    CHECK( testexp.eval( d ) == 1 );
     CHECK( testexp.parse( "energy('25 kJ')" ) );
     CHECK( testexp.eval( d ) == 25000000 );
 

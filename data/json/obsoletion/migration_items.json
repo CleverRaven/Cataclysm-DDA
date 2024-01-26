@@ -376,6 +376,11 @@
     "replace": "burnt_out_bionic"
   },
   {
+    "id": "bio_trickle",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
     "id": "generic_figurine_plastic",
     "type": "MIGRATION",
     "replace": "toy_figurine"

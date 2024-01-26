@@ -805,7 +805,14 @@
     "type": "start_location",
     "id": "sloc_middle_of_nowhere",
     "name": "Middle of Nowhere",
-    "terrain": [ "state_park_1_0", "sewage_treatment_1_0_0", "pwr_sub_s", "derelict_property", "ws_regional_dump_2_0", "waiting_area" ]
+    "terrain": [
+      "state_park_1_0",
+      "sewage_treatment_1_0_0",
+      "pwr_sub_s",
+      { "om_terrain": "derelict_property", "om_terrain_match_type": "TYPE" },
+      "ws_regional_dump_2_0",
+      "waiting_area"
+    ]
   },
   {
     "type": "start_location",

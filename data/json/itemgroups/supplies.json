@@ -56,25 +56,25 @@
     "id": "sandbag",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_sand", "count": 2000 } ]
+    "items": [ { "item": "material_sand", "count": 2500 } ]
   },
   {
     "id": "sandbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_sand", "count": [ 400, 1500 ] } ]
+    "items": [ { "item": "material_sand", "count": [ 400, 2500 ] } ]
   },
   {
     "id": "gravelbag",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_gravel", "count": 2000 } ]
+    "items": [ { "item": "material_gravel", "count": 2500 } ]
   },
   {
     "id": "gravelbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_gravel", "count": [ 400, 1500 ] } ]
+    "items": [ { "item": "material_gravel", "count": [ 400, 2500 ] } ]
   },
   {
     "id": "earthbag",
@@ -86,7 +86,43 @@
     "id": "earthbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "material_soil", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "concrete_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "concrete", "count": 45 } ]
+  },
+  {
+    "id": "concrete_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "concrete", "count": [ 7, 45 ] } ]
+  },
+  {
+    "id": "cement_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_cement", "count": 2800 } ]
+  },
+  {
+    "id": "cement_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_cement", "count": [ 400, 2800 ] } ]
+  },
+  {
+    "id": "quicklime_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_quicklime", "count": 1200 } ]
+  },
+  {
+    "id": "quicklime_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_quicklime", "count": [ 400, 1200 ] } ]
   },
   {
     "id": "paintcans",
@@ -142,8 +178,9 @@
       { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
-      [ "material_quicklime", 70 ],
-      [ "concrete", 70 ],
+      { "group": "quicklime_bag", "prob": 70 },
+      { "group": "concrete_bag", "count": [ 3, 7 ], "prob": 100 },
+      { "group": "cement_bag", "count": [ 1, 3 ], "prob": 100 },
       { "item": "nuts_bolts", "prob": 60, "charges": [ 250, 500 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
@@ -311,7 +348,10 @@
       { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
       { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
       { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
-      [ "concrete", 20 ],
+      { "group": "concrete_bag", "prob": 40 },
+      { "group": "cement_bag", "prob": 50 },
+      { "group": "sandbag", "prob": 50 },
+      { "group": "gravelbag", "prob": 50 },
       {
         "collection": [
           { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
@@ -521,7 +561,7 @@
     "items": [
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
       [ "fertilizer_liquid", 60 ],
-      [ "material_quicklime", 80 ],
+      { "group": "quicklime_bag", "prob": 80 },
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
     ]
   },

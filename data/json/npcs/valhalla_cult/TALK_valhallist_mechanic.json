@@ -58,12 +58,12 @@
       },
       {
         "text": "I'm here to pick up my order.",
-        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": ">=", "time": "3 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_npc_making_car)", ">=", "time('3 d')" ] },
         "topic": "TALK_VALHALLIST_MECHANIC_Pick_Up_Vehicles"
       },
       {
         "text": "I'm here to pick up my order.",
-        "condition": { "npc_compare_time_since_var": "npc_making_car", "type": "timer", "context": "trade", "op": "<", "time": "3 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_npc_making_car)", "<", "time('3 d')" ] },
         "topic": "TALK_VALHALLIST_MECHANIC_Not_Ready"
       },
       { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }
@@ -87,7 +87,7 @@
         "text": "[200$]  I'll take a bicycle.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 80 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 80 }
@@ -98,7 +98,7 @@
         "text": "[400$]  I'll take a mountain bike.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 160 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 160 }
@@ -109,7 +109,7 @@
         "text": "[550$]  I'll take an electric bike.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 220 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_bicycle_electric", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 220 }
@@ -120,7 +120,7 @@
         "text": "[750$]  I'll take a dirt bike.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 300 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_motorcycle_enduro", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 300 }
@@ -131,7 +131,7 @@
         "text": "[900$]  I'll take a motorcycle.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 360 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_motorcycle_sidecart", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 360 }
@@ -142,7 +142,7 @@
         "text": "[1,200$]  I'll take a scooter.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 480 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_scooter", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 480 }
@@ -153,7 +153,7 @@
         "text": "[2,000$]  I'll take a electric scooter.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 800 } },
         "effect": [
-          { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_npc_making_car", "=", "time('now')" ] },
           { "npc_add_var": "u_want_scooter_electric", "type": "general", "context": "trade", "value": "yes" },
           { "npc_add_var": "currently_busy", "type": "general", "context": "trade", "value": "yes" },
           { "u_sell_item": "signed_chit", "count": 800 }

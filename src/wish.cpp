@@ -5,7 +5,6 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -23,12 +22,12 @@
 #include "enums.h"
 #include "game.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -43,7 +42,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
 
