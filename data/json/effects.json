@@ -630,7 +630,7 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
   },
   {
-    "type": "effect_type",
+    "type": "effect_type"
     "//1": "Copy of blind effect, used to temporarily remove vision as a utility function. Only use outside of EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW with extreme caution.",
     "id": "blind_no_msg",
     "name": [ "Blind" ],
