@@ -983,7 +983,7 @@ Condition | Type | Description
 `"u_rule" or "npc_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for that matches string is set.
 `"u_override" or "npc_override"` | string or [variable object](#variable-object)| `true` if u or the NPC has an override for the string.
 `"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | simple string | `true` if u or the NPC has a pickup list.
-`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [math expression](#math) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "u_val": "strength" }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
+`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [math expression](#math) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "math": [ "u_val('strength')" ] }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
 
 #### NPC only conditions
 
@@ -1201,61 +1201,6 @@ Mutator Name | Required Keys | Description
 `"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 `"topic_item"` | | Returns current topic_item as a string. See [Repeat Responses](#repeat-responses)
 
-#### List of values that can be read and/or written to
-
-Example | Description
---- | ---
-`"const": 5` | A constant value, in this case 5. Can be read but not written to.
-`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
-`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
-`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
-`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "owed"` | Owed money to the NPC you're talking to.
-`"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "dodge"` | Current effective dodge of the character.
-`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "power"` | Bionic power in millijoule.
-`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
-`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
-`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
-`"u_val": "mana"` | Current mana.
-`"u_val": "mana_max"` | Max mana. Can be read but not written to.
-`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
-`"u_val": "thirst"` | Current thirst.
-`"u_val": "instant_thirst"` | Current thirst minus water in the stomach that hasn't been absorbed by the body yet.
-`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
-`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
-`"u_val": "exp"` | Total experience earned.
-`"u_val": "stim"` | Current stim level.
-`"u_val": "pkill"` | Current painkiller level.
-`"u_val": "rad"` | Current radiation level.
-`"u_val": "focus"` | Current focus level.
-`"u_val": "activity_level"` | Current activity level index as a floored integer, from 0-5. Roughly: 0.45 = SLEEP_EXERCISE (floored and returns 0), 0.5 = NO_EXERCISE(floored and returns 0), 1 = LIGHT_EXERCISE, 2 = MODERATE_EXERCISE, 3 = BRISK_EXERCISE, 4 = ACTIVE_EXERCISE, 5 = EXTRA_EXERCISE.
-`"u_val": "fatigue"` | Current fatigue level.
-`"u_val": "stamina"` | Current stamina level.
-`"u_val": "health"` | Current health level.
-`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
-`"u_val": "anger"` | Current anger level, only works for monsters.
-`"u_val": "friendly"` | Current friendly level, only works for monsters.
-`"u_val": "npc_anger"` | Current anger level the npc has.
-`"u_val": "npc_trust"` | Current trust the npc has for you.
-`"u_val": "npc_fear"` | Current fear of the npc.
-`"u_val": "npc_value"` | Current value npc places on you.
-`"u_val": "fine_detail_vision_mod"` | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
-`"u_val": "age"` | Current age in years.
-`"u_val": "body_temp"` | Current body temperature.
-`"u_val": "body_temp_delta"` | Difference in temperature between the hottest/coldest part and what feels like the hottest/coldest part.
-`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
-`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
-`"u_val": "size"` | Size category from 1 (tiny) to 5 (huge). Read-only.
-`"u_val": "grab_strength"` | Grab strength as defined in the monster definition. Read-only, returns false on characters.
-`"u_val": "volume"` | Current volume in ml. read only. Cullently, doesn't work for characters, but for monsters and items.
-`"u_val": "weight"` | Current weight in mg. read only.
-`"math"` | An array math object.
-
 ### Math
 A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
 ```JSON
@@ -1366,7 +1311,6 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
-| u_val(`s`/`v`)    |  ✅   |  vary  | u, n  | Return the value of specific quality character, NPC or item has. [Full list of values that can be read and/or written to can be found here.](#list-of-values-that-can-be-read-andor-written-to)<br/><br/>Example:<br/>`"condition": { "math": [ "u_val('strength')", ">=", "8"] }`| 
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/>Arguments are damagetype ID, bodypart ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/><br/>Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
 | addiction_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters current intensity of the given addiction.<br/>Argument is addiction type ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_intensity('caffeine')", ">=", "1"] }`|
@@ -1410,21 +1354,66 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | time(`s`/`v`)    |  ✅   |   ✅  | N/A<br/>(global)  | Return a numeric value (in turns) for a time period string (see [Units](JSON_INFO.md#units)).<br/><br/>Special Values:<br/>`now` - returns duration since turn zero<br/>`cataclysm` - returns duration between cataclysm and turn zero<br/><br/>`time('now')` can serve as an assignment target to change current turn.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Example:<br/>`{ "math": [ "time('now') - u_timer_caravan_RandEnc", ">", "time('1 h')" ] }`|
 | time_since(`v`)<br/>time_since('cataclysm')<br/>time_since('midnight')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period since time point stored in variable.<br/><br/>Special values:<br/>`cataclysm` - return time since start of cataclysm<br/>`midnight` - return time since midnight<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] }`<br/>`{ "math": [ "time_since('cataclysm', 'unit':'years') > 1" ] }`|
 | time_until_eoc(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns time until next scheduled run of an EOC. Argument is EOC id.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit<br/><br/>Returns -1 is the EOC is not scheduled. |
+| val(`s`)    |  ✅   |   varies  | u, n  | Return or set a Character or item value. Argument is a [Character/item aspect](#list-of-character-and-item-aspects).<br/><br/>These are all in one function for legacy reasons and are generally poorly tested. If you need one of them, consider porting it to a native math function.<br/><br/>Example:<br/>`{ "math": [ "u_val('strength')", "=", "2" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
 | warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
 | weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 | damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
 
-More examples:
+#### List of Character and item aspects
+These can be read or written to with `val()`.
 
-```JSON
-    { "math": [ "u_val('age')" ] },
-    { "math": [ "time('1 h')" ] }, 
-    { "math": [ "u_proficiency('prof_test', 'format': 'percent')" ] },
-    { "math": [ "100 + rand(100)" ] }, 
-    { "math": [ "rnd(0,1)" ] }, 
-    { "math": [ "rnd(u_vitamin('mutagen'), u_vitamin('mutagen') * 2)" ] }
-```
+| Value | Supports assignment | Description |
+--- | --- | --- |
+| `activity_level` | ❌ | Current activity level index as a floored integer, from 0-5. Roughly: <pre>0.45 = SLEEP_EXERCISE (floored and returns 0),<br/>0.5 = NO_EXERCISE(floored and returns 0),<br/>1 = LIGHT_EXERCISE,<br/>2 = MODERATE_EXERCISE,<br/>3 = BRISK_EXERCISE,<br/>4 = ACTIVE_EXERCISE,<br/>5 = EXTRA_EXERCISE. |
+| `age` | ✅ | Current age in years. |
+| `allies` | ❌ | The avatar's number of allies |
+| `anger` | ✅ | Current anger level. Only works for monsters. |
+| `bmi_permil` | ❌ | Current BMI per mille (Body Mass Index x 1000) |
+| `body_temp` | ❌ | Current body temperature. |
+| `body_temp_delta` | ❌ | Difference in temperature between the hottest/coldest part and what feels like the hottest/coldest part. |
+| `cash` | ❌ | Amount of money |
+| `dodge` | ❌ | Current effective dodge |
+| `exp` | ✅ | Total experience earned. |
+| `fatigue` | ✅ | Current fatigue level. |
+| `fine_detail_vision_mod` | ❌ | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind). |
+| `focus` | ✅ | Current focus level. |
+| `friendly` | ✅ | Current friendly level. Only works for monsters. |
+| `grab_strength` | ❌ | Grab strength as defined in the monster definition. Only works for monsters |
+| `health` | ❌ | Current health level. |
+| `height` | ✅ | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320. |
+| `hunger` | ❌ | Current perceived hunger. |
+| `instant_thirst` | ❌ | Current thirst minus water in the stomach that hasn't been absorbed by the body yet. |
+| `mana` | ✅ | Current mana. |
+| `mana_max` | ❌ | Max mana. |
+| `mana_percentage` | ❌ | Current mana as percent. |
+| `morale` | ✅* | The current morale. Assigment only works for monsters. |
+| `npc_anger` | ✅ | Current anger level towards the avatar |
+| `npc_fear` | ✅ | Current fear towards the avatar |
+| `npc_trust` | ✅ | Current trust the npc places in the avatar |
+| `npc_value` | ✅ | Current value npc places on the avatar |
+| `owed` | ✅ | Amount of money the Character owes the avatar. |
+| `pkill` | ✅ | Current painkiller level. |
+| `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
+| `power` | ✅ | Bionic power in millijoule. |
+| `power_percentage` | ✅ | Percentage of max bionic power |
+| `power_max` | ❌ | Max bionic power in millijoule. |
+| `rad` | ✅ | Current radiation level. |
+| `size` | ❌ | Size category from 1 (tiny) to 5 (huge). |
+| `sleep_deprivation` | ✅ | Current sleep deprivation level. |
+| `sold` | ✅ | Amount of money the avatar has sold the Character |
+| `stamina` | ✅ | Current stamina level. |
+| `stim` | ✅ | Current stim level. |
+| `stored_kcal` | ✅ | Stored kcal in the character's body. 55'000 is considered healthy. |
+| `stored_kcal_percentage` | ✅ | a value of 100 represents 55'000 kcal, which is considered healthy. |
+| `strength`<br/>`dexterity`<br/>`intelligence`<br/>`pereception` | ✅ | Current attributes |
+| `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`pereception_base` | ✅ | Base attributes |
+| `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |
+| `thirst` | ✅ | Current thirst. |
+| `volume` | ❌ | Current volume in mL. Only works for monsters |
+| `weight` | ❌ | Current weight in mg. |
+
+
 #### Math functions defined in JSON
 Math functions can be defined in JSON like this
 ```JSON
