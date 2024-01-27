@@ -135,7 +135,9 @@ extern "C" {
             default:
                 return;
         }
-        log_crash( "Signal", msg );
+        if( !isDebuggerActive() ) {
+            log_crash( "Signal", msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
