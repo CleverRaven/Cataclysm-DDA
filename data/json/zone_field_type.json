@@ -254,7 +254,7 @@
   {
     "id": "fd_martial_arts_manuals_loot_zone",
     "type": "field_type",
-    "intensity_levels": [ { "name": "martial arts manuals loot zone", "sym": "ö", "dangerous": false } ],
+    "intensity_levels": [ { "name": "martial arts manuals loot zone", "sym": "O", "dangerous": false } ],
     "priority": 1,
     "display_field": true
   },
