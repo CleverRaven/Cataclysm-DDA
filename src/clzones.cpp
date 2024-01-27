@@ -695,6 +695,17 @@ void zone_data::set_temporary_disabled( const bool enabled_arg )
     temporarily_disabled = enabled_arg;
 }
 
+// This operations can presumably be defined using templates. It should also already exist somewhere else.
+static std::pair<tripoint_abs_ms, tripoint_abs_ms> get_corners( tripoint_abs_ms a,
+        tripoint_abs_ms b )
+{
+    const tripoint_abs_ms start = tripoint_abs_ms( std::min( a.x(), b.x() ), std::min( a.y(), b.y() ),
+                                  std::min( a.z(), b.z() ) );
+    const tripoint_abs_ms end = tripoint_abs_ms( std::max( a.x(), b.x() ), std::max( a.y(), b.y() ),
+                                std::max( a.z(), b.z() ) );
+    return { start, end };
+}
+
 void zone_data::refresh_display() const
 {
     if( this->is_vehicle ) {
@@ -705,25 +716,18 @@ void zone_data::refresh_display() const
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
 
-    //### failing to get project_remain to accept my parameters, and so resorting to crude alternative.
-    // Thought it should be:
-    // point_abs_sm quotient;
-    // tripoint_sm_ms remainder;
-    // std::tie(quotient, remainder) = coords::project_remain<coords::sm>(get_start_point());
-    const tripoint_abs_sm sm_start_pos = coords::project_to<coords::sm>( get_start_point() );
-    tripoint_abs_ms ms_start_projection = coords::project_to < coords::ms >( sm_start_pos );
-    tripoint_rel_ms start_remainder = get_start_point() - ms_start_projection;
-    // Assuming the code downstream can handle any relative location of start and end.
-    tripoint_rel_ms end_remainder = get_end_point() - ms_start_projection;
+    std::pair<tripoint_abs_ms, tripoint_abs_ms> bounds = get_corners( get_start_point(),
+            get_end_point() );
+    const tripoint_abs_ms start = bounds.first;
+    const tripoint_abs_ms end = bounds.second;
 
-    update_tmap.load( sm_start_pos, true );
+    const tripoint_abs_sm sm_start_pos = coords::project_to<coords::sm>( start );
+    const tripoint_abs_sm sm_end_pos = coords::project_to<coords::sm>( end );
+    const tripoint_rel_ms start_remainder = get_start_point() - coords::project_to < coords::ms >
+                                            ( sm_start_pos );
+    const tripoint_rel_ms end_remainder = get_end_point() - coords::project_to < coords::ms >
+                                          ( sm_end_pos );
 
-    //### Think there is an iterator for all coordinates in an X/Y block, but can't find it.
-    int x_start = std::min( start_remainder.x(), end_remainder.x() );
-    int x_end = std::max( start_remainder.x(), end_remainder.x() );
-    int y_start = std::min( start_remainder.y(), end_remainder.y() );
-    int y_end = std::max( start_remainder.y(), end_remainder.y() );
-    int z = get_start_point().z();
     zone_type_id type = this->get_type();
 
     field_type_str_id field = fd_null;
@@ -736,12 +740,25 @@ void zone_data::refresh_display() const
     }
 
     if( field != fd_null ) {
-        for( int x = x_start; x <= x_end; x++ ) {
-            for( int y = y_start; y <= y_end; y++ ) {
-                if( is_displayed ) {
-                    update_tmap.add_field( tripoint( x, y, z ), field, 1, time_duration::from_turns( 0 ), false );
-                } else {
-                    update_tmap.delete_field( tripoint( x, y, z ), field );
+        tripoint start_sm;
+        tripoint end_sm;
+
+        for( int i = sm_start_pos.x(); i <= sm_end_pos.x(); i++ ) {
+            for( int k = sm_start_pos.y(); k <= sm_end_pos.y(); k++ ) {
+                //  We assume the Z coordinate will remain fixed
+                update_tmap.load( { i, k, sm_start_pos.z() }, false );
+
+                start_sm = tripoint( i > sm_start_pos.x() ? 0 : start_remainder.x(),
+                                     k > sm_start_pos.y() ? 0 : start_remainder.y(), start_remainder.z() );
+                end_sm = tripoint( i < sm_end_pos.x() ? MAPSIZE : end_remainder.x(),
+                                   k < sm_end_pos.y() ? MAPSIZE : end_remainder.y(), end_remainder.z() );
+
+                for( tripoint pt : update_tmap.points_in_rectangle( start_sm, end_sm ) ) {
+                    if( is_displayed ) {
+                        update_tmap.add_field( pt, field, 1, time_duration::from_turns( 0 ), false );
+                    } else {
+                        update_tmap.delete_field( pt, field );
+                    }
                 }
             }
         }
