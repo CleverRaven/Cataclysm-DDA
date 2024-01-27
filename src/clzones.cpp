@@ -730,7 +730,7 @@ void zone_data::toggle_display()
 
     field_type_str_id field = fd_null;
     static const std::vector<zone_type> &all_zone_types = zone_type::get_all();
-    for( zone_type zone : all_zone_types ) {
+    for( const zone_type &zone : all_zone_types ) {
         if( zone.id == type ) {
             field = zone.get_field();
             break;
