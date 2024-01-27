@@ -96,16 +96,6 @@ std::string durability( item const &it, unsigned int /* quantity */,
     return {};
 }
 
-std::string engine_displacement( item const &it, unsigned int /* quantity */,
-                                 segment_bitset const &/* segments */ )
-{
-    if( it.is_engine() && it.engine_displacement() > 0 ) {
-        return string_format( pgettext( "vehicle adjective", "%gL " ),
-                              it.engine_displacement() / 100.0f );
-    }
-    return {};
-}
-
 std::string wheel_diameter( item const &it, unsigned int /* quantity */,
                             segment_bitset const &/* segments */ )
 {
@@ -536,7 +526,6 @@ std::unordered_map<tname::segments, decl_f_print_segment *> const segment_map = 
     { tname::segments::OVERHEAT, overheat_symbol },
     { tname::segments::FAVORITE_PRE, pre_asterisk },
     { tname::segments::DURABILITY, durability },
-    { tname::segments::ENGINE_DISPLACEMENT, engine_displacement },
     { tname::segments::WHEEL_DIAMETER, wheel_diameter },
     { tname::segments::BURN, burn },
     { tname::segments::TYPE, label },
