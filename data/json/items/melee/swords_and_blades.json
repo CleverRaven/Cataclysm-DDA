@@ -318,7 +318,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -391,7 +390,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -452,7 +450,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -1683,7 +1680,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
