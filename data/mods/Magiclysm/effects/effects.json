@@ -791,6 +791,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_anti_heat",
+    "name": [ "Water's Cooling Touch" ],
+    "desc": [ "Your skin feels like you just splashed cool water on it." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": { "math": [ "(( u_spell_level('druid_anti_heat') * 2.5) + 10)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_kelvinist_anti_cold",
     "name": [ "Cloak of Warmth" ],
     "desc": [ "The air around you is warmer thanks to your magic." ],
@@ -1078,6 +1092,7 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_druid_anti_heat",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1143,6 +1158,7 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_druid_anti_heat",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

@@ -47,7 +47,8 @@
       [ "spell_scroll_biomancer_visceral_projection", 40 ],
       [ "spell_scroll_summon_wisps", 30 ],
       [ "spell_scroll_stormshaper_wall_of_fog", 35 ],
-      [ "spell_scroll_shadow_field", 20 ]
+      [ "spell_scroll_shadow_field", 20 ],
+      [ "spell_scroll_druid_anti_heat", 30 ]
     ]
   },
   {
@@ -69,6 +70,8 @@
       [ "spell_scroll_druid_harvest_hunter", 40 ],
       [ "spell_scroll_druid_bramble_spear", 30 ],
       [ "spell_scroll_druid_summon_brambles", 20 ],
+      [ "spell_scroll_druid_disinfectant", 20 ],
+      [ "spell_scroll_druid_water_walking", 20 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],
@@ -106,6 +109,7 @@
       [ "spell_scroll_earthshaper_danger_sense", 45 ],
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
+      [ "spell_scroll_druid_breathing_underwater", 30 ],
       [ "spell_scroll_biomancer_coagulant_weave", 30 ],
       [ "spell_scroll_repelling_arc", 30 ],
       [ "spell_scroll_knock", 35 ],
@@ -145,6 +149,7 @@
       [ "spell_scroll_eshaper_crystal_wrap", 50 ],
       [ "spell_scroll_druid_healing", 25 ],
       [ "spell_scroll_druid_summon_tanglevine", 35 ],
+      [ "spell_scroll_druid_wood_living_tree_spell", 40 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
       [ "spell_scroll_hoary_blast", 50 ],
@@ -169,6 +174,7 @@
       [ "spell_scroll_holographic_transposition", 15 ],
       [ "spell_scroll_technomancer_conjure_ups", 20 ],
       [ "spell_scroll_technomancer_robot_shutdown", 25 ],
+      [ "spell_scroll_technomancer_recharge_vehicle", 15 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_druid_whisper_leaves", 30 ],
@@ -205,6 +211,7 @@
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_druid_beguile_savage_beast", 10 ],
       [ "spell_scroll_druid_thornskin", 20 ],
+      [ "spell_scroll_druid_renew_forest_spell", 5 ],
       [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
       [ "spell_scroll_freezing_touch", 40 ],
@@ -267,7 +274,8 @@
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],
       [ "light_manipulation_spellbook", 15 ],
-      [ "recovery_spellbook", 30 ]
+      [ "recovery_spellbook", 30 ],
+      [ "plant_spellbook", 15 ]
     ]
   },
   {

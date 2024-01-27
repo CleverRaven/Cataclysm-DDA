@@ -720,5 +720,25 @@
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "base_casting_time": 3000
+  },
+  {
+    "id": "technomancer_recharge_vehicle",
+    "type": "SPELL",
+    "name": "Imbue with Lightning",
+    "description": "This fancifully-named spell actually restores power to a battery or power grid.  An esoteric curiosity until electrical power became widespread, even then the power efficiency of fossil fuels rendered it a niche spell.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "TECHNOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": 20,
+    "effect": "recharge_vehicle",
+    "shape": "blast",
+    "min_damage": 3000,
+    "max_damage": 50000,
+    "damage_increment": 2350,
+    "min_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "base_casting_time": 6000
   }
 ]
