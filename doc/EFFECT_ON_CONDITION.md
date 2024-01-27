@@ -1575,7 +1575,7 @@ Same as `run_eocs`, but runs the specific EoC with provided variables as context
 | "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or [u_set_talker](#u_set_talkernpc_set_talker) ) or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
-| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC;  all variables should be strings, even if it's int; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
 ##### Valid talkers:
 
@@ -1606,7 +1606,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
       "run_eoc_with": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ar15_223medium",
-        "amount_of_guns": 5
+        "amount_of_guns": "5"
       }
     }
   ]
@@ -1619,7 +1619,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
       "run_eoc_with": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ak47",
-        "amount_of_guns": 3
+        "amount_of_guns": "3"
       }
     }
   ]
@@ -1640,6 +1640,7 @@ Control a NPC and return to your original body.
 By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
 Then, by using `EOC_return_to_player`, you can return to your original body.
 ```json
+
 {
   "type": "effect_on_condition",
   "id": "EOC_control_npc",
@@ -1650,10 +1651,13 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
       "then": {
         "run_eoc_with": {
           "id": "_EOC_control_npc_do",
-          "effect": [ { "if": "npc_is_npc", 
-                        "then": [ "follow", "take_control" ], 
-                        "else": { "message": "Please select a NPC." } 
-                        } ]
+          "effect": [
+            {
+              "if": "npc_is_npc",
+              "then": [ "follow", "take_control" ],
+              "else": { "message": "Please select a NPC." }
+            }
+          ]
         },
         "beta_loc": { "context_val": "loc" },
         "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
