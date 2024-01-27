@@ -27,6 +27,7 @@
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+#include "weather.h"
 
 // Remove all vehicles from the map
 void clear_vehicles( map *target )
@@ -136,6 +137,8 @@ void clear_map( int zmin, int zmax )
         clear_items( z );
     }
     here.process_items();
+    get_weather().weather_override = WEATHER_NULL;
+    get_weather().set_nextweather( calendar::turn );
 }
 
 void clear_map_and_put_player_underground()

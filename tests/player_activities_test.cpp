@@ -15,6 +15,7 @@
 #include "map.h"
 #include "monster.h"
 #include "point.h"
+#include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
@@ -1762,9 +1763,10 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     clear_avatar();
     clear_map();
     set_time_to_day();
+    get_weather().weather_override = WEATHER_CLEAR;
+    get_weather().set_nextweather( calendar::turn );
     avatar &dummy = get_avatar();
     map &m = get_map();
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 
     for( const std::function<player_activity()> &setup_activity : test_activities ) {
         player_activity activity = setup_activity();
