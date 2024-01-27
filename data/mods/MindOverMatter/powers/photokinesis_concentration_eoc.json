@@ -342,6 +342,8 @@
     "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
