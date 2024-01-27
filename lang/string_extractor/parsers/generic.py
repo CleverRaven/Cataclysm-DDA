@@ -7,7 +7,7 @@ def parse_generic(json, origin):
     name = ""
     description = ""
     comment = []
-    inherits_description = true
+    inherits_description = True
     inherited_description_id = ""
     if "copy-from" in json:
         inherited_description_id = json["copy-from"]
@@ -27,21 +27,27 @@ def parse_generic(json, origin):
         write_text(json["description"], origin, c_format=False,
                    comment=comment + ["Description of \"{}\"".format(name)])
         description = json["description"]
-        inherits_description = false
+        inherits_description = False
     if "description_prepend" in json:
         if inherits_description:
             write_text(json["description_prepend"], origin, c_format=False,
-                    comment=comment + ["Partial description of \"{}\" to add to the start of its inherited description from \"{}\"".format(name, inherited_description_id)])
+                       comment=comment + ["Partial description of \"{}\" to 
+                       add to the start of its inherited description from 
+                       \"{}\"".format(name, inherited_description_id)])
         else:
             write_text(json["description_prepend"], origin, c_format=False,
-                    comment=comment + ["Partial description of \"{}\" to add to the start of \"{}\"".format(name, description)])
+                       comment=comment + ["Partial description of \"{}\" to 
+                       add to the start of \"{}\"".format(name, description)])
     if "description_append" in json:
         if inherits_description:
             write_text(json["description_append"], origin, c_format=False,
-                    comment=comment + ["Partial description of \"{}\" to add to the end of its inherited description from \"{}\"".format(name, inherited_description_id)])
+                       comment=comment + ["Partial description of \"{}\" to 
+                       add to the end of its inherited description from 
+                       \"{}\"".format(name, inherited_description_id)])
         else:
             write_text(json["description_append"], origin, c_format=False,
-                    comment=comment + ["Partial description of \"{}\" to add to the end of \"{}\"".format(name, description)])
+                       comment=comment + ["Partial description of \"{}\" to 
+                       add to the end of \"{}\"".format(name, description)])
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
