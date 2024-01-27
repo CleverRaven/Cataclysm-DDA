@@ -695,14 +695,12 @@ void zone_data::set_temporary_disabled( const bool enabled_arg )
     temporarily_disabled = enabled_arg;
 }
 
-void zone_data::toggle_display()
+void zone_data::refresh_display() const
 {
     if( this->is_vehicle ) {
         popup( colorize( _( "Zones tied to vehicles cannot be displayed" ), c_magenta ) );
         return;
     }
-
-    is_displayed = !is_displayed;
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
@@ -744,6 +742,53 @@ void zone_data::toggle_display()
                     update_tmap.add_field( tripoint( x, y, z ), field, 1, time_duration::from_turns( 0 ), false );
                 } else {
                     update_tmap.delete_field( tripoint( x, y, z ), field );
+                }
+            }
+        }
+    }
+}
+
+void zone_data::toggle_display()
+{
+    if( this->is_vehicle ) {
+        popup( colorize( _( "Zones tied to vehicles cannot be displayed" ), c_magenta ) );
+        return;
+    }
+
+    is_displayed = !is_displayed;
+
+    this->refresh_display();
+
+    // Take care of the situation where parts of overlapping zones were erased by the toggling.
+    if( !is_displayed ) {
+
+        const point_abs_ms start = point_abs_ms( std::min( this->start.x, this->end.x ),
+                                   std::min( this->start.y, this->end.y ) );
+
+        const point_abs_ms end = point_abs_ms( std::max( this->start.x, this->end.x ),
+                                               std::max( this->start.y, this->end.y ) );
+
+        const inclusive_rectangle<point_abs_ms> zone_rectangle( start, end );
+
+        for( zone_manager::ref_zone_data zone : zone_manager::get_manager().get_zones() ) {
+            // Assumes zones are a single Z level only. Also, inclusive_cuboid doesn't have an overlap function...
+            if( zone.get().get_is_displayed() && zone.get().get_type() == this->get_type() &&
+                this->start.z == zone.get().get_start_point().z() ) {
+                const point_abs_ms candidate_begin = zone.get().get_start_point().xy();
+                const point_abs_ms candidate_stop = zone.get().get_end_point().xy();
+
+                const point_abs_ms candidate_start = point_abs_ms( std::min( candidate_begin.x(),
+                                                     candidate_stop.x() ),
+                                                     std::min( candidate_begin.y(), candidate_stop.y() ) );
+
+                const point_abs_ms candidate_end = point_abs_ms( std::max( candidate_begin.x(),
+                                                   candidate_stop.x() ),
+                                                   std::max( candidate_begin.y(), candidate_stop.y() ) );
+
+                const inclusive_rectangle<point_abs_ms> candidate_rectangle( candidate_start, candidate_end );
+
+                if( zone_rectangle.overlaps( candidate_rectangle ) ) {
+                    zone.get().refresh_display();
                 }
             }
         }

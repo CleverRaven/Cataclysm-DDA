@@ -413,6 +413,10 @@ class zone_data
                            bool update_avatar = true, bool skip_cache_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
+        // Displays/removes display fields based on the current is_displayed value.
+        // Can be used to "repair" the display when an overlapping field has removed its
+        // part of the shared area, as well as for the actual setting/removal of the fields.
+        void refresh_display() const;
         void toggle_display();
         void set_is_vehicle( bool is_vehicle_arg );
 
