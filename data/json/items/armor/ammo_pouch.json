@@ -208,7 +208,6 @@
     "type": "ARMOR",
     "copy-from": "chestrig",
     "name": { "str": "XL chest rig" },
-    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -216,9 +215,7 @@
     "id": "xs_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "looks_like": "chestrig",
     "name": { "str": "XS chest rig" },
-    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits small forms.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -623,7 +620,6 @@
     "type": "ARMOR",
     "copy-from": "tacvest",
     "name": { "str": "XL tac vest" },
-    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -631,9 +627,7 @@
     "id": "xs_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "looks_like": "tacvest",
     "name": { "str": "XS tac vest" },
-    "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

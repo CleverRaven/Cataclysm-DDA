@@ -25,6 +25,12 @@
     "entries": [ { "drop": "ierde_sample_single", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_ierde_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "ierde_sample_small", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_undine_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -67,6 +73,12 @@
     "entries": [ { "drop": "salamander_sample_single", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_salamander_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "salamander_sample_large", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_homullus_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -77,5 +89,11 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [ { "drop": "sylph_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_sylph_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "sylph_sample_large", "type": "mutagen_group" } ]
   }
 ]

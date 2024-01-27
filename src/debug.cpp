@@ -81,6 +81,7 @@
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
+#include "input_context.h"
 #endif
 
 #if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(CATA_IS_ON_BSD)

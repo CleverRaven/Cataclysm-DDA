@@ -247,6 +247,26 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> gun_damage_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+
+    return[dt_val = params[0], beta = is_beta( scope )]( dialogue const & d )-> double {
+        item_location *it = d.actor( beta )->get_item();
+        if( it == nullptr )
+        {
+            debugmsg( "subject of gun_damage() must be an item" );
+            return 0;
+        }
+        std::string const dt_str = dt_val.str( d );
+        if( dt_str == "ALL" )
+        {
+            return ( *it )->gun_damage( true ).total_damage();
+        }
+        return ( *it )->gun_damage( true ).type_damage( damage_type_id( dt_str ) );
+    };
+}
+
 std::function<double( dialogue & )> has_trait_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -449,6 +469,27 @@ std::function<double( dialogue & )> attack_speed_eval( char scope,
 {
     return[beta = is_beta( scope )]( dialogue const & d ) {
         return d.actor( beta )->attack_speed();
+    };
+}
+
+std::function<double( dialogue & )> melee_damage_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+
+    return[dt_val = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        item_location *it = d.actor( beta )->get_item();
+        if( it == nullptr ) {
+            debugmsg( "subject of melee_damage() must be an item" );
+            return 0;
+        }
+        std::string const dt_str = dt_val.str( d );
+        if( dt_str == "ALL" ) {
+            std::vector<damage_type> const &dts = damage_type::get_all();
+            return std::accumulate( dts.cbegin(), dts.cend(), 0, [&it]( int a, damage_type const & dt ) {
+                return a + ( *it )->damage_melee( dt.id );
+            } );
+        }
+        return ( *it )->damage_melee( damage_type_id( dt_str ) );
     };
 }
 
@@ -1141,6 +1182,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
+    { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
@@ -1149,6 +1191,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
     { "item_rad", { "un", 1, item_rad_eval } },
+    { "melee_damage", { "un", 1, melee_damage_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },

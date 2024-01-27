@@ -128,9 +128,6 @@ enum : int {
 };
 } // namespace keycode
 
-constexpr int LEGEND_HEIGHT = 8;
-constexpr int BORDER_SPACE = 2;
-
 bool is_mouse_enabled();
 bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
@@ -293,6 +290,11 @@ class input_manager
         using t_actions = std::map<std::string, action_attributes>;
         using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
+        /**
+         * called basic rather than default to not confuse default context
+         * basic means default keybindings (without user changes)
+         */
+        t_action_contexts basic_action_contexts;
 
         using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keyboard_char_keycode_to_keyname;
@@ -342,11 +344,13 @@ class input_manager
          *                           the found action was not in the default
          *                           context. It will be set to false if the found
          *                           action was in the default context.
+         * @param use_basic_action_contexts If true, use non-customized keybindings.
          */
         const action_attributes &get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = nullptr );
+            bool *overwrites_default = nullptr,
+            bool use_basic_action_contexts = false );
 
         /**
          * Get a value to be used as the default name for a newly created action.
