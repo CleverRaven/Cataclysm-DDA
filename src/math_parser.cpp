@@ -67,8 +67,7 @@ constexpr std::optional<pmath_func> get_function( std::string_view token )
     return _get_common<pmath_func>( functions, token );
 }
 
-template<class S, typename P, class C>
-std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
+std::optional<scoped_diag_proto> _get_dialogue_func( std::string_view token )
 {
     char scope = 'g';
     std::string_view scoped = token;
@@ -76,27 +75,22 @@ std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
         scope = token[0];
         scoped = token.substr( 2, token.size() - 2 );
     }
-    auto df = cnt.find( scoped );
-    if( df != cnt.end() ) {
-        if( df->second.scopes.find( scope ) == std::string_view::npos ) {
+    auto const &cnt_eval = get_all_diag_eval_funcs();
+    auto const &cnt_ass = get_all_diag_ass_funcs();
+    auto dfe = cnt_eval.find( scoped );
+    if( dfe != cnt_eval.end() ) {
+        if( dfe->second.scopes.find( scope ) == std::string_view::npos ) {
             throw std::invalid_argument( string_format(
                                              "Scope %c is not valid for dialogue function %s() (valid scopes: %s)",
-                                             scope, scoped, df->second.scopes ) );
+                                             scope, scoped, dfe->second.scopes ) );
         }
-        return { { &df->second, scope } };
+        auto dfa = cnt_ass.find( scoped );
+        pdiag_func_eval const &feval = &dfe->second;
+        pdiag_func_ass  const &fass = dfa != cnt_ass.end() ? &dfa->second : pdiag_func_ass{};
+        return { { scoped, feval, fass, scope } };
     }
 
     return std::nullopt;
-}
-
-std::optional<scoped_diag_eval> get_dialogue_eval( std::string_view token )
-{
-    return _get_dialogue_func<scoped_diag_eval, pdiag_func_eval>( get_all_diag_eval_funcs(), token );
-}
-
-std::optional<scoped_diag_ass> get_dialogue_ass( std::string_view token )
-{
-    return _get_dialogue_func<scoped_diag_ass, pdiag_func_ass>( get_all_diag_ass_funcs(), token );
 }
 
 constexpr std::optional<pbin_op> get_binary_op( std::string_view token )
@@ -107,6 +101,11 @@ constexpr std::optional<pbin_op> get_binary_op( std::string_view token )
 constexpr std::optional<punary_op> get_unary_op( std::string_view token )
 {
     return _get_common<punary_op>( prefix_unary_ops, token );
+}
+
+constexpr std::optional<pass_op> get_ass_op( std::string_view token )
+{
+    return _get_common<pass_op>( ass_ops, token );
 }
 
 struct parse_state {
@@ -170,14 +169,13 @@ bool is_function( op_t const &op )
 {
     return std::holds_alternative<pmath_func>( op ) ||
            std::holds_alternative<jmath_func_id>( op ) ||
-           std::holds_alternative<scoped_diag_eval>( op ) ||
-           std::holds_alternative<scoped_diag_ass>( op );
+           std::holds_alternative<scoped_diag_proto>( op );
 }
 
 bool is_assign_target( thingie const &thing )
 {
     return std::holds_alternative<var>( thing.data ) ||
-           std::holds_alternative<func_diag_ass>( thing.data );
+           std::holds_alternative<func_diag>( thing.data );
 }
 
 std::vector<double> _eval_params( std::vector<thingie> const &params, const_dialogue const &d )
@@ -242,6 +240,11 @@ double var::eval( const_dialogue const &d ) const
     return 0;
 }
 
+void var::assign( dialogue &d, double val ) const
+{
+    write_var_value( varinfo.type, varinfo.name, &d, val );
+}
+
 oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
     l( std::make_shared<thingie>( std::move( l_ ) ) ),
     r( std::make_shared<thingie>( std::move( r_ ) ) ),
@@ -266,6 +269,32 @@ double ternary::eval( const_dialogue const &d ) const
     return cond->eval( d ) > 0 ? mhs->eval( d ) : rhs->eval( d );
 }
 
+ass_oper::ass_oper( thingie lhs_, thingie mhs_, thingie rhs_, binary_op::f_t op_ )
+    : lhs( std::make_shared<thingie>( std::move( lhs_ ) ) ),
+      mhs( std::make_shared<thingie>( std::move( mhs_ ) ) ),
+      rhs( std::make_shared<thingie>( std::move( rhs_ ) ) ),
+      op( op_ ) {}
+
+double ass_oper::eval( dialogue &d ) const
+{
+    std::visit( overloaded{
+        [&d, this]( auto const & v ) -> void
+        {
+            if constexpr( v_has_assign<decltype( v )> )
+            {
+                double const val = op( mhs->eval( d ), rhs->eval( d ) ) ;
+                v.assign( d, val );
+            } else
+            {
+                debugmsg( "math called assign() on unexpected node without assign()" );
+            }
+        },
+    },
+    lhs->data );
+
+    return 0;
+}
+
 class math_exp::math_exp_impl
 {
     public:
@@ -281,7 +310,8 @@ class math_exp::math_exp_impl
                 std::locale::global( oldloc );
             } );
             try {
-                _parse( str, assignment );
+                _force_assignment = assignment;
+                _parse( str );
             } catch( std::invalid_argument const &ex ) {
                 if( handle_errors ) {
                     debugmsg( error( str, ex.what() ) );
@@ -302,7 +332,7 @@ class math_exp::math_exp_impl
 
         void assign( dialogue &d, double val ) const {
             std::visit( overloaded{
-                [&d, val]( func_diag_ass const & v ) {
+                [&d, val]( func_diag const & v ) {
                     v.assign( d, val );
                 },
                 [&d, val]( var const & v ) {
@@ -343,12 +373,13 @@ class math_exp::math_exp_impl
         thingie tree{ 0.0 };
         std::string_view last_token;
         parse_state state;
+        bool _force_assignment = false; // FXIME: TEMPORARY REMOVE
 
-        void _parse( std::string_view str, bool assignment );
+        void _parse( std::string_view str );
         void parse_string( std::string_view token, std::string_view full );
         void parse_bin_op( pbin_op const &op );
-        template<typename T>
-        void parse_diag_f( std::string_view symbol, T const &token );
+        void parse_ass_op( pass_op const &op );
+        void parse_diag_f( std::string_view symbol, scoped_diag_proto const &token );
         void parse_comma();
         void parse_lparen( arity_t::type_t type = arity_t::type_t::parens );
         void parse_rparen();
@@ -363,7 +394,9 @@ class math_exp::math_exp_impl
         void maybe_first_argument();
         std::string error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
-        static std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params );
+        static std::vector<diag_value> _get_diag_vals( thingie &thing );
+        thingie _resolve_proto( thingie &thing, bool assignment = false,
+                                std::vector<diag_value> const *args_ = nullptr );
         static diag_value _get_diag_value( thingie &param );
 };
 
@@ -374,7 +407,7 @@ void math_exp::math_exp_impl::maybe_first_argument()
     }
 }
 
-void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
+void math_exp::math_exp_impl::_parse( std::string_view str )
 {
     constexpr std::string_view expression_separators = "+-*/^,()[]%':><=!?";
     state = {};
@@ -403,13 +436,8 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
             arity.emplace( token, jmfid->num_params, arity_t::type_t::func );
             state.set( parse_state::expect::lparen );
 
-        } else if( std::optional<scoped_diag_eval> feval = get_dialogue_eval( token ); feval &&
-                   !assignment ) {
-            parse_diag_f( token, *feval );
-
-        } else if( std::optional<scoped_diag_ass> fass = get_dialogue_ass( token ); fass &&
-                   assignment ) {
-            parse_diag_f( token, *fass );
+        } else if( std::optional<scoped_diag_proto> fproto = _get_dialogue_func( token ); fproto ) {
+            parse_diag_f( token, *fproto );
 
         } else if( std::optional<punary_op> op = get_unary_op( token ); op && state.allows_prefix_unary ) {
             state.validate( parse_state::expect::operand );
@@ -418,6 +446,9 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 
         } else if( std::optional<pbin_op> op = get_binary_op( token ); op ) {
             parse_bin_op( *op );
+
+        } else if( std::optional<pass_op> op = get_ass_op( token ); op ) {
+            parse_ass_op( *op );
 
         } else if( token == "," ) {
             parse_comma();
@@ -433,9 +464,6 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
 
         } else if( token == "]" ) {
             parse_rbracket();
-
-        } else if( token == "=" ) {
-            throw std::invalid_argument( R"(Misplaced "=".  Did you mean "=="?)" );
 
         } else {
             state.validate( parse_state::expect::operand );
@@ -455,14 +483,14 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
         new_oper();
     }
 
-    if( assignment && !is_assign_target( output.top() ) ) {
+    tree = _resolve_proto( output.top(), _force_assignment );
+    if( _force_assignment && !is_assign_target( tree ) ) {
         throw std::invalid_argument( "Assignment tree can only contain one variable name or dialogue assignment function" );
     }
 
     if( output.size() != 1 ) {
         throw std::invalid_argument( "Invalid expression.  That's all we know.  Blame andrei." );
     }
-    tree = std::move( output.top() );
     output.pop();
 }
 
@@ -505,12 +533,22 @@ void math_exp::math_exp_impl::parse_bin_op( pbin_op const &op )
     }
 }
 
-template<typename T>
-void math_exp::math_exp_impl::parse_diag_f( std::string_view symbol, T const &token )
+void math_exp::math_exp_impl::parse_ass_op( pass_op const &op )
+{
+    state.validate( parse_state::expect::oper );
+    while( !ops.empty() && ops.top() > assignment_op ) {
+        new_oper();
+    }
+    ops.emplace( op );
+    state.set( parse_state::expect::operand, true );
+}
+
+void math_exp::math_exp_impl::parse_diag_f(
+    std::string_view symbol, scoped_diag_proto const &token )
 {
     state.validate( parse_state::expect::operand );
     ops.emplace( token );
-    arity.emplace( symbol, token.df->num_params, arity_t::type_t::func, true );
+    arity.emplace( symbol, token.dfe->num_params, arity_t::type_t::func, true );
     state.set( parse_state::expect::lparen, false );
 }
 
@@ -582,6 +620,38 @@ void math_exp::math_exp_impl::parse_rbracket()
     state.set( parse_state::expect::oper );
 }
 
+thingie math_exp::math_exp_impl::_resolve_proto( thingie &thing, bool assignment,
+        std::vector<diag_value> const *args_ )
+{
+
+    if( std::holds_alternative<func_diag_proto>( thing.data ) ) {
+        func_diag_proto &proto = std::get<func_diag_proto>( thing.data );
+        std::vector<diag_value> const &args = args_ == nullptr ? _get_diag_vals( thing ) : *args_;
+        last_token = proto.token;
+
+        if( !assignment && proto.fe == nullptr ) {
+            throw std::invalid_argument(
+                string_format( "Function prototype %s() cannot be evaluated", proto.token ) );
+        }
+        if( assignment && proto.fa == nullptr ) {
+            throw std::invalid_argument(
+                string_format( "Function prototype %s() cannot be used as an assignment target", proto.token ) );
+        }
+
+        func_diag::eval_f fe =
+            assignment ? func_diag::eval_f{} :
+            proto.fe->f( proto.scope, args, proto.kwargs );
+        func_diag::ass_f fa =
+            assignment ? proto.fa->f( proto.scope, args, proto.kwargs ) : func_diag::ass_f{};
+
+        _validate_unused_kwargs( proto.kwargs );
+
+        return thingie{ std::in_place_type_t<func_diag>{}, fe, fa };
+    }
+
+    return thing;
+}
+
 void math_exp::math_exp_impl::new_func()
 {
     if( !ops.empty() && is_function( ops.top() ) ) {
@@ -609,19 +679,14 @@ void math_exp::math_exp_impl::new_func()
             output.pop();
         }
         for( std::vector<thingie>::size_type i = 0; i < nparams; i++ ) {
-            params[nparams - i - 1] = std::move( output.top() );
+            params[nparams - i - 1] = _resolve_proto( output.top() );
             output.pop();
         }
         std::visit( overloaded{
-            [&params, &kwargs, this]( scoped_diag_eval const & v )
+            [&params, &kwargs, this]( scoped_diag_proto const & v )
             {
-                std::vector<diag_value> const args = _get_diag_vals( params );
-                output.emplace( std::in_place_type_t<func_diag_eval>(), v.df->f( v.scope, args, kwargs ) );
-            },
-            [&params, &kwargs, this]( scoped_diag_ass const & v )
-            {
-                std::vector<diag_value> const args = _get_diag_vals( params );
-                output.emplace( std::in_place_type_t<func_diag_ass>(), v.df->f( v.scope, args, kwargs ) );
+                output.emplace( std::in_place_type_t<func_diag_proto>(), v.token, v.scope,
+                                v.dfe, v.dfa, params, kwargs );
             },
             [&params, this]( pmath_func v )
             {
@@ -637,7 +702,6 @@ void math_exp::math_exp_impl::new_func()
             },
         },
         ops.top() );
-        _validate_unused_kwargs( kwargs );
         ops.pop();
     }
 }
@@ -676,13 +740,18 @@ diag_value math_exp::math_exp_impl::_get_diag_value( thingie &param )
     return val;
 }
 
-std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( std::vector<thingie> &params )
+std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( thingie &thing )
 {
-    std::vector<diag_value> vals( params.size() );
-    for( decltype( vals )::size_type i = 0; i < params.size(); i++ ) {
-        vals[i] = _get_diag_value( params[i] );
+    if( std::holds_alternative<func_diag_proto>( thing.data ) ) {
+        func_diag_proto &proto = std::get<func_diag_proto>( thing.data );
+        std::vector<thingie> &params = proto.args;
+        std::vector<diag_value> vals( params.size() );
+        for( decltype( vals )::size_type i = 0; i < params.size(); i++ ) {
+            vals[i] = _get_diag_value( params[i] );
+        }
+        return vals;
     }
-    return vals;
+    return {};
 }
 
 void math_exp::math_exp_impl::new_kwarg( thingie &lhs, thingie &rhs )
@@ -703,7 +772,7 @@ void math_exp::math_exp_impl::new_ternary( thingie &lhs, thingie &rhs )
     _validate_operand( lhs, "?:" );
     _validate_operand( rhs, "?:" );
     ops.pop();
-    thingie cond = std::move( output.top() );
+    thingie cond = _resolve_proto( output.top() );
     _validate_operand( cond, "?:" );
     output.pop();
     output.emplace( std::in_place_type_t<ternary>(), cond, lhs, rhs );
@@ -714,7 +783,7 @@ void math_exp::math_exp_impl::new_array()
     std::vector<thingie>::size_type const nparams = arity.top().current;
     std::vector<thingie> params( nparams );
     for( std::vector<thingie>::size_type i = 0; i < nparams; i++ ) {
-        params[nparams - i - 1] = std::move( output.top() );
+        params[nparams - i - 1] = _resolve_proto( output.top() );
         output.pop();
     }
     output.emplace( std::in_place_type_t<array>(), std::move( params ) );
@@ -728,9 +797,9 @@ void math_exp::math_exp_impl::new_oper()
         [this]( pbin_op v )
         {
             cata_assert( output.size() >= 2 );
-            thingie rhs = std::move( output.top() );
+            thingie rhs = _resolve_proto( output.top() );
             output.pop();
-            thingie lhs = std::move( output.top() );
+            thingie lhs = _resolve_proto( output.top() );
             output.pop();
             if( v->symbol == "?" ) {
                 throw std::invalid_argument( "Unterminated ternary" );
@@ -759,10 +828,34 @@ void math_exp::math_exp_impl::new_oper()
         [this]( punary_op v )
         {
             cata_assert( !output.empty() );
-            thingie rhs = std::move( output.top() );
+            thingie rhs = _resolve_proto( output.top() );
             output.pop();
             _validate_operand( rhs, v->symbol );
             output.emplace( std::in_place_type_t<oper>(), thingie { 0.0 }, rhs, v->f );
+        },
+        [this]( pass_op v )
+        {
+            cata_assert( output.size() >= 2 );
+            thingie rhs = _resolve_proto( output.top() );
+            output.pop();
+
+            thingie temp = std::move( output.top() );
+            output.pop();
+            std::vector<diag_value> const &args = _get_diag_vals( temp );
+            thingie lhs = _resolve_proto( temp, true, &args );
+
+            thingie mhs{ 0.0 };
+            if( v->needs_mhs ) {
+                mhs = _resolve_proto( temp, false, &args );
+            }
+
+            if( !is_assign_target( lhs ) ) {
+                throw std::invalid_argument( "lhs of assignment operator must be an assign target" );
+            }
+            if( !output.empty() || !arity.empty() ) {
+                throw std::invalid_argument( "misplaced assignment operator" );
+            }
+            output.emplace( std::in_place_type_t<ass_oper>(), lhs, mhs, rhs, v->f );
         },
         []( auto /* v */ )
         {

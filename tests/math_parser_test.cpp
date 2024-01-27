@@ -252,8 +252,12 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "0?" ) );
         CHECK_FALSE( testexp.parse( "0?1" ) );
         CHECK_FALSE( testexp.parse( "0?1:" ) );
-        CHECK( testexp.parse( "2+3" ) );
-        testexp.assign( d, 10 ); // assignment called on eval tree should not crash
+        CHECK_FALSE( testexp.parse( "2+3 = 10" ) );
+        CHECK_FALSE( testexp.parse( "a+b = c" ) );
+        CHECK_FALSE( testexp.parse( "a = b = c" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_([a=b])" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_('1':0=0?1:2)" ) );
+        CHECK_FALSE( testexp.parse( "_test_diag_('1':a=2)" ) );
     } );
 
     // make sure there were no bad error messages
@@ -324,25 +328,39 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.eval( d ) == 3 );
 
     // assignment to scoped variables
-    CHECK( testexp.parse( "u_testvar", true ) );
-    testexp.assign( d, 159 );
+    CHECK( testexp.parse( "u_testvar = 159" ) );
+    testexp.eval( d );
     CHECK( std::stoi( get_avatar().get_value( "testvar" ) ) == 159 );
-    CHECK( testexp.parse( "testvar", true ) );
-    testexp.assign( d, 259 );
+    CHECK( testexp.parse( "testvar = 259" ) );
+    testexp.eval( d );
     CHECK( std::stoi( globvars.get_global_value( "testvar" ) ) == 259 );
-    CHECK( testexp.parse( "n_testvar", true ) );
-    testexp.assign( d, 359 );
+    CHECK( testexp.parse( "n_testvar = 359" ) );
+    testexp.eval( d );
     CHECK( std::stoi( dude.get_value( "testvar" ) ) == 359 );
-    CHECK( testexp.parse( "_testvar", true ) );
-    testexp.assign( d, 159 );
+    CHECK( testexp.parse( "_testvar = 159" ) );
+    testexp.eval( d );
     CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( testexp.parse( "_testvar += 1" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 160 );
+    CHECK( testexp.parse( "_testvar -= 1" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( testexp.parse( "_testvar *= 2" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 318 );
+    CHECK( testexp.parse( "_testvar /= 2" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( testexp.parse( "_testvar %= 2" ) );
+    testexp.eval( d );
+    CHECK( std::stoi( d.get_value( "testvar" ) ) == 1 );
+    CHECK( testexp.parse( "_blorg = ((((((((5+7)*7.123)-3)-((5+7)-(7.123*3)))-((5*(7-(7.123*3)))/((5*7)+(7.123+3))))-((((5+7)-(7.123*3))+((5/7)+(7.123+3)))+(((5*7)+(7.123+3))*((5/7)/(7.123-3)))))-(((((5/7)-(7.321/3))*((5-7)+(7.321+3)))*(((5-7)-(7.321+3))+((5-7)*(7.321/3))))*((((5-7)+(7.321+3))-((5*7)*(7.321+3)))-(((5-7)*(7.321/3))/(5+((7/7.321)+3)))))))" ) );
+    testexp.eval( d );
+    CHECK( std::stod( d.get_value( "blorg" ) ) == 87139.7 );
 
     // assignment to scoped values with u_val shim
-    CHECK( testexp.parse( "u_val('stamina')", true ) );
-    testexp.assign( d, 459 );
+    CHECK( testexp.parse( "u_val('stamina') = 459" ) );
+    testexp.eval( d );
     CHECK( get_avatar().get_stamina() == 459 );
-    std::string morelogs = capture_debugmsg_during( [&testexp, &d]() {
-        CHECK( testexp.eval( d ) == Approx( 0 ) ); // eval called on assignment tree should not crash
-        CHECK_FALSE( testexp.parse( "val( 'stamina' ) * 3", true ) ); // eval expression in assignment tree
-    } );
 }
