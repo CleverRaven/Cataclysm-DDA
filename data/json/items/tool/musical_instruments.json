@@ -342,7 +342,7 @@
       "speed_penalty": 18,
       "description_frequency": 20,
       "player_descriptions": [
-        "You play a beat on your drum. Pa rum pa pum pum.",
+        "You play a beat on your drum.  Pa rum pa pum pum.",
         "You play a fast beat on your drum.  Rat tat tat tat.",
         "You play a march on your drums.  Brrrum brrum brrrrum."
       ]
