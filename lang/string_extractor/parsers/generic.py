@@ -31,20 +31,24 @@ def parse_generic(json, origin):
     if "description_prepend" in json:
         if inherits_description:
             write_text(json["description_prepend"], origin, c_format=False,
-                       comment=comment + ["Partial description of \"{}\" to add to the start of its inherited description from \"{}\""
+                       comment=comment +
+                       ["Partial description of \"{}\" to add to the start of its inherited description from \"{}\""
                        .format(name, inherited_description_id)])
         else:
             write_text(json["description_prepend"], origin, c_format=False,
-                       comment=comment + ["Partial description of \"{}\" to add to the start of \"{}\""
+                       comment=comment +
+                       ["Partial description of \"{}\" to add to the start of \"{}\""
                        .format(name, description)])
     if "description_append" in json:
         if inherits_description:
             write_text(json["description_append"], origin, c_format=False,
-                       comment=comment + ["Partial description of \"{}\" to add to the end of its inherited description from \"{}\""
+                       comment=comment +
+                       ["Partial description of \"{}\" to add to the end of its inherited description from \"{}\""
                        .format(name, inherited_description_id)])
         else:
             write_text(json["description_append"], origin, c_format=False,
-                       comment=comment + ["Partial description of \"{}\" to add to the end of \"{}\""
+                       comment=comment +
+                       ["Partial description of \"{}\" to add to the end of \"{}\""
                        .format(name, description)])
 
     if "use_action" in json:
@@ -62,15 +66,15 @@ def parse_generic(json, origin):
         for variant in json["variants"]:
             variant_name = get_singular_name(variant["name"])
             write_text(variant["name"], origin,
-                    comment="Variant name of item \"{}\"".format(name),
-                    plural=True)
+                       comment="Variant name of item \"{}\"".format(name),
+                       plural=True)
             if "description" in json["variants"]:
-                write_text(variant["description"], origin,
-                        comment="Description of variant \"{}\" of item \"{}\""
-                        .format(variant_name, name))
+                write_text(variant["description"], origin, comment=
+                           "Description of variant \"{}\" of item \"{}\""
+                           .format(variant_name, name))
             if "description_prepend" in json["variants"]:
-                write_text(variant["description_prepend"], origin,
-                        comment="Partial description of variant \"{}\" of item \"{}\" to add to the start of \"{}\""
+                write_text(variant["description_prepend"], origin, comment=
+                           "Partial description of variant \"{}\" of item \"{}\" to add to the start of \"{}\""
                         .format(variant_name, name, description))
             if "description_append" in json["variants"]:
                 write_text(variant["description_append"], origin,
