@@ -6773,10 +6773,9 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<T>-Toggle zone display" ) );
+    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<T>-Toggle zone display" ) );
 
-    tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
                             _( "<Z>-Enable personal" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
