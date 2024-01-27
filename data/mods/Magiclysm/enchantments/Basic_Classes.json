@@ -2,11 +2,11 @@
   {
     "type": "enchantment",
     "id": "KELVINIST",
-    "values": [ { "value": "ARMOR_HEAT", "add": { "math": [ "u_val('spell_level', 'school: KELVINIST') / -6" ] } } ]
+    "values": [ { "value": "ARMOR_HEAT", "add": { "math": [ "u_school_level('KELVINIST') / -6" ] } } ]
   },
   {
     "type": "enchantment",
     "id": "STORMSHAPER",
-    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'school: STORMSHAPER') / -6" ] } } ]
+    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_school_level('STORMSHAPER') / -6" ] } } ]
   }
 ]

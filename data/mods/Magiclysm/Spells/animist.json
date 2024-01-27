@@ -93,7 +93,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_ZOMBIE",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "summon_undead" },
+      "switch": { "math": [ "u_spell_level('summon_undead')" ] },
       "cases": [
         { "case": 0, "effect": { "u_cast_spell": { "id": "summon_zombie" } } },
         { "case": 7, "effect": { "u_cast_spell": { "id": "summon_tough_zombie" } } },
@@ -235,7 +235,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_ZOMBIE_SWARM",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "summon_undead" },
+      "switch": { "math": [ "u_spell_level('summon_undead')" ] },
       "cases": [
         { "case": 0, "effect": { "u_cast_spell": { "id": "summon_zombie_dog" } } },
         { "case": 5, "effect": { "u_cast_spell": { "id": "summon_dog_skeleton" } } },

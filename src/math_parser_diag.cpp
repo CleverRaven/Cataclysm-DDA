@@ -18,6 +18,7 @@
 #include "string_input_popup.h"
 #include "units.h"
 #include "weather.h"
+#include "worldfactory.h"
 
 /*
 General guidelines for writing dialogue functions
@@ -219,6 +220,60 @@ std::function<double( dialogue & )> encumbrance_eval( char scope,
     return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
         bodypart_id bp( bpid.str( d ) );
         return d.actor( beta )->encumbrance_at( bp );
+    };
+}
+
+std::function<double( dialogue & )> faction_like_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->likes_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_like_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->likes_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_respect_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->respects_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_respect_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->respects_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_trust_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->trusts_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_trust_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->trusts_u = val;
     };
 }
 
@@ -490,6 +545,22 @@ std::function<double( dialogue & )> melee_damage_eval( char scope,
             } );
         }
         return ( *it )->damage_melee( damage_type_id( dt_str ) );
+    };
+}
+
+std::function<double( dialogue & )> mod_order_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[mod_val = params[0]]( dialogue const & d ) {
+        int count = 0;
+        mod_id our_mod_id( mod_val.str( d ) );
+        for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
+            if( our_mod_id == mod ) {
+                return count;
+            }
+            count++;
+        }
+        return -1;
     };
 }
 
@@ -1181,6 +1252,9 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "faction_like", { "g", 1, faction_like_eval } },
+    { "faction_respect", { "g", 1, faction_respect_eval } },
+    { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
@@ -1192,6 +1266,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "item_count", { "un", 1, item_count_eval } },
     { "item_rad", { "un", 1, item_rad_eval } },
     { "melee_damage", { "un", 1, melee_damage_eval } },
+    { "mod_load_order", { "g", 1, mod_order_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
@@ -1219,6 +1294,9 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "addiction_turns", { "un", 1, addiction_turns_ass } },
+    { "faction_like", { "g", 1, faction_like_ass } },
+    { "faction_respect", { "g", 1, faction_respect_ass } },
+    { "faction_trust", { "g", 1, faction_trust_ass } },
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
