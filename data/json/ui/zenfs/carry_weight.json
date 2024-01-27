@@ -28,7 +28,7 @@
     "label": "<color_dark_gray>Carry</color>",
     "var": "carry_weight_text",
     "style": "text",
-	"text_align": "right",
+    "text_align": "right",
     "width": 4
   }
 ]

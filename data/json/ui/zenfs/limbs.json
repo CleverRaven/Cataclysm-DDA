@@ -61,7 +61,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_head_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_torso",
@@ -71,7 +70,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_torso_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_larm",
@@ -81,7 +79,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_larm_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_rarm",
@@ -91,7 +88,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_rarm_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_lleg",
@@ -101,7 +97,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_lleg_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_rleg",
@@ -111,7 +106,6 @@
     "width": 6,
     "widgets": [ "zenfs_hp_rleg_num", "zenfs_blank_space" ],
     "padding": 0
-
   },
   {
     "id": "zenfs_status_hpn_layout_head",
@@ -120,7 +114,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_head_text", "zenfs_status_hpn_head" ]
-
   },
   {
     "id": "zenfs_status_hpn_layout_torso",
@@ -129,7 +122,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_torso_text", "zenfs_status_hpn_torso" ]
-
   },
   {
     "id": "zenfs_status_hpn_layout_larm",
@@ -138,7 +130,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_larm_text", "zenfs_status_hpn_larm" ]
-
   },
   {
     "id": "zenfs_status_hpn_layout_rarm",
@@ -147,7 +138,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_rarm_text", "zenfs_status_hpn_rarm" ]
-
   },
   {
     "id": "zenfs_status_hpn_layout_lleg",
@@ -156,7 +146,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_lleg_text", "zenfs_status_hpn_lleg" ]
-
   },
   {
     "id": "zenfs_status_hpn_layout_rleg",
@@ -165,7 +154,6 @@
     "arrange": "minimum_columns",
     "width": 12,
     "widgets": [ "zenfs_bp_rleg_text", "zenfs_status_hpn_rleg" ]
-
   },
   {
     "id": "zenfs_status_bar_layout_head",
