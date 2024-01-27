@@ -23,10 +23,11 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "zenfs_blank_line_34",
+    "id": "zenfs_blank_space",
     "type": "widget",
     "style": "text",
-    "string": "                                  ",
-    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+    "string": " ",
+    "flags": [ "W_LABEL_NONE" ],
+    "padding": 1
   }
 ]
