@@ -524,6 +524,16 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
+    if( isDebuggerActive() ) {
+#if defined(_WIN32)
+        DebugBreak();
+        return;
+#elif defined( __linux__ )
+        raise( SIGTRAP );
+        return;
+#endif
+    }
+
     // Show excessive repetition prompt once per excessive set
     bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
 
