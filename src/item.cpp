@@ -7394,7 +7394,7 @@ int item::damage_melee( const damage_type_id &dt ) const
     if( is_gun() ) {
         std::vector<int> opts = { res };
         for( const item *mod : gunmods() ) {
-            if( mod->type->gunmod->location.str() == "bayonet lug" ) {
+            if( mod->type->gunmod->location.str() == "bayonet lug" || "underbarrel" ) {
                 opts.push_back( mod->damage_melee( dt ) );
             }
         }
