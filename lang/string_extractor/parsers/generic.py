@@ -32,8 +32,8 @@ def parse_generic(json, origin):
         if inherits_description:
             write_text(json["description_prepend"], origin, c_format=False,
                        comment=comment + ["Partial description of \"{}\" to "
-                       "add to the start of its inherited description from \"{}\""
-                       .format(name, inherited_description_id)])
+                       "add to the start of its inherited description from "
+                       "\"{}\"".format(name, inherited_description_id)])
         else:
             write_text(json["description_prepend"], origin, c_format=False,
                        comment=comment + ["Partial description of \"{}\" to "
@@ -42,13 +42,12 @@ def parse_generic(json, origin):
         if inherits_description:
             write_text(json["description_append"], origin, c_format=False,
                        comment=comment + ["Partial description of \"{}\" to "
-                       "add to the end of its inherited description from \"{}\""
-                       .format(name, inherited_description_id)])
+                       "add to the end of its inherited description from "
+                       "\"{}\"".format(name, inherited_description_id)])
         else:
             write_text(json["description_append"], origin, c_format=False,
                        comment=comment + ["Partial description of \"{}\" to "
-                       "add to the end of \"{}\""
-                       .format(name, description)])
+                       "add to the end of \"{}\"".format(name, description)])
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
