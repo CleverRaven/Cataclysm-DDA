@@ -750,12 +750,10 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE",
-        "condition": { "math": [ "u_val('spell_level', 'spell: electrokinetic_recharge_vehicle')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "math": [ "u_val('spell_exp', 'spell: electrokinetic_recharge_vehicle')", "+=", "(contemplation_factor(1))" ]
-          },
+          { "math": [ "u_spell_exp('electrokinetic_recharge_vehicle')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
