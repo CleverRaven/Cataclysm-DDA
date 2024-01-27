@@ -688,17 +688,6 @@ conditional_t::func f_has_perception( const JsonObject &jo, std::string_view mem
     };
 }
 
-conditional_t::func f_has_hp( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    std::optional<bodypart_id> bp;
-    optional( jo, false, "bodypart", bp );
-    return [dov, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_hp( bid ) >= dov.evaluate( d );
-    };
-}
-
 conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
@@ -2596,7 +2585,6 @@ parsers = {
     {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_fun::f_has_dexterity },
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
-    {"u_has_hp", "npc_has_hp", jarg::member | jarg::array, &conditional_fun::f_has_hp },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },

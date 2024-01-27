@@ -535,22 +535,6 @@ True, if alpha talker has str 7 or more
 { "u_has_strength": 7 }
 ```
 
-### `u_has_hp`, `npc_has_hp`
-- type: int or [variable object](##variable-object)
-- Return true, if alpha or beta talker HP is value or bigger; additional parameter `bodypart` can be used to check HP of specific body part, otherwise sum of all body parts (or just hp, if monster uses it) is used. Effect checks only current HP, not max HP
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
-
-#### Examples
-Checks does your torso has more than 84 hp 
-```json
-{ "u_has_hp": 84, "bodypart": "torso" }
-```
-
 ### `u_has_part_temp`, `npc_has_part_temp`
 - type: int or [variable object](##variable-object)
 - return true if alpha or beta talker's body part has temperature higher than value; additional parameter `bodypart` specifies the body part
