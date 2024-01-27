@@ -70,13 +70,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
-    "widgets": [
-      "zenfs_hp_nums",
-      "zenfs_blank_line",
-      "zenfs_health_stack_num",
-      "zenfs_bionic_num_with_balance",
-      "zenfs_mana_num"
-    ]
+    "widgets": [ "zenfs_hp_nums", "zenfs_blank_line", "zenfs_health_stack_num", "zenfs_bionic_num_with_balance", "zenfs_mana_num" ]
   },
   {
     "id": "zenfs_hp_nums_with_labels",
