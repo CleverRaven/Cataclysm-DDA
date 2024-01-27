@@ -1523,42 +1523,24 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 ```
 
 Use Context Variable as a eoc (A trick for loop)
-```
-[
-    {
-        "type": "effect_on_condition",
-        "id": "debug_eoc_for_loop",
-        "effect": [{
-                    "run_eoc_with": "eoc_for_loop",
-                    "variables": {
-                      "i": "0",
-                      "length": "10",
-                      "eoc":"eoc_msg_hello_world"
-                      }}]
-    },
-    {
-        "type":"effect_on_condition",
-        "id":"eoc_msg_hello_world",
-        "effect":[{"u_message": "hello world"}]
-    },
-    {
-        "type": "effect_on_condition",
-        "id": "eoc_for_loop",
-        "condition": {"and": [
-                {"expects_vars": ["i","length","eoc"]},
-                {"math": ["_i","<","_length"]}
-            ]
-        },
-        "effect": [
-            {"run_eocs": [{"context_val":"eoc"}]},
-            {"math":["_i", "++"]},
-            {
-                "run_eocs": "eoc_for_loop"
-            }
-        ],
-        "//": "As the generated dialogue for next EOC is a complete copy of the dialogue for this EOC, the context value will be passed on to the next EOC"
-    }
-]
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "debug_eoc_for_loop",
+    "effect": [ { "run_eoc_with": "eoc_for_loop", "variables": { "i": "0", "length": "10", "eoc": "eoc_msg_hello_world" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_msg_hello_world",
+    "effect": [ { "u_message": "hello world" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_for_loop",
+    "condition": { "and": [ { "expects_vars": [ "i", "length", "eoc" ] }, { "math": [ "_i", "<", "_length" ] } ] },
+    "effect": [ { "run_eocs": [ { "context_val": "eoc" } ] }, { "math": [ "_i", "++" ] }, { "run_eocs": "eoc_for_loop" } ],
+    "//": "Checks i is lesser than length, and if true, runs EoC, stored in context val 'eoc', increment i, and runs itself again; all context variables would be saved and passed to the next iteration"
+  }
 ```
 #### `u_set_talker`, `npc_set_talker`
 Store the character_id of You or NPC into a variable object
