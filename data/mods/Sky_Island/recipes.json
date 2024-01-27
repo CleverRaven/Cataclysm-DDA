@@ -94,7 +94,7 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "warpcorpsebag"
+    "result": "warpcorpsebag",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
