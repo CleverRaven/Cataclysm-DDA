@@ -530,7 +530,7 @@
     "id": "biomancer_lashing_tentacles",
     "type": "SPELL",
     "name": "Lashing Tentacles",
-    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid armor that overlaps the shoulders with them.",
+    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid armor that covers the shoulders with them.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
