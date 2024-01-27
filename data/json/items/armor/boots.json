@@ -41,6 +41,14 @@
     ]
   },
   {
+    "id": "xl_bastsandals",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL cord sandals", "str_pl": "pairs of XL cord sandals" },
+    "copy-from": "bastsandals",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "boots",
     "type": "ARMOR",
     "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
@@ -1606,6 +1614,14 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "xl_geta",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL geta", "str_pl": "pairs of XL geta" },
+    "copy-from": "geta",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "id": "heels",
     "type": "ARMOR",
     "name": { "str": "pair of heels", "str_pl": "pairs of heels" },
@@ -1841,6 +1857,14 @@
         "coverage": 95
       }
     ]
+  },
+  {
+    "id": "xl_leathersandals",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL leather sandals", "str_pl": "pairs of XL leather sandals" },
+    "copy-from": "leathersandals",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "lowtops",
@@ -2370,6 +2394,14 @@
         "coverage": 100
       }
     ]
+  },
+  {
+    "id": "xl_straw_sandals",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL straw sandals", "str_pl": "pairs of XL straw sandals" },
+    "copy-from": "straw_sandals",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "thigh_high_boots",
