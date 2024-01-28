@@ -1504,6 +1504,73 @@
     }
   },
   {
+    "id": "aura_druid_breathing_water",
+    "type": "ARMOR",
+    "name": "Aquatic Mantle",
+    "description": "Covered in magical seaweed, you can travel and breathe underwater as long as this spell is in effect.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "material": [ "veggy" ],
+    "symbol": "O",
+    "color": "blue",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "REBREATHER",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "WATERPROOF",
+      "SWIM_GOGGLES"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "aura_druid_waterwalk",
+    "type": "ARMOR",
+    "name": "Waterstrider's Walk",
+    "description": "You can easily walk on the surface of the water.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "material": [ "concentrated_mana" ],
+    "symbol": "O",
+    "color": "blue",
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "FLOTATION"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
     "id": "item_earthshaper_map_01",
     "copy-from": "abstractmap",
     "type": "GENERIC",
@@ -1635,5 +1702,18 @@
       ],
       "message": "The earth reveals its secrets."
     }
+  },
+  {
+    "id": "item_druid_disinfectant",
+    "type": "GENERIC",
+    "name": { "str_sp": "druid antiseptic" },
+    "description": "A magical disinfectant.  You should never actually see this.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "~",
+    "color": "green",
+    "phase": "solid",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.9, "move_cost": 1 }
   }
 ]

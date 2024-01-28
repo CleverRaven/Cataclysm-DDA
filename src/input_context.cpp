@@ -34,6 +34,9 @@
 
 static const std::string default_context_id( "default" );
 
+static constexpr int LEGEND_HEIGHT = 9;
+static constexpr int BORDER_SPACE = 2;
+
 template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
@@ -620,6 +623,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
+    legend += colorize( _( "* User created" ), global_key ) + "\n";
     if( permit_execute_action ) {
         legend += string_format(
                       _( "Press %c to execute action\n" ),
@@ -636,20 +640,20 @@ action_id input_context::display_menu( const bool permit_execute_action )
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), point( 0, 7 ), c_white, true );
-        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
+        const int legend_lines = 1 + fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
         const auto item_color = []( const int index_to_draw, int index_highlighted ) {
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
-        right_print( w_help, 4, 2, item_color( static_cast<int>( kb_btn_idx::remove ),
-                                               int( highlighted_btn_index ) ),
+        right_print( w_help, legend_lines, 2,
+                     item_color( static_cast<int>( kb_btn_idx::remove ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, 4, 26, item_color( static_cast<int>( kb_btn_idx::add_local ),
-                                                int( highlighted_btn_index ) ),
+        right_print( w_help, legend_lines, 26,
+                     item_color( static_cast<int>( kb_btn_idx::add_local ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, 4, 54, item_color( static_cast<int>( kb_btn_idx::add_global ),
-                                                int( highlighted_btn_index ) ),
+        right_print( w_help, legend_lines, 54,
+                     item_color( static_cast<int>( kb_btn_idx::add_global ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
 
@@ -660,6 +664,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category,
                                                   &overwrite_default );
+            bool basic_overwrite_default;
+            const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id, category,
+                    &basic_overwrite_default, true );
 
             char invlet;
             if( i < hotkeys.size() ) {
@@ -686,6 +693,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
             } else {
                 col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
+            }
+            if( overwrite_default != basic_overwrite_default
+                || attributes.input_events != basic_attributes.input_events
+              ) {
+                mvwprintz( w_help, point( 3, i + 7 ), col, "*" );
             }
             mvwprintz( w_help, point( 4, i + 7 ), col, "%s:", get_action_name( action_id ) );
             mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 7 ), col, "%s", get_desc( action_id ) );

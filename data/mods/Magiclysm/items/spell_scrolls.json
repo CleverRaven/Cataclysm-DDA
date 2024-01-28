@@ -1734,5 +1734,68 @@
     "name": { "str": "Scroll of Caustic Blood", "str_pl": "Scrolls of Caustic Blood" },
     "description": "Turn your blood into acid, just like that movie you used to watch all that time.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_blood" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_renew_forest_spell",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Renew the Forest", "str_pl": "Scrolls of Renew the Forest" },
+    "description": "Grow an entire forest from nothing, given enough time and mana.  There were druids who made good money doing this for industrial logging, the ethics of which were always good to start an argument at a party.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_renew_forest_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_wood_living_tree_spell",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Shape Wood", "str_pl": "Scrolls of Shape Wood" },
+    "description": "Grow a log from a living tree and prune it without violence.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_wood_living_tree_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_anti_heat",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water's Cooling Touch", "str_pl": "Scrolls of Water's Cooling Touch" },
+    "description": "Using a bit of water, transfer water's refreshing chill to yourself.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_anti_heat" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_breathing_underwater",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Aquatic Mantle", "str_pl": "Scrolls of Aquatic Mantle" },
+    "description": "Grow magical seaweed to form a protective coating, allowing you to travel the depths.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_breathing_underwater" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_disinfectant",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Wash the Wounds Clean", "str_pl": "Scrolls of Wash the Wounds Clean" },
+    "description": "Disinfect your wounds with just a bit of water and magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_disinfectant" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_water_walking",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water Strider's Walk", "str_pl": "Scrolls of Water Strider's Walk" },
+    "description": "Walk on water using the power of your magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_water_walking" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_recharge_vehicle",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },
+    "description": "Charge a battery using only your mana!  Once of niche use, now a vital skill.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_recharge_vehicle" ] }
   }
 ]

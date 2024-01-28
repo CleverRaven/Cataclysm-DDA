@@ -38,7 +38,7 @@
     },
     "deactivate_condition": { "not": { "is_weather": "early_portal_storm" } },
     "effect": {
-      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
+      "switch": { "math": [ "distance('u', portal_storm_center)" ] },
       "cases": [
         {
           "case": 0,
@@ -396,7 +396,7 @@
     "//": "This displays messages depending on the storms strength.",
     "condition": { "and": [ "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": {
-      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
+      "switch": { "math": [ "distance('u', portal_storm_center)" ] },
       "cases": [
         {
           "case": 0,

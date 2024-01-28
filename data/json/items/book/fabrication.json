@@ -701,5 +701,25 @@
     "required_level": 1,
     "intelligence": 8,
     "time": "15 m"
+  },
+  {
+    "id": "ballista_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Artillery of the Ancients", "str_pl": "copies of Artillery of the Ancients" },
+    "description": "This is a history book detailing the siege machines and field artillery of some ancient civilizations.  It contains detailed diagrams that explain how such devices were assembled and maintained.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 500,
+    "symbol": "?",
+    "color": "blue",
+    "looks_like": "recipe_lab_elec",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "25 m",
+    "melee_damage": { "bash": 4 }
   }
 ]

@@ -69,7 +69,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
-    "description": "A pair of customized mild steel chainmail gloves that fully enclose the hands.",
+    "description": "A pair of customized steel chainmail gloves that fully enclose the hands.",
     "weight": "957 g",
     "volume": "500 ml",
     "price": 5012,
@@ -110,7 +110,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
-    "description": "A pair of customized medium steel chainmail gloves that fully enclose the hands.",
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -134,7 +133,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
-    "description": "A pair of customized high steel chainmail gloves that fully enclose the hands.",
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -158,7 +156,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
-    "description": "A pair of customized hardened steel chainmail gloves that fully enclose the hands.",
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -183,7 +180,6 @@
     "copy-from": "lc_chainmail_hands",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
-    "description": "A pair of customized tempered steel chainmail gloves that fully enclose the hands.",
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -269,7 +265,6 @@
     "id": "xs_gauntlets_chitin",
     "type": "ARMOR",
     "copy-from": "gauntlets_chitin",
-    "looks_like": "gauntlets_chitin",
     "name": { "str": "pair of XS chitinous gauntlets", "str_pl": "pairs of XS chitinous gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -277,15 +272,12 @@
   {
     "id": "gauntlets_acidchitin",
     "copy-from": "gauntlets_chitin",
-    "looks_like": "gauntlets_chitin",
     "type": "ARMOR",
     "name": { "str": "pair of biosilicified chitin gauntlets", "str_pl": "pairs of biosilicified chitin gauntlets" },
     "description": "A pair of gauntlets crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "price_postapoc": 1750,
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "melee_damage": { "bash": 1 } },
-    "material_thickness": 5
+    "relative": { "melee_damage": { "bash": 1 } }
   },
   {
     "id": "xl_gauntlets_acidchitin",
@@ -299,7 +291,6 @@
     "id": "xs_gauntlets_acidchitin",
     "type": "ARMOR",
     "copy-from": "gauntlets_acidchitin",
-    "looks_like": "gauntlets_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin gauntlets", "str_pl": "pairs of XS biosilicified chitin gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

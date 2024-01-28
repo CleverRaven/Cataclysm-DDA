@@ -1147,7 +1147,8 @@
           { "item": "spell_scroll_knock", "prob": 50 },
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
-          { "item": "spell_scroll_technomancer_welder", "prob": 35 }
+          { "item": "spell_scroll_technomancer_welder", "prob": 35 },
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
         ],
         "prob": 35
       },
@@ -1269,8 +1270,11 @@
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
           { "item": "spell_scroll_seed_of_growth", "prob": 15 },
+          { "item": "spell_scroll_druid_anti_heat", "prob": 40 },
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
-          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
+          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
+          { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1281,21 +1285,25 @@
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 },
+          { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
-          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
+          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
+          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
         ],
         "prob": 35
       },
       {
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "plant_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 },
-          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 100 }
+          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
+          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 }
         ],
         "prob": 10
       }
