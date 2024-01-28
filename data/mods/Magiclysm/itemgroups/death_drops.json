@@ -62,7 +62,7 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
         "prob": 4
       },
-      { "distribution": [ { "group": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
       { "item": "crystallized_mana", "prob": 20, "charges-min": 1, "charges-max": 5 },
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "magical_reagents", "prob": 33, "count-min": 1, "count-max": 5 },
@@ -80,7 +80,7 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
         "prob": 4
       },
-      { "distribution": [ { "group": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
       { "item": "crystallized_mana", "prob": 20, "charges-min": 1, "charges-max": 5 },
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "magical_reagents", "prob": 33, "count-min": 1, "count-max": 5 },

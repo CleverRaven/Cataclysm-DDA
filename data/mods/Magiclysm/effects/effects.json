@@ -138,7 +138,7 @@
     "max_intensity": 4,
     "int_add_val": 1,
     "show_in_info": true,
-    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -977,6 +977,7 @@
     "name": [ "Petrified" ],
     "desc": [ "You skin feels like stone.  You can't move." ],
     "rating": "bad",
+    "apply_message": "Your whole body goes rigid and you can't move a muscle!",
     "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
     "max_intensity": 1000,
     "flags": [ "EFFECT_IMPEDING" ]

@@ -235,7 +235,7 @@
     "color": "green",
     "aggression": 30,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
@@ -310,13 +310,13 @@
     "color": "green",
     "aggression": 30,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "dodge": 2,
+    "dodge": 3,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
@@ -361,7 +361,7 @@
         "id": "feral_high_druid_summon_wolf",
         "type": "spell",
         "spell_data": { "id": "summon_wolf_druid_monster", "min_level": 10 },
-        "cooldown": 35,
+        "cooldown": 45,
         "monster_message": "%1$s throws back their head and howls!"
       },
       [ "BROWSE", 100 ],
@@ -396,7 +396,7 @@
     "color": "brown",
     "aggression": 30,
     "morale": 100,
-    "melee_skill": 2,
+    "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
@@ -418,13 +418,18 @@
         "cooldown": 15,
         "move_cost": 100,
         "range": 6,
-        "attack_upper": "false",
+        "attack_upper": false,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
         "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
+        "effects_require_dmg": false,
         "dodgeable": false,
         "blockable": false,
         "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
-        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!"
+        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
+        "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
+        "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
+        "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
+        "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
       },
       {
         "type": "monster_attack",
@@ -470,7 +475,7 @@
     "color": "brown",
     "aggression": 30,
     "morale": 100,
-    "melee_skill": 2,
+    "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
@@ -485,6 +490,7 @@
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "smash", "range": 1, "throw_strength": 70 },
+      { "id": "smash", "range": 1, "throw_strength": 40 },
       {
         "type": "monster_attack",
         "attack_type": "melee",
@@ -492,13 +498,18 @@
         "cooldown": 15,
         "move_cost": 100,
         "range": 6,
-        "attack_upper": "false",
+        "attack_upper": false,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
         "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
+        "effects_require_dmg": false,
         "dodgeable": false,
         "blockable": false,
         "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
-        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!"
+        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
+        "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
+        "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
+        "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
+        "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
       },
       {
         "type": "monster_attack",
@@ -512,7 +523,7 @@
         "hit_dmg_npc": "%1$s rumbles words of magic and heavy chunks of rock impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s rumbles words of magic and you narrowly avoid heavy chunks of rock!",
         "miss_msg_npc": "%1$s rumbles words of magic and <npcname> narrowly avoids heavy chunks of rock!",
-        "no_dmg_msg_u": "%1$s rumbles words of magic your %2$s is impacted by heavy chunks of rock, but they do no damage.",
+        "no_dmg_msg_u": "%1$s rumbles words of magic and your %2$s is impacted by heavy chunks of rock, but they do no damage.",
         "no_dmg_msg_npc": "%1$s rumbles words of magic and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
       },
       {
@@ -528,7 +539,9 @@
         "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
         "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
         "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
-        "miss_msg_npc": "%1$s reaches out and <npcname> narrowly avoids their touch!"
+        "miss_msg_npc": "%1$s reaches out and <npcname> narrowly avoids their touch!",
+        "no_dmg_msg_u": "",
+        "no_dmg_msg_npc": ""
       },
       {
         "id": "earthshaper_high_dispel",
