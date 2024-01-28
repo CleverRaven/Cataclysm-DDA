@@ -96,16 +96,6 @@ std::string durability( item const &it, unsigned int /* quantity */,
     return {};
 }
 
-std::string engine_displacement( item const &it, unsigned int /* quantity */,
-                                 segment_bitset const &/* segments */ )
-{
-    if( it.is_engine() && it.engine_displacement() > 0 ) {
-        return string_format( pgettext( "vehicle adjective", "%gL " ),
-                              it.engine_displacement() / 100.0f );
-    }
-    return {};
-}
-
 std::string wheel_diameter( item const &it, unsigned int /* quantity */,
                             segment_bitset const &/* segments */ )
 {
@@ -530,52 +520,71 @@ std::string category( item const &it, unsigned int /* quantity */,
 // function type that prints an element of tname::segments
 using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
                              segment_bitset const &segments );
-std::unordered_map<tname::segments, decl_f_print_segment *> const segment_map = {
-    { tname::segments::FAULTS, faults },
-    { tname::segments::DIRT, dirt_symbol },
-    { tname::segments::OVERHEAT, overheat_symbol },
-    { tname::segments::FAVORITE_PRE, pre_asterisk },
-    { tname::segments::DURABILITY, durability },
-    { tname::segments::ENGINE_DISPLACEMENT, engine_displacement },
-    { tname::segments::WHEEL_DIAMETER, wheel_diameter },
-    { tname::segments::BURN, burn },
-    { tname::segments::TYPE, label },
-    { tname::segments::CATEGORY, category },
-    { tname::segments::MODS, mods },
-    { tname::segments::CRAFT, craft },
-    { tname::segments::WHITEBLACKLIST, wbl_mark },
-    { tname::segments::CHARGES, noop },
-    { tname::segments::CONTENTS, contents },
-    { tname::segments::FOOD_TRAITS, food_traits },
-    { tname::segments::LOCATION_HINT, location_hint },
-    { tname::segments::ETHEREAL, ethereal },
-    { tname::segments::FOOD_STATUS, food_status },
-    { tname::segments::FOOD_IRRADIATED, food_irradiated },
-    { tname::segments::TEMPERATURE, temperature },
-    { tname::segments::CLOTHING_SIZE, clothing_size },
-    { tname::segments::FILTHY, filthy },
-    { tname::segments::BROKEN, segment_broken },
-    { tname::segments::CBM_STATUS, cbm_status },
-    { tname::segments::UPS, ups },
-    { tname::segments::WETNESS, wetness },
-    { tname::segments::ACTIVE, active },
-    { tname::segments::SEALED, sealed },
-    { tname::segments::FAVORITE_POST, post_asterisk },
-    { tname::segments::WEAPON_MODS, weapon_mods },
-    { tname::segments::RELIC, relic_charges },
-    { tname::segments::LINK, noop },
-    { tname::segments::VARS, vars },
-    { tname::segments::TECHNIQUES, noop },
-    { tname::segments::TAGS, tags },
-};
+constexpr size_t num_segments = static_cast<size_t>( tname::segments::last_segment );
 
+constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
+{
+    std::array<decl_f_print_segment *, num_segments> arr{};
+    arr[static_cast<size_t>( tname::segments::FAULTS ) ] = faults;
+    arr[static_cast<size_t>( tname::segments::DIRT ) ] = dirt_symbol;
+    arr[static_cast<size_t>( tname::segments::OVERHEAT ) ] = overheat_symbol;
+    arr[static_cast<size_t>( tname::segments::FAVORITE_PRE ) ] = pre_asterisk;
+    arr[static_cast<size_t>( tname::segments::DURABILITY ) ] = durability;
+    arr[static_cast<size_t>( tname::segments::WHEEL_DIAMETER ) ] = wheel_diameter;
+    arr[static_cast<size_t>( tname::segments::BURN ) ] = burn;
+    arr[static_cast<size_t>( tname::segments::WEAPON_MODS ) ] = weapon_mods;
+    arr[static_cast<size_t>( tname::segments::TYPE ) ] = label;
+    arr[static_cast<size_t>( tname::segments::CATEGORY ) ] = category;
+    arr[static_cast<size_t>( tname::segments::MODS ) ] = mods;
+    arr[static_cast<size_t>( tname::segments::CRAFT ) ] = craft;
+    arr[static_cast<size_t>( tname::segments::WHITEBLACKLIST ) ] = wbl_mark;
+    arr[static_cast<size_t>( tname::segments::CHARGES ) ] = noop;
+    arr[static_cast<size_t>( tname::segments::FOOD_TRAITS ) ] = food_traits;
+    arr[static_cast<size_t>( tname::segments::FOOD_STATUS ) ] = food_status;
+    arr[static_cast<size_t>( tname::segments::FOOD_IRRADIATED ) ] = food_irradiated;
+    arr[static_cast<size_t>( tname::segments::TEMPERATURE ) ] = temperature;
+    arr[static_cast<size_t>( tname::segments::LOCATION_HINT ) ] = location_hint;
+    arr[static_cast<size_t>( tname::segments::CLOTHING_SIZE ) ] = clothing_size;
+    arr[static_cast<size_t>( tname::segments::ETHEREAL ) ] = ethereal;
+    arr[static_cast<size_t>( tname::segments::FILTHY ) ] = filthy;
+    arr[static_cast<size_t>( tname::segments::BROKEN ) ] = segment_broken;
+    arr[static_cast<size_t>( tname::segments::CBM_STATUS ) ] = cbm_status;
+    arr[static_cast<size_t>( tname::segments::UPS ) ] = ups;
+    arr[static_cast<size_t>( tname::segments::TAGS ) ] = tags;
+    arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
+    arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
+    arr[static_cast<size_t>( tname::segments::ACTIVE ) ] = active;
+    arr[static_cast<size_t>( tname::segments::SEALED ) ] = sealed;
+    arr[static_cast<size_t>( tname::segments::FAVORITE_POST ) ] = post_asterisk;
+    arr[static_cast<size_t>( tname::segments::RELIC ) ] = relic_charges;
+    arr[static_cast<size_t>( tname::segments::LINK ) ] = noop;
+    arr[static_cast<size_t>( tname::segments::TECHNIQUES ) ] = noop;
+    arr[static_cast<size_t>( tname::segments::CONTENTS ) ] = contents;
+
+    return arr;
+}
+constexpr bool all_segments_have_printers()
+{
+    for( decl_f_print_segment *printer : get_segs_array() ) {
+        if( printer == nullptr ) {
+            return false;
+        }
+    }
+    return true;
+}
 } // namespace
+
+static_assert( all_segments_have_printers(),
+               "every element of tname::segments (up to tname::segments::last_segment) "
+               "must map to a printer in segs_array" );
 
 namespace tname
 {
 std::string print_segment( tname::segments segment, item const &it, unsigned int quantity,
                            segment_bitset const &segments )
 {
-    return ( *segment_map.at( segment ) )( it, quantity, segments );
+    static std::array<decl_f_print_segment *, num_segments> const arr = get_segs_array();
+    size_t const idx = static_cast<size_t>( segment );
+    return ( *arr.at( idx ) )( it, quantity, segments );
 }
 } // namespace tname

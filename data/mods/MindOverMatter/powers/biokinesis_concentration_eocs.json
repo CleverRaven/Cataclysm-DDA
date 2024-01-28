@@ -30,7 +30,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "biokin_overcome_pain" },
+      "switch": { "math": [ "u_spell_level('biokin_overcome_pain')" ] },
       "cases": [
         { "case": 0, "effect": { "u_add_effect": "effect_biokin_pkill_1", "duration": "PERMANENT" } },
         { "case": 4, "effect": { "u_add_effect": "effect_biokin_pkill_2", "duration": "PERMANENT" } },
@@ -415,7 +415,6 @@
     "id": "EOC_BIOKIN_HAMMERHAND_DRAIN",
     "condition": { "u_has_effect": "biokin_hammerhand" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },

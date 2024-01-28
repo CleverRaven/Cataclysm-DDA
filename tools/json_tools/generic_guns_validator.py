@@ -13,6 +13,8 @@ GG_DIR = os.path.normpath(os.path.join(
 AMMO_TYPE_WHITELIST = {
     '40x46mm',  # Grenade
     'atgm',  # Rocket
+    'atlatl',
+    'bolt_ballista',
     'barb',
     'battery',
     'BB',
@@ -34,8 +36,7 @@ AMMO_TYPE_WHITELIST = {
     'rock',
     'signal_flare',
     'methanol_fuelcell',
-    'weldgas',
-    'atlatl'
+    'weldgas'
 }
 SKILL_WHITELIST = {
     'archery',

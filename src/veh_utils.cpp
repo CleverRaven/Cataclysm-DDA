@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "craft_command.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "input_context.h"

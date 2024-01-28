@@ -685,6 +685,37 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_evil_eye",
+    "name": [ "Evil Eye" ],
+    "desc": [ "Something is definitely wrong." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "max_intensity": 5,
+    "show_intensity": false,
+    "base_mods": {
+      "hit_mod": [ -3 ],
+      "dodge_mod": [ -4 ],
+      "per_mod": [ -2 ],
+      "health_chance": [ 20 ],
+      "health_tick": [ 30 ],
+      "fatigue_tick": [ 30 ],
+      "fatigue_chance": [ 20 ],
+      "fatigue_min": [ 1 ]
+    },
+    "scaling_mods": {
+      "hit_mod": [ -0.5 ],
+      "dodge_mod": [ -0.5 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.6 ],
+      "health_chance": [ -3 ],
+      "health_tick": [ -5 ],
+      "fatigue_chance": [ -3 ],
+      "fatigue_tick": [ -5 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_underground_timer",
     "name": [ "Underground in Dead Air" ],
     "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],

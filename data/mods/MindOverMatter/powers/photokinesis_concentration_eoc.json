@@ -156,7 +156,7 @@
     "id": "EOC_PHOTOKIN_CAMOUFLAGE_SWITCHER",
     "effect": [
       {
-        "switch": { "u_val": "spell_level", "spell": "photokinetic_camouflage" },
+        "switch": { "math": [ "u_spell_level('photokinetic_camouflage')" ] },
         "cases": [
           { "case": 0, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_1" } },
           { "case": 4, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_2" } },
@@ -243,7 +243,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_HIDE_UGLY_SWITCHER",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "photokinetic_hide_ugly" },
+      "switch": { "math": [ "u_spell_level('photokinetic_hide_ugly')" ] },
       "cases": [
         { "case": 0, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_01" } },
         { "case": 4, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_02" } },
@@ -342,6 +342,8 @@
     "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",

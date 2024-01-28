@@ -485,6 +485,22 @@
     "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
+    "id": "transition_contacts",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "pair of transition contact lenses", "str_pl": "pairs of transition contact lenses" },
+    "description": "A pair of extended-wear contacts with soft lenses designed to be discarded after a week of use.  This high tech pair darkens in response to light, making it easier to see in bright environments.  They sit comfortably on the surface of the eye.",
+    "flags": [ "SUN_GLASSES", "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ],
+    "weight": "1 g",
+    "volume": "6 ml",
+    "price": "72 cent",
+    "price_postapoc": "250 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [ "CONTACTS" ]
+  },
+  {
     "id": "crack",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

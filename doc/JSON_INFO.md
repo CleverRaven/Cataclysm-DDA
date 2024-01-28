@@ -3216,7 +3216,6 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // To be a fuel an item needs to be made of only one material,
                               // this material has to produce energy, *ie* have a `data_fuel` entry,
                               // and it needs to have consumable charges.
-"displacement": 280           // engine displacement, meaasured in cubic centimeters (cm3)
 ```
 
 #### The following optional fields are specific to WHEELs.

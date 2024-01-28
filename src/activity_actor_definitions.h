@@ -22,6 +22,7 @@
 #include "memory_fast.h"
 #include "pickup.h"
 #include "point.h"
+#include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"

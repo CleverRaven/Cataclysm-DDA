@@ -2643,6 +2643,7 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    add_msg( m_info, _( "Is debugger active: %s" ), isDebuggerActive() ? _( "Yes" ) : _( "No" ) );
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }

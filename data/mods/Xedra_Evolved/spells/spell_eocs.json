@@ -17,7 +17,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_FAIL_MESSAGE",
     "effect": {
-      "switch": { "u_val": "vitamin", "name": "dreamer_vit" },
+      "switch": { "math": [ "u_vitamin('dreamer_vit')" ] },
       "cases": [
         {
           "case": 0,
