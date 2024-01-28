@@ -26,12 +26,8 @@ add_custom_target(
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_custom_command(
-        OUTPUT ${CMAKE_SOURCE_DIR}/src/version.h
-        COMMAND ${CMAKE_COMMAND}
-                -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
-                -D DST=${CMAKE_SOURCE_DIR}/src/version.h
-                -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
-                -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/version.h
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Build tiles version if requested
