@@ -3783,7 +3783,7 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
 
 talk_effect_fun_t::func f_get_distance_value(const JsonObject& jo, std::string_view member)
 {
-    JsonArray objects = jo.get_array("get_distance_value");
+    JsonArray objects = jo.get_array( member );
     if (objects.size() != 3) {
         objects.throw_error("get distance value requires an array with 3 elements.");
     }
@@ -3798,7 +3798,7 @@ talk_effect_fun_t::func f_get_distance_value(const JsonObject& jo, std::string_v
         var_type type = var.type;
         std::string var_name = var.name;
         write_var_value(type, var_name, d.actor(type == var_type::npc), &d, std::to_string(distance_is));
-        };
+    };
 }
 
 talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_view member,
