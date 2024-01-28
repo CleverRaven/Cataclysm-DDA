@@ -2846,7 +2846,11 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
-         to_translation( "How many levels up and down the experimental 3D field of vision reaches and is drawn on screen.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  Setting this to 0 disables vertical vision and displays only one level below with colored blocks instead." ),
+         to_translation(
+             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
+             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
+             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
+             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
          0, OVERMAP_LAYERS, 4
        );
 
