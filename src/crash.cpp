@@ -162,7 +162,7 @@ extern "C" {
         }
     } catch( const std::exception &e ) {
         if( !isDebuggerActive() ) {
-            type = typeid(e).name();
+            type = typeid( e ).name();
             msg = e.what();
             // call here to avoid `msg = e.what()` going out of scope
             log_crash( type, msg );
