@@ -1797,5 +1797,14 @@
     "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },
     "description": "Charge a battery using only your mana!  Once of niche use, now a vital skill.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_recharge_vehicle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_persuasion_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Flames of Passion", "str_pl": "Scrolls of Flames of Passion" },
+    "description": "Fire yourself up to give a persuasive speech with this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_persuasion_spell" ] }
   }
 ]

@@ -83,6 +83,7 @@
       [ "spell_scroll_glide_ice", 25 ],
       [ "spell_scroll_kelvinist_anti_cold", 30 ],
       [ "spell_scroll_kelvinist_anti_heat", 30 ],
+      [ "spell_scroll_kelvinist_persuasion_spell", 20 ],
       [ "spell_scroll_ice_shield", 25 ],
       [ "spell_scroll_frost_armor", 35 ],
       [ "spell_scroll_phase_door", 50 ],

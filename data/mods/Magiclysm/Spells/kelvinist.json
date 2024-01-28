@@ -574,5 +574,26 @@
     "energy_source": "MANA",
     "base_energy_cost": 450,
     "base_casting_time": 1500
+  },
+  {
+    "id": "kelvinist_persuasion_spell",
+    "type": "SPELL",
+    "name": "Flames of Passion",
+    "description": "Like the bonfire gathers revelers around it, the kelvinist becomes the life of the party, as their eyes shine with passion and their voice burns with the heat of their conviction.  You will be more convincing while this spell is in effect.  Before the Cataclysm, this was one of the most common spells that apprentices were desperate to learn and master mages were reluctant to teach.",
+    "valid_targets": [ "self" ],
+    "spell_class": "KELVINIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "components": "spell_components_flames_of_passion",
+    "effect": "attack",
+    "effect_str": "effect_kelvinist_flames_of_passion",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 20,
+    "min_duration": 90000,
+    "max_duration": 990000,
+    "duration_increment": 45000,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "base_casting_time": 500
   }
 ]

@@ -1164,7 +1164,8 @@
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
-      }
+      },
+      { "u_remove_item_with": "item_druid_disinfectant" }
     ]
   },
   {
