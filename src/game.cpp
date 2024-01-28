@@ -2806,6 +2806,8 @@ void game::bury_screen() const
     std::vector<std::string> vRip;
 
     int iMaxWidth = 41;
+    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
+    int iNameLine = 15;
 
     const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                          TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
@@ -2814,13 +2816,13 @@ void game::bury_screen() const
                                iOffset );
     draw_border( w_rip );
 
-    const ascii_art_id art = static_cast<ascii_art_id>("hk_mp5a2");
+    const ascii_art_id art = static_cast<ascii_art_id>("battery_motorbike");
     if( art.is_valid() ) {
+        int row = 1;
         for( const std::string &line : art->picture ) {
-            fold_and_print( w_rip, point( 0, 0 ), 41, c_white, line );
+            fold_and_print( w_rip, point( 1, row++ ), 41, c_white, line );
         }
     }
-
 
     sfx::do_player_death_hurt( get_player_character(), true );
     sfx::fade_audio_group( sfx::group::weather, 2000 );
@@ -2828,9 +2830,8 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
     sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
-    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
     std::string sLastWords = string_input_popup()
-                             .window( w_rip, point( 0, 0 ), iStartX + iMaxWidth - 4 - 1 )
+                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
                              .max_length( iMaxWidth - 4 - 1 )
                              .query_string();
 

@@ -79,6 +79,9 @@ using damage_type_id = string_id<damage_type>;
 struct damage_info_order;
 using damage_info_order_id = string_id<damage_info_order>;
 
+struct death_screen;
+using death_screen_id = string_id<death_screen>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 
