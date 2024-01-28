@@ -604,7 +604,8 @@
       { "id": "eshaper_spawn_tools", "level": 3 },
       { "id": "move_earth", "level": 2 },
       { "id": "earthshaper_pillar", "level": 1 },
-      { "id": "classless_watch_spell", "level": 1 }
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "earthshaper_harden_earth", "level": 4 }
     ],
     "traits": [ "EARTHSHAPER" ],
     "items": {
