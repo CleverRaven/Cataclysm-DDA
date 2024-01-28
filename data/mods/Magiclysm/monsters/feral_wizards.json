@@ -490,7 +490,6 @@
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "smash", "range": 1, "throw_strength": 70 },
-      { "id": "smash", "range": 1, "throw_strength": 40 },
       {
         "type": "monster_attack",
         "attack_type": "melee",
