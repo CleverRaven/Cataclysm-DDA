@@ -1,2 +1,83 @@
 [
+  {
+    "type": "GENERIC",
+    "id": "dvd_blank",
+    "name": { "str": "blank DVD disc" },
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data.  Many years before the Cataclysm, it was a popular format for movies, software, and various multimedia content.  This one is blank, has no data on it.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "16 g",
+    "volume": "7 ml",
+    "longest_side": "120 mm",
+    "price": 250,
+    "price_postapoc": 2,
+    "symbol": "O",
+    "color": "gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_scratched",
+    "name": { "str": "scratched DVD disc" },
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data.  Many years before the Cataclysm, it was a popular format for movies, software, and various multimedia content.  This one is scratched to the point it is impossible for any device to read its contents.",
+    "copy-from": "dvd_blank",
+    "price": 5,
+    "price_postapoc": 0,
+    "flags": [ "TRADER_AVOID" ],
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_cracked",
+    "name": { "str": "cracked DVD disc" },
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data.  Many years before the Cataclysm, it was a popular format for movies, software, and various multimedia content.  This one is cracked and damaged to the point it is impossible for any device to read its contents.",
+    "copy-from": "dvd_blank",
+    "price": 1,
+    "price_postapoc": 0,
+    "flags": [ "TRADER_AVOID" ],
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ogre",
+    "name": { "str": "Shrek DVD disc" },
+    "description": "An animated comedy film that tells the story of Shrek, an ogre, whose peaceful swamp life is disrupted when fairy tale creatures are banished to his land.  To reclaim his home, Shrek makes a deal with the scheming Lord Farquaad to rescue Princess Fiona.  It is rated PG and is from 2001.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ogre2",
+    "name": { "str": "Shrek 2 DVD disc" },
+    "description": "The second installment of the Shrek movie series, Shrek 2 continues the adventures of Shrek and Princess Fiona as they visit her royal parents, facing challenges due to their unconventional marriage and discovering family secrets.  It is rated PG and is from 2004.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ogre3",
+    "name": { "str": "Shrek the Third DVD disc" },
+    "description": "As the name says, Shrek the Third is the third installment of the Shrek movie series.  It follows Shrek as he navigates the challenges of ruling the kingdom. When King Harold falls ill and perishes, Shrek sets out to find the rightful heir, encountering characters and many challenges on the way.  It is rated PG and is from 2007.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ogre4",
+    "name": { "str": "Shrek Forever After DVD disc" },
+    "description": "The fourth installment of the Shrek movie series, this movie explores an alternate reality created when Shrek makes a deal with Rumpelstiltskin, leading to a world where he never existed.  Shrek must undo the consequences of these actions and save his friends, family and future.  It is rated PG and is from 2010.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_",
+    "name": { "str": " DVD disc" },
+    "description": ".",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
   
