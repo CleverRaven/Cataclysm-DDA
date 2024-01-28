@@ -1059,38 +1059,6 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-bool isDebuggerActive()
-{
-#if defined(_WIN32)
-    // From catch.hpp: both _MSVC_VER and __MINGW32__
-    return IsDebuggerPresent() != 0;
-#elif defined(__linux__)
-    // From catch.hpp:
-    // The standard POSIX way of detecting a debugger is to attempt to
-    // ptrace() the process, but this needs to be done from a child and not
-    // this process itself to still allow attaching to this process later
-    // if wanted, so is rather heavy. Under Linux we have the PID of the
-    // "debugger" (which doesn't need to be gdb, of course, it could also
-    // be strace, for example) in /proc/$PID/status, so just get it from
-    // there instead.
-    std::ifstream in( "/proc/self/status" );
-    for( std::string line; std::getline( in, line ); ) {
-        static const int PREFIX_LEN = 11;
-        //NOLINTNEXTLINE(cata-text-style)
-        if( line.compare( 0, PREFIX_LEN, "TracerPid:\t" ) == 0 ) {
-            // We're traced if the PID is not 0 and no other PID starts
-            // with 0 digit, so it's enough to check for just a single
-            // character.
-            return line.length() > PREFIX_LEN && line[PREFIX_LEN] != '0';
-        }
-    }
-
-    return false;
-#else
-    return false;
-#endif
-}
-
 #if !defined(_WIN32) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
@@ -1509,6 +1477,38 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
     static NullStream null_stream;
     return null_stream;
+}
+
+bool isDebuggerActive()
+{
+#if defined(_WIN32)
+    // From catch.hpp: both _MSVC_VER and __MINGW32__
+    return IsDebuggerPresent() != 0;
+#elif defined(__linux__)
+    // From catch.hpp:
+    // The standard POSIX way of detecting a debugger is to attempt to
+    // ptrace() the process, but this needs to be done from a child and not
+    // this process itself to still allow attaching to this process later
+    // if wanted, so is rather heavy. Under Linux we have the PID of the
+    // "debugger" (which doesn't need to be gdb, of course, it could also
+    // be strace, for example) in /proc/$PID/status, so just get it from
+    // there instead.
+    std::ifstream in( "/proc/self/status" );
+    for( std::string line; std::getline( in, line ); ) {
+        static const int PREFIX_LEN = 11;
+        //NOLINTNEXTLINE(cata-text-style)
+        if( line.compare( 0, PREFIX_LEN, "TracerPid:\t" ) == 0 ) {
+            // We're traced if the PID is not 0 and no other PID starts
+            // with 0 digit, so it's enough to check for just a single
+            // character.
+            return line.length() > PREFIX_LEN && line[PREFIX_LEN] != '0';
+        }
+    }
+
+    return false;
+#else
+    return false;
+#endif
 }
 
 std::string game_info::operating_system()
