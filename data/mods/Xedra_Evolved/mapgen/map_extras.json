@@ -144,7 +144,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
-      "place_monster": [ { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 } ]
+      "place_monster": [ { "group": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 } ]
     }
   },
   {
@@ -181,8 +181,8 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "copse_trees_palette" ],
       "place_monster": [
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 },
-        { "monster": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
+        { "group": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 },
+        { "group": "GROUP_GENIUS_SALAMANDER", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -271,10 +271,10 @@
         "~": "t_water_dp"
       },
       "place_monster": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
+        { "group": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
+        { "group": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -332,10 +332,10 @@
         "~": "t_water_dp"
       },
       "place_monster": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
+        { "group": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
+        { "group": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -394,10 +394,10 @@
         "~": "t_water_dp"
       },
       "place_monster": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
+        { "group": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
+        { "group": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   },
@@ -456,10 +456,10 @@
         "~": "t_water_dp"
       },
       "place_monster": [
-        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
-        { "monster": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
+        { "group": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 2 ] },
+        { "group": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "group": "GROUP_GENIUS_ARVORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 25 }
       ]
     }
   }
