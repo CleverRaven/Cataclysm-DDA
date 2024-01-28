@@ -295,6 +295,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -367,6 +368,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -427,6 +429,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -1657,6 +1660,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -3086,6 +3090,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "number4_mki" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -3135,6 +3140,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "type99", "type_99_sniper" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
