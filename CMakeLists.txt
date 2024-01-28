@@ -65,8 +65,9 @@ if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 else()
-	message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package or use -DGIT_BINARY to set path to git binary.")
-	set(VERSION "NULL")
+    message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package
+    or use -DGIT_BINARY to set path to git binary.")
+    set(VERSION "NULL")
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
