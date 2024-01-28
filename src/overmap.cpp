@@ -3668,11 +3668,11 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_SWAMPS" ) ) {
         place_swamps();
     }
-    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
-        populate_highways();
-    }
     if( get_option<bool>( "OVERMAP_PLACE_RAVINES" ) ) {
         place_ravines();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        place_highways();
     }
     if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
         place_cities();
@@ -4762,73 +4762,139 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
     } );
 }
 
-void overmap::populate_highways()
+void overmap::place_highways()
 {
-    // TODO: Get ocean settings to check if we're over ocean
-    const int highway_frequency_x =
-        settings->overmap_highway.highway_frequency_x; // Distance in overmaps between vertical highways ( whole overmap gap of highway_frequency_x - 1 )
-    const int highway_frequency_y =
-        settings->overmap_highway.highway_frequency_y; // Distance in overmaps between horizontal highways ( whole overmap gap of highway_frequency_x - 1 )
     const point_abs_om this_om = pos();
+    const int this_om_x = this_om.x();
+    const int this_om_y = this_om.y();
+    bool ocean_next_north = false;
+    bool ocean_next_east = false;
+    bool ocean_next_south = false;
+    bool ocean_next_west = false;
+    if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+        const int ocean_start_north = settings->overmap_ocean.ocean_start_north == 0 ? INT_MAX :
+                                      settings->overmap_ocean.ocean_start_north;
+        const int ocean_start_east = settings->overmap_ocean.ocean_start_east == 0 ? INT_MAX :
+                                     settings->overmap_ocean.ocean_start_east;
+        const int ocean_start_west = settings->overmap_ocean.ocean_start_west == 0 ? INT_MAX :
+                                     settings->overmap_ocean.ocean_start_west;
+        const int ocean_start_south = settings->overmap_ocean.ocean_start_south == 0 ? INT_MAX :
+                                      settings->overmap_ocean.ocean_start_south;
+        // Don't place highways over the ocean
+        if( this_om_y <= -ocean_start_north || this_om_x >= ocean_start_east ||
+            this_om_y >= ocean_start_south || this_om_x <= -ocean_start_west ) {
+            return;
+        }
+        // Check if we need to place partial highway with different intersections
+        ocean_next_north = this_om_y - 1 == -ocean_start_north;
+        ocean_next_east = this_om_x + 1 == ocean_start_east;
+        ocean_next_south = this_om_y + 1 == ocean_start_south;
+        ocean_next_west = this_om_x - 1 == -ocean_start_west;
+        if( ocean_next_north && ocean_next_east && ocean_next_south && ocean_next_west ) {
+            debugmsg( "Not placing highways because expecting ocean on all sides?!" );
+            return; // This should never happen but would break everything
+        }
+    }
+    // Distance in overmaps between vertical highways ( whole overmap gap of highway_frequency_x - 1 )
+    const int highway_frequency_x = settings->overmap_highway.highway_frequency_x;
+    // Distance in overmaps between horizontal highways ( whole overmap gap of highway_frequency_x - 1 )
+    const int highway_frequency_y = settings->overmap_highway.highway_frequency_y;
     bool placed_horizontal = false;
     bool placed_vertical = false;
 
-    constexpr bool is_water_body_or[]( tripoint_om_omt p1, tripoint_om_omt p2 ) {
-        return is_water_body( ter( p1 ) ) || is_water_body( ter( p1 + p2 ) );
-    } );
+    auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
+        return is_water_body( ter( point ) ) || is_water_body( ter( point + offset ) );
+    };
 
+    // TODO: Have this run once instead of every overmap
+    // Use the global seed to calculate an offset for the grid so there's no guaranteed offset at 0,0
+    auto calc_offset_from_seed = []( int x, int y, unsigned int seed ) {
+        const int x_mid = ceil( x / 2.0 );
+        const int y_mid = ceil( y / 2.0 );
+        const int chosen_offset = seed % ( x_mid * y_mid );
+        int stop_when_chosen_offet = 0;
+        for( int x_offset = 0; x_offset < x_mid; x_offset++ ) {
+            for( int y_offset = 0; y_offset < y_mid; x_offset++ ) {
+                if( stop_when_chosen_offet == chosen_offset ) {
+                    std::pair<int, int> ret = { x_offset, y_offset };
+                    return ret;
+                }
+                stop_when_chosen_offet++;
+            }
+        }
+        debugmsg( "Failed to seed highway offset with chosen value %s and expected max %s",
+                  chosen_offset, x_mid * y_mid );
+        std::pair<int, int> ret = { 0, 0 };
+        return ret;
+    };
 
-    if( highway_frequency_x > 0 &&
-        this_om.x() /* + ocean modifier */ % highway_frequency_x == 0 ) {
+    const std::pair<int, int> offset = calc_offset_from_seed( highway_frequency_x, highway_frequency_y,
+                                       g->get_seed() );
+
+    // TODO: Refactor the x and y into a single function by passing the maps as a vector?
+    // Place a highway if we're at the right distance from the last or if there's ocean next
+    if( highway_frequency_x > 0 && ( ( this_om_y + offset.second ) % highway_frequency_x == 0 ||
+                                     ocean_next_north ||
+                                     ocean_next_south ) ) {
         const int i = floor( OMAPX / 2.0 );
-        for( int j = 0; j < OMAPY; j++ ) { // TODO: Place half if at ocean start
+        // Only place half if there's ocean next overmap
+        const int j_min = ocean_next_north ? floor( OMAPY / 2.0 ) : 0;
+        const int j_max = ocean_next_south ? floor( OMAPY / 2.0 ) + 1 : OMAPY;
+        for( int j = j_min; j < j_max; j++ ) {
             const tripoint_om_omt west_point( i, j, 0 );
-            // If over water place a seperate omt so we can distinguish between it and _ground in special_locations and on the map as well as give it more fitting flags
-            const bool over_water =  is_water_body_or( west_point, tripoint_east );
-            ter_set( west_point, over_water ? oter_highway_bridge_supports_north.id() :
-                     oter_highway_ns_w_ground.id() );
-            ter_set( west_point + tripoint_east,
-                     over_water ? oter_highway_bridge_supports_north.id() : oter_highway_ns_e_ground.id() );
-            // TODO: If over lake add more pillars going down to the lake bed
             ter_set( west_point + tripoint_above, oter_highway_ns_w.id() );
             ter_set( west_point + tripoint_east + tripoint_above, oter_highway_ns_e.id() );
+            // TODO: Add ravine handling? (no supports and bridge nest on top)
+            const bool over_water =  is_water_body_or( west_point, tripoint_east );
+            // If over water place a seperate omt so we can distinguish between it and _ground in special_locations and on the map as well as give it more fitting flags
+            if( over_water ) {
+                ter_set( west_point, oter_highway_bridge_supports_north.id() );
+                ter_set( west_point + tripoint_east, oter_highway_bridge_supports_north.id() );
+                tripoint_om_omt water_point = west_point + tripoint_below;
+                // Add more pillars going down to the bottom
+                while( is_water_body_or( water_point, tripoint_east ) && water_point.z() >= -OVERMAP_DEPTH ) {
+                    ter_set( water_point, oter_highway_bridge_supports_north.id() );
+                    ter_set( water_point + tripoint_east, oter_highway_bridge_supports_north.id() );
+                    water_point += tripoint_below;
+                }
+            } else {
+                ter_set( west_point, oter_highway_ns_w_ground.id() );
+                ter_set( west_point + tripoint_east, oter_highway_ns_e_ground.id() );
+            }
         }
         placed_vertical = true;
     }
-    if( highway_frequency_y > 0 &&
-        this_om.y() /* + ocean modifier */ % highway_frequency_y == 0 ) {
+    if( highway_frequency_y > 0 && ( ( this_om_x + offset.first ) % highway_frequency_y == 0 ||
+                                     ocean_next_east ||
+                                     ocean_next_west ) ) {
         const int j = floor( OMAPY / 2.0 );
-        for( int i = 0; i < OMAPX; i++ ) { // TODO: Place half if at ocean start
+        const int i_min = ocean_next_west ? floor( OMAPX / 2.0 ) : 0;
+        const int i_max = ocean_next_east ? floor( OMAPX / 2.0 ) + 1 : OMAPX;
+        for( int i = i_min; i < i_max; i++ ) {
             const tripoint_om_omt north_point( i, j, 0 );
-            // If over water place a seperate omt so we can distinguish between it and _ground in special_locations and on the map as well as give it more fitting flags
-            const bool over_water =  is_water_body( ter( north_point ) ) ||
-                                     is_water_body( ter( north_point + tripoint_south ) );
-            ter_set( north_point, over_water ? oter_highway_bridge_supports_east.id() :
-                     oter_highway_ew_n_ground.id() );
-            ter_set( north_point + tripoint_south,
-                     over_water ? oter_highway_bridge_supports_east.id() : oter_highway_ew_s_ground.id() );
-
-            // If over water add more pillars going down to the bottom
-            if( over_water ) {
-
-                const bool over_water =  is_water_body( ter( north_point ) ) ||
-                                         is_water_body( ter( north_point + tripoint_south ) );
-                while( ter( water_point ) -> is_water() && --support_z >= -OVERMAP_DEPTH ) {
-                    ter_set( water_point, oter_highway_bridge_supports_east.id() );
-                    water_point += tripoint_below;
-                }
-            }
-
-
+            const bool over_water =  is_water_body_or( north_point, tripoint_south );
             ter_set( north_point + tripoint_above, oter_highway_ew_n.id() );
             ter_set( north_point + tripoint_south + tripoint_above, oter_highway_ew_s.id() );
+            if( over_water ) {
+                ter_set( north_point, oter_highway_bridge_supports_east.id() );
+                ter_set( north_point + tripoint_south, oter_highway_bridge_supports_east.id() );
+                tripoint_om_omt water_point = north_point + tripoint_below;
+                while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
+                    ter_set( water_point, oter_highway_bridge_supports_east.id() );
+                    ter_set( water_point + tripoint_south, oter_highway_bridge_supports_east.id() );
+                    water_point += tripoint_below;
+                }
+            } else {
+                ter_set( north_point,  oter_highway_ew_n_ground.id() );
+                ter_set( north_point + tripoint_south, oter_highway_ew_s_ground.id() );
+            }
         }
         placed_horizontal = true;
     }
-    if( placed_vertical && placed_horizontal ) {
-    // Add highway intersection
-    // TODO: Add 3-way and corner joins when meeting ocean
-    const int i = floor( OMAPX / 2.0 );
+    if( false && placed_vertical && placed_horizontal ) {
+        // Add highway intersection
+        // TODO: Add 3-way intersections and bends for the half placements
+        const int i = floor( OMAPX / 2.0 );
         const int j = floor( OMAPY / 2.0 );
         const tripoint_om_omt nw_corner( i, j, 0 );
         ter_set( nw_corner, oter_highway_nsew_nw_ground.id() );
@@ -4840,8 +4906,8 @@ void overmap::populate_highways()
         ter_set( nw_corner + tripoint_south + tripoint_above, oter_highway_nsew_sw.id() );
         ter_set( nw_corner + tripoint_south_east + tripoint_above, oter_highway_nsew_se.id() );
     }
-    // TODO: Add some road connections (on off ramps etc)
-    // TODO: Call populate_connections_out_from_neighbors() for non highway + loaded edges
+    // TODO: Add up to one road connection (on off ramps etc) per compass direction of the centre
+    // TODO: Call populate_connections_out_from_neighbors() for non highway + loaded edges?
 }
 
 void overmap::place_forest_trails()
@@ -6117,7 +6183,7 @@ void overmap::build_city_street(
         debugmsg( "Invalid road direction." );
         return;
     }
-
+    // TODO: Prevent turns under highway
     const pf::directed_path<point_om_omt> street_path = lay_out_street( connection, p, dir, cs + 1 );
 
     if( street_path.nodes.size() <= 1 ) {
@@ -6781,6 +6847,7 @@ std::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om
 
 void overmap::good_river( const tripoint_om_omt &p )
 {
+    // TODO: Change this to the flag (or an else that sets a different bool?) and add handling for bridge maps to get overwritten by the correct tile then replaced
     if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
         return;
     }
