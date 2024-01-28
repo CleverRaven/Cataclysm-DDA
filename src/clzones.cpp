@@ -1796,7 +1796,9 @@ void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id
     tripoint const s_ = std::min( start, end );
     tripoint const e_ = std::max( start, end );
     if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
-        dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+        if( dynamic_cast<loot_options *>( &*options ) != nullptr ) {
+            dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+        }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
 }
