@@ -1059,23 +1059,20 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+bool isDebuggerActive()
+{
 #if defined(_WIN32)
-// From catch.hpp: both _MSVC_VER and __MINGW32__
-bool isDebuggerActive()
-{
+    // From catch.hpp: both _MSVC_VER and __MINGW32__
     return IsDebuggerPresent() != 0;
-}
 #elif defined(__linux__)
-// From catch.hpp:
-// The standard POSIX way of detecting a debugger is to attempt to
-// ptrace() the process, but this needs to be done from a child and not
-// this process itself to still allow attaching to this process later
-// if wanted, so is rather heavy. Under Linux we have the PID of the
-// "debugger" (which doesn't need to be gdb, of course, it could also
-// be strace, for example) in /proc/$PID/status, so just get it from
-// there instead.
-bool isDebuggerActive()
-{
+    // From catch.hpp:
+    // The standard POSIX way of detecting a debugger is to attempt to
+    // ptrace() the process, but this needs to be done from a child and not
+    // this process itself to still allow attaching to this process later
+    // if wanted, so is rather heavy. Under Linux we have the PID of the
+    // "debugger" (which doesn't need to be gdb, of course, it could also
+    // be strace, for example) in /proc/$PID/status, so just get it from
+    // there instead.
     std::ifstream in( "/proc/self/status" );
     for( std::string line; std::getline( in, line ); ) {
         static const int PREFIX_LEN = 11;
@@ -1089,13 +1086,10 @@ bool isDebuggerActive()
     }
 
     return false;
-}
 #else
-bool isDebuggerActive()
-{
     return false;
-}
 #endif
+}
 
 #if !defined(_WIN32) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static void write_demangled_frame( std::ostream &out, const char *frame )
