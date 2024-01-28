@@ -1008,7 +1008,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
             &camera_cache[0][0], map_dimensions, light_transparency_solid );
     }
 
-    if( !fov_3d ) {
+    if( fov_3d_z_range == 0 ) {
+        // Single z-level mode
+
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
             mdarray &cur_out_cache = camera ? cur_cache.camera_cache : cur_cache.seen_cache;
@@ -1027,6 +1029,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
             }
         }
     } else {
+        // Multi z-level mode
+
         // Cache the caches (pointers to them)
         array_of_grids_of<const float> transparency_caches;
         array_of_grids_of<float> seen_caches;
