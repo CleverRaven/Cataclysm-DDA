@@ -1127,43 +1127,56 @@
     "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
     "effect": [
       {
-        "run_eocs": [
-          {
-            "condition": {
-              "or": [
-                { "u_is_on_terrain": "t_rock_floor_no_roof" },
-                { "u_is_on_terrain": "t_rock_floor" },
-                { "u_is_on_terrain": "t_rock_smooth" },
-                {
-                  "and": [
-                    { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                    { "not": { "u_is_on_terrain": "t_grass_alien" } },
-                    { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
-                    { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
-                    { "not": { "u_is_on_terrain": "t_fungus" } },
-                    { "not": { "u_is_on_terrain": "t_glassed_sand" } },
-                    { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
-                    { "not": { "u_is_on_terrain": "t_swater_surf" } },
-                    { "not": { "u_is_on_terrain": "t_woodchips" } }
-                  ]
-                }
-              ]
-            },
-            "effect": [
-              { "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" }, "z_adjust": -9, "z_override": true },
+        "run_eocs": {
+          "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH_2",
+          "condition": {
+            "or": [
+              { "u_is_on_terrain": "t_rock_floor_no_roof" },
+              { "u_is_on_terrain": "t_rock_floor" },
+              { "u_is_on_terrain": "t_rock_smooth" },
               {
-                "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
-                "type": "good"
-              },
-              { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
-              { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
-            ],
-            "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
-          }
-        ]
+                "and": [
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                  { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                  { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                  { "not": { "u_is_on_terrain": "t_fungus" } },
+                  { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                  { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                  { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                  { "not": { "u_is_on_terrain": "t_woodchips" } }
+                ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": -9,
+              "z_override": true
+            },
+            {
+              "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
+              "type": "good"
+            },
+            { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
+            { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+          ],
+          "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
+        }
       }
     ],
     "false_effect": [
+      {
+        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "z_adjust": 0,
+        "z_override": true
+      },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
       {
         "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
         "type": "good"

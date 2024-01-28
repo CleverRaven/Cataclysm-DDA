@@ -1197,7 +1197,7 @@
           { "item": "spell_scroll_eshaper_shardspray", "prob": 50 },
           { "item": "spell_scroll_earthshaper_stoneskin", "prob": 50 },
           { "item": "spell_scroll_earthshaper_pillar", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_harden_earth", " prob": 50 }
+          { "item": "spell_scroll_earthshaper_harden_earth", "prob": 50 }
         ],
         "prob": 35
       },

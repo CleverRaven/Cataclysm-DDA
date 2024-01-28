@@ -42,6 +42,7 @@
     "name": { "str": "Stony Sleep" },
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
+    "points": 0,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
