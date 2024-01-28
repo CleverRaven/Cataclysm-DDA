@@ -463,7 +463,8 @@
     "spells": [
       { "id": "freezing_touch", "level": 3 },
       { "id": "glide_ice", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 3 }
+      { "id": "kelvinist_anti_heat", "level": 3 },
+      { "id": "kelvinist_extinguish_fire_spell", "level": 3 }
     ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
     "points": 2,
@@ -1071,7 +1072,12 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
+    "spells": [
+      { "id": "create_lighter", "level": 4 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "frost_armor", "level": 3 },
+      { "id": "kelvinist_anti_cold", "level": 4 }
+    ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -1184,7 +1190,8 @@
     "spells": [
       { "id": "chilling_touch", "level": 3 },
       { "id": "frost_spray", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 4 }
+      { "id": "kelvinist_anti_heat", "level": 4 },
+      { "id": "kelvinist_summon_freezer_spell", "level": 6 }
     ],
     "skills": [
       { "level": 2, "name": "speech" },

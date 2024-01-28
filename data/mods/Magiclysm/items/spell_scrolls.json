@@ -1815,5 +1815,14 @@
     "name": { "str": "Scroll of Extinguish", "str_pl": "Scrolls of Extinguish" },
     "description": "Turn a fire directly into cold, putting it out.  Once one of the most commonly-known spells in the world, the lack of open flames in daily life has lead to a steep decline in its use.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_extinguish_fire_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_summon_freezer_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Freezer Field", "str_pl": "Scrolls of Freezer Field" },
+    "description": "Summon a sphere of ice to preserve your food inside.  Once a vital spell to keep food from rotting, then a party trick to keep drinks cold at the beach, and now back to vital once again.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_freezer_spell" ] }
   }
 ]

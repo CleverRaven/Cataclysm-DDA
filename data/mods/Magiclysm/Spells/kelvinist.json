@@ -634,5 +634,27 @@
     "min_aoe": 1,
     "max_aoe": 10,
     "aoe_increment": 0.5
+  },
+  {
+    "id": "kelvinist_summon_freezer_spell",
+    "type": "SPELL",
+    "name": { "str": "Freezer Field" },
+    "description": "Summon a sphere of ice that will preserve anything placed inside while the container lasts.",
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "max_level": 15,
+    "difficulty": 6,
+    "spell_class": "KELVINIST",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "item_kelvinist_icy_freezing_container",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 51840000,
+    "max_duration": 327240000,
+    "duration_increment": 18360000,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "base_casting_time": 1500
   }
 ]
