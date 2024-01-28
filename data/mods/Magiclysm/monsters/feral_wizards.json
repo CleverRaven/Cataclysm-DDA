@@ -546,8 +546,8 @@
         "id": "earthshaper_high_dispel",
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 10 },
-        "cooldown": 30,
-        "monster_message": "%1$s claps both hands in the air with a shout aimed at %3$s."
+        "cooldown": 40,
+        "monster_message": "%1$s claps both hands in the air and shouts at %3$s."
       },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
