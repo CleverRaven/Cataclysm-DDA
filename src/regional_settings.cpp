@@ -436,6 +436,23 @@ static void load_overmap_ocean_settings( const JsonObject &jo,
     }
 }
 
+static void load_overmap_highway_settings( const JsonObject &jo,
+        overmap_highway_settings &overmap_highway_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_highway_settings" ) && get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_HIGHWAYS set to true, but \"overmap_highway_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_highway_settings_jo = jo.get_object( "overmap_highway_settings" );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "highway_frequency_x",
+                                    overmap_highway_settings.highway_frequency_x, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "highway_frequency_y",
+                                    overmap_highway_settings.highway_frequency_y, !overlay );
+    }
+}
+
 static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
         region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
         const bool strict, const bool overlay )
@@ -602,6 +619,8 @@ void load_region_settings( const JsonObject &jo )
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
     load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
+
+    load_overmap_highway_settings( jo, new_region.overmap_highway, strict, false );
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
