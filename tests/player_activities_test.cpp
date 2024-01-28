@@ -14,8 +14,8 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "point.h"
-#include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
@@ -1763,8 +1763,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     clear_avatar();
     clear_map();
     set_time_to_day();
-    get_weather().weather_override = WEATHER_CLEAR;
-    get_weather().set_nextweather( calendar::turn );
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
     map &m = get_map();
 
