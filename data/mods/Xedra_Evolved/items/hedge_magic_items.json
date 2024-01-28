@@ -184,6 +184,7 @@
     }
   },
   {
+    "type": "COMESTIBLE",
     "id": "item_hedge_cure_cold_or_flu",
     "copy-from": "tea",
     "name": { "str": "Curative tea" },
