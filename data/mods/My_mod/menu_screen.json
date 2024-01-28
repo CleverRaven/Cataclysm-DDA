@@ -1,0 +1,11 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_MENU_WELCOME",
+    "dynamic_line": "Welcome to Siege. ",
+    "responses": [
+      { "text": "Use Default Settings", "effect": [ { "run_eocs": "EOC_TEST_CONTROLLER" } ], "topic": "TALK_DONE" },
+      { "text": "Customize Settings", "topic": "TALK_DONE" }
+    ]
+  }
+]

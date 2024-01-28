@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "my_mod",
+    "name": "my_mod",
+    "description": "my_mod",
+    "maintainers": [ "rtxyd" ],
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -19,7 +19,8 @@ const std::unordered_set<std::string> &simple_string_conds();
 const std::unordered_set<std::string> &complex_conds();
 } // namespace dialogue_data
 
-enum class jarg {
+enum class jarg
+{
     member = 1,
     object = 1 << 1,
     string = 1 << 2,
@@ -27,7 +28,8 @@ enum class jarg {
 };
 
 template<>
-struct enum_traits<jarg> {
+struct enum_traits<jarg>
+{
     static constexpr bool is_flag_enum = true;
 };
 
@@ -46,10 +48,9 @@ duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_vie
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
         bool required = true,
         time_duration default_val = 0_seconds );
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
-tripoint_abs_ms get_tripoint_from_string(const std::string& type, dialogue const& d);
+tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialogue const &d );
 var_info read_var_info( const JsonObject &jo );
-var_info get_varinfo_from_string(const std::string& type);
+var_info get_varinfo_from_string( const std::string &type );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
@@ -58,7 +59,7 @@ std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
-std::string get_string_from_input(const JsonArray& objects, int index);
+std::string get_string_from_input( const JsonArray &objects, int index );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( dialogue & )> &condition, bool default_val );
@@ -72,7 +73,8 @@ void finalize_conditions();
  * Invoking the function operator with a dialog reference (so the function can access the NPC)
  * returns whether the response is allowed.
  */
-struct conditional_t {
+struct conditional_t
+{
     public:
         using func = std::function<bool( dialogue & )>;
 
