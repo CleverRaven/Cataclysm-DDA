@@ -256,6 +256,7 @@
       [ "biomancer_spellbook", 60 ],
       [ "druid_spellbook", 60 ],
       [ "pyro", 60 ],
+      [ "techno_electrical_work", 50 ],
       [ "farmer_spellbook", 40 ],
       [ "eshaper_spellbook", 60 ],
       [ "eshaper_spellbook_melee", 30 ],
