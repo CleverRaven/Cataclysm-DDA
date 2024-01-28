@@ -524,6 +524,8 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
+    // Enable the following to step in debug messages with a debugger
+#if 0
     if( isDebuggerActive() ) {
 #if defined(_WIN32)
         DebugBreak();
@@ -533,6 +535,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
 #endif
     }
+#endif //
 
     // Show excessive repetition prompt once per excessive set
     bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
