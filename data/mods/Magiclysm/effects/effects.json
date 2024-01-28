@@ -956,6 +956,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_petrified",
+    "name": [ "Petrified" ],
+    "desc": [ "You skin feels like stone.  You can't move." ],
+    "rating": "bad",
+    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
+    "max_intensity": 1000,
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
     "name": [ "Rapid Regeneration" ],
     "desc": [ "You are healing unbelievably quickly." ],
@@ -1012,7 +1022,7 @@
     "desc": [ "You're not going anywhere." ],
     "apply_message": "Your body tingles.",
     "rating": "bad",
-    "flags": [ "DIMENSIONAL_ANCHOR" ]
+    "flags": [ "TELEPORT_LOCK" ]
   },
   {
     "type": "effect_type",
@@ -1035,6 +1045,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
+      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
@@ -1094,6 +1105,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
+      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
