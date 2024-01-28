@@ -398,5 +398,12 @@
       }
     ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "MOUNTABLE", "BLOCK_WIND", "ORGANIC" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_kelvinist_extinguish_transform",
+    "field": [
+      { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fires suddenly vanishes!", "message_good": true }
+    ]
   }
 ]

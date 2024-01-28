@@ -176,6 +176,7 @@
       [ "spell_scroll_technomancer_conjure_ups", 20 ],
       [ "spell_scroll_technomancer_robot_shutdown", 25 ],
       [ "spell_scroll_technomancer_recharge_vehicle", 15 ],
+      [ "spell_scroll_kelvinist_extinguish_fire_spell", 25 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_druid_whisper_leaves", 30 ],

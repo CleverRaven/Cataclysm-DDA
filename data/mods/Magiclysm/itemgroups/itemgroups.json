@@ -1101,7 +1101,8 @@
           { "item": "spell_scroll_frost_spray", "prob": 50 },
           { "item": "spell_scroll_glide_ice", "prob": 50 },
           { "item": "spell_scroll_ice_shield", "prob": 50 },
-          { "item": "spell_scroll_frost_armor", "prob": 50 }
+          { "item": "spell_scroll_frost_armor", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_extinguish_fire_spell", "prob": 50 }
         ],
         "prob": 35
       },

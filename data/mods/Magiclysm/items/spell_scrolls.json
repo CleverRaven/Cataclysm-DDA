@@ -1806,5 +1806,14 @@
     "name": { "str": "Scroll of Flames of Passion", "str_pl": "Scrolls of Flames of Passion" },
     "description": "Fire yourself up to give a persuasive speech with this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_persuasion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_extinguish_fire_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Extinguish", "str_pl": "Scrolls of Extinguish" },
+    "description": "Turn a fire directly into cold, putting it out.  Once one of the most commonly-known spells in the world, the lack of open flames in daily life has lead to a steep decline in its use.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_extinguish_fire_spell" ] }
   }
 ]
