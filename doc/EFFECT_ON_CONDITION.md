@@ -1850,7 +1850,7 @@ Check the value, and, depending on it, pick the case that would be run
 Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
 ```json
 {
-  "switch": { "u_val": "spell_level", "spell": "some_spell" },
+  "switch": { "math": [ "u_spell_level('some_spell')" ] },
   "cases": [
     { "case": 0, "effect": { "u_cast_spell": { "id": "another_spell" } } },
     { "case": 3, "effect": { "u_add_effect": "drunk", "duration": "270 minutes" } },

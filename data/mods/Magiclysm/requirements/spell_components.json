@@ -179,5 +179,11 @@
     "type": "requirement",
     "//": "Sticks to turn into a bramble spear",
     "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_anti_heat",
+    "type": "requirement",
+    "//": "Water for Water's Cooling Touch",
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ] ] ]
   }
 ]
