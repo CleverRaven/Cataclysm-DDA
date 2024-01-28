@@ -468,12 +468,13 @@
   },
   {
     "id": "afs_small_roof_external_tank_aluminum",
-    "copy-from": "external_tank_small_aluminum",
+    "copy-from": "afs_small_roof_external_tank",
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (100 L)" },
+    "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
     }
