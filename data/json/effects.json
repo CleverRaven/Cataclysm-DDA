@@ -2037,10 +2037,12 @@
     "type": "effect_type",
     "id": "anticoagulant_draculin",
     "max_intensity": 3,
-    "max_duration": "30 m",
+    "max_duration": "20 m",
     "rating": "bad",
+    "show_in_info": true,
     "blood_analysis_description": "Draculin",
-    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except bugs.",
+    "immune_flags": [ "DRACULIN_IMMUNE" ],
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
   },
   {

@@ -3514,12 +3514,12 @@
         }
     ]
     },
+    "mult_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.08 }
+    ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 14 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 18 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
       { "stat": "movecost", "scale": 50 }
@@ -3542,12 +3542,12 @@
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
+    "mult_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.08 }
+    ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 14 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 18 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
       { "stat": "movecost", "scale": 50 }
@@ -3565,15 +3565,15 @@
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.18 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.74 }
+    ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 16 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.0 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scale": 18 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
       { "stat": "movecost", "scale": 50 }
     ]
   },
@@ -3603,17 +3603,15 @@
     "tech_effects": [
       {
         "id": "anticoagulant_draculin",
-        "chance": 70,
-        "duration": 6000,
+        "chance": 100,
+        "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!"
       }
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 21 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
@@ -3635,8 +3633,8 @@
     "tech_effects": [
       {
         "id": "anticoagulant_draculin",
-        "chance": 70,
-        "duration": 6000,
+        "chance": 100,
+        "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!"
       }
@@ -3648,9 +3646,7 @@
     },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 21 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
@@ -3680,7 +3676,7 @@
     "attack_vectors": [ "MOUTH" ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scale": 25 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.4 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.2 },

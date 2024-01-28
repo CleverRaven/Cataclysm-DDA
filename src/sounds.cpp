@@ -92,6 +92,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id material_bone( "bone" );
@@ -568,9 +569,11 @@ void sounds::process_sound_markers( Character *you )
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
-        const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
+        int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
                                 volume_multiplier ) ) - distance_to_sound;
-
+        if( you->has_flag( json_flag_HEARING_PROTECTION ) ){
+            felt_volume /= 2;
+        }
         // Deafening is based on the felt volume, as a player may be too deaf to
         // hear the deafening sound but still suffer additional hearing loss.
         const bool is_sound_deafening = rng( felt_volume / 2, felt_volume ) >= 150;

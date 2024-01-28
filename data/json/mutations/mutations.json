@@ -475,33 +475,24 @@
     "id": "BATEARS",
     "name": { "str": "Bat Ears" },
     "points": 1,
-    "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and most loud noises don't seem to bother you.",
+    "ugliness": 8,
+    "visibility": 8,
+    "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "types": [ "HEARING" ],
+    "flags": [ "HEARING_PROTECTION" ],
     "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
-    "hearing_modifier": 2.5
+    "hearing_modifier": 2
   },
   {
     "type": "mutation",
     "id": "ECHOLOCATION",
     "name": { "str": "Echolocation" },
     "points": 3,
-    "description": "You've learned how to hunt without sight.  Activate this mutation to make an ultrasonic sound that can reveal obstacles and enemies nearby.",
+    "description": "You've learned how to hunt without sight.  Activate this mutation to make a quiet chirp that can reveal obstacles and enemies by its echo.",
     "prereqs": [ "BATEARS", "GOODCARDIO" ],
     "category": [ "CHIROPTERAN" ],
     "active": true
-  },
-  {
-    "type": "mutation",
-    "id": "SHRIEK",
-    "name": { "str": "Shriek" },
-    "points": 3,
-    "description": "Activate to let loose a high pitched screech, loud enough to shatter glass and daze anything in the immediate vicinity.  Mouth-covering gear may hinder the effect.",
-    "prereqs": [ "BATEARS", "GOODCARDIO" ],
-    "category": [ "CHIROPTERAN" ],
-    "active": true,
-    "activated_is_setup": false,
-    "activated_eocs": [ "EOC_SHRIEK" ]
   },
   {
     "type": "mutation",
@@ -512,8 +503,8 @@
     "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
-    "active": true,
-    "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as your face is uncovered."
+    "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
+    "triggers": [ [ { "condition": { "not": { "or": [ { "u_has_effect": "smoke", "bodypart": "mouth" }, { "u_has_effect": "asthma" }, { "u_has_effect": "tpollen" }, { "u_has_effect": "asthma" }, { "u_has_effect": "hay_fever" }, "u_is_underwater" ] } }, "msg_on": { "text": "", "rating": "good" } } ] ]
   },
   {
     "type": "mutation",
@@ -4313,7 +4304,7 @@
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "movecost_modifier": 1.35,
+    "movecost_modifier": 1.38,
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "//": "Uses bespoke stuff here rather than the quadruped enchantments as bat-crawling gives different buffs.",
     "triggers": [
@@ -4334,25 +4325,14 @@
     "enchantments": [
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ],
+        "values": [ { "value": "MOVE_COST", "multiply": -0.58 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
         },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.18 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "all_fours", "intensity": 1 } ]
-      },
-      {
-      "condition": {
-        "or": [
-          "u_can_drop_weapon",
-          { "u_has_move_mode": "walk" },
-          { "not": { "u_has_trait": "LEGS_BAT" } },
-          { "not": { "u_has_trait": "WINGS_BAT" } }
-        ]
-      },
-      "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
-    }
+        "values": [ { "value": "MOVE_COST", "multiply": -0.20 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      }
   ]
   },
   {
@@ -6500,7 +6480,7 @@
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
     "types": [ "WINGS" ],
     "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY" ],
-    "category": [ "INSECT" ]
+    "category": [ "INSECT", "BIRD" ]
   },
   {
     "type": "mutation",
@@ -6513,6 +6493,7 @@
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
     "flags": [ "WING_GLIDE", "WINGS_2", "ARM_WINGS" ],
+    "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l" , 40 ] ],
     "prereqs": [ "WEBBED" ],
     "category": [ "CHIROPTERAN" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
@@ -7541,7 +7522,7 @@
     "description": "Your craving for blood borders on obsession.  Your system has gained a mild tolerance to the toxins polluting mutant flesh.  When it comes to blood (and only blood), you need the stuff too much to care about whether it came from a human.",
     "types": [ "DIET" ],
     "flags": [ "BLOODFEEDER" ],
-    "cancels": [ "VEGAN", "HEMOVORE" ],
+    "cancels": [ "VEGAN" ],
     "prereqs": [ "HEMOVORE" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.5 ] ] ] ],
     "category": [ "CHIROPTERAN" ],
