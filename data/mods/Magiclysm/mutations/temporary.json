@@ -35,5 +35,25 @@
       "chance": 20,
       "base_damage": { "damage_type": "cut", "amount": 10 }
     }
+  },
+  {
+    "type": "mutation",
+    "id": "EARTHSHAPER_STONE_SLEEP",
+    "name": { "str": "Stony Sleep" },
+    "description": "You are resting in the depths of the earth.  You should never actually see this.",
+    "player_display": false,
+    "fatigue_regen_modifier": 0.5,
+    "healing_awake": 0.8,
+    "healing_multiplier": 2.5,
+    "mending_modifier": 16,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "METABOLISM", "multiply": -1.0 }
+        ]
+      }
+    ]
   }
 ]

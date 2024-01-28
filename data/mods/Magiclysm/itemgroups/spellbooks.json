@@ -224,7 +224,8 @@
       [ "spell_scroll_biomancer_hyper_regeneration", 5 ],
       [ "spell_scroll_cause_rot", 4 ],
       [ "spell_scroll_earthshaper_reveal_world_map", 15 ],
-      [ "spell_scroll_earthshaper_granite_aegis", 5 ]
+      [ "spell_scroll_earthshaper_granite_aegis", 5 ],
+      [ "spell_scroll_earthshaper_sleep_in_earth", 10 ]
     ]
   },
   {

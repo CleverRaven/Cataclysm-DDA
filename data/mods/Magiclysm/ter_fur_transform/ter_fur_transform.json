@@ -403,7 +403,12 @@
     "type": "ter_furn_transform",
     "id": "ter_kelvinist_extinguish_transform",
     "field": [
-      { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fires suddenly vanishes!", "message_good": true }
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_fire", "fd_incendiary", "fd_flame_burst" ],
+        "message": "The fires suddenly vanishes!",
+        "message_good": true
+      }
     ]
   },
   {

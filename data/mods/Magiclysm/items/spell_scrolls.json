@@ -1833,5 +1833,14 @@
     "name": { "str": "Scroll of Harden Earth", "str_pl": "Scrolls of Harden Earth" },
     "description": "Turn dirt into solid rock.  Useful for making a fortress or a castle in a fraction of the time.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_harden_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_sleep_in_earth",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stone Slumber", "str_pl": "Scrolls of Stone Slumber" },
+    "description": "Sink into the depths of the earth to heal more quickly and make sleep more restful.  You don't need to eat or drink either…  Say, how many earthshapers are still asleep down there?",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_sleep_in_earth" ] }
   }
 ]
