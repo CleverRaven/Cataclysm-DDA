@@ -1076,6 +1076,7 @@ bool isDebuggerActive()
     std::ifstream in( "/proc/self/status" );
     for( std::string line; std::getline( in, line ); ) {
         static const int PREFIX_LEN = 11;
+        //NOLINTNEXTLINE(cata-text-style)
         if( line.compare( 0, PREFIX_LEN, "TracerPid:\t" ) == 0 ) {
             // We're traced if the PID is not 0 and no other PID starts
             // with 0 digit, so it's enough to check for just a single
