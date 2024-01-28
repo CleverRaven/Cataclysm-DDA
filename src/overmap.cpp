@@ -4801,6 +4801,8 @@ void overmap::place_highways()
     const int highway_frequency_y = settings->overmap_highway.highway_frequency_y;
     bool placed_horizontal = false;
     bool placed_vertical = false;
+    const bool full_horizontal = !ocean_next_east && !ocean_next_west;
+    const bool full_vertical = !ocean_next_north && !ocean_next_south;
 
     auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
         return is_water_body( ter( point ) ) || is_water_body( ter( point + offset ) );
@@ -4838,6 +4840,7 @@ void overmap::place_highways()
                                      ocean_next_south ) ) {
         const int i = floor( OMAPX / 2.0 );
         // Only place half if there's ocean next overmap
+        // TODO: Make shorter so the intersections don't have override for bends
         const int j_min = ocean_next_north ? floor( OMAPY / 2.0 ) : 0;
         const int j_max = ocean_next_south ? floor( OMAPY / 2.0 ) + 1 : OMAPY;
         for( int j = j_min; j < j_max; j++ ) {
@@ -4891,23 +4894,51 @@ void overmap::place_highways()
         }
         placed_horizontal = true;
     }
-    if( false && placed_vertical && placed_horizontal ) {
-        // Add highway intersection
-        // TODO: Add 3-way intersections and bends for the half placements
-        const int i = floor( OMAPX / 2.0 );
-        const int j = floor( OMAPY / 2.0 );
-        const tripoint_om_omt nw_corner( i, j, 0 );
-        ter_set( nw_corner, oter_highway_nsew_nw_ground.id() );
-        ter_set( nw_corner + tripoint_east, oter_highway_nsew_ne_ground.id() );
-        ter_set( nw_corner + tripoint_south, oter_highway_nsew_sw_ground.id() );
-        ter_set( nw_corner + tripoint_south_east, oter_highway_nsew_se_ground.id() );
-        ter_set( nw_corner + tripoint_above, oter_highway_nsew_nw.id() );
-        ter_set( nw_corner + tripoint_east + tripoint_above, oter_highway_nsew_ne.id() );
-        ter_set( nw_corner + tripoint_south + tripoint_above, oter_highway_nsew_sw.id() );
-        ter_set( nw_corner + tripoint_south_east + tripoint_above, oter_highway_nsew_se.id() );
+
+    if( !placed_vertical && !placed_horizontal ) {
+        return; // No intersection
+    }
+    if( placed_vertical && placed_horizontal ) {
+        if( full_horizontal && full_vertical ) {
+            // 4-way intersection
+            const int i = floor( OMAPX / 2.0 );
+            const int j = floor( OMAPY / 2.0 );
+            const tripoint_om_omt nw_corner( i, j, 0 );
+            ter_set( nw_corner, oter_highway_nsew_nw_ground.id() );
+            ter_set( nw_corner + tripoint_east, oter_highway_nsew_ne_ground.id() );
+            ter_set( nw_corner + tripoint_south, oter_highway_nsew_sw_ground.id() );
+            ter_set( nw_corner + tripoint_south_east, oter_highway_nsew_se_ground.id() );
+            ter_set( nw_corner + tripoint_above, oter_highway_nsew_nw.id() );
+            ter_set( nw_corner + tripoint_east + tripoint_above, oter_highway_nsew_ne.id() );
+            ter_set( nw_corner + tripoint_south + tripoint_above, oter_highway_nsew_sw.id() );
+            ter_set( nw_corner + tripoint_south_east + tripoint_above, oter_highway_nsew_se.id() );
+        } else if ( full_horizontal || full_vertical ) {
+            // 3-way intersection
+            // Iterate clockwise through esw, nsw, new, nes
+            const int direction = ocean_next_north ? 0 /*esw*/ : ocean_next_east ? 1 /*nsw*/ : ocean_next_south ? 2 /*new*/ : 3 /*nes*/;
+            // std::array<custom struct with map ids etc> parameters
+            // place_3_way( parameters[direction] )
+        } else {
+            // Bend
+            // Iterate clockwise through sw, nw, ne, se
+            const int direction = ocean_next_north ? ( ocean_next_east ? 0 /*sw*/ : 3 /*se*/ ) : ( ocean_next_east ? 1 /*nw*/ : 2 /*ne*/ );
+            // std::array<custon struct with map ids etc> parameters
+            // place_bend( parameters[direction] )
+        }
     }
     // TODO: Add up to one road connection (on off ramps etc) per compass direction of the centre
-    // TODO: Call populate_connections_out_from_neighbors() for non highway + loaded edges?
+    /*for( int dir = 0; dir < 4; dir++ ) {
+        vary_x = dir % 2 == 0;
+        const int variable_side_size = vary_x ? OMAPX : OMAPY;
+        const int invariable_side_size = vary_x ? OMAPY : OMAPX;
+        const int value_to_try rng_normal( 0, floor( variable_side_size / 2.0 );
+        tripoint_? point_to_try;
+        if(vary_x) {
+            const tripoint_? point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
+            point_to_try = point;
+        }
+        place a road connection if suitable location (not water) probably as an actual special given it doesn't need to be reliable unlike intersections
+    }*/
 }
 
 void overmap::place_forest_trails()
