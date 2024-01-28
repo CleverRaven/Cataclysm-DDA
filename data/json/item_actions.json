@@ -342,11 +342,6 @@
   },
   {
     "type": "item_action",
-    "id": "CONTACTS",
-    "name": { "str": "Put in eyes" }
-  },
-  {
-    "type": "item_action",
     "id": "DATURA",
     "name": { "str": "Eat" }
   },

@@ -3209,6 +3209,28 @@
   },
   {
     "type": "effect_type",
+    "id": "transition_contacts",
+    "name": [ "Transition Contact Lenses" ],
+    "desc": [ "You are wearing a transition contact lenses, that additionally protect you from the sunlight." ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You can see more clearly.",
+    "remove_message": "Your vision starts to blur.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "transition_contacts_plano",
+    "name": [ "Transition Contact Lenses (Plano)" ],
+    "desc": [
+      "You are wearing a plano transition contact lenses, that protect you from the sunlight, but doesn't help with any sight issues."
+    ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You can see more clearly.",
+    "remove_message": "Your vision starts to blur.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "drunk",
     "name": [ "Tipsy", "Drunk", "Trashed", "Wasted", "Dead Drunk" ],
     "desc": [

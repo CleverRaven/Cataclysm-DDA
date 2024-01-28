@@ -60,6 +60,8 @@ enum class event_type : int {
     character_starts_activity,
     character_takes_damage,
     character_triggers_trap,
+    character_attempt_to_fall_asleep,
+    character_falls_asleep,
     character_wakes_up,
     character_wields_item,
     character_wears_item,
@@ -185,7 +187,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 99,
+static_assert( static_cast<int>( event_type::num_event_types ) == 101,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -466,6 +468,23 @@ struct event_spec<event_type::character_triggers_trap> {
 
 template<>
 struct event_spec<event_type::character_wakes_up> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_falls_asleep> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "duration", cata_variant_type::int_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_attempt_to_fall_asleep> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "character", cata_variant_type::character_id },
         }

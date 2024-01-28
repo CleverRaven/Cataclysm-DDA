@@ -94,6 +94,7 @@ static const damage_type_id damage_stab( "stab" );
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -369,7 +370,8 @@ float Character::hit_roll() const
 
     // Farsightedness makes us hit worse
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) &&
+        !has_effect( effect_transition_contacts ) ) {
         hit -= 2.0f;
     }
 
@@ -411,7 +413,8 @@ std::string Character::get_miss_reason()
         roll_remainder( avg_encumb_of_limb_type( body_part_type::type::torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_flag( json_flag_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
-                                     !has_effect( effect_contacts ) );
+                                     !has_effect( effect_contacts ) &&
+                                     !has_effect( effect_transition_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
         farsightedness );
