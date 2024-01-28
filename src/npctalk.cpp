@@ -3781,6 +3781,26 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
     };
 }
 
+talk_effect_fun_t::func f_get_distance_value(const JsonObject& jo, std::string_view member)
+{
+    JsonArray objects = jo.get_array("get_distance_value");
+    if (objects.size() != 3) {
+        objects.throw_error("get distance value requires an array with 3 elements.");
+    }
+    std::string first = get_string_from_input(objects, 0);
+    std::string second = get_string_from_input(objects, 1);
+    std::string third = get_string_from_input(objects, 2);
+    return [first, second, third](dialogue& d) {
+        tripoint_abs_ms first_point = get_tripoint_from_string(first, d);
+        tripoint_abs_ms second_point = get_tripoint_from_string(second, d);
+        var_info var = get_varinfo_from_string(third);
+        int distance_is = rl_dist(first_point, second_point);
+        var_type type = var.type;
+        std::string var_name = var.name;
+        write_var_value(type, var_name, d.actor(type == var_type::npc), &d, std::to_string(distance_is));
+        };
+}
+
 talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -6515,6 +6535,7 @@ parsers = {
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun::f_set_talker },
     { "turn_cost", jarg::member, &talk_effect_fun::f_turn_cost },
     { "transform_item", jarg::member, &talk_effect_fun::f_transform_item },
+    { "get_distance_value", jarg::array, &talk_effect_fun::f_get_distance_value }
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo )
