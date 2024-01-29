@@ -164,7 +164,6 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
 static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_crushed( "crushed" );
@@ -233,6 +232,7 @@ static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
 static const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -302,8 +302,6 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
-static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
-static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -5395,7 +5393,6 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & 
         if( p->has_trait( trait_ILLITERATE ) ) {
             p->add_msg_if_player( _( "You can't read a computer screen." ) );
             return std::nullopt;
-            effect_transition_contacts
         }
 
         if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
