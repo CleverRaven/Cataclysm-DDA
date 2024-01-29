@@ -37,7 +37,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_ogre",
-    "name": { "str": "Shrek DVD disc" },
+    "name": { "str": "DVD disc - Shrek" },
     "description": "A DVD disc containing an animated comedy film that tells the story of Shrek, an ogre, whose peaceful swamp life is disrupted when fairy tale creatures are banished to his land.  To reclaim his home, Shrek makes a deal with the scheming Lord Farquaad to rescue Princess Fiona.  It is rated PG and is from 2001.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -46,7 +46,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_ogre2",
-    "name": { "str": "Shrek 2 DVD disc" },
+    "name": { "str": "DVD disc - Shrek 2" },
     "description": "A DVD containing the second installment of the Shrek movie series, Shrek 2, in which the adventures of Shrek and Princess Fiona continue as they visit her royal parents, facing challenges due to their unconventional marriage and discovering family secrets.  It is rated PG and is from 2004.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -55,7 +55,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_ogre3",
-    "name": { "str": "Shrek the Third DVD disc" },
+    "name": { "str": "DVD disc - Shrek the Third" },
     "description": "As the name says, this DVD contains the third installment of the Shrek movie series.  It follows Shrek as he navigates the challenges of ruling the kingdom.  When King Harold falls ill and perishes, Shrek sets out to find the rightful heir, encountering characters and many challenges along the way.  It is rated PG and is from 2007.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -64,7 +64,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_ogre4",
-    "name": { "str": "Shrek Forever After DVD disc" },
+    "name": { "str": "DVD disc - Shrek Forever After" },
     "description": "A DVD that contains the fourth installment of the Shrek movie series.  This movie explores an alternate reality created when Shrek makes a deal with Rumpelstiltskin, leading to a world where he never existed.  Shrek must undo the consequences of these actions and save his friends, family, and future.  It is rated PG and is from 2010.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -73,7 +73,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_lion",
-    "name": { "str": "The Lion King DVD disc" },
+    "name": { "str": "DVD disc - The Lion King" },
     "description": "A DVD that contains the tale of Simba, a young lion prince, who faces the challenges of reclaiming his kingdom after the murder of his father, Mufasa.  Guided by the lessons of his journey, Simba learns the circle of life and his rightful place as king.  This film is a classic animated adventure and is rated G, suitable for all audiences (not that there are any nowadays), and is from 1994.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -82,7 +82,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_foodperson",
-    "name": { "str": "Foodperson: The Marketable Movie DVD disc" },
+    "name": { "str": "DVD disc - Foodperson: The Marketable Movie" },
     "description": "Foodplace presents this 94.3% watchable motion picture DVD.  It stars Foodperson as they attempt to retrieve the Object of Plot Relevance from the possession of the Antagonist.  Rated D for delicious and is from 2018.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -91,7 +91,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_foodperson2",
-    "name": { "str": "Foodperson 2: A Marketable Sequel DVD disc" },
+    "name": { "str": "DVD disc - Foodperson 2: A Marketable Sequel" },
     "description": "Foodplace presents this 96.7% watchable motion picture DVD.  It stars Foodperson again as they attempt to re-retrieve the Object of Plot Relevance from the possession of the Antagonist that escaped their destiny in the last movie.  Rated D for delicious and is from 2021",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -100,7 +100,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_foodperson3",
-    "name": { "str": "Foodperson 3: The Last Straw DVD disc" },
+    "name": { "str": "DVD disc - Foodperson 3: The Last Straw" },
     "description": "Foodplace presents this 98.4% watchable motion picture DVD (almost 100%).  It stars Foodperson once again as they discover more about their own story, family and past, while finally understanding and waging peace with the Antagonist from the last two movies.  Rated D for delicious and is from 2024.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -109,7 +109,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_bean",
-    "name": { "str": "Killer Bean Forever DVD disc" },
+    "name": { "str": "DVD disc - Killer Bean Forever" },
     "description": "This DVD disc contains an animated action film featuring anthropomorphic coffee beans.  The story follows a skilled assassin bean named Jack Bean who becomes a target after a mission.  The movie combines humor, stylized action, and unique character designs.  This movie doesn't have a specific age rating from any official American rating organizations and is from 2008.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -118,7 +118,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_panda",
-    "name": { "str": "The Kung Fu Panda Trilogy DVD disc" },
+    "name": { "str": "DVD disc - The Kung Fu Panda Trilogy" },
     "description": "The entire Kung Fu Panda Trilogy on a single DVD disc.  It follows the journey of Po, a clumsy and lovable panda, who aspires to become a kung fu master.  Po discovers he is the Dragon Warrior chosen to protect the Valley of Peace from various villains, including the formidable Tai Lung and the villainous peacock Lord Shen.  The trilogy combines humor, heart, and martial arts action, portraying Po's growth into a skilled warrior.  It is rated PG and is from 2008, 2011 and 2016.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -127,7 +127,7 @@
   {
     "type": "GENERIC",
     "id": "dvd_fox",
-    "name": { "str": "Fantastic Mr. Fox DVD disc" },
+    "name": { "str": "DVD Disc - Fantastic Mr. Fox" },
     "description": "A DVD disc containing a stop-motion animated film directed by Wes Anderson and based on Roald Dahl's 1970 book.  The plot follows Mr. Fox, voiced by George Clooney, as he returns to his wild, thieving ways to outsmart three mean farmers.  The film explores themes of family, identity, and the balance between domesticity and adventure in a visually distinctive and quirky style.  It is rated PG and is from 2009.",
     "copy-from": "dvd_blank",
     "price": 500,
@@ -136,8 +136,98 @@
   {
     "type": "GENERIC",
     "id": "dvd_jungle",
-    "name": { "str": "The Jungle Book DVD disc" },
+    "name": { "str": "DVD disc - The Jungle Book" },
     "description": "This DVD disc contains the last animated movie produced by Walt Disney, and based on Rudyard Kipling's 1894 book.  This movie follows the adventures of Mowgli, a young boy raised by wolves in the jungle.  Guided by his animal friends, including the wise panther Bagheera and the carefree bear Baloo, Mowgli navigates the challenges of the jungle, facing the villainous tiger Shere Khan.  It is rated PG and is from 1967.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bad",
+    "name": { "str": "DVD disc - The Good, the Bad, and the Ugly" },
+    "description": "This DVD disc contains Western Action movie set during the American Civil War.  The plot follows three gunmen searching for buried Confederate gold.  Once known for its iconic characters, Ennio Morricone's score, and intense showdowns, it is rated R and is from 1966.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_wild",
+    "name": { "str": "DVD disc - The Wild Bunch" },
+    "description": "A DVD disc containing a Western movie that revolves around a group of aging outlaws led by Pike Bishop, who plan one last, violent heist in a changing Wild West.  This film was once known for its innovative and graphic depiction of violence, as well as its exploration of themes like loyalty and the end of an era.  It is rated R and is from 1969.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_fast",
+    "name": { "str": "DVD disc - Fast Cars, Furious Dudes 7" },
+    "description": "A DVD disc containing the seventh installment of a long-running series about family, fast cars, furious dudes, and lots of explosions.  It is somewhat melancholy to realize that after the sky broke, most of those cars will never be driven again.  It is rated PG-13 and is from 2015.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_alex",
+    "name": { "str": "DVD disc - Who Killed Captain Alex?" },
+    "description": "A DVD disc containing an Ugandan action-comedy film that follows the efforts of Captain Alex and his team to thwart the criminal Tiger Mafia.  When Captain Alex is killed in action, his brother takes on the mission of avenging his death.  The film was once known for its low-budget production, energetic action scenes, and humorous commentary. This movie doesn't have a specific age rating from any official American rating organizations and is from 2010.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_die",
+    "name": { "str": "DVD disc - Die Hard" },
+    "description": "This DVD disc contains a 1988 action film that follows NYPD officer John McClane, played by Bruce Willis, as he tries to save hostages from terrorists who have taken over a Los Angeles skyscraper during a Christmas party.  McClane battles the criminals, led by Hans Gruber, played by Alan Rickman, using his wits and resourcefulness.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_samurai",
+    "name": { "str": "DVD disc - Seven Samurai" },
+    "description": "This DVD disc contains an epic 1954 Japanese film directed by Akira Kurosawa.  The plot centers around a small village under threat from bandits, prompting the villagers to hire seven skilled samurai to defend them.  The film explores themes of honor, sacrifice, and the nature of heroism as the samurai prepare the villagers for an impending battle.  It is a classic, thus has no age rating, but it is available in both English and Japanese languages, with subtitles.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_police",
+    "name": { "str": "DVD disc - Police Story" },
+    "description": "This DVD disc contains a 1985 Hong Kong action film that stars (and was also directed by) the Legend, Jackie Chan.  The plot follows Inspector Chan Ka-kui as he tries to bring down a drug lord and protect a key witness.  Once known for its groundbreaking stunts and intense action sequences, the film showcases Jackie Chan's signature style.  It is not rated but it is available in both English and Japanese languages, with subtitles.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ark",
+    "name": { "str": "DVD disc - Raiders of the Lost Ark" },
+    "description": "This DVD contains a characteristic movie that follows the iconic archaeologist Indiana Jones as he races against Nazis to find the Ark of the Covenant.  Directed by Steven Spielberg and starring Harrison Ford, this film is an action-packed adventure that combines elements of history, mythology, and supernatural intrigue.  It is rated PG and is from 1981.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bill",
+    "name": { "str": "DVD disc - Kill Bill Vol. 1 and 2" },
+    "description": "The two volumes of Kill Bill (from 2003 and 2004, respectively) in one single disc.  These are martial arts movies that revolves around The Bride, played by Uma Thurman, seeking revenge on her former allies after they betray her and leave her for dead on her wedding day.  The narrative is presented in a non-linear fashion, featuring intense action sequences and homage to various film genres.  Both movies are rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_face",
+    "name": { "str": "DVD disc - Face / Off" },
+    "description": "This DVD contains an action thriller directed by John Woo.  The plot centers around FBI agent Sean Archer, played by John Travolta, and terrorist Castor Troy, played by Nicolas Cage.  The two characters undergo a face transplant procedure, leading to a high-stakes game of cat and mouse as they take on each other's identities.  It is rated R and is from 1997.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
