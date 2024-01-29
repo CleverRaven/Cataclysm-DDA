@@ -126,9 +126,18 @@
   },
   {
     "type": "GENERIC",
-    "id": "dvd_",
-    "name": { "str": " DVD disc" },
-    "description": ".",
+    "id": "dvd_fox",
+    "name": { "str": "Fantastic Mr. Fox DVD disc" },
+    "description": "A DVD disc containing a stop-motion animated film directed by Wes Anderson and based on Roald Dahl's 1970 book.  The plot follows Mr. Fox, voiced by George Clooney, as he returns to his wild, thieving ways to outsmart three mean farmers.  The film explores themes of family, identity, and the balance between domesticity and adventure in a visually distinctive and quirky style.  It is rated PG and is from 2009.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_jungle",
+    "name": { "str": "The Jungle Book DVD disc" },
+    "description": "This DVD disc contains the last animated movie produced by Walt Disney, and based on Rudyard Kipling's 1894 book.  This movie follows the adventures of Mowgli, a young boy raised by wolves in the jungle.  Guided by his animal friends, including the wise panther Bagheera and the carefree bear Baloo, Mowgli navigates the challenges of the jungle, facing the villainous tiger Shere Khan.  It is rated PG and is from 1967.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
