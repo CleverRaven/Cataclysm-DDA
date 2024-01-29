@@ -440,7 +440,9 @@
           "t_tree_dead_warped",
           "t_tree_hickory_dead",
           "t_tree_deadpine_warped",
-          "t_tree_blackjack_harvested"
+          "t_tree_blackjack_harvested",
+          "t_tree_crabapple",
+          "t_tree_crabapple_harvested"
         ],
         "message": "The trees caught in the spell crack and dessicate, their branches warping and shrinking."
       }
@@ -472,6 +474,7 @@
           [ "t_tree_juniper", 2 ],
           [ "t_tree_pear_harvested", 2 ],
           [ "t_tree_plum_harvested", 2 ],
+          [ "t_tree_crabapple_harvested", 2 ],
           [ "t_tree_elderberry_harvested", 2 ],
           [ "t_tree_mulberry_harvested", 2 ],
           [ "t_tree_sassafras", 3 ]
