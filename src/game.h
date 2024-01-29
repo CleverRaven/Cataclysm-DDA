@@ -1055,6 +1055,7 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+        bool save_achievements();
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
