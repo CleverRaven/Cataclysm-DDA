@@ -6773,23 +6773,26 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<Z>-Enable personal" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<T>-Toggle zone display" ) );
+
+    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+                            _( "<Z>-Enable personal" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
                     _( "<X>-Disable personal" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
+    tmpx += shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+    shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
 
     if( debug_mode ) {
-        shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
+        shortcut_print( w_info, point( 1, 6 ), c_light_red, c_light_green,
                         string_format( _( "Shown <F>action: %s" ), faction.str() ) );
     }
 
@@ -6844,7 +6847,7 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int zone_ui_height = 13;
+    const int zone_ui_height = 14;
     const int zone_options_height = debug_mode ? 6 : 7;
 
     const int width = 45;
@@ -6897,6 +6900,7 @@ void game::zones_manager()
     ctxt.register_action( "SHOW_ZONE_ON_MAP" );
     ctxt.register_action( "ENABLE_ZONE" );
     ctxt.register_action( "DISABLE_ZONE" );
+    ctxt.register_action( "TOGGLE_ZONE_DISPLAY" );
     ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
@@ -7169,12 +7173,30 @@ void game::zones_manager()
                     break;
                 }
 
+                int vehicle_zones_pre = 0;
+                for( zone_manager::ref_zone_data zone : get_zones() ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones_pre++;
+                    }
+                }
+
                 // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, false );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
+
+                int vehicle_zones_post = 0;
+                for( zone_manager::ref_zone_data zone : zones ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones_post++;
+                    }
+                }
+
+                if( vehicle_zones_post == vehicle_zones_pre ) {
+                    active_index -= vehicle_zones_post;
+                }
 
                 stuff_changed = true;
             } while( false );
@@ -7215,6 +7237,15 @@ void game::zones_manager()
                          position->first, position->second, options, true );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
+
+                int vehicle_zones = 0;
+                for( zone_manager::ref_zone_data zone : zones ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones++;
+                    }
+                }
+
+                active_index -= vehicle_zones;
 
                 stuff_changed = true;
             } while( false );
@@ -7389,6 +7420,11 @@ void game::zones_manager()
                 zones[active_index].get().set_enabled( false );
 
                 stuff_changed = true;
+
+            } else if( action == "TOGGLE_ZONE_DISPLAY" ) {
+                zones[active_index].get().toggle_display();
+                stuff_changed = true;
+
             } else if( action == "ENABLE_PERSONAL_ZONES" ) {
                 bool zones_changed = false;
 
