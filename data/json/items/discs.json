@@ -38,7 +38,7 @@
     "type": "GENERIC",
     "id": "dvd_ogre",
     "name": { "str": "Shrek DVD disc" },
-    "description": "An animated comedy film that tells the story of Shrek, an ogre, whose peaceful swamp life is disrupted when fairy tale creatures are banished to his land.  To reclaim his home, Shrek makes a deal with the scheming Lord Farquaad to rescue Princess Fiona.  It is rated PG and is from 2001.",
+    "description": "A DVD disc containing an animated comedy film that tells the story of Shrek, an ogre, whose peaceful swamp life is disrupted when fairy tale creatures are banished to his land.  To reclaim his home, Shrek makes a deal with the scheming Lord Farquaad to rescue Princess Fiona.  It is rated PG and is from 2001.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
