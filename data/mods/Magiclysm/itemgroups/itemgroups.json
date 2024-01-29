@@ -1359,7 +1359,8 @@
           { "item": "spell_scroll_create_atomic_light", "prob": 50 },
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
-          { "item": "spell_scroll_blinding_flash", "prob": 50 }
+          { "item": "spell_scroll_blinding_flash", "prob": 50 },
+          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 }
         ],
         "prob": 50
       },

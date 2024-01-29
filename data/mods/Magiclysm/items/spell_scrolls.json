@@ -1842,5 +1842,14 @@
     "name": { "str": "Scroll of Stone Slumber", "str_pl": "Scrolls of Stone Slumber" },
     "description": "Sink into the depths of the earth to heal more quickly and make sleep more restful.  You don't need to eat or drink either…  Say, how many earthshapers are still asleep down there?",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_sleep_in_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_clean_clothing_and_self",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Freshen Up", "str_pl": "Scrolls of Freshen Up" },
+    "description": "The single most well-known spell in the entire world before the Cataclysm.  Why take a shower and do your laundry if you can get magic to do it for you?",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
   }
 ]

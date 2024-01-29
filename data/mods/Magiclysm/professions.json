@@ -464,7 +464,8 @@
       { "id": "freezing_touch", "level": 3 },
       { "id": "glide_ice", "level": 3 },
       { "id": "kelvinist_anti_heat", "level": 3 },
-      { "id": "kelvinist_extinguish_fire_spell", "level": 3 }
+      { "id": "kelvinist_extinguish_fire_spell", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 5 }
     ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
     "points": 2,
@@ -859,7 +860,8 @@
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
       { "id": "create_atomic_light", "level": 3 },
-      { "id": "protection_aura", "level": 3 }
+      { "id": "protection_aura", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 2 }
     ],
     "skills": [
       { "level": 1, "name": "melee" },
