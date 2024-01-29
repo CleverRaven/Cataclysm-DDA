@@ -47,7 +47,7 @@
     "type": "GENERIC",
     "id": "dvd_ogre2",
     "name": { "str": "Shrek 2 DVD disc" },
-    "description": "The second installment of the Shrek movie series, Shrek 2 continues the adventures of Shrek and Princess Fiona as they visit her royal parents, facing challenges due to their unconventional marriage and discovering family secrets.  It is rated PG and is from 2004.",
+    "description": "A DVD containing the second installment of the Shrek movie series, Shrek 2, in which the adventures of Shrek and Princess Fiona continue as they visit her royal parents, facing challenges due to their unconventional marriage and discovering family secrets.  It is rated PG and is from 2004.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
