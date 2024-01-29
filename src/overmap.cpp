@@ -639,6 +639,11 @@ bool is_ocean( const oter_id &ter )
     return ter->is_ocean() || ter->is_ocean_shore();
 }
 
+bool is_highway( const oter_id &ter )
+{
+    return ter->is_highway();
+}
+
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   const ot_match_type match_type )
 {
@@ -4943,9 +4948,9 @@ void overmap::place_highways()
         const int variable_side_size = vary_x ? OMAPX : OMAPY;
         const int invariable_side_size = vary_x ? OMAPY : OMAPX;
         const int value_to_try rng_normal( 0, floor( variable_side_size / 2.0 );
-        tripoint_? point_to_try;
+        tripoint_om_omt point_to_try;
         if(vary_x) {
-            const tripoint_? point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
+            const tripoint_om_omt point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
             point_to_try = point;
         }
         place a overmap_special_id road connection or service station
@@ -6613,7 +6618,6 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
     if( inbounds( en_pos, 1 ) && connection.has( ter( en_pos ) ) ) {
         ++len;
     }
-
     size_t actual_len = 0;
 
     while( actual_len < len ) {
@@ -6626,7 +6630,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
         const oter_id &ter_id = ter( pos );
 
         if( ter_id->is_river() || ter_id->is_ravine() || ter_id->is_ravine_edge() ||
-            !connection.pick_subtype_for( ter_id ) ) {
+            !connection.pick_subtype_for( ter_id ) || ( ter_id->is_highway() && actual_len > 3 ) ) {
             break;
         }
 
@@ -6664,6 +6668,9 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
         }
+        /* if ( !( actual_len < len ) && ( ter_id->is_river() || ter_id->is_highway() ) ) {
+            ++len;
+        }*/
     }
 
     return straight_path( source, dir, actual_len );

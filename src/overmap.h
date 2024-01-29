@@ -682,6 +682,7 @@ bool is_river( const oter_id &ter );
 bool is_water_body( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );
 bool is_ocean( const oter_id &ter );
+bool is_highway( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain

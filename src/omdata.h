@@ -533,6 +533,10 @@ struct oter_t {
             return type->has_flag( oter_flags::ravine_edge );
         }
 
+        bool is_highway() const {
+            return type->has_flag( oter_flags::highway );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
