@@ -182,7 +182,7 @@
           [ "t_tree_sassafras", 3 ]
         ],
         "valid_terrain": [ "t_tree_very_dead" ],
-        "message": "The withered, dessicated tree springs back to life."
+        "message": "The withered, desiccated tree springs back to life."
       }
     ]
   },
@@ -444,7 +444,7 @@
           "t_tree_crabapple",
           "t_tree_crabapple_harvested"
         ],
-        "message": "The trees caught in the spell crack and dessicate, their branches warping and shrinking."
+        "message": "The trees caught in the spell crack and desiccates, their branches warping and shrinking."
       }
     ]
   },
