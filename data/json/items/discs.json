@@ -22,7 +22,7 @@
     "copy-from": "dvd_blank",
     "price": 5,
     "price_postapoc": 0,
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -32,7 +32,7 @@
     "copy-from": "dvd_blank",
     "price": 1,
     "price_postapoc": 0,
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
