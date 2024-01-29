@@ -2279,7 +2279,7 @@ void options_manager::add_options_graphics()
 
         add( "FONT_WIDTH", page_id, to_translation( "Font width" ),
              to_translation( "Set the font width.  Requires restart." ),
-             8, 100, 8, COPT_CURSES_HIDE
+             6, 100, 8, COPT_CURSES_HIDE
            );
 
         add( "FONT_HEIGHT", page_id, to_translation( "Font height" ),
@@ -2294,7 +2294,7 @@ void options_manager::add_options_graphics()
 
         add( "MAP_FONT_WIDTH", page_id, to_translation( "Map font width" ),
              to_translation( "Set the map font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             6, 100, 16, COPT_CURSES_HIDE
            );
 
         add( "MAP_FONT_HEIGHT", page_id, to_translation( "Map font height" ),
@@ -2309,7 +2309,7 @@ void options_manager::add_options_graphics()
 
         add( "OVERMAP_FONT_WIDTH", page_id, to_translation( "Overmap font width" ),
              to_translation( "Set the overmap font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             6, 100, 16, COPT_CURSES_HIDE
            );
 
         add( "OVERMAP_FONT_HEIGHT", page_id, to_translation( "Overmap font height" ),
@@ -2324,7 +2324,7 @@ void options_manager::add_options_graphics()
 
         add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, to_translation( "SDL ASCII lines" ),
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-             true, COPT_CURSES_HIDE
+             false, COPT_CURSES_HIDE
            );
     } );
 #endif // TILES
