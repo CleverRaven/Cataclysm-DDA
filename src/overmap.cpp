@@ -4904,23 +4904,20 @@ void overmap::place_highways()
         }
         placed_horizontal = true;
     }
-
+    // Early return if no need for specials
     if( !placed_vertical && !placed_horizontal ) {
-        return; // No intersection
+        return;
     }
+    // Add intersection
     if( placed_vertical && placed_horizontal ) {
+        const int i = floor( OMAPX / 2.0 );
+        const int j = floor( OMAPY / 2.0 );
+        const tripoint_om_omt nw_corner( i, j, 0 );
+        overmap_special_id special;
+        om_direction::type dir = om_direction::type::none;
         if( full_horizontal && full_vertical ) {
             // 4-way intersection
-            const int i = floor( OMAPX / 2.0 );
-            const int j = floor( OMAPY / 2.0 );
-            const tripoint_om_omt nw_corner( i, j, 0 );
-            overmap_special_id four_way( "4-way highway crossroad" );
-            const city &nearest_city = get_nearest_city( nw_corner );
-            if( place_special( *four_way, nw_corner, om_direction::type::none, nearest_city, false,
-                               false ).size() == 0 ) {
-                debugmsg( "Failed to place all 4-way highway intersections" );
-            }
-            //place_special_forced( four_way, nw_corner, om_direction::type::none );
+            special = settings->overmap_highway.four_way_intersections.pick();
         } else if( full_horizontal || full_vertical ) {
             // 3-way intersection
             // Iterate clockwise through esw, nsw, new, nes
@@ -4934,8 +4931,13 @@ void overmap::place_highways()
             // std::array<custon struct with map ids etc> parameters
             // place_bend( parameters[direction] )
         }
+        const city &nearest_city = get_nearest_city( nw_corner );
+        if( place_special( *special, nw_corner, dir, nearest_city, false,
+                           false ).size() == 0 ) {
+            debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
+        }
     }
-    // TODO: Add up to one road connection (on off ramps etc) per compass direction of the centre
+    // TODO: Add up to one road connection (on off ramps etc) or service station per compass direction of the centre
     /*for( int dir = 0; dir < 4; dir++ ) {
         vary_x = dir % 2 == 0;
         const int variable_side_size = vary_x ? OMAPX : OMAPY;
@@ -4946,7 +4948,7 @@ void overmap::place_highways()
             const tripoint_? point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
             point_to_try = point;
         }
-        place a overmap_special_id road connection
+        place a overmap_special_id road connection or service station
     }*/
 }
 

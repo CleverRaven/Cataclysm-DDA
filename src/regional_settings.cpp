@@ -450,6 +450,25 @@ static void load_overmap_highway_settings( const JsonObject &jo,
                                     overmap_highway_settings.highway_frequency_x, !overlay );
         read_and_set_or_throw<int>( overmap_highway_settings_jo, "highway_frequency_y",
                                     overmap_highway_settings.highway_frequency_y, !overlay );
+        const auto load_highway_special_types = [&jo, &overmap_highway_settings_jo,
+             strict]( const std::string & type, building_bin & dest ) {
+            if( !overmap_highway_settings_jo.has_object( type ) && strict ) {
+                jo.throw_error( "Highway: \"" + type + "\": { … } required for default" );
+            } else {
+                for( const JsonMember member : overmap_highway_settings_jo.get_object( type ) ) {
+                    if( member.is_comment() ) {
+                        continue;
+                    }
+                    dest.add( overmap_special_id( member.name() ), member.get_int() );
+                }
+            }
+        };
+        load_highway_special_types( "four_way_intersections",
+                                    overmap_highway_settings.four_way_intersections );
+        load_highway_special_types( "three_way_intersections",
+                                    overmap_highway_settings.three_way_intersections );
+        load_highway_special_types( "bends", overmap_highway_settings.bends );
+        load_highway_special_types( "road_connections", overmap_highway_settings.road_connections );
     }
 }
 
@@ -989,6 +1008,14 @@ void overmap_lake_settings::finalize()
     }
 }
 
+void overmap_highway_settings::finalize()
+{
+    four_way_intersections.finalize();
+    three_way_intersections.finalize();
+    bends.finalize();
+    road_connections.finalize();
+}
+
 map_extras map_extras::filtered_by( const mapgendata &dat ) const
 {
     map_extras result( chance );
@@ -1077,6 +1104,7 @@ void regional_settings::finalize()
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
+        overmap_highway.finalize();
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
