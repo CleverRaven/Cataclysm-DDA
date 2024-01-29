@@ -491,7 +491,7 @@
       {
         "ammo_scale": 0,
         "target": "portable_dvd_player",
-        "msg": "You turn down the screen, also turning the device off.",
+        "msg": "You fold down the screen, turning the device off.",
         "menu_text": "Turn down the screen and turn off the device.",
         "type": "transform"
       }
