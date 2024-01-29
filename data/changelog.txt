@@ -95,6 +95,8 @@ Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
 Adds treetops and makes trees climbable
 Allow bird wings to glide
+make `clause` of `widget` to support displaying `global_val` and other custom entries
+Enable bionic power conversion UPSes to draw from bionic power
 
 
 ## Content:
@@ -182,6 +184,15 @@ Addition of many new books, from religious texts to magazines, mainly for fluff 
 Modularize Desert Eagle, add .50 AE
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
 Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
+Megastore: new parking lot, fixes
+Sided Messenger Bags
+Rework Survivor Backgrounds to Be Compatible with Non-Follower NPCs.
+Connects urban_25 to the main sewer system.
+Add bronze tong recipe and improve sand casting
+Add ballista
+Add a soviet tanker helmet
+Added transition contacts
+Move drink_bloody_mary to nested under cocktails
 
 
 ## Interface:
@@ -235,6 +246,11 @@ Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
+Added a separation line above the ASCII art section in item descriptions.
+Wide sidebar with detailed status displays
+Allow toggling on drug brand names
+Change all SI units to follow SI unit rules, starting with vehicle parts
+Change all SI units to follow SI unit rules, this time furniture, conducts, and some items
 
 
 ## Mods:
@@ -330,6 +346,23 @@ Paraclesian Map extras
 [DinoMod] plesiosaurus
 [MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
+Xedra Lucid Dreams spell fixes
+[Xedra Evolved] New elemental fae
+Creates Electrokinetic Hacking Power
+[Xedra Evolved] More Ierde and Undine Paraclesian traits
+Add a new perk to Defense Mode, update mod info.
+Create hobbies for XEDRA Evolved hobbies
+[Magiclysm] Fix Tremorsense removal EoC, revamp Reading the Earthbones
+[MoM] Power learning revamp: Photokinesis
+[Xedra Evolved] Add Homullus Stat traits
+[MOM] Add electrokinetic robot hacking power
+[Xedra Evolved] Even more elemental fae
+[Magiclysm] Remove DoT from Vegetative Grasp
+[Magiclysm] Rebalance Haste
+[Magiclysm] Slightly increase elf HP
+Change sabre to saber for +1 and +2 weapons.
+[Magiclysm] More spells
+Fix circular dependency in alt-map-key
 
 
 ## Balance:
@@ -382,6 +415,10 @@ Activity suit is actually waterproof, soft surfaces are less slippery, boomer on
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
+Reduced pain from portal storm event from 30 to 10
+Expand/Adjust police firearm loot
+Balanced and improved acidproof chitin
+Make star vampires WARM so they show up on Infrared
 
 
 ## Bugfixes:
@@ -491,6 +528,19 @@ clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
+Fixes TCL Security Drone drops
+[Magiclysm] Tremorsense duration
+IFAK Pouches are now less encumbering when worn as MOLLE pockets
+Display proficiency progress with more accuracy
+Vehicle disassembly misattribute fix
+Fix day tripper message/Remove accusative case
+Construction menu segfault
+Fixing overeating bug with non charge food
+[MoM] Fix Ch47 holster contain volume
+plant stalks are no longer cookable via the force of overwhelming mind power (holding it in your hand for 18 minutes) Fixes #69057 
+[MoM] Some concentration powers were missing kcal cost + XP gain
+Use same hunger names in consume menu as in sidebar
+Fix roof-mounted external aluminum tank (100 L) to be in line with other roof-mounted external tanks
 
 
 ## Performance:
@@ -514,6 +564,7 @@ Optimize stationary vehicle performance when they contain a lot of items.
 Optimizing mostly item to reduce load-time allocation by over 20%
 Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
+Even more item savings
 
 
 ## Infrastructure:
@@ -558,6 +609,8 @@ Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
 Migrate names to snippets & add weighted snippets
 Add `_ib` variants of coord.
+Added transform_item and turn_cost EOC effects, and has_ammo condition
+Step in the debugger when crashing
 
 
 ## Build:
@@ -571,11 +624,13 @@ add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
+Align and fix some Windows MSVC build setting
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
+Reset descriptions of some sized/graded armor to the item-parent description
 
 
 # 0.G (Gaiman)
