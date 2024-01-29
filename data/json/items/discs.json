@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "dvd_blank",
     "name": { "str": "blank DVD disc" },
-    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data—many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is blank and has no data on it.",
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data - many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is blank and has no data on it.",
     "category": "other",
     "material": [ "plastic" ],
     "weight": "16 g",
@@ -18,7 +18,7 @@
     "type": "GENERIC",
     "id": "dvd_scratched",
     "name": { "str": "scratched DVD disc" },
-    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data—many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is scratched to the point where it is impossible for any device to read its contents.",
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data - many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is scratched to the point where it is impossible for any device to read its contents.",
     "copy-from": "dvd_blank",
     "price": 5,
     "price_postapoc": 0,
@@ -28,7 +28,7 @@
     "type": "GENERIC",
     "id": "dvd_cracked",
     "name": { "str": "cracked DVD disc" },
-    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data—many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is cracked and damaged to the point where it is impossible for any device to read its contents.",
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data - many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is cracked and damaged to the point where it is impossible for any device to read its contents.",
     "copy-from": "dvd_blank",
     "price": 1,
     "price_postapoc": 0,
@@ -72,12 +72,65 @@
   },
   {
     "type": "GENERIC",
+    "id": "dvd_lion",
+    "name": { "str": "The Lion King DVD disc" },
+    "description": "A DVD that contains the tale of Simba, a young lion prince, who faces the challenges of reclaiming his kingdom after the murder of his father, Mufasa.  Guided by the lessons of his journey, Simba learns the circle of life and his rightful place as king.  This film is a classic animated adventure and is rated G, suitable for all audiences (not that there are any nowadays), and is from 1994.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_foodperson",
+    "name": { "str": "Foodperson: The Marketable Movie DVD disc" },
+    "description": "Foodplace presents this 94.3% watchable motion picture DVD.  It stars Foodperson as they attempt to retrieve the Object of Plot Relevance from the possession of the Antagonist.  Rated D for delicious and is from 2018.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_foodperson2",
+    "name": { "str": "Foodperson 2: A Marketable Sequel DVD disc" },
+    "description": "Foodplace presents this 96.7% watchable motion picture DVD.  It stars Foodperson again as they attempt to re-retrieve the Object of Plot Relevance from the possession of the Antagonist that escaped their destiny in the last movie.  Rated D for delicious and is from 2021",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_foodperson3",
+    "name": { "str": "Foodperson 3: The Last Straw DVD disc" },
+    "description": "Foodplace presents this 98.4% watchable motion picture DVD (almost 100%).  It stars Foodperson once again as they discover more about their own story, family and past, while finally understanding and waging peace with the Antagonist from the last two movies.  Rated D for delicious and is from 2024.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bean",
+    "name": { "str": "Killer Bean Forever DVD disc" },
+    "description": "This DVD disc contains an animated action film featuring anthropomorphic coffee beans.  The story follows a skilled assassin bean named Jack Bean who becomes a target after a mission.  The movie combines humor, stylized action, and unique character designs.  This movie doesn't have a specific age rating from any official American rating organizations and is from 2008.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_panda",
+    "name": { "str": "The Kung Fu Panda Trilogy DVD disc" },
+    "description": "The entire Kung Fu Panda Trilogy on a single DVD disc.  It follows the journey of Po, a clumsy and lovable panda, who aspires to become a kung fu master.  Po discovers he is the Dragon Warrior chosen to protect the Valley of Peace from various villains, including the formidable Tai Lung and the villainous peacock Lord Shen.  The trilogy combines humor, heart, and martial arts action, portraying Po's growth into a skilled warrior.  It is rated PG and is from 2008, 2011 and 2016.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
     "id": "dvd_",
     "name": { "str": " DVD disc" },
     "description": ".",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
-  },
-  {
-  
+  }
+]
