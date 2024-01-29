@@ -4696,7 +4696,8 @@ void stats_tracker::deserialize( const JsonObject &jo )
         if( !gan_evts.count() ) {
             event_multiset gs_evts = get_events( event_type::game_start );
             if( gs_evts.count() ) {
-                // check if character ID set, if loadsave, the ID not be -1, if it's an old save without event_type::game_avatar_new, the event need to be done
+                // check if character ID set, if loadsave, the ID not be -1
+                // if it's an old save without event_type::game_avatar_new, the event need to be done
                 // this function is invoked when load memorial, on this situation start a new game, below shouldn't be invoked.
                 auto gs_evt = gs_evts.first().value();
                 cata::event::data_type gs_data = gs_evt.first;
