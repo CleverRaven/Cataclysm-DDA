@@ -276,8 +276,9 @@ static void remove_submap_turrets()
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
                     player_character.pos() ) ) &&
-            critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
+            critter.has_flag( mon_flag_CONSOLE_DEACTIVATE ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
+            here.add_item( critter.pos(), critter.to_item() );
             g->remove_zombie( critter );
         }
     }

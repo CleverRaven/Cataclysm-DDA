@@ -176,8 +176,9 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
+                critter.has_flag( mon_flag_ID_CARD_DEACTIVATE ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
+                here.add_item( critter.pos(), critter.to_item() );
                 g->remove_zombie( critter );
             }
         }
