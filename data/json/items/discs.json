@@ -18,7 +18,7 @@
     "type": "GENERIC",
     "id": "dvd_scratched",
     "name": { "str": "scratched DVD disc" },
-    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data.  Many years before the Cataclysm, it was a popular format for movies, software, and various multimedia content.  This one is scratched to the point it is impossible for any device to read its contents.",
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data—many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is scratched to the point where it is impossible for any device to read its contents.",
     "copy-from": "dvd_blank",
     "price": 5,
     "price_postapoc": 0,
