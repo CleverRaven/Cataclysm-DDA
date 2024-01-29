@@ -73,11 +73,11 @@
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
-static const damage_type_id damage_acid("acid");
+static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_bio("biological");
+static const damage_type_id damage_bio( "biological" );
 static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cold("cold");
+static const damage_type_id damage_cold( "cold" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
@@ -225,7 +225,7 @@ static int compute_kill_xp( const mtype_id &mon_type )
 }
 
 // Internal use only.
-// For tracking what few effects of enchants 
+// For tracking what few effects of enchants
 // are relevant to monsters.
 struct monster_enchant_effects {
     resistances armor_mod_abs = resistances();
@@ -3141,12 +3141,58 @@ void monster::process_one_effect( effect &it, bool is_new )
     }
 
     //Process enchantments that apply to monsters.
-    for (const auto& elem : *effects) {
-        for (const enchantment_id& ench_id : elem.first->enchantments) {
-            const enchantment& ench = ench_id.obj();
-            if (ench.is_active(*this) && ench.is_monster_relevant()) {
-                // For now we process this manually.
-                // I don't feel comfortable keeping a cache for each one of potentially HUNDREDS of monsters in the reality bubble.
+    for( const auto &elem : *effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
+                //Apply multiplication first.
+                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
+                    if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BIO ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BULLET ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_COLD ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_CUT ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ELEC ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_HEAT ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_STAB ) {
+
+                    }
+                }
+                //Then addition
+                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
+                    if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BIO ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BULLET ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_COLD ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_CUT ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ELEC ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_HEAT ) {
+
+                    } else if( pair_values.first == enchant_vals::mod::ARMOR_STAB ) {
+
+                    }
+                }
             }
         }
     }

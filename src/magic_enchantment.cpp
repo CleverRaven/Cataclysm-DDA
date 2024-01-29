@@ -251,10 +251,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
     return false;
 }
 
-bool enchantment::is_active(const monster& mon) const
+bool enchantment::is_active( const monster &mon ) const
 {
     //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
-    if (active_conditions.second == condition::ALWAYS) {
+    if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
     // Dialogue conditions for monsters seems like overkill.
@@ -263,11 +263,12 @@ bool enchantment::is_active(const monster& mon) const
 }
 
 // Returns true if this enchantment is relevant to monsters. Enchantments that are not relevant to monsters are not processed by monsters.
-bool enchantment::is_monster_relevant() const {
+bool enchantment::is_monster_relevant() const
+{
     // Check add values.
-    for (const std::pair<const enchant_vals::mod, dbl_or_var>& pair_values :
-        values_add) {
-        if (pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_add ) {
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -278,15 +279,15 @@ bool enchantment::is_monster_relevant() const {
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::MAX_HP ||
-            pair_values.first == enchant_vals::mod::REGEN_HP) {
+            pair_values.first == enchant_vals::mod::REGEN_HP ) {
             return true;
         }
     }
 
     // Check mult values.
-    for (const std::pair<const enchant_vals::mod, dbl_or_var>& pair_values :
-        values_multiply) {
-        if (pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_multiply ) {
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -297,7 +298,7 @@ bool enchantment::is_monster_relevant() const {
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::MAX_HP ||
-            pair_values.first == enchant_vals::mod::REGEN_HP) {
+            pair_values.first == enchant_vals::mod::REGEN_HP ) {
             return true;
         }
     }
