@@ -1000,11 +1000,7 @@
       { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y')", "==", "-2" ] } },
       { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z')", "==", "-3" ] } },
       { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain()", "==", "21" ] } },
-      {
-        "text": "Bionic power is 22.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "power" }, "=", { "const": 22 } ] }
-      },
+      { "text": "Bionic power is 22.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('power') == 22" ] } },
       {
         "text": "Bionic power max is 44.",
         "topic": "TALK_DONE",
@@ -1173,11 +1169,7 @@
       { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y')", "=", "-2" ] } },
       { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z')", "=", "-3" ] } },
       { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
-      {
-        "text": "Sets power to 18.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power" }, "=", { "const": 18 } ] }
-      },
+      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power')", "=", "18" ] } },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",

@@ -117,7 +117,6 @@ struct dbl_or_var_part {
     std::optional<double> dbl_val;
     std::optional<var_info> var_val;
     std::optional<double> default_val;
-    std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
     double evaluate( dialogue &d ) const;
 
@@ -134,7 +133,7 @@ struct dbl_or_var_part {
     }
 
     explicit operator bool() const {
-        return dbl_val || var_val || arithmetic_val || math_val;
+        return dbl_val || var_val || math_val;
     }
 
     dbl_or_var_part() = default;
@@ -171,7 +170,6 @@ struct duration_or_var_part {
     std::optional<time_duration> dur_val;
     std::optional<var_info> var_val;
     std::optional<time_duration> default_val;
-    std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
     time_duration evaluate( dialogue &d ) const;
 };
