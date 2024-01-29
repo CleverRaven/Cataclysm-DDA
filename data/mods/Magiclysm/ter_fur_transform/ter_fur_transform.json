@@ -398,5 +398,57 @@
       }
     ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "MOUNTABLE", "BLOCK_WIND", "ORGANIC" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_kelvinist_extinguish_transform",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_fire", "fd_incendiary", "fd_flame_burst" ],
+        "message": "The fires suddenly vanishes!",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_earthshaper_harden_earth",
+    "terrain": [
+      {
+        "result": "t_rock_floor_no_roof",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor_no_roof", "t_dirtmound" ],
+        "message": "The earth hardens into solid rock."
+      },
+      {
+        "result": "t_rock_floor",
+        "valid_terrain": [ "t_dirt_underground" ],
+        "message": "The earth hardens into solid rock."
+      },
+      { "result": "t_rock", "valid_terrain": [ "t_soil" ], "message": "The earth hardens into solid rock." },
+      {
+        "result": "t_rock",
+        "valid_terrain": [ "t_wall_rammed_earth" ],
+        "message": "The earth hardens into solid rock."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_null",
+        "valid_furniture": [
+          "f_dirtmound_tall",
+          "f_dirtmound_shallow",
+          "f_dirtmound_pile_seed",
+          "f_dirtmound_pile_mature",
+          "f_dirtmound_shallow_seed",
+          "f_dirtmound_pile_harvest",
+          "f_dirtmound_pile_seedling",
+          "f_dirtmound_shallow_mature",
+          "f_dirtmound_shallow_harvest",
+          "f_dirtmound_shallow_seedling"
+        ],
+        "message": ""
+      }
+    ]
   }
 ]

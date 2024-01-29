@@ -456,6 +456,41 @@
     "base_casting_time": 6000
   },
   {
+    "id": "classless_clean_clothing_and_self",
+    "type": "SPELL",
+    "name": "Freshen Up",
+    "description": "Undoubtedly the single most common spell in the world before the Cataclysm, Freshen Up cleans your teeth, sweetens your breath, removes stains and sweat from your clothes, exfoliates you, and gives volume back to your hair.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF",
+    "components": "spell_components_freshen_up",
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF",
+    "effect": [
+      { "u_lose_effect": "wet" },
+      { "u_lose_effect": "wet", "target_part": "head" },
+      { "u_lose_effect": "wet", "target_part": "arm_l" },
+      { "u_lose_effect": "wet", "target_part": "arm_r" },
+      { "u_lose_effect": "wet", "target_part": "torso" },
+      { "u_lose_effect": "wet", "target_part": "leg_l" },
+      { "u_lose_effect": "wet", "target_part": "leg_r" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true }, { "flags": [ "FILTHY" ] } ],
+        "true_eocs": [ { "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF_ITEMS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ]
+      }
+    ]
+  },
+  {
     "id": "classless_dispel_magic",
     "type": "SPELL",
     "name": "Dispel Magic",
