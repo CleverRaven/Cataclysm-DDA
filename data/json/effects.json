@@ -631,6 +631,21 @@
   },
   {
     "type": "effect_type",
+    "//1": "Copy of blind effect, used to temporarily remove vision as a utility function. Only use outside of EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW with extreme caution.",
+    "id": "blind_no_msg",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything.  You shouldn't be able to see this description either!" ],
+    "rating": "bad",
+    "show_in_info": false,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
+  },
+  {
+    "type": "effect_type",
     "id": "earphones",
     "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
