@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "dvd_blank",
     "name": { "str": "blank DVD disc" },
-    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data.  Many years before the Cataclysm, it was a popular format for movies, software, and various multimedia content.  This one is blank, has no data on it.",
+    "description": "An optical disc of medium storage, once used for storing and playing digital video, audio, and other data—many years before the Cataclysm, it was a popular format for storing movies, software, and various multimedia content.  This one is blank and has no data on it.",
     "category": "other",
     "material": [ "plastic" ],
     "weight": "16 g",
