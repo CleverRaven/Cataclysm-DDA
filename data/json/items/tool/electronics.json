@@ -466,7 +466,7 @@
         "rigid": true,
         "max_contains_volume": "7 ml",
         "max_contains_weight": "16 g",
-        "max_item_length": "120 mm",
+        "max_item_length": "120 mm"
       }
     ],
     "melee_damage": { "bash": 2 }
