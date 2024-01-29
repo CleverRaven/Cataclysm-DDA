@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_PAST_ACHIEVEMENTS_INFO_H
 #define CATA_SRC_PAST_ACHIEVEMENTS_INFO_H
 
+#include <set>
+
 #include "achievement.h"
 
 struct achievements_completed {
@@ -15,7 +17,7 @@ class past_achievements_info
 
         void load();
         void clear();
-        bool isCompleted( const achievement_id & ) const;
+        bool is_completed( const achievement_id & ) const;
     private:
 
         bool loaded_ = false;

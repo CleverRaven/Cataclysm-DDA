@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "past_achievements_info.h"
 #include "achievement.h"
 #include "json.h"
@@ -8,7 +10,7 @@ void past_achievements_info::clear()
     *this = past_achievements_info();
 }
 
-bool past_achievements_info::isCompleted( const achievement_id &ach ) const
+bool past_achievements_info::is_completed( const achievement_id &ach ) const
 {
     auto ach_it = completed_achievements_.find( ach );
     return ach_it != completed_achievements_.end();
