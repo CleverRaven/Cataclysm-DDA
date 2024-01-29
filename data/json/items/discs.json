@@ -231,5 +231,23 @@
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_mont1",
+    "name": { "str": "DVD disc - Monty Python and The Holy Grail" },
+    "description": "The movie in this DVD hilariously depicts King Arthur's quest for the Holy Grail with absurdity and satire.  It follows the Knights of the Round Table as they face surreal challenges, encountering eccentric characters and comedic obstacles.  It is rated PG and is from 1975.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_mont2",
+    "name": { "str": "DVD disc - Monty Python's Life of Brian" },
+    "description": "This DVD disc contains a 1979 satirical comedy follows Brian Cohen, a man born on the same day as Jesus, and inadvertently gets caught up in events surrounding the life of the Messiah.  This film cleverly satirizes religion, politics, and society, offering a humorous take on historical and biblical themes.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
   }
 ]
