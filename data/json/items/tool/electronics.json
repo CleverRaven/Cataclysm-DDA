@@ -445,7 +445,7 @@
     [
       {
         "target": "dvd_player_on",
-        "msg": "You turn the screen up and the device on.",
+        "msg": "You flip the screen up and power the device on.",
         "menu_text": "Turn up the screen and turn on the device.",
         "active": true,
         "need_charges": 1,
