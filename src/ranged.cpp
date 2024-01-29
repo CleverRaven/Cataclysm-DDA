@@ -244,20 +244,6 @@ class target_ui
         // List of visible hostile targets
         std::vector<Creature *> targets;
 
-        // Snap camera to cursor. Can be permanently toggled in settings
-        // or temporarily in this window
-        bool snap_to_target = false;
-        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
-        // responsible for moving cursor will shift view instead.
-        bool shifting_view = false;
-
-        // Compact layout
-        bool compact = false;
-        // Tiny layout - when extremely short on space
-        bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
-        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -293,6 +279,20 @@ class target_ui
         // If true, draws turret lines
         // relevant for TargetMode::Turrets
         bool draw_turret_lines = false;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target = false;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
+
+        // Compact layout
+        bool compact = false;
+        // Tiny layout - when extremely short on space
+        bool tiny = false;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow = false;
 
         // Create window and set up input context
         void init_window_and_input();
