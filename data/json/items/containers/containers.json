@@ -2422,13 +2422,12 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 ml",
+        "max_contains_volume": "7 ml",
         "max_contains_weight": "16 g",
-        "max_item_length": "12 cm",
+        "max_item_length": "120 mm",
         "moves": 100,
         "watertight": false,
-        "rigid": true,
-        "item_restriction": [ "dvd_drama", "dvd_animation", "dvd_horror", "dvd_action", "dvd_comedy", "dvd_documentary", "dvd_blank" ]
+        "rigid": true
       }
     ]
   },
@@ -2449,9 +2448,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 ml",
+        "max_contains_volume": "7 ml",
         "max_contains_weight": "16 g",
-        "max_item_length": "12 cm",
+        "max_item_length": "120 mm",
         "moves": 100,
         "watertight": false,
         "rigid": true,
@@ -2459,13 +2458,12 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 ml",
+        "max_contains_volume": "7 ml",
         "max_contains_weight": "16 g",
-        "max_item_length": "12 cm",
+        "max_item_length": "120 mm",
         "moves": 100,
         "watertight": false,
-        "rigid": true,
-        "item_restriction": [ "dvd_drama", "dvd_animation", "dvd_horror", "dvd_action", "dvd_comedy", "dvd_documentary", "dvd_blank" ]
+        "rigid": true
       }
     ]
   },
