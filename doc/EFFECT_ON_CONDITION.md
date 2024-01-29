@@ -96,14 +96,14 @@ Effect on Condition uses a huge variety of different values for effects or for c
 | duration | string, that contain number and unit of time, that the game code transform into seconds and put into the game. It is possible to use int instead of duration, but it is recommended to use duration for the readability sake. Possible values are `s`/`seconds`, `m`/`minutes`, `h`/`hours`, `d`/`days` | `1`, `"1 s"`, `"1 seconds"`, `"60 minutes"`, `3600`, `"99 minutes"`, `"2 d"`, `"365 days"`   |
 | value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br>`[ "30 seconds", "50 seconds" ]`,</br>`[ -1, 1 ]`,</br>`[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`,</br>`[ { "global_val": "small_variable" }, 100 ]` |
 | array | not a separate format, it means the field can accept multiple values, and the game either will pick one random between them, or apply all of them simultaneously | `[ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ]`  |
-| variable object | any [variable object](##variable-object); can be int, time or string, stored in said variable, or arithmetic/math syntax | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
+| variable object | any [variable object](##variable-object); can be int, time or string, stored in said variable, or math syntax | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
 | location variable | not a separate format, just any [variable object](##variable-object) that store location coordinates, usually obtained by using `u_location_variable` / `npc_location_variable`  | `{ "global_val": "some_location" }`,</br>`{ "u_val": "some_location_i_know" }` |
 
 There is some amount of another types, that are not explained here, like "search_data" or "fake_spell", but since this one are rarely reused, they are described in the effects that utilize them
 
 ## Variable Object
 
-Variable object is a value, that changes due some conditions. Variable can be int, time, string, `arithmetic`/`math` expression or location variable. Types of variables are:
+Variable object is a value, that changes due some conditions. Variable can be int, time, string, `math` expression or location variable. Types of variables are:
 
 - `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (or if you swap the avatar, for example; the secret one NPC told to character A would be lost for character B); 
 - `npc_val` - variable, that is stored in beta talker
@@ -147,11 +147,6 @@ You make sound `Wow, your'e smart` equal to beta talker's intelligence
 you add morale, equal to `ps_str` portal storm strength value
 ```json
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
-```
-
-you add morale, equal to `ps_str` portal storm strength value plus 1, using **old arithmetic syntax**
-```json
-{ "u_add_morale": "global_val", "bonus":  { "arithmetic": [ { "global_val": "ps_str" }, "+", { "const": 1 } ] } }
 ```
 
 you add morale, equal to `ps_str` portal storm strength value plus 1
@@ -488,23 +483,6 @@ checks this var exists
 { "expects_vars": [ "u_met_me", "u_met_you", "u_met_yourself" ] }
 ```
 
-### `u_compare_var`, `npc_compare_var`
-- type: int or [variable object](##variable-object)
-- If talker has a stored variable, you can compare it to some value using `op`. 
-- **deprecated in favor of [math](#math) syntax, please do not use it**
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-#### Examples
-`gunsmith_ammo_from` is equal to 545
-```json
-{ "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 }
-```
-
 ### `compare_string`
 - type: pair of strings or [variable objects](##variable-object)
 - Compare two strings, and return true if strings are equal
@@ -555,22 +533,6 @@ True if the character has selected Fishing background at the character creation
 True, if alpha talker has str 7 or more
 ```json
 { "u_has_strength": 7 }
-```
-
-### `u_has_hp`, `npc_has_hp`
-- type: int or [variable object](##variable-object)
-- Return true, if alpha or beta talker HP is value or bigger; additional parameter `bodypart` can be used to check HP of specific body part, otherwise sum of all body parts (or just hp, if monster uses it) is used. Effect checks only current HP, not max HP
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
-
-#### Examples
-Checks does your torso has more than 84 hp 
-```json
-{ "u_has_hp": 84, "bodypart": "torso" }
 ```
 
 ### `u_has_part_temp`, `npc_has_part_temp`
@@ -2616,40 +2578,6 @@ Character remove variable `on` of type `bio` and context `blade_electric`
 ```json
 { "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
 ```
-
-
-#### `u_adjust_var`, `npc_adjust_var`
-Your character or the NPC will adjust the stored variable by `adjustment`. **Slowly removed from usage in favor of `math`**
-
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_adjust_var", "npc_adjust_var" | **mandatory** | string | variable to adjust |
-| "adjustment" | **mandatory** | int, float or [variable object](##variable-object) | size of adjustment | 
-| "type", "context" | optional | string | additional text to describe your variable; not mandatory, but required to adjust correct variable |
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-Increases the variable `mission_1` for 1
-```json
-{ "u_adjust_var": "mission_1", "type": "mission", "context": "test", "adjustment": 1 }
-```
-
-Decreases the variable `mission_2` for 5
-```json
-{ "u_adjust_var": "mission_2", "type": "mission", "context": "test", "adjustment": -5 }
-```
-
-Increases the variable `mission_3` for random amount from 0 to 50
-```json
-{ "u_adjust_var": "mission_3", "type": "mission", "context": "test", "adjustment": { "math": [ "rand(50)" ] } }
-```
-
 
 #### `set_string_var`
 Store string from `set_string_var` in the variable object `target_var`

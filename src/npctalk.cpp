@@ -3111,26 +3111,6 @@ talk_effect_fun_t::func f_remove_var( const JsonObject &jo, std::string_view mem
     };
 }
 
-talk_effect_fun_t::func f_adjust_var( const JsonObject &jo, std::string_view member,
-                                      bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string var_base_name = get_talk_var_basename( jo, member, false );
-    dbl_or_var dov = get_dbl_or_var( jo, "adjustment" );
-    return [is_npc, var_base_name, var_name, dov]( dialogue & d ) {
-        int adjusted_value = dov.evaluate( d );
-
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( !var.empty() ) {
-            adjusted_value += std::stoi( var );
-        }
-
-        d.actor( is_npc )->set_value( var_name, std::to_string( adjusted_value ) );
-        get_event_bus().send<event_type::u_var_changed>( var_base_name, std::to_string( adjusted_value ) );
-    };
-}
-
 void map_add_item( item &it, tripoint_abs_ms target_pos )
 {
     if( get_map().inbounds( target_pos ) ) {
@@ -4766,175 +4746,6 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
     };
 }
 
-talk_effect_fun_t::func f_arithmetic( const JsonObject &jo, std::string_view member,
-                                      bool no_result )
-{
-    JsonArray objects = jo.get_array( member );
-    std::optional<dbl_or_var_part> min;
-    std::optional<dbl_or_var_part> max;
-    if( jo.has_member( "min" ) ) {
-        min = get_dbl_or_var_part( jo.get_member( "min" ), "min" );
-    } else if( jo.has_member( "min_time" ) ) {
-        dbl_or_var_part value;
-        time_duration min_time;
-        mandatory( jo, false, "min_time", min_time );
-        value.dbl_val = to_turns<int>( min_time );
-        min = value;
-    }
-    if( jo.has_member( "max" ) ) {
-        max = get_dbl_or_var_part( jo.get_member( "max" ), "max" );
-    } else if( jo.has_member( "max_time" ) ) {
-        dbl_or_var_part value;
-        time_duration max_time;
-        mandatory( jo, false, "max_time", max_time );
-        value.dbl_val = to_turns<int>( max_time );
-        max = value;
-    }
-    std::string op = "none";
-    std::string result = "none";
-    std::function<void( dialogue &, double )> set_dbl = conditional_t::get_set_dbl(
-                objects.get_object( 0 ), min,
-                max, no_result );
-    int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
-    // Normal full version
-    if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
-        op = objects.get_string( 3 - no_result_mod );
-        if( !no_result ) {
-            result = objects.get_string( 1 );
-            if( result != "=" ) {
-                jo.throw_error( "invalid result " + op + " in " + jo.str() );
-                return []( dialogue const & ) {
-                    return false;
-                };
-            }
-        }
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 - no_result_mod ) );
-        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 4 - no_result_mod ) );
-        if( op == "*" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
-            };
-        } else if( op == "/" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
-            };
-        } else if( op == "+" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
-            };
-        } else if( op == "-" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
-            };
-        } else if( op == "%" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "^" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            return []( dialogue const & ) {
-                return false;
-            };
-        }
-        // ~
-    } else if( objects.size() == 4 && !no_result ) {
-        op = objects.get_string( 3 );
-        result = objects.get_string( 1 );
-        if( result != "=" ) {
-            jo.throw_error( "invalid result " + op + " in " + jo.str() );
-            return []( dialogue const & ) {
-                return false;
-            };
-        }
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 ) );
-        if( op == "~" ) {
-            return [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, ~static_cast<int>( get_first_dbl( d ) ) );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            return []( dialogue const & ) {
-                return false;
-            };
-        }
-
-        // =, -=, +=, *=, and /=
-    } else if( objects.size() == 3 && !no_result ) {
-        result = objects.get_string( 1 );
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 2 ) );
-        if( result == "+=" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
-            };
-        } else if( result == "-=" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
-            };
-        } else if( result == "*=" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
-            };
-        } else if( result == "/=" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
-            };
-        } else if( result == "%=" ) {
-            return [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( result == "=" ) {
-            return [get_second_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_second_dbl( d ) );
-            };
-        } else {
-            jo.throw_error( "unexpected result " + result + " in " + jo.str() );
-            return []( dialogue const & ) {
-                return false;
-            };
-        }
-        // ++ and --
-    } else if( objects.size() == 2 && !no_result ) {
-        op = objects.get_string( 1 );
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        if( op == "++" ) {
-            return [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) + 1 );
-            };
-        } else if( op == "--" ) {
-            return [get_first_dbl, set_dbl]( dialogue & d ) {
-                set_dbl( d, get_first_dbl( d ) - 1 );
-            };
-        } else {
-            jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
-            return []( dialogue const & ) {
-                return false;
-            };
-        }
-    } else if( objects.size() == 1 && no_result ) {
-        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
-                    objects.get_object( 0 ) );
-        return [get_first_dbl, set_dbl]( dialogue & d ) {
-            set_dbl( d, get_first_dbl( d ) );
-        };
-    } else {
-        jo.throw_error( "Invalid number of args in " + jo.str() );
-        return []( dialogue const & ) {
-            return false;
-        };
-    }
-}
-
 talk_effect_fun_t::func f_math( const JsonObject &jo, std::string_view member )
 {
     eoc_math math;
@@ -5653,9 +5464,8 @@ talk_effect_fun_t::func f_if( const JsonObject &jo, std::string_view member )
 
 talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member )
 {
-    std::function<double( dialogue &/* d */ )> eoc_switch = jo.has_string( member ) ?
-            conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
-            conditional_t::get_get_dbl( jo.get_object( member ) );
+    std::function<double( dialogue & /* d */ )> eoc_switch =
+        conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -6310,13 +6120,6 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
 } // namespace
 } // namespace talk_effect_fun
 
-// static
-talk_effect_fun_t talk_effect_fun_t::from_arithmetic( const JsonObject &jo, std::string_view member,
-        bool no_result )
-{
-    return talk_effect_fun_t( talk_effect_fun::f_arithmetic( jo, member, no_result ) );
-}
-
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -6416,7 +6219,6 @@ parsers = {
     { "u_lose_effect", "npc_lose_effect", jarg::member, &talk_effect_fun::f_remove_effect },
     { "u_add_var", "npc_add_var", jarg::string, &talk_effect_fun::f_add_var },
     { "u_lose_var", "npc_lose_var", jarg::string, &talk_effect_fun::f_remove_var },
-    { "u_adjust_var", "npc_adjust_var", jarg::string, &talk_effect_fun::f_adjust_var },
     { "u_add_trait", "npc_add_trait", jarg::member, &talk_effect_fun::f_add_trait },
     { "u_lose_trait", "npc_lose_trait", jarg::member, &talk_effect_fun::f_remove_trait },
     { "u_deactivate_trait", "npc_deactivate_trait", jarg::member, &talk_effect_fun::f_deactivate_trait },
@@ -6453,7 +6255,6 @@ parsers = {
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
-    { "arithmetic", "arithmetic", jarg::array, &talk_effect_fun::f_arithmetic },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
     { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun::f_remove_item_with },
     { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
