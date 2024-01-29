@@ -6230,7 +6230,6 @@ void overmap::build_city_street(
         debugmsg( "Invalid road direction." );
         return;
     }
-    // TODO: Prevent turns under highway
     const pf::directed_path<point_om_omt> street_path = lay_out_street( connection, p, dir, cs + 1 );
 
     if( street_path.nodes.size() <= 1 ) {
@@ -6628,9 +6627,9 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
         }
 
         const oter_id &ter_id = ter( pos );
-
+        // TODO: Make it so the city picks a bridge direction ( ns or ew ) and allows bridging over rivers in that direction with the same logic as highways
         if( ter_id->is_river() || ter_id->is_ravine() || ter_id->is_ravine_edge() ||
-            !connection.pick_subtype_for( ter_id ) || ( ter_id->is_highway() && actual_len > 3 ) ) {
+            !connection.pick_subtype_for( ter_id ) ) {
             break;
         }
 
@@ -6662,17 +6661,30 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             break;
         }
 
+        if ( ter_id->is_highway() ) {
+            bool perpendicular_to_highway = false;
+            // TODO: Remove hardcoded ids ( probably replace with direction flags )
+            // Break if parrallel to the highway direction, prevent stopping if perpendicular
+            if( dir == om_direction::type::north || dir == om_direction::type::south ) {
+                perpendicular_to_highway = ter_id == oter_highway_ew_n_ground || ter_id == oter_highway_ew_s_ground;
+            } else if( dir == om_direction::type::east || dir == om_direction::type::west ) {
+                perpendicular_to_highway = ter_id == oter_highway_ns_w_ground || ter_id == oter_highway_ns_e_ground;
+            }
+            
+            if( !perpendicular_to_highway ) {
+                break;
+            }
+            if( actual_len == len - 1 ) {
+                ++len;
+            }
+        }
+
         city_tiles.insert( pos.xy() );
         ++actual_len;
-
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
         }
-        /* if ( !( actual_len < len ) && ( ter_id->is_river() || ter_id->is_highway() ) ) {
-            ++len;
-        }*/
     }
-
     return straight_path( source, dir, actual_len );
 }
 
