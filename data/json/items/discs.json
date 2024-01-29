@@ -65,7 +65,7 @@
     "type": "GENERIC",
     "id": "dvd_ogre4",
     "name": { "str": "Shrek Forever After DVD disc" },
-    "description": "The fourth installment of the Shrek movie series, this movie explores an alternate reality created when Shrek makes a deal with Rumpelstiltskin, leading to a world where he never existed.  Shrek must undo the consequences of these actions and save his friends, family and future.  It is rated PG and is from 2010.",
+    "description": "A DVD that contains the fourth installment of the Shrek movie series.  This movie explores an alternate reality created when Shrek makes a deal with Rumpelstiltskin, leading to a world where he never existed.  Shrek must undo the consequences of these actions and save his friends, family, and future.  It is rated PG and is from 2010.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
