@@ -430,7 +430,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "portable DVD player" },
-    "description": "A compact device with a 7-inch screen designed for playing both CDs and DVDs.  It's portable, making it convenient for travel or on-the-go entertainment in the Cataclysm.  This device also include simple earphones, built-in speakers, a rechargeable battery, and an USB and SD card slots for multimedia playback."
+    "description": "A compact device with a 7-inch screen, designed for playing both CDs and DVDs.  It's portable, making it convenient for travel or on-the-go entertainment in the Cataclysm.  This device also includes simple earphones, built-in speakers, a rechargeable battery, and USB and SD card slots for multimedia playback."
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
