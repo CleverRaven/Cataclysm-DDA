@@ -6505,7 +6505,7 @@ void map::delete_field( const tripoint &p, const field_type_id &field_to_remove 
         return;
     }
 
-    for( auto it = curfield.begin(); it != curfield.end(); ) {
+    for( auto it = curfield.begin(); it != curfield.end(); it++ ) {
         if( it->second.get_field_type() == field_to_remove ) {
             --current_submap->field_count;
             curfield.remove_field( it );
