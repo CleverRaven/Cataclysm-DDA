@@ -4691,14 +4691,14 @@ void stats_tracker::deserialize( const JsonObject &jo )
     // TODO: remove after 0.H
     // migration for saves made before addition of event_type::game_avatar_new
     event_multiset gan_evts = get_events( event_type::game_avatar_new );
-    avatar &u = get_avatar();
-    if( u.getID() != character_id( -1 ) ) {
-        if( !gan_evts.count() ) {
-            event_multiset gs_evts = get_events( event_type::game_start );
+    if( !gan_evts.count() ) {
+        event_multiset gs_evts = get_events( event_type::game_start );
+        avatar &u = get_avatar();
+        // check if character ID set, if loadsave, the ID will not be -1
+        // if it's an old save without event_type::game_avatar_new, the event need to be done
+        // this function is invoked when load memorial, on this situation start a new game, below shouldn't be invoked.
+        if( u.getID() != character_id( -1 ) ) {
             if( gs_evts.count() ) {
-                // check if character ID set, if loadsave, the ID not be -1
-                // if it's an old save without event_type::game_avatar_new, the event need to be done
-                // this function is invoked when load memorial, on this situation start a new game, below shouldn't be invoked.
                 auto gs_evt = gs_evts.first().value();
                 cata::event::data_type gs_data = gs_evt.first;
 
