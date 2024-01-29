@@ -4817,25 +4817,29 @@ void overmap::place_highways()
     // TODO: Offset within the overmap too?
     // Use the global seed to calculate an offset for the grid so there's no guaranteed offset at 0,0
     auto calc_offset_from_seed = []( int x, int y, unsigned int seed ) {
-        const int chosen_offset = seed % ( ( x - 1 ) * ( y - 1 ) );
-        int stop_when_chosen_offet = 0;
-        for( int x_offset = 0; x_offset < ( x - 1 ); x_offset++ ) {
-            for( int y_offset = 0; y_offset < ( y - 1 ); x_offset++ ) {
-                if( stop_when_chosen_offet == chosen_offset ) {
-                    std::pair<int, int> ret = { x_offset, y_offset };
-                    return ret;
+        // TODO: Allow single axis variance
+        if( x > 1 && y > 1 ) {
+            const int chosen_offset = seed % ( ( x - 1 ) * ( y - 1 ) );
+            int stop_when_chosen_offet = 0;
+            for( int x_offset = 0; x_offset < ( x - 1 ); x_offset++ ) {
+                for( int y_offset = 0; y_offset < ( y - 1 ); x_offset++ ) {
+                    if( stop_when_chosen_offet == chosen_offset ) {
+                        std::pair<int, int> ret = { x_offset, y_offset };
+                        return ret;
+                    }
+                    stop_when_chosen_offet++;
                 }
-                stop_when_chosen_offet++;
             }
+            debugmsg( "Failed to seed highway offset with chosen value %s and expected max %s",
+                      chosen_offset, ( x - 1 ) * ( y - 1 ) );
         }
-        debugmsg( "Failed to seed highway offset with chosen value %s and expected max %s",
-                  chosen_offset, ( x - 1 ) * ( y - 1 ) );
         std::pair<int, int> ret = { 0, 0 };
         return ret;
     };
 
     // Places two maps next to each other (Mainly here in case I decide to increase the size to 3 or 4 OMTs wide)
-    auto ter_set_duo = [&]( tripoint_om_omt point, tripoint offset, oter_str_id map_first, oter_str_id map_second ) {
+    auto ter_set_duo = [&]( tripoint_om_omt point, tripoint offset, oter_str_id map_first,
+    oter_str_id map_second ) {
         ter_set( point, map_first.id() );
         ter_set( point + offset, map_second.id() );
     };
@@ -4860,11 +4864,13 @@ void overmap::place_highways()
             const bool over_water =  is_water_body_or( west_point, tripoint_east );
             // If over water place a seperate omt so we can distinguish between it and _ground in special_locations and on the map as well as give it more fitting flags
             if( over_water ) {
-                ter_set_duo( west_point, tripoint_east, oter_highway_bridge_supports_north, oter_highway_bridge_supports_north );
+                ter_set_duo( west_point, tripoint_east, oter_highway_bridge_supports_north,
+                             oter_highway_bridge_supports_north );
                 tripoint_om_omt water_point = west_point + tripoint_below;
                 // Add more pillars going down to the bottom
                 while( is_water_body_or( water_point, tripoint_east ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    ter_set_duo( water_point, tripoint_east, oter_highway_bridge_supports_north, oter_highway_bridge_supports_north );
+                    ter_set_duo( water_point, tripoint_east, oter_highway_bridge_supports_north,
+                                 oter_highway_bridge_supports_north );
                     water_point += tripoint_below;
                 }
             } else {
@@ -4884,10 +4890,12 @@ void overmap::place_highways()
             const bool over_water =  is_water_body_or( north_point, tripoint_south );
             ter_set_duo( north_point + tripoint_above, tripoint_south, oter_highway_ew_n, oter_highway_ew_s );
             if( over_water ) {
-                ter_set_duo( north_point, tripoint_south, oter_highway_bridge_supports_east, oter_highway_bridge_supports_east );
+                ter_set_duo( north_point, tripoint_south, oter_highway_bridge_supports_east,
+                             oter_highway_bridge_supports_east );
                 tripoint_om_omt water_point = north_point + tripoint_below;
                 while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                    ter_set_duo( water_point, tripoint_south, oter_highway_bridge_supports_east, oter_highway_bridge_supports_east );
+                    ter_set_duo( water_point, tripoint_south, oter_highway_bridge_supports_east,
+                                 oter_highway_bridge_supports_east );
                     water_point += tripoint_below;
                 }
             } else {
@@ -4906,15 +4914,14 @@ void overmap::place_highways()
             const int i = floor( OMAPX / 2.0 );
             const int j = floor( OMAPY / 2.0 );
             const tripoint_om_omt nw_corner( i, j, 0 );
-            ter_set( nw_corner, oter_highway_nsew_nw_ground.id() );
-            ter_set( nw_corner + tripoint_east, oter_highway_nsew_ne_ground.id() );
-            ter_set( nw_corner + tripoint_south, oter_highway_nsew_sw_ground.id() );
-            ter_set( nw_corner + tripoint_south_east, oter_highway_nsew_se_ground.id() );
-            ter_set( nw_corner + tripoint_above, oter_highway_nsew_nw.id() );
-            ter_set( nw_corner + tripoint_east + tripoint_above, oter_highway_nsew_ne.id() );
-            ter_set( nw_corner + tripoint_south + tripoint_above, oter_highway_nsew_sw.id() );
-            ter_set( nw_corner + tripoint_south_east + tripoint_above, oter_highway_nsew_se.id() );
-        } else if ( full_horizontal || full_vertical ) {
+            overmap_special_id four_way( "4-way highway crossroad" );
+            const city &nearest_city = get_nearest_city( nw_corner );
+            if( place_special( *four_way, nw_corner, om_direction::type::none, nearest_city, false,
+                               false ).size() == 0 ) {
+                debugmsg( "Failed to place all 4-way highway intersections" );
+            }
+            //place_special_forced( four_way, nw_corner, om_direction::type::none );
+        } else if( full_horizontal || full_vertical ) {
             // 3-way intersection
             // Iterate clockwise through esw, nsw, new, nes
             // const int direction = ocean_next_north ? 0 /*esw*/ : ocean_next_east ? 1 /*nsw*/ : ocean_next_south ? 2 /*new*/ : 3 /*nes*/;
@@ -4939,7 +4946,7 @@ void overmap::place_highways()
             const tripoint_? point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
             point_to_try = point;
         }
-        place a road connection if suitable location (not water) probably as an actual special given it doesn't need to be reliable unlike intersections
+        place a overmap_special_id road connection
     }*/
 }
 
