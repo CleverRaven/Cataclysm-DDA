@@ -430,7 +430,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "portable DVD player" },
-    "description": "A compact device with a 7-inch screen, designed for playing both CDs and DVDs.  It's portable, making it convenient for travel or on-the-go entertainment in the Cataclysm.  This device also includes simple earphones, built-in speakers, a rechargeable battery, and USB and SD card slots for multimedia playback."
+    "description": "A compact device with a 7-inch screen, designed for playing both CDs and DVDs.  It's portable, making it convenient for travel or on-the-go entertainment in the Cataclysm.  This device also includes simple earphones, built-in speakers, a rechargeable battery, and USB and SD card slots for multimedia playback.",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
@@ -446,7 +446,7 @@
       {
         "target": "dvd_player_on",
         "msg": "You flip the screen up and power the device on.",
-        "menu_text": "Turn up the screen and turn on the device.",
+        "menu_text": "Flip up the screen and turn on.",
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "The DVD player's batteries are out of charge.",
@@ -464,8 +464,8 @@
       {
         "pocket_type": "CD/DVD entrance",
         "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
+        "max_contains_volume": "7 ml",
+        "max_contains_weight": "16 g",
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -491,8 +491,8 @@
       {
         "ammo_scale": 0,
         "target": "portable_dvd_player",
-        "msg": "You fold down the screen, turning the device off.",
-        "menu_text": "Turn down the screen and turn off the device.",
+        "msg": "You flip down the screen, turning it off.",
+        "menu_text": "Flip down the screen and turn off.",
         "type": "transform"
       }
     ],
