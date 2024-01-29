@@ -843,7 +843,7 @@
     "type": "GENERIC",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "plano transition contact lenses (weekly)" },
-    "description": "Small plastic case with two transition extended-wear soft contacts lenses, buffered in saline solution.  This high tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues. Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_blue>a week</color> of use.",
+    "description": "Small plastic case with two transition extended-wear soft contacts lenses, buffered in saline solution.  This high tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_blue>a week</color> of use.",
     "symbol": "[",
     "color": "cyan",
     "use_action": [
@@ -868,7 +868,7 @@
     "type": "GENERIC",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "bifocal transition contact lenses (daily)" },
-    "description": "Small plastic case with two transition daily-use soft contacts lenses, buffered in saline solution.  This high tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues. Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_blue>16 hours</color> of use.",
+    "description": "Small plastic case with two transition daily-use soft contacts lenses, buffered in saline solution.  This high tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_blue>16 hours</color> of use.",
     "symbol": "[",
     "color": "cyan",
     "use_action": [
