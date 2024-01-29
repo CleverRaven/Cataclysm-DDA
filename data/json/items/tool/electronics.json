@@ -484,7 +484,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Watch a movie or listen to some music.",
-        "description": "Making sure you have a DVD or CD disc, watch a movie or listen to some music.",
+        "description": "Providing that you have a DVD or CD disc, you can watch a movie or listen to some music.",
         "//need_charges_msg": "The DVD player's batteries are out of charge.",
         "effect_on_conditions": [ "WATCH_MOVIE" ]
       },
