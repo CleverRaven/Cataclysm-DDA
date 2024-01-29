@@ -28,7 +28,7 @@
     "id": "zenfs_body_graphs_narrow",
     "type": "widget",
     "style": "layout",
-    "width": 28,
+    "width": 29,
     "arrange": "minimum_columns",
     "widgets": [ "zenfs_body_graph_wetness", "zenfs_body_graph_temp", "zenfs_body_graph_encumb" ]
   },
@@ -36,7 +36,7 @@
     "id": "zenfs_body_graph_layout",
     "type": "widget",
     "style": "layout",
-    "width": 8,
+    "width": 7,
     "arrange": "minimum_columns",
     "widgets": [ "compact_body_graph" ]
   }
