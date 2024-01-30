@@ -2,13 +2,7 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": {
-      "map_special": "mx_helicopter",
-      "professions": [
-        "psi_telekinetic_testsubject",
-        "psi_telepath_interrogater"
-      ]
-    },
+    "extend": { "map_special": "mx_helicopter", "professions": [ "psi_telekinetic_testsubject", "psi_telepath_interrogater" ] },
     "id": "heli_crash"
   },
   {
