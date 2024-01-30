@@ -6661,20 +6661,11 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             break;
         }
 
-        if ( ter_id->is_highway() ) {
-            bool perpendicular_to_highway = false;
-            // TODO: Remove hardcoded ids ( probably replace with direction flags )
-            // Break if parrallel to the highway direction, prevent stopping if perpendicular
-            if( dir == om_direction::type::north || dir == om_direction::type::south ) {
-                perpendicular_to_highway = ter_id == oter_highway_ew_n_ground || ter_id == oter_highway_ew_s_ground;
-            } else if( dir == om_direction::type::east || dir == om_direction::type::west ) {
-                perpendicular_to_highway = ter_id == oter_highway_ns_w_ground || ter_id == oter_highway_ns_e_ground;
-            }
-            
-            if( !perpendicular_to_highway ) {
+        if( ter_id->is_highway() ) {
+            // Break if parallel to the highway direction, prevent stopping if perpendicular
+            if( are_parallel( dir, ter_id.obj().get_dir() ) ) {
                 break;
-            }
-            if( actual_len == len - 1 ) {
+            } else if( actual_len == len - 1 ) {
                 ++len;
             }
         }
