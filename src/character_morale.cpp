@@ -35,8 +35,6 @@ void Character::hoarder_morale_penalty()
     }
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
-    } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
-        pen = pen / 4;  
     } else if( has_effect( effect_took_prozac ) ) {
         pen = pen / 2;
     }
