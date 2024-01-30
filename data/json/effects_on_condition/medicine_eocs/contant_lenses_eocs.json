@@ -19,7 +19,7 @@
     "false_effect": [
       {
         "if": { "math": [ "u_has_flag('HYPEROPIC') + u_has_flag('MYOPIC') + u_has_flag('MYOPIC_IN_LIGHT')", ">", "0" ] },
-        "then": { "u_message": "This lenses won't help you with your sight problems." },
+        "then": { "u_message": "These lenses won't help you with your sight problems." },
         "else": { "u_message": "You don't have any sight problems that require lenses." }
       }
     ]
@@ -45,7 +45,7 @@
       {
         "if": { "u_query": "You already have lenses applied.  Replace your current lenses?", "default": false },
         "then": [ { "u_message": "You remove your old contact lenses and apply a new pair." }, { "run_eocs": [ "EOC_CONTACTS3" ] } ],
-        "else": { "u_message": "You decided to not open sealed lenses case." }
+        "else": { "u_message": "You decide not to open the sealed lenses case." }
       }
     ],
     "false_effect": [ { "u_message": "You apply a new pair of contact lenses." }, { "run_eocs": [ "EOC_CONTACTS3" ] } ]
