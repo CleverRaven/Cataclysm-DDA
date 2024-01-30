@@ -567,7 +567,7 @@
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ], [ "poultry_raw_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -618,7 +618,11 @@
         [ "sausage_cooked", 1 ],
         [ "sausage_wasteland", 1 ],
         [ "bratwurst_sausage", 1 ],
-        [ "meat_fried", 1 ]
+        [ "meat_fried", 1 ],
+        [ "poultry_cooked", 1 ],
+        [ "poultry_pepper", 1 ],
+        [ "poultry_smoked", 1 ],
+        [ "poultry_fatty_smoked", 1 ]
       ]
     ]
   },
@@ -667,7 +671,7 @@
         [ "oats", 1 ],
         [ "oatmeal", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "poultry_raw_any", 1, "LIST" ], [ "dry_poultry", 1 ] ]
     ]
   },
   {
@@ -797,6 +801,7 @@
       [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
       [
         [ "meat_nofish", 1, "LIST" ],
+        [ "poultry_cooked_any", 1, "LIST" ],
         [ "bacon", 4 ],
         [ "bologna", 5 ],
         [ "meat_pickled", 1 ],
@@ -1352,9 +1357,15 @@
     "components": [ [ [ "poultry", 1 ], [ "poultry_fatty", 1 ] ] ]
   },
   {
-    "id": "poultrys_smoked_any",
+    "id": "poultry_smoked_any",
     "type": "requirement",
     "//": "Any smoked bird meat",
     "components": [ [ [ "poultry_smoked", 1 ], [ "poultry_fatty_smoked", 1 ] ] ]
+  },
+  {
+    "id": "poultry_cooked_any",
+    "type": "requirement",
+    "//": "Any cooked and ready-to-eat bird meat, about 250ml",
+    "components": [ [ [ "poultry_cooked", 1 ], [ "poultry_scrap_cooked", 10 ], [ "poultry_pepper", 1 ], [ "poultry_scrap_pepper", 10 ], [ "poultry_smoked", 1 ], [ "poultry_fatty_smoked", 1 ], [ "can_chicken", 1 ] ] ]
   }
 ]
