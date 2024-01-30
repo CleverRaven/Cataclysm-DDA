@@ -357,5 +357,239 @@
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ello",
+    "name": { "str": "DVD disc - Ello Gov'nor" },
+    "description": "This DVD contains a 1982 British Horror movie about the driver of a black British Taxi, who is brutally murdered by gang members.  The driver's soul possesses the taxi, and immediately, the taxi goes around town, running over people and seeking vengeance.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_michael",
+    "name": { "str": "DVD disc - Halloween" },
+    "description": "A DVD presenting a movie directed by John Carpenter.  It follows the story of a masked killer who escapes from a mental institution and returns to his hometown to terrorize babysitters.  His psychiatrist attempts to stop him before he carries out a murderous rampage.  It is rated R and is from 1978.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_nosferatu",
+    "name": { "str": "DVD disc - Nosferatu" },
+    "description": "This DVD contains a timeless classic of the initial era of horror, a silent horror classic directed by F. W. Murnau.  It is an (unauthorized) adaptation of Bram Stoker's ‘Dracula’.  The plot follows Thomas Hutter, who travels to Transylvania to finalize a real estate deal with the mysterious Count Orlok.  However, Hutter soon realizes that Orlok is a vampire with sinister intentions.  Since this movie is from 1922, it has no age rating.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ze",
+    "name": { "str": "DVD disc - At Midnight I'll Take Your Soul" },
+    "description": "This DVD disc contains a Brazilian horror film directed by José Mojica Marins.  The plot revolves around Zé do Caixão, a sinister gravedigger with a contempt for societal norms and a desire for immortality.  Zé terrorizes his community, seeking a woman who can bear his child to continue his bloodline.  Since it is a foreign film, it has no age rating, and is from 1964.  This movie is also available in both English and the original Brazilian Portuguese language.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_jason",
+    "name": { "str": "DVD disc - Friday the 13th" },
+    "description": "A DVD movie direct by Sean S. Cunningham, this classic slasher horror movie follows a group of camp counselors preparing to reopen Camp Crystal Lake, where they are terrorized by an unknown killer.  The movie's plot revolves around a series of gruesome murders as the counselors try to survive the night.  It is rated R and is from 1980.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_freddy",
+    "name": { "str": "DVD disc - A Nightmare on Elm Street" },
+    "description": "A classic of slasher horror, this DVD disc congains a movie directed by Wes Craven.  It follows a group of teenagers haunted by a vengeful spirit, Freddy Krueger, in their dreams.  Krueger's ability to harm them in the dream world translates to real-life consequences, leading to a terrifying battle for survival.  The film explores the thin line between dreams and reality, it is rated R and is from 1984.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_father",
+    "name": { "str": "DVD disc - The Godfather" },
+    "description": "This DVD contains a movie that follows the powerful Corleone crime family as senior patriarch Vito Corleone navigates the world of organized crime in post-World War II America.  The movie's plot explores themes of power, family, and betrayal.  It is rated R and is from 1972.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_father2",
+    "name": { "str": "DVD disc - The Godfather part II" },
+    "description": "This DVD contains a movie sequel that intricately weaves two parallel narratives.  One follows the young Vito Corleone's rise to power in early 20th-century New York, and the other delves into his son Michael's attempts to expand the family empire in the 1950s.  It is rated R and is from 1974.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_titanic",
+    "name": { "str": "DVD disc - Titanic" },
+    "description": "A DVD movie wose plot revolves around the ill-fated love story between Jack and Rose aboard the RMS Titanic during its maiden voyage, this film explores the tragedy of the sinking ship in 1912.  With a blend of romance and disaster, the movie navigates the challenges faced by the couple and the passengers. There are no zombies in this movie, it is rated PG-13 and is from 1997.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_forrest",
+    "name": { "str": "DVD disc - Forrest Gump" },
+    "description": "This DVD disc presents a movie that follows the extraordinary life of a man with a low IQ, played by Tom Hanks, who unwittingly becomes a part of various historical events.  The plot spans decades, showcasing Forrest's encounters with iconic figures and his impact on society, all while maintaining a simple and optimistic outlook on life.  It is rated PG-13 and is from 1994.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_shawshank",
+    "name": { "str": "DVD disc - The Shawshank Redemption" },
+    "description": "A DVD disc containing a movie that narrates the story of Andy Dufresne, a banker wrongly convicted of murder, as he navigates life in Shawshank State Penitentiary.  The plot revolves around his enduring friendship with fellow inmate Red, his resourcefulness, and his quest for justice and redemption within the confines of the prison.  It is rated R and is from 1994.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_beauty",
+    "name": { "str": "DVD disc - American Beauty" },
+    "description": "A DVD disc containing a movie that follows the life of Lester Burnham, a middle-aged man undergoing a midlife crisis, as he reevaluates his existence and pursues unconventional desires.  The film explores themes of beauty, societal expectations, and personal liberation, interwoven with the lives of those around him.  It is rated R and is from 1999.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_nest",
+    "name": { "str": "DVD disc - One Flew Over the Cuckoo's Nest" },
+    "description": "A DVD movie that follows the experiences of Randle P. McMurphy, a rebellious and charismatic man who feigns insanity to escape prison and ends up in a mental institution.  The story explores the power dynamics between McMurphy and the authoritarian Nurse Ratched, shedding light on the lives of the patients and the challenges they face within the oppressive institutional environment. It is rated R and is from 1975",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_mile",
+    "name": { "str": "DVD disc - The Green Mile" },
+    "description": "This DVD disc contain a movie where the plot revolves around Paul Edgecomb, a prison guard in the 1930s, and his experiences with a death row inmate named John Coffey, who possesses mysterious healing abilities.  The film explores themes of injustice, empathy, and the supernatural as it unfolds within the confines of the prison.  It is almost impossible not to drop a tear while watching this masterpiece, but it is rated R.  It is also from 1999.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_train",
+    "name": { "str": "DVD disc - Trainspotting" },
+    "description": "A DVD containing a movie that follows the lives of a group of heroin addicts in Edinburgh, Scotland, led by Mark Renton.  This film delves into their struggles with addiction, relationships, and the pursuit of a better life, all set against a backdrop of gritty realism and dark humor.  It is rated R and is from 1996",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_benjamin",
+    "name": { "str": "DVD disc - The Mysterious Case of Benjamin Button" },
+    "description": "This DVD disc movie's story narrates the life of Benjamin Button, born with a rare condition that causes him to age backward.  The film explores the challenges and unique experiences he faces as he grows younger while developing relationships and encountering the complexities of life.  It is rated PG-13 and is from 2008.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bodies",
+    "name": { "str": "DVD disc - Warm Bodies" },
+    "description": "This DVD disc presents a unique romantic comedy set in a post-apocalyptic world where a zombie named R saves a living girl, Julie, from an attack.  As R and Julie's unexpected connection grows, it triggers a chain of events that challenges the divide between the living and the undead, offering hope for a different future.  Be careful, as this is just a movie, so don't expect that one of the zombies out there will fall in love with you.  It is rated PG-13 and is from 2013.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_notebook",
+    "name": { "str": "DVD disc - The Notebook" },
+    "description": "This DVD disc contains a romantic drama that spans decades, telling the love story of Noah and Allie.  The narrative unfolds through a notebook recounting their passionate but challenging journey.  This film explores themes of enduring love, choices, and fate, truly inspiring.  It is rated PG-13 and is from 2004.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_jones",
+    "name": { "str": "DVD disc - Love Jones" },
+    "description": "A DVD disc containing a movie Directed by Theodore Witcher.  This is a romantic drama that revolves around Darius and Nina, exploring their complex relationship in the vibrant Chicago arts scene.  The film delves into themes of love, poetry, and self-discovery as the characters navigate passion and commitment.  It is rated R and is from 1997.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_casablanca",
+    "name": { "str": "DVD disc - Casablanca." },
+    "description": "A DVD disc containing a classic romantic drama set during World War II in the titular Moroccan city.  Rick Blaine, a cynical nightclub owner, encounters his former lover Ilsa Lund, and they become entangled in a web of love, sacrifice, and political intrigue against the backdrop of wartime chaos.  It is not rated by any official American rating system, and is from 1942.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_mood",
+    "name": { "str": "DVD disc - In the Mood for Love" },
+    "description": "This DVD disc presents a Hong Kong romantic drama film directed by Wong Kar-wai.  The plot revolves around two neighbors who suspect their spouses of infidelity and form a close bond while grappling with their own feelings.  It is rated PG and is from 2000.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_loving",
+    "name": { "str": "DVD disc - Loving" },
+    "description": "This DVD disc presents an American historical romance and drama film directed by Jeff Nichols.  The plot follows the true story of Richard and Mildred Loving, an interracial couple whose marriage led to a landmark Supreme Court case.  The film explores their struggle against Virginia's anti-miscegenation laws and their fight for the right to live as a family.  It is rated PG-13 and is from 2016.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_monsoon",
+    "name": { "str": "DVD disc - Monsoon Wedding" },
+    "description": "This DVD presents an Indian film directed by Mira Nair.  The plot revolves around the chaotic preparations for an elaborate traditional Punjabi wedding in Delhi.  Amidst the vibrant celebrations, the film delves into complex family dynamics, hidden secrets, and the clash between modernity and tradition.  It is rated R, and is from 2001.  It is available in English and Hindi, with subtitles.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_one",
+    "name": { "str": "DVD disc - If You Are the One" },
+    "description": "This DVD disc contains a Chinese romantic comedy film directed by Feng Xiaogang.  The plot centers around a wealthy, middle-aged man named Qin Fen, who, tired of his bachelor life, decides to participate in a reality dating show.  He meets a woman named Xiaoxiao, and the film explores their unique journey of love, misunderstandings, and self-discovery.  It is not rated by any official American rating system, and is from 2008.  This movie is also available in both English and Mandarin, with subtitles.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_cold",
+    "name": { "str": "DVD disc - Cold War" },
+    "description": "A DVD disc containing a 2018 Polish romantic drama film directed by Pawel Pawlikowski.  Set against the backdrop of the Cold War in the 1950s and 1960s, the plot follows the passionate and tumultuous love affair between a musician and a singer.  The film explores their complex relationship as it unfolds across various countries and political landscapes.  It is rated R and is available only in English.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_shakespeare",
+    "name": { "str": "DVD disc - Shakespeare In Love" },
+    "description": "A DVD disc containing a 1998 romantic comedy-drama directed by John Madden.  The plot revolves around a young William Shakespeare who, while struggling with writer's block, finds inspiration and romance with a woman named Viola de Lesseps.  Their love affair influences the creation of one of Shakespeare's most famous plays, ‘Romeo and Juliet’.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
   }
 ]
