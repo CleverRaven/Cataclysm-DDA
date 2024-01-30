@@ -699,5 +699,95 @@
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_tsar",
+    "name": { "str": "DVD disc - From Tsar to Lenin" },
+    "description": "A DVD disc containing a documentary depicting the Russian Revolution's pivotal moments from the collapse of the Tsarist regime in 1917 to the rise of the Bolsheviks.  Featuring rare archival footage and insightful commentary, it delves into the political dynamics, key figures like Lenin and Trotsky, and the establishment of the Soviet government.  It is from 1937.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_nasa",
+    "name": { "str": "DVD disc - For All Mankind" },
+    "description": "A DVD disc containing a 1989 documentary that presents the story of NASA's Apollo program, particularly focusing on the Apollo moon missions.  Directed by Al Reinert, this film uses archival footage and audio recordings to provide an immersive and visually stunning portrayal of the lunar exploration.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_chemistry",
+    "name": { "str": "DVD disc - Chemistry: A Volatile History" },
+    "description": "The three episodes of Chemistry: A Volatile History, in a single disc, a documentary series narrated by Professor Jim Al-Khalili.  It explores the history and evolution of chemistry, delving into key discoveries, scientific breakthroughs, and the contributions of various chemists throughout history.  The series sheds light on how chemistry has shaped our understanding of the natural world and played a crucial role in technological advancements.  It is from 2010 and contains many high-school level chemistry formulas, facts and explanations.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_fight",
+    "name": { "str": "DVD disc - Dawg Fight" },
+    "description": "A DVD disc containing a 2015 documentary directed by Billy Corben that explores the underground world of backyard bare-knuckle fighting in West Perrine, Florida.  The film focuses on the life of Dhafir Harris, also known as Dada 5000, who organizes these unsanctioned street fights as a means of survival and escape from poverty.  It has many practical, technical and visual content, explanations and commentaries in general street fighting.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_wood",
+    "name": { "str": "DVD disc - The Woodright's Shop, Season 1" },
+    "description": "All 13 episodes of the first season of The Woodwright's Shop, in one disc.  The plot revolves around Roy Underhill, the show's host, demonstrating various woodworking projects and techniques, with a strong emphasis on hand tools and traditional methods.  Roy's charismatic and informative style has made The Woodwright's Shop a long-standing and popular series among pre-Cataclysm woodworking enthusiasts, and probably some post-Cataclysm ones too, if they could get a DVD player and power.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_guru",
+    "name": { "str": "DVD disc - I Am Not Your Guru" },
+    "description": "This DVD disc contains a 2016 documentary film directed by Joe Berlinger.  This documentary provides an inside look at the annual seminars of Tony Robbins, a renowned life coach and motivational speaker.  It specifically focuses on Robbins' Date with Destiny event, offering viewers a glimpse into the transformative experiences of the participants and the impact of Robbins' teachings.  It explores themes of personal development, empowerment, and the dynamics between Robbins and the individuals seeking guidance.  It somewhat encourages viewers to reflect on their own lives, identify areas for improvement, and take steps towards personal growth.  Not that the undead out there care, though.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_body",
+    "name": { "str": "DVD disc - The Human Body" },
+    "description": "A DVD disc containing all episodes of a 1998 British television documentary narrated by John Hurt.  It consists of six episodes, each focusing on a different system or aspect of the human body.  The episodes typically cover topics like the circulatory system, the digestive system, the nervous system, the skeletal system, and more.  This documentary uses advanced medical imaging technologies, computer graphics, and real-life examples to provide a detailed and visually captivating exploration of human anatomy and physiology.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_burgundy",
+    "name": { "str": "DVD disc - A Year in Burgundy" },
+    "description": "A DVD disc containing a 2013 documentary film that provides an intimate and in-depth look into the winemaking process in the Burgundy region of France.  Directed by David Kennard, the documentary follows the lives of seven wine producers over the course of a year, capturing the various stages of grape cultivation, harvest, and winemaking.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bread",
+    "name": { "str": "DVD disc - Bread: An Everyday Miracle" },
+    "description": "A DVD disc containing a 2020 documentary that explores the fascinating process of bread-making, from the cultivation of wheat to the final product that once used to be on our tables.  This film delves into the history, science, and cultural significance of bread, showcasing the intricate journey from field to bakery.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_bridge",
+    "name": { "str": "DVD disc - Brooklyn Bridge" },
+    "description": "A DVD disc containing a 1981 documentary film that chronicles the construction and history of the iconic Brooklyn Bridge, highlighting the engineering challenges and human stories behind its creation.  You have no idea if the Brooklyn Bridge is still standing nowadays, but this documentary somewhat makes you wish it to be intact and strong.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
   }
 ]
