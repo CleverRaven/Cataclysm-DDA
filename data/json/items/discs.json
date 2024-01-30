@@ -234,6 +234,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "dvd_bear",
+    "name": { "str": "DVD disc - Bare Grills: In the Woods" },
+    "description": "A DVD disc containing a film written and directed by its star, award winning survivalist Bare Grills, 'In the Woods' is his first foray into the world of cinema.  When pilot Mike Fae crashes his helicopter after a freak accident, he is transported naked and alone to a world without civilization.  He uses his amazing survival skills to assemble shelter, find food, and construct weapons to fight the dinosaurs, aliens, and zombie-fied dinosaurs that threaten his shelter, all while searching for a way back home.  It is Rated PG-13 and is from 2020.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_frozen",
+    "name": { "str": "DVD disc - The Frozen World" },
+    "description": "A DVD disc containing a 2018 science-fiction mockumentery that follows both the colonization efforts and the trials of surviving on the ice world of Huxley-IV.  From the construction of the CS Erebus in 2250, to the Hypernet Plague of 2536, audiences will find there is nothing like The Frozen World.  It is rated PG-13.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
     "id": "dvd_mont1",
     "name": { "str": "DVD disc - Monty Python and The Holy Grail" },
     "description": "The movie in this DVD hilariously depicts King Arthur's quest for the Holy Grail with absurdity and satire.  It follows the Knights of the Round Table as they face surreal challenges, encountering eccentric characters and comedic obstacles.  It is rated PG and is from 1975.",
@@ -588,6 +606,96 @@
     "id": "dvd_shakespeare",
     "name": { "str": "DVD disc - Shakespeare In Love" },
     "description": "A DVD disc containing a 1998 romantic comedy-drama directed by John Madden.  The plot revolves around a young William Shakespeare who, while struggling with writer's block, finds inspiration and romance with a woman named Viola de Lesseps.  Their love affair influences the creation of one of Shakespeare's most famous plays, ‘Romeo and Juliet’.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_",
+    "name": { "str": "DVD disc - M" },
+    "description": "This DVD contains a 1931 German thriller film directed by Fritz Lang.  The plot centers around a city in panic due to the presence of a child murderer.  The police and the criminal underworld intensify efforts to catch the murderer, leading to a tense and gripping narrative that explores the consequences of fear and the pursuit of justice.  It is not rated by any official American rating system and is available in both English and German languages.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ugetsu",
+    "name": { "str": "DVD disc - Ugetsu" },
+    "description": "This DVD contains a 1953 Japanese film directed by Kenji Mizoguchi.  The plot is set in 16th-century Japan and revolves around two peasant couples who become entangled in the chaos of civil war.  As their ambitions lead them to make choices between love, family, and personal desires, the film explores the consequences of their actions and the ephemeral nature of dreams.  It is not rated by any official American rating system and is available in both English and Japanese languages.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_city",
+    "name": { "str": "DVD disc - City of God" },
+    "description": "A DVD disc containing a Brazilian crime film directed by Fernando Meirelles.  The plot is based on real events and unfolds in the impoverished favelas of Rio de Janeiro.  It follows the lives of two young boys, Foguete (Rocket) and Zé Pequeno (Lil' Ze), as they navigate the dangerous and violent world of organized crime.  This film explores themes of poverty, corruption, and the impact of societal factors on individual lives in Brazil.  It is rated R, is from 2002, and is available in both English and the original Brazilian Portuguese language.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_totoro",
+    "name": { "str": "DVD disc - My Neighbor Totoro" },
+    "description": "A DVD disc containing a 1988 Japanese anime and fantasy film directed by Hayao Miyazaki.  The plot follows two young sisters, Satsuke and Mei, who move to the countryside with their father and discover a magical forest spirit named Totoro.  The film beautifully captures their adventures and interactions with the mystical creatures of the forest.  It is rated G and is available both in English and the original Japanese language.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_stenio",
+    "name": { "str": "DVD disc - The Nightshifter" },
+    "description": "This DVD contains a 2018 Brazilian horror film directed by Dennison Ramalho.  The plot revolves around Stenio, a morgue worker who can communicate with the dead.  His ability takes a dark turn when he overhears secrets from the deceased, leading to unforeseen and unsettling consequences for his personal life.  It is rated R and is available both in English and Brazilian Portuguese.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_belle",
+    "name": { "str": "DVD disc - Belle de Jour" },
+    "description": "This DVD contains a French drama film directed by Luis Buñuel.  The plot follows Séverine, a young housewife with masochistic fantasies, who becomes a part-time prostitute during the daytime under the pseudonym Belle de Jour.  The film explores themes of desire, repression, and societal expectations.  It is not rated by any official American rating system, is from 1967 and is available in both English and French.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_sisters",
+    "name": { "str": "DVD disc - A Tale of Two Sisters" },
+    "description": "A DVD containing a South Korean psychological horror film directed by Kim Jee-woon.  The plot revolves around two sisters, Su-mi and Su-yeon, who return home to their estranged family and confront disturbing family secrets.  As supernatural events unfold, the film delves into psychological horror, family dynamics, and a haunting mystery.  It is not rated by any official American rating system, is from 2003 and is available in both English and Korean.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_biu",
+    "name": { "str": "DVD disc - Biutiful" },
+    "description": "A DVD containing a 2010 Spanish-Mexican drama film directed by Alejandro Gonzalez Iñarritu.  The plot centers around Uxbal, a troubled man living in Barcelona who grapples with his own mortality while trying to secure a better future for his children.  The film explores themes of love, redemption, and the impact of one's actions on the people around them.  It is rated R and is available in both English and Spanish languages.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_thief",
+    "name": { "str": "DVD disc - The Bicycle Thief" },
+    "description": "This DVD disc contains an Italian neorealist film directed by Vittorio De Sica.  The plot revolves around Antonio Ricci, a desperate father in post-World War II Rome, who finally lands a job putting up posters but loses his bicycle, crucial for his work, on his first day.  The film follows his poignant quest to recover the stolen bicycle, portraying the harsh realities of poverty and the impact of societal struggles.  It is not rated by any official American rating system and is from 1948.  It is also available in both English and Italian.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_ashes",
+    "name": { "str": "DVD disc - Ashes and Diamonds" },
+    "description": "This DVD disc contains a 1958 Polish film directed by Andrzej Wajda.  Set in the aftermath of World War II, it follows the story of a resistance fighter, Maciek, who is assigned to assassinate a Communist district leader.  As he awaits the perfect moment, he faces moral dilemmas and unexpected connections.  This film delves into the complexities of post-war political and personal struggles.  It is not rated by any official American rating system and is available in both English and the original Polish language.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
