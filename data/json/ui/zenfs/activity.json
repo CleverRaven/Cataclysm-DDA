@@ -14,34 +14,50 @@
       },
       {
         "id": "light",
-        "text": { "str": "Light   ", "ctxt": "Light activity level" },
+        "text": { "str": "  Light   ", "ctxt": "Light activity level" },
         "color": "green",
         "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
       },
       {
         "id": "moderate",
-        "text": { "str": "Moderate ", "ctxt": "Moderate activity level" },
+        "text": { "str": " Moderate ", "ctxt": "Moderate activity level" },
         "color": "light_green",
         "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
       },
       {
         "id": "brisk",
-        "text": { "str": "Brisk   ", "ctxt": "Brisk activity level" },
+        "text": { "str": "  Brisk   ", "ctxt": "Brisk activity level" },
         "color": "yellow",
         "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
       },
       {
         "id": "active",
-        "text": { "str": "Intense ", "ctxt": "Intense activity level" },
+        "text": { "str": " Intense  ", "ctxt": "Intense activity level" },
         "color": "light_red",
         "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
       },
       {
         "id": "extreme",
-        "text": { "str": "Extreme ", "ctxt": "Extreme activity level" },
+        "text": { "str": " Extreme  ", "ctxt": "Extreme activity level" },
         "color": "red",
         "condition": { "math": [ "u_val('activity_level')", "==", "5" ] }
       }
     ]
+  },
+  {
+    "id": "zenfs_activity_desc_no_label",
+    "type": "widget",
+    "copy-from": "zenfs_activity_desc",
+    "label": "",
+    "flags": [ "W_NO_LABEL", "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_activity_desc_no_label_12",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 12,
+    "widgets": [ "zenfs_spacer", "zenfs_activity_desc_no_label", "zenfs_spacer" ],
+    "padding": 0
   }
 ]

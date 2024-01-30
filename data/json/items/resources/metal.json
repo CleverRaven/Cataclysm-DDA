@@ -164,6 +164,24 @@
     "ammo_type": "components"
   },
   {
+    "id": "scrap_brass",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "chunk of brass", "str_pl": "chunks of brass" },
+    "description": "Some decent-sized chunks of scrap brass.",
+    "weight": "300 g",
+    "//1": "300g / 8.73g/cm3 = ~34.4ml. Add 10% like bronze = 37.8ml rounded upwards to 38ml.",
+    "volume": "38 ml",
+    "//2": "appears to be about 20% cheaper than bronze",
+    "price": 140,
+    "price_postapoc": 80,
+    "to_hit": -2,
+    "material": [ "brass" ],
+    "symbol": ",",
+    "color": "yellow",
+    "melee_damage": { "bash": 1 }
+  },
+  {
     "id": "lead",
     "type": "AMMO",
     "category": "spare_parts",
@@ -494,6 +512,21 @@
     "material": [ "qt_steel" ]
   },
   {
+    "id": "1l_aluminum",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L aluminum ingot" },
+    "description": "A one-liter ingot of solid aluminum.",
+    "weight": "2700 g",
+    "volume": "1 L",
+    "price": 74,
+    "price_postapoc": 15,
+    "material": [ "aluminum" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
     "id": "5l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
@@ -514,13 +547,28 @@
     "category": "spare_parts",
     "name": { "str": "10L aluminum ingot" },
     "description": "A ten-liter ingot of solid aluminum.",
-    "weight": "13500 g",
+    "weight": "27000 g",
     "volume": "10 L",
     "price": 7400,
     "price_postapoc": 150,
     "material": [ "aluminum" ],
     "symbol": "=",
     "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "1l_brass",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L brass ingot" },
+    "description": "A one-liter ingot of solid brass.",
+    "weight": "8730 g",
+    "volume": "1 L",
+    "price": 114548,
+    "price_postapoc": 1145.4,
+    "material": [ "brass" ],
+    "symbol": "=",
+    "color": "yellow",
     "ammo_type": "components"
   },
   {
@@ -554,6 +602,21 @@
     "ammo_type": "components"
   },
   {
+    "id": "1l_bronze",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L bronze ingot" },
+    "description": "A one-liter ingot of solid bronze.",
+    "weight": "7690 g",
+    "volume": "1 L",
+    "price": 130039,
+    "price_postapoc": 1300,
+    "material": [ "bronze" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
     "id": "5l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
@@ -581,6 +644,21 @@
     "material": [ "bronze" ],
     "symbol": "=",
     "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
+    "id": "1l_copper",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L copper ingot" },
+    "description": "A one-liter ingot of solid copper.",
+    "weight": "8960 g",
+    "volume": "1 L",
+    "price": 2315,
+    "price_postapoc": 23,
+    "material": [ "copper" ],
+    "symbol": "=",
+    "color": "brown",
     "ammo_type": "components"
   },
   {
@@ -682,6 +760,22 @@
     "volume": "5 L",
     "price": 11575,
     "price_postapoc": 116,
+    "material": [ "zinc" ],
+    "symbol": "=",
+    "color": "white",
+    "ammo_type": "components"
+  },
+  {
+    "id": "1l_zinc",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "1L zinc ingot" },
+    "description": "A one-liter ingot of solid zinc.",
+    "weight": "7100 g",
+    "volume": "1 L",
+    "price": 2315,
+    "//": "A slight loss on rounding down",
+    "price_postapoc": 23,
     "material": [ "zinc" ],
     "symbol": "=",
     "color": "white",

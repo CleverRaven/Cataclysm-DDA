@@ -843,6 +843,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_kelvinist_flames_of_passion",
+    "name": [ "Flames of Passion" ],
+    "desc": [ "You burn with the intensity of your conviction." ],
+    "apply_message": "",
+    "remove_message": "The world seems dreary as your spell fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "( u_spell_level('kelvinist_persuasion_spell') * 1.5) + 3" ] } },
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": { "math": [ "( u_spell_level('kelvinist_persuasion_spell') * 1.5) + 3" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_magus_slowfall",
     "name": [ "Slowfall" ],
     "desc": [ "You won't hit the ground nearly as hard anymore." ],

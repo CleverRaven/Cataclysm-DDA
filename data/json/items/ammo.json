@@ -580,7 +580,6 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "count": 1,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {

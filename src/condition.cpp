@@ -165,13 +165,11 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view membe
         ret_val.dbl_val = jv.get_float();
     } else if( jv.test_object() ) {
         JsonObject jo = jv.get_object();
-        jo.allow_omitted_members();
-        if( jo.has_array( "arithmetic" ) ) {
-            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
-        } else if( jo.has_array( "math" ) ) {
+        if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
+            jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
@@ -217,13 +215,11 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
         ret_val.dur_val = time_duration::from_turns( jv.get_float() );
     } else if( jv.test_object() ) {
         JsonObject jo = jv.get_object();
-        jo.allow_omitted_members();
-        if( jo.has_array( "arithmetic" ) ) {
-            ret_val.arithmetic_val = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
-        } else if( jo.has_array( "math" ) ) {
+        if( jo.has_array( "math" ) ) {
             ret_val.math_val.emplace();
             ret_val.math_val->from_json( jo, "math", eoc_math::type_t::ret );
         } else {
+            jo.allow_omitted_members();
             ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
@@ -692,17 +688,6 @@ conditional_t::func f_has_perception( const JsonObject &jo, std::string_view mem
     };
 }
 
-conditional_t::func f_has_hp( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    std::optional<bodypart_id> bp;
-    optional( jo, false, "bodypart", bp );
-    return [dov, bp, is_npc]( dialogue & d ) {
-        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-        return d.actor( is_npc )->get_cur_hp( bid ) >= dov.evaluate( d );
-    };
-}
-
 conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
@@ -980,45 +965,6 @@ conditional_t::func f_expects_vars( const JsonObject &jo, std::string_view membe
             return false;
         }
         return true;
-    };
-}
-
-conditional_t::func f_compare_var( const JsonObject &jo, std::string_view member,
-                                   bool is_npc )
-{
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
-    const std::string &op = jo.get_string( "op" );
-
-    dbl_or_var dov = get_dbl_or_var( jo, "value" );
-    return [var_name, op, dov, is_npc]( dialogue & d ) {
-        double stored_value = 0;
-        double value = dov.evaluate( d );
-        const std::string &var = d.actor( is_npc )->get_value( var_name );
-        if( !var.empty() ) {
-            stored_value = std::stof( var );
-        }
-
-        if( op == "==" ) {
-            return stored_value == value;
-
-        } else if( op == "!=" ) {
-            return stored_value != value;
-
-        } else if( op == "<=" ) {
-            return stored_value <= value;
-
-        } else if( op == ">=" ) {
-            return stored_value >= value;
-
-        } else if( op == "<" ) {
-            return stored_value < value;
-
-        } else if( op == ">" ) {
-            return stored_value > value;
-        }
-
-        return false;
     };
 }
 
@@ -1622,55 +1568,6 @@ conditional_t::func f_has_ammo()
             return false;
         }
     };
-}
-
-conditional_t::func f_compare_num( const JsonObject &jo, const std::string_view member )
-{
-    JsonArray objects = jo.get_array( member );
-    if( objects.size() != 3 ) {
-        jo.throw_error( "incorrect number of values.  Expected three in " + jo.str() );
-        return []( dialogue const & ) {
-            return false;
-        };
-    }
-    std::function<double( dialogue & )> get_first_dbl = objects.has_object(
-                0 ) ? conditional_t::get_get_dbl(
-                objects.get_object( 0 ) ) : conditional_t::get_get_dbl( objects.get_string( 0 ), jo );
-    std::function<double( dialogue & )> get_second_dbl = objects.has_object(
-                2 ) ? conditional_t::get_get_dbl(
-                objects.get_object( 2 ) ) : conditional_t::get_get_dbl( objects.get_string( 2 ), jo );
-    const std::string &op = objects.get_string( 1 );
-
-    if( op == "==" || op == "=" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) == get_second_dbl( d );
-        };
-    } else if( op == "!=" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) != get_second_dbl( d );
-        };
-    } else if( op == "<=" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) <= get_second_dbl( d );
-        };
-    } else if( op == ">=" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) >= get_second_dbl( d );
-        };
-    } else if( op == "<" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) < get_second_dbl( d );
-        };
-    } else if( op == ">" ) {
-        return [get_first_dbl, get_second_dbl]( dialogue & d ) {
-            return get_first_dbl( d ) > get_second_dbl( d );
-        };
-    } else {
-        jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
-        return []( dialogue const & ) {
-            return false;
-        };
-    }
 }
 
 conditional_t::func f_math( const JsonObject &jo, const std::string_view member )
@@ -2281,22 +2178,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 return d.actor( is_npc )->get_npc_anger();
             };
         }
-    } else if( jo.has_array( "arithmetic" ) ) {
-        talk_effect_fun_t arith;
-        if constexpr( std::is_same_v<JsonObject, J> ) {
-            arith = talk_effect_fun_t::from_arithmetic( jo, "arithmetic", true );
-        }
-        return [arith]( dialogue & d ) {
-            arith( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                return std::stof( val );
-            } else {
-                debugmsg( "No valid value." );
-                return 0.0f;
-            }
-        };
     } else if( jo.has_array( "math" ) ) {
         // no recursive math through shim
         if constexpr( std::is_same_v<JsonObject, J> ) {
@@ -2311,13 +2192,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
     return []( dialogue const & ) {
         return 0.0;
     };
-}
-
-std::function<double( dialogue & )> conditional_t::get_get_dbl[[noreturn]](
-    const std::string &value,
-    const JsonObject &jo )
-{
-    jo.throw_error( "unrecognized number source in " + value );
 }
 
 static double handle_min_max( dialogue &d, double input, std::optional<dbl_or_var_part> min,
@@ -2711,7 +2585,6 @@ parsers = {
     {"u_has_dexterity", "npc_has_dexterity", jarg::member | jarg::array, &conditional_fun::f_has_dexterity },
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
-    {"u_has_hp", "npc_has_hp", jarg::member | jarg::array, &conditional_fun::f_has_hp },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
@@ -2728,7 +2601,6 @@ parsers = {
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
-    {"u_compare_var", "npc_compare_var", jarg::string, &conditional_fun::f_compare_var },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },
     {"npc_allies_global", jarg::member | jarg::array, &conditional_fun::f_npc_allies_global },
@@ -2762,8 +2634,6 @@ parsers = {
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
-    {"compare_int", jarg::member, &conditional_fun::f_compare_num },
-    {"compare_num", jarg::member, &conditional_fun::f_compare_num },
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },

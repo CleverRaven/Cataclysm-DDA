@@ -81,8 +81,6 @@ struct conditional_t {
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
-        static std::function<double( dialogue & )> get_get_dbl[[noreturn]]( const std::string &value,
-                const JsonObject &jo );
         template <class J>
         std::function<void( dialogue &, double )>
         static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &min,
