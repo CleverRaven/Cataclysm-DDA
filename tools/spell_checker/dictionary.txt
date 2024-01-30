@@ -1568,6 +1568,7 @@ irritants
 isable
 isassembled
 isk
+isn't
 isopod
 issi
 issuer
