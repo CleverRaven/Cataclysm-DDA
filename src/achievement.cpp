@@ -851,7 +851,7 @@ void achievements_tracker::write_json_achievements( std::ostream &achievement_fi
 
     std::vector<achievement_id> ach_ids;
 
-    for( auto kv : achievements_status_ ) {
+    for( const auto &kv : achievements_status_ ) {
         if( kv.second.completion == achievement_completion::completed ) {
             ach_ids.push_back( kv.first );
         }
