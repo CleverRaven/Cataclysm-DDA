@@ -6,10 +6,6 @@
 
 #include "achievement.h"
 
-// struct achievements_completed {
-//     std::set<const achievement_id *> achievements;
-// };
-
 class past_achievements_info
 {
     public:

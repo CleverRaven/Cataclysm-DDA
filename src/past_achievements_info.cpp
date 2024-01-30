@@ -21,7 +21,7 @@ bool past_achievements_info::is_completed( const achievement_id &ach ) const
  * This is for when the player copies their memorial folder
  * in and expects those achievements to still work for scenarios/professions
  *
- * It will create a save/achievements/ entry called deprecated.json,
+ * It will create a save/achievements/ entry called memorial_achievements.json,
  * this file contains the achievement ids from the players memorials.
  */
 bool past_achievements_info::migrate_memorial()
