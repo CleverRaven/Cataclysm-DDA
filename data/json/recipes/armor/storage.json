@@ -1508,11 +1508,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "recipe_arrows", 1 ] ],
-    "components": [
-      [ [ "rope_natural_short", 1, "LIST" ] ],
-      [ [ "duct_tape", 10 ] ],
-      [ [ "pipe", 1 ] ]
-    ]
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ] ], [ [ "duct_tape", 10 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "result": "quiver_large",
