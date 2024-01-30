@@ -272,7 +272,88 @@
     "type": "GENERIC",
     "id": "dvd_gun",
     "name": { "str": "DVD disc - The Naked Gun: From the Files of Police Squad!" },
-    "description": "This DVD disc contains a slapstick comedy that follows the bumbling Lieutenant Frank Drebin as he tries to prevent an assassination plot against Queen Elizabeth II.  Drebin's clumsy and oblivious antics led to hilariously absurd situations.  It is rated PG-13 and is from 1988.",
+    "description": "This DVD disc contains a slapstick comedy film that follows the bumbling Lieutenant Frank Drebin as he tries to prevent an assassination plot against Queen Elizabeth II.  Drebin's clumsy and oblivious antics led to hilariously absurd situations.  It is rated PG-13 and is from 1988.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_spinal",
+    "name": { "str": "DVD disc - This is Spinal Tap" },
+    "description": "This DVD disc presents a 1984 mockumentary film that satirizes the music industry, following the fictional rock band Spinal Tap on their disastrous tour.  The film humorously explores the absurdities of rock and roll culture, showcasing the band's misadventures and exaggerated egos.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_groundhog",
+    "name": { "str": "DVD disc - Groundhog Day" },
+    "description": "A DVD movie that revolves around Phil Connors, a cynical TV weatherman who finds himself stuck in a time loop, reliving the same day, Groundhog Day, over and over again.  As he experiences the repetition, he undergoes personal growth and self-discovery, eventually striving to become a better person.  It is rated PG and is from 1993.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_team",
+    "name": { "str": "DVD disc - Team America: World Police" },
+    "description": "This 2004 satirical puppetry DVD movie is from the same creators of South Park and parodies action movies and international politics.  The plot follows an elite counter-terrorism team, portrayed by marionettes, as they attempt to thwart a global terrorist threat.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_duck",
+    "name": { "str": "DVD disc - Duck Soup" },
+    "description": "A DVD containing a 1933 classic comedy film featuring the Marx Brothers.  The plot revolves around the fictional country of Freedonia, led by Rufus T. Firefly, played by Groucho Marx.  The film satirizes politics, war, and diplomacy, with the Marx Brothers delivering their signature humor.  Since it was released in 1933, it predates the modern movie rating system, therefore, it doesn't have a specific age rating, but given the era, it contains soft and safe humor.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_nail",
+    "name": { "str": "DVD disc - Withnail & I" },
+    "description": "A DVD disc containing a British black comedy that follows two unemployed actors, Withnail and 'I' (whose name is Marwood), living in London in 1969 (same year the movie was made).  Frustrated with their careers and facing various misadventures, they decide to escape to the countryside for a holiday that takes an unpredictable turn.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_night",
+    "name": { "str": "DVD disc - Night of the Living Dead" },
+    "description": "This DVD disc presents you with a classic of horror that revolves around a group of people trapped in a farmhouse during the start of a mysterious zombie outbreak.  As they try to survive the night, tensions rise among the diverse group.  While zombies and the general idea of the ‘living dead’ do not amuse you that much nowadays, it is still a great movie to watch.  It is rated R and this is the original 1968 artificially colorized version.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_nightr",
+    "name": { "str": "DVD disc - Night of the Living Dead (remake)" },
+    "description": "This DVD disc contains the remake of a classic, which also became a classic, directed by Tom Savini, closely follows the original 1968 film's plot.  It revolves around a group of people trapped in a farmhouse as they try to survive the start of a zombie outbreak.  The film explores the dynamics of fear, human relationships, and societal breakdown under the threat of the undead.  While the general idea of the undead does not amuse you that much, it is still a great movie to watch.  It is rated R and is from 1990.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_dawn",
+    "name": { "str": "DVD disc - Dawn of the Dead" },
+    "description": "A horror DVD movie directed by the Legend, George A. Romero.  It centers around a group of survivors taking refuge in a shopping mall during a zombie apocalypse.  The film explores themes of consumerism, societal collapse, and the struggle for survival.  As the survivors fortify their position, they face both external threats from the undead and internal tensions.  It is rated R and is from 1973.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_dawnr",
+    "name": { "str": "DVD disc - Dawn of the Dead (remake)" },
+    "description": "A DVD containing the remake of a classic, directed by Zack Snyder.  It follows a group of people seeking refuge in a shopping mall as a global pandemic turns people into aggressive zombies, just like happened in real life.  The survivors must navigate the challenges of the undead and their own interpersonal conflicts while attempting to stay alive.  It is rated R and is from 2004.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
