@@ -1382,35 +1382,5 @@
         "volume_encumber_modifier": 0
       }
     ]
-  },
-  {
-    "id": "iotv_thigh_plate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of ballistic thigh protectors", "str_pl": "pairs of ballistic thigh protectors" },
-    "description": "Front and back nylon armor with soft armor inserts for upper leg protection.  Designed to be attached to US military body armor.",
-    "weight": "3000 g",
-    "volume": "1800 ml",
-    "price": 60000,
-    "price_postapoc": 100,
-    "symbol": ",",
-    "material": [ "kevlar_layered", "nylon" ],
-    "color": "dark_gray",
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 4,
-        "coverage": 85,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
   }
 ]
