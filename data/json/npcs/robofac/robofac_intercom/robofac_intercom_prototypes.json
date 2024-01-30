@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", ">", "time('1 d')" ] },
-            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
+            { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
