@@ -849,8 +849,6 @@ diverges
 divil
 dizzied
 dodecahedron
-doesn
-doesn't
 doffing
 dogbane
 doggo
@@ -1568,7 +1566,6 @@ irritants
 isable
 isassembled
 isk
-isn't
 isopod
 issi
 issuer
