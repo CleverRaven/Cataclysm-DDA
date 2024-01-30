@@ -342,6 +342,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "dvd_dictator",
+    "name": { "str": "DVD disc - The Great Dictator" },
+    "description": "This DVD disc contains the first 'talkie' (movie with sound) starring the legendary silent film star Charlie Chaplin.  This movie is a black comedy that follows the viewpoints of two people (both played by Chaplin): A Jewish barber and war hero returning to his neighborhood after several years in the hospital, and Adenoid Hynkel, 'phooey' of Tomaina (Germany).  It follows the efforts of said barber, along with his neighbor Hanna, to mount resistance against Hynkel's regime.  It should be noted that Chaplin would not have made this movie if the true horrors of the Holocaust were known at the time.  It was released in 1940, and is rated G.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
     "id": "dvd_night",
     "name": { "str": "DVD disc - Night of the Living Dead" },
     "description": "This DVD disc presents you with a classic of horror that revolves around a group of people trapped in a farmhouse during the start of a mysterious zombie outbreak.  As they try to survive the night, tensions rise among the diverse group.  While zombies and the general idea of the ‘living dead’ do not amuse you that much nowadays, it is still a great movie to watch.  It is rated R and this is the original 1968 artificially colorized version.",
@@ -612,7 +621,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "dvd_",
+    "id": "dvd_m",
     "name": { "str": "DVD disc - M" },
     "description": "This DVD contains a 1931 German thriller film directed by Fritz Lang.  The plot centers around a city in panic due to the presence of a child murderer.  The police and the criminal underworld intensify efforts to catch the murderer, leading to a tense and gripping narrative that explores the consequences of fear and the pursuit of justice.  It is not rated by any official American rating system and is available in both English and German languages.",
     "copy-from": "dvd_blank",
