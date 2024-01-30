@@ -577,6 +577,18 @@
   },
   {
     "type": "mutation",
+    "id": "GOBLIN_EYES",
+    "valid": false,
+    "name": { "str": "Nocturnal Vision" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human.",
+    "category": [ "SPECIES_GOBLIN" ],
+    "enchantments": [ "ench_goblin_eyes" ]
+  },
+  {
+    "type": "mutation",
     "id": "SAPROVORE",
     "copy-from": "SAPROVORE",
     "extend": { "category": [ "SPECIES_GOBLIN" ] }
