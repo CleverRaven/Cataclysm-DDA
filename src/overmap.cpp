@@ -3710,6 +3710,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
         place_forest_trailheads();
     }
+    // TODO: Add a finalize_highways(); that flattens most of the highway and flips road crossings
     polish_river();
 
     // TODO: there is no reason we can't generate the sublevels in one pass
@@ -4203,6 +4204,11 @@ void overmap::clear_cities()
 void overmap::clear_connections_out()
 {
     connections_out.clear();
+}
+
+bool overmap::is_in_city( const tripoint_om_omt &p )
+{
+    return city_tripoints.count( p ) == 1;
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
@@ -6040,6 +6046,7 @@ void overmap::place_cities()
             if( ter( p ) == settings->default_oter[OVERMAP_DEPTH] ) {
                 placement_attempts = 0;
                 ter_set( p, oter_road_nesw ); // every city starts with an intersection
+                city_tripoints.insert( p );
                 tmp.pos = p.xy();
                 tmp.size = size;
             }
@@ -6047,7 +6054,8 @@ void overmap::place_cities()
             placement_attempts = 0;
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
-            ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_road_nesw );
+            ter_set( p, oter_road_nesw );
+            city_tripoints.insert( p );
         }
         if( placement_attempts == 0 ) {
             cities.push_back( tmp );
@@ -6122,10 +6130,12 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
         const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size,
                                                 placed_unique_buildings );
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
-            place_special( *building_tid, building_pos, building_dir, town, false, false );
+            std::vector<tripoint_om_omt> used_tripoints = place_special( *building_tid, building_pos,
+                    building_dir, town, false, false );
             if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
                 placed_unique_buildings.emplace( building_tid );
             }
+            city_tripoints.insert( used_tripoints.cbegin(), used_tripoints.cend() );
             break;
         }
     }
@@ -6554,8 +6564,8 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
     size_t actual_len = 0;
 
     while( actual_len < len ) {
-        const tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
-
+        tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
+        city_tripoints.insert( pos );
         if( !inbounds( pos, 1 ) ) {
             break;  // Don't approach overmap bounds.
         }
@@ -6595,7 +6605,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             break;
         }
 
-        if ( ter_id->is_highway() ) {
+        if( ter_id->is_highway() ) {
             bool perpendicular_to_highway = false;
             // TODO: Remove hardcoded ids ( probably replace with direction flags )
             // Break if parrallel to the highway direction, prevent stopping if perpendicular
@@ -6604,7 +6614,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             } else if( dir == om_direction::type::east || dir == om_direction::type::west ) {
                 perpendicular_to_highway = ter_id == oter_highway_ns_w_ground || ter_id == oter_highway_ns_e_ground;
             }
-            
+
             if( !perpendicular_to_highway ) {
                 break;
             }
@@ -6612,7 +6622,6 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 ++len;
             }
         }
-
         ++actual_len;
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
