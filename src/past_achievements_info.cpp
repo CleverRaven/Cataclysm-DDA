@@ -46,11 +46,10 @@ void past_achievements_info::load()
         return;
     }
     loaded_ = true;
-
-    migrate_memorial();
-
     const cata_path &achievement_dir = PATH_INFO::achievementdir_path();
     assure_dir_exist( achievement_dir );
+
+    migrate_memorial();
     std::vector<cata_path> filenames = get_files_from_path( ".json", achievement_dir, true, true );
 
     for( const cata_path &filename : filenames ) {
