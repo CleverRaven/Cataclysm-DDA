@@ -4,7 +4,7 @@
     "id": "orchard_buildings",
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "d": "t_region_groundcover_urban",
+      "d": "t_region_soil",
       "$": "t_region_shrub_decorative",
       "*": "t_region_soil",
       "+": "t_door_c",
