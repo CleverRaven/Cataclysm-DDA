@@ -4226,12 +4226,10 @@ void overmap::fill_city_boundaries()
     for( int x = 0; x < OMAPX; x++ ) {
         bool last_true = false;
         int y_start = 0;
-        int y_end = 0;
         for( int y = 0; y < OMAPY; y++ ) {
             if( city_boundaries[x][y] && !last_true ) {
                 if( y_start != 0 ) {
-                    y_end = y;
-                    for( int y_add = y_start; y_add < y_end; y++ ) {
+                    for( int y_add = y_start; y_add < y; y_add++ ) {
                         city_boundaries_vertical_check[x].set( y_add );
                     }
                 }
@@ -4246,12 +4244,10 @@ void overmap::fill_city_boundaries()
     for( int y = 0; y < OMAPY; y++ ) {
         bool last_true = false;
         int x_start = 0;
-        int x_end = 0;
         for( int x = 0; x < OMAPX; x++ ) {
             if( city_boundaries[x][y] && !last_true ) {
                 if( x_start != 0 ) {
-                    x_end = x;
-                    for( int x_add = x_start; x_add < x_end; x++ ) {
+                    for( int x_add = x_start; x_add < x; x_add++ ) {
                         city_boundaries_vertical_check[x_add].set( y );
                     }
                 }
@@ -4264,21 +4260,18 @@ void overmap::fill_city_boundaries()
     }
 
     for( int x = 0; x < OMAPX; x++ ) {
-        for( int y = 0; y < OMAPY; y++ ) {
-            if( city_boundaries[x][y] || ( city_boundaries_horizontal_check[x][y] &&
-                                           city_boundaries_vertical_check[x][y] ) ) {
-                city_boundaries_and_check[x].set( y );
-            }
-        }
+        city_boundaries_and_check[x] = city_boundaries_horizontal_check[x];
+        city_boundaries_and_check[x] &= city_boundaries_vertical_check[x];
+        city_boundaries_and_check[x] &= city_boundaries[x];
     }
 
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             if( city_boundaries_and_check[x][y] ) {
-                if( !city_boundaries[x][y] && ( city_boundaries_and_check[std::max( 0, x - 1 )][y] ||
-                                                city_boundaries_and_check[std::min( OMAPX - 1, x + 1 )][y] ||
-                                                city_boundaries_and_check[x][std::max( 0, y - 1 )] ||
-                                                city_boundaries_and_check[x][std::min( OMAPY - 1, y + 1 )] ) ) {
+                if( !city_boundaries[x][y] && ( !city_boundaries_and_check[std::max( 0, x - 1 )][y] ||
+                                                !city_boundaries_and_check[std::min( OMAPX - 1, x + 1 )][y] ||
+                                                !city_boundaries_and_check[x][std::max( 0, y - 1 )] ||
+                                                !city_boundaries_and_check[x][std::min( OMAPY - 1, y + 1 )] ) ) {
                     city_boundaries_last_check[x].reset( y );
                 } else {
                     city_boundaries_last_check[x].set( y );
@@ -4289,7 +4282,6 @@ void overmap::fill_city_boundaries()
 
     city_boundaries = city_boundaries_last_check;
     ran_fill_city_boundaries = true;
-    debugmsg( "Actually finished fill_city_boundaries" );
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
