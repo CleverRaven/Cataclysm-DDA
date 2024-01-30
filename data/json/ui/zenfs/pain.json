@@ -11,17 +11,25 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_pain_bar_label", "zenfs_pain_bar_15_no_label" ]
+    "widgets": [ "zenfs_pain_bar_label_5", "zenfs_pain_bar_15_no_label" ],
+    "flags": [ "W_NO_PADDING" ]
   },
   {
+    "id": "zenfs_pain_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_pain_bar_label_5", "zenfs_pain_num_no_label" ]
+  },
+  {
+    "//": "Remove 'i_red' when stamina label math is complete.",
     "id": "zenfs_pain_bar_template",
     "type": "widget",
     "var": "pain",
     "style": "graph",
     "fill": "bucket",
     "symbols": "·−=≡≣",
-    "colors": [ "c_dark_gray", "c_green", "c_yellow", "c_red", "c_light_red_red" ],
-    "breaks": [ 25, 50, 71, 84 ],
+    "colors": [ "c_green", "c_yellow", "c_light_red", "c_red" ],
     "flags": [ "W_NO_LABEL" ]
   },
   {
@@ -37,11 +45,47 @@
     "copy-from": "zenfs_pain_bar_template"
   },
   {
+    "id": "zenfs_pain_num_no_label",
+    "type": "widget",
+    "var": "pain",
+    "style": "number",
+    "width": 3,
+    "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ],
+    "text_align": "right",
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "//": "Can't autoswitch coloring until 'pain' is accessible.",
     "id": "zenfs_pain_bar_label",
     "type": "widget",
     "style": "text",
-    "string": "<color_magenta>Pain</color>",
-    "width": 4
+    "width": 4,
+    "clauses": [
+      {
+        "id": "label_normal",
+        "text": "Pain ",
+        "color": "c_magenta",
+        "condition": { "math": [ "u_val('fatigue')", "<", "1000000" ] }
+      },
+      {
+        "id": "label_tired",
+        "text": "Pain ",
+        "color": "c_pink",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "1000000" ] }, { "math": [ "u_val('fatigue')", "<", "1000000" ] } ] }
+      },
+      {
+        "id": "label_very_tired",
+        "text": "Pain ",
+        "color": "c_light_red",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "1000000" ] }, { "math": [ "u_val('fatigue')", "<", "1000000" ] } ] }
+      },
+      {
+        "id": "label_exhausted",
+        "text": "Pain ",
+        "color": "c_pink_red",
+        "condition": { "math": [ "u_val('fatigue')", ">=", "1000000" ] }
+      }
+    ]
   },
   {
     "id": "zenfs_pain_bar_label_5",

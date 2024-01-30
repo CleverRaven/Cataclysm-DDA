@@ -30,6 +30,7 @@
       [ "spell_scroll_magic_missile", 50 ],
       [ "spell_scroll_bleed", 50 ],
       [ "spell_scroll_classless_watch_spell", 30 ],
+      [ "spell_scroll_classless_clean_clothing_and_self", 75 ],
       [ "spell_scroll_disruption_bolt", 50 ],
       [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_electric_arts", 50 ],
@@ -83,6 +84,7 @@
       [ "spell_scroll_glide_ice", 25 ],
       [ "spell_scroll_kelvinist_anti_cold", 30 ],
       [ "spell_scroll_kelvinist_anti_heat", 30 ],
+      [ "spell_scroll_kelvinist_persuasion_spell", 20 ],
       [ "spell_scroll_ice_shield", 25 ],
       [ "spell_scroll_frost_armor", 35 ],
       [ "spell_scroll_phase_door", 50 ],
@@ -109,6 +111,7 @@
       [ "spell_scroll_earthshaper_danger_sense", 45 ],
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
+      [ "spell_scroll_earthshaper_harden_earth", 40 ],
       [ "spell_scroll_druid_breathing_underwater", 30 ],
       [ "spell_scroll_biomancer_coagulant_weave", 30 ],
       [ "spell_scroll_repelling_arc", 30 ],
@@ -175,6 +178,8 @@
       [ "spell_scroll_technomancer_conjure_ups", 20 ],
       [ "spell_scroll_technomancer_robot_shutdown", 25 ],
       [ "spell_scroll_technomancer_recharge_vehicle", 15 ],
+      [ "spell_scroll_kelvinist_extinguish_fire_spell", 25 ],
+      [ "spell_scroll_kelvinist_summon_freezer_spell", 20 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_druid_whisper_leaves", 30 ],
@@ -220,7 +225,8 @@
       [ "spell_scroll_biomancer_hyper_regeneration", 5 ],
       [ "spell_scroll_cause_rot", 4 ],
       [ "spell_scroll_earthshaper_reveal_world_map", 15 ],
-      [ "spell_scroll_earthshaper_granite_aegis", 5 ]
+      [ "spell_scroll_earthshaper_granite_aegis", 5 ],
+      [ "spell_scroll_earthshaper_sleep_in_earth", 10 ]
     ]
   },
   {
@@ -251,6 +257,7 @@
       [ "biomancer_spellbook", 60 ],
       [ "druid_spellbook", 60 ],
       [ "pyro", 60 ],
+      [ "techno_electrical_work", 50 ],
       [ "farmer_spellbook", 40 ],
       [ "eshaper_spellbook", 60 ],
       [ "eshaper_spellbook_melee", 30 ],
