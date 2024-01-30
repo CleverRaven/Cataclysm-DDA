@@ -6,21 +6,23 @@
 
 #include "achievement.h"
 
-struct achievements_completed {
-    std::set<const achievement_id *> achievements;
-};
+// struct achievements_completed {
+//     std::set<const achievement_id *> achievements;
+// };
 
 class past_achievements_info
 {
     public:
         past_achievements_info();
 
+        bool migrate_memorial();
         void load();
         void clear();
         bool is_completed( const achievement_id & ) const;
     private:
 
         bool loaded_ = false;
+        bool memorial_loaded_ = false;
         std::set<achievement_id> completed_achievements_;
 };
 

@@ -843,6 +843,9 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
     return false;
 }
 
+/*
+ * This writes achievements in json, optional mem_achs is for migrating deprecated memorial achievements
+ */
 void achievements_tracker::write_json_achievements( std::ostream &achievement_file ) const
 {
     JsonOut jsout( achievement_file, true, 2 );
@@ -850,6 +853,7 @@ void achievements_tracker::write_json_achievements( std::ostream &achievement_fi
     jsout.member( "achievement_version", 0 );
 
     std::vector<achievement_id> ach_ids;
+
     for( auto kv : achievements_status_ ) {
         if( kv.second.completion == achievement_completion::completed ) {
             ach_ids.push_back( kv.first );
