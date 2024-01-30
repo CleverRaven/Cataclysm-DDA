@@ -561,7 +561,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
+    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it was considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
     "types": [ "TEETH" ],
     "category": [ "SPECIES_GOBLIN" ],
     "attacks": [
