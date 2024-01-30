@@ -90,91 +90,93 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              unsigned char line_id, const point &p, unsigned char color ) const
 {
+    int half_height = ( height / 2 ) - 1;
+    int half_width = ( width / 2 ) - 1;
     SDL_Color sdl_color = palette[color];
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + width, 1,
                                        sdl_color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box top left
         case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( half_width, half_height ),
                                        p.x + width,
                                        1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( half_width, half_height ),
                                      p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box top right
         case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + half_width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( half_width, half_height ),
                                      p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + half_width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + half_height + 1,
                                      2, sdl_color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( half_width, half_height ),
                                        p.x + width,
                                        1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + half_height + 1,
                                      2, sdl_color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ), 2,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + half_height, 2,
                                      sdl_color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( half_width, half_height ),
                                        p.x + width,
                                        1,
                                        sdl_color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( half_width, half_height ),
                                      p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( half_width, 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, half_height ), p.x + half_width, 1,
                                        sdl_color );
             break;
         default:
