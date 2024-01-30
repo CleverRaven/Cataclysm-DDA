@@ -13,6 +13,6 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ]
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   }
 ]
