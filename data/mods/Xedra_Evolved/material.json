@@ -70,7 +70,7 @@
     "type": "material",
     "id": "moon_tears",
     "name": "Moon Tears",
-    "//": "Common matrial used by Fae artisans instead of iron.",
+    "//": "Common material used by Fae artisans instead of iron.",
     "density": 13,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
@@ -81,6 +81,23 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
+    "repair_difficulty": 4
+  },
+  {
+    "type": "material",
+    "id": "tezcatlipocas_blood",
+    "name": "tezcatlipocas_blood",
+    "//": "Common material used by Salamander artisans instead of iron.  Weapons made of this material will do additional heat effects/damage.  Armor made of it will have additional warmth and protection from cold.",
+    "density": 13,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 773,
+    "chip_resist": 40,
+    "repaired_with": "forged_dreamstuff_ingot",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "resist": { "bash": 8, "cut": 20, "acid": 6, "bullet": 9, "electric": 10 },
     "repair_difficulty": 4
   },
   {
