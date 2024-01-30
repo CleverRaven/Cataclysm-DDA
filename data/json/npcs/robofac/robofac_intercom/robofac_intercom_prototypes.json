@@ -140,7 +140,7 @@
         "text": "How is my ordered armor going?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -184,7 +184,7 @@
         "text": "How is my ordered armor going?  It should be done by now.",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "or": [
                 { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
@@ -261,7 +261,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -291,7 +291,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
@@ -324,7 +324,7 @@
         "text": "Any progress on the anchor?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('5 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('5 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
           ]
         },
@@ -354,7 +354,7 @@
         "text": "Any progress on the Hub anchor?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('2 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('2 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
           ]
         },
@@ -388,7 +388,7 @@
         "text": "Any progress on the exotic barrel?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
