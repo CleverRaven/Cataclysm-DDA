@@ -625,7 +625,7 @@
     "name": { "str": "The Mage-Engineer's Practical Guide", "str_pl": "copies of The Mage-Engineer's Practical Guide" },
     "//": "4 Technomancer spells, 2 Stormshaper spells",
     "description": "This is a heavy, university thaumaturgical-program-level guidebook.  It discusses the various practical applications of magic in repairwork and engineering, with a focus on immediately-usable techniques instead of airy theoretical approaches.",
-    "weight": "4000 g",
+    "weight": "1200 g",
     "volume": "2500 ml",
     "price": 5000,
     "material": [ "paper" ],
