@@ -245,7 +245,34 @@
     "type": "GENERIC",
     "id": "dvd_mont2",
     "name": { "str": "DVD disc - Monty Python's Life of Brian" },
-    "description": "This DVD disc contains a 1979 satirical comedy follows Brian Cohen, a man born on the same day as Jesus, and inadvertently gets caught up in events surrounding the life of the Messiah.  This film cleverly satirizes religion, politics, and society, offering a humorous take on historical and biblical themes.  It is rated R.",
+    "description": "This DVD disc contains a 1979 satirical comedy that follows Brian Cohen, a man born on the same day as Jesus, and inadvertently gets caught up in events surrounding the life of the Messiah.  This film cleverly satirizes religion, politics, and society, offering a humorous take on historical and biblical themes.  It is rated R.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_airplane",
+    "name": { "str": "DVD disc - Airplane!" },
+    "description": "This DVD contains a 1980 satirical comedy that parodies the disaster film sub-genre.  The plot centers on an ex-fighter pilot with a fear of flying who must take the controls when the crew and passengers of a commercial airliner fall ill due to food poisoning.  The film is renowned for its absurd humor, visual gags, and wordplay, and it is rated PG.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_snakes",
+    "name": { "str": "DVD disc - Snakes on a Plane" },
+    "description": "This DVD contains a comedy-action-horror film where FBI agent Nelville Flynn must protect a witness on a flight from Hawaii to Los Angeles.  However, chaos ensues when an assassin releases a crate of deadly snakes on the plane.  The passengers and crew must survive the venomous threat at 30,000 feet.  This movie is rated R and is from 2006.",
+    "copy-from": "dvd_blank",
+    "price": 500,
+    "price_postapoc": 75
+  },
+  {
+    "type": "GENERIC",
+    "id": "dvd_gun",
+    "name": { "str": "DVD disc - The Naked Gun: From the Files of Police Squad!" },
+    "description": "This DVD disc contains a slapstick comedy that follows the bumbling Lieutenant Frank Drebin as he tries to prevent an assassination plot against Queen Elizabeth II.  Drebin's clumsy and oblivious antics led to hilariously absurd situations.  It is rated PG-13 and is from 1988.",
     "copy-from": "dvd_blank",
     "price": 500,
     "price_postapoc": 75
