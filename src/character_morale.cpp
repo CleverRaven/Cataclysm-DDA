@@ -15,7 +15,7 @@ static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_HOARDER( "HOARDER" );
-static const trait_id trait_THRESH_SPECIES_RAVENFOLK( "THRESH_SPECIES_RAVENFOLK");
+static const trait_id trait_THRESH_SPECIES_RAVENFOLK( "THRESH_SPECIES_RAVENFOLK" );
 
 void Character::update_morale()
 {
