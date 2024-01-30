@@ -227,6 +227,8 @@
       { "item": "copper_necklace", "prob": 6 },
       { "item": "dog_whistle", "prob": 6 },
       { "item": "whistle_multitool", "prob": 6 },
+      { "item": "dvd_scratched", "prob": 5 },
+      { "item": "dvd_cracked", "prob": 5
       { "item": "slingshot", "prob": 5 },
       { "prob": 5, "group": "weak_antibiotic_bottle_plastic_pill_prescription_1" },
       { "item": "paint_brush", "prob": 5 },
@@ -1109,6 +1111,7 @@
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 },
+      { "item": "portable_dvd_player", "prob": 1, "charges": [ 0, 500 ] },
       { "group": "loose_chess_pieces", "prob": 1 }
     ]
   },
