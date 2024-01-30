@@ -4208,7 +4208,88 @@ void overmap::clear_connections_out()
 
 bool overmap::is_in_city( const tripoint_om_omt &p )
 {
-    return city_tripoints.count( p ) == 1;
+    return city_boundaries[p.x()][p.y()];
+}
+
+void overmap::fill_city_boundaries()
+{
+    if( ran_fill_city_boundaries ) {
+        // TODO: Remove this post testing (Not that this function should be merged as-is)
+        debugmsg( "Ran fill_city_boundaries more than once" );
+    }
+    // Cower at the sight of my abominable creation bc I couldn't find anything to cargo cult
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_horizontal_check;
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_vertical_check;
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_and_check;
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_last_check;
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        bool last_true = false;
+        int y_start = 0;
+        int y_end = 0;
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( city_boundaries[x][y] && !last_true ) {
+                if( y_start != 0 ) {
+                    y_end = y;
+                    for( int y_add = y_start; y_add < y_end; y++ ) {
+                        city_boundaries_vertical_check[x].set( y_add );
+                    }
+                }
+                last_true = true;
+            } else if( !city_boundaries[x][y] && last_true ) {
+                last_true = false;
+                y_start = y;
+            }
+        }
+    }
+
+    for( int y = 0; y < OMAPY; y++ ) {
+        bool last_true = false;
+        int x_start = 0;
+        int x_end = 0;
+        for( int x = 0; x < OMAPX; x++ ) {
+            if( city_boundaries[x][y] && !last_true ) {
+                if( x_start != 0 ) {
+                    x_end = x;
+                    for( int x_add = x_start; x_add < x_end; x++ ) {
+                        city_boundaries_vertical_check[x_add].set( y );
+                    }
+                }
+                last_true = true;
+            } else if( !city_boundaries[x][y] && last_true ) {
+                last_true = false;
+                x_start = x;
+            }
+        }
+    }
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( city_boundaries[x][y] || ( city_boundaries_horizontal_check[x][y] &&
+                                           city_boundaries_vertical_check[x][y] ) ) {
+                city_boundaries_and_check[x].set( y );
+            }
+        }
+    }
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( city_boundaries_and_check[x][y] ) {
+                if( !city_boundaries[x][y] && ( city_boundaries_and_check[std::max( 0, x - 1 )][y] ||
+                                                city_boundaries_and_check[std::min( OMAPX - 1, x + 1 )][y] ||
+                                                city_boundaries_and_check[x][std::max( 0, y - 1 )] ||
+                                                city_boundaries_and_check[x][std::min( OMAPY - 1, y + 1 )] ) ) {
+                    city_boundaries_last_check[x].reset( y );
+                } else {
+                    city_boundaries_last_check[x].set( y );
+                }
+            }
+        }
+    }
+
+    city_boundaries = city_boundaries_last_check;
+    ran_fill_city_boundaries = true;
+    debugmsg( "Actually finished fill_city_boundaries" );
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
@@ -6046,7 +6127,7 @@ void overmap::place_cities()
             if( ter( p ) == settings->default_oter[OVERMAP_DEPTH] ) {
                 placement_attempts = 0;
                 ter_set( p, oter_road_nesw ); // every city starts with an intersection
-                city_tripoints.insert( p );
+                city_boundaries[p.x()].set( p.y() );
                 tmp.pos = p.xy();
                 tmp.size = size;
             }
@@ -6055,7 +6136,7 @@ void overmap::place_cities()
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
             ter_set( p, oter_road_nesw );
-            city_tripoints.insert( p );
+            city_boundaries[p.x()].set( p.y() );
         }
         if( placement_attempts == 0 ) {
             cities.push_back( tmp );
@@ -6069,6 +6150,7 @@ void overmap::place_cities()
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
+    fill_city_boundaries();
 }
 
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
@@ -6135,7 +6217,9 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
             if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
                 placed_unique_buildings.emplace( building_tid );
             }
-            city_tripoints.insert( used_tripoints.cbegin(), used_tripoints.cend() );
+            for( const tripoint_om_omt &p : used_tripoints ) {
+                city_boundaries[p.x()].set( p.y() );
+            }
             break;
         }
     }
@@ -6553,7 +6637,7 @@ static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source
 }
 
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
-        const point_om_omt &source, om_direction::type dir, size_t len ) const
+        const point_om_omt &source, om_direction::type dir, size_t len )
 {
     const tripoint_om_omt from( source, 0 );
     // See if we need to make another one "step" further.
@@ -6564,8 +6648,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
     size_t actual_len = 0;
 
     while( actual_len < len ) {
-        tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
-        city_tripoints.insert( pos );
+        const tripoint_om_omt pos = from + om_direction::displace( dir, actual_len );
         if( !inbounds( pos, 1 ) ) {
             break;  // Don't approach overmap bounds.
         }
@@ -6622,6 +6705,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 ++len;
             }
         }
+        city_boundaries[pos.x()].set( pos.y() );
         ++actual_len;
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
