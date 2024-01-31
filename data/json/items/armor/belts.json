@@ -526,7 +526,7 @@
     "type": "ARMOR",
     "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
     "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
-    "weight": "250g",
+    "weight": "250 g",
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 25,
