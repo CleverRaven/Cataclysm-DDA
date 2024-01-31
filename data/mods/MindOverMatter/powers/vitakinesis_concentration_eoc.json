@@ -18,7 +18,7 @@
     },
     {
       "math": [
-        "( (u_spell_level('vita_slow_bleeding') * 154) + 1590) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
         ]
@@ -41,7 +41,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_REMOVE_SLOW_BLEEDING",
-    "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
+    "condition": { "u_has_effect": "effect_vitakin_slow_bleeding" },
     "effect": [
       { "u_lose_effect": "effect_vitakin_slow_bleeding" },
       { "u_lose_effect": "effect_vitakin_slow_bleeding_01" },
@@ -69,7 +69,7 @@
     },
     {
       "math": [
-        "( (u_spell_level('vita_slow_bleeding') * 154) + 1590) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     }
         ]
@@ -91,12 +91,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 21) + 354) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 298) + 1550) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -124,12 +124,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_health_power') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 21) + 354) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_health_power') * 360) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_health_power') * 298) + 1550) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
