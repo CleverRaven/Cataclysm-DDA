@@ -395,9 +395,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vitrified_succession",
-    "recurrence": "1 seconds",
-    "condition": { "and": [ { "not": { "u_has_effect": "VITRIFYING" } }, { "math": [ "u_vitri_glass_entered", "==", "2" ] } ] },
-    "effect": [ { "math": [ "u_vitri_glass_entered", "=", "3" ] }, { "alter_timed_events": "vitrified_farm_escape_key" } ]
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "global": true,
+    "effect": { "alter_timed_events": "vitrified_farm_escape_key" }
   },
   {
     "id": "morale_vitri_placid",
