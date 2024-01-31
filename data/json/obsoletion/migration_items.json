@@ -608,5 +608,5 @@
     "type": "MIGRATION",
     "replace": "ballistic_vest_esapi",
     "contents": [ { "id": "iotv_groin_plate", "count": 1 }  ]
-  },
+  }
 ]
