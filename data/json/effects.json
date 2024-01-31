@@ -340,7 +340,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing", "grabbing_2" ],
+    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -3505,6 +3505,17 @@
   {
     "type": "effect_type",
     "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_3",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
     "max_intensity": 1,
