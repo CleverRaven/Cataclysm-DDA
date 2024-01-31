@@ -794,7 +794,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Apply contact lenses",
-        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "description": "You can use this to mitigate your the bright light discomfort.",
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
@@ -811,7 +811,7 @@
     "id": "plano_transition_contacts_daily",
     "type": "GENERIC",
     "copy-from": "myopia_transition_contacts_weekly",
-    "name": { "str_sp": "bifocal transition contact lenses (daily)" },
+    "name": { "str_sp": "plano transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>16 hours</color> of use.",
     "symbol": "[",
     "color": "cyan",
@@ -819,11 +819,14 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Apply contact lenses",
-        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "description": "You can use this to mitigate the bright light discomfort.",
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts", "time": "57600" } }
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
+            }
           }
         ]
       }
