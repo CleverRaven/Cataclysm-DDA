@@ -1172,6 +1172,42 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: Self<br />
 *Duration*: Indefinite<br />
 *Stamina Cost*: 7000, minus 135 per level to a minimum of 4500<br />
-*Channeling Time*: 1 minutes<br />
+*Channeling Time*: 1 minute<br />
 *Effects*: Purge irradiated tissue. The duration depends on the exact amount of mSv the psion is suffering from. 500 or more means the power takes 4 hours and 10 minutes, between 499 and 250 takes 2 hours and 5 minutes, bewteen 249 to 125 takes 1 hour and 5 minutes, between 124 and 60 takes 30 minutes, between 59 and 30 takes 15 minutes, and 29 or less takes 7 minutes. During that time, the psion loses 1 mSv of radiation per minute. The psion also suffers increasingly serious side effects for the power duration, including -1 Srength and Dexterity and -0.7 Perception per tier above 29 mSv and incresing chances to vomit, suffer pain, or take Health score penalties.<br />
 *Prerequisites*: Special<br />
+
+## Blood Purge
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8500, minus 145 per level to a minimum of 4500<br />
+*Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 100<br />
+*Effects*: Clean the psion's blood of all foreign substances or chemicals. Applies the cureall effect, the same as from Panacea, and also remove all mutagen as well.<br />
+*Prerequisites*: Revitalizing Meditation 6, Allay Infection 8 *or* Detoxification 8<br />
+
+## Banish Illness
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 10000<br />
+*Channeling Time*: 5 seconds<br />
+*Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
+*Prerequisites*: Allay Infection 12, Damage Balancing 8<br />
+
+## Anabolic Rejuvenation
+*Difficulty*: 9<br />
+*Target*: Self<br />
+*Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
+*Stamina Cost*: 10000, minus 150 per level to a minimum of 6500<br />
+*Channeling Time*: 10 seconds<br />
+*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
+*Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
+
+## Accelerated Resuscitation
+*Difficulty*: 10<br />
+*Target*: Self<br />
+*Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />
+*Stamina Cost*: 9000, minus 125 per level to a minimum of 6000<br />
+*Channeling Time*: 30 seconds<br />
+*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 5 hit points will be healed to 5 hit points, their gain the effects of Damage Balancing, and a much faster Anabolic Rejuvenation is placed on them, ticking once every 2 seconds for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 5x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
+*Prerequisites*: Anabolic Rejuvenation 6 *or* Banish Illness 8 *and* Revitalizing Meditation 6<br />
