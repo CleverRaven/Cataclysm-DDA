@@ -135,5 +135,144 @@
       { "trait": "LARGE_OK_DRAGON", "prob": 50 },
       { "trait": "DRAGON_BREATH_BLACK", "prob": 50 }
     ]
+  },
+  {
+    "type": "trait_group",
+    "id": "NPC_starting_traits",
+    "//": "50% chance of an NPC to be an elf, dwarf, lizardfolk, etc.  It's a magical world.",
+    "subtype": "collection",
+    "traits": [ { "group": "trait_group_fantasy_species", "prob": 50 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_fantasy_species",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "trait_group_elf_npc", "prob": 2 },
+      { "group": "trait_group_dwarf_npc", "prob": 3 },
+      { "group": "trait_group_goblin_npc", "prob": 4 },
+      { "group": "trait_group_lizardfolk_npc", "prob": 1 },
+      { "group": "trait_group_ravenfolk_npc", "prob": 3 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_elf_npc",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_SPECIES_ELF" },
+      { "trait": "ANIMALEMPATH2" },
+      { "trait": "ELVEN_BUILD" },
+      { "trait": "ELFA_NV" },
+      { "trait": "ELVEN_BEAUTY" },
+      { "trait": "ELVEN_SLEEP" },
+      { "trait": "ELFA_EARS" },
+      { "trait": "ELVEN_HEARING" },
+      { "trait": "LIGHTSTEP" },
+      { "trait": "WILDWALKER" },
+      { "trait": "ANTIJUNK" },
+      { "trait": "WEAKSTOMACH" },
+      { "trait": "PALE" },
+      { "trait": "DISIMMUNE" },
+      { "trait": "PICKYEATER" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_dwarf_npc",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_SPECIES_DWARF" },
+      { "trait": "DARKSIGHT" },
+      { "trait": "NIGHTVISION2" },
+      { "trait": "DWARVEN_BUILD" },
+      { "trait": "PAINRESIST" },
+      { "trait": "INFRESIST" },
+      { "trait": "DISRESISTANT" },
+      { "trait": "BORN_ARTISAN" },
+      { "trait": "ALCMET" },
+      { "trait": "TOLERANCE" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "DENSE_BONES" },
+      { "trait": "TUNNEL_FIGHTER" },
+      { "trait": "TROGLO" },
+      { "trait": "HIRSUTE" },
+      { "trait": "GOURMAND" },
+      { "trait": "SMELLY" },
+      { "trait": "HEAVYSLEEPER2" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_goblin_npc",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_SPECIES_GOBLIN" },
+      { "trait": "DARKSIGHT" },
+      { "trait": "GOBLIN_BUILD" },
+      { "trait": "GOBLIN_TEETH" },
+      { "trait": "NIGHTVISION3" },
+      { "trait": "SAPROVORE" },
+      { "trait": "SNOUT" },
+      { "trait": "NAILS" },
+      { "trait": "THICKSKIN" },
+      { "trait": "PAINREC2" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "EATPOISON" },
+      { "trait": "TUNNEL_FIGHTER" },
+      { "trait": "NOCTURNAL" },
+      { "trait": "NOCTURNAL_DAY" },
+      { "trait": "TROGLO2" },
+      { "trait": "MOODSWINGS" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_lizardfolk_npc",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_SPECIES_LIZARDFOLK" },
+      { "trait": "LIZARDFOLK_BUILD" },
+      { "trait": "SCALES" },
+      { "trait": "MEMBRANE" },
+      { "trait": "COLDBLOOD4_LIZ" },
+      { "trait": "FORKED_TONGUE" },
+      { "trait": "HISS" },
+      { "trait": "GILLS" },
+      { "trait": "ANTIWHEAT" },
+      { "trait": "ANTIJUNK" },
+      { "trait": "TAIL_THICK" },
+      { "trait": "RESISTWARM" },
+      { "trait": "LIZ_EYE" },
+      { "trait": "REGEN_LIZ" },
+      { "trait": "MUZZLE_LONG" },
+      { "trait": "WEBBED_LIZ_FEET" },
+      { "trait": "TALONS" },
+      { "trait": "SLIT_NOSTRILS" },
+      { "trait": "PRED_LIZ" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_ravenfolk_npc",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_SPECIES_RAVENFOLK" },
+      { "trait": "RAVENFOLK_BUILD" },
+      { "trait": "WINGS_BIRD" },
+      { "trait": "DOWN" },
+      { "trait": "BEAK_RAVEN" },
+      { "trait": "RAVENFOLK_LEGS" },
+      { "trait": "PER_UP_3" },
+      { "trait": "FLEET" },
+      { "trait": "FEATHERS" },
+      { "trait": "GOODMEMORY" },
+      { "trait": "EAGLEEYED" },
+      { "trait": "TALONS" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "RAVEN_BONES" },
+      { "trait": "NOMAD" },
+      { "trait": "HOARDER" }
+    ]
   }
 ]
