@@ -772,7 +772,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
     "type": "talk_topic",
     "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
-    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate", "++" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate", "=", "1" ] } },
     "responses": [
       {
         "text": "Thank you.",
