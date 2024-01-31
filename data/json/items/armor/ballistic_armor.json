@@ -1318,7 +1318,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
-    "description": "Front and back nylon armor with soft armor inserts for shoulder protection.  Designed to be attached to US military body armor.",
+    "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
     "weight": "2000 g",
     "volume": "1200 ml",
     "price": 60000,
