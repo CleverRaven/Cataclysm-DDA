@@ -393,6 +393,13 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_vitrified_succession",
+    "recurrence": "1 seconds",
+    "condition": { "and": [ { "not": { "u_has_effect": "VITRIFYING" } }, { "math": [ "vitri_glass_entered", "==", "2" ] } ] },
+    "effect": [ { "math": [ "vitri_glass_entered", "=", "3" ] }, { "alter_timed_events": "vitrified_farm_escape_key" } ]
+  },
+  {
     "id": "morale_vitri_placid",
     "type": "morale_type",
     "text": "Content amidst the glass"
