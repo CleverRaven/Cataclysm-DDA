@@ -109,7 +109,7 @@
     "copy-from": "ammunition_can_30",
     "name": { "str": "200 .338 ammo can" },
     "//": "completely made up",
-    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>\n1305-01-618-1847 AB98\n200 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>",
+    "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-618-1847 AB98\n200 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>",
     "color": "light_gray",
     "symbol": "#"
   },
