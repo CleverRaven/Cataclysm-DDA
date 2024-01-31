@@ -1730,7 +1730,7 @@
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
-    "weight": "85g",
+    "weight": "85 g",
     "color": "pink",
     "spoils_in": "1 day",
     "comestible_type": "FOOD",
