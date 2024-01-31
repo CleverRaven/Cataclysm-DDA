@@ -557,7 +557,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, fov_3d ) ) {
+    if( !is_adjacent( &t, true ) ) {
         return false;
     }
 
