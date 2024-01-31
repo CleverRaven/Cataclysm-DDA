@@ -607,6 +607,6 @@
     "id": "ballistic_vest_heavy_legs",
     "type": "MIGRATION",
     "replace": "ballistic_vest_esapi",
-    "contents": [ { "id": "iotv_groin_plate", "count": 1 }  ]
+    "contents": [ { "id": "iotv_groin_plate", "count": 1 } ]
   }
 ]
