@@ -299,12 +299,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_cure_disease') * 4500) + 125000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_cure_disease') * 4800) + 114800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_cure_disease') * 12000) + 275000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_cure_disease') * 31100) + 283400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -317,8 +317,7 @@
       "math": [
         "u_effect_intensity('effect_vita_cure_disease') > -1 ? 10 : max((500 -(u_spell_level('vita_cure_disease') * 18)), 50)"
       ]
-    },
-    "learn_spells": { "vita_stop_infection": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
+    }
   },
   {
     "id": "vita_pain_split",
@@ -337,13 +336,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
+    "base_energy_cost": 6500,
     "final_energy_cost": 1750,
     "energy_increment": -175,
     "base_casting_time": 200,
     "final_casting_time": 75,
-    "casting_time_increment": -12,
-    "learn_spells": { "vita_healing_trance": 12, "vita_sleeping_trance": 14, "vita_blood_purge": 15 }
+    "casting_time_increment": -8
   },
   {
     "id": "vita_stop_infection",
@@ -368,8 +366,7 @@
     "energy_increment": -145,
     "base_casting_time": 350,
     "final_casting_time": 125,
-    "casting_time_increment": -14,
-    "learn_spells": { "vita_blood_purge": 5, "vita_banish_illness": 10, "vita_super_heal": 20 }
+    "casting_time_increment": -14
   },
   {
     "id": "vita_stop_infection_01",
@@ -440,24 +437,17 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "( (u_spell_level('vita_healing_trance') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_healing_trance') * -0.5) - 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('vita_healing_trance') * -2) - 12) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_healing_trance') * -2) - 8) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
-    "base_casting_time": 360000,
-    "learn_spells": {
-      "vita_sleeping_trance": 4,
-      "vita_banish_illness": 6,
-      "vita_blood_purge": 8,
-      "vita_super_heal": 15,
-      "vita_return_from_death": 18
-    }
+    "base_casting_time": 360000
   },
   {
     "id": "vita_attack_touch",
@@ -496,18 +486,17 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_attack_touch') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_attack_touch') * 150) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 1750,
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2350,
     "energy_increment": -115,
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "vita_purge_rads",
@@ -526,9 +515,9 @@
     "effect_str": "EOC_VITAKIN_RAD_PURGE",
     "shape": "blast",
     "energy_source": "STAMINA",
-    "base_energy_cost": 5000,
-    "final_energy_cost": 3500,
-    "energy_increment": -125,
+    "base_energy_cost": 7000,
+    "final_energy_cost": 4500,
+    "energy_increment": -135,
     "base_casting_time": 6000
   },
   {
