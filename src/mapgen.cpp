@@ -2426,7 +2426,7 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
-            std::string chosen_name = name;
+            std::string chosen_name = _( name );
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
                     chosen_name = SNIPPET.expand( "<female_given_name>" );
