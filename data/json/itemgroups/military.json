@@ -216,7 +216,6 @@
       { "group": "military_ballistic_vest_heavy", "prob": 5 }
     ]
   },
-
   {
     "id": "swat_ballistic_vest",
     "type": "item_group",
