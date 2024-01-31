@@ -107,17 +107,6 @@
         "moves": 800,
         "description": "Attachment for a groin protector.",
         "item_restriction": [ "iotv_groin_plate" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "1800 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Attachment for thigh protectors.",
-        "item_restriction": [ "iotv_thigh_plate" ]
       }
     ],
     "armor": [
