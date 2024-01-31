@@ -92,6 +92,7 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
+#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
@@ -143,6 +144,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "pickup.h"
@@ -3333,6 +3335,57 @@ bool game::save_player_data()
            ;
 }
 
+
+bool game::save_achievements()
+{
+    const std::string &achievement_dir = PATH_INFO::achievementdir();
+
+    //Check if achievement dir exists
+    if( !assure_dir_exist( achievement_dir ) ) {
+        dbg( D_ERROR ) << "game:save_achievements: Unable to make achievement directory.";
+        debugmsg( "Could not make '%s' directory", achievement_dir );
+        return false;
+    }
+
+    // This sets the maximum length for the filename
+    constexpr size_t suffix_len = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+
+    const size_t name_len = u.name.size();
+    // Here -1 leaves space for the ~
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+
+    std::ostringstream achievement_file_path;
+
+    achievement_file_path << achievement_dir;
+
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        // Use the default locale to replace non-printable characters with _ in the player name.
+        std::locale locale{ "C" };
+        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !std::isgraph( c, locale );
+        }, '_' );
+    } else {
+        achievement_file_path << u.name;
+    }
+
+    // Add a ~ if the player name was actually truncated.
+    achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+    const int character_id = get_player_character().getID().get_value();
+    const std::string json_path_string = achievement_file_path.str() + std::to_string(
+            character_id ) + ".json";
+
+    // Clear past achievements so that it will be reloaded
+    clear_past_achievements();
+
+    return write_to_file( json_path_string, [&]( std::ostream & fout ) {
+        get_achievements().write_json_achievements( fout );
+    }, _( "player achievements" ) );
+
+}
+
 event_bus &game::events()
 {
     return *event_bus_ptr;
@@ -3392,6 +3445,7 @@ bool game::save()
     events().send<event_type::game_save>( time_since_load, total_time_played );
     try {
         if( !save_player_data() ||
+            !save_achievements() ||
             !save_factions_missions_npcs() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||

@@ -746,7 +746,8 @@
     "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
     "category": [ "SPECIES_RAVENFOLK" ],
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
