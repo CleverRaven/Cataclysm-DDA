@@ -49,10 +49,28 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_arm_l", "bionic_basic_arm_r", "bionic_basic_hand_l", "bionic_basic_hand_r" ],
+	    	"specifically_covers": [
+	    	  "arm_shoulder_l",
+	    	  "arm_shoulder_r",
+	    	  "arm_upper_l",
+	    	  "arm_upper_r",
+	    	  "arm_elbow_l",
+	    	  "arm_elbow_r",
+	    	  "arm_lower_l",
+	    	  "arm_lower_r",
+	    	  "hand_wrist_l",
+    		  "hand_wrist_r",
+	    	  "hand_fingers_l",
+	    	  "hand_fingers_r",
+	    	  "hand_palm_l",
+	    	  "hand_palm_r",
+	    	  "hand_back_l",
+	    	  "hand_back_r"
+	    	],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -68,10 +86,20 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_arm_l", "bionic_basic_arm_l" ],
+		    "specifically_covers": [
+		      "arm_shoulder_l",
+		      "arm_upper_l",
+		      "arm_elbow_l",
+		      "arm_lower_l",
+		      "hand_wrist_l",
+	    	  "hand_fingers_l",
+	    	  "hand_palm_l",
+	    	  "hand_back_l"
+    		],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -86,10 +114,20 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_arm_r", "bionic_basic_arm_r" ],
+	    	"specifically_covers": [
+	    	  "arm_shoulder_r",
+		      "arm_upper_r",
+	    	  "arm_elbow_r",
+		      "arm_lower_r",
+	    	  "hand_wrist_r",
+		      "hand_fingers_r",
+		      "hand_palm_r",
+		      "hand_back_r"
+	    	],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -115,10 +153,30 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_leg_l", "bionic_basic_leg_r", "bionic_basic_foot_l", "bionic_basic_foot_r" ],
+	    	"specifically_covers": [
+		      "leg_hip_l",
+	  	    "leg_hip_r",
+    		  "leg_upper_l",
+	    	  "leg_upper_r",
+		      "leg_knee_l",
+	    	  "leg_knee_r",
+	    	  "leg_lower_l",
+		      "leg_lower_r",
+	    	  "foot_ankle_l",
+	    	  "foot_ankle_r",
+	    	  "foot_heel_l",
+	    	  "foot_heel_r",
+    		  "foot_sole_l",
+	    	  "foot_sole_r",
+	    	  "foot_toes_l",
+		      "foot_toes_r",
+		      "foot_arch_l",
+	    	  "foot_arch_r"
+    		],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -134,10 +192,21 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_leg_l", "bionic_basic_foot_l" ],
+	    	"specifically_covers": [
+		      "leg_hip_l",
+		      "leg_upper_l",
+	    	  "leg_knee_l",
+	    	  "leg_lower_l",
+		      "foot_ankle_l",
+		      "foot_heel_l",
+    		  "foot_sole_l",
+	    	  "foot_toes_l",
+	    	  "foot_arch_l"
+	    	],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -152,10 +221,21 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "bionic_basic_leg_r", "bionic_basic_foot_r" ],
+		    "specifically_covers": [
+	      	"leg_hip_r",
+		      "leg_upper_r",
+		      "leg_knee_r",
+		      "leg_lower_r",
+	    	  "foot_ankle_r",
+		      "foot_heel_r",
+		      "foot_sole_r",
+		      "foot_toes_r",
+		      "foot_arch_r"
+	    	],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
