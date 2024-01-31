@@ -21,5 +21,14 @@
     "type": "widget",
     "copy-from": "zenfs_carry_weight_bar",
     "width": 14
+  },
+  {
+    "id": "zenfs_carry_weight_num",
+    "type": "widget",
+    "label": "<color_dark_gray>Carry</color>",
+    "var": "carry_weight_text",
+    "style": "text",
+    "text_align": "right",
+    "width": 4
   }
 ]

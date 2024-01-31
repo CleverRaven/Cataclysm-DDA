@@ -264,21 +264,6 @@ TEST_CASE( "diamond_item", "[item][tname][diamond]" )
     CHECK( katana.tname() == "diamond katana" );
 }
 
-TEST_CASE( "engine_displacement_volume", "[item][tname][engine]" )
-{
-    item vtwin = item( "v2_combustion" );
-    item v12diesel = item( "v12_diesel" );
-    item turbine = item( "small_turbine_engine" );
-
-    REQUIRE( vtwin.engine_displacement() == 60 );
-    REQUIRE( v12diesel.engine_displacement() == 700 );
-    REQUIRE( turbine.engine_displacement() == 2700 );
-
-    CHECK( vtwin.tname() == "0.6L V2 engine" );
-    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
-    CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
-}
-
 TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )
 {
     item wheel17 = item( "wheel" );

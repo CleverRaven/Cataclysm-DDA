@@ -1033,7 +1033,7 @@
     "location": "structure",
     "damage_modifier": 80,
     "durability": 400,
-    "description": "A rather heavy brick of metal housing an ASRG, formerly designed by NASA and repurposed for terrestrial use.  Will provide about 130w, basically forever as far as you're concerned.  Even though the alpha radiation these run off of isn't very dangerous in case of a breach, this unit appears to be armored to take a beating and is a good deal heavier owing to its composite plating.",
+    "description": "A rather heavy brick of metal housing an ASRG, formerly designed by NASA and repurposed for terrestrial use.  Will provide about 130 W, basically forever as far as you're concerned.  Even though the alpha radiation these run off of isn't very dangerous in case of a breach, this unit appears to be armored to take a beating and is a good deal heavier owing to its composite plating.",
     "epower": "130 W",
     "item": "compact_ASRG_containment",
     "requirements": {

@@ -612,161 +612,17 @@
     "effect": [
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
-        "switch": { "global_val": "var", "var_name": "ps_str" },
-        "cases": [
-          {
-            "case": 1,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 110 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 90 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 3,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 70 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 4,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 60 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 5,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 45 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 6,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 30 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 8,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 10,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 15,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          }
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
+          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
+          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
         ]
       }
     ]
@@ -788,160 +644,17 @@
     "effect": [
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
-        "switch": { "global_val": "var", "var_name": "ps_str" },
-        "cases": [
-          {
-            "case": 1,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 120 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 90 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 3,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 70 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 4,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 60 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 5,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 45 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 6,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 30 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 8,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 10,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 15,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          }
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
+          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
+          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
         ]
       }
     ]
@@ -963,161 +676,17 @@
     "effect": [
       { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
-        "switch": { "global_val": "var", "var_name": "ps_str" },
-        "cases": [
-          {
-            "case": 1,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 120 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 90 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 3,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 70 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 4,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 60 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 5,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 45 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 6,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 30 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 8,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 25 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 10,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 20 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          },
-          {
-            "case": 15,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_PORTAL_NULL_AWAKENING", { "const": 10 } ],
-                [ "EOC_PORTAL_BIOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_CLAIR_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_ELECTRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PHOTOKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PYRO_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TELEKIN_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_TEEP_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_PORTER_AWAKENING", { "const": 1 } ],
-                [ "EOC_PORTAL_VITA_AWAKENING", { "const": 1 } ]
-              ]
-            }
-          }
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
+          [ "EOC_PORTAL_BIOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_CLAIR_AWAKENING", 1 ],
+          [ "EOC_PORTAL_ELECTRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PHOTOKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PYRO_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TELEKIN_AWAKENING", 1 ],
+          [ "EOC_PORTAL_TEEP_AWAKENING", 1 ],
+          [ "EOC_PORTAL_PORTER_AWAKENING", 1 ],
+          [ "EOC_PORTAL_VITA_AWAKENING", 1 ]
         ]
       }
     ]
@@ -1305,7 +874,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You look around for shelter, but you're out in the open.  You reach down toward the ground but the ground starts rising--bits of grass and rock and dirt lifting up and swirling around you.  The roar in your head grows louder as you slowly rise off the ground, the debris around you whirling faster and faster, until the your mind suddenly stills and you collapse back to the earth with a thump.  The pebbles around start to fall--but one catches your eye, and as you look at it, it stops and hovers in the air for a moment.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  You look around for shelter, but you're out in the open.  You reach down toward the ground but the ground starts rising--bits of grass and rock and dirt lifting up and swirling around you.  The roar in your head grows louder as you slowly rise off the ground, the debris around you whirling faster and faster, until your mind suddenly stills and you collapse back to the earth with a thump.  The pebbles around start to fall--but one catches your eye, and as you look at it, it stops and hovers in the air for a moment.",
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },

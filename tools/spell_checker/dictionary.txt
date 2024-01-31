@@ -191,6 +191,8 @@ ategory
 aterial
 athame
 athames
+atlatl
+atlatls
 atmmonoid
 atomically
 atompot
@@ -205,8 +207,6 @@ augmentations
 auk
 auroral
 ausgegangen
-atlatl
-atlatls
 autoclave
 autoclaving
 autohaul
@@ -314,6 +314,7 @@ biohacker
 biokinesis
 biokinetic
 biollante
+bioluminescent
 biomachine
 biomancer
 biomancers
@@ -478,6 +479,8 @@ carabiners
 carapace
 carapaces
 caret
+carroballista
+carroballistae
 carryin
 cartilaginous
 casehead
@@ -800,6 +803,7 @@ dewlap
 dextrous
 dharmachakra
 diaspora
+didn
 dieselpunk
 diffract
 diffracting
@@ -1340,6 +1344,7 @@ gymnocladus
 h
 hability
 hacksaws
+hadn
 hadrosaur
 hadrosaurus
 haematopoiesis
@@ -1799,8 +1804,8 @@ macuahuitl
 macuahuitls
 maculata
 magick
-magicks
 magickal
+magicks
 magicks
 magwells
 maiasaura
@@ -2320,6 +2325,7 @@ placidly
 planar
 planer
 planetside
+plano
 plantkin
 plantlike
 plastron
@@ -3080,9 +3086,9 @@ telepads
 temaki
 tenderloins
 tenontosaurus
-tequini
 tepoztopili
 tepoztopilis
+tequini
 teravolt
 terpenes
 terranean
@@ -3347,6 +3353,7 @@ varanid
 vars
 vatgrown
 vaulters
+ve
 veggy
 vegital
 veined
@@ -3423,6 +3430,7 @@ weatherworn
 weiler
 wek
 welcher
+weren
 wetsuits
 wetworks
 whap

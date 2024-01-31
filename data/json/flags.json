@@ -1603,6 +1603,11 @@
     "type": "json_flag"
   },
   {
+    "id": "MAGICAL",
+    "//": "Does not specifically cause magical effects, but used to know if an item can be considered magical by the code",
+    "type": "json_flag"
+  },
+  {
     "id": "NEEDS_UNFOLD",
     "//": "should not be used for folding mods, use a transforming mod instead",
     "type": "json_flag"

@@ -30,7 +30,7 @@
           ]
         }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -41,7 +41,7 @@
     "responses": [
       { "text": "Did you get there?", "topic": "BGSS_PREPPER_1_STORY3" },
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -51,7 +51,7 @@
     "dynamic_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
     "responses": [
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -127,7 +127,7 @@
         },
         "effect": { "u_add_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -382,10 +382,10 @@
     "type": "talk_topic",
     "dynamic_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
     "responses": [
-      { "text": "You're right, sorry.", "topic": "TALK_FRIEND" },
+      { "text": "You're right, sorry.", "topic": "TALK_FRIEND_CONVERSATION" },
       {
         "text": "I'm just doing what I have to do.  Stick with me and we'll find plenty of stuff to replace it.",
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       }
     ]
   },
@@ -393,13 +393,18 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE4",
     "type": "talk_topic",
     "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
-    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST",
     "type": "talk_topic",
     "dynamic_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
-    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_FRIEND" } ]
+    "responses": [
+      {
+        "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.",
+        "topic": "TALK_FRIEND_CONVERSATION"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",

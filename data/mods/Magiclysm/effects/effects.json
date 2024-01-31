@@ -137,10 +137,12 @@
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
     "int_add_val": 1,
+    "show_in_info": true,
     "apply_message": "Roots and vines entangle your foes to slow them!",
     "remove_message": "The roots and vines wither up and die.",
-    "base_mods": { "speed_mod": [ -60 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "base_mods": { "speed_mod": [ -20 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "flags": [ "EFFECT_IMPEDING" ]
   },
   {
     "type": "effect_type",
@@ -152,7 +154,7 @@
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "scaling_mods": { "speed_mod": [ -5 ] }
   },
   {
     "type": "effect_type",
@@ -222,7 +224,8 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
+    "max_duration": "2 minutes",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -788,6 +791,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_anti_heat",
+    "name": [ "Water's Cooling Touch" ],
+    "desc": [ "Your skin feels like you just splashed cool water on it." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": { "math": [ "(( u_spell_level('druid_anti_heat') * 2.5) + 10)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_kelvinist_anti_cold",
     "name": [ "Cloak of Warmth" ],
     "desc": [ "The air around you is warmer thanks to your magic." ],
@@ -820,6 +837,26 @@
         "values": [
           { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
           { "value": "ARMOR_HEAT", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_flames_of_passion",
+    "name": [ "Flames of Passion" ],
+    "desc": [ "You burn with the intensity of your conviction." ],
+    "apply_message": "",
+    "remove_message": "The world seems dreary as your spell fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "( u_spell_level('kelvinist_persuasion_spell') * 1.5) + 3" ] } },
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": { "math": [ "( u_spell_level('kelvinist_persuasion_spell') * 1.5) + 3" ] }
+          }
         ]
       }
     ]
@@ -1075,12 +1112,61 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_druid_anti_heat",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DISPEL_MAGIC_REMOVE_ITEMS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "//": "Removes all summon item or aura-type buffs with Difficulty 6 or less, no attunement powers, and no permanent effects.  Unfortunately, it's unable to distinguish between base spells and Improved spells with higher Difficulty.",
+    "condition": { "compare_string": [ "effect_dispel_magic", { "context_val": "effect" } ] },
+    "effect": [
+      { "u_remove_item_with": "decaying_boneclub" },
+      { "u_remove_item_with": "tentacle_whip" },
+      { "u_remove_item_with": "fleshpouch" },
+      { "u_remove_item_with": "aura_caustic" },
+      { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_remove_item_with": "druid_recurve" },
+      { "u_remove_item_with": "druid_naturearrows1" },
+      { "u_remove_item_with": "druid_quiver" },
+      { "u_remove_item_with": "druid_quiver_plus" },
+      { "u_remove_item_with": "aura_feral" },
+      { "u_remove_item_with": "aura_feral_plus" },
+      { "u_remove_item_with": "druid_bandages" },
+      { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "druid_bramble_spear_item" },
+      { "u_remove_item_with": "aura_druid_breathing_water" },
+      { "u_remove_item_with": "aura_druid_waterwalk" },
+      { "u_remove_item_with": "stonefist" },
+      { "u_remove_item_with": "aura_stoneskin" },
+      { "u_remove_item_with": "eshaper_hammer" },
+      { "u_remove_item_with": "eshaper_pickaxe" },
+      { "u_remove_item_with": "eshaper_ax" },
+      { "u_remove_item_with": "eshaper_knife" },
+      { "u_remove_item_with": "eshaper_shovel" },
+      { "u_remove_item_with": "finger_firelighter" },
+      { "u_remove_item_with": "ice_gliders" },
+      { "u_remove_item_with": "shield_ice" },
+      { "u_remove_item_with": "armor_frost" },
+      { "u_remove_item_with": "flamesword" },
+      { "u_remove_item_with": "jar_3l_force" },
+      { "u_remove_item_with": "impactsling" },
+      { "u_remove_item_with": "stormhammer" },
+      { "u_remove_item_with": "stormglove" },
+      { "u_remove_item_with": "electric_lighter" },
+      { "u_remove_item_with": "flask_ethereal_rebreather" },
+      { "u_remove_item_with": "armor_spirit" },
+      { "u_remove_item_with": "magic_lamp" },
+      { "u_remove_item_with": "technomancer_summoned_radio" },
+      { "u_remove_item_with": "technomancer_welder" }
     ]
   },
   {
@@ -1140,6 +1226,7 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_druid_anti_heat",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
@@ -1156,6 +1243,70 @@
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
       "effect_burning_trail"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DISJUNCTION_REMOVE_ITEMS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "//": "Removes all summon items regardless of source",
+    "condition": { "compare_string": [ "effect_disjunction", { "context_val": "effect" } ] },
+    "effect": [
+      { "u_remove_item_with": "decaying_boneclub" },
+      { "u_remove_item_with": "tentacle_whip" },
+      { "u_remove_item_with": "fleshpouch" },
+      { "u_remove_item_with": "aura_caustic" },
+      { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_remove_item_with": "druid_recurve" },
+      { "u_remove_item_with": "druid_naturearrows1" },
+      { "u_remove_item_with": "druid_quiver" },
+      { "u_remove_item_with": "druid_quiver_plus" },
+      { "u_remove_item_with": "aura_feral" },
+      { "u_remove_item_with": "aura_feral_plus" },
+      { "u_remove_item_with": "druid_bandages" },
+      { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "druid_bramble_spear_item" },
+      { "u_remove_item_with": "aura_druid_breathing_water" },
+      { "u_remove_item_with": "aura_druid_waterwalk" },
+      { "u_remove_item_with": "stonefist" },
+      { "u_remove_item_with": "aura_stoneskin" },
+      { "u_remove_item_with": "eshaper_hammer" },
+      { "u_remove_item_with": "eshaper_pickaxe" },
+      { "u_remove_item_with": "eshaper_ax" },
+      { "u_remove_item_with": "eshaper_knife" },
+      { "u_remove_item_with": "eshaper_shovel" },
+      { "u_remove_item_with": "finger_firelighter" },
+      { "u_remove_item_with": "ice_gliders" },
+      { "u_remove_item_with": "shield_ice" },
+      { "u_remove_item_with": "armor_frost" },
+      { "u_remove_item_with": "flamesword" },
+      { "u_remove_item_with": "jar_3l_force" },
+      { "u_remove_item_with": "impactsling" },
+      { "u_remove_item_with": "stormhammer" },
+      { "u_remove_item_with": "stormglove" },
+      { "u_remove_item_with": "electric_lighter" },
+      { "u_remove_item_with": "flask_ethereal_rebreather" },
+      { "u_remove_item_with": "armor_spirit" },
+      { "u_remove_item_with": "magic_lamp" },
+      { "u_remove_item_with": "technomancer_summoned_radio" },
+      { "u_remove_item_with": "technomancer_welder" },
+      { "u_remove_item_with": "druid_thorn_skin_item" },
+      { "u_remove_item_with": "bonespear" },
+      { "u_remove_item_with": "longsword_holy" },
+      { "u_remove_item_with": "technomancer_summoned_ups" },
+      { "u_remove_item_with": "alchemist_bomb" },
+      { "u_remove_item_with": "alchemist_mine" },
+      { "u_remove_item_with": "artificer_toolkit" },
+      { "u_remove_item_with": "demon_possession_aura" },
+      { "u_remove_item_with": "aura_auroral_guard" },
+      { "u_remove_item_with": "holy_shield" },
+      { "u_remove_item_with": "longsword_judgement" },
+      { "u_remove_item_with": "flarewhip" },
+      { "u_remove_item_with": "force_magical_armor" },
+      { "u_remove_item_with": "subzero_talons" },
+      { "u_remove_item_with": "aura_cold_energy" },
+      { "u_remove_item_with": "pocket_sun" }
     ]
   }
 ]

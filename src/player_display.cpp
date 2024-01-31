@@ -3,7 +3,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 #include <string>
 
@@ -26,9 +25,8 @@
 #include "enum_conversions.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "input_context.h"
 #include "itype.h"
-#include "localized_comparator.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -46,7 +44,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

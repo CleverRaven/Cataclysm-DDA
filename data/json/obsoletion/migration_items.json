@@ -10,6 +10,16 @@
     "replace": "bolt_cf"
   },
   {
+    "id": "contacts",
+    "type": "MIGRATION",
+    "replace": "bifocal_contacts_weekly"
+  },
+  {
+    "id": "transition_contacts",
+    "type": "MIGRATION",
+    "replace": "bifocal_transition_contacts_weekly"
+  },
+  {
     "id": "arrow_exploding",
     "type": "MIGRATION",
     "replace": "arrow_cf"

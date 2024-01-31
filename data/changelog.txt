@@ -90,6 +90,10 @@ Protein bars now give character a psychological trauma
 Adds sand to ocean beaches
 Toggle to highlight OMTs revealed by maps
 Adds extreme height chargen traits, adds tools for disabled drivers
+Allows dormant zombie types to be defined easily, with a simple new monster flag.
+Provide a way to create a EOC with given alpha and beta talker.
+[Mods] Non NE region mods have different day/night times dependant on their setting
+add a profession condition for EOCs
 Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now.
 Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
@@ -180,8 +184,7 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
-Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
-Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
+Add WIP Limb Stuff Mod
 
 
 ## Interface:
@@ -328,7 +331,7 @@ Paraclesian Map extras
 [Sky Island] Lots of updates
 [MoM] Change success formula for psionic powers
 [DinoMod] plesiosaurus
-[MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
+[MoM] Power learning revamp: Teleportation, Electrokinesis, Clairsentience and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
 
 
@@ -489,6 +492,8 @@ Prevent softlock when sleeping in cramped spaces
 Invalidate draw point cache if viewport size or position changes
 clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
+Autodrive over bridges
+Stable vehicle speeds with autotravel
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
 
@@ -556,8 +561,8 @@ Allow items to provide martial art techniques when not wielded
 Remove hardcoded mapgen for fields
 Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
+Items warn on exceeding max volume, unify max volume as a game constant
 Migrate names to snippets & add weighted snippets
-Add `_ib` variants of coord.
 
 
 ## Build:
@@ -571,6 +576,7 @@ add object creator to releases
 Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
+Added WebAssembly build via Emscripten
 
 
 ## I18N and A11Y:

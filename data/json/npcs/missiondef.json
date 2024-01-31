@@ -1007,7 +1007,12 @@
     "eoc_type": "EVENT",
     "required_event": "broken_bone",
     "//1": "Only run EOC if character is currently on succession cooldown!",
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] },
+    "condition": {
+      "and": [
+        { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
+        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+      ]
+    },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },

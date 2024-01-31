@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
-#include <iosfwd>
 #include <memory>
 #include <string>
 
@@ -10,7 +9,6 @@
 #include "units_fwd.h"
 
 class Character;
-class character_id;
 class JsonObject;
 class JsonOut;
 class item;

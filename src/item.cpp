@@ -1625,7 +1625,6 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     tname::segment_bitset bits;
     if( type == rhs.type ) {
         bits.set( tname::segments::TYPE );
-        bits.set( tname::segments::ENGINE_DISPLACEMENT );
         bits.set( tname::segments::WHEEL_DIAMETER );
         bits.set( tname::segments::WHITEBLACKLIST, _stacks_whiteblacklist( *this, rhs ) );
     }
@@ -3180,7 +3179,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->barrel_length().value() > 0 ) {
         if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
-            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: <info>%d %s</info>" ),
                                convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
                                iteminfo::no_flags );
         }
@@ -6234,11 +6233,6 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
         }
     }
     return result;
-}
-
-int item::engine_displacement() const
-{
-    return type->engine ? type->engine->displacement : 0;
 }
 
 const std::string &item::symbol() const

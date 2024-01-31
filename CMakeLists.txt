@@ -55,27 +55,19 @@ endif ()
 
 add_definitions(-DCMAKE)
 
-include(GetGitRevisionDescription)
-git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
+# Retrieve version from git into GIT_VERSION and creates VERSION.txt
+execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+    ERROR_VARIABLE GIT_VERSION
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
 if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
-    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
-    file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
-            "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
-
-    # get_git_head_revision() does not work with worktrees in Windows
-    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        OUTPUT_VARIABLE _sha1
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-    string(TIMESTAMP _timestamp %Y-%m-%d-%H%M)
-    file(WRITE VERSION.txt "\
-build type: ${BUILD_PRESET_NAME}\n\
-build number: ${_timestamp}\n\
-commit sha: ${_sha1}\n\
-commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
-    )
+else()
+    message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package
+    or use -DGIT_BINARY to set path to git binary.")
+    set(VERSION "NULL")
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST

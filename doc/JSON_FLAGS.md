@@ -1104,6 +1104,10 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```GROUP_BASH``` Gets help from monsters around it when bashing, adding their strength together.
 - ```GROUP_MORALE``` More courageous when near friends.
+- ```GUILT_ANIMAL``` Killing this monster(i.e. a hatchling or a kitten) causes guilt to the player and is counted for the kill thresholds of animals where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_CHILD``` Killing this monster(i.e. a zombie child or mutant child) causes guilt to the player and is counted for the kill thresholds of children where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_HUMAN``` Killing this monster(i.e. a panicked person or futile fighter) causes guilt to the player and is counted for the kill thresholds of non-NPC humans where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
+- ```GUILT_OTHERS``` Killing this monster(i.e. a blood sacrifice) causes guilt to the player and is counted for the kill thresholds of monsters that do not fit other categories where player experiences progressively less morale penalty. WARNING: Do not use without 'death_guilt' death function or together with other guilt flags.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HAS_MIND``` Is sapient and capable of reason (mi-go, triffids, cyborgs, etc.).  `HUMAN` assumes `HAS_MIND`.
 - ```HEARS``` It can hear you.
@@ -1474,21 +1478,13 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
 - ```CAN_GOO``` Release a little blob buddy.
-- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster.  The associated action is also used for releasing it.
-- ```CARVER_OFF``` Turn the carver on.
-- ```CARVER_ON``` Turn the carver off.
-- ```CHAINSAW_OFF``` Turn the chainsaw on.
-- ```CHAINSAW_ON``` Turn the chainsaw off.
-- ```COMBATSAW_OFF``` Turn the combat-saw on.
-- ```COMBATSAW_ON``` Turn the combat-saw off
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DIVE_TANK``` Use compressed air tank to breathe.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
-- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
 - ```EXTINGUISHER``` Put out fires.
 - ```FIRECRACKER_ACT``` The saddest Fourth of July.
 - ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.

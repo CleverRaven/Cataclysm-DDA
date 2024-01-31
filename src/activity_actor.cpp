@@ -1776,6 +1776,11 @@ void read_activity_actor::start( player_activity &act, Character &who )
     add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
                    to_string_writable( time_duration::from_moves( moves_total ) ) );
 
+    // starting the activity should cost a charge to boot up the ebook app
+    if( using_ereader ) {
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
+    }
+
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
@@ -1814,7 +1819,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             _( "<npcname> no longer has the e-book!" ) );
         who.cancel_activity();
         return;
-    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    }
+
+    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1822,6 +1829,17 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
+    }
+
+    if( using_ereader && calendar::once_every( 5_minutes ) ) {
+        /** Expected battery life while reading with common ereaders:
+                integrated_ar       - implant                                         = potentially infinite
+                ar_glasses_advanced - max 300 charges from disposable light battery   = 25 hours of reading
+                eink_tablet_pc      - max 300 charges from disposable light battery   = 25 hours of reading
+                laptop              - max 1200 charges from disposable medium battery = 100 hours of reading
+                smart_phone         - 120 UPS charges                                 = 10 hours of reading
+        */
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
     }
 }
 
@@ -3215,6 +3233,7 @@ void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    get_event_bus().send<event_type::character_attempt_to_fall_asleep>( who.getID() );
     who.set_movement_mode( move_mode_prone );
     who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }

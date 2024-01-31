@@ -1,11 +1,11 @@
 #include "past_games_info.h"
 
 #include <algorithm>
-#include <functional>
 #include <map>
-#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
+#include <unordered_set>
 #include <utility>
 
 #include "achievement.h"
@@ -13,7 +13,7 @@
 #include "debug.h"
 #include "event.h"
 #include "filesystem.h"
-#include "json.h"
+#include "input.h"
 #include "json_loader.h"
 #include "memorial_logger.h"
 #include "output.h"
@@ -92,6 +92,25 @@ const achievement_completion_info *past_games_info::achievement( const achieveme
     return ach_it == completed_achievements_.end() ? nullptr : &ach_it->second;
 }
 
+void past_games_info::write_json_achievements( std::ostream &achievement_file ) const
+{
+    JsonOut jsout( achievement_file, true, 2 );
+    jsout.start_object();
+    jsout.member( "achievement_version", 0 );
+
+    std::unordered_set<std::string> ach_id_strings;
+
+    for( achievement_id kv : ach_ids_ ) {
+        if( achievement( kv ) ) {
+            ach_id_strings.insert( kv.c_str() );
+        }
+    }
+
+    jsout.member( "achievements", ach_id_strings );
+
+    jsout.end_object();
+}
+
 void past_games_info::ensure_loaded()
 {
     if( loaded_ ) {
@@ -167,6 +186,7 @@ void past_games_info::ensure_loaded()
                 continue;
             }
             achievement_id ach = ach_it->second.get<achievement_id>();
+            ach_ids_.push_back( ach );
             completed_achievements_[ach].games_completed.push_back( &game );
         }
         inp_mngr.pump_events();
