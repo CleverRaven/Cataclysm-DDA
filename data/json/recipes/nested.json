@@ -2538,7 +2538,8 @@
       "quiver_large",
       "quiver_large_birchbark",
       "nylon_quiver",
-      "pipe_quiver"
+      "pipe_quiver",
+      "pipe_quiver_large"
     ],
     "difficulty": 3
   },
