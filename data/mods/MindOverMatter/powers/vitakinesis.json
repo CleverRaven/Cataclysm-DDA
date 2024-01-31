@@ -1,5 +1,73 @@
 [
   {
+    "id": "vita_health_power",
+    "type": "SPELL",
+    "name": "[Ψ]Healthy Glow (C)",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_HEALTH_POWER_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power') * 19800) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 75)), 2000)" ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_spell_level('vita_health_power') * 7.5)), 25)" ]
+    }
+  },
+  {
+    "id": "vita_slow_bleeding",
+    "type": "SPELL",
+    "name": "[Ψ]Coagulation (C)",
+    "description": "By increasing the efficiency of your platelets and speeding their movement, you can slow your rate of bleeding and even prevent it before it starts.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SLOW_BLEEDING_INITIATE",
+    "shape": "blast",
+      "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_slow_bleeding') * 1800) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_slow_bleeding') * 15400) + 159000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 950)" ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)" ]
+    }
+  },
+  {
     "id": "vita_stop_bleeding",
     "type": "SPELL",
     "name": "[Ψ]Staunch Wound",
@@ -26,14 +94,7 @@
     "energy_increment": -125,
     "base_casting_time": 50,
     "final_casting_time": 20,
-    "casting_time_increment": -3,
-    "learn_spells": {
-      "vita_pain_split": 7,
-      "vita_stop_infection": 9,
-      "vita_remove_poison": 11,
-      "vita_cure_disease": 15,
-      "vita_blood_purge": 18
-    }
+    "casting_time_increment": -3
   },
   {
     "id": "vita_stop_bleeding_01",
@@ -85,48 +146,6 @@
     "max_damage": 1,
     "min_duration": 200,
     "max_duration": 200
-  },
-  {
-    "id": "vita_health_power",
-    "type": "SPELL",
-    "name": "[Ψ]Healthy Glow (C)",
-    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "difficulty": 1,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_HEALTH_POWER_INITIATE",
-    "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('vita_health_power') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "energy_source": "STAMINA",
-    "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 75)), 2000)" ]
-    },
-    "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_spell_level('vita_health_power') * 7.5)), 25)" ]
-    },
-    "learn_spells": {
-      "vita_health_power_ally": 5,
-      "vita_remove_poison": 7,
-      "vita_sleeping_trance": 9,
-      "vita_cure_disease": 12,
-      "vita_healing_trance": 15,
-      "vita_banish_illness": 18
-    }
   },
   {
     "id": "vita_hurt_touch",
