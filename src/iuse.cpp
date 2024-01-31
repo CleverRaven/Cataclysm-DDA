@@ -232,6 +232,7 @@ static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
 static const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -301,8 +302,6 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
-static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
-static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -5184,35 +5183,6 @@ std::optional<int> iuse::radglove( Character *p, item *it, const tripoint & )
     return 1;
 }
 
-std::optional<int> iuse::contacts( Character *p, item *it, const tripoint & )
-{
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
-    const time_duration duration = rng( 6_days, 8_days );
-    if( p->has_effect( effect_contacts ) ) {
-        if( query_yn( _( "Replace your current lenses?" ) ) ) {
-            p->moves -= to_moves<int>( 20_seconds );
-            p->add_msg_if_player( _( "You replace your current %s." ), it->tname() );
-            p->remove_effect( effect_contacts );
-            p->add_effect( effect_contacts, duration );
-            return 1;
-        } else {
-            p->add_msg_if_player( _( "You don't do anything with your %s." ), it->tname() );
-            return std::nullopt;
-        }
-    } else if( p->has_flag( json_flag_HYPEROPIC ) || p->has_flag( json_flag_MYOPIC ) ||
-               p->has_flag( json_flag_MYOPIC_IN_LIGHT ) ) {
-        p->moves -= to_moves<int>( 20_seconds );
-        p->add_msg_if_player( _( "You put the %s in your eyes." ), it->tname() );
-        p->add_effect( effect_contacts, duration );
-        return 1;
-    } else {
-        p->add_msg_if_player( m_info, _( "Your vision is fine already." ) );
-        return std::nullopt;
-    }
-}
-
 std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint & )
 {
     if( !it->ammo_sufficient( p ) ) {
@@ -5426,7 +5396,8 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint & 
         }
 
         if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+            !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
             return std::nullopt;
@@ -5604,7 +5575,8 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
             return std::nullopt;
         }
         if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+            !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
             return std::nullopt;
@@ -7544,7 +7516,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
     }
 
     if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) ) {
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;
@@ -8605,7 +8577,8 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint
     }
 
     if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;
@@ -8730,7 +8703,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
     }
 
     if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;
@@ -8771,7 +8745,8 @@ std::optional<int> iuse::ebookread( Character *p, item *it, const tripoint & )
     }
 
     if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;

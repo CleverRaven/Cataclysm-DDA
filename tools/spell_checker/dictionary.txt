@@ -2324,6 +2324,7 @@ placidly
 planar
 planer
 planetside
+plano
 plantkin
 plantlike
 plastron

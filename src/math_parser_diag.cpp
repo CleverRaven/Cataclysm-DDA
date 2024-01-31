@@ -52,6 +52,8 @@ std::function<double( dialogue & )> myfunction_eval( char scope,
 - Never throw at run-time. Use a debugmsg() and recover gracefully
 */
 
+static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
+
 namespace
 {
 bool is_beta( char scope )
@@ -327,6 +329,20 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
 {
     return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
         return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> has_flag_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), fid = params[0] ]( dialogue const & d ) -> double {
+        talker const *actor = d.actor( beta );
+        json_character_flag jcf( fid.str( d ) );
+        if( jcf == json_flag_MUTATION_THRESHOLD )
+        {
+            return actor->crossed_threshold();
+        }
+        return actor->has_flag( jcf );
     };
 }
 
@@ -1258,6 +1274,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
+    { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
