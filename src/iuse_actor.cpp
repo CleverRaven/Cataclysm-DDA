@@ -5522,6 +5522,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
 
     item_location loc( *p->as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    write_var_value( var_type::context, "npctalk_var_id", nullptr, &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
