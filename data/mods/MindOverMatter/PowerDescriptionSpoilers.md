@@ -1112,3 +1112,66 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 75 moves, minus 5 moves per level to a minimum of 25<br />
 *Effects*: Cures any poison by sweating it out. A short time afer using the power, between 15 seconds (minute 1 second per power level to a minimum of 1) to 2 minutes (minus 2 seconds per power level to a minimum of 1), the psion will begin sweating and the poison will be removed. The psion gains the benefits of the Toxic Flesh trait for the power's duration.<br />
 *Prerequisites*: Healthy Glow 8, Staunch Wound 3 *or* Coagulation 7<br />
+
+## Immunostimulus (C) 
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 19 minutes and 8 seconds to 47 minutes and 14 seconds, plus 48 seconds to 5 minutes and 11 seconds per power level<br />
+*Stamina Cost*: 5500, minus 125 per level to a minimum of 2500<br />
+*Channeling Time*: 500 moves, minus 18 moves per level to a minimum of 50<br />
+*Effects*: Kick the psion's immune system into overdrive, helping overcome any diseases they are suffering from. Every 10 minutes (minus 5 seconds per power level) to 60 minutes (minus 30 seconds per power level) while the power is active, the psion has a chance equal to 10% plus the power level to cure one disease they're suffering from. It may take some time before the psion's immune system manages to overcome the disease. In addition, if the psion is suffering from hay fever, the power will make it much worse.<br />
+*Prerequisites*: Detoxification 5<br />
+
+## Wakeful Rest
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 1000<br />
+*Channeling Time*: Indefinite<br />
+*Effects*: Meditate in lieu of sleep. Using the power will begin the meditating, slowly lowering the psion's fatigue and sleep deprivation ratings. The rate of reduction increases per power level and with the psion's metaphysics skill, with the formula: 1 in (55 - ( Wakeful Rest power level * 2) - Metaphysics skill) ), 15 ) chance per second for fatigue, and 1 per second for sleep deprivation.  When fatigue hits zero, a prompt to cancel the meditation pops up.<br />
+*Prerequisites*: Healthy Glow 8, Immunostimulus 4<br />
+
+## Damage Balancing
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 6500, minus 175 per level to a minimum of 1750<br />
+*Channeling Time*: 200 moves, minus 8 moves per level to a minimum of 75<br />
+*Effects*: Evens out the damage on all the psion's limbs.  Mechnically, this adds up all their hit points, divides the result by 6, and replaces that hit point total on each limb with that number.<br />
+*Prerequisites*: Immunostimulus 5 *or* Detoxification 5, Healthy Glow 10 *or* Coagulation 8<br />
+
+## Allay Infection
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000, minus 145 per level to a minimum of 2250<br />
+*Channeling Time*: 350 moves, minus 14 moves per level to a minimum of 125<br />
+*Effects*: The psion encourages their immune system to focus entirely on their wounds for a brief period. From level 1 to 5, the power has "bite": 0.5, "disinfectant_power": 1, "infect": 0.4. From level 6 to 11, the power has "bite": 0.7, "disinfectant_power": 2, "infect": 0.6. At level 12 or above, the power has "bite": 0.9, "disinfectant_power": 3, "infect": 0.8.<br />
+*Prerequisites*: Immunostimulus 7<br />
+
+## Revitalizing Meditation
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8000<br />
+*Channeling Time*: 1 hour<br />
+*Effects*: Sink deep into meditation and increase the speed of healing hundreds of times. When the channeling time ends, the psion heals from 3 to 8 damage to every body part, plus 0.5 to 2 per power level.<br />
+*Prerequisites*: Damage Balancing 6, Allay Infection 5<br />
+
+## Lacerating Touch 
+*Difficulty*: 6<br />
+*Target*: One enemy within range 1<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6000, minus 115 per level to a minimum of 2350<br />
+*Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
+*Effects*: Directly cause cellular breakdown in the target, doing 12 to 35 biological damage plus 2 to 4 biological damage per power level, and causing 1 biological damage per second for 4 to 8 seconds plus 0.5 to 1.5 seconds per power level afterwards.<br />
+*Prerequisites*: Enervating Touch 7<br />
+
+## Radiation Decontamination
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 7000, minus 135 per level to a minimum of 4500<br />
+*Channeling Time*: 1 minutes<br />
+*Effects*: Purge irradiated tissue. The duration depends on the exact amount of mSv the psion is suffering from. 500 or more means the power takes 4 hours and 10 minutes, between 499 and 250 takes 2 hours and 5 minutes, bewteen 249 to 125 takes 1 hour and 5 minutes, between 124 and 60 takes 30 minutes, between 59 and 30 takes 15 minutes, and 29 or less takes 7 minutes. During that time, the psion loses 1 mSv of radiation per minute. The psion also suffers increasingly serious side effects for the power duration, including -1 Srength and Dexterity and -0.7 Perception per tier above 29 mSv and incresing chances to vomit, suffer pain, or take Health score penalties.<br />
+*Prerequisites*: Special<br />
