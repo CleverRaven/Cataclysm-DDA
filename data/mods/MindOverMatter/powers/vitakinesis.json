@@ -17,17 +17,17 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_health_power') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power') * 19800) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_health_power') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((3500 - (u_spell_level('vita_health_power') * 75)), 2000)" ]
+      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 75)), 1000)" ]
     },
     "base_casting_time": {
       "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_spell_level('vita_health_power') * 7.5)), 25)" ]
@@ -56,12 +56,12 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_slow_bleeding') * 15400) + 159000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_slow_bleeding') * 16300) + 117400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 950)" ]
+      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)" ]
     },
     "base_casting_time": {
       "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)" ]
@@ -89,7 +89,7 @@
     "min_duration": 1200,
     "max_duration": 1200,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
+    "base_energy_cost": 3000,
     "final_energy_cost": 750,
     "energy_increment": -125,
     "base_casting_time": 50,
@@ -170,23 +170,22 @@
     "min_range": 1,
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 100) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 100) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 750,
+    "base_energy_cost": 2000,
+    "final_energy_cost": 950,
     "energy_increment": -65,
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "vita_health_power_ally",
@@ -206,25 +205,24 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_range": 1,
-    "min_duration": {
+"min_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_health_power_ally') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_health_power_ally') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
+    "base_energy_cost": 4000,
     "final_energy_cost": 2000,
     "energy_increment": -75,
     "base_casting_time": 100,
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "vita_remove_poison",
@@ -245,22 +243,21 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_remove_poison') * 500) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_remove_poison') * 400) + 15600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_remove_poison') * 3000) + 40000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_remove_poison') * 3200) + 41800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
+    "final_energy_cost": 1750,
     "energy_increment": -115,
     "base_casting_time": 75,
     "final_casting_time": 25,
-    "casting_time_increment": -5,
-    "learn_spells": { "vita_stop_infection": 7, "vita_blood_purge": 12 }
+    "casting_time_increment": -5
   },
   {
     "id": "vita_sleeping_trance",
