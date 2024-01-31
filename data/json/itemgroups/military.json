@@ -138,14 +138,14 @@
   {
     "id": "kitted_heavy_vest",
     "type": "item_group",
-    "//": "ESAPI plates and protector for heavy vest and pouches",
+    "//": "ESAPI plates and protectors for heavy vest and pouches",
     "subtype": "collection",
     "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" }, { "group": "ballistic_protectors" } ]
   },
   {
     "id": "used_kitted_heavy_vest",
     "type": "item_group",
-    "//": "ESAPI plates and protector for heavy vest and pouches",
+    "//": "ESAPI plates and protectors for heavy vest and pouches",
     "subtype": "collection",
     "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_heavy_lbv" }, { "group": "ballistic_protectors", "damage": [ 0, 2 ] } ]
   },
