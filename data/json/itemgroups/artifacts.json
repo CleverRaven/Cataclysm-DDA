@@ -20,7 +20,7 @@
     "subtype": "distribution",
     "entries": [
       {
-        "group": "altered_item",
+        "group": "altered_item_with_detector",
         "artifact": {
           "procgen_id": "altered_object",
           "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }

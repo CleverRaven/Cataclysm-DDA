@@ -8553,6 +8553,72 @@ std::optional<int> iuse::magic_8_ball( Character *p, item *it, const tripoint & 
     return 0;
 }
 
+std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        popup( _( "The device doesn't have enough power to function!" ) );
+        return std::nullopt;
+    }
+    // Get a list of resonant artifacts to show the player.
+    std::vector<uilist_entry> uile;
+    std::vector<item_location> artifacts;
+    int i = 0;
+    for( const item_location &item_loc : p->all_items_loc() ) {
+        const item *tested_item = item_loc.get_item();
+        if( !tested_item->get_proc_enchantments().empty() ) {
+            // We've found an item with an enchantment. This doesn't guarantee it is an artifact! Prune the list to only items with resonance
+            bool is_resonant_artifact = false;
+            for( enchant_cache &maybe_artifact : tested_item->get_proc_enchantments() ) {
+                if( maybe_artifact.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE ) ) {
+                    // Found an artifact with resonance!
+                    is_resonant_artifact = true;
+                }
+            }
+            if( is_resonant_artifact ) {
+                // Return tname, should handle renamed artifacts?
+                uilist_entry entry( i, true, i + 49, item_loc.get_item()->tname() );
+                uile.emplace_back( entry );
+                artifacts.emplace_back( item_loc );
+                i++;
+            }
+        }
+    }
+
+    if( artifacts.empty() ) {
+        popup( _( "The device indicates none of the items on your person resonate with registered nether phenomena." ) );
+        // Explicitly no cost for passive detection
+        return std::nullopt;
+    }
+    int choice = 0;
+    choice = uilist( _( "The device found these items have resonant properties.\nChoose one to scan." ),
+                     uile );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= artifacts.size() ) {
+        // Player exited menu. No cost, return early.
+        return std::nullopt;
+    }
+
+    popup( _( "Calculating." ) );
+    popup( _( "Calculating…" ) );
+    int actual_resonance = 0;
+    // Add up the resonance of all the enchantments on the selected item to get the item's total resonance
+    for( enchant_cache &this_ench : artifacts.at( choice ).get_item()->get_proc_enchantments() ) {
+        actual_resonance += this_ench.get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    }
+    // Random 15% +- on the detection, no freebies here.
+    int resonance_offset_low = 0.85 * actual_resonance;
+    int resonance_offset_high = 1.15 * actual_resonance;
+    int detected_resonance = rng( resonance_offset_low, resonance_offset_high );
+    // Different messages for different resonance levels? Dangerous resonance levels are in suffer::from_artifact_resonance
+    popup( _( "Detected resonance approximately equal to %i units." ), detected_resonance );
+
+    p->consume_charges( *it, it->type->charges_to_use() );
+    p->mod_moves( -to_moves<int>( 2_minutes ) );
+
+
+    return 0;
+}
+
 std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint & )
 {
     // From item processing

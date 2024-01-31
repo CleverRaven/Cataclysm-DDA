@@ -532,6 +532,11 @@
   },
   {
     "type": "item_action",
+    "id": "MEASURE_RESONANCE",
+    "name": { "str": "Measure artifact resonance" }
+  },
+  {
+    "type": "item_action",
     "id": "PLAY_GAME",
     "name": { "str": "Play" }
   },

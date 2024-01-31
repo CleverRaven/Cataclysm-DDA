@@ -17,5 +17,11 @@
       [ "altered_necklace", 10 ],
       [ "altered_apron", 10 ]
     ]
+  },
+  {
+    "id": "altered_item_with_detector",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "altered_item", "prob": 100 }, { "item": "resonance_measurement_device", "prob": 25 } ]
   }
 ]
