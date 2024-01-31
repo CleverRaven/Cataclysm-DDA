@@ -536,14 +536,7 @@
     "material_thickness": 1.5,
     "pocket_data": [ { "ammo_restriction": { "arrow": 30, "bolt": 30 }, "moves": 30 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [
-      {
-        "encumbrance": 14,
-        "coverage": 30,
-        "covers": [ "torso" ],
-        "specifically_covers": [ "torso_hanging_back" ]
-      }
-    ],
+    "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
