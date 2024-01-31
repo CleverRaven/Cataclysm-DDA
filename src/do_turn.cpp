@@ -84,6 +84,9 @@ bool cleanup_at_end()
         // and the overmap, and the local map.
         g->save_maps(); //Omap also contains the npcs who need to be saved.
 
+        //save achievements entry
+        g->save_achievements();
+
         g->death_screen();
         std::chrono::seconds time_since_load =
             std::chrono::duration_cast<std::chrono::seconds>(
