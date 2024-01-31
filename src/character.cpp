@@ -573,6 +573,10 @@ Character::Character() :
     radiation = 0;
     slow_rad = 0;
     set_stim( 0 );
+    arms_power_use = 0;
+    legs_power_use = 0;
+    arms_stam_mult = 1.0f;
+    legs_stam_mult = 1.0f;
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
     set_anatomy( anatomy_human_anatomy );
@@ -2875,7 +2879,7 @@ void Character::mod_power_level( const units::energy &npower )
     if( npower < 0_kJ && !has_power() ) {
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !bp->no_power_effect.is_null() ) {
-                add_effect( bp->no_power_effect, 2_turns );
+                add_effect( bp->no_power_effect, 5_turns );
             }
         }
     }
@@ -6961,12 +6965,31 @@ void Character::set_stamina( int new_stamina )
     stamina = new_stamina;
 }
 
-void Character::burn_energy_arms( int mod )
+int Character::get_arms_power_use() const
 {
-    // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
-        return;
-    }
+	// millijoules
+    return arms_power_use;
+}
+
+int Character::get_legs_power_use() const
+{
+	// millijoules
+    return legs_power_use;
+}
+
+float Character::get_arms_stam_mult() const
+{
+    return arms_stam_mult;
+}
+
+float Character::get_legs_stam_mult() const
+{
+    return legs_stam_mult;
+}
+
+void Character::recalc_limb_energy_usage()
+{
+	// calculate energy usage of arms
     float total_limb_count = 0.0f;
     float bionic_limb_count = 0.0f;
     float bionic_powercost = 0;
@@ -6974,120 +6997,73 @@ void Character::burn_energy_arms( int mod )
     for( const bodypart_id &bp : get_all_body_parts_of_type( arm_type ) ) {
         total_limb_count++;
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-            bionic_powercost += mod * bp->power_efficiency;
+            bionic_powercost += bp->power_efficiency;
             bionic_limb_count++;
         }
     }
+	if( bionic_limb_count > 0 ) {
+		arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
+		arms_power_use = bionic_powercost;
+	} else {
+		arms_stam_mult = 1.0f;
+		bionic_powercost = 0;
+	}
     //sanity check ourselves in debug
-    if( total_limb_count == 0 ) {
-        debugmsg( "Tried to burn_energy_arms, but didn't have any arms" );
-        return;
-    }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %.1f, Bionic limbs: %.1f",
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total arms in use: %.1f, Bionic arms: %.1f",
                    total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "initial mod requested: %d", -mod );
-    // if we have at least one bionic limb, burn bionic power
-    if( bionic_limb_count > 0.0f ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                       bionic_powercost );
-        mod_power_level( units::from_millijoule( bionic_powercost ) );
-    }
-    // if we have at least 1 organic limb, burn stamina
-    if( bionic_limb_count < total_limb_count ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %.1f",
-                       mod - mod * ( bionic_limb_count / total_limb_count ) );
-        mod_stamina( mod - mod * ( bionic_limb_count / total_limb_count ) );
-    }
-}
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "bionic power per arms stamina: %d", arms_power_use );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "arms stam usage mult by %.1f", arms_stam_mult );
 
-void Character::burn_energy_legs( int mod )
-{
-    // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
-        return;
-    }
-    float total_limb_count = 0.0f;
-    float bionic_limb_count = 0.0f;
-    int bionic_powercost = 0;
+	// calculate energy usage of legs
+    total_limb_count = 0.0f;
+    bionic_limb_count = 0.0f;
+    bionic_powercost = 0;
     body_part_type::type leg_type = body_part_type::type::leg;
     for( const bodypart_id &bp : get_all_body_parts_of_type( leg_type ) ) {
         total_limb_count++;
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-            bionic_powercost += mod * bp->power_efficiency;
+            bionic_powercost += bp->power_efficiency;
             bionic_limb_count++;
         }
     }
+	if( bionic_limb_count > 0 ) {
+		legs_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
+		legs_power_use = bionic_powercost;
+	} else {
+		legs_stam_mult = 1.0f;
+		bionic_powercost = 0;
+	}
     //sanity check ourselves in debug
-    if( total_limb_count == 0 ) {
-        debugmsg( "Tried to burn_energy_legs, but didn't have any legs" );
-        return;
-    }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %.1f, Bionic limbs: %.1f",
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total legs in use: %.1f, Bionic legs: %.1f",
                    total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "initial mod requested: %d", -mod );
-    // if we have at least one bionic limb, burn bionic power
-    if( bionic_limb_count > 0.0f ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                       bionic_powercost );
-        mod_power_level( units::from_millijoule( bionic_powercost ) );
-    }
-    // if we have at least 1 organic limb, burn stamina
-    if( bionic_limb_count < total_limb_count ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %.1f",
-                       mod - mod * ( bionic_limb_count / total_limb_count ) );
-        mod_stamina( mod - mod * ( bionic_limb_count / total_limb_count ) );
-    }
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "bionic power per legs stamina: %d", legs_power_use );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "legs stam usage mult by %.1f", legs_stam_mult );
+}
+
+void Character::burn_energy_arms( int mod )
+{
+	mod_stamina( -mod * get_arms_stam_mult() );
+	if( get_arms_power_use() > 0 ) {
+		mod_power_level( units::from_millijoule( -mod * get_arms_power_use() ) );
+	}
+}
+
+void Character::burn_energy_legs( int mod )
+{
+	mod_stamina( -mod * get_legs_stam_mult() );
+	if( get_legs_power_use() > 0 ) {
+		mod_power_level( units::from_millijoule( -mod * get_legs_power_use() ) );
+	}
 }
 
 void Character::burn_energy_all( int mod )
 {
-    // TODO: Make NPCs smart enough to use stamina
-    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
-        return;
-    }
-    float total_limb_count = 0.0f;
-    float bionic_limb_count = 0.0f;
-    int bionic_powercost = 0;
-    body_part_type::type limb_type = body_part_type::type::leg;
-    for( const bodypart_id &bp : get_all_body_parts_of_type( limb_type ) ) {
-        total_limb_count++;
-        if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-            bionic_powercost -= mod * bp->power_efficiency;
-            bionic_limb_count++;
-        }
-    }
-    limb_type = body_part_type::type::arm;
-    for( const bodypart_id &bp : get_all_body_parts_of_type( limb_type ) ) {
-        total_limb_count++;
-        if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-            bionic_powercost -= mod * bp->power_efficiency;
-            bionic_limb_count++;
-        }
-    }
-    //sanity check ourselves in debug
-    if( total_limb_count == 0 ) {
-        debugmsg( "Tried to burn_energy_all, but didn't have any limbs" );
-        return;
-    }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %.1f, Bionic limbs: %.1f",
-                   total_limb_count,
-                   bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "initial mod requested: %d", -mod );
-
-    // if we have at least one bionic limb, burn bionic power
-    if( bionic_limb_count > 0.0f ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                       bionic_powercost );
-        mod_power_level( units::from_millijoule( bionic_powercost ) );
-    }
-    // if we have at least 1 organic limb, burn stamina
-    if( bionic_limb_count < total_limb_count ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %.1f",
-                       mod - mod * ( bionic_limb_count / total_limb_count ) );
-        mod_stamina( mod - mod * ( bionic_limb_count / total_limb_count ) );
-    }
+	mod_stamina( -mod * ( get_arms_stam_mult() + get_legs_stam_mult() ) * 0.5f );
+	if( ( get_arms_power_use() + get_legs_power_use() ) > 0 ) {
+		mod_power_level( units::from_millijoule( -mod * ( get_arms_power_use() + get_legs_power_use() ) ) );
+	}
 }
 
 void Character::mod_stamina( int mod )
@@ -7901,6 +7877,8 @@ void Character::recalculate_bodyparts()
         }
     }
     tally_organic_size();
+	recalc_limb_energy_usage();
+
     add_msg_debug( debugmode::DF_ANATOMY_BP, "New healthy kcal %d",
                    get_healthy_kcal() );
     calc_encumbrance();
