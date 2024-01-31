@@ -151,17 +151,23 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 48) + 1148) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 311) + 2834) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
       },
-      { "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS", "time_in_future": [ "10 minutes", "60 minutes" ] }
+      {
+        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+        "time_in_future": [
+          { "math": [ "max( ( 600 - (u_spell_level('vita_cure_disease') * 5  ) ), 1)" ] },
+          { "math": [ "max( ( 3600 - (u_spell_level('vita_cure_disease') * 30) ), 1)" ] }
+        ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_CURE_DISEASE" } ]
   },
@@ -185,12 +191,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_cure_disease') * 45) + 1250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 48) + 1148) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_cure_disease') * 120) + 1750) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_cure_disease') * 311) + 2834) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
