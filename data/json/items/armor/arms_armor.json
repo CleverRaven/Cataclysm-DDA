@@ -1232,7 +1232,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  This one has been made with mild steel.",
+    "description": "A light armguard, 1.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "2500 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -1276,7 +1276,7 @@
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "description": "A light armguard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1305,7 +1305,7 @@
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  Made with high steel offering excellent protection.",
+    "description": "A light armguard, 1.25 mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1334,7 +1334,7 @@
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "description": "A light armguard, 1.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1363,7 +1363,7 @@
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered steel light arm guard" },
-    "description": "A light armguard, 1.25mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A light armguard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [
@@ -1391,7 +1391,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel arm guard" },
-    "description": "An armguard, 1.75mm at the thickest.  This one has been made with mild steel.",
+    "description": "An armguard, 1.75 mm at the thickest.  This one has been made with mild steel.",
     "weight": "3333 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -1435,7 +1435,7 @@
     "copy-from": "armor_lc_armguard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel arm guard" },
-    "description": "An armguard, 1.75mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "description": "An armguard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1464,7 +1464,7 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel arm guard" },
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "description": "An armguard, 1.75mm at the thickest.  Made with high steel offering excellent protection.",
+    "description": "An armguard, 1.75 mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1493,7 +1493,7 @@
     "copy-from": "armor_lc_armguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel arm guard" },
-    "description": "An armguard, 1.75mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "description": "An armguard, 1.75 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1522,7 +1522,7 @@
     "copy-from": "armor_lc_armguard",
     "name": { "str": "tempered arm guard" },
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "description": "An armguard, 1.75mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "An armguard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [
@@ -1550,7 +1550,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  This one has been made with mild steel.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "4166 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -1592,7 +1592,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "medium steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1620,7 +1620,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  Made with high steel offering excellent protection.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1648,7 +1648,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "hardened steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1676,7 +1676,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered steel heavy arm guard" },
-    "description": "A heavy armguard, 2.25mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [

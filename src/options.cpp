@@ -2872,19 +2872,15 @@ void options_manager::add_options_debug()
        );
 
     add_empty_line();
-    add_option_group( "debug", Group( "3dfov_opts", to_translation( "3D Field Of Vision Options" ),
-                                      to_translation( "Options regarding 3D field of vision." ) ),
-    [&]( const std::string & page_id ) {
-        add( "FOV_3D", page_id, to_translation( "Experimental 3D field of vision" ),
-             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level." ),
-             false
-           );
 
-        add( "FOV_3D_Z_RANGE", page_id, to_translation( "Vertical range of 3D field of vision" ),
-             to_translation( "How many levels up and down the experimental 3D field of vision reaches and is drawn on screen.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
-             0, OVERMAP_LAYERS, 4
-           );
-    } );
+    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
+         to_translation(
+             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
+             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
+             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
+             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
+         0, OVERMAP_LAYERS, 4
+       );
 
     add_empty_line();
 
@@ -2919,8 +2915,6 @@ void options_manager::add_options_debug()
              to_translation( "Maximum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
              0.0, 60.0, 0.0, 0.1
            );
-
-        get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
     } );
 }
 
@@ -4063,7 +4057,6 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );

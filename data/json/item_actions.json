@@ -342,11 +342,6 @@
   },
   {
     "type": "item_action",
-    "id": "CONTACTS",
-    "name": { "str": "Put in eyes" }
-  },
-  {
-    "type": "item_action",
     "id": "DATURA",
     "name": { "str": "Eat" }
   },
@@ -534,6 +529,11 @@
     "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": { "str": "Ask" }
+  },
+  {
+    "type": "item_action",
+    "id": "MEASURE_RESONANCE",
+    "name": { "str": "Measure artifact resonance" }
   },
   {
     "type": "item_action",
