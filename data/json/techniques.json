@@ -3587,7 +3587,8 @@
     "weighting": -5,
     "reach_ok": false,
     "attack_override": true,
-    "crit_ok": false,
+    "crit_ok": true,
+    "crit_tec_id": "VAMPIRE_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
@@ -3606,7 +3607,8 @@
         "chance": 100,
         "duration": 3000,
         "on_damage": true,
-        "message": "Saliva glistens across %s's wound!"
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
       }
     ],
     "flat_bonuses": [
@@ -3628,7 +3630,8 @@
     "weighting": -2,
     "reach_ok": false,
     "attack_override": true,
-    "crit_ok": false,
+    "crit_ok": true,
+    "crit_tec_id": "VAMPIRE_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "tech_effects": [
       {
@@ -3636,7 +3639,8 @@
         "chance": 100,
         "duration": 3000,
         "on_damage": true,
-        "message": "Saliva glistens across %s's wound!"
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
       }
     ],
     "condition": {
@@ -3670,7 +3674,8 @@
         "chance": 100,
         "duration": 6000,
         "on_damage": true,
-        "message": "Saliva glistens across %s's wound!"
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
       }
     ],
     "attack_vectors": [ "MOUTH" ],

@@ -47,8 +47,6 @@ static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK
 
 static const limb_score_id limb_score_block( "block" );
 
-static const matec_id tec_none( "tec_none" );
-
 static const skill_id skill_unarmed( "unarmed" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
@@ -221,6 +219,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "crit_tec_id", crit_tec_id, tec_none );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
@@ -823,6 +822,7 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
+    crit_tec_id = tec_none; // if not tec_none, use this tech instead when a crit procs
     defensive = false;
     side_switch = false; // moves the target behind user
     dummy = false;
