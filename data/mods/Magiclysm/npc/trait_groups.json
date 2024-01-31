@@ -144,7 +144,6 @@
     "traits": [ { "group": "trait_group_fantasy_species", "prob": 50 } ]
   },
   {
-    "//": "This group picks out one of the traits, leading to a 1% chance for an NPC to be a psion.",
     "type": "trait_group",
     "id": "trait_group_fantasy_species",
     "subtype": "distribution",
