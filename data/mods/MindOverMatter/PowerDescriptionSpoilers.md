@@ -1047,10 +1047,68 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Prerequisites*: Farstep 10, Extended Stride 10 <br />
 
 ## Breach 
-*Difficulty*: 7<br />
+*Difficulty*: 9<br />
 *Target*: A single target within 2 squares plus 1.3 squares per power level<br />
 *Duration*: Indefinitet<br />
 *Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
 *Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
 *Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
+
+# Vitakinesis
+
+**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 1% times the psion's highest-leveled vitakinetic power, faster healing equal to 10% plus 1% times the psion's highest-leveled vitakinetic power, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
+
+## Healthy Glow (C) 
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level<br />
+*Stamina Cost*: 2500, minus 75 per level to a minimum of 1000<br />
+*Channeling Time*: 100 moves, minus 7.5 moves per level to a minimum of 25<br />
+*Effects*: The psion improves their health. They are immune to the deleterious effects of vitamin deficiency and toxin buildup, heal twice as fast, and cannot suffer from an asthma attack while the power is in effect. In addition, their Health has a 7% chance of going up by 1 every 10 minutes.<br />
+*Prerequisites*: Starting power<br />
+
+## Coagulation (C) 
+*Difficulty*: 1<br />
+*Target*: Self<br />
+*Duration*: 4 minutes and 50 seconds to 19 minutes and 34 seconds, plus 18 seconds to 2 minutes and 43 seconds per power level<br />
+*Stamina Cost*: 2500, minus 95 per level to a minimum of 1250<br />
+*Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
+*Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active.<br />
+*Prerequisites*: Starting power<br />
+
+## Staunch Wound
+*Difficulty*: 2<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3000, minus 125 per level to a minimum of 750<br />
+*Channeling Time*: 50 moves, minus 3 moves per level to a minimum of 20<br />
+*Effects*: With an act of will, the psion closes their wounds. From level 1 to 5, the power has "bandages_power": 1 and "bleed": 7. From level 6 to 11, the power has "bandages_power": 2 and "bleed": 14. At level 12 or above, the power has "bandages_power": 3 and "bleed": 20.<br />
+*Prerequisites*: Coagulation 5<br />
+
+## Medicinal Touch 
+*Difficulty*: 3<br />
+*Target*: One ally within range 1<br />
+*Duration*: 5 minutes and 54 seconds to 25 minutes and 50 seconds, plus 21 seconds to 4 minutes and 58 seconds per power level<br />
+*Stamina Cost*: 4000, minus 75 per level to a minimum of 2000<br />
+*Channeling Time*: 100 moves, minus 7.5 moves per level to a minimum of 25<br />
+*Effects*: Apply the effects of Healthy Glow to a friend or ally. The target gains all the benefits of Healthy Glow for as long as the power lasts.<br />
+*Prerequisites*: Healthy Glow 6<br />
+
+## Enervating Touch 
+*Difficulty*: 3<br />
+*Target*: One enemy within range 1<br />
+*Duration*: 4 seconds to 30 seconds, plus 0.5 seconds to 1.5 seconds per power level<br />
+*Stamina Cost*: 2000, minus 65 per level to a minimum of 950<br />
+*Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
+*Effects*: Cause decay in the target's tissues causing 1 point of biological damage per second for the power's duration. As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
+*Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
+
+## Detoxification (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 2 minutes and 36 seconds to 6 minutes and 58 seconds, plus 4 seconds to 32 seconds per power level<br />
+*Stamina Cost*: 3500, minus 115 per level to a minimum of 1750<br />
+*Channeling Time*: 75 moves, minus 5 moves per level to a minimum of 25<br />
+*Effects*: Cures any poison by sweating it out. A short time afer using the power, between 15 seconds (minute 1 second per power level to a minimum of 1) to 2 minutes (minus 2 seconds per power level to a minimum of 1), the psion will begin sweating and the poison will be removed. The psion gains the benefits of the Toxic Flesh trait for the power's duration.<br />
+*Prerequisites*: Healthy Glow 8, Staunch Wound 3 *or* Coagulation 7<br />
