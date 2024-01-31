@@ -1236,7 +1236,7 @@
   {
     "type": "scenario",
     "id": "shattered_sky_start",
-    "name": "Challenge - Shattered sky",
+    "name": "Challenge - Shattered Sky",
     "points": -5,
     "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you.",
     "forced_traits": [ "SCHIZOPHRENIC" ],
