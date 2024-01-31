@@ -218,12 +218,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 29) + 146) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 110) + 372) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -254,12 +254,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_super_heal') * 30) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 29) + 146) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_super_heal') * 60) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_super_heal') * 110) + 372) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -282,12 +282,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 962) + 3978) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -325,12 +325,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('vita_return_from_death') * 900) + 3600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 962) + 3978) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('vita_return_from_death') * 2700) + 14400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
