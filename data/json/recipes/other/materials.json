@@ -118,7 +118,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_brass", 2 ] ] ]
+    "components": [ [ [ "5l_brass", 2 ], [ "1l_brass", 10 ], [ "scrap_brass", 300 ] ] ]
   },
   {
     "result": "5l_brass",
@@ -133,7 +133,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_brass", 5 ] ] ]
+    "components": [ [ [ "1l_brass", 5 ], [ "scrap_brass", 150 ] ] ]
   },
   {
     "result": "1l_brass",
@@ -163,7 +163,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_silver", 2 ] ] ]
+    "components": [ [ [ "5l_silver", 2 ], [ "1l_silver", 10 ], [ "silver_small", 20980 ] ] ]
   },
   {
     "result": "5l_silver",
@@ -178,7 +178,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_silver", 5 ] ] ]
+    "components": [ [ [ "1l_silver", 5 ], [ "silver_small", 10490 ] ] ]
   },
   {
     "result": "1l_silver",
@@ -208,7 +208,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_gold", 2 ] ] ]
+    "components": [ [ [ "5l_gold", 2 ], [ "1l_gold", 10 ], [ "gold_small", 38640 ] ] ]
   },
   {
     "result": "5l_gold",
@@ -223,7 +223,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_gold", 5 ] ] ]
+    "components": [ [ [ "1l_gold", 5 ], [ "gold_small", 19320 ] ] ]
   },
   {
     "result": "1l_gold",
@@ -253,7 +253,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_lead", 2 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 22690 ] ] ]
   },
   {
     "result": "5l_lead",
@@ -268,7 +268,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_lead", 5 ] ] ]
+    "components": [ [ [ "1l_lead", 5 ], [ "lead", 11345 ] ] ]
   },
   {
     "result": "1l_lead",
@@ -297,7 +297,7 @@
     "autolearn": false,
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "5l_bronze", 2 ] ] ],
+    "components": [ [ [ "5l_bronze", 2 ], [ "1l_bronze", 10 ], [ "scrap_bronze", 260 ] ] ],
     "book_learn": [ [ "alloy_book", 2 ], [ "bronze_book", 2 ], [ "bronze_mag", 3 ] ]
   },
   {
@@ -312,7 +312,7 @@
     "autolearn": false,
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "1l_bronze", 5 ] ] ],
+    "components": [ [ [ "1l_bronze", 5 ], [ "scrap_bronze", 130 ] ] ],
     "book_learn": [ [ "alloy_book", 2 ], [ "bronze_book", 2 ], [ "bronze_mag", 3 ] ]
   },
   {
@@ -376,7 +376,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_copper", 2 ] ] ]
+    "components": [ [ [ "5l_copper", 2 ], [ "1l_copper", 10 ], [ "scrap_copper", 360 ] ] ]
   },
   {
     "result": "5l_copper",
@@ -391,7 +391,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_copper", 5 ] ] ]
+    "components": [ [ [ "1l_copper", 5 ], [ "scrap_copper", 180 ] ] ]
   },
   {
     "result": "1l_copper",
@@ -523,7 +523,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_zinc", 2 ] ] ]
+    "components": [ [ [ "5l_zinc", 2 ], [ "1l_zinc", 10 ], [ "zinc_metal", 39780 ] ] ]
   },
   {
     "result": "5l_zinc",
@@ -538,7 +538,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_zinc", 5 ] ] ]
+    "components": [ [ [ "1l_zinc", 5 ], [ "zinc_metal", 19890 ] ] ]
   },
   {
     "result": "1l_zinc",
@@ -1268,7 +1268,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_aluminum", 2 ] ] ]
+    "components": [ [ [ "5l_aluminum", 2 ], [ "1l_aluminum", 10 ], [ "scrap_aluminum", 540 ] ] ]
   },
   {
     "result": "5l_aluminum",
@@ -1283,7 +1283,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_aluminum", 5 ] ] ]
+    "components": [ [ [ "1l_aluminum", 5 ], [ "scrap_aluminum", 270 ] ] ]
   },
   {
     "result": "1l_aluminum",
@@ -1314,7 +1314,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_tin", 2 ] ] ]
+    "components": [ [ [ "5l_tin", 2 ], [ "1l_tin", 10 ], [ "scrap_tin", 1380 ] ] ]
   },
   {
     "result": "5l_tin",
@@ -1329,7 +1329,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_tin", 5 ] ] ]
+    "components": [ [ [ "1l_tin", 5 ], [ "scrap_tin", 690 ] ] ]
   },
   {
     "result": "1l_tin",
