@@ -55,6 +55,8 @@
       [ "bag_zipper_gallon", 1 ],
       [ "bottle_glass", 10 ],
       [ "bottle_plastic_small", 130 ],
+      [ "scratched_dvd", 1 ],
+      [ "cracked_dvd", 1 ],
       [ "survnote", 1 ]
     ]
   },
@@ -163,6 +165,8 @@
       [ "syringe", 3 ],
       [ "spike", 3 ],
       [ "thermos", 3 ],
+      [ "scratched_dvd", 1 ],
+      [ "cracked_dvd" 1 ],
       [ "bag_body_bag", 1 ],
       { "group": "loose_chess_pieces", "prob": 1 }
     ]
@@ -245,6 +249,8 @@
       [ "balloon", 5 ],
       [ "box_medium_folded", 15 ],
       [ "thermos", 30 ],
+      [ "scratched_dvd", 1 ],
+      [ "cracked_dvd" 1 ],
       { "item": "inhaler", "prob": 8, "charges-min": 0, "charges-max": 10 },
       { "group": "tinware", "prob": 15 },
       { "group": "used_toy_box", "prob": 8 }
@@ -265,6 +271,8 @@
       [ "box_small", 20 ],
       [ "bubblewrap", 3 ],
       [ "survnote", 1 ],
+      [ "scratched_dvd", 1 ],
+      [ "cracked_dvd" 1 ],
       { "item": "lighter", "prob": 3, "charges-min": 0, "charges-max": 10 },
       [ "flyer", 3 ],
       { "group": "loose_chess_pieces", "prob": 1 }
