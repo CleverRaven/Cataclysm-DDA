@@ -315,10 +315,25 @@
       [ "slam", 10 ],
       [ "SMASH", 30 ]
     ],
-    "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "regenerates": 24,
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
     "zombify_into": "mon_troll_zombie",
-    "armor": { "cut": 16, "bullet": 13 }
+    "armor": { "cut": 16, "bullet": 13, "heat": -30, "acid": -30 }
+  },
+  {
+    "id": "mon_troll_stone",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "looks_like": "mon_troll",
+    "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
+    "extend": { "flags": [ "SUNDEATH" ] }
+  },
+  {
+    "id": "mon_troll_water",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "looks_like": "mon_troll",
+    "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_stirge",
