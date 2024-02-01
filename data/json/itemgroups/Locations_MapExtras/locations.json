@@ -417,6 +417,9 @@
       [ "microwave", 20 ],
       [ "multi_cooker", 1 ],
       [ "waffleiron", 25 ],
+      [ "dvd_scratched", 1 ],
+      [ "dvd_cracked", 1 ],
+      [ "portable_dvd_player", 3 ],  
       [ "radio", 15 ]
     ]
   },
@@ -687,6 +690,10 @@
       { "item": "food_processor", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
       { "item": "multi_cooker", "prob": 5 },
+      [ "dvd_scratched", 1 ],
+      [ "dvd_cracked", 1 ],
+      { "item": "portable_dvd_player", "prob": 3 },  
+      { "group": "alldvds", "prob": 1 ],
       { "item": "vac_sealer", "prob": 5 }
     ]
   },
@@ -722,6 +729,9 @@
       [ "plastic_chunk", 150 ],
       [ "plastic_plate", 50 ],
       [ "tumbler_plastic", 50 ],
+      [ "dvd_scratched", 10 ],
+      [ "dvd_cracked", 10 ],
+      { "group": "alldvds", "prob": 1 ],
       [ "plastic_bowl_kids", 25 ]
     ]
   },
