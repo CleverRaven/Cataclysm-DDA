@@ -385,10 +385,13 @@
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
-      { "id": "vita_stop_bleeding", "level": 2 },
-      { "id": "vita_health_power", "level": 5 },
-      { "id": "vita_hurt_touch", "level": 2 },
-      { "id": "vita_sleeping_trance", "level": 1 }
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_slow_bleeding", "level": 6 },
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_cure_disease", "level": 4 },
+      { "id": "vita_sleeping_trance", "level": 4 }
     ],
     "items": {
       "both": {
@@ -402,6 +405,7 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "holy_symbol" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" }
         ]
       },
