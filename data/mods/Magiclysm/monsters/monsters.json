@@ -233,7 +233,7 @@
         "cooldown": 3,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 80, "armor_multiplier": 0.8 } ]
       },
-      [ "SMASH", 10 ]
+      { "id": "smash", "throw_strength": 50 }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ],
     "armor": { "bash": 32, "cut": 30, "bullet": 24 }
