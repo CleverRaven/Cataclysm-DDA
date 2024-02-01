@@ -612,12 +612,12 @@ class Character : public Creature, public visitable
         int get_int_bonus() const;
 
         /** Cache variables to store stamina use info
-		*	these will be updated when the player's limb makeup changes
-		*	_power_use is how many joules to spend per stamina instead of stamina (default 0)
-		*	_stam_mult is how much to multiply the incoming stamina cost's stamina drain (default of 1)
-		*/
-        int arms_power_use; 	// millijoules
-        int legs_power_use;		// millijoules
+        *   these will be updated when the player's limb makeup changes
+        *   _power_use is how many joules to spend per stamina instead of stamina (default 0)
+        *   _stam_mult is how much to multiply the incoming stamina cost's stamina drain (default of 1)
+        */
+        int arms_power_use;     // millijoules
+        int legs_power_use;     // millijoules
         float arms_stam_mult;
         float legs_stam_mult;
         /** Getters for above stats */
