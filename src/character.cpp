@@ -7001,12 +7001,11 @@ void Character::recalc_limb_energy_usage()
             bionic_limb_count++;
         }
     }
+    arms_power_use = bionic_powercost;
     if( bionic_limb_count > 0 ) {
         arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
-        arms_power_use = bionic_powercost;
     } else {
         arms_stam_mult = 1.0f;
-        bionic_powercost = 0;
     }
     //sanity check ourselves in debug
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total arms in use: %.1f, Bionic arms: %.1f",
@@ -7027,12 +7026,11 @@ void Character::recalc_limb_energy_usage()
             bionic_limb_count++;
         }
     }
+	legs_power_use = bionic_powercost;
 	if( bionic_limb_count > 0 ) {
 		legs_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
-		legs_power_use = bionic_powercost;
 	} else {
 		legs_stam_mult = 1.0f;
-		bionic_powercost = 0;
 	}
     //sanity check ourselves in debug
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total legs in use: %.1f, Bionic legs: %.1f",
