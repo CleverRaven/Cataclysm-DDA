@@ -492,13 +492,7 @@
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "effect": "contacts",
-                "time": "604800",
-                "item": "myopia_contacts_weekly"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
             }
           }
         ]
@@ -525,13 +519,7 @@
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "effect": "transition_contacts",
-                "time": "604800",
-                "item": "myopia_transition_contacts_weekly"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
             }
           }
         ]
@@ -556,13 +544,7 @@
             "id": "EOC_myopia_contacts_daily",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "effect": "contacts",
-                "time": "57600",
-                "item": "myopia_contacts_daily"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
             }
           }
         ]
@@ -587,13 +569,7 @@
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "effect": "transition_contacts",
-                "time": "57600",
-                "item": "myopia_transition_contacts_daily"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
             }
           }
         ]
@@ -616,10 +592,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800", "item": "hyperopia_contacts_weekly" }
-            }
+            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
           }
         ]
       }
@@ -643,12 +616,7 @@
             "id": "EOC_hyperopia_transition_contacts_weekly",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "604800",
-                "item": "hyperopia_transition_contacts_weekly"
-              }
+              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" }
             }
           }
         ]
@@ -671,10 +639,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600", "item": "hyperopia_contacts_daily" }
-            }
+            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
           }
         ]
       }
@@ -698,12 +663,7 @@
             "id": "EOC_hyperopia_transition_contacts_daily",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "57600",
-                "item": "hyperopia_transition_contacts_daily"
-              }
+              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" }
             }
           }
         ]
@@ -728,14 +688,7 @@
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "contacts",
-                "time": "604800",
-                "item": "bifocal_contacts_weekly"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
             }
           }
         ]
@@ -765,8 +718,7 @@
                 "flag2": "MYOPIC_IN_LIGHT",
                 "flag3": "HYPEROPIC",
                 "effect": "transition_contacts",
-                "time": "604800",
-                "item": "bifocal_transition_contacts_weekly"
+                "time": "604800"
               }
             }
           }
@@ -792,14 +744,7 @@
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "contacts",
-                "time": "57600",
-                "item": "bifocal_contacts_daily"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
             }
           }
         ]
@@ -829,8 +774,7 @@
                 "flag2": "MYOPIC_IN_LIGHT",
                 "flag3": "HYPEROPIC",
                 "effect": "transition_contacts",
-                "time": "57600",
-                "item": "bifocal_transition_contacts_daily"
+                "time": "57600"
               }
             }
           }
@@ -850,13 +794,13 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Apply contact lenses",
-        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "description": "You can use this to mitigate your the bright light discomfort.",
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800", "item": "plano_transition_contacts_weekly" }
+              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" }
             }
           }
         ]
@@ -867,7 +811,7 @@
     "id": "plano_transition_contacts_daily",
     "type": "GENERIC",
     "copy-from": "myopia_transition_contacts_weekly",
-    "name": { "str_sp": "bifocal transition contact lenses (daily)" },
+    "name": { "str_sp": "plano transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>16 hours</color> of use.",
     "symbol": "[",
     "color": "cyan",
@@ -875,13 +819,13 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Apply contact lenses",
-        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "description": "You can use this to mitigate the bright light discomfort.",
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
             "effect": {
               "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "plano": "1", "effect": "transition_contacts", "time": "57600", "item": "plano_transition_contacts_daily" }
+              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
             }
           }
         ]
