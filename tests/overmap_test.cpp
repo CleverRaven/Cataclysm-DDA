@@ -41,6 +41,33 @@ static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city
 static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
 static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
 static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
+static const oter_type_str_id oter_type_karting_0_0_0( "karting_0_0_0" );
+static const oter_type_str_id oter_type_karting_0_0_1( "karting_0_0_1" );
+static const oter_type_str_id oter_type_karting_0_0_2( "karting_0_0_2" );
+static const oter_type_str_id oter_type_karting_0_1_0( "karting_0_1_0" );
+static const oter_type_str_id oter_type_karting_0_1_1( "karting_0_1_1" );
+static const oter_type_str_id oter_type_karting_0_1_2( "karting_0_1_2" );
+static const oter_type_str_id oter_type_karting_0_2_0( "karting_0_2_0" );
+static const oter_type_str_id oter_type_karting_0_2_1( "karting_0_2_1" );
+static const oter_type_str_id oter_type_karting_0_2_2( "karting_0_2_2" );
+static const oter_type_str_id oter_type_karting_1_0_0( "karting_1_0_0" );
+static const oter_type_str_id oter_type_karting_1_0_1( "karting_1_0_1" );
+static const oter_type_str_id oter_type_karting_1_0_2( "karting_1_0_2" );
+static const oter_type_str_id oter_type_karting_1_1_0( "karting_1_1_0" );
+static const oter_type_str_id oter_type_karting_1_1_1( "karting_1_1_1" );
+static const oter_type_str_id oter_type_karting_1_1_2( "karting_1_1_2" );
+static const oter_type_str_id oter_type_karting_1_2_0( "karting_1_2_0" );
+static const oter_type_str_id oter_type_karting_1_2_1( "karting_1_2_1" );
+static const oter_type_str_id oter_type_karting_1_2_2( "karting_1_2_2" );
+static const oter_type_str_id oter_type_karting_2_0_0( "karting_2_0_0" );
+static const oter_type_str_id oter_type_karting_2_0_1( "karting_2_0_1" );
+static const oter_type_str_id oter_type_karting_2_0_2( "karting_2_0_2" );
+static const oter_type_str_id oter_type_karting_2_1_0( "karting_2_1_0" );
+static const oter_type_str_id oter_type_karting_2_1_1( "karting_2_1_1" );
+static const oter_type_str_id oter_type_karting_2_1_2( "karting_2_1_2" );
+static const oter_type_str_id oter_type_karting_2_2_0( "karting_2_2_0" );
+static const oter_type_str_id oter_type_karting_2_2_1( "karting_2_2_1" );
+static const oter_type_str_id oter_type_karting_2_2_2( "karting_2_2_2" );
 static const oter_type_str_id oter_type_ocean_bed( "ocean_bed" );
 static const oter_type_str_id oter_type_ocean_shore( "ocean_shore" );
 static const oter_type_str_id oter_type_ocean_surface( "ocean_surface" );
@@ -53,10 +80,6 @@ static const oter_type_str_id oter_type_rock_border( "rock_border" );
 static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
 static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
 static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
-static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
-static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
-static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
-static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
 static const oter_type_str_id oter_type_unvitrified_farm_0( "unvitrified_farm_0" );
 static const oter_type_str_id oter_type_unvitrified_farm_1( "unvitrified_farm_1" );
@@ -340,10 +363,33 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_b11.id(),
         oter_type_s_gas_b20.id(),
         oter_type_s_gas_b21.id(),
-        oter_type_s_gas_g0.id(),
-        oter_type_s_gas_g0_roof.id(),
-        oter_type_s_gas_g1.id(),
-        oter_type_s_gas_g1_roof.id(),
+        oter_type_karting_0_0_0.id(),
+        oter_type_karting_0_0_1.id(),
+        oter_type_karting_0_0_2.id(),
+        oter_type_karting_0_1_0.id(),
+        oter_type_karting_0_1_1.id(),
+        oter_type_karting_0_1_2.id(),
+        oter_type_karting_0_2_0.id(),
+        oter_type_karting_0_2_1.id(),
+        oter_type_karting_0_2_2.id(),
+        oter_type_karting_1_0_0.id(),
+        oter_type_karting_1_0_1.id(),
+        oter_type_karting_1_0_2.id(),
+        oter_type_karting_1_1_0.id(),
+        oter_type_karting_1_1_1.id(),
+        oter_type_karting_1_1_2.id(),
+        oter_type_karting_1_2_0.id(),
+        oter_type_karting_1_2_1.id(),
+        oter_type_karting_1_2_2.id(),
+        oter_type_karting_2_0_0.id(),
+        oter_type_karting_2_0_1.id(),
+        oter_type_karting_2_0_2.id(),
+        oter_type_karting_2_1_0.id(),
+        oter_type_karting_2_1_1.id(),
+        oter_type_karting_2_1_2.id(),
+        oter_type_karting_2_2_0.id(),
+        oter_type_karting_2_2_1.id(),
+        oter_type_karting_2_2_2.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
         oter_type_unvitrified_orchard.id(),
         oter_type_unvitrified_farm_0.id(),
