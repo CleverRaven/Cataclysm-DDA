@@ -49,7 +49,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_SLOW_BLEEDING_INITIATE",
     "shape": "blast",
-      "min_duration": {
+    "min_duration": {
       "math": [
         "( (u_spell_level('vita_slow_bleeding') * 1800) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
@@ -61,10 +61,14 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
-      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)" ]
+      "math": [
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)"
+      ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)" ]
+      "math": [
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)"
+      ]
     }
   },
   {
@@ -205,7 +209,7 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_range": 1,
-"min_duration": {
+    "min_duration": {
       "math": [
         "( (u_spell_level('vita_health_power_ally') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]

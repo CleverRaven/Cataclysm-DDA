@@ -381,7 +381,7 @@
     "id": "psi_vitakinetic_healer",
     "name": "Faith Healer",
     "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
-    "points": 4,
+    "points": 8,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
@@ -421,7 +421,7 @@
     "id": "guru",
     "copy-from": "guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
+    "extend": { "skills": [ { "level": 5, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",
