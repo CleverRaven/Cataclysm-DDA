@@ -25,7 +25,7 @@
       { "item": "usp_45", "prob": 30 },
       { "item": "sw_619", "prob": 30 },
       { "item": "sw_610", "prob": 30 },
-      { "item": "ruger_redhawk", "prob": 5 },
+      { "item": "sw629", "prob": 5 },
       { "item": "makarov", "prob": 5 },
       { "item": "m9", "prob": 50 }
     ]

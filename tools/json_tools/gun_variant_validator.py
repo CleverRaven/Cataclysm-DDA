@@ -95,7 +95,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "rm614_lmg",
     "rm88_battle_rifle",
     "bigun",
-    "ruger_redhawk",
     "sw629",
     "sw_500",
     "m2browning",

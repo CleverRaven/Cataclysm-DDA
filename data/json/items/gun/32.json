@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "SIG Sauer P230" },
+    "name": { "str_sp": "P230 pistol" },
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
     "weight": "460 g",
     "volume": "312 ml",

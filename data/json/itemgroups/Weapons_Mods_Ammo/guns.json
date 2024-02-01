@@ -172,11 +172,10 @@
       { "group": "nested_modular_deagle_50", "prob": 6 },
       { "group": "nested_m1911a1_38super", "prob": 20 },
       { "group": "nested_fn57", "prob": 60 },
-      { "group": "nested_ruger_redhawk", "prob": 25 },
       { "group": "nested_sig_40", "prob": 35 },
       { "group": "nested_sig_p230", "prob": 45 },
       { "group": "nested_sw_500", "prob": 15 },
-      { "group": "nested_sw629", "prob": 40 },
+      { "group": "nested_sw629", "prob": 65 },
       { "group": "nested_usp_45", "prob": 50 },
       { "group": "nested_usp_9mm", "prob": 60 },
       { "group": "nested_walther_p38", "prob": 15 },
@@ -217,11 +216,10 @@
       { "group": "modular_deagle_complete", "prob": 1 },
       { "item": "m1911a1_38super", "prob": 25 },
       { "item": "fn57", "prob": 15 },
-      { "item": "ruger_redhawk", "prob": 25 },
       { "item": "sig_40", "prob": 15 },
       { "item": "sig_p230", "prob": 15 },
       { "item": "sw_500", "prob": 15 },
-      { "item": "sw629", "prob": 15 },
+      { "item": "sw629", "prob": 40 },
       { "item": "usp_45", "prob": 15 },
       { "item": "usp_9mm", "prob": 35 },
       { "item": "walther_p38", "prob": 10 },
@@ -259,8 +257,7 @@
       { "group": "modular_deagle_44", "prob": 5 },
       { "group": "modular_deagle_50", "prob": 1 },
       { "group": "nested_deagle_with_kits", "prob": 1 },
-      { "item": "sw629", "prob": 15 },
-      { "item": "ruger_redhawk", "prob": 15 }
+      { "item": "sw629", "prob": 30 }
     ]
   },
   {
