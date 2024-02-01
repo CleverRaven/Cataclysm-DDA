@@ -1347,7 +1347,7 @@
     "id": "iotv_groin_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "ballistic groin protector",
+    "name": { "str": "ballistic groin protector", }
     "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to US military body armor.",
     "weight": "1500 g",
     "volume": "1000 ml",
@@ -1371,6 +1371,5 @@
         "volume_encumber_modifier": 0
       }
     ]
-  }
   }
 ]
