@@ -27,6 +27,8 @@ static const skill_id skill_throw( "throw" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_drive( "drive" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_spellcraft( "spellcraft" );
 
 static bool needs_damage_type( affected_stat as )
 {
@@ -70,7 +72,9 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
         std::make_pair( "archery", SKILL_ARCHERY ),
         std::make_pair( "throw", SKILL_THROW ),
         std::make_pair( "launcher", SKILL_LAUNCHER ),
-        std::make_pair( "drive", SKILL_DRIVE )
+        std::make_pair( "drive", SKILL_DRIVE ),
+        std::make_pair( "firstaid", SKILL_FIRSTAID ),
+        std::make_pair( "spellcraft", SKILL_SPELLCRAFT )
     }
 };
 
@@ -120,6 +124,24 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
         std::make_pair( STAT_DEX, translate_marker( "dexterity" ) ),
         std::make_pair( STAT_INT, translate_marker( "intelligence" ) ),
         std::make_pair( STAT_PER, translate_marker( "perception" ) ),
+        std::make_pair( SKILL_BASHING, translate_marker( "bashing" ) ),
+        std::make_pair( SKILL_CUTTING, translate_marker( "cutting" ) ),
+        std::make_pair( SKILL_DODGE, translate_marker( "dodging" ) ),
+        std::make_pair( SKILL_MELEE, translate_marker( "melee" ) ),
+        std::make_pair( SKILL_STABBING, translate_marker( "stabbing" ) ),
+        std::make_pair( SKILL_SWIMMING, translate_marker( "swimming" ) ),
+        std::make_pair( SKILL_UNARMED, translate_marker( "unarmed" ) ),
+        std::make_pair( SKILL_GUN, translate_marker( "marksmanship" ) ),
+        std::make_pair( SKILL_PISTOL, translate_marker( "pistols" ) ),
+        std::make_pair( SKILL_RIFLE, translate_marker( "rifles" ) ),
+        std::make_pair( SKILL_SHOTGUN, translate_marker( "shotguns" ) ),
+        std::make_pair( SKILL_SMG, translate_marker( "SMGs" ) ),
+        std::make_pair( SKILL_ARCHERY, translate_marker( "archery" ) ),
+        std::make_pair( SKILL_THROW, translate_marker( "throwing" ) ),
+        std::make_pair( SKILL_LAUNCHER, translate_marker( "launchers" ) ),
+        std::make_pair( SKILL_DRIVE, translate_marker( "driving" ) ),
+        std::make_pair( SKILL_FIRSTAID, translate_marker( "health care" ) ),
+        std::make_pair( SKILL_SPELLCRAFT, translate_marker( "spellcraft" ) ),
     }
 };
 
@@ -356,6 +378,9 @@ float effect_scaling::get( const Character &u ) const
             break;
         case SKILL_DRIVE:
             bonus = scale * u.get_skill_level( skill_drive );
+            break;
+        case SKILL_SPELLCRAFT:
+            bonus = scale * u.get_skill_level( skill_spellcraft );
             break;
         case STAT_NULL:
             bonus = scale;

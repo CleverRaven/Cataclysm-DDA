@@ -70,7 +70,7 @@
   "id": "tec_debug_arpen",    // Unique ID. Must be one continuous word
   "name": "phasing strike",   // In-game name displayed
   "attack_vectors": [ "WEAPON", "HAND" ] // What attack vector would be used for this technique; this field is order dependend, meaning in this example the game will try to use WEAPON first, and, if not possible, reject it and will use HAND instead; For more info see Attack vectors below
-  "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
+  "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD", "MOUTH" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
   "unarmed_allowed": true,    // Can an unarmed character use this technique
   "unarmed_weapons_allowed": true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.

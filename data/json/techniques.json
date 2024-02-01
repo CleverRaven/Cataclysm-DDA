@@ -3496,12 +3496,13 @@
     "id": "FANGS_BITE",
     "name": "Fang Bite",
     "melee_allowed": true,
-    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
     "weighting": -5,
     "reach_ok": false,
     "attack_override": true,
-    "crit_ok": false,
+    "crit_ok": true,
+    "crit_tec_id": "FANGS_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
@@ -3514,15 +3515,24 @@
         }
     ]
     },
-    "mult_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.08 }
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 18 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   },
   {
@@ -3530,27 +3540,37 @@
     "id": "FANGS_BITE_NATURAL",
     "name": "Fang Bite",
     "melee_allowed": true,
-    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
     "weighting": -2,
     "reach_ok": false,
     "attack_override": true,
-    "crit_ok": false,
+    "crit_ok": true,
+    "crit_tec_id": "FANGS_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
         { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
       ]
     },
-    "mult_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.08 }
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 18 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   },
   {
@@ -3558,23 +3578,32 @@
     "id": "FANGS_BITE_CRIT",
     "name": "Fang Bite (crit)",
     "melee_allowed": true,
-    "messages": [ "You deliver a wicked bite to %s!", "<npcname> delivers a wicked bite to %s!" ],
+    "messages": [ "You deliver a wicked bite to %s", "<npcname> delivers a wicked bite to %s!" ],
     "unarmed_allowed": true,
-    "weighting": -4,
     "reach_ok": false,
     "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
-    "mult_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.18 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.74 }
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 18 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 14 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 2.1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "bash", "scale": 0.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.66 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   },
   {
@@ -3582,7 +3611,7 @@
     "id": "VAMPIRE_BITE",
     "name": "Vampire Bite",
     "melee_allowed": true,
-    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
     "weighting": -5,
     "reach_ok": false,
@@ -3604,7 +3633,7 @@
     "tech_effects": [
       {
         "id": "anticoagulant_draculin",
-        "chance": 100,
+        "chance": 90,
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
@@ -3612,12 +3641,13 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 21 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   },
   {
@@ -3625,7 +3655,7 @@
     "id": "VAMPIRE_BITE_NATURAL",
     "name": "Vampire Bite",
     "melee_allowed": true,
-    "messages": [ "You bite %s!", "<npcname> bites %s!" ],
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
     "weighting": -2,
     "reach_ok": false,
@@ -3636,7 +3666,7 @@
     "tech_effects": [
       {
         "id": "anticoagulant_draculin",
-        "chance": 100,
+        "chance": 90,
         "duration": 3000,
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
@@ -3649,12 +3679,13 @@
       ]
     },
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 21 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 2.2 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   },
   {
@@ -3662,7 +3693,7 @@
     "id": "VAMPIRE_BITE_CRIT",
     "name": "Vampire Bite (crit)",
     "melee_allowed": true,
-    "messages": [ "You sink your fangs deep into %s!", "<npcname> sinks their fangs deep into %s!" ],
+    "messages": [ "You sink your fangs deep into %s", "<npcname> sinks their fangs deep into %s!" ],
     "unarmed_allowed": true,
     "weighting": -4,
     "reach_ok": false,
@@ -3680,15 +3711,15 @@
     ],
     "attack_vectors": [ "MOUTH" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 25 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.6 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.4 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 3.2 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.4 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "movecost", "scale": 50 }
+      { "stat": "damage", "type": "stab", "scale": 20 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "bash", "scale": 3.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "bash", "scale": 0.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.66 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   }
 ]

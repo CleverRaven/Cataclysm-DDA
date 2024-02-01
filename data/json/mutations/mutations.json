@@ -4125,6 +4125,7 @@
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
     "changes_to": [ "POISONOUS2" ],
+    "flags": [ "VENOM1" ],
     "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD", "CHIMERA", "BATRACHIAN" ]
   },
   {
@@ -7528,6 +7529,16 @@
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "vitamin_rates": [ [ "iron", 2400 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODLETTER",
+    "name": { "str": "Bloodletter" },
+    "points": 2,
+    "description": "Your saliva contains powerful anticoagulants.  If you have a bite attack, it will prolong the bleeding of most animals, including humans and the undead.  It may be less effective against insects and stranger creatures.",
+    "flags": [ "DRACULIN_VENOM" ],
+    "prereqs": [ "HEMOVORE", "BLOODFEEDER" ],
+    "category": [ "CHIROPTERAN" ]
   },
   {
     "type": "mutation",

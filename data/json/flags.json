@@ -2443,5 +2443,13 @@
     "id": "HEARING_PROTECTION",
     "type": "json_flag",
     "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
+  },
+  {
+    "id": "DRACULIN_VENOM",
+    "type": "json_flag"
+  },
+  {
+    "id": "VENOM1",
+    "type": "json_flag"
   }
 ]
