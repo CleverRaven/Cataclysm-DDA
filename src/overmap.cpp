@@ -4223,26 +4223,25 @@ void overmap::fill_city_boundaries()
     std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_new = city_boundaries;
     std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_to_check;
     std::vector<std::pair<int, int>> to_change;
+    std::function<bool(int x, int y)> check_neighbour;
+    std::function<bool(int x, int y)> check_all_neighbors;
 
     auto is_overmap_edge = []( int x, int y ) {
         return x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1;
     };
 
-    auto check_neighbour = [city_boundaries_to_check, is_overmap_edge]( int x, int y, auto & check_all_neighbors_ref ) {
-        return city_boundaries_to_check[x][y] && ( is_overmap_edge( x, y ) || check_all_neighbors_ref( x, y, check_all_neighbors_ref ) );
+    check_neighbour = [&city_boundaries_to_check, &is_overmap_edge, &check_neighbour, &check_all_neighbors]( int x, int y ) {
+        return city_boundaries_to_check[x][y] && ( is_overmap_edge( x, y ) || check_all_neighbors( x, y ) );
     };
 
-    auto check_all_neighbors = [city_boundaries_new, city_boundaries_to_check, to_change, is_overmap_edge, check_neighbour]( int x, int y ) {
-        auto check_all_neighbors_impl = [city_boundaries_new, city_boundaries_to_check, to_change, is_overmap_edge, check_neighbour]( int x, int y, auto & check_all_neighbors_ref ) mutable {
-            to_change.push_back( { x, y } );
-            city_boundaries_to_check[x].reset( y );
-            bool ret = check_neighbour( x - 1, y, check_all_neighbors_ref );
-            ret |= check_neighbour( x + 1, y, check_all_neighbors_ref );
-            ret |= check_neighbour( x, y - 1, check_all_neighbors_ref );
-            ret |= check_neighbour( x, y + 1, check_all_neighbors_ref );
-            return ret;
-        };
-        return check_all_neighbors_impl( x, y, check_all_neighbors_impl );
+    check_all_neighbors = [&city_boundaries_to_check, &to_change, &is_overmap_edge, &check_all_neighbors, &check_neighbour]( int x, int y ) {
+        to_change.push_back( { x, y } );
+        city_boundaries_to_check[x].reset( y );
+        bool ret = check_neighbour( x - 1, y );
+        ret |= check_neighbour( x + 1, y );
+        ret |= check_neighbour( x, y - 1 );
+        ret |= check_neighbour( x, y + 1 );
+        return ret;
     };
 
     for( int x = 0; x < OMAPX; x++ ) {
