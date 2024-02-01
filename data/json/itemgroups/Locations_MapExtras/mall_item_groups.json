@@ -25,6 +25,8 @@
       [ "splinter", 10 ],
       [ "cotton_patchwork", 15 ],
       { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
+      [ "dvd_scratched", "prob": 3 ],
+      [ "dvd_cracked", "prob": 3 ],
       [ "plastic_shopping_bag", 10 ]
     ]
   },
@@ -267,6 +269,7 @@
       { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
       [ "memory_card", 10 ],
+      [ "portable_dvd_player", 3 ],
       [ "fitness_band", 5 ]
     ]
   },
