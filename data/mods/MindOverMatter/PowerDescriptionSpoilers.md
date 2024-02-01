@@ -1165,7 +1165,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 6000, minus 115 per level to a minimum of 2350<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
 *Effects*: Directly cause cellular breakdown in the target, doing 12 to 35 biological damage plus 2 to 4 biological damage per power level, and causing 1 biological damage per second for 4 to 8 seconds plus 0.5 to 1.5 seconds per power level afterwards.<br />
-*Prerequisites*: Enervating Touch 7<br />
+*Prerequisites*: Enervating Touch 8<br />
 
 ## Radiation Decontamination
 *Difficulty*: 6<br />
@@ -1192,7 +1192,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000<br />
 *Channeling Time*: 5 seconds<br />
 *Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
-*Prerequisites*: Allay Infection 12, Damage Balancing 8<br />
+*Prerequisites*: Allay Infection 12, Damage Balancing 8 *or* Immunostimulus 12<br />
 
 ## Anabolic Rejuvenation
 *Difficulty*: 9<br />
