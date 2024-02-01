@@ -1829,7 +1829,7 @@
       }
     ]
   },
-    {
+  {
     "type": "effect_type",
     "id": "effect_vitakin_slow_bleeding",
     "//": "Hidden effect, used as a tracker",
