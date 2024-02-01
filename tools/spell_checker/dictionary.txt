@@ -1803,6 +1803,8 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+mage
+mages
 magick
 magickal
 magicks
@@ -2520,6 +2522,7 @@ rashy
 ratatosk
 ratlike
 rattigan
+ravenfolk
 rayed
 razorbar
 razorclaw
