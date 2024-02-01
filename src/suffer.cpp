@@ -567,8 +567,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 
     you.add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
-                               _( "<npcname> starts wheezing and coughing." ) );
-
+                               "<npcname> starts wheezing and coughing." );
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
         inventory map_inv;
