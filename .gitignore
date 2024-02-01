@@ -76,6 +76,7 @@ Directory.Build.targets
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
+CMakeFiles/git-data
 CMakeUserPresets.json
 out/
 
