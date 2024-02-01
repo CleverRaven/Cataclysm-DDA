@@ -315,8 +315,8 @@
       { "id": "slam", "cooldown": 10 },
       { "id": "smash", "throw_strength": 96 }
     ],
-    "regenerates": 24,
-    "regeneration_modifiers": [ [ "onfire", -24 ] ],
+    "regenerates": 12,
+    "regeneration_modifiers": [ [ "onfire", -12 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
     "zombify_into": "mon_troll_zombie",
     "armor": { "cut": 16, "bullet": 13, "heat": -30, "acid": -30 }
