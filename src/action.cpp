@@ -643,6 +643,9 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
+    if( p.z + movez < -OVERMAP_DEPTH || p.z + movez >= OVERMAP_HEIGHT ) {
+        return false;
+    }
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical

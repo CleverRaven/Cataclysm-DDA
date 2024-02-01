@@ -5415,26 +5415,23 @@ talk_effect_fun_t::func f_queue_eoc_with( const JsonObject &jo, std::string_view
 talk_effect_fun_t::func f_weighted_list_eocs( const JsonObject &jo,
         std::string_view member )
 {
-    std::vector<std::pair<effect_on_condition_id, std::function<double( dialogue & )>>> eoc_pairs;
+    std::vector<std::pair<effect_on_condition_id, dbl_or_var>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
+        dbl_or_var eoc_weight;
         if( ja.test_int() ) {
-            int weight = ja.next_int();
-            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc,
-            "" ), [weight]( dialogue const & ) {
-                return weight;
-            } );
+            eoc_weight.min = dbl_or_var_part{ ja.next_int() };
         } else {
-            JsonObject weight = ja.next_object();
-            eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                    conditional_t::get_get_dbl( weight ) );
+            eoc_weight.min = get_dbl_or_var_part( ja.next_value(), member );
         }
+        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                eoc_weight );
     }
     return [eoc_pairs]( dialogue & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( const std::pair<effect_on_condition_id, std::function<double( dialogue & )>> &eoc_pair :
+        for( const std::pair<effect_on_condition_id, dbl_or_var> &eoc_pair :
              eoc_pairs ) {
-            eocs.add( eoc_pair.first, eoc_pair.second( d ) );
+            eocs.add( eoc_pair.first, eoc_pair.second.evaluate( d ) );
         }
         effect_on_condition_id picked_eoc = *eocs.pick();
         dialogue newDialog( d );
@@ -5464,8 +5461,7 @@ talk_effect_fun_t::func f_if( const JsonObject &jo, std::string_view member )
 
 talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member )
 {
-    std::function<double( dialogue & /* d */ )> eoc_switch =
-        conditional_t::get_get_dbl( jo.get_object( member ) );
+    dbl_or_var eoc_switch = get_dbl_or_var( jo, member );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -5474,7 +5470,7 @@ talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member 
         case_pairs.emplace_back( get_dbl_or_var( array_case, "case" ), case_effect );
     }
     return [eoc_switch, case_pairs]( dialogue & d ) {
-        const double switch_int = eoc_switch( d );
+        const double switch_int = eoc_switch.evaluate( d );
         talk_effect_t case_effect;
         for( const std::pair<dbl_or_var, talk_effect_t> &case_pair :
              case_pairs ) {

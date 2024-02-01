@@ -456,7 +456,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_tough_fungal",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 24, "into": "mon_zombie_bruiser" },
     "flags": [
       "SEES",
       "HEARS",
@@ -492,7 +492,6 @@
     "description": "This muscular zombie is dressed in the tattered remnants of a security uniform.",
     "copy-from": "mon_zombie_tough",
     "looks_like": "mon_zombie_tough",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_bouncer_death_drops"
   },
   {

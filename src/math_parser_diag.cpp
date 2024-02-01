@@ -12,7 +12,6 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
-#include "math_parser_shim.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
@@ -52,6 +51,8 @@ std::function<double( dialogue & )> myfunction_eval( char scope,
 - Never throw at run-time. Use a debugmsg() and recover gracefully
 */
 
+static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
+
 namespace
 {
 bool is_beta( char scope )
@@ -88,27 +89,13 @@ T _read_from_string( std::string_view s, const std::vector<std::pair<std::string
 std::function<double( dialogue & )> u_val( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_get_dbl( shim );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const & ) {
-            return 0;
-        };
-    }
+    return conditional_t::get_get_dbl( params[0].str(), scope );
 }
 
 std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_set_dbl( shim, {}, {}, false );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const &, double ) {};
-    }
+    return conditional_t::get_set_dbl( params[0].str(), scope );
 }
 
 std::function<double( dialogue & )> option_eval( char /* scope */,
@@ -327,6 +314,20 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
 {
     return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
         return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> has_flag_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), fid = params[0] ]( dialogue const & d ) -> double {
+        talker const *actor = d.actor( beta );
+        json_character_flag jcf( fid.str( d ) );
+        if( jcf == json_flag_MUTATION_THRESHOLD )
+        {
+            return actor->crossed_threshold();
+        }
+        return actor->has_flag( jcf );
     };
 }
 
@@ -1258,6 +1259,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
+    { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
@@ -1285,7 +1287,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "time_since", { "g", 1, time_since_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
-    { "val", { "un", -1, u_val } },
+    { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
@@ -1308,7 +1310,7 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
-    { "val", { "un", -1, u_val_ass } },
+    { "val", { "un", 1, u_val_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };

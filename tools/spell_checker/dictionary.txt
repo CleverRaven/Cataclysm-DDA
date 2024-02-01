@@ -261,7 +261,7 @@ barghest
 barleycorn
 barony
 barosaurus
-barotrarumatic
+barotraumatic
 basecamp
 basecamps
 baselard
@@ -314,6 +314,7 @@ biohacker
 biokinesis
 biokinetic
 biollante
+bioluminescent
 biomachine
 biomancer
 biomancers
@@ -1802,6 +1803,8 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+mage
+mages
 magick
 magickal
 magicks
@@ -1863,6 +1866,7 @@ megacorporations
 megafauna
 megalith
 megastore
+melee
 membranous
 mendacium
 menorah
@@ -2324,6 +2328,7 @@ placidly
 planar
 planer
 planetside
+plano
 plantkin
 plantlike
 plastron
@@ -2518,6 +2523,7 @@ rashy
 ratatosk
 ratlike
 rattigan
+ravenfolk
 rayed
 razorbar
 razorclaw

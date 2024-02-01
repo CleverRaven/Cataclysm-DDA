@@ -244,22 +244,6 @@ class target_ui
         // List of visible hostile targets
         std::vector<Creature *> targets;
 
-        // 'true' if map has z levels and 3D fov is on
-        bool allow_zlevel_shift = false;
-        // Snap camera to cursor. Can be permanently toggled in settings
-        // or temporarily in this window
-        bool snap_to_target = false;
-        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
-        // responsible for moving cursor will shift view instead.
-        bool shifting_view = false;
-
-        // Compact layout
-        bool compact = false;
-        // Tiny layout - when extremely short on space
-        bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
-        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -295,6 +279,20 @@ class target_ui
         // If true, draws turret lines
         // relevant for TargetMode::Turrets
         bool draw_turret_lines = false;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target = false;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
+
+        // Compact layout
+        bool compact = false;
+        // Tiny layout - when extremely short on space
+        bool tiny = false;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow = false;
 
         // Create window and set up input context
         void init_window_and_input();
@@ -2464,7 +2462,6 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
-    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -2756,7 +2753,7 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
     ctxt.register_action( "TOGGLE_MOVE_CURSOR_VIEW" );
-    if( allow_zlevel_shift ) {
+    if( fov_3d_z_range > 0 ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
@@ -2864,7 +2861,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3223,7 +3220,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3777,7 +3774,7 @@ void target_ui::panel_cursor_info( int &text_y )
 
     std::vector<std::string> labels;
     labels.push_back( label_range );
-    if( allow_zlevel_shift ) {
+    if( fov_3d_z_range > 0 ) {
         labels.push_back( string_format( _( "Elevation: %d" ), dst.z - src.z ) );
     }
     labels.push_back( string_format( _( "Targets: %d" ), targets.size() ) );

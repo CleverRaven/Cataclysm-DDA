@@ -47,6 +47,8 @@ class anatomy
                                           bool nonstandard ) const;
         std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
                 bool can_attack_high ) const;
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Based on the value provided (which is between range_min and range_max),
         // select an appropriate body part to hit with a projectile attack
         bodypart_id select_body_part_projectile_attack( double range_min, double range_max,

@@ -92,6 +92,7 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
+#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
@@ -143,6 +144,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "pickup.h"
@@ -239,6 +241,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -3332,6 +3335,57 @@ bool game::save_player_data()
            ;
 }
 
+
+bool game::save_achievements()
+{
+    const std::string &achievement_dir = PATH_INFO::achievementdir();
+
+    //Check if achievement dir exists
+    if( !assure_dir_exist( achievement_dir ) ) {
+        dbg( D_ERROR ) << "game:save_achievements: Unable to make achievement directory.";
+        debugmsg( "Could not make '%s' directory", achievement_dir );
+        return false;
+    }
+
+    // This sets the maximum length for the filename
+    constexpr size_t suffix_len = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+
+    const size_t name_len = u.name.size();
+    // Here -1 leaves space for the ~
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+
+    std::ostringstream achievement_file_path;
+
+    achievement_file_path << achievement_dir;
+
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        // Use the default locale to replace non-printable characters with _ in the player name.
+        std::locale locale{ "C" };
+        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !std::isgraph( c, locale );
+        }, '_' );
+    } else {
+        achievement_file_path << u.name;
+    }
+
+    // Add a ~ if the player name was actually truncated.
+    achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+    const int character_id = get_player_character().getID().get_value();
+    const std::string json_path_string = achievement_file_path.str() + std::to_string(
+            character_id ) + ".json";
+
+    // Clear past achievements so that it will be reloaded
+    clear_past_achievements();
+
+    return write_to_file( json_path_string, [&]( std::ostream & fout ) {
+        get_achievements().write_json_achievements( fout );
+    }, _( "player achievements" ) );
+
+}
+
 event_bus &game::events()
 {
     return *event_bus_ptr;
@@ -3391,6 +3445,7 @@ bool game::save()
     events().send<event_type::game_save>( time_since_load, total_time_played );
     try {
         if( !save_player_data() ||
+            !save_achievements() ||
             !save_factions_missions_npcs() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
@@ -5005,7 +5060,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) &&
+        !u.has_effect( effect_contacts ) && !u.has_effect( effect_transition_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
@@ -7605,7 +7660,7 @@ look_around_result game::look_around(
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );
-    if( change_lv ) {
+    if( change_lv && fov_3d_z_range > 0 ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
@@ -7639,7 +7694,7 @@ look_around_result game::look_around(
 
     const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
-    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
+    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT - 1 );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = m.get_visibility_variables_cache();
@@ -7779,8 +7834,8 @@ look_around_result game::look_around(
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz - 1 );
-            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
+            lz = clamp( lz + dz, min_levz, max_levz );
+            center.z = clamp( center.z + dz, min_levz, max_levz );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
@@ -11910,8 +11965,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // TODO: Use u.posz() instead of m.abs_sub
     const int z_after = m.get_abs_sub().z() + movez;
-    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
+    if( z_after < -OVERMAP_DEPTH ) {
+        add_msg( m_info, _( "Halfway down, the way down becomes blocked off." ) );
+        return;
+    } else if( z_after >= OVERMAP_HEIGHT ) {
+        add_msg( m_info, _( "Halfway up, the way up becomes blocked off." ) );
         return;
     }
 
