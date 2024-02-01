@@ -282,8 +282,7 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 1000,
-    "base_casting_time": 100,
-    "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12, "vita_banish_illness": 15 }
+    "base_casting_time": 100
   },
   {
     "id": "vita_cure_disease",
