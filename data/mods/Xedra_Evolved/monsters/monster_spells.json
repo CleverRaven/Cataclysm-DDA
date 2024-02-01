@@ -114,7 +114,7 @@
     "id": "mon_shabriri_blind_spell",
     "type": "SPELL",
     "name": "Shabriri Blinding Spell",
-    "description": "This is a monster only spell.  My mother told me, Shabriri bariri riri ri, I thirst for water from a clay cup.",
+    "description": "This is a monster only spell.  My mother told me, Shabriri bariri riri iri ri, in my white cup.",
     "message": "",
     "teachable": false,
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
