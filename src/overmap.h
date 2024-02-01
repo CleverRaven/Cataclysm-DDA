@@ -338,7 +338,7 @@ class overmap
     private:
         // Any point that is part of or surrounded by a city
         std::array<std::bitset<OMAPY>, OMAPX> city_boundaries;
-        // Fill in any gaps surrounded by city
+        // Fill in any gaps in city_boundaries that don't connect to the map edge
         void fill_city_boundaries();
         bool ran_fill_city_boundaries = false;
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)

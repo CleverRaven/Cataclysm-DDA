@@ -3672,9 +3672,6 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
         place_cities();
     }
-    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
-        finalize_highways();
-    }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILS" ) ) {
         place_forest_trails();
     }
@@ -3695,6 +3692,9 @@ void overmap::generate( const overmap *north, const overmap *east,
     }
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+        finalize_highways();
     }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
         place_forest_trailheads();
@@ -4209,75 +4209,58 @@ bool overmap::is_in_city( const tripoint_om_omt &p )
 
 void overmap::fill_city_boundaries()
 {
-    if( ran_fill_city_boundaries ) {
-        // TODO: Remove this post testing (Not that this function should be merged as-is)
-        debugmsg( "Ran fill_city_boundaries more than once" );
-    }
-    // Cower at the sight of my abominable creation bc I couldn't find anything to cargo cult
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_horizontal_check;
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_vertical_check;
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_and_check;
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_last_check;
+    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_to_check;
 
-    for( int x = 0; x < OMAPX; x++ ) {
-        bool last_true = false;
-        int y_start = 0;
-        for( int y = 0; y < OMAPY; y++ ) {
-            if( city_boundaries[x][y] && !last_true ) {
-                if( y_start != 0 ) {
-                    for( int y_add = y_start; y_add < y; y_add++ ) {
-                        city_boundaries_vertical_check[x].set( y_add );
-                    }
-                }
-                last_true = true;
-            } else if( !city_boundaries[x][y] && last_true ) {
-                last_true = false;
-                y_start = y;
-            }
+    auto check_all_neighbors = [ city_boundaries, city_boundaries_to_check, to_change ]( int x, int y ) {
+        to_change.insert_back( { x, y } );
+        city_boundaries_to_check[x].reset( y );
+        bool ret = false;
+        if( city_boundaries_to_check[x - 1][y] ) {
+            ret |= check_neighbor( x - 1, y );
         }
-    }
-
-    for( int y = 0; y < OMAPY; y++ ) {
-        bool last_true = false;
-        int x_start = 0;
-        for( int x = 0; x < OMAPX; x++ ) {
-            if( city_boundaries[x][y] && !last_true ) {
-                if( x_start != 0 ) {
-                    for( int x_add = x_start; x_add < x; x_add++ ) {
-                        city_boundaries_vertical_check[x_add].set( y );
-                    }
-                }
-                last_true = true;
-            } else if( !city_boundaries[x][y] && last_true ) {
-                last_true = false;
-                x_start = x;
-            }
+        if( city_boundaries_to_check[x + 1][y] ) {
+            ret |= check_neighbor( x + 1, y );
         }
-    }
+        if( city_boundaries_to_check[x][y - 1] ) {
+            ret |= check_neighbor( x, y - 1 );
+        }
+        if( city_boundaries_to_check[x][y + 1] ) {
+            ret |= check_neighbor( x, y + 1 );
+        }
+        return ret;
+    };
+
+    auto check_neighbor = []( int x, int y ) {
+        if( x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1 ) {
+            return true;
+        }
+        return check_all_neighbors( x, y );
+    };
 
     for( int x = 0; x < OMAPX; x++ ) {
-        city_boundaries_and_check[x] = city_boundaries_horizontal_check[x];
-        city_boundaries_and_check[x] &= city_boundaries_vertical_check[x];
-        city_boundaries_and_check[x] &= city_boundaries[x];
+        // Check anywhere that's not in city currently
+        city_boundaries_to_check[x] = !city_boundaries[x];
     }
 
-    for( int x = 0; x < OMAPX; x++ ) {
-        for( int y = 0; y < OMAPY; y++ ) {
-            if( city_boundaries_and_check[x][y] ) {
-                if( !city_boundaries[x][y] && ( !city_boundaries_and_check[std::max( 0, x - 1 )][y] ||
-                                                !city_boundaries_and_check[std::min( OMAPX - 1, x + 1 )][y] ||
-                                                !city_boundaries_and_check[x][std::max( 0, y - 1 )] ||
-                                                !city_boundaries_and_check[x][std::min( OMAPY - 1, y + 1 )] ) ) {
-                    city_boundaries_last_check[x].reset( y );
-                } else {
-                    city_boundaries_last_check[x].set( y );
+    for( int x = 1; x < OMAPX - 1; x++ ) {
+        for( int y = 1; y < OMAPY - 1; y++ ) {
+            std::vector<std::pair<int, int>> to_change;
+            if( city_boundaries_to_check[x][y] && !check_all_neighbors( x, y ) ) {
+                for( const std::pair<int, int> coords : to_change ) {
+                    city_boundaries[coords.first].set( coords.second );
                 }
             }
         }
     }
 
-    city_boundaries = city_boundaries_last_check;
-    ran_fill_city_boundaries = true;
+    // TODO: Comment out after testing
+    for( int x = 1; x < OMAPX - 1; x++ ) {
+        for( int y = 1; y < OMAPY - 1; y++ ) {
+            if( city_boundaries_to_check[x][y] ) {
+                debugmsg( "fill_city_boundaries() didn't check ( %s, %s )", x, y );
+            }
+        }
+    }
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
