@@ -398,6 +398,8 @@
       { "group": "knife_rambo_cont", "prob": 20 },
       { "group": "crossbow_bolts", "prob": 5 },
       { "group": "crossbow_bolts_makeshift", "prob": 7 },
+      { "group": "alldvds", "prob": 3 },
+      { "item": "portable_dvd_player", "prob": 3, "charges": [ 0, 500 ] },
       { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
       [ "crossbow", 2 ],
       [ "compcrossbow", 2 ],
@@ -682,6 +684,8 @@
       [ "cloak_wool", 5 ],
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
+      { "group": "alldvds", "prob": 1 },
+      { "item": "portable_dvd_player", "prob": 1, "charges": [ 0, 500 ] },
       [ "bottle_folding", 10 ]
     ]
   },
