@@ -289,7 +289,7 @@
       },
       { "text": "I think I'll pass.", "topic": "TALK_DONE" }
     ]
-  },  
+  },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
     "type": "talk_topic",
