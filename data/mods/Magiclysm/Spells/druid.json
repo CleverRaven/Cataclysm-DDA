@@ -613,7 +613,7 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 8,
-    "damage_type": "pure",
+    "damage_type": "necrotic",
     "base_casting_time": 10000,
     "final_casting_time": 500,
     "casting_time_increment": -380,

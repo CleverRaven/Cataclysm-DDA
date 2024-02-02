@@ -528,7 +528,7 @@
     "min_damage": 30,
     "max_damage": 150,
     "damage_increment": 5,
-    "damage_type": "bash",
+    "damage_type": "sonic",
     "min_range": 2,
     "max_range": 9,
     "range_increment": 0.3,
