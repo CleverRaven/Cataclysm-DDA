@@ -277,7 +277,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE_2",
     "type": "talk_topic",
-    "dynamic_line": "It's built with experimental combat programming and some heavy-duty armor.  Despite the armor, it's pretty nimble, so unless you've got a vehicle don't expect to outrun it.  We decided to hold off on adding long-range weapons until we finished the initial field testing, so if you keep your distance, you should be safe.",
+    "dynamic_line": "It's built with experimental combat programming and some heavy-duty armor.  Despite the armor, it's pretty nimble, so unless you've got a vehicle don't expect to outrun it.  We decided to hold off on adding long-range weapons until we finished the initial field testing, so if you can keep your distance, you should be safe.",
     "responses": [
       {
         "text": "I can handle it.  Where is the test site?",
