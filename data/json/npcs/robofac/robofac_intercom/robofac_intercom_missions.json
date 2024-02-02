@@ -270,7 +270,10 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
         "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_1" }
       },
-      { "text": "Extremely dangerous?  What kind of danger should I expect?", "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE_2" },
+      {
+        "text": "Extremely dangerous?  What kind of danger should I expect?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE_2"
+      },
       { "text": "I'll pass on getting killed today, thanks.", "topic": "TALK_DONE" }
     ]
   },
