@@ -4362,7 +4362,7 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.2 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       }
-  ]
+    ]
   },
   {
     "type": "mutation",
