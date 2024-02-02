@@ -274,7 +274,7 @@ static void WinCreate()
 #endif
 #if defined(EMSCRIPTEN)
     // Without this, the game only displays in the top-left 1/4 of the window.
-    window_flags &= ~SDL_WINDOW_ALLOWHIGHDPI;
+    window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
