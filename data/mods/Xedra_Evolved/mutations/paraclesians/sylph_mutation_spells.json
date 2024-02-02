@@ -258,7 +258,7 @@
   {
     "id": "summon_air_sprite",
     "type": "SPELL",
-    "name": "Summon Air Sprite",
+    "name": "Call the Children of the Winds",
     "description": "A lesser air elemental is summoned to support you.",
     "valid_targets": [ "ground" ],
     "skill": "deduction",

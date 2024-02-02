@@ -324,6 +324,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
+    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
+    "prereqs2": [ "ELECTRICAL_FIELD" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
     "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
@@ -331,13 +333,38 @@
   {
     "type": "mutation",
     "id": "air_sprite",
-    "name": { "str": "Summon Air Sprite" },
+    "name": { "str": "Call the Children of the Winds" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_DEX_BONUS_1",
+    "name": { "str": "Spring Breeze Stride" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "SYLPH_DEX_BONUS_2" ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "description": "The Sylph's moves like the wind.  +2 Dexterity.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_DEX_BONUS_2",
+    "name": { "str": "Storm-Runner's Speed" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_DEX_BONUS_1" ],
+    "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "dex_mod": 5 }
   },
   {
     "type": "mutation",
@@ -361,6 +388,18 @@
     "ugliness": 0,
     "prereqs": [ "SYLPH_INT_BONUS_1" ],
     "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "int_mod": 4 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_PER_BONUS_1",
+    "name": { "str": "Eagle's Sight" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_EYES" ],
+    "description": "Like a bird soaring on the wind, the Sylph's keen eyes.  +3 Perception.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 4 }
   },
