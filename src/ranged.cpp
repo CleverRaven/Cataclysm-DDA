@@ -548,7 +548,8 @@ double Creature::ranged_target_size() const
 {
     double stance_factor = 1.0;
     if( const Character *character = this->as_character() ) {
-        if( character->is_crouching() || ( character->has_effect( effect_quadruped_full ) && character->is_running() ) ) {
+        if( character->is_crouching() || ( character->has_effect( effect_quadruped_full ) &&
+                                           character->is_running() ) ) {
             stance_factor = 0.6;
         } else if( character->is_prone() ) {
             stance_factor = 0.25;
