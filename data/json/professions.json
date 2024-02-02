@@ -4336,40 +4336,6 @@
   },
   {
     "type": "profession",
-    "id": "asatru_priest",
-    "name": { "male": "Gode", "female": "Gydje" },
-    "description": "As a spiritual leader of the Asatru Faith, you conducted your small community into ceremonies, rituals, sacrifices and feasts for the Norse Gods.  You can't say if Ragnarok has come, but you'll surely fight like a warrior until your encounter with the Valkyries.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "melee" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "silver_ring" },
-          { "item": "leather_belt" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "holybook_asatru" },
-          { "group": "charged_smart_phone" },
-          { "item": "holy_symbol", "variant": "odin_necklace1" },
-          { "item": "bronze_knife", "container-item": "sheath" }
-        ]
-      },
-      "male": {
-        "entries": [ { "item": "cloak" }, { "item": "tunic" }, { "item": "briefs" }, { "item": "pants", "variant": "pants_brown" } ]
-      },
-      "female": {
-        "entries": [
-          { "item": "silver_hairpin" },
-          { "item": "bra" },
-          { "item": "dress" },
-          { "item": "panties" },
-          { "item": "altered_apron", "variant": "generic_apron_cotton" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
     "id": "shinto_priest",
     "name": "Kannushi",
     "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
