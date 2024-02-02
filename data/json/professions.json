@@ -3066,7 +3066,6 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "item": "pants", "variant": "pants_stone" },
-          { "item": "trucker_hat", "variant": "generic_truckball" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
