@@ -235,6 +235,7 @@ Use the `Home` key to return to the top.
         - [`items`](#items-1)
       - [`map_deconstruct_info`](#map_deconstruct_info)
         - [`furn_set`, `ter_set`](#furn_set-ter_set-1)
+        - [`skill`](#skill)
         - [`items`](#items-2)
       - [`plant_data`](#plant_data-1)
         - [`transform`](#transform)
@@ -2165,6 +2166,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
+"container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
@@ -3214,7 +3216,6 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // To be a fuel an item needs to be made of only one material,
                               // this material has to produce energy, *ie* have a `data_fuel` entry,
                               // and it needs to have consumable charges.
-"displacement": 280           // engine displacement, meaasured in cubic centimeters (cm3)
 ```
 
 #### The following optional fields are specific to WHEELs.
@@ -4210,6 +4211,7 @@ Gun mods can be defined like this:
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" by this number; works the same as overheat_threshold_multiplier
 "heat_per_shot_modifier":  -2,        //  Add a flat amount to gun's "heat_per_shot"; works the same as overheat_threshold_modifier
 "heat_per_shot_multiplier": 2.0,      // Multiply the gun's "heat_per_shot" by this number; works the same as overheat_threshold_multiplier
+"is_bayonet": true,     // Optional, if true, the melee damage of this item is added to the base damage of the gun. Defaults to false.
 "blacklist_slot": [ "rail", "underbarrel" ],      // prevents installation of the gunmod if the specified slot(s) are present on the gun.
 "blacklist_mod": [ "m203", "m320" ],      // prevents installation of the gunmod if the specified mods(s) are present on the gun.
 ```
@@ -5604,6 +5606,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 {
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
+    "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 8 },
     "items": "deconstructed_item_result_group"
 }
 ```
@@ -5611,6 +5614,12 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 ##### `furn_set`, `ter_set`
 
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
+
+##### `skill`
+
+(Optional) The skill that will be practised after deconstruction.
+Min is the minimum level to recieve xp, max is the level cap after which no xp is recieved but practise still occurs delaying rust and multiplier multiplies the base xp given which is based on the mean of min and max.
+If skill is specified, multiplier defaults to 1.0, min to 0 and max to 10.
 
 ##### `items`
 

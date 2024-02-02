@@ -55,6 +55,11 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "math": [ "n_val('npc_trust')", ">=", "2" ] }
+      },
       { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
       { "text": "Brewed anything new lately?", "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL" },
       { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
@@ -80,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
-    "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Even brought some of my equipment, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+    "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Lucky enough, I even found some good equipment out here, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {

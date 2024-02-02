@@ -7,11 +7,13 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "10 m",
+    "time": "30 s",
+    "batch_time_factors": [ 80, 2 ],
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ], [ "material_gravel", 100 ] ] ]
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "result_mult": 2,
+    "using": [ [ "concrete_materials_dry", 1 ] ]
   },
   {
     "type": "recipe",
@@ -127,7 +129,7 @@
     "components": [
       [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 100 ], [ "bronze_nail", 100 ] ],
+      [ [ "nails", 100, "LIST" ] ],
       [ [ "pipe", 4 ] ],
       [
         [ "funnel", 1 ],
@@ -165,7 +167,7 @@
       [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
       [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 100 ], [ "bronze_nail", 100 ] ],
+      [ [ "nails", 100, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [
@@ -346,7 +348,7 @@
     "components": [
       [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
       [ [ "2x4", 1 ], [ "puck", 1 ] ],
-      [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "antenna", 1 ] ],
+      [ [ "nails", 1, "LIST" ], [ "antenna", 1 ] ],
       [ [ "shot_hull", 1 ] ]
     ]
   },
@@ -651,7 +653,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ], [ "bronze_nail", 8 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 8, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -737,8 +739,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -778,8 +780,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -819,8 +821,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -860,8 +862,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -902,8 +904,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -949,8 +951,8 @@
       { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "swage", -1 ] ],
@@ -1000,7 +1002,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ], [ "bronze_nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nails", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1715,11 +1717,7 @@
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
-    "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 75 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 3 ] ], [ [ "silver_small", 6 ] ] ]
   },
   {
@@ -1735,7 +1733,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 25 ] ]
@@ -1771,7 +1769,7 @@
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
@@ -1837,7 +1835,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
+    "components": [ [ [ "nails", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1969,7 +1967,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "acidchitin_piece", 25 ] ],
+      [ [ "acidchitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ]
     ]
@@ -1988,7 +1986,7 @@
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ], [ "bronze_nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nails", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2530,7 +2528,7 @@
     "using": [ [ "carbon", 1 ] ],
     "components": [ [ [ "lamellae_lc", 18 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2890,7 +2888,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 18 ], [ "cu_pipe", 18 ], [ "frame", 3 ] ],
-      [ [ "nail", 12 ], [ "bronze_nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 4 ] ],
@@ -2918,7 +2916,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ], [ "bronze_nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 30 ] ]
@@ -2939,7 +2937,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 6 ] ],
-      [ [ "nail", 12 ], [ "bronze_nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "pipe_fittings", 6 ] ]
     ]
@@ -3083,7 +3081,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3111,7 +3109,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -3133,10 +3131,11 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "marking_hard", 1, "LIST" ] ],
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
-      [ [ "nail", 30 ], [ "bronze_nail", 30 ] ],
+      [ [ "nails", 30, "LIST" ] ],
       [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 1, "LIST" ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
@@ -3254,7 +3253,7 @@
       [ [ "oil_cooker", 1 ] ],
       [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "2x4", 20 ] ],
-      [ [ "nail", 30 ], [ "bronze_nail", 30 ] ],
+      [ [ "nails", 30, "LIST" ] ],
       [ [ "stick_long", 1 ] ]
     ]
   },
@@ -3267,7 +3266,7 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 10, "LIST" ] ],
+    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 1, "LIST" ] ],
     "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
@@ -3341,7 +3340,7 @@
       { "id": "FILE", "level": 1 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ], [ "bronze_nail", 10 ] ], [ [ "stick", 1 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 10, "LIST" ] ], [ [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3360,7 +3359,7 @@
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "nail", 12 ], [ "bronze_nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "sheet_leather_patchwork", 2 ], [ "tanned_hide", 2 ], [ "sheet_fur_patchwork", 2 ], [ "tanned_pelt", 2 ] ]
     ]
   },
@@ -3388,7 +3387,7 @@
       [ [ "2x4", 16 ] ],
       [ [ "sieve_primitive", 1 ], [ "sieve_steel", 1 ] ],
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
-      [ [ "nail", 40 ], [ "bronze_nail", 40 ] ]
+      [ [ "nails", 40, "LIST" ] ]
     ]
   }
 ]

@@ -1174,6 +1174,7 @@
     "id": "mutant_brain",
     "type": "COMESTIBLE",
     "copy-from": "brain",
+    "looks_like": "brain",
     "name": { "str_sp": "raw mutant brains" },
     "snippet_category": "mutant_brain_desc",
     "proportional": { "price_postapoc": 0.5 },

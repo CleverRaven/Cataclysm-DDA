@@ -217,7 +217,7 @@
     "category": "manuals",
     "//": "6 Stormshaper spells",
     "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
-    "description": "Small, but thick book, that covers the most recent developments in the field, including real examples.",
+    "description": "A small, but thick book, that covers the most recent developments in the field, including real examples.",
     "weight": "537 g",
     "volume": "930 ml",
     "price": 9000,
@@ -236,7 +236,7 @@
     "category": "manuals",
     "//": "5 Stormshaper wind spells",
     "name": { "str": "Blow You Away", "str_pl": "copies of Blow You Away" },
-    "description": "Big, illustrated book, that describe the unpopular side of stormshaping - the wind control.  Despite being less \"cool\", it has more control, and can be as devastating as lightning.",
+    "description": "A large, illustrated book, that describes the unpopular side of stormshaping - wind control.  Despite being less \"cool\", it has more control, and can be as devastating as lightning.",
     "weight": "473 g",
     "volume": "825 ml",
     "price": 7000,
@@ -262,7 +262,7 @@
     "category": "manuals",
     "//": "5 Stormshaper electric spells",
     "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
-    "description": "Deep work, that tells about the electromancy boom in the 60's, and how the mass military draft of fresh, inexperienced scholars changed the war, with examples of using tactics and spells.  Summary says \"it changed nothing\".",
+    "description": "A scholarly work, that discusses the electromancy boom in the 60's and how the mass military draft of fresh, inexperienced mages changed the war, with examples of tactics and spells used by year.  Summary says \"it changed nothing\".",
     "weight": "378 g",
     "volume": "660 ml",
     "price": 11700,
@@ -470,7 +470,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Memoirs of the Champion of Earth", "str_pl": "copies of Memoirs of the Champion of Earth" },
-    "//": "5 earthshaper spells",
+    "//": "6 earthshaper spells",
     "description": "A book written by someone obviously very self-absorbed who describes himself as \"Chosen of Gaia, the Only Champion of Terra\".  Despite his arrogance, his mastery in combining different earthshaper's abilities as described in the book make him an accomplished sorcerer worth learning from.",
     "weight": "247 g",
     "volume": "398 ml",
@@ -481,7 +481,14 @@
     "color": "brown",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "pertifying_touch", "earthshaper_stoneskin", "reactive_armor", "eshaper_melee_damage", "eshaper_crystal_wrap" ]
+      "spells": [
+        "pertifying_touch",
+        "earthshaper_stoneskin",
+        "reactive_armor",
+        "eshaper_melee_damage",
+        "eshaper_crystal_wrap",
+        "earthshaper_sleep_in_earth"
+      ]
     }
   },
   {
@@ -597,7 +604,7 @@
       "str": "Technomancy and the Electromagnetic Spectrum",
       "str_pl": "copies of Technomancy and the Electromagnetic Spectrum"
     },
-    "//": "3 Technomancer spells",
+    "//": "5 Technomancer spells",
     "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
     "weight": "284 g",
     "volume": "1 L",
@@ -606,7 +613,36 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "technomancer_knifeshot" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "taze", "laze", "technomancer_knifeshot", "technomancer_conjure_ups", "technomancer_recharge_vehicle" ]
+    }
+  },
+  {
+    "id": "techno_electrical_work",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Mage-Engineer's Practical Guide", "str_pl": "copies of The Mage-Engineer's Practical Guide" },
+    "//": "4 Technomancer spells, 2 Stormshaper spells",
+    "description": "This is a heavy, university thaumaturgical-program-level guidebook.  It discusses the various practical applications of magic in repairwork and engineering, with a focus on immediately-usable techniques instead of airy theoretical approaches.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "electric_eye",
+        "electric_arts",
+        "technomancer_conjure_radio",
+        "technomancer_welder",
+        "technomancer_conjure_ups",
+        "technomancer_recharge_vehicle"
+      ]
+    }
   },
   {
     "id": "animist_spirits",
@@ -732,6 +768,32 @@
         "earthshaper_turning_of_earth",
         "create_lighter",
         "kelvinist_anti_cold"
+      ]
+    }
+  },
+  {
+    "type": "BOOK",
+    "id": "plant_spellbook",
+    "name": { "str": "The Elven Path", "str_pl": "copies of The Elven Path" },
+    "//": "7 Druid spells",
+    "description": "Writen by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosopical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.",
+    "price": 15000,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "green",
+    "weight": "2041 g",
+    "volume": "1500 ml",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "druid_whisper_leaves",
+        "druid_summon_tanglevine",
+        "druid_summon_brambles",
+        "druid_renew_forest_spell",
+        "druid_wood_living_tree_spell",
+        "druid_rootstrike",
+        "druidic_regrowth"
       ]
     }
   }

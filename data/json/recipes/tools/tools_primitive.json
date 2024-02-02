@@ -77,13 +77,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [
-        [ "nail", 2 ],
-        [ "bronze_nail", 2 ],
-        [ "cordage_short", 2, "LIST" ],
-        [ "filament", 100, "LIST" ],
-        [ "duct_tape", 40 ]
-      ]
+      [ [ "nails", 2, "LIST" ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {
@@ -452,11 +446,11 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ],
-      [ [ "casting_mold", -1 ] ]
+      [ [ "casting_mold_long", -1 ] ]
     ],
     "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "water", 15 ], [ "water_clean", 15 ] ] ]
   },
@@ -474,7 +468,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ]

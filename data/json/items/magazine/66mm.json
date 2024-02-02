@@ -1,12 +1,14 @@
 [
   {
     "id": "m74_clip",
+    "//": "Estimated from photographs and known length of launcher.",
     "looks_like": "belt40mm",
     "type": "MAGAZINE",
     "name": { "str": "M74 4-rocket clip" },
     "description": "A clip for the M202A1 FLASH that can hold 4 M74 incendiary rockets.",
-    "weight": "200 g",
-    "volume": "500 ml",
+    "weight": "500 g",
+    "volume": "2097 ml",
+    "longest_side": "20 cm",
     "price": 1000,
     "price_postapoc": 100,
     "material": [ "steel" ],

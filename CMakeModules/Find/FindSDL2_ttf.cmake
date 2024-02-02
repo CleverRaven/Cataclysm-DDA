@@ -104,16 +104,43 @@ if (NOT DYNAMIC_LINKING AND PKG_CONFIG_FOUND)
     )
   endif()
   message(STATUS "Searching for SDL_ttf deps libraries --")
-  find_package(Freetype REQUIRED)
-  find_package(Harfbuzz REQUIRED)
-  target_link_libraries(SDL2_ttf::SDL2_ttf-static INTERFACE
-    Freetype::Freetype
-    harfbuzz::harfbuzz
-  )
+  if(MSYS2)
+      pkg_check_modules(Freetype REQUIRED IMPORTED_TARGET freetype2)
+      pkg_check_modules(harfbuzz REQUIRED IMPORTED_TARGET harfbuzz)
+      pkg_check_modules(graphite REQUIRED IMPORTED_TARGET graphite2)
+      target_link_libraries(PkgConfig::harfbuzz INTERFACE
+        PkgConfig::graphite
+        rpcrt4
+      )
+      target_link_libraries(SDL2_ttf::SDL2_ttf-static INTERFACE
+        PkgConfig::Freetype
+        PkgConfig::harfbuzz
+      )
+  else()
+      find_package(Freetype REQUIRED)
+      find_package(Harfbuzz REQUIRED)
+      get_target_property(_loc harfbuzz::harfbuzz IMPORTED_LOCATION)
+      set_target_properties(harfbuzz::harfbuzz PROPERTIES 
+        IMPORTED_IMPLIB_RELEASE ${_loc}
+        IMPORTED_IMPLIB_DEBUG ${_loc}
+        IMPORTED_IMPLIB_RELWITHDEBINFO ${_loc}
+      )
+      target_link_libraries(SDL2_ttf::SDL2_ttf-static INTERFACE
+        Freetype::Freetype
+        harfbuzz::harfbuzz
+      )
+  endif()
   pkg_check_modules(BROTLI REQUIRED IMPORTED_TARGET libbrotlidec libbrotlicommon)
-  target_link_libraries(Freetype::Freetype INTERFACE
-    PkgConfig::BROTLI
-  )
+  if(MSYS2)
+    pkg_check_modules(bzip2 REQUIRED IMPORTED_TARGET bzip2)
+    target_link_libraries(PkgConfig::Freetype INTERFACE
+        PkgConfig::bzip2
+    )
+  else()
+    target_link_libraries(Freetype::Freetype INTERFACE
+      PkgConfig::BROTLI
+    )
+  endif()
 elseif(NOT TARGET SDL2_ttf::SDL2_ttf)
     add_library(SDL2_ttf::SDL2_ttf UNKNOWN IMPORTED)
     set_target_properties(SDL2_ttf::SDL2_ttf PROPERTIES

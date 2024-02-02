@@ -5,6 +5,7 @@
 #include <string>
 #include <tuple>
 #include <utility>
+#include <vector>
 
 #include "cata_assert.h"
 #include "color.h"
@@ -840,6 +841,25 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
         }
     }
     return false;
+}
+
+void achievements_tracker::write_json_achievements( std::ostream &achievement_file ) const
+{
+    JsonOut jsout( achievement_file, true, 2 );
+    jsout.start_object();
+    jsout.member( "achievement_version", 0 );
+
+    std::vector<achievement_id> ach_ids;
+
+    for( const auto &kv : achievements_status_ ) {
+        if( kv.second.completion == achievement_completion::completed ) {
+            ach_ids.push_back( kv.first );
+        }
+    }
+
+    jsout.member( "achievements", ach_ids );
+
+    jsout.end_object();
 }
 
 std::string achievements_tracker::ui_text_for( const achievement *ach ) const

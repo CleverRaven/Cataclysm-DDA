@@ -352,7 +352,7 @@
     "description": "A collection of tiny metal strips, spheres, and other geometric primitives taken from a disassembled alien machine.",
     "symbol": ",",
     "color": "yellow",
-    "weight": "150g",
+    "weight": "150 g",
     "volume": "100 ml",
     "price": 1000,
     "material": [ "silver", "gold" ],

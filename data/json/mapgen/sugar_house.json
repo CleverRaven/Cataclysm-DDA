@@ -115,7 +115,7 @@
         "C": { "item": "SUS_cookware", "chance": 100 },
         "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] }
       },
-      "item": { "M": { "item": "bucket", "chance": 100 } },
+      "item": { "M": [ { "item": "bucket", "chance": 100 }, { "item": "tree_spile", "chance": 100 } ] },
       "place_loot": [
         { "item": "stepladder", "x": 3, "y": 44, "chance": 100 },
         { "group": "sugar_house_drum", "x": 2, "y": 40, "chance": 60 },

@@ -200,5 +200,27 @@
       "str_min_supported": 100,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dreamforged_bed_of_restful_repose",
+    "name": "dreamforged bed of restful repose",
+    "symbol": "#",
+    "description": "A bed made solely for dreaming, by a dreamsmith.  When you lay upon this bed, your mind renews and your body recuperates.  Said to be so comfortable that if you die while in this bed, your mind detaches without pain from your body and sets forth upon the dream realms.",
+    "color": "cyan_green",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 500,
+    "floor_bedding_warmth": 3000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "dreamforged_bed_of_restful_repose", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "scrap_dreamdross", "count": [ 50, 80 ] } ]
+    }
   }
 ]

@@ -1,3 +1,4 @@
+from .effect import parse_effect_on_condition
 from ..write_text import write_text
 
 
@@ -28,7 +29,7 @@ use_action_msg_keys = [
     "non_interactive_msg",
     "not_ready_msg",
     "out_of_power_msg",
-    "sound_msg",
+    "sound_message",
     "success_message",
     "unfold_msg",
     "use_message",
@@ -47,6 +48,12 @@ def parse_use_action(json, origin, item_name):
                            .format(msg_key, item_name))
         for json_key in json:
             parse_use_action(json[json_key], origin, item_name)
+        if "effect_on_conditions" in json:
+            for e in json["effect_on_conditions"]:
+                if type(e) is dict:
+                    parse_effect_on_condition(e, origin,
+                                              "use action of item \"{}\""
+                                              .format(item_name))
     elif type(json) is list:
         for use_action in json:
             parse_use_action(use_action, origin, item_name)

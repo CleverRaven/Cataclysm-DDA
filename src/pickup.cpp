@@ -1,59 +1,40 @@
 #include "pickup.h"
 
 #include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
-#include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "color.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
-#include "panels.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
-#include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;

@@ -6,7 +6,9 @@
     "monsters": [
       { "monster": "mon_dog_skeleton", "weight": 340, "cost_multiplier": 5 },
       { "monster": "mon_dog_zombie_brute", "weight": 330, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog_acidic", "weight": 330, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_dog_acidic", "weight": 330, "cost_multiplier": 2 },
+      { "monster": "mon_dog_cuspated", "weight": 330, "cost_multiplier": 2 },
+      { "monster": "mon_dog_howling", "weight": 330, "cost_multiplier": 2 }
     ]
   },
   {

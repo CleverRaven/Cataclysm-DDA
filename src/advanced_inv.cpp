@@ -2,14 +2,11 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <initializer_list>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -25,22 +22,20 @@
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "localized_comparator.h"
 #include "map.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
@@ -60,7 +55,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -288,7 +282,6 @@ void advanced_inventory::print_items( side p, bool active )
     const int index = pane.index;
     bool compact = TERMX <= 100;
     pane.other_cont = -1;
-    //std::vector<item *> other_pane_conts;
     std::unordered_set<const item *> other_pane_conts;
     if( panes[-p + 1].container ) {
         item_location parent_recursive = panes[-p + 1].container;
@@ -305,7 +298,7 @@ void advanced_inventory::print_items( side p, bool active )
     nc_color norm = active ? c_white : c_dark_gray;
 
     Character &player_character = get_player_character();
-    //print inventory's current and total weight + volumeS
+    //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ||
         ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
 

@@ -22,6 +22,7 @@
 #include "memory_fast.h"
 #include "pickup.h"
 #include "point.h"
+#include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -207,7 +208,7 @@ class hacksaw_activity_actor : public activity_actor
 class hacking_activity_actor : public activity_actor
 {
     public:
-        hacking_activity_actor() = default;
+        explicit hacking_activity_actor( const item_location &tool ): tool( tool ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -226,6 +227,9 @@ class hacking_activity_actor : public activity_actor
         }
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location tool;
 };
 
 class bookbinder_copy_activity_actor: public activity_actor

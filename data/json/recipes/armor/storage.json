@@ -1496,6 +1496,21 @@
     "components": [ [ [ "birchbark", 6 ] ], [ [ "filament", 3, "LIST" ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
+    "result": "pipe_quiver",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "archery", 1 ],
+    "time": "10 m",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "recipe_arrows", 1 ] ],
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ] ], [ [ "duct_tape", 10 ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
     "result": "quiver_large",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1539,6 +1554,21 @@
       { "proficiency": "prof_closures_waterproofing" }
     ],
     "components": [ [ [ "birchbark", 18 ] ], [ [ "filament", 10, "LIST" ] ], [ [ "strap_large", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "pipe_quiver_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "archery", 1 ],
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "duct_tape", 30 ] ], [ [ "pipe", 3 ] ] ]
   },
   {
     "result": "ragpouch",
