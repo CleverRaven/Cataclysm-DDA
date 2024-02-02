@@ -258,12 +258,12 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ { "id": "black_hair", "effect": { "u_add_trait": "natural_hair_color_black" } }, { "const": 1 } ],
-          [ { "id": "blond_hair", "effect": { "u_add_trait": "natural_hair_color_blond" } }, { "const": 1 } ],
-          [ { "id": "brown_hair", "effect": { "u_add_trait": "natural_hair_color_brown" } }, { "const": 1 } ],
-          [ { "id": "gray_hair", "effect": { "u_add_trait": "natural_hair_color_gray" } }, { "const": 1 } ],
-          [ { "id": "white_hair", "effect": { "u_add_trait": "natural_hair_color_white" } }, { "const": 1 } ],
-          [ { "id": "red_hair", "effect": { "u_add_trait": "natural_hair_color_red" } }, { "const": 1 } ]
+          [ { "id": "black_hair", "effect": { "u_add_trait": "natural_hair_color_black" } }, 1 ],
+          [ { "id": "blond_hair", "effect": { "u_add_trait": "natural_hair_color_blond" } }, 1 ],
+          [ { "id": "brown_hair", "effect": { "u_add_trait": "natural_hair_color_brown" } }, 1 ],
+          [ { "id": "gray_hair", "effect": { "u_add_trait": "natural_hair_color_gray" } }, 1 ],
+          [ { "id": "white_hair", "effect": { "u_add_trait": "natural_hair_color_white" } }, 1 ],
+          [ { "id": "red_hair", "effect": { "u_add_trait": "natural_hair_color_red" } }, 1 ]
         ]
       }
     ]
