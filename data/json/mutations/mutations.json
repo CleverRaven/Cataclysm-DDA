@@ -4356,7 +4356,7 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.58 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-        },
+      },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.2 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
