@@ -10,6 +10,7 @@
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "result_mult": 10,
     "components": [ [ [ "rock", 1 ], [ "rock_flaking_any", 1, "LIST" ] ] ]
   },
   {

@@ -1831,6 +1831,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_health",
     "name": [ "Healthy Glow" ],
     "desc": [ "You feel amazing." ],

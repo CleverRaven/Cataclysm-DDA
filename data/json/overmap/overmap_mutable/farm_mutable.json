@@ -4,7 +4,7 @@
     "id": "Farm Mutable",
     "subtype": "mutable",
     "locations": [ "subterranean_empty", "land", "open_air" ],
-    "city_distance": [ 5, 40 ],
+    "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE", "FARM" ],

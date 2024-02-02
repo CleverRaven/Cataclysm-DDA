@@ -26,9 +26,9 @@
     "id": "stonefist_plus",
     "type": "SPELL",
     "name": "Improved Stonefist",
-    "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "NO_FAIL" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -296,12 +296,12 @@
     "id": "earthshaper_stoneskin_plus",
     "type": "SPELL",
     "name": "Improved Stoneskin",
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "aura_stoneskin",
     "shape": "blast",
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_FAIL" ],
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 6,
@@ -367,7 +367,7 @@
     "flags": [ "NO_PROJECTILE", "SILENT", "NO_HANDS" ],
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "stab",
+    "damage_type": "necrotic",
     "min_damage": 10,
     "damage_increment": 2,
     "max_damage": 45,
@@ -1083,5 +1083,113 @@
       }
     ],
     "false_effect": { "u_message": "Without a connection to the living earth or a flat surface of solid rock, the spell fails." }
+  },
+  {
+    "id": "earthshaper_harden_earth",
+    "type": "SPELL",
+    "name": "Harden Earth",
+    "description": "Compress dirt together so it becomes as hard as rock.  A great way to turn makeshift barricades into a fortress.",
+    "valid_targets": [ "hostile", "ally", "ground", "self" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "spell_class": "EARTHSHAPER",
+    "difficulty": 4,
+    "max_level": 20,
+    "effect": "ter_transform",
+    "effect_str": "ter_earthshaper_harden_earth",
+    "shape": "line",
+    "min_range": 2,
+    "max_range": 20,
+    "range_increment": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 1500
+  },
+  {
+    "id": "earthshaper_sleep_in_earth",
+    "type": "SPELL",
+    "name": "Stone Slumber",
+    "description": "When standing on earth or stone, sink into the ground.  While submerged, you will heal faster, sleep will be more restorative, and you will not need to eat or drink.  Cast this spell again to return to the surface.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "spell_class": "EARTHSHAPER",
+    "difficulty": 8,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : 6000" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : 800" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
+    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH_2",
+          "condition": {
+            "or": [
+              { "u_is_on_terrain": "t_rock_floor_no_roof" },
+              { "u_is_on_terrain": "t_rock_floor" },
+              { "u_is_on_terrain": "t_rock_smooth" },
+              {
+                "and": [
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                  { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                  { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                  { "not": { "u_is_on_terrain": "t_fungus" } },
+                  { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                  { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                  { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                  { "not": { "u_is_on_terrain": "t_woodchips" } }
+                ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": -9,
+              "z_override": true
+            },
+            {
+              "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
+              "type": "good"
+            },
+            { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
+            { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+          ],
+          "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
+        }
+      }
+    ],
+    "false_effect": [
+      {
+        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "z_adjust": 0,
+        "z_override": true
+      },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
+      {
+        "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH_REMOVER",
+    "eoc_type": "EVENT",
+    "//": "No cheating and translocating out to keep your buffs",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
+    "effect": [ { "u_lose_trait": "EARTHSHAPER_STONE_SLEEP" } ]
   }
 ]

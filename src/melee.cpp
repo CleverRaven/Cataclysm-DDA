@@ -103,6 +103,7 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
@@ -111,7 +112,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
-static const itype_id itype_rag( "rag" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -233,7 +234,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         units::volume big_vol = 0_ml;
 
         // Items that should have no bearing on durability
-        const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
+        const std::set<itype_id> blacklist = { itype_sheet_cotton, itype_leather, itype_fur };
 
         for( item_components::type_vector_pair &tvp : shield->components ) {
             if( blacklist.count( tvp.first ) > 0 ) {
@@ -369,7 +370,8 @@ float Character::hit_roll() const
 
     // Farsightedness makes us hit worse
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) &&
+        !has_effect( effect_transition_contacts ) ) {
         hit -= 2.0f;
     }
 
@@ -411,7 +413,8 @@ std::string Character::get_miss_reason()
         roll_remainder( avg_encumb_of_limb_type( body_part_type::type::torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_flag( json_flag_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
-                                     !has_effect( effect_contacts ) );
+                                     !has_effect( effect_contacts ) &&
+                                     !has_effect( effect_transition_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
         farsightedness );
@@ -554,7 +557,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, fov_3d ) ) {
+    if( !is_adjacent( &t, true ) ) {
         return false;
     }
 

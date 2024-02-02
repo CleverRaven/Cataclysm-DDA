@@ -1679,7 +1679,6 @@ void Item_factory::init()
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
-    add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
@@ -1744,6 +1743,7 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
+    add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
@@ -3464,6 +3464,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
             slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
         }
     }
+
+    assign( jo, "is_bayonet", slot.is_bayonet );
     assign( jo, "blacklist_mod", slot.blacklist_mod );
     assign( jo, "blacklist_slot", slot.blacklist_slot );
     assign( jo, "barrel_length", slot.barrel_length );

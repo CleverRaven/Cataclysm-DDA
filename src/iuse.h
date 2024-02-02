@@ -134,6 +134,7 @@ std::optional<int> jet_injector( Character *, item *, const tripoint & );
 std::optional<int> lumber( Character *, item *, const tripoint & );
 std::optional<int> ma_manual( Character *, item *, const tripoint & );
 std::optional<int> magic_8_ball( Character *, item *, const tripoint & );
+std::optional<int> measure_resonance( Character *, item *, const tripoint & );
 std::optional<int> electricstorage( Character *, item *, const tripoint & );
 std::optional<int> ebooksave( Character *, item *, const tripoint & );
 std::optional<int> ebookread( Character *, item *, const tripoint & );

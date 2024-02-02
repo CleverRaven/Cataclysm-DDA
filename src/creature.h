@@ -1250,6 +1250,8 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;

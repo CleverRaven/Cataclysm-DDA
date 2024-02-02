@@ -2426,7 +2426,7 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
-            std::string chosen_name = name;
+            std::string chosen_name = _( name );
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
                     chosen_name = SNIPPET.expand( "<female_given_name>" );
@@ -7685,34 +7685,35 @@ bool update_mapgen_function_json::update_map(
     return u;
 }
 
+class rotation_guard
+{
+    public:
+        explicit rotation_guard( const mapgendata &md )
+            : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+            // If the existing map is rotated, we need to rotate it back to the north
+            // orientation before applying our updates.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( rotation, true );
+            }
+        }
+
+        ~rotation_guard() {
+            // If we rotated the map before applying updates, we now need to rotate
+            // it back to where we found it.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( 4 - rotation, true );
+            }
+        }
+    private:
+        const mapgendata &md;
+        const int rotation;
+};
+
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
-    class rotation_guard
-    {
-        public:
-            explicit rotation_guard( const mapgendata &md )
-                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
-                // If the existing map is rotated, we need to rotate it back to the north
-                // orientation before applying our updates.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( rotation, true );
-                }
-            }
-
-            ~rotation_guard() {
-                // If we rotated the map before applying updates, we now need to rotate
-                // it back to where we found it.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( 4 - rotation, true );
-                }
-            }
-        private:
-            const mapgendata &md;
-            const int rotation;
-    };
     rotation_guard rot( md_with_params );
 
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
@@ -7806,16 +7807,27 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
-    if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
-            const tripoint level_pos = tripoint( pos.xy(), sm_pos.z() );
+    {
+        // Make sure rot goes out of scope and its destructor restores the map before the
+        // "outer scope" mirroring/rotation is undone. It's unlikely inherent map rotation will
+        // be present at the same time as construction rotation/mirroring is, but better safe than sorry.
 
-            if( ter_at_pos != t_grass || tmp_map.has_furn( level_pos ) ) {
-                if( apply ) {
-                    update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
-                } else {
-                    update_tmap.delete_field( level_pos, fd_construction_site );
+        mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, nullptr );
+        mapgendata md( md_base, args );
+
+        rotation_guard rot( md );
+
+        if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
+                ter_id ter_at_pos = tmp_map.ter( pos );
+                const tripoint level_pos = tripoint( pos.xy(), sm_pos.z() );
+
+                if( ter_at_pos != t_grass || tmp_map.has_furn( level_pos ) ) {
+                    if( apply ) {
+                        update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                    } else {
+                        update_tmap.delete_field( level_pos, fd_construction_site );
+                    }
                 }
             }
         }

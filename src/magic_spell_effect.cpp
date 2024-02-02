@@ -567,7 +567,8 @@ static void damage_targets( const spell &sp, Creature &caster,
 
             for( damage_unit &val : atk.proj.impact.damage_units ) {
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage( caster ) / 100.0;
+                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
+                    val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;
             }

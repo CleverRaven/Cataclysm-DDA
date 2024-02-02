@@ -348,7 +348,7 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
 
@@ -476,7 +476,7 @@ bool Creature::sees( const Creature &critter ) const
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
-    if( !fov_3d && posz() != t.z ) {
+    if( std::abs( posz() - t.z ) > fov_3d_z_range ) {
         return false;
     }
 
@@ -1370,7 +1370,7 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     if( player.has_trait( trait_DEBUG_CLOAK ) ) {
         return false;
     }
-    if( !fov_3d && posz() != player.posz() ) {
+    if( this == &player || !is_adjacent( &player, true ) ) {
         return false;
     }
     if( stumblemsg ) {
@@ -2991,6 +2991,11 @@ bool Creature::is_symbol_highlighted() const
 std::unordered_map<std::string, std::string> &Creature::get_values()
 {
     return values;
+}
+
+bodypart_id Creature::get_max_hitsize_bodypart() const
+{
+    return anatomy( get_all_body_parts() ).get_max_hitsize_bodypart();
 }
 
 bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,

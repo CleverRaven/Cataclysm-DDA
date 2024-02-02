@@ -1196,7 +1196,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
         if( !v.v->is_moving() ) {
             continue;
         }
-        if( !fov_3d && v.pos.z != zpos.z() ) {
+        if( std::abs( v.pos.z - zpos.z() ) > fov_3d_z_range ) {
             continue;
         }
         if( rl_dist( zpos, tripoint_bub_ms( v.pos ) ) > max_range + 40 ) {
@@ -6505,7 +6505,7 @@ void map::delete_field( const tripoint &p, const field_type_id &field_to_remove 
         return;
     }
 
-    for( auto it = curfield.begin(); it != curfield.end(); ) {
+    for( auto it = curfield.begin(); it != curfield.end(); it++ ) {
         if( it->second.get_field_type() == field_to_remove ) {
             --current_submap->field_count;
             curfield.remove_field( it );
@@ -7250,7 +7250,8 @@ point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
 bool map::sees( const tripoint &F, const tripoint &T, const int range,
                 int &bresenham_slope ) const
 {
-    if( ( range >= 0 && range < rl_dist( F, T ) ) ||
+    if( std::abs( F.z - T.z ) > fov_3d_z_range ||
+        ( range >= 0 && range < rl_dist( F, T ) ) ||
         !inbounds( T ) ) {
         bresenham_slope = 0;
         return false; // Out of range!
@@ -7263,7 +7264,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
     bool visible = true;
 
     // Ugly `if` for now
-    if( !fov_3d || F.z == T.z ) {
+    if( F.z == T.z ) {
         bresenham( F.xy(), T.xy(), bresenham_slope,
         [this, &visible, &T]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
@@ -7591,11 +7592,11 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
-    // Ugly `if` for now
-    if( !fov_3d && f.z != t.z ) {
+    if( std::abs( f.z - t.z ) > fov_3d_z_range ) {
         return false;
     }
 
+    // Ugly `if` for now
     if( f.z == t.z ) {
         if( ( range >= 0 && range < rl_dist( f.xy(), t.xy() ) ) ||
             !inbounds( t ) ) {

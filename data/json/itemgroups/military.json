@@ -548,6 +548,7 @@
     "subtype": "collection",
     "items": [
       { "group": "clothing_military" },
+      { "item": "resonance_measurement_device", "prob": 10 },
       { "item": "elbow_pads", "prob": 80 },
       { "item": "knee_pads", "prob": 85 },
       { "item": "tac_helmet", "prob": 100 },

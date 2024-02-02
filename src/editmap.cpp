@@ -1658,7 +1658,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         if( move_origin ) {
             origin += mp;
         }

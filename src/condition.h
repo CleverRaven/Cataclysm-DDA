@@ -9,7 +9,6 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "math_parser_shim.h"
 #include "mission.h"
 
 class JsonObject;
@@ -79,14 +78,10 @@ struct conditional_t {
 
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
         static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
-        template<class J>
-        static std::function<double( dialogue & )> get_get_dbl( J const &jo );
-        static std::function<double( dialogue & )> get_get_dbl[[noreturn]]( const std::string &value,
-                const JsonObject &jo );
-        template <class J>
+        static std::function<double( dialogue & )> get_get_dbl( std::string_view checked_value,
+                char scope );
         std::function<void( dialogue &, double )>
-        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &min,
-                            const std::optional<dbl_or_var_part> &max, bool temp_var );
+        static get_set_dbl( std::string_view checked_value, char scope );
         bool operator()( dialogue &d ) const {
             if( !condition ) {
                 return false;
@@ -97,13 +92,5 @@ struct conditional_t {
     private:
         func condition;
 };
-
-extern template std::function<double( dialogue & )>
-conditional_t::get_get_dbl<>( kwargs_shim const & );
-
-extern template std::function<void( dialogue &, double )>
-conditional_t::get_set_dbl<>( const kwargs_shim &,
-                              const std::optional<dbl_or_var_part> &,
-                              const std::optional<dbl_or_var_part> &, bool );
 
 #endif // CATA_SRC_CONDITION_H
