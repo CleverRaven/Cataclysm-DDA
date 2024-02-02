@@ -327,7 +327,8 @@
     "copy-from": "mon_troll",
     "looks_like": "mon_troll",
     "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
-    "extend": { "flags": [ "SUNDEATH" ] }
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
   },
   {
     "id": "mon_troll_water",
