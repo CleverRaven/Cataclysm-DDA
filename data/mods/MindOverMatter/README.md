@@ -59,8 +59,6 @@ We have such sights to show you.
 
 LEARNING NEW POWERS
 
-(Note: the system below is currently applicable for all paths except Vitakinesis. )
-
 New powers are unlocked by leveling existing powers. When particular prerequisites are reached and after a certain amount of time (anywhere from a couple of days to a couple of weeks, depending on power difficulty), you have the chance to unlock the possibility of a new power. Once you’ve done so, you can attempt its contemplation recipe, found in the Practice crafting tab, to attempt to understand the power. If you succeed (success depends on your Metaphysics skill), you’ll unlock the power and it will appear in your powers list. If you fail, you’ll have to try again. You can try repeatedly until you successfully unlock it. 
 
 There is a small chance you can sidestep the prerequisites and discover powers that would normally be beyond your ability. If this happens, you can contemplate to attempt to unlock it the same as any other power. 
