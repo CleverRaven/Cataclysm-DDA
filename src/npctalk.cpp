@@ -415,7 +415,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
-    NPC_CHAT_THINK,
+    NPC_CHAT_FLAVOR,
     NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
@@ -878,7 +878,7 @@ void game::chat()
 
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( NPC_CHAT_THINK, true, 'T', _( "Think something" ) );
+    nmenu.addentry( NPC_CHAT_FLAVOR, true, 'T', _( "Flavor message" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -958,10 +958,9 @@ void game::chat()
             is_order = false;
             break;
         }
-        case NPC_CHAT_THINK: {
-            std::string popupdesc = _( "What are you thinking about?" );
+        case NPC_CHAT_FLAVOR: {
+            std::string popupdesc = _( "What do you want to add to the message log?  (This will have no in-game effect!)" );
             string_input_popup popup;
-            popup.title( _( "You think" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
