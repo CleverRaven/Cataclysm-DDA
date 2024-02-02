@@ -310,9 +310,7 @@
     "description": "Boots crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "melee_damage": { "bash": 2 } },
-    "material_thickness": 5
+    "relative": { "melee_damage": { "bash": 2 } }
   },
   {
     "id": "xl_boots_acidchitin",
@@ -326,7 +324,6 @@
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
-    "looks_like": "boots_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -555,7 +552,6 @@
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "looks_like": "boots_fur",
     "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -572,7 +568,7 @@
     "to_hit": -1,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "looks_like": "boots",
+    "looks_like": "boots_fur",
     "color": "brown",
     "warmth": 40,
     "material_thickness": 3,
@@ -622,7 +618,6 @@
     "id": "xs_boots_faux_fur",
     "type": "ARMOR",
     "copy-from": "boots_faux_fur",
-    "looks_like": "boots_fur",
     "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -707,7 +702,6 @@
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
-    "looks_like": "boots_larmor",
     "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -774,7 +768,6 @@
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
-    "looks_like": "boots_plate",
     "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -882,7 +875,6 @@
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
-    "looks_like": "boots_scrap",
     "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1143,7 +1135,6 @@
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
-    "looks_like": "boots_winter",
     "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -2770,7 +2761,6 @@
     "id": "xlnomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
-    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
@@ -2780,9 +2770,7 @@
     "id": "xsnomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
-    "looks_like": "nomex_socks",
     "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
-    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2808,7 +2796,6 @@
     "id": "xlsocks",
     "type": "ARMOR",
     "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
-    "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
@@ -2818,9 +2805,7 @@
     "id": "xssocks",
     "type": "ARMOR",
     "copy-from": "socks",
-    "looks_like": "socks",
     "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
-    "description": "Socks.  Put 'em on your feet.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2942,7 +2927,6 @@
     "id": "xlsocks_wool",
     "type": "ARMOR",
     "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
-    "description": "Warm socks made of wool for a human larger than previously thought possible.",
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
@@ -2953,7 +2937,6 @@
     "type": "ARMOR",
     "copy-from": "socks_wool",
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
-    "description": "Warm socks made of wool for a human smaller than previously thought possible.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

@@ -119,9 +119,6 @@ std::string vehicle_part::name( bool with_prefix ) const
             res += " "; // aligns names when printing degrading and non-degrading parts with prefixes
         }
     }
-    if( base.engine_displacement() ) {
-        res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
-    }
     if( base.is_wheel() ) {
         res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }

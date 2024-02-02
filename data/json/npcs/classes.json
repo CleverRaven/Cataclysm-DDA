@@ -125,6 +125,39 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_VETERINARIAN",
+    "name": { "str": "Veterinarian" },
+    "//": "Reasonably, this class should recieve animal-specific medical proficiencies if they're ever added.",
+    "job_description": "I'm looking for wounded to help.",
+    "traits": [
+      { "group": "BG_survival_story_STUCK_IN_TOWN" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_aggression": { "rng": [ -4, 0 ] },
+    "shopkeeper_item_group": "NC_DOCTOR_misc",
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_biology",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_burn_care",
+      "prof_dissect_humans",
+      "prof_physiology"
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "dodge", "bonus": 1 },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "speech", "bonus": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -2 } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_TRADER",
     "name": { "str": "Trader" },
     "job_description": "I'm collecting gear and selling it.",

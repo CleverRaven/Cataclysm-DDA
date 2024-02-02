@@ -146,16 +146,6 @@ double dbl_or_var_part::evaluate( dialogue &d ) const
                   var_name, d.get_callstack() );
         return 0;
     }
-    if( arithmetic_val.has_value() ) {
-        arithmetic_val.value()( d );
-        var_info info = var_info( var_type::global, "temp_var" );
-        std::string val = read_var_value( info, d );
-        if( !val.empty() ) {
-            return std::stof( val );
-        }
-        debugmsg( "No valid arithmetic value for dbl_or_var_part.  %s", d.get_callstack() );
-        return 0;
-    }
     if( math_val ) {
         return math_val->act( d );
     }
@@ -193,18 +183,6 @@ time_duration duration_or_var_part::evaluate( dialogue &d ) const
         debugmsg( "No default value provided for duration_or_var_part while encountering unused "
                   "variable %s.  Add a \"default\" member to prevent this.  %s",
                   var_name, d.get_callstack() );
-        return 0_seconds;
-    }
-    if( arithmetic_val.has_value() ) {
-        arithmetic_val.value()( d );
-        var_info info = var_info( var_type::global, "temp_var" );
-        std::string val = read_var_value( info, d );
-        if( !val.empty() ) {
-            time_duration ret_val;
-            ret_val = time_duration::from_turns( std::stof( val ) );
-            return ret_val;
-        }
-        debugmsg( "No valid arithmetic value for duration_or_var_part.  %s", d.get_callstack() );
         return 0_seconds;
     }
     if( math_val ) {

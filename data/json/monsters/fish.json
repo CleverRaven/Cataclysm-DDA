@@ -1306,11 +1306,11 @@
   {
     "id": "mon_fish_mackerel",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str_sp": "atlantic mackerel" },
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "Atlantic mackerel" },
     "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
-    "volume": "3000 ml",
-    "weight": "1600 g",
+    "volume": "850 ml",
+    "weight": "425 g",
     "reproduction": { "baby_egg": "egg_mackerel", "baby_count": 3, "baby_timer": 20 }
   },
   {
@@ -1322,10 +1322,10 @@
   {
     "id": "mon_fish_flounder",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str_sp": "flounder" },
-    "description": "A flatfish, the flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
-    "volume": "2500 ml",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "summer flounder" },
+    "description": "A flatfish, the summer flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
+    "volume": "4 L",
     "weight": "1400 g",
     "reproduction": { "baby_egg": "egg_flounder", "baby_count": 2, "baby_timer": 22 }
   },
@@ -1341,8 +1341,8 @@
     "copy-from": "mon_fish_small",
     "name": { "str_sp": "black sea bass" },
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
-    "volume": "1500 ml",
-    "weight": "600 g",
+    "volume": "1330 ml",
+    "weight": "850 g",
     "reproduction": { "baby_egg": "egg_blackfish", "baby_count": 2, "baby_timer": 15 }
   },
   {
@@ -1354,11 +1354,10 @@
   {
     "id": "mon_fish_porgy",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
-    "volume": "1300 ml",
-    "weight": "550 g",
+    "weight": "500 g",
     "reproduction": { "baby_egg": "egg_porgy", "baby_count": 3, "baby_timer": 16 }
   },
   {
@@ -1373,8 +1372,7 @@
     "copy-from": "mon_fish_small",
     "name": { "str_sp": "bluefish" },
     "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth.  It sports a distinct blue-green coloration.",
-    "volume": "1600 ml",
-    "weight": "700 g",
+    "volume": "6785 ml",
     "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
   },
   {
@@ -1389,8 +1387,8 @@
     "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic cod" },
     "description": "A large, white-meat fish known for its mild flavor and flaky texture.  Highly prized in both commercial and recreational fishing.",
-    "volume": "35000 ml",
-    "weight": "22 kg",
+    "volume": "31450 ml",
+    "weight": "30 kg",
     "reproduction": { "baby_egg": "egg_cod", "baby_count": 3, "baby_timer": 19 }
   },
   {
@@ -1402,11 +1400,11 @@
   {
     "id": "mon_fish_haddock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "haddock" },
     "description": "A popular food fish, the haddock is recognized by its dark lateral line and a black blotch above the pectoral fin.",
-    "volume": "25500 ml",
-    "weight": "11 kg",
+    "volume": "6785 ml",
+    "weight": "1800 g",
     "reproduction": { "baby_egg": "egg_haddock", "baby_count": 3, "baby_timer": 18 }
   },
   {
@@ -1421,8 +1419,8 @@
     "copy-from": "mon_fish_huge",
     "name": { "str_sp": "Atlantic bluefin tuna" },
     "description": "One of the largest and fastest fish in the waters of New England, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
-    "volume": "125000 ml",
-    "weight": "98 kg",
+    "volume": "250 L",
+    "weight": "200 kg",
     "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
   },
   {
@@ -1434,11 +1432,11 @@
   {
     "id": "mon_fish_halibut",
     "type": "MONSTER",
-    "copy-from": "mon_fish_huge",
+    "copy-from": "mon_fish_large",
     "name": { "str_sp": "Atlantic halibut" },
     "description": "The largest flatfish in the ocean, known for its dense, firm texture and mild flavor.",
-    "volume": "75000 ml",
-    "weight": "42 kg",
+    "volume": "75 L",
+    "weight": "25 kg",
     "reproduction": { "baby_egg": "egg_halibut", "baby_count": 2, "baby_timer": 20 }
   },
   {
@@ -1450,12 +1448,12 @@
   {
     "id": "mon_fish_pollock",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "pollock" },
     "looks_like": "mon_fish_cod",
     "description": "A member of the cod family, pollock is a versatile fish known for its white, delicate meat and mild taste.",
-    "volume": "28000 ml",
-    "weight": "17 kg",
+    "volume": "6785 ml",
+    "weight": "2250 g",
     "reproduction": { "baby_egg": "egg_pollock", "baby_count": 3, "baby_timer": 17 }
   },
   {

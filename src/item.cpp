@@ -1625,7 +1625,6 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     tname::segment_bitset bits;
     if( type == rhs.type ) {
         bits.set( tname::segments::TYPE );
-        bits.set( tname::segments::ENGINE_DISPLACEMENT );
         bits.set( tname::segments::WHEEL_DIAMETER );
         bits.set( tname::segments::WHITEBLACKLIST, _stacks_whiteblacklist( *this, rhs ) );
     }
@@ -3180,7 +3179,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->barrel_length().value() > 0 ) {
         if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
-            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: <info>%d %s</info>" ),
                                convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
                                iteminfo::no_flags );
         }
@@ -6073,6 +6072,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
             art = itype_variant().art;
         }
         if( art.is_valid() ) {
+            insert_separation_line( info );
             for( const std::string &line : art->picture ) {
                 info.emplace_back( "DESCRIPTION", line );
             }
@@ -6233,11 +6233,6 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
         }
     }
     return result;
-}
-
-int item::engine_displacement() const
-{
-    return type->engine ? type->engine->displacement : 0;
 }
 
 const std::string &item::symbol() const
@@ -6748,7 +6743,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
         if( !segments[idx] ) {
             continue;
         }
-        ret += ( *tname::segment_map.at( idx ) )( *this, quantity, segments );
+        ret += tname::print_segment( idx, *this, quantity, segments );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -7395,12 +7390,12 @@ int item::damage_melee( const damage_type_id &dt ) const
         res *= 1.3;
     }
 
-    // consider any melee gunmods
+    // consider any attached bayonets
     if( is_gun() ) {
         std::vector<int> opts = { res };
-        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
-            if( e.second.target != this && e.second.melee() ) {
-                opts.push_back( e.second.target->damage_melee( dt ) );
+        for( const item *mod : gunmods() ) {
+            if( mod->type->gunmod->is_bayonet ) {
+                opts.push_back( mod->damage_melee( dt ) );
             }
         }
         return *std::max_element( opts.begin(), opts.end() );
@@ -9237,6 +9232,8 @@ bool item::has_itype_variant( bool check_option ) const
     switch( type->variant_kind ) {
         case itype_variant_kind::gun:
             return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        case itype_variant_kind::drug:
+            return get_option<bool>( "SHOW_DRUG_VARIANTS" );
         default:
             return true;
     }

@@ -1,8 +1,8 @@
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/third-party)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
-set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
-set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
-set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
+set(MAIN_CPP ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+set(MESSAGES_CPP ${CMAKE_CURRENT_SOURCE_DIR}/messages.cpp)
+set(RESOURCE_RC ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc)
 
 if (WIN32)
     set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
@@ -13,25 +13,21 @@ if (WIN32)
             OBJECT_DEPENDS "${RSRC_RC_DEP}")
 endif ()
 
-file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
-file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
+file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 # Get GIT version strings
 add_custom_target(
         get_version
-        DEPENDS ${CMAKE_SOURCE_DIR}/src/version.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/version.h
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_custom_command(
-        OUTPUT ${CMAKE_SOURCE_DIR}/src/version.h
-        COMMAND ${CMAKE_COMMAND}
-                -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
-                -D DST=${CMAKE_SOURCE_DIR}/src/version.h
-                -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
-                -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/version.h
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Build tiles version if requested
@@ -40,7 +36,7 @@ if (TILES)
             cataclysm-tiles-common OBJECT
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
-    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
     target_link_libraries(cataclysm-tiles-common PUBLIC third-party)
 
@@ -51,6 +47,16 @@ if (TILES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(MSYS2)
+            # /MANIFESTINPUT not supported by GNU linker
+            # Defaul embed via `windres.exe` compiling `resource.rc` -> `resource.rc.obj`
+        else()
+            # Embed manifest directly to avoid:
+            # "fatal error CVT1100: duplicate resource.  type:MANIFEST, name:1, language:0x0409"
+            target_link_options(cataclysm-tiles PRIVATE
+                "LINKER:/MANIFESTINPUT:${CMAKE_SOURCE_DIR}/data/application_manifest.xml"
+            )
+        endif()
     else ()
         add_executable(cataclysm-tiles
                 ${MAIN_CPP}
@@ -144,7 +150,7 @@ if (CURSES)
     add_library(cataclysm-common OBJECT
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
-    target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
     target_link_libraries(cataclysm-common PUBLIC third-party)
 

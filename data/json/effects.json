@@ -340,7 +340,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing", "grabbing_2" ],
+    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -622,6 +622,21 @@
     "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "//1": "Copy of blind effect, used to temporarily remove vision as a utility function. Only use outside of EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW with extreme caution.",
+    "id": "blind_no_msg",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything.  You shouldn't be able to see this description either!" ],
+    "rating": "bad",
+    "show_in_info": false,
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.0 },
       { "limb_score": "night_vis", "modifier": 0.0 },
@@ -3209,6 +3224,28 @@
   },
   {
     "type": "effect_type",
+    "id": "transition_contacts",
+    "name": [ "Transition Contact Lenses" ],
+    "desc": [ "You are wearing photochromic contact lenses that additionally protect you from the sunlight." ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You can see more clearly.",
+    "remove_message": "Your vision starts to blur.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "transition_contacts_plano",
+    "name": [ "Transition Contact Lenses (Plano)" ],
+    "desc": [
+      "You are wearing non-prescription photochromic contact lenses that protect you from the sunlight, but don't help with any sight issues."
+    ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You apply photochromic contact lenses.",
+    "remove_message": "you pull off your photochromic contact lenses.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "drunk",
     "name": [ "Tipsy", "Drunk", "Trashed", "Wasted", "Dead Drunk" ],
     "desc": [
@@ -3468,6 +3505,17 @@
   {
     "type": "effect_type",
     "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_3",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
     "max_intensity": 1,

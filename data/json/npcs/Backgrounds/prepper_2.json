@@ -10,7 +10,7 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -25,7 +25,7 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -39,7 +39,7 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for telling me that.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -69,7 +69,7 @@
         "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
       },
       { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -86,7 +86,7 @@
       {
         "text": "Thanks!  <done_conversation_section>",
         "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_spawn_item": "survivormap" } ],
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Thanks!  <end_talking>",
@@ -108,7 +108,7 @@
       {
         "text": "<done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "<end_talking>",

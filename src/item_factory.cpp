@@ -4,17 +4,13 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <iterator>
 #include <limits>
 #include <memory>
-#include <new>
 #include <optional>
 #include <stdexcept>
-#include <type_traits>
 #include <unordered_set>
 
-#include "addiction.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bodypart.h"
@@ -36,11 +32,11 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
 #include "iuse_actor.h"
-#include "json.h"
 #include "material.h"
 #include "options.h"
 #include "pocket_type.h"
@@ -1675,26 +1671,14 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
-    add_iuse( "CARVER_OFF", &iuse::carver_off );
-    add_iuse( "CARVER_ON", &iuse::carver_on );
-    add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
-    add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "CHANGE_EYES", &iuse::change_eyes );
     add_iuse( "CHANGE_SKIN", &iuse::change_skin );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
-    add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
-    add_iuse( "ELECTRIC_CIRCSAW_ON", &iuse::e_circsaw_on );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
-    add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
-    add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
-    add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );
-    add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
-    add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
-    add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
@@ -1714,8 +1698,6 @@ void Item_factory::init()
     add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EBOOKREAD", &iuse::ebookread );
-    add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
-    add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
@@ -1761,6 +1743,7 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
+    add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
@@ -1828,8 +1811,6 @@ void Item_factory::init()
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "TOWEL", &iuse::towel );
-    add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
-    add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
@@ -3483,6 +3464,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
             slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
         }
     }
+
+    assign( jo, "is_bayonet", slot.is_bayonet );
     assign( jo, "blacklist_mod", slot.blacklist_mod );
     assign( jo, "blacklist_slot", slot.blacklist_slot );
     assign( jo, "barrel_length", slot.barrel_length );

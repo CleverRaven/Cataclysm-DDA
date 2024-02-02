@@ -31,6 +31,11 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
       { "text": "Care to trade?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", "effect": "start_trade" },
       {
         "text": "Why don't you come with me?",

@@ -67,6 +67,12 @@
     "components": [ [ [ "sling", 1 ] ] ]
   },
   {
+    "id": "spell_components_haste",
+    "type": "requirement",
+    "//": "Mercury for the Haste spell",
+    "components": [ [ [ "mercury", 50 ] ] ]
+  },
+  {
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",
@@ -173,5 +179,26 @@
     "type": "requirement",
     "//": "Sticks to turn into a bramble spear",
     "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_anti_heat",
+    "type": "requirement",
+    "//": "Water for Water's Cooling Touch",
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "water_mineral", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_flames_of_passion",
+    "type": "requirement",
+    "//": "Alcohol for Flames of Passion",
+    "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "cheap_wine", 1, "LIST" ], [ "worthy_wine", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "spell_components_freshen_up",
+    "type": "requirement",
+    "//": "Water and soap / lye for freshen up",
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
+      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+    ]
   }
 ]

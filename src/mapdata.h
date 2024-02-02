@@ -70,6 +70,12 @@ struct map_bash_info {
     bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
                const std::string &context );
 };
+struct map_deconstruct_skill {
+    skill_id id; // Id of skill to increase on successful deconstruction
+    int min; // Minimum level to recieve xp
+    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
+};
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
@@ -80,6 +86,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
+    std::optional<map_deconstruct_skill> skill;
     bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
@@ -319,6 +326,7 @@ enum class ter_furn_flag : int {
     TFLAG_MUTANT_TREE,
     TFLAG_SINGLE_SUPPORT,
     TFLAG_CLIMB_ADJACENT,
+    TFLAG_FLOATS_IN_AIR,
 
     NUM_TFLAG_FLAGS
 };

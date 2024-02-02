@@ -52,7 +52,7 @@
     "id": "permafrost_mage_ice_age",
     "type": "SPELL",
     "name": "Ice Age",
-    "description": "Cool down every creature in range till their flesh will crack, bones will shatter, and armor will fracture.",
+    "description": "Cool down every creature in range 'till their flesh cracks, bones shatter, and armor fractures.",
     "effect": "attack",
     "effect_str": "cold",
     "shape": "blast",

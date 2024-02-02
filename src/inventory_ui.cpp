@@ -9,19 +9,18 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "inventory.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "item_tname.h"
-#include "iteminfo_query.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -3293,7 +3292,7 @@ item_location inventory_pick_selector::execute()
                         return input.entry->any_item();
                     }
                 }
-            } else if( input.action == "ANY_INPUT" ) {
+            } else if( input.action != "MOUSE_MOVE" && input.action != "COORDINATE" ) {
                 return input.entry->any_item();
             } else {
                 if( !dragActive && highlight( input.entry->any_item() ) ) {
@@ -3504,6 +3503,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
     ctxt.register_action( "DECREASE_COUNT" );
 
     max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
+    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -4478,7 +4478,6 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     ctxt.register_action( ACTION_BANKBALANCE );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
-    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 }
 
 trade_selector::select_t trade_selector::to_trade() const

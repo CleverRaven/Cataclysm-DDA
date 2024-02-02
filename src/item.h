@@ -2705,10 +2705,6 @@ class item : public visitable
          *
          *@{*/
 
-        /** for combustion engines the displacement (cc) */
-        int engine_displacement() const;
-        /*@}*/
-
         /**
          * @name Bionics / CBMs
          * Functions specific to CBMs

@@ -1,5 +1,12 @@
 [
   {
+    "type": "enchantment",
+    "id": "ench_ierde_no_mind_problems",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "effect_ierde_no_mind_problems", "intensity": 1 } ]
+  },
+  {
     "id": "ierde_stomp_ground_smash_spell",
     "type": "SPELL",
     "name": "Earthquake Stomp",
@@ -110,6 +117,34 @@
     "max_aoe": 15
   },
   {
+    "id": "ierde_summon_earth_spirit",
+    "type": "SPELL",
+    "name": "Calling the Children of the Stones",
+    "description": "A lesser earth elemental is summoned to support you.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "spell_class": "IERDE",
+    "teachable": false,
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.5,
+    "min_range": 1,
+    "max_range": 15,
+    "range_increment": 1,
+    "max_level": 35,
+    "difficulty": 3,
+    "effect": "summon",
+    "effect_str": "GROUP_GENIUS_IERDE_LESSER",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "SPAWN_GROUP" ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
     "id": "ierde_no_sleep_meditate_spell",
     "type": "SPELL",
     "name": "Unsleeping Earth Vigil Spell",
@@ -121,6 +156,21 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_IERDE_NO_SLEEP_MEDITATE",
     "shape": "blast"
+  },
+  {
+    "id": "ierde_smashing_punch_spell",
+    "type": "SPELL",
+    "name": "Avalanche Blow Spell",
+    "description": "The spell cast by the Avalanche Blow mutation.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_damage": { "math": [ "u_val('strength') * 2.5" ] },
+    "max_damage": { "math": [ "u_val('strength') * 3.5" ] }
   },
   {
     "id": "ierde_create_pits_spell",
