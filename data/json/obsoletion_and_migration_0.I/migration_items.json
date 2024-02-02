@@ -123,5 +123,45 @@
     "id": "handmade_checkers",
     "type": "MIGRATION",
     "replace": "makeshift_checkers"
+  },
+  {
+    "id": "terraforming_mars",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_venus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_jupiter",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_saturn",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_uranus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_neptune",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_pluto",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_earth",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
   }
 ]
