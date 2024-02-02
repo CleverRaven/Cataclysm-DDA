@@ -402,7 +402,8 @@
     "prereqs": [ "SYLPH_EYES" ],
     "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 4 }
+    "passive_mods": { "int_mod": 4 },
+    "flags": [ "ENHANCED_VISION" ]
   },
   {
     "type": "mutation",
@@ -474,5 +475,19 @@
     "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
     "time": "1 s",
     "//": "This should have a mana cost here instead of within the EoC once that's possible."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED",
+    "name": { "str": "As Free as the Wind" },
+    "points": 12,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the wind, the Sylph goes where they will with no one to stop them.  They are immune to anything that would restrict their movement, such as grabs, terrain costs, or slippery terrain.",
+    "prereqs": [ "SYLPH_DEX_BONUS_2" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
+    "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
   }
 ]
