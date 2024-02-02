@@ -69,26 +69,26 @@ jobs:
     - name: Build with emcc (emscripten)
       run: |
         emsdk activate ccache-git-emscripten-64bit
-        source */emsdk-main/emsdk_env.sh
-        ccache --zero-stats
+        #source */emsdk-main/emsdk_env.sh
+        #ccache --zero-stats
         # Increase cache size because debug builds generate large object files
-        ccache -M 5G
-        ccache --show-stats --verbose
+        #ccache -M 5G
+        #ccache --show-stats --verbose
 
         ./build-scripts/build-emscripten.sh
 
-    - name: post-build ccache manipulation
-      run: |
-        source */emsdk-main/emsdk_env.sh
-        ccache --show-stats --verbose
-        ccache -M 5G
-        ccache -c
-        ccache --show-stats --verbose
-
-    - name: clear ccache on PRs
-      if: ${{ github.ref_name != 'master' && !failure() }}
-      run: |
-        ccache -C
+#    - name: post-build ccache manipulation
+#      run: |
+#        source */emsdk-main/emsdk_env.sh
+#        ccache --show-stats --verbose
+#        ccache -M 5G
+#        ccache -c
+#        ccache --show-stats --verbose
+#
+#    - name: clear ccache on PRs
+#      if: ${{ github.ref_name != 'master' && !failure() }}
+#      run: |
+#        ccache -C
 
     - name: Assemble web bundle
       run: ./build-scripts/prepare-web.sh
