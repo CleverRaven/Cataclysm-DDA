@@ -1174,7 +1174,8 @@ static bool eat( item &food, Character &you, bool force )
     // Chance to become parasitised
     if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-            one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+            one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                    ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {
