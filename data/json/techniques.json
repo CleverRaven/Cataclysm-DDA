@@ -3507,13 +3507,8 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        {
-          "and": [
-            { "not": { "npc_has_flag": "GRAB_FILTER" } },
-            { "not": { "u_has_effect": "GRAB" } }
-          ]
-        }
-    ]
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
     },
     "tech_effects": [
       {
