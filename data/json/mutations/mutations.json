@@ -1182,7 +1182,7 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Uncaring" },
     "points": 2,
-    "description": "Whether due to brain chemistry, service-related trauma,or Olympian mental gymnastics,you no longer feel any remorse or guilt for harming your fellow man.",
+    "description": "Whether due to brain chemistry, service-related trauma, or Olympian mental gymnastics, you no longer feel any remorse or guilt for harming your fellow man.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
