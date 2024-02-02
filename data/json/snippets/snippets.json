@@ -74,95 +74,11 @@
         "id": "charsheet_9",
         "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer."
       },
-      {
-        "id": "charsheet_10",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a caveman."
-      },
-      {
-        "id": "charsheet_11",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a cavewoman."
-      },
-      {
-        "id": "charsheet_12",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a gunslinger."
-      },
-      {
-        "id": "charsheet_13",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a ranger."
-      },
-      {
-        "id": "charsheet_14",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a diplomat."
-      },
-      {
-        "id": "charsheet_15",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a merchant."
-      },
-      {
-        "id": "charsheet_16",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a wanderer."
-      },
-      {
-        "id": "charsheet_17",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a noble."
-      },
-      { "id": "charsheet_18", "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a monk." },
-      {
-        "id": "charsheet_19",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a priest."
-      },
-      {
-        "id": "charsheet_20",
-        "text": "It's a Dungeons & Dragons Homebrew character sheet.  This one is for a priestess."
-      },
-      {
-        "id": "charsheet_21",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a hunter."
-      },
-      {
-        "id": "charsheet_22",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a cannibal."
-      },
-      {
-        "id": "charsheet_23",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a fisher."
-      },
-      {
-        "id": "charsheet_24",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a spearman."
-      },
-      {
-        "id": "charsheet_25",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for an elder."
-      },
-      {
-        "id": "charsheet_26",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a berry picker."
-      },
-      {
-        "id": "charsheet_27",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a fire specialist."
-      },
-      {
-        "id": "charsheet_28",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a lone wolf."
-      },
-      {
-        "id": "charsheet_29",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a witchdoctor."
-      },
-      {
-        "id": "charsheet_30",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a builder."
-      },
-      {
-        "id": "charsheet_31",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a sling-shooter."
-      },
-      {
-        "id": "charsheet_32",
-        "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a cooker."
-      }
+      { "id": "charsheet_10", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a hunter." },
+      { "id": "charsheet_11", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a cannibal." },
+      { "id": "charsheet_12", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a fisher." },
+      { "id": "charsheet_13", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a spearman." },
+      { "id": "charsheet_14", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for an elder." }
     ]
   },
   {

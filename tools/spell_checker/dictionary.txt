@@ -2146,6 +2146,8 @@ ophanim
 ophanims
 optimality
 opy
+orc
+orcs
 orgs
 orichalcum
 orld
