@@ -272,6 +272,10 @@ static void WinCreate()
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
+#if defined(EMSCRIPTEN)
+    // This fixes some scaling issues on high-DPI screens.
+    window_flags |= SDL_WINDOW_FULLSCREEN;
+#endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
