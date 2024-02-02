@@ -201,7 +201,6 @@
     "type": "ARMOR",
     "name": { "str": "XS light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
-    "looks_like": "lsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

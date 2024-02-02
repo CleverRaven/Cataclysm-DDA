@@ -50,6 +50,45 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_UNDINE_DRAG_INWARD_SELECTOR",
+    "effect": [
+      {
+        "switch": { "math": [ "u_spell_level('undine_drag_inward_spell')" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_01", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 4,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_02", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 8,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_03", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 12,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_04", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 16,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_05", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 20,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_06", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 24,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_07", "hit_self": false }, "targeted": true } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNDINE_GOBLIN_FRUIT",
     "condition": {
       "or": [

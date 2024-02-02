@@ -418,6 +418,14 @@
   },
   {
     "type": "mutation",
+    "id": "perk_praise",
+    "name": { "str": "Complimentary Remarks" },
+    "points": 0,
+    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,

@@ -181,7 +181,7 @@
     "id": "elemental_mana_draught",
     "name": { "str": "elemental mana draught" },
     "description": "Converting",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",
     "quench": 1,

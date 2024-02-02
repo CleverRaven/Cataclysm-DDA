@@ -3,7 +3,6 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,11 +15,10 @@
 #include "craft_command.h"
 #include "game_inventory.h"
 #include "inventory.h"
-#include "memory_fast.h"
+#include "map.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -31,9 +29,7 @@ class time_duration;
 class zone_data;
 enum class farm_ops : int;
 class item;
-class mission_data;
 class recipe;
-class tinymap;
 
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;

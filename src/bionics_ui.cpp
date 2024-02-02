@@ -1,11 +1,9 @@
 #include <algorithm> //std::min
 #include <cstddef>
-#include <functional>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -16,11 +14,10 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
-#include "game_inventory.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "localized_comparator.h"
-#include "material.h"
 #include "options.h"
 #include "output.h"
 #include "make_static.h"

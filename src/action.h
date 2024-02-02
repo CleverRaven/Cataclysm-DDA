@@ -3,7 +3,6 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>

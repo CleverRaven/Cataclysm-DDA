@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_VEH_UTILS_H
 #define CATA_SRC_VEH_UTILS_H
 
-#include <iosfwd>
 #include <optional>
 #include <vector>
 
-#include "input.h"
+#include "point.h"
 #include "type_id.h"
 
 class Character;

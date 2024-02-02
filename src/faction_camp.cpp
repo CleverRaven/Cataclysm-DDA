@@ -2,18 +2,15 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -35,7 +32,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -61,7 +58,6 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -2070,8 +2066,32 @@ void basecamp::start_upgrade( const mission_id &miss_id )
             return;
         }
         components.consume_components();
+        const point dir = miss_id.dir.value();  //  Will always have a value
+
         update_in_progress( miss_id.parameters,
-                            miss_id.dir.value() );  //  Dir should always have a value for upgrades.
+                            dir );
+
+        bool mirror_horizontal;
+        bool mirror_vertical;
+        int rotation;
+
+        auto e = expansions.find( dir );
+        if( e == expansions.end() ) {
+            return;
+        }
+        const tripoint_abs_omt upos = e->second.pos;
+
+        extract_and_check_orientation_flags( making.ident(),
+                                             dir,
+                                             mirror_horizontal,
+                                             mirror_vertical,
+                                             rotation,
+                                             "%s failed to build the %s upgrade",
+                                             "" );
+
+        apply_construction_marker( making.get_blueprint(), upos,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, true );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
@@ -2673,6 +2693,63 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
     }
 }
 
+// Stupid "the const qualified parameter 'comp' is copied for each invocation; consider making it a reference [performance-unnecessary-value-param,-warnings-as-errors]" demands the pointer to be referenced...
+static void apply_fortifications( const mission_id &miss_id, const npc_ptr *comp, bool start )
+{
+    update_mapgen_id build_n{ faction_wall_level_n_0_string };
+    update_mapgen_id build_e{ "faction_wall_level_E_0" };
+    update_mapgen_id build_s{ "faction_wall_level_S_0" };
+    update_mapgen_id build_w{ "faction_wall_level_W_0" };
+    if( miss_id.parameters == faction_wall_level_n_1_string ||
+        //  Handling of old format (changed mid 0.F) below
+        ( miss_id.parameters.empty() &&
+          comp[0]->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
+        build_n = update_mapgen_faction_wall_level_N_1;
+        build_e = update_mapgen_faction_wall_level_E_1;
+        build_s = update_mapgen_faction_wall_level_S_1;
+        build_w = update_mapgen_faction_wall_level_W_1;
+    }
+    update_mapgen_id build_first = build_e;
+    update_mapgen_id build_second = build_w;
+    bool build_dir_NS = comp[0]->companion_mission_points[0].y() !=
+                        comp[0]->companion_mission_points[1].y();
+    if( build_dir_NS ) {
+        build_first = build_s;
+        build_second = build_n;
+    }
+    //Add fences
+    auto &build_point = comp[0]->companion_mission_points;
+    for( size_t pt = 0; pt < build_point.size(); pt++ ) {
+        //First point is always at top or west since they are built in a line and sorted
+        if( pt == 0 ) {
+            if( !start ) {
+                run_mapgen_update_func( build_first, build_point[pt], {} );
+            }
+            apply_construction_marker( build_first, build_point[pt],
+                                       miss_id.mapgen_args, false,
+                                       false, false, start );
+        } else if( pt == build_point.size() - 1 ) {
+            if( !start ) {
+                run_mapgen_update_func( build_second, build_point[pt], {} );
+            }
+            apply_construction_marker( build_second, build_point[pt],
+                                       miss_id.mapgen_args, false,
+                                       false, false, start );
+        } else {
+            if( !start ) {
+                run_mapgen_update_func( build_first, build_point[pt], {} );
+                run_mapgen_update_func( build_second, build_point[pt], {} );
+            }
+            apply_construction_marker( build_first, build_point[pt],
+                                       miss_id.mapgen_args, false,
+                                       false, false, start );
+            apply_construction_marker( build_second, build_point[pt],
+                                       miss_id.mapgen_args, false,
+                                       false, false, start );
+        }
+    }
+}
+
 void basecamp::start_fortifications( const mission_id &miss_id, float exertion_level )
 {
     std::vector<std::string> allowed_locations = {
@@ -2769,6 +2846,8 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             for( tripoint_abs_omt &pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
             }
+
+            apply_fortifications( miss_id, &comp, true );
         }
     }
 }
@@ -2927,6 +3006,53 @@ point connection_direction_of( const point &dir, const recipe &making )
     return connection_dir;
 }
 
+static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
+        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
+{
+    orthogonal = true;
+    mirror_horizontal = false;
+    mirror_vertical = false;
+    rotation = 0;
+
+    switch( base_camps::all_directions.at( dir ).tab_order ) {
+        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
+        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
+            break;
+
+        case base_camps::tab_mode::TAB_NE:
+            orthogonal = false;
+            break;  //  This is the reference direction for diagonal orientations.
+
+        case base_camps::tab_mode::TAB_E:
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_SE:
+            orthogonal = false;
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_S:
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_SW:
+            orthogonal = false;
+            rotation = 2;
+            break;
+
+        case base_camps::tab_mode::TAB_W:
+            rotation = 1;
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_NW:
+            orthogonal = false;
+            rotation = 3;
+            break;
+    }
+}
+
 bool basecamp::common_salt_water_pipe_construction(
     const mission_id &miss_id, expansion_salt_water_pipe *pipe, int segment_number )
 {
@@ -2952,10 +3078,95 @@ bool basecamp::common_salt_water_pipe_construction(
         comp = start_multi_mission( miss_id, true,
                                     _( "Start constructing salt water pipes…" ),
                                     making.required_skills );
+
+        point connection_dir = pipe->connection_direction;
+        const int segment_number = 0;
+
+        point next_construction_direction;
+
+        if( segment_number == pipe->segments.size() - 1 ) {
+            next_construction_direction = { -connection_dir.x, -connection_dir.y };
+        } else {
+            next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
+                                            pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
+                                          };
+        }
+
+        bool orthogonal = true;
+        bool mirror_horizontal = false;
+        bool mirror_vertical = false;
+        int rotation = 0;
+
+        salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
+                                                mirror_horizontal, rotation );
+
+        if( orthogonal ) {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        } else {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        }
+
     } else {
         comp = start_multi_mission( miss_id, true,
                                     _( "Continue constructing salt water pipes…" ),
                                     making.required_skills );
+
+        point connection_dir = pipe->connection_direction;
+
+        const point previous_construction_direction = { pipe->segments[segment_number - 1].point.x() - pipe->segments[segment_number].point.x(),
+                                                        pipe->segments[segment_number - 1].point.y() - pipe->segments[segment_number].point.y()
+                                                      };
+
+        point next_construction_direction;
+
+        if( segment_number == static_cast<int>( pipe->segments.size() - 1 ) ) {
+            next_construction_direction = { -connection_dir.x, -connection_dir.y };
+        } else {
+            next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
+                                            pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
+                                          };
+        }
+
+        bool orthogonal = true;
+        bool mirror_horizontal = false;
+        bool mirror_vertical = false;
+        int rotation = 0;
+
+        salt_water_pipe_orientation_adjustment( previous_construction_direction, orthogonal,
+                                                mirror_vertical, mirror_horizontal, rotation );
+
+        if( orthogonal ) {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        } else {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        }
+
+        salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
+                                                mirror_horizontal, rotation );
+
+        if( orthogonal ) {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        } else {
+            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
+            apply_construction_marker( id, pipe->segments[segment_number].point,
+                                       miss_id.mapgen_args, mirror_horizontal,
+                                       mirror_vertical, rotation, true );
+        }
     }
 
     if( !comp.empty() ) {
@@ -3661,6 +3872,11 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
                making.get_blueprint().str() );
         return false;
     }
+
+    apply_construction_marker( making.get_blueprint(), upos,
+                               miss_id.mapgen_args, mirror_horizontal,
+                               mirror_vertical, rotation, false );
+
     update_provides( bldg, e->second );
     update_resources( bldg );
     if( oter_str_id( bldg ).is_valid() ) {
@@ -3768,96 +3984,21 @@ void basecamp::fortifications_return( const mission_id &miss_id )
 {
     npc_ptr comp = companion_choose_return( miss_id, 3_hours );
     if( comp != nullptr ) {
-        update_mapgen_id build_n{ faction_wall_level_n_0_string };
-        update_mapgen_id build_e{ "faction_wall_level_E_0" };
-        update_mapgen_id build_s{ "faction_wall_level_S_0" };
-        update_mapgen_id build_w{ "faction_wall_level_W_0" };
-        if( miss_id.parameters == faction_wall_level_n_1_string ||
-            //  Handling of old format (changed mid 0.F) below
-            ( miss_id.parameters.empty() &&
-              comp->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
-            build_n = update_mapgen_faction_wall_level_N_1;
-            build_e = update_mapgen_faction_wall_level_E_1;
-            build_s = update_mapgen_faction_wall_level_S_1;
-            build_w = update_mapgen_faction_wall_level_W_1;
-        }
-        update_mapgen_id build_first = build_e;
-        update_mapgen_id build_second = build_w;
-        bool build_dir_NS = comp->companion_mission_points[0].y() !=
-                            comp->companion_mission_points[1].y();
-        if( build_dir_NS ) {
-            build_first = build_s;
-            build_second = build_n;
-        }
-        //Add fences
         auto &build_point = comp->companion_mission_points;
-        for( size_t pt = 0; pt < build_point.size(); pt++ ) {
-            //First point is always at top or west since they are built in a line and sorted
-            if( pt == 0 ) {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
-            } else if( pt == build_point.size() - 1 ) {
-                run_mapgen_update_func( build_second, build_point[pt], {} );
-            } else {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
-                run_mapgen_update_func( build_second, build_point[pt], {} );
-            }
+        for( std::vector<tripoint_abs_omt>::iterator::value_type point : build_point ) {
             if( miss_id.parameters == faction_wall_level_n_0_string ||
                 //  Handling of old format (changed mid 0.F) below
                 ( miss_id.parameters.empty() &&
                   comp->companion_mission_role_id == faction_wall_level_n_0_string ) ) {
-                tripoint_abs_omt fort_point = build_point[pt];
+                tripoint_abs_omt fort_point = point;
                 fortifications.push_back( fort_point );
             }
         }
+
+        apply_fortifications( miss_id, &comp, false );
+
         const std::string msg = _( "returns from constructing fortifications…" );
         finish_return( *comp, true, msg, skill_construction.str(), 2 );
-    }
-}
-
-static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
-        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
-{
-    orthogonal = true;
-    mirror_horizontal = false;
-    mirror_vertical = false;
-    rotation = 0;
-
-    switch( base_camps::all_directions.at( dir ).tab_order ) {
-        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
-        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
-            break;
-
-        case base_camps::tab_mode::TAB_NE:
-            orthogonal = false;
-            break;  //  This is the reference direction for diagonal orientations.
-
-        case base_camps::tab_mode::TAB_E:
-            rotation = 1;
-            break;
-
-        case base_camps::tab_mode::TAB_SE:
-            orthogonal = false;
-            rotation = 1;
-            break;
-
-        case base_camps::tab_mode::TAB_S:
-            mirror_vertical = true;
-            break;
-
-        case base_camps::tab_mode::TAB_SW:
-            orthogonal = false;
-            rotation = 2;
-            break;
-
-        case base_camps::tab_mode::TAB_W:
-            rotation = 1;
-            mirror_vertical = true;
-            break;
-
-        case base_camps::tab_mode::TAB_NW:
-            orthogonal = false;
-            rotation = 3;
-            break;
     }
 }
 
@@ -3907,10 +4048,16 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -4001,10 +4148,16 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     }
 
     salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
@@ -4014,10 +4167,16 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
+        apply_construction_marker( id, pipe->segments[segment_number].point,
+                                   miss_id.mapgen_args, mirror_horizontal,
+                                   mirror_vertical, rotation, false );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -4944,7 +5103,6 @@ drop_locations basecamp::give_basecamp_equipment( inventory_filter_preset &prese
 {
     inventory_multiselector inv_s( get_player_character(), preset, column_title );
 
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_basecamp_items( *this );
     inv_s.set_title( title );
 
@@ -4990,7 +5148,6 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
 
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *pc );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( title );
@@ -5038,8 +5195,6 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
-
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     inv_s.add_remote_map_items( target_bay, target );
     inv_s.set_title( title );

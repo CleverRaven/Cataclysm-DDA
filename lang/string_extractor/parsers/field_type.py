@@ -7,4 +7,6 @@ def parse_field_type(json, origin):
         if "name" in fd:
             write_text(fd["name"], origin, comment="Field intensity level")
         if "effects" in fd:
-            parse_effect(fd["effects"], origin)
+            parse_effect(fd["effects"], origin,
+                         comment="effect in field {}".format(fd["name"])
+                         if "name" in fd else "")

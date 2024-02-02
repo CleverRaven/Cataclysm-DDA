@@ -9,6 +9,17 @@
     "difficulty": 4
   },
   {
+    "id": "bio_microgen",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Microfusion Generator CBM" },
+    "description": "A miniaturized fusion reactor.  It has modest output, but will run continuously for over two hundred years thanks to its internal nuclear fuel reservoir.",
+    "weight": "500 g",
+    "price": 120000,
+    "price_postapoc": 1500,
+    "difficulty": 3
+  },
+  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

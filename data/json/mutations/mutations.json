@@ -418,7 +418,12 @@
       ],
       [
         {
-          "condition": { "or": [ { "compare_num": [ "hour", "<", { "const": 6 } ] }, { "compare_num": [ "hour", ">", { "const": 21 } ] } ] },
+          "condition": {
+            "or": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 6" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 21" ] }
+            ]
+          },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
@@ -437,7 +442,12 @@
     "triggers": [
       [
         {
-          "condition": { "and": [ { "compare_num": [ "hour", ">", { "const": 6 } ] }, { "compare_num": [ "hour", "<", { "const": 21 } ] } ] },
+          "condition": {
+            "and": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 6" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 21" ] }
+            ]
+          },
           "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
@@ -504,7 +514,25 @@
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [ [ { "condition": { "not": { "or": [ { "u_has_effect": "smoke", "bodypart": "mouth" }, { "u_has_effect": "asthma" }, { "u_has_effect": "tpollen" }, { "u_has_effect": "asthma" }, { "u_has_effect": "hay_fever" }, "u_is_underwater" ] } }, "msg_on": { "text": "", "rating": "good" } } ] ]
+    "triggers": [
+      [
+        {
+          "condition": {
+            "not": {
+              "or": [
+                { "u_has_effect": "smoke", "bodypart": "mouth" },
+                { "u_has_effect": "asthma" },
+                { "u_has_effect": "tpollen" },
+                { "u_has_effect": "asthma" },
+                { "u_has_effect": "hay_fever" },
+                "u_is_underwater"
+              ]
+            }
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ]
   },
   {
     "type": "mutation",
@@ -4328,13 +4356,13 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.58 }, { "value": "FOOTSTEP_NOISE", "multiply": 0 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-        },
+      },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.20 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
+        "values": [ { "value": "MOVE_COST", "multiply": -0.2 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       }
-  ]
+    ]
   },
   {
     "type": "mutation",
@@ -4384,13 +4412,14 @@
         }
       ]
     ],
-    "enchantments": [ 
-    "ench_quadruped_movement_full",
-    {
-      "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
-      "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
-      "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-    } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      {
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      }
+    ],
     "weight_capacity_modifier": 0.8
   },
   {
@@ -9668,5 +9697,16 @@
     "starting_trait": false,
     "valid": false,
     "passive_mods": { "dex_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CBM_INSTALLATION",
+    "name": { "str": "Oversensitive System" },
+    "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
+    "player_display": true,
+    "points": -8,
+    "starting_trait": true,
+    "valid": false,
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   }
 ]

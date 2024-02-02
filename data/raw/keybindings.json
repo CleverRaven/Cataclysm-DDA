@@ -1215,6 +1215,13 @@
   },
   {
     "type": "keybinding",
+    "id": "LONG_TELEPORT",
+    "category": "OVERMAP",
+    "name": "Teleport to cursor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
@@ -3429,6 +3436,17 @@
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
       { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_ZONE_DISPLAY",
+    "category": "ZONES_MANAGER",
+    "name": "Toggle display of zone markers",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "t" },
+      { "input_method": "keyboard_char", "key": "T" },
+      { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] }
     ]
   },
   {

@@ -33,5 +33,21 @@
       { "u_lose_effect": "effect_electrokinetic_pain_immune" },
       { "math": [ "u_pain()", "+=", "(u_electrokin_pain_value * 1.1)" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_ROBOT_INTERFACE",
+    "effect": [ { "u_cast_spell": { "id": "electro_spawn_robot_interface" } }, { "run_eocs": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "electro_robot_interface" } ],
+        "true_eocs": [ { "id": "EOC_ELECTROKIN_USE_ROBOT_INTERFACE_ACTIVATE", "effect": { "u_activate": "ROBOTCONTROL" } } ]
+      }
+    ]
   }
 ]

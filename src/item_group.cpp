@@ -108,7 +108,8 @@ static pocket_type guess_pocket_for( const item &container, const item &payload 
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const std::optional<itype_id> &container_type, const bool sealed,
+    const std::optional<itype_id> &container_type, const std::optional<std::string> &container_variant,
+    const bool sealed,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -122,6 +123,9 @@ static void put_into_container(
     std::shuffle( items.end() - num_items, items.end(), rng_get_engine() );
 
     item ctr( *container_type, birthday );
+    if( container_variant ) {
+        ctr.set_itype_variant( *container_variant );
+    }
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
         ret_val<void> ret = ctr.can_contain_directly( *it );
@@ -174,7 +178,8 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 {
     item tmp = create_single_without_container( birthday, rec );
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.count(), sealed );
+        tmp = tmp.in_container( *container_item, tmp.count(), sealed,
+                                container_item_variant.value_or( "" ) );
     }
     return tmp;
 }
@@ -182,30 +187,44 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 item Single_item_creator::create_single_without_container( const time_point &birthday,
         RecursionList &rec ) const
 {
-    item tmp;
-    if( type == S_ITEM ) {
-        if( id == "corpse" ) {
-            tmp = item::make_corpse( mtype_id::NULL_ID(), birthday );
-        } else {
-            tmp = item( id, birthday );
-        }
-    } else if( type == S_ITEM_GROUP ) {
+    // Check direct return conditions first.
+    if( type == S_NONE ) {
+        return item( null_item_id, birthday );
+    }
+    Item_spawn_data *isd = nullptr;
+    if( type == S_ITEM_GROUP ) {
         item_group_id group_id( id );
         if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
         rec.push_back( group_id );
-        Item_spawn_data *isd = item_controller->get_group( group_id );
+        isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
-        tmp = isd->create_single( birthday, rec );
-        rec.erase( rec.end() - 1 );
-    } else if( type == S_NONE ) {
-        return item( null_item_id, birthday );
     }
+
+    item tmp = ( [&]() -> item {
+        if( isd )
+        {
+            on_out_of_scope scope{
+                [&]{
+                    rec.erase( rec.end() - 1 );
+                }} ;
+            return isd->create_single( birthday, rec );
+        } else
+        {
+            cata_assert( type == S_ITEM );
+            if( id == "corpse" ) {
+                return item::make_corpse( mtype_id::NULL_ID(), birthday );
+            } else {
+                return item( id, birthday );
+            }
+        }
+    } )();
+
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.set_flag( flag_FIT );
     }
@@ -280,7 +299,8 @@ std::size_t Single_item_creator::create( ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday,
+                        on_overflow, context() );
     return list.size() - prev_list_size;
 }
 
@@ -501,11 +521,15 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     {
         // create container here from modifier or from default to get max charges later
-        item cont;
+        std::optional<item> cont;
         if( container != nullptr ) {
             cont = container->create_single( new_item.birthday() );
-        } else if( new_item.type->default_container.has_value() ) {
+        } else if( new_item.type->default_container.has_value() &&
+                   !new_item.type->default_container->is_null() ) {
             cont = item( *new_item.type->default_container, new_item.birthday() );
+            if( new_item.type->default_container_variant.has_value() ) {
+                cont->set_itype_variant( *new_item.type->default_container_variant );
+            }
         }
 
         int max_capacity = -1;
@@ -530,13 +554,14 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             }
         }
 
-        if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
-                ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
+        if( max_capacity == -1 && cont.has_value() && !cont->is_null() &&
+            ( new_item.made_of( phase_id::LIQUID ) ||
+              ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
             if( new_item.type->weight == 0_gram ) {
-                max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+                max_capacity = new_item.charges_per_volume( cont->get_total_capacity() );
             } else {
-                max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
-                                         new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
+                max_capacity = std::min( new_item.charges_per_volume( cont->get_total_capacity() ),
+                                         new_item.charges_per_weight( cont->get_total_weight_capacity() ) );
             }
         }
 
@@ -561,7 +586,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
             ch = charges_min == charges_max ? charges_min : rng( charges_min,
                     charges_max );
-        } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
+        } else if( cont.has_value() && !cont->is_null() && new_item.made_of( phase_id::LIQUID ) ) {
             new_item.charges = std::max( 1, max_capacity );
         }
 
@@ -638,11 +663,11 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             }
         }
 
-        if( !cont.is_null() ) {
-            const pocket_type pk_type = guess_pocket_for( cont, new_item );
-            cont.put_in( new_item, pk_type );
-            cont.add_automatic_whitelist();
-            new_item = std::move( cont );
+        if( cont.has_value() && !cont->is_null() ) {
+            const pocket_type pk_type = guess_pocket_for( *cont, new_item );
+            cont->put_in( new_item, pk_type );
+            cont->add_automatic_whitelist();
+            new_item = std::move( *cont );
             if( sealed ) {
                 new_item.seal();
             }
@@ -830,7 +855,8 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday,
+                        on_overflow, context() );
 
     return list.size() - prev_list_size;
 }
@@ -866,11 +892,6 @@ void Item_group::check_consistency() const
         elem->check_consistency();
     }
     Item_spawn_data::check_consistency();
-}
-
-void Item_spawn_data::set_container_item( const itype_id &container )
-{
-    container_item = container;
 }
 
 int Item_spawn_data::get_probability( bool skip_event_check ) const
