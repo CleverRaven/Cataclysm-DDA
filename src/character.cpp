@@ -7042,25 +7042,25 @@ void Character::recalc_limb_energy_usage()
 
 void Character::burn_energy_arms( int mod )
 {
-    mod_stamina( -mod * get_arms_stam_mult() );
+    mod_stamina( mod * get_arms_stam_mult() );
     if( get_arms_power_use() > 0 ) {
-        mod_power_level( units::from_millijoule( -mod * get_arms_power_use() ) );
+        mod_power_level( units::from_millijoule( mod * get_arms_power_use() ) );
     }
 }
 
 void Character::burn_energy_legs( int mod )
 {
-    mod_stamina( -mod * get_legs_stam_mult() );
+    mod_stamina( mod * get_legs_stam_mult() );
     if( get_legs_power_use() > 0 ) {
-        mod_power_level( units::from_millijoule( -mod * get_legs_power_use() ) );
+        mod_power_level( units::from_millijoule( mod * get_legs_power_use() ) );
     }
 }
 
 void Character::burn_energy_all( int mod )
 {
-    mod_stamina( -mod * ( get_arms_stam_mult() + get_legs_stam_mult() ) * 0.5f );
+    mod_stamina( mod * ( get_arms_stam_mult() + get_legs_stam_mult() ) * 0.5f );
     if( ( get_arms_power_use() + get_legs_power_use() ) > 0 ) {
-        mod_power_level( units::from_millijoule( -mod * ( get_arms_power_use() + get_legs_power_use() ) ) );
+        mod_power_level( units::from_millijoule( mod * ( get_arms_power_use() + get_legs_power_use() ) ) );
     }
 }
 
