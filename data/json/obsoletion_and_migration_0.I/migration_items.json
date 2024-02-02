@@ -3,5 +3,15 @@
     "id": "rag",
     "type": "MIGRATION",
     "replace": "sheet_cotton"
+  },
+  {
+    "id": "holybook_odin",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
+  },
+  {
+    "id": "holybook_asatru",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
   }
 ]

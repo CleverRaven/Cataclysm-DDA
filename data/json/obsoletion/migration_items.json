@@ -600,10 +600,5 @@
     "id": "trex_gun",
     "type": "MIGRATION",
     "replace": "win70_458"
-  },
-  {
-    "id": "holybook_asatru",
-    "type": "MIGRATION",
-    "replace": "holybook_odin"
   }
 ]
