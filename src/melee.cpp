@@ -112,7 +112,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
-static const itype_id itype_rag( "rag" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -234,7 +234,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         units::volume big_vol = 0_ml;
 
         // Items that should have no bearing on durability
-        const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
+        const std::set<itype_id> blacklist = { itype_sheet_cotton, itype_leather, itype_fur };
 
         for( item_components::type_vector_pair &tvp : shield->components ) {
             if( blacklist.count( tvp.first ) > 0 ) {

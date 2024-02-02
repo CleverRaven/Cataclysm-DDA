@@ -2317,7 +2317,7 @@ or 1 fur *in addition to* the wood spear or pointy stick:
 ```json
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
-  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
+  [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
 ]
 ```
 
@@ -2327,7 +2327,7 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 ```json
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
-  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
+  [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
   [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ]
 ]
 ```
@@ -2350,7 +2350,7 @@ For example if these `grip_patch` and `grip_wrap` requirements were defined:
   {
     "id": "grip_patch",
     "type": "requirement",
-    "components": [ [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "id": "grip_wrap",
@@ -3410,7 +3410,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color": "blue",                 // Color of the item symbol.
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
-"looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
+"looks_like": "sheet_cotton",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
 "snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
@@ -6240,7 +6240,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "sheet_cotton", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
     }
