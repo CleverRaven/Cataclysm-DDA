@@ -85,7 +85,7 @@
         "cooldown": 10,
         "move_cost": 100,
         "range": 12,
-        "damage_max_instance": [ { "damage_type": "pure", "amount": 5 } ],
+        "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
         "dodgeable": false,
         "blockable": false,
         "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
