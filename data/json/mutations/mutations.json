@@ -514,7 +514,25 @@
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [ [ { "condition": { "not": { "or": [ { "u_has_effect": "smoke", "bodypart": "mouth" }, { "u_has_effect": "asthma" }, { "u_has_effect": "tpollen" }, { "u_has_effect": "asthma" }, { "u_has_effect": "hay_fever" }, "u_is_underwater" ] } }, "msg_on": { "text": "", "rating": "good" } } ] ]
+    "triggers": [
+      [
+        {
+          "condition": {
+            "not": {
+              "or": [
+                { "u_has_effect": "smoke", "bodypart": "mouth" },
+                { "u_has_effect": "asthma" },
+                { "u_has_effect": "tpollen" },
+                { "u_has_effect": "asthma" },
+                { "u_has_effect": "hay_fever" },
+                "u_is_underwater"
+              ]
+            }
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ]
   },
   {
     "type": "mutation",
