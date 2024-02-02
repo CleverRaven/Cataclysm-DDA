@@ -1,0 +1,63 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONTACTS",
+    "//time": "how long contact effect would last, in seconds",
+    "//effect": "what effect would be applied when item is activated. Currently supported only 'contacts' and 'transition_contacts'",
+    "//flag1": "what flag is required to use this lenses. lack of this flag prevent you from using the lenses",
+    "//flag2": "same as flag1, either this one or flag1. omit if not needed",
+    "//flag3": "same as flag1, either this one, or flag2 or flag1. omit if not needed",
+    "//plano": "used to handle the case, when lens don't have any correction power, and anyone can use it, specifically for transition_contacts_plano",
+    "condition": {
+      "and": [
+        { "math": [ "u_has_flag(_flag1) + u_has_flag(_flag2) + u_has_flag(_flag3) + _plano", ">", "0" ] },
+        { "expects_vars": [ "time", "effect" ] }
+      ]
+    },
+    "effect": { "run_eocs": [ "EOC_CONTACTS1" ] },
+    "false_effect": [
+      {
+        "if": { "math": [ "u_has_flag('HYPEROPIC') + u_has_flag('MYOPIC') + u_has_flag('MYOPIC_IN_LIGHT')", ">", "0" ] },
+        "then": { "u_message": "These lenses won't help you with your sight problems." },
+        "else": { "u_message": "You don't have any sight problems that require lenses." }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONTACTS1",
+    "condition": "u_is_underwater",
+    "effect": { "u_message": "Can't apply contact lenses underwater." },
+    "false_effect": { "run_eocs": [ "EOC_CONTACTS2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONTACTS2",
+    "condition": {
+      "or": [
+        { "u_has_effect": "contacts" },
+        { "u_has_effect": "transition_contacts" },
+        { "u_has_effect": "transition_contacts_plano" }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "u_query": "You already have lenses applied.  Replace your current lenses?", "default": false },
+        "then": [ { "u_message": "You remove your old contact lenses and apply a new pair." }, { "run_eocs": [ "EOC_CONTACTS3" ] } ],
+        "else": { "u_message": "You decide not to open the sealed lenses case." }
+      }
+    ],
+    "false_effect": [ { "u_message": "You apply a new pair of contact lenses." }, { "run_eocs": [ "EOC_CONTACTS3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONTACTS3",
+    "effect": [
+      { "u_lose_effect": "contacts" },
+      { "u_lose_effect": "transition_contacts" },
+      { "u_lose_effect": "transition_contacts_plano" },
+      { "u_add_effect": { "context_val": "effect" }, "duration": { "math": [ "rng(_time * 0.94, _time * 1.06)" ] } },
+      { "u_consume_item": { "context_val": "id" } }
+    ]
+  }
+]

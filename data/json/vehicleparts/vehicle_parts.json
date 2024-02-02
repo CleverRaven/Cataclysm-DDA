@@ -181,7 +181,7 @@
     "item": "pipe",
     "m2c": 90,
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
-    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "150 s", "using": [ [ "welding_standard", 5 ] ] },
@@ -218,7 +218,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 700,
     "location": "center",
-    "//": "10cm weld per damage quadrant to repair, 30cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 30 cm weld to install",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "welding_standard", 30 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -242,7 +242,7 @@
     "broken_color": "light_cyan",
     "durability": 30,
     "description": "A pair of handles.  You can mount other items on top of it.",
-    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
     "folded_volume": "750 ml",
     "item": "pipe",
     "location": "structure",
@@ -312,7 +312,7 @@
     "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
-    "//": ".5m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
+    "//": ".5 m square sheet of metal, likely affixed with bolts in places, assume 200 cm weld to install and 50 cm weld to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -513,7 +513,7 @@
     "durability": 300,
     "description": "A battery case for storage batteries.  Allows quick removal or addition of a storage battery, if you can lift the battery.",
     "item": "it_battery_mount",
-    "//": "40cm weld to affix",
+    "//": "40 cm weld to affix",
     "location": "fuel_source",
     "requirements": {
       "install": {
@@ -634,12 +634,12 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30W ~ 260kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10W is good too and very close to real world variant ",
+    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30 W ~ 260 kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10 W is good too and very close to real world variant ",
     "epower": "-24 W",
     "size": "75 L",
     "item": "minifridge",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -675,7 +675,7 @@
     "size": "75 L",
     "item": "minifreezer",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -712,7 +712,7 @@
     "item": "washing_machine",
     "size": "40 L",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -747,7 +747,7 @@
     "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -781,7 +781,7 @@
     "item": "vh_autoclave",
     "size": "76 L",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -809,7 +809,7 @@
     "size": "300 L",
     "//": "300 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
     "item": "frame",
-    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
+    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -842,7 +842,7 @@
     "size": "200 L",
     "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
     "item": "frame",
-    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
+    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -954,7 +954,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -981,7 +981,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1024,7 +1024,7 @@
     "size": "30 L",
     "item": "workbench",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1038,7 +1038,7 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" },
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30 L" },
     "damage_reduction": { "all": 29 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1051,7 +1051,7 @@
     "bonus": 15,
     "epower": "-50 W",
     "item": "workbench_with_recharger",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1070,7 +1070,7 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "size": "29500 ml",
-    "workbench": { "volume": "29L" },
+    "workbench": { "volume": "29 L" },
     "damage_reduction": { "all": 29 }
   },
   {
@@ -1151,7 +1151,7 @@
     "durability": 240,
     "item": "sheet_metal",
     "location": "under",
-    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
+    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -1391,7 +1391,7 @@
     "categories": [ "utility" ],
     "color": "red",
     "durability": 400,
-    "//": "700W average assuming relatively small target-actual difference",
+    "//": "700 W average assuming relatively small target-actual difference",
     "epower": "-700 W",
     "bonus": 10,
     "requirements": {
@@ -1771,7 +1771,7 @@
     "epower": "1 W",
     "item": "wind_turbine",
     "location": "on_roof",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1805,7 +1805,7 @@
     "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": "-3000 W",
-    "//": "30cm weld per quadrant of damage",
+    "//": "30 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1914,7 +1914,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "//": "40cm of weld per damage quadrant",
+    "//": "40 cm of weld per damage quadrant",
     "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
@@ -1946,7 +1946,7 @@
     "durability": 45,
     "folded_volume": "250 ml",
     "item": "water_faucet",
-    "//": "10cm weld per damage quadrant",
+    "//": "10 cm weld per damage quadrant",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1968,7 +1968,7 @@
     "description": "A towel hanger with towels.",
     "durability": 45,
     "folded_volume": "2500 ml",
-    "//": "10cm weld per damage quadrant",
+    "//": "10 cm weld per damage quadrant",
     "item": "towel_hanger",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -2009,7 +2009,7 @@
     "durability": 660,
     "item": "steel_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -2038,7 +2038,7 @@
     "durability": 600,
     "item": "alloy_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2073,7 +2073,7 @@
     "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
     "item": "spiked_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -2107,7 +2107,7 @@
     "durability": 780,
     "item": "hard_plate",
     "location": "armor",
-    "//": "300cm weld to install, 80cm weld per damage quadrant",
+    "//": "300 cm weld to install, 80 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2140,7 +2140,7 @@
     "durability": 700,
     "item": "mil_plate",
     "location": "armor",
-    "//": "300cm weld to install",
+    "//": "300 cm weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 6 ] ],
@@ -2254,8 +2254,8 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "size": "500 L",
-    "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonable amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
-    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
+    "//": "Based roughly on a quarter of a 2 m x 1.2 m pickup truck bed, assuming a reasonable amount of piling up (about 80 cm, ie. sticking up around 20 cm over the sides if really stacked).  Could definitely use more subtypes.",
+    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
@@ -2289,7 +2289,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
+    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
     "size": "300 L",
     "comfort": 2,
     "item": "livestock_carrier",
@@ -2471,7 +2471,7 @@
     "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
-    "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
+    "description": "An extra long 30 m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
     "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
@@ -2665,7 +2665,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
-    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
+    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
     "folded_volume": "2500 ml",
     "item": "drive_by_wire_controls",
     "requirements": {
@@ -2724,7 +2724,7 @@
     "folded_volume": "2 L",
     "bonus": 24,
     "item": "omnicamera",
-    "//": "Cameras without a DVR can run on under 10W",
+    "//": "Cameras without a DVR can run on under 10 W",
     "epower": "-10 W",
     "location": "on_roof",
     "requirements": {
@@ -2765,7 +2765,7 @@
     "description": "A set of controls to allow a vehicle to drive itself, or you to drive it remotely using a controller.",
     "item": "robot_controls",
     "folded_volume": "1250 ml",
-    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
+    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -2936,7 +2936,7 @@
     "size": "100 L",
     "damage_modifier": 10,
     "item": "v_scoop_item",
-    "//1": "100cm weld to install, 30cm weld per damage quadrant to repair",
+    "//1": "100 cm weld to install, 30 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -2992,7 +2992,7 @@
     "item": "v_plow_item",
     "location": "under",
     "power": "-300 W",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
       "install": {
@@ -3026,7 +3026,7 @@
     "location": "structure",
     "size": "12500 ml",
     "power": "-700 W",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3059,7 +3059,7 @@
     "location": "structure",
     "power": "-700 W",
     "size": "17500 ml",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3096,7 +3096,7 @@
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
     "item": "v_reaper_item",
     "location": "structure",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3128,7 +3128,7 @@
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "location": "under",
     "size": "87500 ml",
     "requirements": {
@@ -3185,7 +3185,7 @@
     "durability": 320,
     "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
-    "//1": "60cm weld to install and 15cm weld per damage quadrant to repair",
+    "//1": "60 cm weld to install and 15 cm weld per damage quadrant to repair",
     "item": "turret_mount",
     "requirements": {
       "install": {
@@ -3263,7 +3263,7 @@
     "durability": 200,
     "item": "aluminum_boat_hull",
     "location": "under",
-    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
+    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],

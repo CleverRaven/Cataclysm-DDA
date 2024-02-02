@@ -127,7 +127,7 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
-    "//": "29cm length battery, welded on at least two edges",
+    "//": "29 cm length battery, welded on at least two edges",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "welding_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": "vehicle_weld_removal" }
@@ -177,7 +177,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
     },
     "durability": 20,
-    "folded_volume": "25ml",
+    "folded_volume": "25 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
@@ -193,7 +193,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
     },
     "durability": 20,
-    "folded_volume": "35ml",
+    "folded_volume": "35 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },

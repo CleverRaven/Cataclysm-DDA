@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -14,8 +13,7 @@
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "game.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_stack.h"

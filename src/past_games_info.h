@@ -48,6 +48,7 @@ class past_games_info
     public:
         past_games_info();
 
+        void write_json_achievements( std::ostream &achievement_file ) const;
         void ensure_loaded();
         void clear();
         const achievement_completion_info *achievement( const achievement_id & ) const;
@@ -56,6 +57,7 @@ class past_games_info
         bool loaded_ = false;
         std::unordered_map<achievement_id, achievement_completion_info> completed_achievements_;
         std::vector<past_game_info> info_;
+        std::vector<achievement_id> ach_ids_;
 };
 
 const past_games_info &get_past_games();

@@ -215,7 +215,7 @@
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_VALHALLISTS_SET_TRADE_ROUTE",
-    "end": { "effect": [ { "npc_add_var": "npc_growing_mushrooms", "type": "timer", "context": "trade", "time": true } ] },
+    "end": { "effect": [ { "math": [ "n_timer_trade_npc_growing_mushrooms", "=", "time('now')" ] } ] },
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Bring me one hundred mushroom spores.",

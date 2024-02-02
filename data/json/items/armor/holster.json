@@ -764,9 +764,7 @@
     "id": "XS_holster",
     "type": "ARMOR",
     "copy-from": "holster",
-    "looks_like": "holster",
     "name": { "str": "XS holster" },
-    "description": "A leather strap worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   },
@@ -774,9 +772,7 @@
     "id": "XS_nylon_holster",
     "type": "ARMOR",
     "copy-from": "nylon_holster",
-    "looks_like": "holster",
     "name": { "str": "XS nylon holster" },
-    "description": "A nylon sheath worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   }

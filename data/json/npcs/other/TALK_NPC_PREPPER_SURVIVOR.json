@@ -48,6 +48,16 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_PREPPER_SURVIVOR_STORY" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Would you be interested in bartering?",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
         "effect": "start_trade"

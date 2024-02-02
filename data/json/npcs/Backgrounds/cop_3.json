@@ -6,17 +6,17 @@
     "responses": [
       {
         "text": "What did you do when you found out about the Cataclysm?",
-        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') < 90" ] },
         "effect": { "npc_add_effect": "BGSS_Cop_3_earlymeeting", "duration": "PERMANENT" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
         "topic": "BGSS_COP_3_STORY2"
       },
       {
         "text": "What did you do when you found out about the Cataclysm?",
-        "condition": { "days_since_cataclysm": 90 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ] },
         "topic": "BGSS_COP_3_STORY2"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -35,7 +35,7 @@
         "condition": { "not": { "npc_has_effect": "BGSS_Cop_3_earlymeeting" } },
         "topic": "BGSS_COP_3_STORY3"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -43,6 +43,9 @@
     "id": "BGSS_COP_3_STORY3",
     "type": "talk_topic",
     "dynamic_line": "Honestly, probably better than it sounds.  I had a good bug-out bag, a nice tent, a lot of good stuff.  I hadn't suffered any internal organ damage, my stomach muscles were just really badly bruised, and I'd already had some good time to recover.  I think it kept me from doing anything too stupid, and believe me there was a high chance of that.  For a long time I had these Rambo visions of rushing into town and saving everyone, but I was still too immobile.  By the time I had my strength back, it wasn't an option… we were well into the rushing into town for supplies phase.  The closest I got to saving any old friends was putting down the monsters wearing their faces.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

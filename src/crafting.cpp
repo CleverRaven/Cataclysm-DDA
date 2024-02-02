@@ -86,6 +86,7 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -1058,7 +1059,8 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // farsightedness can impose a penalty on electronics and tailoring success
     // This should be changed to a json-defined penalty by skill (vision_penalty) in skills.json
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) &&
+        !has_effect( effect_transition_contacts ) ) {
         float vision_penalty = 0.0f;
         if( making.skill_used == skill_electronics ) {
             vision_penalty = 2.0f;

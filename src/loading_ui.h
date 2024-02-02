@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_LOADING_UI_H
 #define CATA_SRC_LOADING_UI_H
 
-#include <iosfwd>
 #include <memory>
 #include <string>
 

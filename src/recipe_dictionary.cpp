@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <new>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -14,16 +12,15 @@
 #include "display.h"
 #include "debug.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
-#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"

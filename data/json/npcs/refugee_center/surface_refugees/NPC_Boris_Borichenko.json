@@ -158,9 +158,7 @@
         "condition": {
           "and": [
             { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-            {
-              "not": { "npc_compare_time_since_var": "Boris_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 d" }
-            }
+            { "math": [ "time_since(n_timer_flag_Boris_teach)", ">", "time('1 d')" ] }
           ]
         }
       },
@@ -390,7 +388,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Teach",
     "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
-    "speaker_effect": { "effect": { "npc_add_var": "Boris_teach", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
       { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },

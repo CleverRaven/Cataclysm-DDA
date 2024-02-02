@@ -1,6 +1,7 @@
 [
   {
     "id": "banjo",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "banjo" },
@@ -33,6 +34,7 @@
   },
   {
     "id": "bone_flute",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "bone flute" },
@@ -64,6 +66,7 @@
   },
   {
     "id": "clarinet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "clarinet" },
@@ -89,6 +92,38 @@
         "You play a little tune on your clarinet.",
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
+      ]
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "kantele",
+    "looks_like": "acoustic_guitar",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "kantele" },
+    "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's bone.  This ordinary wooden one doesn't seem quite as special.",
+    "weight": "550 g",
+    "volume": "3000 ml",
+    "longest_side": "46 cm",
+    "price": 5500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a riveting tune on your kantele.",
+        "You play an enchanting composition on your kantele.",
+        "You play a somber piece on your kantele."
       ]
     },
     "melee_damage": { "bash": 4 }
@@ -126,6 +161,7 @@
   },
   {
     "id": "trumpet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "trumpet" },
@@ -157,6 +193,7 @@
   },
   {
     "id": "ukulele",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "ukulele" },
@@ -189,6 +226,7 @@
   },
   {
     "id": "violin",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "violin" },
@@ -221,6 +259,7 @@
   },
   {
     "id": "violin_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden fiddle" },
@@ -252,6 +291,7 @@
   },
   {
     "id": "krar_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden krar" },
@@ -280,6 +320,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "harmonica_holder",
+    "looks_like": "flute",
     "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
     "category": "tools",
     "weight": "200 g",
@@ -345,6 +386,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "guitar_electric",
+    "looks_like": "acoustic_guitar",
     "name": { "str": "electric guitar" },
     "category": "tools",
     "weight": "3750 g",
@@ -386,6 +428,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
+    "looks_like": "flute",
     "name": { "str_sp": "bagpipes" },
     "category": "tools",
     "weight": "2500 g",
@@ -425,6 +468,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "tuba",
+    "looks_like": "flute",
     "name": { "str": "tuba" },
     "category": "tools",
     "weight": "13600 g",
@@ -466,6 +510,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
+    "looks_like": "flute",
     "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2200 g",

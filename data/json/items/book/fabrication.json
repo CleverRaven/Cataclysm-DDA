@@ -46,6 +46,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "metal_casting_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "metal casting reference manual" },
+    "description": "A textbook with information about casting various types of metals.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
+    "price": 4500,
+    "price_postapoc": 250,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 7,
+    "proficiencies": [ { "proficiency": "prof_metalworking", "time_factor": 0.7, "fail_factor": 0.5 } ],
+    "intelligence": 8,
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "alloy_book",
     "type": "BOOK",
     "category": "manuals",
@@ -701,5 +722,25 @@
     "required_level": 1,
     "intelligence": 8,
     "time": "15 m"
+  },
+  {
+    "id": "ballista_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Artillery of the Ancients", "str_pl": "copies of Artillery of the Ancients" },
+    "description": "This is a history book detailing the siege machines and field artillery of some ancient civilizations.  It contains detailed diagrams that explain how such devices were assembled and maintained.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 500,
+    "symbol": "?",
+    "color": "blue",
+    "looks_like": "recipe_lab_elec",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "25 m",
+    "melee_damage": { "bash": 4 }
   }
 ]

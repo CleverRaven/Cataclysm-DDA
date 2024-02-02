@@ -19,10 +19,8 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -31,6 +29,7 @@
 #include "flag.h"
 #include "game.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -57,9 +56,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "vehicle_selector.h"
 #include "vitamin.h"
-#include "vpart_position.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -265,7 +262,7 @@ void game_menus::inv::common( avatar &you )
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.highlight( location );
+            inv_s.highlight_one_of( { location } );
         }
 
         location = inv_s.execute();
@@ -300,7 +297,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
         inv_s.add_contained_items( loc );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
-            inv_s.highlight( location );
+            inv_s.highlight_one_of( { location } );
         }
 
         location = inv_s.execute();
@@ -1624,7 +1621,6 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 
     inventory_multiselector inv_s( who, preset, _( "SELECT BOOKS TO SCAN" ),
                                    make_raw_stats, /*allow_select_contained=*/true );
-    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( who );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( _( "Scan which books?" ) );

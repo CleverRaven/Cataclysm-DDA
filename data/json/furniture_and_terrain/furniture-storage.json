@@ -1033,7 +1033,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1057,7 +1057,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1112,7 +1112,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1144,7 +1144,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1198,7 +1198,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1221,7 +1221,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,

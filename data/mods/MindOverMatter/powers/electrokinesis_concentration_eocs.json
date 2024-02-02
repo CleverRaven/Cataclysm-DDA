@@ -61,6 +61,105 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_electrokin_hacking_interface" } },
+    "effect": [
+      { "u_message": "You now have the ability to hack into nearby electronics.", "type": "good" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
+      { "u_add_effect": "effect_electrokin_hacking_interface", "duration": "PERMANENT" },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "u_remove_item_with": "electrokinetic_electrohack_1" },
+      { "u_remove_item_with": "electrokinetic_electrohack_2" },
+      { "u_remove_item_with": "electrokinetic_electrohack_3" },
+      { "u_remove_item_with": "electrokinetic_electrohack_4" },
+      { "u_remove_item_with": "electrokinetic_electrohack_5" },
+      { "u_lose_effect": "effect_electrokin_hacking_interface" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('electrokinetic_hacking_interface')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_1", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 5,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_2", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 10,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_3", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 15,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_4", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 20,
+          "effect": [ { "u_spawn_item": "electrokinetic_electrohack_5", "suppress_message": true, "force_equip": true } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
+    "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      {
+        "math": [ "u_spell_exp('electrokinetic_hacking_interface')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_HACKING_INTERFACE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( (u_spell_level('electrokinetic_hacking_interface') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
     "effect": [

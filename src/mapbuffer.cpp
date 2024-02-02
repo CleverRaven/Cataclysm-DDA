@@ -3,8 +3,6 @@
 #include <chrono>
 #include <exception>
 #include <filesystem>
-#include <functional>
-#include <ratio>
 #include <set>
 #include <sstream>
 #include <string>
@@ -12,10 +10,9 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game_constants.h"
+#include "input.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
