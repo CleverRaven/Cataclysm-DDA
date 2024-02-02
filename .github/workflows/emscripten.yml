@@ -47,9 +47,7 @@ jobs:
       run: ./build-scripts/prepare-web-data.sh
 
     - name: Install ccache
-      run: |
-        sudo apt-get update
-        sudo apt-get install ccache
+      run: emsdk install ccache
 
     - name: Get ccache vars
       id: get-vars
