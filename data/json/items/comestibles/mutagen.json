@@ -312,6 +312,21 @@
     }
   },
   {
+    "id": "iv_mutagen_chiropteran",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagenic primer" },
+    "description": "A processed mutagenic primer, black as night.",
+    "looks_like": "iv_mutagen",
+    "color": "black",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the chiropteran mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_chiropteran", 450, 550 ] ]
+    }
+  },
+  {
     "id": "iv_mutagen_slime",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
@@ -673,6 +688,19 @@
       "type": "consume_drug",
       "activation_message": "You drink the rat mutagen.",
       "vitamins": [ [ "mutagen_rat", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "mutagen_chiropteran",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagen" },
+    "description": "A murky black liquid that smells of blood.",
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the chiropteran mutagen.",
+      "vitamins": [ [ "mutagen_chiropteran", 225 ], [ "mutagen", 125 ] ]
     }
   },
   {

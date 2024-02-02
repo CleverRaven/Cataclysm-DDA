@@ -379,6 +379,9 @@ float effect_scaling::get( const Character &u ) const
         case SKILL_DRIVE:
             bonus = scale * u.get_skill_level( skill_drive );
             break;
+        case SKILL_FIRSTAID:
+            bonus = scale * u.get_skill_level( skill_firstaid );
+            break;
         case SKILL_SPELLCRAFT:
             bonus = scale * u.get_skill_level( skill_spellcraft );
             break;

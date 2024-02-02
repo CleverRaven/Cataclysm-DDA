@@ -952,12 +952,12 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( food_is_human_flesh  && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
+    if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) &&  ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !has_flag( json_flag_PARAIMMUNE ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
                                         food.tname() ),
                          PARASITES );
@@ -1174,7 +1174,7 @@ static bool eat( item &food, Character &you, bool force )
     // Chance to become parasitised
     if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-            one_in( food.get_comestible()->parasites ) ) {
+            one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {

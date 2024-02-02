@@ -7506,13 +7506,13 @@
     "id": "HEMOVORE",
     "name": { "str": "Hemovore" },
     "points": -4,
-    "description": "You can still eat other food, but you crave the taste of blood.  If you choose not to drink blood or can't find any, you'd better hope you can find some iron supplements.",
+    "description": "You can still eat other food, but you crave the taste of blood over everything else.  Without a steady supply or some kind of iron supplement, you're prone to developing anemia.",
     "types": [ "DIET" ],
     "flags": [ "HEMOVORE" ],
     "cancels": [ "VEGAN" ],
     "category": [ "CHIROPTERAN" ],
     "changes_to": [ "BLOODFEEDER" ],
-    "vitamin_rates": [ [ "iron", 1800 ] ]
+    "vitamin_rates": [ [ "iron", 1000 ], [ "vitC", -300 ] ]
   },
   {
     "type": "mutation",
@@ -7520,15 +7520,15 @@
     "name": { "str": "Bloodfeeder" },
     "points": -2,
     "mixed_effect": true,
-    "description": "Your craving for blood borders on obsession.  Your system has gained a mild tolerance to the toxins polluting mutant flesh.  When it comes to blood (and only blood), you need the stuff too much to care about whether it came from a human.",
+    "description": "Your craving for blood borders on obsession.  You need the stuff too much to care about whether it came from a human, and your body can filter out most of the toxins in mutant blood.",
     "types": [ "DIET" ],
     "flags": [ "BLOODFEEDER" ],
     "cancels": [ "VEGAN" ],
     "prereqs": [ "HEMOVORE" ],
-    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.5 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "blood", [ [ "mutant_toxin", 0.25 ] ] ], [ "flesh", [ [ "mutant_toxin", 0.75 ] ] ] ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "vitamin_rates": [ [ "iron", 2400 ] ]
+    "vitamin_rates": [ [ "iron", 800 ], [ "vitC", -600 ] ]
   },
   {
     "type": "mutation",
