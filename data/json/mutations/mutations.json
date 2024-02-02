@@ -1182,7 +1182,7 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Desensitized" },
     "points": 2,
-    "description": "Whether due to brain chemistry, military conditioning,or olympian mental gymnastics,you no longer feel remorse or guilt for harming your fellow man.",
+    "description": "Whether due to brain chemistry, military conditioning,or Olympian mental gymnastics,you no longer feel remorse or guilt for harming your fellow man.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
