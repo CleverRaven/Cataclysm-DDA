@@ -3550,7 +3550,9 @@
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
-        { "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] }
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
       ]
     },
     "tech_effects": [
