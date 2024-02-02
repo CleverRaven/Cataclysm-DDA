@@ -262,7 +262,7 @@ barghest
 barleycorn
 barony
 barosaurus
-barotrarumatic
+barotraumatic
 basecamp
 basecamps
 baselard
@@ -315,6 +315,7 @@ biohacker
 biokinesis
 biokinetic
 biollante
+bioluminescent
 biomachine
 biomancer
 biomancers
@@ -479,6 +480,8 @@ carabiners
 carapace
 carapaces
 caret
+carroballista
+carroballistae
 carryin
 cartilaginous
 casehead
@@ -497,6 +500,7 @@ cavewoman
 cavewomen
 cavitation
 cbm
+cc
 cdc
 cdda
 cegamente
@@ -1148,6 +1152,7 @@ fluidly
 flummox
 flummoxing
 flump
+fluoxetine
 flusteration
 flyable
 flyin
@@ -1340,6 +1345,7 @@ gymnocladus
 h
 hability
 hacksaws
+hadn
 hadrosaur
 hadrosaurus
 haematopoiesis
@@ -1798,6 +1804,8 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+mage
+mages
 magick
 magickal
 magicks
@@ -1859,6 +1867,7 @@ megacorporations
 megafauna
 megalith
 megastore
+melee
 membranous
 mendacium
 menorah
@@ -2321,6 +2330,7 @@ placidly
 planar
 planer
 planetside
+plano
 plantkin
 plantlike
 plastron
@@ -2515,6 +2525,7 @@ rashy
 ratatosk
 ratlike
 rattigan
+ravenfolk
 rayed
 razorbar
 razorclaw
@@ -3056,6 +3067,7 @@ tangrams
 tankbot
 tannin
 tarket
+tartarate
 tassed
 tassin
 tastemakers
@@ -3347,6 +3359,7 @@ varanid
 vars
 vatgrown
 vaulters
+ve
 veggy
 vegital
 veined
@@ -3423,6 +3436,7 @@ weatherworn
 weiler
 wek
 welcher
+weren
 wetsuits
 wetworks
 whap
@@ -3537,6 +3551,7 @@ zentai
 zeriatric
 zincite
 zischt
+zolpidem
 zombaby
 zombear
 zombeaver

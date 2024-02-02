@@ -17,7 +17,7 @@
     "responses": [
       { "text": "Are you trying to get your memory back then?", "topic": "BGSS_NO_PAST_3_STORY3" },
       { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -27,7 +27,7 @@
     "dynamic_line": "Well, not having a memory is weird as heck, but I'll be honest: I think it might be better?  With what's going on, I bet you my memories weren't happy ones.  Besides my driver's license, there were pictures of kids in my wallet… not that that sparked any reaction from me.  I didn't see any kids around.  Maybe losing my mind is a mercy.  Hell, maybe it's some kind of psychotic break and my brain did this to itself.  To be honest with you I think I'd rather focus on surviving, and not worry about it.",
     "responses": [
       { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

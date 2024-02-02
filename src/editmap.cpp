@@ -5,11 +5,8 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
-#include <ostream>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -32,7 +29,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
@@ -1661,7 +1658,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         if( move_origin ) {
             origin += mp;
         }

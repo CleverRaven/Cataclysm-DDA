@@ -266,6 +266,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MUTANT_TREE: return "MUTANT_TREE";
         case ter_furn_flag::TFLAG_SINGLE_SUPPORT: return "SINGLE_SUPPORT";
         case ter_furn_flag::TFLAG_CLIMB_ADJACENT: return "CLIMB_ADJACENT";
+        case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -421,6 +422,10 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view
 
     if( !is_furniture ) {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
+    }
+    if( j.has_object( "skill" ) ) {
+        JsonObject jo = j.get_object( "skill" );
+        skill = { skill_id( jo.get_string( "skill" ) ), jo.get_int( "min", 0 ), jo.get_int( "max", 10 ), jo.get_float( "multiplier", 1.0 ) };
     }
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );

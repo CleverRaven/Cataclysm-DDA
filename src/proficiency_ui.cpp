@@ -1,4 +1,5 @@
 #include "character.h"
+#include "input_context.h"
 #include "output.h"
 #include "proficiency.h"
 #include "string_input_popup.h"

@@ -325,14 +325,18 @@ std::vector<bodypart_id> anatomy::get_all_eligable_parts( int min_hit, int max_h
     return ret;
 }
 
-bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
-        const double range_max, const double value ) const
+bodypart_id anatomy::get_max_hitsize_bodypart() const
 {
-    // Find the body part with the biggest hitsize - we will treat this as the center of mass
-    const bodypart_id biggest_bp = *std::max_element( cached_bps.begin(), cached_bps.end(),
+    return *std::max_element( cached_bps.begin(), cached_bps.end(),
     []( const bodypart_id & lhs, const bodypart_id & rhs ) {
         return lhs->hit_size < rhs->hit_size;
     } );
+}
+
+bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
+        const double range_max, const double value ) const
+{
+    const bodypart_id biggest_bp = get_max_hitsize_bodypart();
 
     // A little wrapper telling the targeting graph how to connect and weight bodypart_ids
     struct bp_wrapper {

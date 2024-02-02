@@ -39,6 +39,11 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
         "text": "Where might your friends be?",
         "topic": "TALK_NPC_HOMELESS_BROKER_FRIENDS",
         "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }

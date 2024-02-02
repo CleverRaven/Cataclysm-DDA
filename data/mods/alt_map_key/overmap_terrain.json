@@ -2106,12 +2106,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "basement_bionic",
-    "copy-from": "basement_bionic",
-    "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
     "copy-from": "rock",
     "name": "solid rock",

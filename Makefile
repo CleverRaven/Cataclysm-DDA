@@ -1244,7 +1244,7 @@ endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
 ifndef FRAMEWORK
-	python3 ./tools/copy_mac_libs.py $(APPRESOURCESDIR)/$(APPTARGET)
+	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/	
 endif  # ifndef FRAMEWORK
 
 

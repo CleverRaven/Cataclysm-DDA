@@ -155,6 +155,7 @@
       { "item": "carpentry_book", "prob": 5 },
       { "item": "theater_props", "prob": 2 },
       { "item": "alloy_book", "prob": 12 },
+      { "item": "metal_casting_book", "prob": 12 },
       { "item": "bronze_book", "prob": 8 },
       { "item": "bronze_mag", "prob": 16 }
     ]
@@ -473,7 +474,8 @@
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "theater_props", "prob": 5 },
       { "item": "book_pneumatics", "prob": 2 },
-      { "item": "cookbook_bloodforgood", "prob": 4 }
+      { "item": "cookbook_bloodforgood", "prob": 4 },
+      { "item": "ballista_book", "prob": 4 }
     ]
   },
   {
@@ -540,6 +542,7 @@
       { "item": "reference_firstaid2", "prob": 1 },
       { "item": "textbook_toxicology", "prob": 2 },
       { "item": "alloy_book", "prob": 5 },
+      { "item": "metal_casting_book", "prob": 5 },
       { "item": "bronze_book", "prob": 6 }
     ]
   },
@@ -607,7 +610,8 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "textbook_arthropod", "prob": 5 },
       { "item": "textbook_botany", "prob": 5 },
-      { "item": "theater_props", "prob": 2 }
+      { "item": "theater_props", "prob": 2 },
+      { "item": "ballista_book", "prob": 3 }
     ]
   },
   {
@@ -655,8 +659,10 @@
       { "item": "book_pneumatics", "prob": 8 },
       { "item": "textbook_botany", "prob": 5 },
       { "item": "alloy_book", "prob": 8 },
+      { "item": "metal_casting_book", "prob": 8 },
       { "item": "bronze_book", "prob": 8 },
-      { "item": "bronze_mag", "prob": 10 }
+      { "item": "bronze_mag", "prob": 10 },
+      { "item": "ballista_book", "prob": 4 }
     ]
   },
   {
@@ -691,7 +697,8 @@
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "cookbook_bloodforgood", "prob": 50 }
+      { "item": "cookbook_bloodforgood", "prob": 50 },
+      { "item": "ballista_book", "prob": 10 }
     ]
   },
   {
@@ -711,6 +718,7 @@
       { "item": "text_gunsmith", "prob": 10 },
       { "item": "glassblowing_book", "prob": 12 },
       { "item": "alloy_book", "prob": 12 },
+      { "item": "metal_casting_book", "prob": 12 },
       { "item": "bronze_book", "prob": 15 },
       { "item": "plastics_book", "prob": 12 },
       { "item": "cookbook_human", "prob": 10 },
@@ -753,7 +761,8 @@
       { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 },
       { "item": "scots_tailor", "prob": 30 },
-      { "item": "necronomicon", "prob": 1 }
+      { "item": "necronomicon", "prob": 1 },
+      { "item": "ballista_book", "prob": 6 }
     ]
   },
   {

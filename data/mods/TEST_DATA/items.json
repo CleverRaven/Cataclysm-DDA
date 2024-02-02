@@ -84,7 +84,17 @@
     "to_hit": -2,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "variant_type": "generic",
+    "variants": [
+      { "id": "test_rock_blue", "name": { "str": "blue test_rock" }, "description": "It's a blue test rock", "append": true },
+      {
+        "id": "test_rock_green",
+        "name": { "str": "green test_rock" },
+        "description": "It's a green test rock",
+        "append": true
+      }
+    ]
   },
   {
     "type": "TOOL_ARMOR",

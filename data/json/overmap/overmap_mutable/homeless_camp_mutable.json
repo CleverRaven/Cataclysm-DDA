@@ -33,6 +33,7 @@
       },
       "camp_tee": { "overmap": "homelesscamp_north", "north": "camp_to_camp", "east": "camp_to_camp", "south": "camp_to_camp" },
       "derelict": { "overmap": "derelict_property_north", "north": "camp_to_camp" },
+      "derelict_roof": { "overmap": "derelict_property_roof_north" },
       "camp_corner": { "overmap": "homelesscamp_north", "north": "camp_to_camp", "east": "camp_to_camp" }
     },
     "root": "camp_core",
@@ -41,7 +42,10 @@
       [
         { "overmap": "camp_edge", "weight": 120 },
         { "overmap": "camp_tee", "weight": 33 },
-        { "overmap": "derelict", "weight": 20 },
+        {
+          "chunk": [ { "overmap": "derelict", "pos": [ 0, 0, 0 ] }, { "overmap": "derelict_roof", "pos": [ 0, 0, 1 ] } ],
+          "weight": 20
+        },
         { "overmap": "camp_corner", "weight": 33 }
       ]
     ]

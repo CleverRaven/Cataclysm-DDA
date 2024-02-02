@@ -78,7 +78,7 @@
       "run_eocs": [
         {
           "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TIMER",
-          "condition": { "days_since_cataclysm": 60 },
+          "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
           "effect": {
             "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", 4 ],

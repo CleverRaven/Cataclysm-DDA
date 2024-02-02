@@ -2950,9 +2950,6 @@ void veh_interact::display_details( const vpart_info *part )
                         battery->capacity );
     } else {
         units::power part_power = part->power;
-        if( part_power == 0_W ) {
-            part_power = units::from_watt( item( part->base_item ).engine_displacement() );
-        }
         if( part_power != 0_W ) {
             fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                             _( "Power: <color_light_gray>%+8d</color>" ), units::to_watt( part_power ) );
@@ -3128,7 +3125,10 @@ void veh_interact::complete_vehicle( Character &you )
             const inventory &inv = you.crafting_inventory();
             const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name() );
+                you.add_msg_player_or_npc( m_info,
+                                           _( "You don't meet the requirements to install the %s." ),
+                                           _( "<npcname> doesn't meet the requirements to install the %s." ),
+                                           vpinfo.name() );
                 break;
             }
 
@@ -3332,8 +3332,11 @@ void veh_interact::complete_vehicle( Character &you )
                             it.charges *= rng_float( charges_min, charges_max );
                             const int charges_destroyed = charges_befor - it.charges;
                             if( charges_destroyed > 0 ) {
-                                add_msg( m_bad, _( "You fail to recover %1$d %2$s." ), charges_destroyed,
-                                         it.type_name( charges_destroyed ) );
+                                you.add_msg_player_or_npc( m_bad,
+                                                           _( "You fail to recover %1$d %2$s." ),
+                                                           _( "<npcname> fails to recover %1$d %2$s." ),
+                                                           charges_destroyed,
+                                                           it.type_name( charges_destroyed ) );
                             }
                             if( it.charges > 0 ) {
                                 resulting_items.push_back( it );
@@ -3341,7 +3344,10 @@ void veh_interact::complete_vehicle( Character &you )
                         } else if( component_success_chance > rng_float( 0, 1 ) ) {
                             resulting_items.push_back( it );
                         } else {
-                            add_msg( m_bad, _( "You fail to recover %1$s." ), it.type_name() );
+                            you.add_msg_player_or_npc( m_bad,
+                                                       _( "You fail to recover %1$s." ),
+                                                       _( "<npcname> fails to recover %1$s." ),
+                                                       it.type_name() );
                         }
                     }
                 }

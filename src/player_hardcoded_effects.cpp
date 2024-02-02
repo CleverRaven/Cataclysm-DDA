@@ -20,6 +20,7 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "input.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -39,7 +40,6 @@
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
@@ -343,7 +343,7 @@ static void eff_fun_bleed( Character &u, effect &it )
             // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
             const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
                                                   suffer_string,
-                                                  blood_str, body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+                                                  blood_str, body_part_name( bp ) ) : _( "You lose some blood." );
             // display the final message
             u.add_msg_player_or_npc( m_bad,
                                      final_message,

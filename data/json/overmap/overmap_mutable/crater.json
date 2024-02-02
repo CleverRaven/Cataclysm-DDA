@@ -3,10 +3,10 @@
     "type": "overmap_special",
     "id": "Crater",
     "subtype": "mutable",
-    "locations": [ "land", "road", "crater", "open_air" ],
+    "locations": [ "land", "road", "crater", "open_air", "agricultural" ],
     "occurrences": [ 66, 100 ],
     "flags": [ "UNIQUE", "BLOB", "CLASSIC" ],
-    "check_for_locations_area": [ { "type": [ "land", "road" ], "from": [ -1, -1, 0 ], "to": [ 1, 1, 0 ] } ],
+    "check_for_locations_area": [ { "type": [ "land", "road", "agricultural" ], "from": [ -1, -1, 0 ], "to": [ 1, 1, 0 ] } ],
     "joins": [ "crater_to_crater", "root" ],
     "overmaps": {
       "core_large": { "overmap": "crater_core_large" },

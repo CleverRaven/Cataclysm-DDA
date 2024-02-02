@@ -1,0 +1,65 @@
+[
+  {
+    "id": "zenfs_movement_block",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 18,
+    "widgets": [ "zenfs_move_mode", "zenfs_move_count_cost" ]
+  },
+  {
+    "id": "zenfs_move_mode",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 18,
+    "widgets": [ "zenfs_move_label", "zenfs_move_desc" ]
+  },
+  {
+    "id": "zenfs_move_count_cost",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 18,
+    "widgets": [ "zenfs_move_count", "zenfs_move_cost" ]
+  },
+  {
+    "id": "zenfs_move_label",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_cyan>Movement</color>",
+    "width": 8,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_move_desc",
+    "type": "widget",
+    "style": "text",
+    "arrange": "rows",
+    "width": 9,
+    "default_clause": { "text": "**ERROR**", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": " running", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": " walking", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      { "id": "crouch", "text": "crouching", "color": "light_blue", "condition": { "u_has_move_mode": "crouch" } },
+      { "id": "prone", "text": " prone", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_move_count",
+    "type": "widget",
+    "label": "<color_cyan>Count</color>",
+    "var": "move",
+    "width": 9,
+    "style": "number"
+  },
+  {
+    "id": "zenfs_move_cost",
+    "type": "widget",
+    "label": "<color_cyan>Cost</color>",
+    "style": "number",
+    "var": "move_cost",
+    "colors": [ "c_white_green", "h_light_green", "c_light_green", "c_light_gray", "c_light_red", "h_light_red", "c_white_red" ]
+  }
+]
