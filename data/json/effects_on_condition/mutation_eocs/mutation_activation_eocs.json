@@ -23,7 +23,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GENERIC_SPELL_MUTATION_ACT",
-    "//": "no proper way to check activity type to ensure player still prepare the mutation, so only level is checked for now (if spell is not instant)",
     "effect": [
       {
         "u_cast_spell": { "id": { "context_val": "spell_to_cast" }, "message": { "context_val": "message_success" } },
