@@ -47,7 +47,9 @@ jobs:
       run: ./build-scripts/prepare-web-data.sh
 
     - name: Install ccache
-      run: emsdk install ccache
+      run: |
+        emsdk install ccache-git-emscripten-64bit
+        emsdk activate ccache-git-emscripten-64bit
 
     - name: Get ccache vars
       id: get-vars
