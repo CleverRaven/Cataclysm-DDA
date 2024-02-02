@@ -79,10 +79,7 @@
     "type": "enchantment",
     "id": "thunder_rush",
     "condition": "ACTIVE",
-    "values": [
-      { "value": "FOOTSTEP_NOISE", "multiply": 1.50 },
-      { "value": "SPEED", "add": 10 }
-    ]
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 1.5 }, { "value": "SPEED", "add": 10 } ]
   },
   {
     "id": "banner_thunderous_rush",
