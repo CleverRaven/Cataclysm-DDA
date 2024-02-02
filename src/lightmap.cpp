@@ -211,7 +211,8 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool dirty = false;
 
     bool is_crouching = player_character.is_crouching();
-    bool low_profile = player_character.has_effect( effect_quadruped_full ) && player_character.is_running();
+    bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
+                       player_character.is_running();
     bool is_prone = player_character.is_prone();
 
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
