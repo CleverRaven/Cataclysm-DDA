@@ -47,6 +47,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_crystallize_mana",
+    "name": "Dabbler (Crystallize Mana)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Crystallize Mana.  Sure, it ruined your social life and you slept for 12 hours a day, but you made a tidy sum of money producing mana crystals for mages who needed them.  Too bad all that money is useless now.",
+    "points": 4,
+    "spells": [ { "id": "crystallize_mana", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_magical_light",
     "name": "Dabbler (Magical Light)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Magical Light.  It was mostly a party trick, to be honest, and learning to showed up how much work trying to learn real magic actually was.  But the nights are dark enough nowadays that you're glad you put in the effect.",
@@ -58,7 +67,7 @@
     "subtype": "hobby",
     "id": "dabbler_protection_aura",
     "name": "Dabbler (Aura of Protection)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Aura of Protection.  To be honest, you originally learned it to try to replace the umbrella you kept leaving at homea and were very disappointed when that didn't work.  It's saved you at least once from some strange gas in the air, though, so all that effort paid off.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Aura of Protection.  To be honest, you originally learned it to try to replace the umbrella you kept leaving at home and were very disappointed when that didn't work.  It's saved you at least once from some strange gas in the air, though, so all that effort paid off.",
     "points": 4,
     "spells": [ { "id": "protection_aura", "level": 5 } ]
   },
