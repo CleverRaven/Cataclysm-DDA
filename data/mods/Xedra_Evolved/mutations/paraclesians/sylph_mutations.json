@@ -362,6 +362,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SYLPH_DEX_BONUS_1" ],
+    "prereqs2": [ "SYLPH_SPEED_INCREASE2" ],
     "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
     "category": [ "SYLPH" ],
     "passive_mods": { "dex_mod": 5 }
@@ -399,7 +400,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SYLPH_EYES" ],
-    "description": "Like a bird soaring on the wind, the Sylph's keen eyes.  +3 Perception.",
+    "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 4 }
   },
