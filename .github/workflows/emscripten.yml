@@ -67,12 +67,19 @@ jobs:
           ccache-master-emscripten--
 
     - name: Build with emcc (emscripten)
-      run: ./build-scripts/build-emscripten.sh
+      run: |
+        emsdk activate ccache-git-emscripten-64bit
+        ccache --zero-stats
+        # Increase cache size because debug builds generate large object files
+        ccache -M 5G
+        ccache --show-stats --verbose
+
+        ./build-scripts/build-emscripten.sh
 
     - name: post-build ccache manipulation
       run: |
         ccache --show-stats --verbose
-        ccache -M 4G
+        ccache -M 5G
         ccache -c
         ccache --show-stats --verbose
 
