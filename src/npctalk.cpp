@@ -924,7 +924,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
-    std::string think_msg;
+    std::string flavor_msg;
     bool is_order = true;
     nmenu.query();
 
@@ -962,12 +962,13 @@ void game::chat()
             std::string popupdesc =
                 _( "What do you want to add to the message log?  (This will have no in-game effect!)" );
             string_input_popup popup;
+            popup.title( _( "Add a message" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            think_msg = popup.text();
+            flavor_msg = popup.text();
             is_order = false;
             break;
         }
@@ -1234,8 +1235,8 @@ void game::chat()
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
-    if( !think_msg.empty() ) {
-        add_msg( _( "You think %s" ), think_msg );
+    if( !flavor_msg.empty() ) {
+        add_msg( flavor_msg );
     }
 
     u.moves -= 100;
