@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "localized_comparator.h"
@@ -1660,15 +1661,18 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const std::string &denial = *entry.denial;
 
         if( !denial.empty() ) {
+            // Determine the width available for the first cell to print, then use that to trim the denial
+            const size_t first_cell_width = std::min( get_entry_cell_width( entry, 0 ),
+                                            x2 + cells[0].current_width - min_denial_gap );
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
-                                            get_entry_cell_width( entry, 0 ) ) ), 0 );
+                                            first_cell_width ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                                denial_width,
-                                c_red, denial );
+                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
+                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
+                             c_red ) ) : denial, denial_width ) );
             }
         }
 
@@ -3593,7 +3597,26 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
-    if( selected.empty() || !selected.front()->is_selectable() ) {
+    // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
+    inventory_entry &highlighted_entry = get_active_column().get_highlighted();
+    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+        cata_assert( highlighted_entry.denial.has_value() );
+        const std::string &denial = *highlighted_entry.denial;
+
+        if( !denial.empty() ) {
+            const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
+                                          + colorize( denial, c_red );
+            query_popup()
+            .message( "%s", assembled )
+            .option( "QUIT" )
+            .query();
+        }
+        count = 0;
+        return;
+    }
+
+    // Deal with anything else that can't be selected
+    if( selected.empty() ) {
         count = 0;
         return;
     }
