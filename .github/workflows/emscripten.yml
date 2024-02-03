@@ -69,8 +69,8 @@ jobs:
     - name: Build with emcc (emscripten)
       run: |
         emsdk activate ccache-git-emscripten-64bit
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         echo $PATH
-        source "${PATH%%:*}/../../emsdk_env.sh"
         ccache --zero-stats
         # Increase cache size because debug builds generate large object files
         ccache -M 5G
@@ -80,7 +80,9 @@ jobs:
 
     - name: post-build ccache manipulation
       run: |
-        source "${PATH%%:*}/../../emsdk_env.sh"
+        emsdk activate ccache-git-emscripten-64bit
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
+        echo $PATH
         ccache --show-stats --verbose
         ccache -M 5G
         ccache -c
