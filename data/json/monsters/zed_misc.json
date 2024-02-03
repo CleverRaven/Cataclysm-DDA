@@ -307,7 +307,7 @@
   {
     "id": "mon_toad_wart",
     "type": "MONSTER",
-    "name": { "str": "warted monstrosity" },
+    "name": { "str": "warted monstrosity", "str_pl": "warted monstrosities" },
     "description": "A festering toad the size of a dune buggy.  It struggles to pull its bulk towards you.  The warts covering its back appear fit to burst with yellow sludge, and more of the stuff flows freely from both ends of it.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "300 L",
