@@ -209,18 +209,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE",
-    "dynamic_line": "Once I saw the full moon, but it was a huge eye, looking down on me - only it couldn't see me, because the sandman kept it away.  Understand?",
+    "dynamic_line": "Once I saw the full moon, and it was staring right at me - only it couldn't see me, because the sandman kept it away.  Understand?",
     "responses": [
-      {
-        "condition": { "not": { "u_has_trait": "SCHIZOPHRENIC" } },
-        "text": "Can't say that I do.",
-        "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_NO"
-      },
       {
         "condition": { "u_has_trait": "SCHIZOPHRENIC" },
         "text": "[Kaluptic Psychosis] I think I do.  Are we the same?",
         "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_YES"
       },
+      { "text": "No, I don't.", "topic": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_NO" },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "I think I have to get going…", "topic": "TALK_DONE" }

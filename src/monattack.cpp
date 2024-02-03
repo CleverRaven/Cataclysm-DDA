@@ -2882,9 +2882,9 @@ bool mattack::stare( monster *z )
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a good look at it?
-        if( player_character.has_trait( trait_SCHIZOPHRENIC ) && !player_character.has_effect( effect_took_thorazine ) && x_in_y( 3.0, 4.0 ) ) {
+        if( player_character.has_trait( trait_SCHIZOPHRENIC ) && !player_character.has_effect( effect_took_thorazine ) && x_in_y( 2.0, 3.0 ) ) {
             if( player_character.sees( *z ) ) {
-                add_msg( m_warning, _( "The %s gazes toward you, then quickly turns away." ), z->name() );
+                add_msg( m_warning, _( "The %s quickly looks away from you." ), z->name() );
                 return true;
             } else {
                 add_msg( m_warning, _( "A chorus of whispers chatter raucously around you." ) );
