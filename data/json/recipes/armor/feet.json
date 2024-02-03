@@ -1058,11 +1058,11 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "strap_small", 2, "LIST" ] ] ]
   },
   {
-	"result": "xl_geta",
-	"type": "recipe",
-	"copy-from": "geta",
-	"time": "40 m",
-	"qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "result": "xl_geta",
+    "type": "recipe",
+    "copy-from": "geta",
+    "time": "40 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "strap_small", 3, "LIST" ] ] ]
   },
   {
