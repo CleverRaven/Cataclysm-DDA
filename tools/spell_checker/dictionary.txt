@@ -2168,6 +2168,8 @@ orthogonally
 oryctodromeus
 oscillated
 osho
+osteoderm
+osteoderms
 osteokinesis
 oter
 otes
@@ -3418,6 +3420,7 @@ warhammers
 warmouth
 warpglass
 warpstream
+warted
 wastebread
 watchband
 waterfowl
@@ -3549,6 +3552,7 @@ zentai
 zeriatric
 zincite
 zischt
+zoad
 zolpidem
 zombaby
 zombear

@@ -207,7 +207,7 @@
   {
     "id": "mon_toad_bloat",
     "type": "MONSTER",
-    "name": { "str": "bloated toad" },
+    "name": { "str": "bloated zoad" },
     "description": "This zombified toad wobbles as it drags along its immense, inflated form.  A yellow-brown sludge dribbles from its mouth and seeps out from its bulging, cracking skin.",
     "copy-from": "mon_proxy_frog_zombie",
     "weight": "200 kg",
@@ -236,7 +236,7 @@
     "id": "mon_zombtreefrog",
     "type": "MONSTER",
     "name": { "str": "croaked climber" },
-    "description": "The pale, empty eyes of this large, reanimated treefrog still swivel in their sockets, searching for prey.  Its steps are ungainly but its hindlegs look capable of great leaps.",
+    "description": "The pale, empty eyes of this large, reanimated treefrog still swivel in their sockets, searching for prey.  Its steps are ungainly but its hind legs look capable of great leaps.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "80 L",
     "weight": "100 L",
@@ -326,7 +326,7 @@
   {
     "id": "mon_toad_bone",
     "type": "MONSTER",
-    "name": { "str": "death mask toad" },
+    "name": { "str": "death mask zoad" },
     "description": "The face and head of this enormous once-frog is encased in ossified tissue.  Its dead eyes peer out from this death mask of hardened bone, which curves into a jagged beak around its mouth.  Even its warts appear to have stiffened into dense osteoderms.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "240 L",
