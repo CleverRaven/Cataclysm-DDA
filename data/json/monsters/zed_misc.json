@@ -91,6 +91,7 @@
     "name": { "str": "tadpole constrictor" },
     "description": "The only resemblance this creature bears to a tadpole is its slick black-green skin and slender body.  Its three appendages, resembling long tentacles or pseudopods, propel it across the ground at maddening speed.  It has no outward sensory organs or a mouth, and steam rises from its skin as if it is burning away its own lifeforce to catch you.",
     "default_faction": "zombie",
+	"bodytype": "snake",
     "species": [ "ZOMBIE" ],
     "volume": "10 L",
     "weight": "18 kg",
@@ -107,7 +108,7 @@
     "dodge": 4,
     "vision_day": 7,
     "vision_night": 7,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_basic_amphibian" ],
     "harvest": "exempt",
     "grab_strength": 15,
     "special_attacks": [
@@ -119,7 +120,7 @@
       "effect": { "id": "death_acid", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "POISON", "GRABS", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "POISON", "GRABS", "NO_BREATHE" ]
   },
   {
     "id": "mon_zombullfrog",
