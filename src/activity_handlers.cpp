@@ -3892,7 +3892,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->mod_stamina( -cost );
                         break;
                     case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
                         break;
                     case magic_energy_type::hp:
                         blood_magic( you, cost );
