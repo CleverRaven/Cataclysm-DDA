@@ -2893,7 +2893,8 @@ bool mattack::stare( monster *z )
             }
         }
         //Being drunk can protect you from The Horrors
-        if( player_character.has_effect( effect_drunk ) && ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
+        if( player_character.has_effect( effect_drunk ) &&
+            ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
             add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
             player_character.add_effect( effect_stunned, 2_seconds );
             return true;
