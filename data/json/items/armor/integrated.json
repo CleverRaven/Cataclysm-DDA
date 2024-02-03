@@ -1590,9 +1590,8 @@
     "category": "armor",
     "name": { "str_sp": "fangs" },
     "description": "A pair of fangs sharp and sturdy enough to use in combat.",
-    "//": "Weight and volume are arbitrarily high in order to give them 75 base moves per attack",
-    "weight": "275 g",
-    "volume": "400 ml",
+    "weight": "50 g",
+    "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "bone" ],
@@ -1609,8 +1608,7 @@
         "coverage": 0,
         "encumbrance": 0
       }
-    ],
-    "melee_damage": { "stab": 14 }
+    ]
   },
   {
     "id": "integrated_vampire_fangs",
@@ -1618,9 +1616,8 @@
     "category": "armor",
     "name": { "str_sp": "vampire fangs" },
     "description": "A wicked pair of fangs, pointed and surgically sharp.",
-    "//": "Weight and volume are arbitrarily high in order to give them 75 base moves per attack",
-    "weight": "275 g",
-    "volume": "400 ml",
+    "weight": "100 g",
+    "volume": "200 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "bone" ],
@@ -1637,7 +1634,6 @@
         "coverage": 0,
         "encumbrance": 0
       }
-    ],
-    "melee_damage": { "stab": 20 }
+    ]
   }
 ]
