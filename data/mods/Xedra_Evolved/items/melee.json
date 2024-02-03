@@ -103,7 +103,11 @@
     "weight": "792 g",
     "flags": [ "DURABLE_MELEE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 }, { "damage_type": "heat", "amount": 8 } ],
+    "thrown_damage": [
+      { "damage_type": "bash", "amount": 6 },
+      { "damage_type": "cut", "amount": 16 },
+      { "damage_type": "heat", "amount": 8 }
+    ],
     "melee_damage": { "bash": 10, "cut": 21, "heat": 15 }
   },
   {
