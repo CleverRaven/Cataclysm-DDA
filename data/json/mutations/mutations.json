@@ -500,7 +500,7 @@
     "id": "ECHOLOCATION",
     "name": { "str": "Echolocation" },
     "points": 3,
-    "removable": false,
+    "purifiable": false,
     "description": "You've learned how to hunt without sight.  Activate this mutation to make a quiet chirp that can reveal obstacles and enemies by its echo.",
     "prereqs": [ "BATEARS" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
