@@ -1161,11 +1161,11 @@
     "using": [ [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
-	"result": "xl_leathersandals",
-	"type": "recipe",
-	"copy-from": "leathersandals",
-	"time": "1 h",
-	"using": [ [ "tailoring_leather_patchwork", 4 ] ]
+    "result": "xl_leathersandals",
+    "type": "recipe",
+    "copy-from": "leathersandals",
+    "time": "1 h",
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ]
   },
   {
     "result": "mocassins",
