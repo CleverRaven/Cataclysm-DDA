@@ -1343,12 +1343,12 @@
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "straw_pile", 4 ], [ "birchbark", 6 ] ] ]
   },
-   {
-	"result": "xl_straw_sandals",
-	"type": "recipe",
-	"copy-from": "straw_sandals",
-	"time": "2 h",
-	"components": [ [ [ "straw_pile", 5 ], [ "birchbark", 8 ] ] ]
+  {
+    "result": "xl_straw_sandals",
+    "type": "recipe",
+    "copy-from": "straw_sandals",
+    "time": "2 h",
+    "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 8 ] ] ]
   },
   {
     "result": "swim_fins",
