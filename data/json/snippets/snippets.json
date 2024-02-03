@@ -882,7 +882,7 @@
       { "id": "dog_name_0170", "text": "Sarge" },
       { "id": "dog_name_0171", "text": "Sasha" },
       { "id": "dog_name_0172", "text": "Sassy" },
-      { "id": "dog_name_0173", "text": "Scout" },
+      { "id": "dog_name_0173", "text": { "ctxt": "dog_name", "str": "Scout" } },
       { "id": "dog_name_0174", "text": "Shadow" },
       { "id": "dog_name_0175", "text": "Sheba" },
       { "id": "dog_name_0176", "text": "Shelby" },

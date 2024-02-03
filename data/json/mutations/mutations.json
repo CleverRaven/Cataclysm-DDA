@@ -2928,7 +2928,7 @@
   {
     "type": "mutation",
     "id": "CHITIN",
-    "name": { "str": "Epicuticle" },
+    "name": { "str": "Epicuticle", "ctxt": "mutation" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
