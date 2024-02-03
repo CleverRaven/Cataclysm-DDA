@@ -40,21 +40,6 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
-    "id": "santa_ear",
-    "type": "ARMOR",
-    "name": { "str": "pair of candycane earrings", "str_pl": "pairs of candycane earrings" },
-    "description": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs Claus style.",
-    "weight": "400 mg",
-    "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "gold_ear",
-    "color": "brown",
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
     "id": "bead_necklace",
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
@@ -62,22 +47,6 @@
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "material": [ "wood" ],
-    "symbol": "u",
-    "color": "brown",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
-    "id": "santa_necklace",
-    "type": "ARMOR",
-    "name": { "str": "Christmas holly necklace" },
-    "description": "A festive, lightweight ans simple necklace made of string and a bunch of preserved Christmas holly, for keeping the Christmas Spirit alive.",
-    "looks_like": "silver_necklace",
-    "weight": "8 g",
-    "volume": "20 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -1937,24 +1906,6 @@
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
-    "id": "santa_wristwatch",
-    "type": "ARMOR",
-    "name": { "str": "Christmas wrist watch", "str_pl": "Christmas wrist watches" },
-    "description": "A festive, good-quality red and white wristwatch on a red leather band.  Tells the time and has an alarm clock feature, for Santa Claus not to miss Christmas.",
-    "weight": "100 g",
-    "volume": "100 ml",
-    "price": 5000,
-    "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "leather", "steel" ],
-    "ascii_picture": "wristwatch",
-    "symbol": "[",
-    "color": "dark_gray",
-    "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
-  },
-  {
     "id": "rad_badge",
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
@@ -2037,17 +1988,6 @@
     "weight": "50 g",
     "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
-  },
-  {
-    "id": "badge_santa",
-    "copy-from": "badge_abstract",
-    "type": "ARMOR",
-    "name": { "str": "Santa badge" },
-    "material": [ "plastic" ],
-    "weight": "50 g",
-    "volume": "50 ml",
-    "price_postapoc": 10,
-    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
   },
   {
     "id": "fur_cat_ears",
