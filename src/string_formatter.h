@@ -26,6 +26,28 @@ void throw_error( const string_formatter &, std::string_view );
 const char *string_formatter_set_temp_buffer( const string_formatter &, std::string && );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
+// remove invalid char in filename
+template < class T>
+void filter_invalid_filename_char( T &str )
+{
+    T t;
+    t.resize( 9 );
+    t[0] = 0x5C; //    \ 
+    t[1] = 0x2F; //    /
+    t[2] = 0x3A; //    :
+    t[3] = 0x2A; //    *
+    t[4] = 0x3F; //    ?
+    t[5] = 0x22; //    "
+    t[6] = 0x3C; //    <
+    t[7] = 0x3E; //    >
+    t[8] = 0x7C; //    |
+    int length = str.length();
+    for( int i = 0; i < length; ++i ) {
+        if( t.find( str[i] ) != T::npos ) {
+            str[i] = 0x5F; //    _
+        }
+    }
+}
 
 /**
  * @defgroup string_formatter_convert Convert functions for @ref string_formatter
@@ -84,7 +106,7 @@ convert( RT *, const string_formatter &, T &&value, int )
 }
 template<typename RT, typename T>
 inline std::enable_if_t < is_integer<RT> &&std::is_enum_v<std::decay_t<T>>, RT >
-        convert( RT *, const string_formatter &, T &&value, int )
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return static_cast<RT>( value );
 }
@@ -98,7 +120,7 @@ convert( RT *, const string_formatter &, T &&value, int )
 template<typename RT, typename T>
 inline std::enable_if_t < std::is_same_v<RT, void *>
 &&std::is_pointer_v<std::decay_t<T>>, void * >
-                                  convert( RT *, const string_formatter &, T &&value, int )
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return const_cast<std::remove_const_t<std::remove_pointer_t<std::decay_t<T>>> *>( value );
 }
