@@ -326,8 +326,8 @@
   {
     "id": "mon_toad_bone",
     "type": "MONSTER",
-    "name": { "str": "deathmask toad" },
-    "description": "The face and head of this enormous once-frog is encased in ossified tissue.  Its dead eyes peer out from this deathmask of hardened bone, which curves into a jagged beak around its mouth.  Even its warts appear to have stiffened into dense osteoderms.",
+    "name": { "str": "death mask toad" },
+    "description": "The face and head of this enormous once-frog is encased in ossified tissue.  Its dead eyes peer out from this death mask of hardened bone, which curves into a jagged beak around its mouth.  Even its warts appear to have stiffened into dense osteoderms.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "240 L",
     "weight": "340 kg",
