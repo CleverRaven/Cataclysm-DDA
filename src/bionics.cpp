@@ -2974,6 +2974,8 @@ void Character::remove_bionic( const bionic &bio )
     if( has_enchantments ) {
         recalculate_enchantment_cache();
     }
+    // clean up any changes from bionic limbs
+    recalculate_bodyparts();
     effect_on_conditions::process_reactivate( *this );
 }
 
