@@ -3537,7 +3537,7 @@ void game::write_memorial_file( std::string sLastWords )
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        memorial_file_path << cata::filter_invalid_filename_char(u.name);
+        memorial_file_path << cata::filter_invalid_filename_char( u.name );
     }
 
     // Add a ~ if the player name was actually truncated.
