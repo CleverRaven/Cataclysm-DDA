@@ -86,7 +86,7 @@ convert( RT *, const string_formatter &, T &&value, int )
 }
 template<typename RT, typename T>
 inline std::enable_if_t < is_integer<RT> &&std::is_enum_v<std::decay_t<T>>, RT >
-convert( RT *, const string_formatter &, T &&value, int )
+        convert( RT *, const string_formatter &, T &&value, int )
 {
     return static_cast<RT>( value );
 }
