@@ -514,6 +514,7 @@
     "sound_description": "Ka-BOOM!",
     "sound_id": "thunder_near",
     "sound_variant": "environment",
+    "sound_type": "alarm",
     "message": "",
     "field_id": "fd_electricity",
     "field_chance": 1,
