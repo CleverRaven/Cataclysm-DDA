@@ -122,7 +122,7 @@ std::string cata::filter_invalid_filename_char( std::string &str )
 {
     std::string t;
     t.resize( 9 );
-    //    "\" 
+    //    "\"
     t[0] = 0x5C;
     //    "/"
     t[1] = 0x2F;
