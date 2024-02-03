@@ -143,6 +143,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
+static const efftype_id effect_took_thorazine( "took thorazine" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -2880,18 +2881,20 @@ bool mattack::stare( monster *z )
             player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
-        }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a fix on the target?
-        if( player_character.has_trait( trait_SCHIZOPHRENIC ) && player_character.has_effect( effect_hallu ) && one_in( 2 ) ) {
-            add_msg( m_warning, _( "The %s gazes toward you, then quickly turns away." ), z->name() );
-            return true;
+        }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a good look at it?
+        if( player_character.has_trait( trait_SCHIZOPHRENIC ) && !player_character.has_effect( effect_took_thorazine ) && x_in_y( 3.0, 4.0 ) ) {
+            if( player_character.sees( *z ) ) {
+                add_msg( m_warning, _( "The %s gazes toward you, then quickly turns away." ), z->name() );
+                return true;
+            } else {
+                add_msg( m_warning, _( "A chorus of whispers chatter raucously around you." ) );
+                return true;
+            }
         }
-        //Being blackout drunk can protect you from The Horrors
+        //Being drunk can protect you from The Horrors
         if( player_character.has_effect( effect_drunk ) && ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
             add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
             player_character.add_effect( effect_stunned, 2_seconds );
-            return true;
-        } else {
-            add_msg( m_warning, _( "A chorus of whispers chatter raucously around you." ) );
             return true;
         }
         if( player_character.sees( *z ) ) {
