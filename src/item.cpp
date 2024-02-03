@@ -3292,7 +3292,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                        true ) );
         }
         if( parts->test( iteminfo_parts:: GUN_IDEAL_STRENGTH ) ) {
-            info.emplace_back( "GUN", "ideal_strength", _( " (when str reaches: <num>)" ),
+            info.emplace_back( "GUN", "ideal_strength", _( " (when strength reaches: <num>)" ),
                                iteminfo::lower_is_better | iteminfo::no_name,
                                loaded_mod->gun_base_weight() / 333.0_gram );
         }
