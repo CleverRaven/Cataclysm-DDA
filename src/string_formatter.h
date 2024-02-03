@@ -26,7 +26,7 @@ void throw_error( const string_formatter &, std::string_view );
 const char *string_formatter_set_temp_buffer( const string_formatter &, std::string && );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
-// remove invalid char in filename
+// repalce invalid char in filename with "_" 
 std::string filter_invalid_filename_char( std::string &str );
 
 /**
