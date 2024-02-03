@@ -3287,7 +3287,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
         if( parts->test( iteminfo_parts::GUN_RECOIL_THEORETICAL_MINIMUM ) ) {
             info.back().bNewLine = true;
-            info.emplace_back( "GUN", _( "Theoretical mininum recoil: " ), "",
+            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "",
                                iteminfo::no_newline | iteminfo::lower_is_better, loaded_mod->gun_recoil( player_character, true,
                                        true ) );
         }
