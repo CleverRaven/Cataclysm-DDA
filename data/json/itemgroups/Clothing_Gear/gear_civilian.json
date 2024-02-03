@@ -199,10 +199,6 @@
       { "item": "hat_golf", "prob": 5 },
       { "item": "helmet_bike", "prob": 70 },
       { "item": "helmet_riding", "prob": 5 },
-      { "item": "propeller_hat", "prob": 15 },
-      { "item": "beanie_hat", "prob": 5 },
-      { "item": "k_beanie", "prob": 5 },
-      { "item": "plumber_cap", "prob": 3 },
       { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
