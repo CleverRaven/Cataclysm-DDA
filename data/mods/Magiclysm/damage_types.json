@@ -1,5 +1,17 @@
 [
   {
+    "id": "NETHER_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "POISON_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "PSIONIC_IMMUNE",
+    "type": "json_flag"
+  },
+  {
     "//": "not bio - this is not inhaled poison.",
     "id": "poison",
     "type": "damage_type",
