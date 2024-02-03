@@ -21,8 +21,8 @@
 #include "rng.h"
 #include "string_formatter.h"
 
-static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
+static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );

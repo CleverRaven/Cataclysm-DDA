@@ -138,6 +138,7 @@
       "HIBERNATE",
       "PROJUNK",
       "QUICK",
+      "ANTIWHEAT",
       "SAPROVORE",
       "PICKYEATER"
     ],
@@ -152,7 +153,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
-    "cancels": [ "SLIT_NOSTRILS" ],
+    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
     "description": "You have a human mouth with human teeth."
   },
   {
@@ -499,8 +500,10 @@
     "id": "ECHOLOCATION",
     "name": { "str": "Echolocation" },
     "points": 3,
+    "removable": false,
     "description": "You've learned how to hunt without sight.  Activate this mutation to make a quiet chirp that can reveal obstacles and enemies by its echo.",
-    "prereqs": [ "BATEARS", "GOODCARDIO" ],
+    "prereqs": [ "BATEARS" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "active": true
   },
@@ -7182,6 +7185,7 @@
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
+    "mixed_effect": true,
     "types": [ "HANDS" ],
     "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
     "leads_to": [ "WEBBED_FEET" ],

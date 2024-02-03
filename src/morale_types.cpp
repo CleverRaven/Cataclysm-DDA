@@ -17,6 +17,7 @@ const morale_type MORALE_ANTIJUNK( "morale_antijunk" );
 const morale_type MORALE_ANTIMEAT( "morale_antimeat" );
 const morale_type MORALE_ANTIVEGGY( "morale_antiveggy" );
 const morale_type MORALE_ANTIWHEAT( "morale_antiwheat" );
+const morale_type MORALE_ASOCIAL( "morale_asocial" );
 const morale_type MORALE_ATE_WITHOUT_TABLE( "morale_ate_without_table" );
 const morale_type MORALE_ATE_WITH_TABLE( "morale_ate_with_table" );
 const morale_type MORALE_BOOK( "morale_book" );
@@ -86,18 +87,19 @@ const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_SHAVE( "morale_shave" );
+const morale_type MORALE_SOCIAL( "morale_social" );
 const morale_type MORALE_SUPPORT( "morale_support" );
 const morale_type MORALE_SWEETTOOTH( "morale_sweettooth" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 const morale_type MORALE_VEGETARIAN( "morale_vegetarian" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_WET( "morale_wet" );
-const morale_type MORALE_SOCIAL( "morale_social" );
-const morale_type MORALE_ASOCIAL( "morale_asocial" );
+
 static const morale_type morale_accomplishment( "morale_accomplishment" );
 static const morale_type morale_antifruit( "morale_antifruit" );
 static const morale_type morale_antijunk( "morale_antijunk" );
 static const morale_type morale_antiwheat( "morale_antiwheat" );
+static const morale_type morale_asocial( "morale_asocial" );
 static const morale_type morale_ate_with_table( "morale_ate_with_table" );
 static const morale_type morale_ate_without_table( "morale_ate_without_table" );
 static const morale_type morale_book( "morale_book" );
@@ -163,13 +165,12 @@ static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 static const morale_type morale_scream( "morale_scream" );
 static const morale_type morale_shave( "morale_shave" );
+static const morale_type morale_social( "morale_social" );
 static const morale_type morale_support( "morale_support" );
 static const morale_type morale_sweettooth( "morale_sweettooth" );
 static const morale_type morale_vegetarian( "morale_vegetarian" );
 static const morale_type morale_vomited( "morale_vomited" );
 static const morale_type morale_wet( "morale_wet" );
-static const morale_type morale_social( "morale_social" );
-static const morale_type morale_asocial( "morale_asocial" );
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {

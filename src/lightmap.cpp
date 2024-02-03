@@ -48,9 +48,9 @@
 #include "weather.h"
 #include "weather_type.h"
 
-static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 
 static constexpr int LIGHTMAP_CACHE_X = MAPSIZE_X;
 static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;

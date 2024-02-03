@@ -570,8 +570,8 @@ void sounds::process_sound_markers( Character *you )
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
         int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
-                                volume_multiplier ) ) - distance_to_sound;
-        if( you->has_flag( json_flag_HEARING_PROTECTION ) ){
+                                            volume_multiplier ) ) - distance_to_sound;
+        if( you->has_flag( json_flag_HEARING_PROTECTION ) ) {
             felt_volume /= 2;
         }
         // Deafening is based on the felt volume, as a player may be too deaf to
@@ -722,23 +722,23 @@ void sounds::process_sound_markers( Character *you )
         int err_offset;
 
         if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
-            err_offset = rand() % 4;
+            err_offset = rng( 0, 3 );
         } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
-            err_offset = rand() % 3;
+            err_offset = rng( 0, 2 );
         } else {
-            err_offset = rand() % 2;
+            err_offset = rng( 0, 1 );
         }
 
         // Echolocation has to be fairly precise or it's worse than useless.
         // However, it is never perfect.
         if( sound.category == sound_t::sensory ) {
             if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
-                err_offset = rand() % 3;
+                err_offset = rng( 0, 3 );
             } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
-                err_offset = rand() % 2;
+                err_offset = rng( 0, 2 );
             } else {
                 if( one_in( 3 ) ) {
-                    err_offset = rand() % 2;
+                    err_offset = rng( 0, 1 );
                 } else {
                     err_offset = 0;
                 }

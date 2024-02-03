@@ -440,7 +440,6 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
-static const trait_id trait_LEGS_BAT( "LEGS_BAT" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
@@ -481,9 +480,6 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_BEAST( "THRESH_BEAST" );
-static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
-static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
@@ -493,7 +489,6 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -10557,7 +10552,6 @@ void Character::echo_pulse()
         sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "boop." ), true,
                        "none", "none" );
     } else if( !has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
-        pulse_range = 0;
         add_msg_if_player( m_warning, _( "You can't echolocate underwater!" ) );
         return;
     } else {
@@ -10620,10 +10614,10 @@ void Character::echo_pulse()
                         echo_string = _( "Target [Medium]." );
                         break;
                     case 4:
-                        echo_string = _( "Warning! Target [Large]." );
+                        echo_string = _( "Warning!  Target [Large]." );
                         break;
                     case 5:
-                        echo_string = _( "Warning! Target [Huge]." );
+                        echo_string = _( "Warning!  Target [Huge]." );
                         break;
                     default:
                         debugmsg( "ERROR: Invalid echo string." );
@@ -10643,7 +10637,7 @@ void Character::echo_pulse()
                         echo_string = _( "pong." );
                         break;
                     case 5:
-                        echo_string = _( "booop." );
+                        echo_string = _( "bloop." );
                         break;
                     default:
                         debugmsg( "ERROR: Invalid echo string." );

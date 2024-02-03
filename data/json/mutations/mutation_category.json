@@ -293,7 +293,7 @@
     "threshold_mut": "THRESH_CHIROPTERAN",
     "mutagen_message": "Your ears ring, and you thirst for blood.",
     "memorial_message": "Became the night.",
-    "vitamin": "mutagen_crustacean",
+    "vitamin": "mutagen_chiropteran",
     "base_removal_chance": 33,
     "base_removal_cost_mul": 2.5
   },
