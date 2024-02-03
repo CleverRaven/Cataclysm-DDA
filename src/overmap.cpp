@@ -5036,30 +5036,38 @@ void overmap::finalize_highways()
             debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
         }
 
+        bool last_z0 = true;
         for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
-            if( what_to_place[i].first > 2 ) {
+            if( what_to_place[i].first > 2 && last_z0 ) {
+                last_z0 = false;
                 what_to_place[i].second = 1;
-                // Bounds check
-                i++;
-                while( what_to_place[i].first > 2 ) {
-                    // Bounds check
-                    i++;
-                }
-                bool need_ramp = true;
+            }
+            if( what_to_place[i].first < 3 && !last_z0 ) {
+                last_z0 = true;
+                // If there's a small gap between two identical raised sections, join them instead of placing a ramp
                 if( what_to_place[i].first == 1 ) {
                     int last_up = what_to_place[i - 1].first;
-                    // Bounds check
-                    if( what_to_place[i + 1].first == last_up ) {
+                    if( static_cast<unsigned int>(i+1) < what_to_place.size() && what_to_place[i + 1].first == last_up ) {
                         what_to_place[i].first = last_up;
-                        need_ramp = false;
-                    } else if( what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                        last_z0 = false;
+                    } else if( static_cast<unsigned int>(i+2) < what_to_place.size() && what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
-                        need_ramp = false;
+                        last_z0 = false;
                     }
                 }
-                if( need_ramp ) {
+                if( last_z0 ) {
                     what_to_place[i - 1].second = 2;
+                }
+            }
+        }
+
+        // Replace singular city segments with road bridges
+        for( int i = 1; static_cast<unsigned int>( i ) < what_to_place.size() - 1; i++ ) {
+            if( what_to_place[i].first == 4 ) {
+                if( what_to_place[i-1].first != 4 && what_to_place[i+1].first != 4 ) {
+                    what_to_place[i].first = 2;
+                    what_to_place[i].second = 0;
                 }
             }
         }
@@ -5068,7 +5076,6 @@ void overmap::finalize_highways()
             if( what_to_place[i].first != 0 ) {
                 tripoint_om_omt north_point( i, j, 0 );
                 const overmap_special_id &special = segments[what_to_place[i].first];
-                // Add road replacment for tunnel + overpass
                 place_special_forced( special, north_point, om_direction::type::east );
                 if( special == segment_bridge ) {
                     tripoint_om_omt water_point = north_point;
