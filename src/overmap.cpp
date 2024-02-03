@@ -3699,7 +3699,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
     }
-    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) ) {
+    if( get_option<bool>( "OVERMAP_PLACE_HIGHWAYS" ) && !placed_highways.none() ) {
         finalize_highways();
     }
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
@@ -4816,11 +4816,23 @@ void overmap::place_highways()
     // Width of segments
     const int &segment_width = settings->overmap_highway.width_of_segments;
     // Id of OMT to use until finalize_highways()
-    const oter_str_id &reserved_terrain_id = settings->overmap_highway.reserved_terrain_id;
+    const oter_type_str_id &reserved_terrain_id = settings->overmap_highway.reserved_terrain_id;
+    // Id of OMT to use until finalize_highways() over water
+    const oter_type_str_id &reserved_terrain_water_id = settings->overmap_highway.reserved_terrain_water_id;
     if( frequency_x == 0 && frequency_y == 0 ) {
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
     }
+
+    auto is_water_body_or = [&]( tripoint_om_omt point, tripoint offset ) {
+        bool ret = false;
+        tripoint_om_omt point_to_test = point;
+        for( int i = 0; i < segment_width; i++ ) {
+            ret |= is_water_body( ter( point_to_test ) );
+            point_to_test += offset;
+        }
+        return ret;
+    };
 
     // TODO: Have this run once instead of every overmap
     // TODO: Offset within the overmap too?
@@ -4860,9 +4872,13 @@ void overmap::place_highways()
         const int j_min = placed_highways[0] ? 0 : floor( OMAPY / 2.0 );
         const int j_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         for( int j = j_min; j < j_max; j++ ) {
+            const tripoint_om_omt west_point( i, j, 0 );
+            const oter_type_str_id z0_terrain_to_place = is_water_body_or( west_point, tripoint_east ) ? reserved_terrain_water_id : reserved_terrain_id;
             for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
-                const tripoint_om_omt point( i_segment, j, 0 );
-                ter_set( point, reserved_terrain_id.id() );
+                tripoint_om_omt point( i_segment, j, 0 );
+                ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::north ) );
+                point += tripoint_above;
+                ter_set( point, reserved_terrain_id.obj().get_rotated( om_direction::type::north ) );
             }
         }
     }
@@ -4875,9 +4891,13 @@ void overmap::place_highways()
         const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         for( int i = i_min; i < i_max; i++ ) {
-            for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
-                const tripoint_om_omt point( i_segment, j, 0 );
-                ter_set( point, reserved_terrain_id.id() );
+            const tripoint_om_omt north_point( i, j, 0 );
+            const oter_type_str_id z0_terrain_to_place = is_water_body_or( north_point, tripoint_south ) ? reserved_terrain_water_id : reserved_terrain_id;
+            for( int j_segment = j; j_segment < j + segment_width; j_segment++ ) {
+                tripoint_om_omt point( i, j_segment, 0 );
+                ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::east ) );
+                point += tripoint_above;
+                ter_set( point, reserved_terrain_id.obj().get_rotated( om_direction::type::east ) );
             }
         }
     }
@@ -4931,15 +4951,16 @@ void overmap::place_highways()
 void overmap::finalize_highways()
 {
     const int &segment_width = settings->overmap_highway.width_of_segments;
-    const int &max_tunnel_distance = settings->overmap_highway.max_tunnel_distance;
+    // Symbolic ids to change the omt flags, symbols and names without changing the maps themselves
+    const oter_type_str_id &ramp_up_id = settings->overmap_highway.symbolic_ramp_up_id;
+    const oter_type_str_id &ramp_down_id = settings->overmap_highway.symbolic_ramp_down_id;
+    const oter_type_str_id &overpass_road_id = settings->overmap_highway.symbolic_overpass_road_id;
     // To indicate not to place anything
     const overmap_special_id segment_null( "segment_null" );
     // Segment of flat highway
     const overmap_special_id &segment_flat = settings->overmap_highway.segment_flat;
     // Segment of flat highway with a road bridge
     const overmap_special_id &segment_road_bridge = settings->overmap_highway.segment_road_bridge;
-    // Segment of raised highway for a road tunnel
-    const overmap_special_id &segment_road_tunnel = settings->overmap_highway.segment_road_tunnel;
     // Segment of highway bridge for over rivers and lakes
     const overmap_special_id &segment_bridge = settings->overmap_highway.segment_bridge;
     // Segment used under segment_bridge in water
@@ -4968,67 +4989,46 @@ void overmap::finalize_highways()
         return ret;
     };
 
+    auto place_symbolic = [&]( tripoint_om_omt point, const oter_type_str_id & symbolic_omt,
+                                        const om_direction::type dir ) {
+        for( int j_width = 0; j_width < segment_width; j_width++ ) {
+            ter_set( point, symbolic_omt.obj().get_rotated( dir ) );
+            point += tripoint_south;
+        }
+    };
+
+    // TODO: Refactor into one funtion for both directions
+    // TODO: Railroad and ravine handling
     if( placed_highways[1] || placed_highways[3] ) {
-        std::vector<overmap_special_id> what_to_place;
-        std::pair<bool, int> ongoing_tunnel;
         int j = floor( OMAPY / 2.0 );
         const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
-        // TODO: Remove after testing
         const int i_range = i_max - i_min;
+        // First element corresponds to a special segment, second element corresponds to an OMT used purely to change the appearance on the map, see switch cases below
+        std::vector<std::pair<int, int>> what_to_place;
+        std::unordered_map<int, overmap_special_id> segments{
+            {0, segment_null},
+            {1, segment_flat},
+            {2, segment_road_bridge},
+            {3, segment_bridge},
+            {4, segment_overpass}
+        };
         for( int i = i_min; i < i_max; i++ ) {
             tripoint_om_omt north_point( i, j, 0 );
             if( is_highway_special( ter( north_point ) ) ) {
-                while( is_highway_special( ter( north_point ) ) ) {
-                    what_to_place.push_back( segment_null );
-                    i++;
-                    //Bounds check
-                    north_point += tripoint_east;
-                }
+                what_to_place.push_back( { 0, 0 } );
             } else if( is_water_body_or( north_point, tripoint_south ) ) {
-                while( is_water_body_or( north_point, tripoint_south ) ) {
-                    what_to_place.push_back( segment_bridge );
-                    i++;
-                    //Bounds check
-                    north_point += tripoint_east;
-                }
+                what_to_place.push_back( { 3, 0 } );
             } else if( is_in_city_or( north_point, tripoint_south ) ) {
-                while( is_in_city_or( north_point, tripoint_south ) ) {
-                    what_to_place.push_back( segment_overpass );
-                    i++;
-                    //Bounds check
-                    north_point += tripoint_east;
+                if( is_road( ter( north_point ) ) ) {
+                    what_to_place.push_back( { 4, 3 } );
+                } else {
+                    what_to_place.push_back( { 4, 0 } );
                 }
             } else if( is_road( ter( north_point ) ) ) {
-                bool tunnel = false;
-                for( int offset = -max_tunnel_distance; offset <= max_tunnel_distance; offset++ ) {
-                    //Bounds check
-                    north_point = { i + offset, j, 0 };
-                    // Maybe not safe enough?
-                    if( !is_in_city_or( north_point, tripoint_south ) && is_road( ter( north_point ) ) ) {
-                        tunnel = true;
-                    }
-                }
-                if( tunnel ) {
-                    what_to_place.push_back( segment_road_tunnel );
-                    if( ongoing_tunnel.first ) {
-                        // Extend 1 past in each direction?
-                        for( int tunnel_i = ongoing_tunnel.second; tunnel_i < i; tunnel_i++ ) {
-                            if( what_to_place[tunnel_i] == segment_flat ) {
-                                what_to_place[tunnel_i] = segment_road_tunnel;
-                            } else {
-                                debugmsg( "Tunnel bisected by terrain of interest %s", what_to_place[tunnel_i].c_str() );
-                            }
-                        }
-                    } else {
-                        ongoing_tunnel.first = true;
-                        ongoing_tunnel.second = i;
-                    }
-                } else {
-                    what_to_place.push_back( segment_road_bridge );
-                }
+                what_to_place.push_back( { 2, 0 } );
             } else {
-                what_to_place.push_back( segment_flat );
+                what_to_place.push_back( { 1, 0 } );
             }
         }
 
@@ -5036,18 +5036,65 @@ void overmap::finalize_highways()
             debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
         }
 
-        // TODO: Add ramp handling
+        for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
+            if( what_to_place[i].first > 2 ) {
+                what_to_place[i].second = 1;
+                // Bounds check
+                i++;
+                while( what_to_place[i].first > 2 ) {
+                    // Bounds check
+                    i++;
+                }
+                bool need_ramp = true;
+                if( what_to_place[i].first == 1 ) {
+                    int last_up = what_to_place[i - 1].first;
+                    // Bounds check
+                    if( what_to_place[i + 1].first == last_up ) {
+                        what_to_place[i].first = last_up;
+                        need_ramp = false;
+                    } else if( what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                        what_to_place[i].first = last_up;
+                        what_to_place[i + 1].first = last_up;
+                        need_ramp = false;
+                    }
+                }
+                if( need_ramp ) {
+                    what_to_place[i - 1].second = 2;
+                }
+            }
+        }
 
         for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
-            const tripoint_om_omt north_point( i, j, 0 );
-            if( what_to_place[i] != segment_null ) {
-                place_special_forced( what_to_place[i], north_point, om_direction::type::east );
-                if( what_to_place[i] == segment_bridge ) {
+            if( what_to_place[i].first != 0 ) {
+                tripoint_om_omt north_point( i, j, 0 );
+                const overmap_special_id &special = segments[what_to_place[i].first];
+                // Add road replacment for tunnel + overpass
+                place_special_forced( special, north_point, om_direction::type::east );
+                if( special == segment_bridge ) {
                     tripoint_om_omt water_point = north_point;
                     while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
                         place_special_forced( segment_bridge_supports, water_point, om_direction::type::east );
                         water_point += tripoint_below;
                     }
+                }
+                switch (what_to_place[i].second) {
+                    case 0:
+                        break;
+                    case 1: // Up ramp
+                        place_symbolic( north_point, ramp_down_id, om_direction::type::east );
+                        north_point += tripoint_above;
+                        place_symbolic( north_point, ramp_up_id, om_direction::type::east );
+                        break;
+                    case 2: // Down ramp
+                        place_symbolic( north_point, ramp_down_id, om_direction::type::west );
+                        north_point += tripoint_above;
+                        place_symbolic( north_point, ramp_up_id, om_direction::type::west );
+                        break;
+                    case 3: // Road under overpass
+                        place_symbolic( north_point, overpass_road_id, om_direction::type::north );
+                        break;
+                    default:
+                        debugmsg( "Highway symbolic omt with id %s not recognised", what_to_place[i].second );
                 }
             }
         }
