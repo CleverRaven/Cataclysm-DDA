@@ -363,6 +363,7 @@
       { "monster": "mon_fly", "weight": 100 },
       { "monster": "mon_blob_sewer", "weight": 100 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
+      { "group": "GROUP_ROACH", "weight": 75 },
       { "group": "GROUP_STRAY_CATS", "weight": 20 },
       { "group": "GROUP_TADPOLES_SEWER", "weight": 5 },
       { "group": "GROUP_FROGS_SEWER", "weight": 5 },
