@@ -14,12 +14,12 @@
     "components": [ [ [ "filament", 140, "LIST" ] ] ]
   },
   {
-	"result": "xl_bastsandals",
-	"type": "recipe",
-	"copy-from": "bastsandals",
-	"time": "1 h",
-	"qualities": [ { "id": "CUT", "level": 2 } ],
-	"components": [ [ [ "filament", 200, "LIST" ] ] ]
+    "result": "xl_bastsandals",
+    "type": "recipe",
+    "copy-from": "bastsandals",
+    "time": "1 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "filament", 200, "LIST" ] ] ]
   },
   {
     "result": "boots",
