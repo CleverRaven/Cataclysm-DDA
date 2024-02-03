@@ -74,7 +74,7 @@ jobs:
         ccache --zero-stats
         # Increase cache size because debug builds generate large object files
         ccache -M 5G
-        ccache --show-stats --verbose
+        ccache --show-stats
 
         ./build-scripts/build-emscripten.sh
 
@@ -83,10 +83,10 @@ jobs:
         emsdk activate ccache-git-emscripten-64bit
         export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         echo $PATH
-        ccache --show-stats --verbose
+        ccache --show-stats
         ccache -M 5G
         ccache -c
-        ccache --show-stats --verbose
+        ccache --show-stats
 
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' && !failure() }}
