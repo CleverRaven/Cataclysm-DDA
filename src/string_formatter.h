@@ -100,7 +100,7 @@ convert( RT *, const string_formatter &, T &&value, int )
 template<typename RT, typename T>
 inline std::enable_if_t < std::is_same_v<RT, void *>
 &&std::is_pointer_v<std::decay_t<T>>, void * >
-convert( RT *, const string_formatter &, T &&value, int )
+                                  convert( RT *, const string_formatter &, T &&value, int )
 {
     return const_cast<std::remove_const_t<std::remove_pointer_t<std::decay_t<T>>> *>( value );
 }
