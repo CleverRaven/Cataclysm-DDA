@@ -2882,7 +2882,8 @@ bool mattack::stare( monster *z )
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a good look at it?
-        if( player_character.has_trait( trait_SCHIZOPHRENIC ) && !player_character.has_effect( effect_took_thorazine ) && x_in_y( 2.0, 3.0 ) ) {
+        if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            !player_character.has_effect( effect_took_thorazine ) && x_in_y( 2.0, 3.0 ) ) {
             if( player_character.sees( *z ) ) {
                 add_msg( m_warning, _( "The %s quickly looks away from you." ), z->name() );
                 return true;
@@ -2892,7 +2893,8 @@ bool mattack::stare( monster *z )
             }
         }
         //Being drunk can protect you from The Horrors
-        if( player_character.has_effect( effect_drunk ) && ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
+        if( player_character.has_effect( effect_drunk ) &&
+            ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
             add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
             player_character.add_effect( effect_stunned, 2_seconds );
             return true;
