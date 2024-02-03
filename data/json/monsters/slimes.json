@@ -255,7 +255,7 @@
     "color": "green",
     "melee_skill": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 }, { "damage_type": "biological", "amount": 1 } ],
-    "special_attacks": [],
+    "special_attacks": [  ],
     "death_function": {
       "message": "The %s bursts, releasing its vile contents!",
       "corpse_type": "NO_CORPSE",
