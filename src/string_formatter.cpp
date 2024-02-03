@@ -118,6 +118,29 @@ std::string cata::handle_string_format_error()
     }
 }
 
+std::string cata::filter_invalid_filename_char( std::string &str )
+{
+    std::string t;
+    t.resize( 9 );
+    t[0] = 0x5C; //    \ 
+    t[1] = 0x2F; //    /
+    t[2] = 0x3A; //    :
+    t[3] = 0x2A; //    *
+    t[4] = 0x3F; //    ?
+    t[5] = 0x22; //    "
+    t[6] = 0x3C; //    <
+    t[7] = 0x3E; //    >
+    t[8] = 0x7C; //    |
+    std::string tmp = str;
+    int length = tmp.length();
+    for( int i = 0; i < length; ++i ) {
+        if( t.find( tmp[i] ) != std::string::npos ) {
+            tmp[i] = 0x5F; //    _
+        }
+    }
+    return tmp;
+}
+
 void cata::string_formatter::add_long_long_length_modifier()
 {
     const char *modifier;

@@ -3368,9 +3368,7 @@ bool game::save_achievements()
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        std::string tmp = u.name;
-        cata::filter_invalid_filename_char(tmp);
-        achievement_file_path << tmp;
+        achievement_file_path << cata::filter_invalid_filename_char(u.name);
     }
 
     // Add a ~ if the player name was actually truncated.
@@ -3539,9 +3537,7 @@ void game::write_memorial_file( std::string sLastWords )
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        std::string tmp = u.name;
-        cata::filter_invalid_filename_char(tmp);
-        memorial_file_path << tmp;
+        memorial_file_path << cata::filter_invalid_filename_char(u.name);
     }
 
     // Add a ~ if the player name was actually truncated.
