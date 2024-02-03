@@ -3368,7 +3368,7 @@ bool game::save_achievements()
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        achievement_file_path << cata::filter_invalid_filename_char(u.name);
+        achievement_file_path << cata::filter_invalid_filename_char( u.name );
     }
 
     // Add a ~ if the player name was actually truncated.
