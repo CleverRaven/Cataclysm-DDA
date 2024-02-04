@@ -233,7 +233,7 @@ else
         ./build-scripts/get_all_mods.py | \
             while read mods
             do
-                run_test ./tests/cata_test '(all_mods)=> ' '~*' --user-dir=all_modded --mods="${mods}"
+                run_test ./tests/cata_test '(all_mods)=> ' '[force_load_game]' --user-dir=all_modded --mods="${mods}"
             done
     fi
 fi

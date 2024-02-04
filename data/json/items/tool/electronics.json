@@ -235,7 +235,9 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "charges_per_use": 25,
+    "qualities": [ [ "HACK", 2 ] ]
   },
   {
     "id": "geiger_off",
@@ -279,6 +281,33 @@
     },
     "tick_action": [ "GEIGER_ACTIVE" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
+  },
+  {
+    "id": "resonance_measurement_device",
+    "type": "TOOL",
+    "name": { "str": "Otherworldy measuring device" },
+    "description": "This strange contraption appears to be little more than a laminated box built around a battery, a poorly backlit screen, and a wound spool of cloth netting.  The letters \"X E D R A\" are emblazoned on the side.  To operate the device, unfurl the netting and place it around the object to analyze.  Despite not appearing to do anything, it consumes an enormous amount of electricity and provides a brief numerical readout.",
+    "weight": "600 g",
+    "volume": "900 ml",
+    "price": "1500000 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "plastic", "aluminum", "cotton" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 5000,
+    "use_action": [ "MEASURE_RESONANCE" ],
+    "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_atomic_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "nre_recorder",

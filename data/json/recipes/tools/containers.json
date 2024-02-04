@@ -405,7 +405,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ]
@@ -425,7 +425,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -445,7 +445,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 50 ] ]
@@ -465,7 +465,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 25 ] ]
@@ -486,7 +486,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "pipe", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 5 ] ]
@@ -1115,7 +1115,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 10 ], [ "bronze_nail", 10 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 10, "LIST" ] ] ],
     "byproducts": [ [ "splinter", 12 ] ]
   },
   {
@@ -1131,7 +1131,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 20 ], [ "bronze_nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1146,7 +1146,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 16 ] ], [ [ "nail", 40 ], [ "bronze_nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 16 ] ], [ [ "nails", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1161,7 +1161,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 2 ] ], [ [ "nail", 40 ], [ "bronze_nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 2 ] ], [ [ "nails", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",

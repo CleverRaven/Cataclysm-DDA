@@ -349,7 +349,7 @@
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
       "furniture": { "O": "f_floor_mattress" },
       "place_items": [
-        { "item": "mutagens", "x": 5, "y": 0, "repeat": [ 3, 5 ], "chance": 100 },
+        { "item": "mutagen_kits", "x": 5, "y": 0, "repeat": [ 3, 5 ], "chance": 100 },
         { "item": "lab_mutagen_ingredients", "x": 5, "y": 0, "repeat": [ 1, 8 ], "chance": 90 },
         { "item": "supplies_reagents_lab", "x": 5, "y": 2, "repeat": [ 1, 4 ], "chance": 90 },
         { "item": "chem_lab", "x": 5, "y": 2, "repeat": [ 3, 5 ], "chance": 80 },

@@ -173,7 +173,10 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#if defined(SOUND)
+    init_flags |= SDL_INIT_AUDIO;
+#endif
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
@@ -268,6 +271,10 @@ static void WinCreate()
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
+#endif
+#if defined(EMSCRIPTEN)
+    // Without this, the game only displays in the top-left 1/4 of the window.
+    window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );

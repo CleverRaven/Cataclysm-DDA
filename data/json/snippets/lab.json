@@ -324,6 +324,40 @@
   },
   {
     "type": "snippet",
+    "category": "<mutation_testing>",
+    "text": [
+      {
+        "id": "mutation_testing_1",
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Some grew in unexpected places, including a few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+      },
+      {
+        "id": "mutation_testing_2",
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked for more food.\nLong term results: the size of subject's stomach was increased by 50%."
+      },
+      {
+        "id": "mutation_testing_3",
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull a sidearm from a security guard's holster."
+      },
+      {
+        "id": "mutation_testing_4",
+        "text": "Prepare subject with 500 U mutagen\nApply 2500 U primer compound\nObserve for 6 hours\nResults: Subject died shortly after injection\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_5",
+        "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_6",
+        "text": "Prepare subject with 1500 U mutagen\nOmit primer compound\nObserve for 6 hours\nResults: Subject showed no visual changes whatsoever.  Subject reported a nausea and chest pain\nLong term results: No long-term changes."
+      },
+      {
+        "id": "mutation_testing_7",
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",

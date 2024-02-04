@@ -1,0 +1,96 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "augustmoon_shuttle_ground",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "augustmoon_shuttle_ground_tile" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "augustmoon_shuttle_ground_left",
+    "method": "json",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ### ##          ",
+        "        #######         ",
+        "       #########        ",
+        "       #########        ",
+        "       ##########       ",
+        "       #########        ",
+        "      #######           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_dirtmound" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_landed_shuttle",
+    "method": "json",
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [ { "chunks": [ "augustmoon_shuttle_ground_tile" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "augustmoon_shuttle_ground_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ### ##          ",
+        "        ##|||##         ",
+        "       ##||A||##        ",
+        "       #||313||#        ",
+        "       #|||2|||##       ",
+        "       ##||2||##        ",
+        "      ####              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "|": "t_afs_space_ship_hull_wall",
+        "2": "t_afs_space_ship_hatch_c",
+        "1": "t_intermodal_crate_scripted_source",
+        "3": "t_metal_floor",
+        "A": "t_augustmoon_shuttle_console",
+        "#": "t_dirtmound"
+      },
+      "furniture": { "3": "f_afs_shuttle_seat" }
+    }
+  }
+]

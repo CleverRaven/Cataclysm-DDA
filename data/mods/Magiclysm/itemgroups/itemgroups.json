@@ -1087,7 +1087,8 @@
           { "item": "spell_scroll_create_lighter", "prob": 50 },
           { "item": "spell_scroll_chilling_touch", "prob": 50 },
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 }
+          { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
+          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1100,7 +1101,9 @@
           { "item": "spell_scroll_frost_spray", "prob": 50 },
           { "item": "spell_scroll_glide_ice", "prob": 50 },
           { "item": "spell_scroll_ice_shield", "prob": 50 },
-          { "item": "spell_scroll_frost_armor", "prob": 50 }
+          { "item": "spell_scroll_frost_armor", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_extinguish_fire_spell", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_summon_freezer_spell", "prob": 35 }
         ],
         "prob": 35
       },
@@ -1147,7 +1150,8 @@
           { "item": "spell_scroll_knock", "prob": 50 },
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
-          { "item": "spell_scroll_technomancer_welder", "prob": 35 }
+          { "item": "spell_scroll_technomancer_welder", "prob": 35 },
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
         ],
         "prob": 35
       },
@@ -1192,7 +1196,8 @@
           { "item": "spell_scroll_clairvoyance", "prob": 50 },
           { "item": "spell_scroll_eshaper_shardspray", "prob": 50 },
           { "item": "spell_scroll_earthshaper_stoneskin", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_pillar", "prob": 50 }
+          { "item": "spell_scroll_earthshaper_pillar", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_harden_earth", "prob": 50 }
         ],
         "prob": 35
       },
@@ -1204,7 +1209,8 @@
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
           { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
           { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 },
-          { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 }
+          { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 },
+          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 }
         ],
         "prob": 10
       }
@@ -1231,12 +1237,15 @@
       {
         "distribution": [
           { "item": "wizard_utility", "prob": 20 },
+          { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
+          { "item": "spell_scroll_biomancer_scalpel_fingers", "prob": 30 },
           { "item": "spell_scroll_pain_split", "prob": 50 },
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
-          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
+          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
         ],
         "prob": 35
       },
@@ -1246,7 +1255,8 @@
           { "item": "biomancer_spellbook", "prob": 10 },
           { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
-          { "item": "spell_scroll_bio_bonespear", "prob": 50 }
+          { "item": "spell_scroll_bio_bonespear", "prob": 50 },
+          { "item": "spell_scroll_biomancer_hyper_regeneration", "prob": 10 }
         ],
         "prob": 10
       }
@@ -1265,8 +1275,11 @@
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
           { "item": "spell_scroll_seed_of_growth", "prob": 15 },
+          { "item": "spell_scroll_druid_anti_heat", "prob": 40 },
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
-          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 }
+          { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
+          { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1277,21 +1290,25 @@
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
           { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 },
+          { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
-          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 }
+          { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
+          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
         ],
         "prob": 35
       },
       {
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "plant_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 },
-          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 100 }
+          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
+          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 }
         ],
         "prob": 10
       }
@@ -1342,7 +1359,8 @@
           { "item": "spell_scroll_create_atomic_light", "prob": 50 },
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
-          { "item": "spell_scroll_blinding_flash", "prob": 50 }
+          { "item": "spell_scroll_blinding_flash", "prob": 50 },
+          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 }
         ],
         "prob": 50
       },
@@ -1434,7 +1452,7 @@
     "id": "wood_fuel",
     "//": "fuel for a cookpot",
     "items": [
-      { "item": "charcoal", "count": [ 2, 5 ], "charges": [ 10, 50 ], "prob": 20 },
+      { "item": "charcoal", "count": [ 2, 5 ], "charges": [ 10, 50 ], "prob": 20, "container-item": "null" },
       { "item": "log", "count": [ 1, 3 ], "prob": 40 },
       { "item": "2x4", "count": [ 4, 8 ], "prob": 40 }
     ]

@@ -10,7 +10,6 @@
 #include "math_parser_func.h"
 
 static const skill_id skill_survival( "survival" );
-static const spell_id spell_test_spell_pew( "test_spell_pew" );
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
@@ -285,10 +284,20 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 0 ) );
 
+    CHECK( testexp.parse( "value_or(_ctx, 13)" ) );
+    CHECK( testexp.eval( d ) == Approx( 13 ) );
+    CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
+    CHECK( testexp.eval( d ) == Approx( 20 ) );
+
     d.set_value( "npctalk_var_ctx", "14" );
 
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 14 ) );
+
+    CHECK( testexp.parse( "value_or(_ctx, 13)" ) );
+    CHECK( testexp.eval( d ) == Approx( 14 ) );
+    CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
+    CHECK( testexp.eval( d ) == Approx( 19 ) );
 
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
@@ -298,13 +307,14 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     } );
     CHECK( testexp.parse( "u_val('stamina')" ) );
     CHECK( testexp.eval( d ) == get_avatar().get_stamina() );
-    CHECK( testexp.parse( "u_val('spell_level', 'spell: test_spell_pew')" ) );
-    get_avatar().magic->learn_spell( spell_test_spell_pew, get_avatar(), true );
-    get_avatar().magic->set_spell_level( spell_test_spell_pew, 4, &get_avatar() );
-    REQUIRE( d.actor( false )->get_spell_level( spell_test_spell_pew ) != 0 );
-    CHECK( testexp.eval( d ) == d.actor( false )->get_spell_level( spell_test_spell_pew ) );
-    CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
+
+    // units test
+    CHECK( testexp.parse( "time('1 m')" ) );
     CHECK( testexp.eval( d ) == 60 );
+    CHECK( testexp.parse( "time('1 m', 'unit':'minutes')" ) );
+    CHECK( testexp.eval( d ) == 1 );
+    CHECK( testexp.parse( "energy('25 kJ')" ) );
+    CHECK( testexp.eval( d ) == 25000000 );
 
     // evaluating string variables in dialogue functions
     globvars.set_global_value( "npctalk_var_someskill", "survival" );

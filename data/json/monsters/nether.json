@@ -119,7 +119,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "death_drops": "default_zombie_clothes",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "POISON", "REVIVES", "FILTHY", "GUILT_OTHERS" ]
   },
   {
     "id": "mon_breather",
@@ -709,6 +709,7 @@
       "SEES",
       "SMELLS",
       "HEARS",
+      "WARM",
       "GOODHEARING",
       "HAS_MIND",
       "NOHEAD",

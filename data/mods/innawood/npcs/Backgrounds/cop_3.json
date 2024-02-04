@@ -6,13 +6,13 @@
     "responses": [
       {
         "text": "What did you do when you found out about the Cataclysm?",
-        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') < 90" ] },
         "effect": { "npc_add_effect": "BGSS_Cop_3_earlymeeting", "duration": "PERMANENT" },
         "topic": "BGSS_COP_3_STORY2"
       },
       {
         "text": "What did you do when you found out about the Cataclysm?",
-        "condition": { "days_since_cataclysm": 90 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ] },
         "topic": "BGSS_COP_3_STORY2"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

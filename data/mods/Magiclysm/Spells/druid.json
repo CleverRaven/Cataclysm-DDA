@@ -16,17 +16,14 @@
     "difficulty": 2,
     "max_level": 20,
     "min_damage": 1,
-    "max_damage": 20,
-    "damage_increment": 1.0,
+    "max_damage": 10,
+    "damage_increment": 0.5,
     "min_aoe": 4,
     "max_aoe": 15,
     "aoe_increment": 1.0,
     "min_range": 3,
     "max_range": 10,
     "range_increment": 1.0,
-    "min_dot": 0,
-    "max_dot": 2,
-    "dot_increment": 0.1,
     "min_duration": 1000,
     "max_duration": 10000,
     "duration_increment": 500,
@@ -39,7 +36,7 @@
     "id": "druid_rootstrike",
     "type": "SPELL",
     "name": "Root Strike",
-    "description": "This spell causes roots to spear out the ground and stab into your foes in an arc, impaling them.",
+    "description": "This spell causes roots to spear out of the ground in a cone and stab into your foes, impaling them.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "attack",
@@ -157,7 +154,7 @@
     "name": "Improved Nature's Bow",
     "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "none" ],
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_FAIL" ],
     "extra_effects": [ { "id": "druid_naturequiver1_plus" }, { "id": "druid_naturearrows1_plus" } ],
     "min_damage": 1,
     "max_damage": 1,
@@ -308,7 +305,7 @@
     "id": "create_rune_druid",
     "type": "SPELL",
     "name": "Druid Rune",
-    "description": "This ritual creates a small pebble attuned to Druids.  You can use the rune as a catalyst for recipes.",
+    "description": "A ritual in which you conjure forth roots and vines in order to make a druidic rune.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -470,7 +467,7 @@
     "effect": "spawn_item",
     "effect_str": "aura_feral_plus",
     "shape": "blast",
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_feralform",
     "spell_class": "DRUID",
     "energy_source": "MANA",
@@ -519,8 +516,8 @@
   {
     "id": "druid_natures_commune",
     "type": "SPELL",
-    "name": "Nature's Commune",
-    "description": "You concentrate on the nature around you and commune with it, improving your health and calming nearby wildlife.  This spell may only be cast outdoors.",
+    "name": "Communion with Nature",
+    "description": "You focus on the bounty of nature around you and commune with it, improving your health and mood and calming nearby wildlife.  This spell may only be cast outdoors away from civilization.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_NATURE_COMMUNE",
@@ -544,6 +541,13 @@
     "condition": {
       "and": [
         "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
         { "not": { "u_near_om_location": "road_curved", "range": 1 } },
         { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
         { "not": { "u_near_om_location": "road_tee", "range": 1 } },
@@ -601,14 +605,15 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
+    "extra_effects": [ { "id": "druid_cause_rot_terrain" }, { "id": "druid_cause_rot_terrain_bash" } ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
     "max_level": 25,
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 8,
-    "damage_type": "pure",
+    "damage_type": "necrotic",
     "base_casting_time": 10000,
     "final_casting_time": 500,
     "casting_time_increment": -380,
@@ -628,13 +633,47 @@
     "duration_increment": 180
   },
   {
+    "id": "druid_cause_rot_terrain",
+    "type": "SPELL",
+    "name": "Cause Rot Terrain Rot",
+    "description": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_cause_rot_terrain",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "min_aoe": 5,
+    "max_aoe": 50,
+    "aoe_increment": 1.8
+  },
+  {
+    "id": "druid_cause_rot_terrain_bash",
+    "type": "SPELL",
+    "name": "Cause Rot Terrain Bash",
+    "description": "The bash terrain effect of the Cause Rot spell.  It's a bug if you have it directly.  It would be nice if this could take effect gradually but that's now how terrain bash works.",
+    "effect": "bash",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "min_aoe": 5,
+    "max_aoe": 50,
+    "aoe_increment": 1.8,
+    "min_damage": 20,
+    "max_damage": 170,
+    "damage_increment": 6
+  },
+  {
     "id": "druid_healing",
     "type": "SPELL",
     "name": "Restoration",
-    "description": "Directed magical energy that slowly heals your body from wounds.",
+    "description": "Slowly heal your wounds by drawing on the power of nature.\n\nYou must be <color_yellow>outdoors and in a natural area</color> away from civilization to cast Restoration.",
     "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "flask_regeneration",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RESTORATION",
     "shape": "blast",
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "energy_source": "MANA",
@@ -651,6 +690,40 @@
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RESTORATION",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "flask_regeneration",
+        "duration": { "math": [ "( 15000 + (u_spell_level('druid_healing') * 3000)) " ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to use its power to heal.", "type": "bad" } ]
   },
   {
     "id": "druid_healing_herb",
@@ -725,9 +798,9 @@
     "id": "EOC_GAIN_WHISPER_LEAVES",
     "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
     "effect": [
-      { "u_message": "You are in tune with the wood and the wilds.  [Check mutations to activate]", "type": "good" },
       { "u_add_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "60 seconds", "60 seconds" ] }
+      { "u_activate_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ],
     "false_effect": [
       {
@@ -853,7 +926,7 @@
     "name": "Enhanced Spear of Brambles",
     "description": "This spell turns a bit of bark or a twig into a vicious spear that drips with sticky sap.  You now know this spell like the back of your hand, and no longer need such massive spell components as you did previously.",
     "valid_targets": [ "none" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS", "NO_FAIL" ],
     "effect": "spawn_item",
     "effect_str": "druid_bramble_spear_item",
     "shape": "blast",
@@ -873,7 +946,7 @@
     "id": "druid_summon_brambles",
     "type": "SPELL",
     "name": "Stranglethorns",
-    "description": "Call up thick brambles, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_BRAMBLES_SELECTOR",
@@ -912,7 +985,7 @@
     "id": "druid_summon_brambles_arc",
     "type": "SPELL",
     "name": "Summon Brambles Arc",
-    "description": "Call up brambles, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
     "valid_targets": [ "ground", "hostile" ],
     "effect": "ter_transform",
     "effect_str": "druid_summoned_brambles",
@@ -930,7 +1003,7 @@
     "id": "druid_summon_brambles_line",
     "type": "SPELL",
     "name": "Summon Brambles Line",
-    "description": "Call up brambles, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
     "valid_targets": [ "ground", "hostile" ],
     "effect": "ter_transform",
     "effect_str": "druid_summoned_brambles",
@@ -963,5 +1036,225 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000
+  },
+  {
+    "id": "druid_renew_forest_spell",
+    "type": "SPELL",
+    "name": "Renewing the Forest",
+    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "condition": "u_is_outside",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
+          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
+          "false_effect": {
+            "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
+            "type": "bad"
+          }
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "You must be outside to cast Renewing the Forest!", "type": "bad" } ]
+  },
+  {
+    "id": "druid_renew_forest_spell_real",
+    "type": "SPELL",
+    "name": "Renewing the Forest Real",
+    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_renew_forest",
+    "min_aoe": { "math": [ "(u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)" ] },
+    "max_aoe": { "math": [ "(u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)" ] }
+  },
+  {
+    "id": "druid_wood_living_tree_spell",
+    "type": "SPELL",
+    "name": "Shape Wood",
+    "description": "Using druidic magic, shape living wood into a log that you can use for other projects without harming the tree.  You must cast this spell on a living tree.",
+    "flags": [ "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": 180000,
+    "base_energy_cost": 600
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "arvore_treesung_location" },
+          "message": "Select nearby tree"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
+          "then": [
+            {
+              "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
+              "type": "good"
+            },
+            { "u_spawn_item": "log", "count": 1, "suppress_message": true }
+          ],
+          "else": { "u_message": "You must be near a tree to treesing to it." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "druid_anti_heat",
+    "type": "SPELL",
+    "name": "Water's Cooling Touch",
+    "description": "Draw on some of the essence of water, providing protection against the summer's heat.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_druid_anti_heat",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 2,
+    "max_level": 15,
+    "min_duration": 90000,
+    "max_duration": 900000,
+    "duration_increment": 54000,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "druid_breathing_underwater",
+    "type": "SPELL",
+    "name": "Aquatic Mantle ",
+    "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "aura_druid_breathing_water",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "max_level": 10,
+    "base_casting_time": 3000,
+    "base_energy_cost": 350,
+    "min_duration": 36000,
+    "max_duration": 360000,
+    "duration_increment": 36000
+  },
+  {
+    "id": "druid_disinfectant",
+    "type": "SPELL",
+    "name": "Wash the Wounds Clean",
+    "description": "Transform a bit of water into a magical disinfectant as you pour it over your wounds.",
+    "//": "Using spawn_item with a liquid just dumps it on the floor at the moment.  Once that's fixed, this can be extended so it can be used on NPCs.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_DISINFECTANT",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 4,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 1000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_DISINFECTANT",
+    "effect": [
+      { "u_spawn_item": "item_druid_disinfectant", "suppress_message": true },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_druid_disinfectant" } ],
+        "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      },
+      { "u_remove_item_with": "item_druid_disinfectant" }
+    ]
+  },
+  {
+    "id": "druid_water_walking",
+    "type": "SPELL",
+    "name": "Water Strider's Walk",
+    "description": "While standing in water, enchant yourself so that the water will buoy you up and prevent you from sinking.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_WATER_WALKING",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "max_level": 15,
+    "base_casting_time": 250,
+    "base_energy_cost": 250,
+    "min_duration": 30000,
+    "max_duration": 480000,
+    "duration_increment": 30000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATER_WALKING",
+    "condition": { "u_is_on_terrain_with_flag": "LIQUID" },
+    "effect": { "u_cast_spell": { "id": "druid_water_walking_real", "hit_self": true } },
+    "false_effect": { "u_message": "You must be standing on water to cast Water Strider's Walk", "type": "bad" }
+  },
+  {
+    "id": "druid_water_walking_real",
+    "type": "SPELL",
+    "name": "Water Strider's Walk Real",
+    "description": "The actual spell that lets you walk on water.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_druid_waterwalk",
+    "shape": "blast",
+    "difficulty": 4,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + 30000)" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + 30000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATERWALKING_REMOVERE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_item": "aura_druid_waterwalk" }, { "not": { "u_is_on_terrain_with_flag": "LIQUID" } } ] },
+    "effect": [
+      { "u_remove_item_with": "aura_druid_waterwalk" },
+      { "u_message": "As you leave the water, your spell fades.", "type": "bad" }
+    ]
   }
 ]

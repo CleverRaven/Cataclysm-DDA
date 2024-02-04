@@ -4,16 +4,11 @@
     "id": "changing_initiate_check",
     "//": "Give player the CHANGING trait when they have enough basic mutagen in their blood.",
     "recurrence": [ "30 m", "45 m" ],
-    "condition": {
-      "and": [
-        { "compare_num": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 450 } ] },
-        { "not": { "u_has_flag": "CHANGING" } }
-      ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('mutagen')", ">=", "450" ] }, { "not": { "u_has_flag": "CHANGING" } } ] },
     "deactivate_condition": { "u_has_flag": "CHANGING" },
     "effect": [
       {
-        "weighted_list_eocs": [ [ "changing_failed", 2500 ], [ "changing_successful", { "u_val": "vitamin", "name": "mutagen" } ] ]
+        "weighted_list_eocs": [ [ "changing_failed", 2500 ], [ "changing_successful", { "math": [ "u_vitamin('mutagen')" ] } ] ]
       }
     ]
   },
@@ -35,7 +30,7 @@
     "effect": [
       { "u_message": "<CHANGING_ENDS>", "type": "bad" },
       { "u_lose_trait": "CHANGING" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 0 } ] }
+      { "math": [ "u_vitamin('mutagen')", "=", "0" ] }
     ]
   },
   {
@@ -51,12 +46,12 @@
           {
             "id": "changing_mutate2",
             "//": "Mutate!",
-            "condition": { "compare_num": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 300 } ] },
+            "condition": { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
             "effect": [
               { "u_message": "You feel a deep, churning sensation fill your body.", "type": "mixed" },
               { "u_mutate": 0 },
-              { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "const": 60 } ] },
-              { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "-=", { "rand": 80 } ] }
+              { "math": [ "u_vitamin('mutagen')", "-=", "60" ] },
+              { "math": [ "u_vitamin('mutagen')", "-=", "rand(80)" ] }
             ],
             "false_effect": [ { "run_eocs": [ "changing_reqs_not_met" ] } ]
           }

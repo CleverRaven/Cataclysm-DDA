@@ -7,7 +7,6 @@
 #include <functional>
 #include <iterator>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -26,11 +25,11 @@
 #include "flag.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "localized_comparator.h"
 #include "options.h"
 #include "output.h"
@@ -52,8 +51,6 @@ static const limb_score_id limb_score_manip( "manip" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-
-class recipe_result_info_cache;
 
 enum TAB_MODE {
     NORMAL,

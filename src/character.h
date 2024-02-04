@@ -32,7 +32,6 @@
 #include "character_id.h"
 #include "city.h"
 #include "coordinates.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -48,7 +47,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
-#include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -66,6 +64,7 @@ class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -106,6 +105,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum class proficiency_bonus_type : int;
 
@@ -575,6 +575,8 @@ class Character : public Creature, public visitable
         // Level-up points spent on Stats through Kills
         int spent_upgrade_points = 0;
 
+        float cached_organic_size;
+
         const profession *prof;
         std::set<const profession *> hobbies;
 
@@ -608,6 +610,21 @@ class Character : public Creature, public visitable
         int get_dex_bonus() const;
         int get_per_bonus() const;
         int get_int_bonus() const;
+
+        /** Cache variables to store stamina use info
+        *   these will be updated when the player's limb makeup changes
+        *   _power_use is how many joules to spend per stamina instead of stamina (default 0)
+        *   _stam_mult is how much to multiply the incoming stamina cost's stamina drain (default of 1)
+        */
+        int arms_power_use;     // millijoules
+        int legs_power_use;     // millijoules
+        float arms_stam_mult;
+        float legs_stam_mult;
+        /** Getters for above stats */
+        int get_arms_power_use() const;
+        int get_legs_power_use() const;
+        float get_arms_stam_mult() const;
+        float get_legs_stam_mult() const;
 
     private:
         /** Modifiers to character speed, with descriptions */
@@ -728,17 +745,11 @@ class Character : public Creature, public visitable
         using Creature::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
         void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
-        using Creature::add_msg_debug_if_player;
-        void add_msg_debug_if_player( debugmode::debug_filter type,
-                                      const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        using Creature::add_msg_debug_player_or_npc;
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg ) const override;
         using Creature::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
@@ -822,6 +833,12 @@ class Character : public Creature, public visitable
         bool check_avoid_friendly_fire() const override;
         float get_hit_base() const override;
 
+        /** total hitsize of all non cybernetic body parts */
+        void tally_organic_size();
+        float get_cached_organic_size() const;
+        /** Called on limb change to update the usage values */
+        void recalc_limb_energy_usage();
+
         /** Returns the player's sight range */
         int sight_range( float light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -881,6 +898,8 @@ class Character : public Creature, public visitable
 
         // true if the character produces electrical radiation
         bool is_electrical() const override;
+        // true if the character is a faerie creature (has the FAE_CREATURE flag or the trait FAERIECREATURE)
+        bool is_fae() const override;
         // true if the character is from the nether
         bool is_nether() const override;
         // true if the character has a sapient mind
@@ -1825,12 +1844,8 @@ class Character : public Creature, public visitable
          * @param prompt force display of the menu even if only one choice
          * @param empty allow selection of empty magazines
          */
-        item::reload_option select_ammo( const item_location &base, bool prompt = false,
-                                         bool empty = true ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item_location &base, std::vector<item::reload_option> opts,
-                                         const std::string &name_override = std::string() ) const;
+        virtual item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                bool empty = true ) = 0;
 
         void process_items();
         void leak_items();
@@ -3035,6 +3050,12 @@ class Character : public Creature, public visitable
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
+        // burn_energy looks at whether to use bionic power depending on how many limbs are cybernetic, then passes to mod_stamina after
+        void burn_energy_arms( int mod );
+        void burn_energy_legs( int mod );
+        void burn_energy_all( int mod );
+        // how many bionic arms/legs we have vs how many arms/legs we have total
+        float get_bionic_limb_percentage() const;
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
         /** Regenerates stamina */

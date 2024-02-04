@@ -356,7 +356,27 @@
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
-    "use_action": [ "TRIMMER_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__trimmer",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "3" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "trimmer_on",
+              "success_message": "With a roar, the hedge trimmer leaps to life!",
+              "volume": "15",
+              "failure_message": "You yank the cord, but nothing happens."
+            }
+          },
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 8 }
   },
@@ -369,8 +389,28 @@
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "TRIMMER_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__trimmer",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "trimmer_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__trimmer",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": { "sound_chance": "15", "sound_message": "Your hedge trimmer rumbles.", "volume": "10", "revert_to": "trimmer_off" }
+          }
+        }
+      ]
+    },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }

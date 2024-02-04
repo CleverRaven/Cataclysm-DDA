@@ -11,7 +11,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "and": [ { "compare_num": [ { "const": 0 }, ">", { "const": 1 } ] } ] },
+        "condition": { "math": [ "0", ">", "1" ] },
         "text": "Never See this.",
         "failure_explanation": "Impossible Test",
         "failure_topic": "TALK_TEST_START",
@@ -271,7 +271,7 @@
       {
         "text": "This is a days since Cataclysm 30 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 30 }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ] }
       },
       {
         "text": "This is a season summer test response.",
@@ -281,7 +281,7 @@
       {
         "text": "This is a days since Cataclysm 120 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 120 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('120 days')" ] }
       },
       {
         "text": "This is a season autumn test response.",
@@ -291,7 +291,7 @@
       {
         "text": "This is a days since Cataclysm 210 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 210 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('210 day')" ] }
       },
       {
         "text": "This is a season winter test response.",
@@ -301,7 +301,7 @@
       {
         "text": "This is a days since Cataclysm 300 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 300 }
+        "condition": { "math": [ "time_since('cataclysm') >= time('300 d')" ] }
       }
     ]
   },
@@ -659,107 +659,19 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a npc_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "n_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_TEST_ADJUST_VARS",
-    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [
-      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
-      {
-        "text": "This is a u_adjust_var test response that increments by 1.",
-        "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
-      },
-      {
-        "text": "This is a u_adjust_var test response that decrements by 1.",
-        "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
-      },
-      {
-        "text": "This is a npc_adjust_var test response that increments by 1.",
-        "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
-      },
-      {
-        "text": "This is a npc_adjust_var test response that decrements by 1.",
-        "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
-      },
-      {
-        "text": "This is a u_compare_var test response for == 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
-      },
-      {
-        "text": "This is a u_compare_var test response for != 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
-      },
-      {
-        "text": "This is a u_compare_var test response for <= 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
-      },
-      {
-        "text": "This is a u_compare_var test response for >= 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
-      },
-      {
-        "text": "This is a u_compare_var test response for < 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
-      },
-      {
-        "text": "This is a u_compare_var test response for > 0.",
-        "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for == 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for != 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for <= 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for >= 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for < 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
-      },
-      {
-        "text": "This is a npc_compare_var test response for > 0.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test)", ">", "time('3 d')" ] }
       }
     ]
   },
@@ -917,107 +829,27 @@
     "id": "TALK_TEST_COMPARE_INT_OP",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
-      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "compare_num": [ { "const": 2 }, "=", { "const": 5 } ] } },
-      {
-        "text": "Two == five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, "==", { "const": 5 } ] }
-      },
-      {
-        "text": "Two != five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, "!=", { "const": 5 } ] }
-      },
-      {
-        "text": "Two <= five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, "<=", { "const": 5 } ] }
-      },
-      {
-        "text": "Two >= five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, ">=", { "const": 5 } ] }
-      },
-      {
-        "text": "Two < five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, "<", { "const": 5 } ] }
-      },
-      {
-        "text": "Two > five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 2 }, ">", { "const": 5 } ] }
-      },
-      {
-        "text": "Five = five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "=", { "const": 5 } ] }
-      },
-      {
-        "text": "Five == five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "==", { "const": 5 } ] }
-      },
-      {
-        "text": "Five != five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "!=", { "const": 5 } ] }
-      },
-      {
-        "text": "Five <= five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "<=", { "const": 5 } ] }
-      },
-      {
-        "text": "Five >= five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, ">=", { "const": 5 } ] }
-      },
-      {
-        "text": "Five < five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "<", { "const": 5 } ] }
-      },
-      {
-        "text": "Five > five.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, ">", { "const": 5 } ] }
-      },
-      {
-        "text": "Five = two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "=", { "const": 2 } ] }
-      },
-      {
-        "text": "Five == two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "==", { "const": 2 } ] }
-      },
-      {
-        "text": "Five != two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "!=", { "const": 2 } ] }
-      },
-      {
-        "text": "Five <= two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "<=", { "const": 2 } ] }
-      },
-      {
-        "text": "Five >= two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, ">=", { "const": 2 } ] }
-      },
-      {
-        "text": "Five < two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, "<", { "const": 2 } ] }
-      },
-      {
-        "text": "Five > two.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "const": 5 }, ">", { "const": 2 } ] }
-      }
+      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
+      { "text": "Two == five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
+      { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "!=", "5" ] } },
+      { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<=", "5" ] } },
+      { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">=", "5" ] } },
+      { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<", "5" ] } },
+      { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
+      { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
+      { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
+      { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
+      { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "5" ] } },
+      { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "5" ] } },
+      { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "5" ] } },
+      { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
+      { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
+      { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
+      { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
+      { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "2" ] } },
+      { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "2" ] } },
+      { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "2" ] } },
+      { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "2" ] } }
     ]
   },
   {
@@ -1041,128 +873,102 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "text": "This is a u_adjust_var test response that increments by 1.",
+        "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 1 }
+        "effect": { "math": [ "u_test_var_compare_test_test", "++" ] }
       },
       {
-        "text": "This is an npc_adjust_var test response that increments by 2.",
+        "text": "This is an math test response that increments by 2.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 2 }
+        "effect": { "math": [ "n_test_var_compare_test_test", "+=", "2" ] }
       },
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "PC strength is five.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "strength" }, "=", { "const": 5 } ] }
+        "condition": { "math": [ "u_val('strength')", "==", "5" ] }
       },
       {
         "text": "PC dexterity is six.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "dexterity" }, "=", { "const": 6 } ] }
+        "condition": { "math": [ "u_val('dexterity')", "==", "6" ] }
       },
       {
         "text": "PC intelligence is seven.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "intelligence" }, "=", { "const": 7 } ] }
+        "condition": { "math": [ "u_val('intelligence')", "==", "7" ] }
       },
       {
         "text": "PC perception is eight.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "perception" }, "=", { "const": 8 } ] }
+        "condition": { "math": [ "u_val('perception')", "==", "8" ] }
       },
       {
         "text": "NPC strength is nine.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "npc_val": "strength" }, "=", { "const": 9 } ] }
+        "condition": { "math": [ "n_val('strength')", "==", "9" ] }
       },
       {
         "text": "NPC dexterity is ten.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "npc_val": "dexterity" }, "=", { "const": 10 } ] }
+        "condition": { "math": [ "n_val('dexterity')", "==", "10" ] }
       },
       {
         "text": "NPC intelligence is eleven.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "npc_val": "intelligence" }, "=", { "const": 11 } ] }
+        "condition": { "math": [ "n_val('intelligence')", "==", "11" ] }
       },
       {
         "text": "NPC perception is twelve.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "npc_val": "perception" }, "=", { "const": 12 } ] }
+        "condition": { "math": [ "n_val('perception')", "==", "12" ] }
       },
       {
         "text": "PC Custom var is one.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, "=", { "const": 1 } ]
-        }
+        "condition": { "math": [ "u_test_var_compare_test_test", "==", "1" ] }
       },
       {
         "text": "NPC Custom var is two.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "npc_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" }, "=", { "const": 2 } ]
-        }
+        "condition": { "math": [ "n_test_var_compare_test_test", "==", "2" ] }
       },
       {
         "text": "This is a u_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, ">", { "time": "3 days" } ]
-        }
+        "condition": { "math": [ "u_test_var_time_test_test > time('3 days')" ] }
       },
       {
         "text": "time_since_cataclysm > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "turns" }, ">", { "time": "3 days" } ] }
+        "condition": { "math": [ "time_since('cataclysm') > time('3 d')" ] }
       },
       {
         "text": "time_since_cataclysm in days > 3",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "time_since_cataclysm": "days" }, ">", { "const": 3 } ] }
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') > 3" ] }
       },
       {
         "text": "This is a time since u_var test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [
-            { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" },
-            ">",
-            { "time": "3 days" }
-          ]
-        }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test, 'unit':'days') > 3" ] }
       },
-      {
-        "text": "Allies equals 1",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "allies" }, "=", { "const": 1 } ] }
-      },
-      {
-        "text": "Cash equals 13",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "cash" }, "=", { "const": 13 } ] }
-      },
+      { "text": "Allies equals 1", "topic": "TALK_DONE", "condition": { "math": [ "u_val('allies')", "==", "1" ] } },
+      { "text": "Cash equals 13", "topic": "TALK_DONE", "condition": { "math": [ "u_val('cash')", "==", "13" ] } },
       {
         "text": "Owed amount equals 14",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "owed" }, "=", { "const": 14 } ] }
+        "condition": { "math": [ "n_val('owed')", "==", "14" ] }
       },
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_skill('driving')", ">=", "5" ] }
-      },
-      {
-        "text": "A random number between 0 and 10 equals 11.",
-        "topic": "TALK_DONE",
-        "//": "Should never be true, kept here to show how the syntax is used.",
-        "condition": { "compare_num": [ { "rand": 10 }, "=", { "const": 11 } ] }
       },
       {
         "text": "Temperature is 21.",
@@ -1184,233 +990,111 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "weather('pressure')", "==", "17" ] }
       },
-      {
-        "text": "Pos_x is -1.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "pos_x" }, "=", { "const": -1 } ] }
-      },
-      {
-        "text": "Pos_y is -2.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "pos_y" }, "=", { "const": -2 } ] }
-      },
-      {
-        "text": "Pos_z is -3.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "pos_z" }, "=", { "const": -3 } ] }
-      },
+      { "text": "Pos_x is -1.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_x')", "==", "-1" ] } },
+      { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y')", "==", "-2" ] } },
+      { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z')", "==", "-3" ] } },
       { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain()", "==", "21" ] } },
-      {
-        "text": "Bionic power is 22.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "power" }, "=", { "const": 22 } ] }
-      },
+      { "text": "Bionic power is 22.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('power') == 22" ] } },
       {
         "text": "Bionic power max is 44.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "power_max" }, "=", { "const": 44 } ] }
+        "condition": { "math": [ "u_val('power_max')", "==", "44" ] }
       },
       {
         "text": "Bionic power is at 50%.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, "=", { "const": 50 } ] }
+        "condition": { "math": [ "u_val('power_percentage')", "==", "50" ] }
       },
-      {
-        "text": "Morale is 23.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "morale" }, "=", { "const": 23 } ] }
-      },
-      {
-        "text": "Focus is 24.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "focus" }, "=", { "const": 24 } ] }
-      },
-      {
-        "text": "Mana is 25.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "mana" }, "=", { "const": 25 } ] }
-      },
+      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale')", "==", "23" ] } },
+      { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus')", "==", "24" ] } },
+      { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana')", "==", "25" ] } },
       {
         "text": "Mana max is 900.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "mana_max" }, "=", { "const": 900 } ] }
+        "condition": { "math": [ "u_val('mana_max')", "==", "900" ] }
       },
       {
         "text": "Mana is at 2%.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "mana_percentage" }, "=", { "const": 2 } ] }
+        "condition": { "math": [ "round( u_val('mana_percentage') )", "==", "3" ] }
       },
-      {
-        "text": "Hunger is 26.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "hunger" }, "=", { "const": 26 } ] }
-      },
-      {
-        "text": "Thirst is 27.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "thirst" }, "=", { "const": 27 } ] }
-      },
+      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger')", "==", "26" ] } },
+      { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst')", "==", "27" ] } },
       {
         "text": "Stored kcal is 118'169.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "stored_kcal" }, "=", { "const": 118169 } ] }
+        "condition": { "math": [ "u_val('stored_kcal')", "==", "118169" ] }
       },
       {
         "text": "Stored kcal is at 100% of healthy.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 100 } ] }
+        "condition": { "math": [ "round( u_val('stored_kcal_percentage') )", "==", "100" ] }
       },
       {
         "text": "Has 3 glass bottles.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "item_count", "item": "bottle_glass" }, "=", { "const": 3 } ] }
+        "condition": { "math": [ "u_item_count('bottle_glass')", "==", "3" ] }
       },
       {
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "exp" }, ">=", { "const": 35 } ] }
+        "condition": { "math": [ "u_val('exp')", ">=", "35" ] }
       },
       {
         "text": "Highest spell level in school test_trait is 1.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_level", "school": "test_trait" }, "==", { "const": 1 } ] }
+        "condition": { "math": [ "u_school_level('test_trait')", "==", "1" ] }
       },
       {
         "text": "Spell level of Pew, Pew is 4.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "==", { "const": 4 } ] }
+        "condition": { "math": [ "u_spell_level('test_spell_pew')", "==", "4" ] }
       },
       {
         "text": "Spell level of highest spell is 12.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_level" }, "==", { "const": 12 } ] }
+        "condition": { "math": [ "u_spell_level('null')", "==", "12" ] }
       },
       {
         "text": "Exp of Pew, Pew is -1.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": -1 } ] }
+        "condition": { "math": [ "u_spell_exp('test_spell_pew')", "==", "-1" ] }
       },
       {
         "text": "Exp of Pew, Pew is 11006.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": 11006 } ] }
+        "condition": { "math": [ "u_spell_exp('test_spell_pew')", "==", "11006" ] }
       },
       {
-        "text": "Test Proficiency learning is 5 out of 10.",
+        "text": "Test Proficiency learning is 50% out of 100%.",
+        "//": "previously it used the number format '{ u_val: proficiency, proficiency_id: prof_test, format: 10 }', but it is deprecated",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": 10 }, "==", { "const": 5 } ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "==", "50" ] }
       },
       {
         "text": "Test Proficiency learning done is 12 hours total.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "==", { "time": "12h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent') == time('12h')" ] }
       },
       {
         "text": "Test Proficiency learning is 50% learnt.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "percent" }, "==", { "const": 50 } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "==", "50" ] }
       },
       {
         "text": "Test Proficiency learning is 500 permille learnt.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "permille" }, "==", { "const": 500 } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'permille')", "==", "500" ] }
       },
       {
         "text": "Test Proficiency total learning time is 24 hours.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "total_time_required" }, "==", { "time": "24h" } ]
-        }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'total_time_required') == time('24h')" ] }
       },
       {
         "text": "Test Proficiency time lest to learn is 12h.",
         "topic": "TALK_DONE",
-        "condition": {
-          "compare_num": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_TEST_ARITHMETIC_OP",
-    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [
-      {
-        "text": "Sets time since cataclysm to 2 * 5 turns.  (10)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "*", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 / 5 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "/", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 + 5 turns.  (7)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "+", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 - 2 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "-", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 15 % 10 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (32)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 5 turns.  (5)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to *= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "*=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to /= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "/=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to += 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "+=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to -= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "-=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to %= 5 turns.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "%=", { "const": 5 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm++.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "++" ] }
-      },
-      {
-        "text": "Sets time since cataclysm--.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "--" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'time_left') == time('12h')" ] }
       }
     ]
   },
@@ -1422,7 +1106,7 @@
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 1 } ] }
+        "effect": { "math": [ "time('now')", "=", "time('cataclysm') + 1" ] }
       },
       {
         "text": "Sets temperature to 2.",
@@ -1447,143 +1131,96 @@
       {
         "text": "Sets base strength to 6.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "strength_base" }, "=", { "const": 6 } ] }
+        "effect": { "math": [ "u_val('strength_base')", "=", "6" ] }
       },
       {
         "text": "Sets base dexterity to 7.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "dexterity_base" }, "=", { "const": 7 } ] }
+        "effect": { "math": [ "u_val('dexterity_base')", "=", "7" ] }
       },
       {
         "text": "Sets base intelligence to 8.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "intelligence_base" }, "=", { "const": 8 } ] }
+        "effect": { "math": [ "u_val('intelligence_base')", "=", "8" ] }
       },
       {
         "text": "Sets base perception to 9.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "perception_base" }, "=", { "const": 9 } ] }
+        "effect": { "math": [ "u_val('perception_base')", "=", "9" ] }
       },
       {
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" }, "=", { "const": 10 } ]
-        }
+        "effect": { "math": [ "u_test_var_time_test_test", "=", "10" ] }
       },
-      {
-        "text": "Sets time since var to 11.",
-        "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" }, "=", { "const": 11 } ]
-        }
-      },
-      {
-        "text": "Sets owed to 12.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "owed" }, "=", { "const": 12 } ] }
-      },
+      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed')", "=", "12" ] } },
       {
         "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
         "effect": { "math": [ "u_skill('driving')", "=", "10" ] }
       },
-      {
-        "text": "Sets pos_x to -1.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_x" }, "=", { "const": -1 } ] }
-      },
-      {
-        "text": "Sets pos_y to -2.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_y" }, "=", { "const": -2 } ] }
-      },
-      {
-        "text": "Sets pos_z to -3.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pos_z" }, "=", { "const": -3 } ] }
-      },
+      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x')", "=", "-1" ] } },
+      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y')", "=", "-2" ] } },
+      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z')", "=", "-3" ] } },
       { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
-      {
-        "text": "Sets power to 18.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power" }, "=", { "const": 18 } ] }
-      },
+      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power')", "=", "18" ] } },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power_percentage" }, "=", { "const": 20 } ] }
+        "effect": { "math": [ "u_val('power_percentage')", "=", "20" ] }
       },
-      {
-        "text": "Sets focus to 19.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "focus" }, "=", { "const": 19 } ] }
-      },
-      {
-        "text": "Sets mana to 21.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "mana" }, "=", { "const": 21 } ] }
-      },
+      { "text": "Sets focus to 19.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('focus')", "=", "19" ] } },
+      { "text": "Sets mana to 21.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana')", "=", "21" ] } },
       {
         "text": "Sets mana to 25%.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "mana_percentage" }, "=", { "const": 25 } ] }
+        "effect": { "math": [ "u_val('mana_percentage')", "=", "25" ] }
       },
-      {
-        "text": "Sets thirst to 22.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 22 } ] }
-      },
+      { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst')", "=", "22" ] } },
       {
         "text": "Sets stored_kcal to 23.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 23 } ] }
+        "effect": { "math": [ "u_val('stored_kcal')", "=", "23" ] }
       },
       {
         "text": "Sets stored_kcal_percentage to 50.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 50 } ] }
+        "effect": { "math": [ "u_val('stored_kcal_percentage')", "=", "50" ] }
       },
       {
         "text": "Sets pew pew's level to -1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": -1 } ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "-1" ] }
       },
       {
         "text": "Sets pew pew's level to 4.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": 4 } ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "4" ] }
       },
       {
         "text": "Sets pew pew's exp to -1.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": -1 } ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "-1" ] }
       },
       {
         "text": "Sets pew pew's exp to 11006.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": 11006 } ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "11006" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "const": -1 } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "-1" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": {
-          "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "24h" } ]
-        }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('24h')" ] }
       }
     ]
   },

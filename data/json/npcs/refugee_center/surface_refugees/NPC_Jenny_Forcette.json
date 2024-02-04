@@ -120,9 +120,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2",
         "condition": {
           "and": [
-            {
-              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
             { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" }
           ]
         }
@@ -182,9 +180,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach1",
         "condition": {
           "and": [
-            {
-              "not": { "npc_compare_time_since_var": "Jenny_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" } }
           ]
         }
@@ -347,7 +343,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" },
-        { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true }
+        { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] }
       ]
     },
     "responses": [
@@ -359,7 +355,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
     "dynamic_line": "\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
-    "speaker_effect": { "effect": { "npc_add_var": "Jenny_teach", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -372,7 +368,7 @@
       "u_has_var": "Jenny_pneumatics",
       "value": "mission_complete",
       "no": {
-        "days_since_cataclysm": 60,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
         "no": "I recently came into possession of this mold for making high-caliber air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.  If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
         "yes": "\"About a month ago, I got a mold for making high-caliber air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!\"  She shrugs quickly.  \"I'm probably getting ahead of myself here, I don't think we're due to run out of gunpowder for years, but I also think the design is quieter and more long-term extendable.\""
       },
@@ -385,8 +381,9 @@
         "effect": { "assign_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" },
         "condition": {
           "and": [
+            { "not": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" } },
             { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
-            { "not": { "days_since_cataclysm": 60 } }
+            { "math": [ "time_since('cataclysm', 'unit':'days') < 60" ] }
           ]
         }
       },
@@ -410,14 +407,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project2",
     "dynamic_line": {
-      "days_since_cataclysm": 60,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
       "no": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
       "yes": "\"They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need, even though it's for our own defense.\"  She grimaces.  \"Being one of the 'surface people' is so frustrating.  I'm pretty sure they talk about these decisions downstairs, behind our backs, and we're just not part of the process and can't advocate for our own projects.\""
     },
     "responses": [
       {
         "text": "Is there some way I can help you get the stuff you need?",
-        "condition": { "days_since_cataclysm": 60 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -428,18 +425,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project3",
     "dynamic_line": {
-      "npc_compare_time_since_var": "Jenny_project_timer",
-      "type": "timer",
-      "context": "flag",
-      "op": ">=",
-      "time": "7 d",
+      "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('7 d')" ],
       "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
       "yes": {
-        "npc_compare_time_since_var": "Jenny_project_timer",
-        "type": "timer",
-        "context": "flag",
-        "op": ">=",
-        "time": "14 d",
+        "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('14 d')" ],
         "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
         "yes": "It's finally ready!  The pipes are laid to the first patch of ground we'll set turrets up in and I'd like for you to join me to go inspect how they are working.  I'll let you know when I'm ready to go.",
         "//": "After content freeze remove last sentence on var yes, create mission to nearby field, create air powered turrets, use update mapgen to have some corpses that will rise near the turrets as you approach, create followup followup missions that add additional turrets to nearby fields as time goes on."
@@ -454,13 +443,13 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Personal1",
     "dynamic_line": {
-      "days_since_cataclysm": 30,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ],
       "no": "Living here?  Yeah, I guess I live here now.  It's… it's weird.  We're crowded into this tiny space, I don't know these people, but we're sharing bathrooms and we've all been through the same stuff.  It's not great.  At night we can hear the <zombies> outside, and we all just lie there awake, thinking the same things but too scared to talk about it.",
       "yes": {
-        "days_since_cataclysm": 60,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
         "no": "It's been over a month now, so I guess I'm starting to get used to it.  Things were pretty rough after Sean died, but it wasn't our first big loss and it won't be the last I guess.  I've made a couple friends, and in a weird way we're all like family.  We were all hoping they'd let us downstairs sooner than this though.  We're never quite sure if there's going to be enough food to go around.  I'm really hoping I can lose myself in this project.  Still haven't had a good night's sleep since <the_cataclysm>.",
         "yes": {
-          "days_since_cataclysm": 120,
+          "math": [ "time_since('cataclysm', 'unit':'days') >= 120" ],
           "no": "There's good and there's bad.  We're all pretty sick of being cooped up in here for months, never knowing if there's going to be food to eat or not.  It's starting to look like they're never going to let us go down to the secure basement, and none of us have slept well since we were brought in.  We know we've got it pretty good… we're safe, we're alive.  It's just, like, what kind of life are we even living?",
           "yes": "It's getting bad.  We've been stuck in here for months, nothing changing, nothing improving.  We can't go outside, we don't have enough to eat, and we didn't choose to be with each other.  I don't know how long we can stay like this before somebody snaps."
         }
@@ -499,7 +488,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees1",
     "dynamic_line": {
-      "days_since_cataclysm": 90,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ],
       "yes": "For better or worse, we're a community now.  Fatima and I work together a fair bit, and I consider Dana, Draco, and Aleesha my friends, and so of course I've gotten to know Dana's husband Pedro too.  The Borichenkos are their own sweet brand of messed up, like all of us.  The Singhs have each other, and keep mostly to themselves.  Vanessa and I don't see eye to eye, but I'm still glad she's here.  Uyen and Rhyzaea are always bickering about leadership decisions, as if they made those kind of calls.  What did you want to know?",
       "no": "Well, there's a bunch of us.  We're starting to form a bit of a community.  Fatima and I work together a fair bit, and I've been hanging out with Dana, Draco, and Aleesha quite a lot.  I don't know the Borichenko bunch, the Singhs, Vanessa, Uyen, or Rhyzaea quite as well, but we've talked.  What did you want to know?"
     },
@@ -540,7 +529,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Borichenko",
     "dynamic_line": {
-      "days_since_cataclysm": 90,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ],
       "yes": "I didn't get to know Boris, Garry, and Stan so well for the first while.  They kinda kept to themselves.  Boris and Stan had just lost their son, you know.  It's pretty lucky that Garry was with them, he's Stan's little brother.  Together, they're a pretty good team.  I feel bad for thinking they were standoffish before.  They probably do the most to pull their weight around here whenever there's work to be done.",
       "no": "Boris and Stan are married, I guess.  They kinda keep to themselves, they seem a bit standoffish if you ask me.  Garry is Stan's brother, I think, but I'm not totally sure.  He seems nice enough, but he's a man of few words.  I can't get a good bead on them.  I've learned not to pry too much though."
     },
@@ -553,7 +542,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Singh",
     "dynamic_line": {
-      "days_since_cataclysm": 120,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 120" ],
       "yes": "The Singhs are really shy, and I think they feel pretty bad about making it through this together.  They're the only complete family I've seen since <the_cataclysm>.  That has to feel really weird, and I think it's made them stick really close together.  I think… I think they also just don't really like any of us.",
       "no": "I really can't get a bead on them.  They never really talk to anyone outside of their little family group, they just sit in their own spot and speak Punjabi.  They always seem nice, and they do their share, they just don't have any social connection."
     },
@@ -566,7 +555,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Others",
     "dynamic_line": {
-      "days_since_cataclysm": 80,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 80" ],
       "yes": "Vanessa… I'm doing my best, I really am, but we just do not get along.  One of these days one of us is probably going to brain the other with a tire iron, and I'm just grateful I spend more time around the tire irons.  Uyen and Rhyzaea are both excellent people, and I genuinely like them, but I can't stand this ongoing political bullshit they've got going on.  Alonso is just a… he's… there's no polite word for what he is.  A lot of the others are fine with it, and okay, sure, I guess.  John is a walking stereotype, but he's a great poker buddy.  I admit I kinda like him.",
       "no": "Vanessa… well, she's nice, I guess.  I gotta say, she kinda drives me nuts, but we're in this together so I try not to be too harsh.  Uyen and Rhyzaea both seem to want to run the show here, but I try to stay out of those politics and just focus on building stuff.  I don't see much good coming of it.  Alonso is fine, he's clearly interested in me, and also in every other single person here.  Not my thing, in a group this small.  John is a walking stereotype, I imagine there must be more depth to him, but I haven't seen it yet."
     },
@@ -625,7 +614,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 4 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -654,7 +643,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -683,8 +672,8 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
-        { "npc_add_var": "Jenny_project_timer", "type": "timer", "context": "flag", "time": true },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "n_timer_flag_Jenny_project_timer", "=", "time('now')" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   }

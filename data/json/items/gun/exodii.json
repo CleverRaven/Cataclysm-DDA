@@ -17,7 +17,7 @@
     "variants": [
       {
         "id": "Brogyeki",
-        "name": { "str": "Brogyeki '23" },
+        "name": { "str": "Brogyeki '23 hand mortar" },
         "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3x110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3x44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3x110 Diyua shells will be *stout*.",
         "weight": 1
       }
@@ -60,7 +60,7 @@
     "variants": [
       {
         "id": "Brogyaga",
-        "name": { "str": "Brogyaga" },
+        "name": { "str": "Brogyaga express gun" },
         "description": "An over/under fowling piece with a long barrel, Brogyaga were favored for their versatility in taking large game and fowl with their 27.3x110 Diyua shells.  They would be pressed into combat during two global conflicts, initially as 'light' wall guns, and later as the downsized and down-loaded Brogyeki '23, before being brought along by the Exodii to dimensions unknown.  Though unwieldy in combat as either a primary or secondary, Brogyaga serve as useful parts donors for Brogyeki counterparts, fantastic pieces for the occasional hunting party, and popular trade goods for the locals.",
         "weight": 1
       }
@@ -97,7 +97,7 @@
     "variants": [
       {
         "id": "sapra",
-        "name": { "str": "Sapra '36" },
+        "name": { "str": "Sapra '36 grenade launcher" },
         "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3x110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
         "weight": 1
       }
@@ -144,7 +144,7 @@
     "variants": [
       {
         "id": "pamd68",
-        "name": { "str": "PA md. 68" },
+        "name": { "str": "PA md. 68 rifle" },
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness."
       }
     ],
@@ -194,7 +194,7 @@
     "variants": [
       {
         "id": "pamd71z",
-        "name": { "str": "PS md. 71z" },
+        "name": { "str": "PS md. 71z rifle" },
         "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit."
       }
     ],
@@ -222,7 +222,7 @@
     "variants": [
       {
         "id": "pamd68mountable",
-        "name": { "str": "Mountable PA md. 68" },
+        "name": { "str": "Mountable PA md. 68 rifle" },
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth."
       }
     ]

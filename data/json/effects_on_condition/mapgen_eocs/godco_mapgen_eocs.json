@@ -7,13 +7,7 @@
     "condition": {
       "and": [
         { "math": [ "darryl_building_coop", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "coop_in_progress",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "7 d"
-        },
+        { "math": [ "time_since(n_timer_trade_coop_in_progress)", ">=", "time('7 d')" ] },
         { "npc_near_om_location": "godco_7", "range": 12 }
       ]
     },
@@ -32,13 +26,7 @@
     "condition": {
       "and": [
         { "math": [ "kostas_building_garden", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "herb_garden_in_progress",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "3 d"
-        },
+        { "math": [ "time_since(n_timer_trade_herb_garden_in_progress)", ">=", "time('3 d')" ] },
         { "npc_near_om_location": "godco_1_2", "range": 12 }
       ]
     },
@@ -58,13 +46,7 @@
     "condition": {
       "and": [
         { "math": [ "wall_in_progress", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "wall_started_building",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "18 d"
-        },
+        { "math": [ "time_since(n_timer_trade_wall_started_building)", ">=", "time('18 d')" ] },
         { "npc_near_om_location": "godco_5", "range": 12 }
       ]
     },
@@ -92,13 +74,7 @@
     "condition": {
       "and": [
         { "math": [ "godco_warehouse_in_progress", "==", "1" ] },
-        {
-          "u_compare_time_since_var": "warehouse_started_building",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "14 d"
-        },
+        { "math": [ "time_since(n_timer_trade_warehouse_started_building)", ">=", "time('14 d')" ] },
         { "u_near_om_location": "godco_1_1", "range": 1 }
       ]
     },

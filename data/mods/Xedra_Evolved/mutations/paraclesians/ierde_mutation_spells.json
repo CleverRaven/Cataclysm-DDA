@@ -1,5 +1,12 @@
 [
   {
+    "type": "enchantment",
+    "id": "ench_ierde_no_mind_problems",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "effect_ierde_no_mind_problems", "intensity": 1 } ]
+  },
+  {
     "id": "ierde_stomp_ground_smash_spell",
     "type": "SPELL",
     "name": "Earthquake Stomp",
@@ -18,16 +25,8 @@
       { "id": "ierde_stomp_ground_smash_spawn_rubble", "hit_self": false }
     ],
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('ierde_stomp_ground_smash') * 45) + 200) * (scaling_factor(u_val('strength') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('ierde_stomp_ground_smash') * 75) + 300) * (scaling_factor(u_val('strength') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 45) + 200) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ] },
     "min_aoe": {
       "math": [ "min( ( ( (u_spell_level('ierde_stomp_ground_smash') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
     },
@@ -42,6 +41,49 @@
     "sound_description": "the ground shakes!",
     "sound_id": "earth_spell",
     "sound_variant": "strong"
+  },
+  {
+    "id": "ierde_iron_armor_spell",
+    "type": "SPELL",
+    "name": "Invulnerable Iron Armor",
+    "description": "While on living earth or stone, the Ierde may infuse their body with the essence of iron, slowing their movement and attacks but rendering them much safer from harm.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "IERDE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_IERDE_IRON_ARMOR_SPELL",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "final_energy_cost": 300,
+    "energy_increment": -25,
+    "base_casting_time": 1500,
+    "final_casting_time": 500,
+    "casting_time_increment": -40
+  },
+  {
+    "id": "ierde_iron_armor_spell_real",
+    "type": "SPELL",
+    "name": "Invulnerable Iron Armor Real",
+    "description": "The actual spell that summons the iron armor.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "item_ierde_iron_armor",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [ "( (u_spell_level('ierde_iron_armor_spell') * 36000) + 120000) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('ierde_iron_armor_spell') * 72000) + 360000) * (scaling_factor(u_val('perception') ) )" ]
+    }
   },
   {
     "id": "ierde_stomp_ground_smash_bash_terrain",
@@ -75,6 +117,34 @@
     "max_aoe": 15
   },
   {
+    "id": "ierde_summon_earth_spirit",
+    "type": "SPELL",
+    "name": "Calling the Children of the Stones",
+    "description": "A lesser earth elemental is summoned to support you.",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "spell_class": "IERDE",
+    "teachable": false,
+    "min_damage": 1,
+    "max_damage": 8,
+    "damage_increment": 0.5,
+    "min_range": 1,
+    "max_range": 15,
+    "range_increment": 1,
+    "max_level": 35,
+    "difficulty": 3,
+    "effect": "summon",
+    "effect_str": "GROUP_GENIUS_IERDE_LESSER",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "SPAWN_GROUP" ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
     "id": "ierde_no_sleep_meditate_spell",
     "type": "SPELL",
     "name": "Unsleeping Earth Vigil Spell",
@@ -86,6 +156,21 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_IERDE_NO_SLEEP_MEDITATE",
     "shape": "blast"
+  },
+  {
+    "id": "ierde_smashing_punch_spell",
+    "type": "SPELL",
+    "name": "Avalanche Blow Spell",
+    "description": "The spell cast by the Avalanche Blow mutation.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_damage": { "math": [ "u_val('strength') * 2.5" ] },
+    "max_damage": { "math": [ "u_val('strength') * 3.5" ] }
   },
   {
     "id": "ierde_create_pits_spell",

@@ -876,6 +876,9 @@ ifeq ($(BACKTRACE),1)
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
       LDFLAGS += -lbacktrace
+      ifneq ("$(wildcard LICENSE-libbacktrace.txt)","")
+        BINDIST_EXTRAS += LICENSE-libbacktrace.txt
+      endif
   endif
 endif
 
@@ -1241,7 +1244,7 @@ endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
 ifndef FRAMEWORK
-	python3 ./tools/copy_mac_libs.py $(APPRESOURCESDIR)/$(APPTARGET)
+	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/	
 endif  # ifndef FRAMEWORK
 
 

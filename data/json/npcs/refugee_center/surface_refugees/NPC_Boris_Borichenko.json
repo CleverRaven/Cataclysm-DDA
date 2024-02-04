@@ -101,13 +101,7 @@
             {
               "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
             },
-            {
-              "u_compare_var": "Boris_mission_1",
-              "type": "mission",
-              "context": "cleanup_promises",
-              "op": "==",
-              "value": 2
-            }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith2"
@@ -120,13 +114,7 @@
             {
               "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
             },
-            {
-              "u_compare_var": "Boris_mission_1",
-              "type": "mission",
-              "context": "cleanup_promises",
-              "op": "==",
-              "value": 3
-            }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "3" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith3"
@@ -139,13 +127,7 @@
             {
               "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
             },
-            {
-              "u_compare_var": "Boris_mission_1",
-              "type": "mission",
-              "context": "cleanup_promises",
-              "op": "==",
-              "value": 4
-            }
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "4" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith4"
@@ -176,9 +158,7 @@
         "condition": {
           "and": [
             { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-            {
-              "not": { "npc_compare_time_since_var": "Boris_teach", "type": "timer", "context": "flag", "op": "<=", "time": "1 d" }
-            }
+            { "math": [ "time_since(n_timer_flag_Boris_teach)", ">", "time('1 d')" ] }
           ]
         }
       },
@@ -408,7 +388,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Teach",
     "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
-    "speaker_effect": { "effect": { "npc_add_var": "Boris_teach", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
       { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },
@@ -485,7 +465,7 @@
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "300 minutes" },
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
       ]
@@ -498,7 +478,7 @@
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
       ]
@@ -511,7 +491,7 @@
     "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
       ]
     }
@@ -524,7 +504,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_compare_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "op": ">=", "value": 5 },
+    "goal_condition": { "math": [ "u_mission_cleanup_promises_Boris_mission_1", ">=", "5" ] },
     "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -543,7 +523,7 @@
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] },
         { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
         { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
       ]
@@ -575,7 +555,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     },
     "//": "TK add update mapgen."
@@ -615,7 +595,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     }
   },

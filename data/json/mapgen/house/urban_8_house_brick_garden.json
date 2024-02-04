@@ -59,7 +59,7 @@
         { "chunks": [ [ "greenhouse_6x6_herbal", 100 ] ], "x": 8, "y": 8 },
         { "chunks": [ [ "greenhouse_6x6_vegetable", 100 ] ], "x": 8, "y": 15 }
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 31, "y": 1, "chance": 80, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 31, "y": 0, "chance": 80, "status": 0 } ],
       "place_loot": [
         { "item": "television", "x": 29, "y": 6, "chance": 100 },
         { "item": "stereo", "x": 29, "y": 7, "chance": 50 },

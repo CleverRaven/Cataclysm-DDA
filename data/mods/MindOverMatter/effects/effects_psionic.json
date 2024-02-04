@@ -506,7 +506,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+                "min( ( ( ( ( u_spell_level('biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
           }
@@ -1041,6 +1041,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_personal_battery",
     "name": [ "Electron Overflow" ],
     "desc": [ "You are generating a wireless aura of electrical power." ],
@@ -1384,7 +1394,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
-    "flags": [ "HEAT_IMMUNE" ]
+    "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
     "type": "effect_type",
@@ -1818,6 +1828,43 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "flags": [ "BLEEDSLOW2" ]
   },
   {
     "type": "effect_type",

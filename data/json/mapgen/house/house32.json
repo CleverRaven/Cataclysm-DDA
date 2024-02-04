@@ -42,7 +42,7 @@
         "N": "t_thconc_floor",
         "~": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 1, "chance": 80, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 16, "y": 1, "chance": 80, "status": 0 } ]
     }
   },
   {

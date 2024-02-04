@@ -502,6 +502,26 @@
   },
   {
     "type": "SPELL",
+    "id": "spread_fungal_acid",
+    "name": { "str": "Spread Hallucinogenic Acid" },
+    "description": "Splatters hallucinogenic acid in the air in blasts.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "base_casting_time": 100,
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "attack",
+    "effect_str": "emit_hallucinogenic_spores_blast",
+    "shape": "blast",
+    "field_id": "fd_hallucinogenic_spores",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 2
+  },
+  {
+    "type": "SPELL",
     "id": "base_portal",
     "name": { "str": "Base characteristics of portal spells" },
     "description": "Base portal stats.",
@@ -558,22 +578,9 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
-        ],
-        "max": 1200
-      },
-      {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "-=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
-        ]
-      },
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
+      { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
+      { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
   },
   {
@@ -627,7 +634,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -739,7 +746,7 @@
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
+      { "math": [ "u_val('stamina')", "-=", "20" ] }
     ]
   },
   {
@@ -756,7 +763,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -784,37 +791,29 @@
     "type": "effect_on_condition",
     "id": "EOC_mon_reflection_attack",
     "effect": {
-      "switch": { "distance": [ "u", "npc" ] },
+      "switch": { "math": [ "distance('u', 'npc')" ] },
       "cases": [
         {
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            {
-              "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
-            }
+            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
         {
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
+            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
         {
           "case": 8,
           "effect": [
             {
-              "switch": { "rand": 10 },
+              "switch": { "math": [ "rand(10)" ] },
               "cases": [
                 {
                   "case": 0,
@@ -836,7 +835,7 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
@@ -857,7 +856,7 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
@@ -1027,7 +1026,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_slow_strength", "=", "max(portal_dungeon_slow_strength - 1, -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -1052,7 +1051,7 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_carry_strength", "=", "max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
   }

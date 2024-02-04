@@ -4,7 +4,7 @@
     "id": "EOC_TELEKINETIC_LIFTER",
     "condition": { "u_has_trait": "TELEKINETIC" },
     "effect": {
-      "switch": { "u_val": "spell_level", "school": "TELEKINETIC" },
+      "switch": { "math": [ "u_school_level('TELEKINETIC')" ] },
       "cases": [
         { "case": 2, "effect": [ { "u_add_trait": "TELEKINETIC_LIFTER_1" } ] },
         {

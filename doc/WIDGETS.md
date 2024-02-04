@@ -477,7 +477,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "parched",
       "text": "Parched",
       "color": "light_red",
-      "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      "condition": { "math": [ "u_val('thirst')", ">", "520" ] }
     },
     {
       "id": "dehydrated",
@@ -485,8 +485,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "light_red",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          { "math": [ "u_val('thirst')", ">", "240" ] },
+          { "math": [ "u_val('thirst')", "<=", "520" ] }
         ]
       }
     },
@@ -496,8 +496,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          { "math": [ "u_val('thirst')", ">", "80" ] },
+          { "math": [ "u_val('thirst')", "<=", "240" ] }
         ]
       }
     },
@@ -507,8 +507,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          { "math": [ "u_val('thirst')", ">", "40" ] },
+          { "math": [ "u_val('thirst')", "<=", "80" ] }
         ]
       }
     },
@@ -518,8 +518,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "white",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          { "math": [ "u_val('thirst')", ">=", "0" ] },
+          { "math": [ "u_val('thirst')", "<=", "40" ] }
         ]
       }
     },
@@ -529,8 +529,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          { "math": [ "u_val('thirst')", ">=", "-20" ] },
+          { "math": [ "u_val('thirst')", "<", "0" ] }
         ]
       }
     },
@@ -540,8 +540,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
-          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          { "math": [ "u_val('thirst')", ">=", "-60" ] },
+          { "math": [ "u_val('thirst')", "<", "-20" ] }
         ]
       }
     },
@@ -549,7 +549,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "turgid",
       "text": "Turgid",
       "color": "green",
-      "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      "condition": { "math": [ "u_val('thirst')", "<", "-60" ] }
     }
   ]
 },
@@ -888,7 +888,8 @@ how to display them. These take the form of a nested object containing several o
   "clauses": [
     { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
     { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." },
+    { "id": "some_var", "text": "<color_red>The some_var</color> is <global_val:some_var>", "parse_tags":true , "condition": "..." },
   ]
 }
 ```
@@ -905,7 +906,7 @@ which provides text and color definitions for different bodypart status conditio
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
 | `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
-
+| `parse_tags`| default false. If true, parse custom entries in `text` before displaying it. This can be used to display global_val or u_val.(see [Special Custom Entries](NPCs.md#special-custom-entries) for details) You can also use `<color_XXX></color>` to modify the color of your text.
 
 ## Conditions
 

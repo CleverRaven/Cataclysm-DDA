@@ -1,0 +1,207 @@
+[
+  {
+    "id": "conical_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "plumber_cap",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "leather_hatball",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "vizor_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "lvizor_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "trucker_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "ltrucker_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "scrap_cap1",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "scrap_cap2",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "ushanka",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "coonskin",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "astrakhan",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "fushanka",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "fcoonskin",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "fastrakhan",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "propeller_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "deerstalker",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "beanie_hat",
+    "type": "MIGRATION",
+    "replace": "hat_cotton"
+  },
+  {
+    "id": "k_beanie",
+    "type": "MIGRATION",
+    "replace": "hat_knit"
+  },
+  {
+    "id": "chullo_hat",
+    "type": "MIGRATION",
+    "replace": "hat_knit"
+  },
+  {
+    "id": "fez",
+    "type": "MIGRATION",
+    "replace": "eboshi"
+  },
+  {
+    "id": "homburg_hat",
+    "type": "MIGRATION",
+    "replace": "fedora"
+  },
+  {
+    "id": "neckwarmer",
+    "type": "MIGRATION",
+    "replace": "scarf"
+  },
+  {
+    "id": "neckwarmer_head",
+    "type": "MIGRATION",
+    "replace": "scarf"
+  },
+  {
+    "id": "hat_floppy",
+    "type": "MIGRATION",
+    "replace": "10gal_hat"
+  },
+  {
+    "id": "hat_cart",
+    "type": "MIGRATION",
+    "replace": "10gal_hat"
+  },
+  {
+    "id": "trilby_hat",
+    "type": "MIGRATION",
+    "replace": "porkpie"
+  },
+  {
+    "id": "tyrolean_hat",
+    "type": "MIGRATION",
+    "replace": "porkpie"
+  },
+  {
+    "id": "panama_hat",
+    "type": "MIGRATION",
+    "replace": "straw_hat"
+  },
+  {
+    "id": "boater_hat",
+    "type": "MIGRATION",
+    "replace": "straw_hat"
+  },
+  {
+    "id": "tinfoil_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_hat1",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_fedora",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_hatball",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "paper_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "news_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "hat_cloche",
+    "type": "MIGRATION",
+    "replace": "hat_boonie"
+  },
+  {
+    "id": "hat_bucket",
+    "type": "MIGRATION",
+    "replace": "hat_boonie"
+  },
+  {
+    "id": "rag",
+    "type": "MIGRATION",
+    "replace": "sheet_cotton"
+  },
+  {
+    "id": "holybook_odin",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
+  },
+  {
+    "id": "holybook_asatru",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
+  }
+]

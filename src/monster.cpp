@@ -142,6 +142,8 @@ static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_hflesh( "hflesh" );
@@ -1928,7 +1930,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
+                // don't make a pain yelp if our limb is a bionic
+                if( !dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+                    sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
+                }
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ) );
@@ -3167,7 +3172,8 @@ void monster::process_effects()
     if( type->regenerates_in_dark ) {
         const float light = get_map().ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) ) ) {
+        const float dHP = 50.0 * std::exp( - light * light / 10000 );
+        if( heal( static_cast<int>( dHP ) ) > 0 && one_in( 2 ) ) {
             add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
     }
@@ -3401,6 +3407,11 @@ bool monster::is_electrical() const
     return in_species( species_ROBOT ) || has_flag( mon_flag_ELECTRIC ) || in_species( species_CYBORG );
 }
 
+bool monster::is_fae() const
+{
+    return has_flag( mon_flag_FAE_CREATURE );
+}
+
 bool monster::is_nether() const
 {
     return in_species( species_HORROR ) || in_species( species_NETHER ) ||
@@ -3465,22 +3476,10 @@ void monster::add_msg_if_npc( const game_message_params &params, const std::stri
     add_msg_if_player_sees( *this, params, replace_with_npc_name( msg ) );
 }
 
-void monster::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
-{
-    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( msg ) );
-}
-
 void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     add_msg_if_player_sees( *this, params, replace_with_npc_name( npc_msg ) );
-}
-
-void monster::add_msg_debug_player_or_npc( debugmode::debug_filter type,
-        const std::string &/*player_msg*/,
-        const std::string &npc_msg ) const
-{
-    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( npc_msg ) );
 }
 
 units::mass monster::get_carried_weight() const

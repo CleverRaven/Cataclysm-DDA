@@ -8,7 +8,7 @@
     "categories": [ "lighting" ],
     "color": "white",
     "durability": 20,
-    "//": "essentially an 800lm 10W LED flashlight",
+    "//": "essentially an 800 lm 10 W LED flashlight",
     "epower": "-10 W",
     "bonus": 30,
     "folded_volume": "500 ml",
@@ -87,7 +87,7 @@
     "item": "directed_floodlight",
     "copy-from": "floodlight",
     "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.  During installation, you can choose what direction to point the light.",
-    "//": "8000lm 100W LED floodlight",
+    "//": "8000 lm 100 W LED floodlight",
     "epower": "-55 W",
     "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },

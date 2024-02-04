@@ -1,0 +1,42 @@
+[
+  {
+    "result": "scrap_cap1",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "scrap_cap2",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tinfoil_boat",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tinfoil_hat1",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tinfoil_fedora",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tinfoil_hatball",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "paper_boat",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "news_boat",
+    "type": "recipe",
+    "obsolete": true
+  }
+]

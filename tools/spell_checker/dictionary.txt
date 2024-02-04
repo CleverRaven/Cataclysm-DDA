@@ -191,6 +191,8 @@ ategory
 aterial
 athame
 athames
+atlatl
+atlatls
 atmmonoid
 atomically
 atompot
@@ -205,8 +207,6 @@ augmentations
 auk
 auroral
 ausgegangen
-atlatl
-atlatls
 autoclave
 autoclaving
 autohaul
@@ -227,6 +227,7 @@ avians
 aving
 avium
 avy
+axedwarves
 axeman
 axolotl
 azide
@@ -260,7 +261,7 @@ barghest
 barleycorn
 barony
 barosaurus
-barotrarumatic
+barotraumatic
 basecamp
 basecamps
 baselard
@@ -313,6 +314,7 @@ biohacker
 biokinesis
 biokinetic
 biollante
+bioluminescent
 biomachine
 biomancer
 biomancers
@@ -458,6 +460,7 @@ caltrop
 caltrops
 camarasaurus
 camelops
+camo
 camphine
 campin
 camptosaurus
@@ -476,6 +479,8 @@ carabiners
 carapace
 carapaces
 caret
+carroballista
+carroballistae
 carryin
 cartilaginous
 casehead
@@ -494,6 +499,7 @@ cavewoman
 cavewomen
 cavitation
 cbm
+cc
 cdc
 cdda
 cegamente
@@ -526,6 +532,7 @@ chausses
 cheapshot
 checkerboard
 checkerboards
+checkmarks
 cheescutter
 chelator
 chested
@@ -796,6 +803,7 @@ dewlap
 dextrous
 dharmachakra
 diaspora
+didn
 dieselpunk
 diffract
 diffracting
@@ -1143,6 +1151,7 @@ fluidly
 flummox
 flummoxing
 flump
+fluoxetine
 flusteration
 flyable
 flyin
@@ -1158,6 +1167,8 @@ footrest
 forager
 foregrip
 foregrips
+forehoof
+forehooves
 foreleg
 forelegs
 forestalling
@@ -1333,6 +1344,7 @@ gymnocladus
 h
 hability
 hacksaws
+hadn
 hadrosaur
 hadrosaurus
 haematopoiesis
@@ -1781,6 +1793,7 @@ lutefisk
 lutely
 lvl
 lx
+lycra
 lyflode
 lyin
 m
@@ -1790,9 +1803,11 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+mage
+mages
 magick
-magicks
 magickal
+magicks
 magicks
 magwells
 maiasaura
@@ -1851,6 +1866,7 @@ megacorporations
 megafauna
 megalith
 megastore
+melee
 membranous
 mendacium
 menorah
@@ -2312,6 +2328,7 @@ placidly
 planar
 planer
 planetside
+plano
 plantkin
 plantlike
 plastron
@@ -2506,6 +2523,7 @@ rashy
 ratatosk
 ratlike
 rattigan
+ravenfolk
 rayed
 razorbar
 razorclaw
@@ -2973,7 +2991,7 @@ subcompact
 subcutis
 subgun
 sublethal
-submachinegun
+submachine
 submap
 submenu
 submersed
@@ -3047,6 +3065,7 @@ tangrams
 tankbot
 tannin
 tarket
+tartarate
 tassed
 tassin
 tastemakers
@@ -3071,9 +3090,9 @@ telepads
 temaki
 tenderloins
 tenontosaurus
-tequini
 tepoztopili
 tepoztopilis
+tequini
 teravolt
 terpenes
 terranean
@@ -3338,6 +3357,7 @@ varanid
 vars
 vatgrown
 vaulters
+ve
 veggy
 vegital
 veined
@@ -3398,7 +3418,6 @@ warhammers
 warmouth
 warpglass
 warpstream
-wasnt
 wastebread
 watchband
 waterfowl
@@ -3415,6 +3434,7 @@ weatherworn
 weiler
 wek
 welcher
+weren
 wetsuits
 wetworks
 whap
@@ -3506,14 +3526,12 @@ yelman
 yme
 ynn
 yoroi
-youre
 yourselves
 youthful
 yowl
 yoyos
 yugg
 yukata
-yulecat
 z
 zahir
 zaibatsu
@@ -3531,6 +3549,7 @@ zentai
 zeriatric
 zincite
 zischt
+zolpidem
 zombaby
 zombear
 zombeaver
@@ -3544,6 +3563,10 @@ zombull
 zombullfrog
 zoomorphic
 zoonotic
+zorc
+zorcs
+zowlbear
+zowlbears
 zpzzzzpzz
 zubon
 zucchinis

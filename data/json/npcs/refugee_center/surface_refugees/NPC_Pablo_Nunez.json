@@ -210,11 +210,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 5,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
       "yes": "It's pretty tough here.  People have made so much effort to make things better, and the group is kind of coming together, but I just don't feel like I could ever belong, you know?  I need somewhere with a sky, and a little privacy.",
       "no": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane."
     },
@@ -250,7 +246,7 @@
     "speaker_effect": {
       "effect": [
         { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
-        { "math": [ "nunez_travel_timer", "=", "u_val('time_since_cataclysm: days') + 2" ] },
+        { "math": [ "nunez_travel_timer", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
         { "math": [ "nunez_travel_stage", "=", "1" ] }
       ]
     }

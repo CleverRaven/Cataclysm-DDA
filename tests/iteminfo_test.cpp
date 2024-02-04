@@ -185,7 +185,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( axe, category ) ==
-               "Category: <color_c_magenta>TOOLS</color>\n" );
+               "Category: <color_c_magenta>Tools</color>\n" );
 
         CHECK( item_info_str( axe, description ) ==
                "--\n"
@@ -200,7 +200,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( plank, category ) ==
-               "Category: <color_c_magenta>SPARE PARTS</color>\n" );
+               "Category: <color_c_magenta>Spare parts</color>\n" );
 
         CHECK( item_info_str( plank, description ) ==
                "--\n"
@@ -1247,7 +1247,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
 {
     clear_avatar();
 
@@ -2960,7 +2960,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );

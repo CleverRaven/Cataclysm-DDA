@@ -170,7 +170,7 @@
     "condition": "u_is_outside",
     "effect": [
       { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
-      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_message": "You soar upward on the rising smoke.", "type": "good" },
       { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
     ],
     "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]

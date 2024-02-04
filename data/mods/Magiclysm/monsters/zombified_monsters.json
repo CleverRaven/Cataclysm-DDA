@@ -2,7 +2,7 @@
   {
     "id": "mon_were_zolf",
     "type": "MONSTER",
-    "name": { "str": "rotting wolf man" },
+    "name": { "str": "rotting wolf man", "str_pl": "rotting wolf men" },
     "description": "The classic half man half wolf of the movies, but with a new twist: UNDEATH!  This monster lopes along alternating between two and four legged gaits.  It's jet black eyes seething with insatiable hunger.  Now you will know why you fear the night.",
     "default_faction": "zombie",
     "bodytype": "dog",
@@ -33,7 +33,7 @@
   {
     "id": "mon_zorc",
     "type": "MONSTER",
-    "name": { "str": "Zorc" },
+    "name": { "str": "zorc" },
     "description": "This unholy beast looks at you with a piercing stare so strong it might scare your soul away.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -61,7 +61,7 @@
   {
     "type": "MONSTER",
     "id": "mon_owlbear_zombie",
-    "name": "Zowlbear",
+    "name": "zowlbear",
     "description": "This horrible mutant monster has been zombified.  Though it looks weaker than its living counterpart, you feel much more hostility from its black oily eyes.",
     "default_faction": "zombie",
     "bodytype": "bear",
@@ -108,7 +108,7 @@
     "type": "MONSTER",
     "id": "mon_owlbear_zombie_brute",
     "copy-from": "mon_owlbear_zombie",
-    "name": "Zowlbear Predator",
+    "name": "zowlbear predator",
     "description": "A once zombified owlbear, now faster and much bigger in size.  Its thick skin protects the monster from harm, a sharp beak capable of rending through metal and a fury in its eyes warns you to stay away.",
     "upgrades": false,
     "path_settings": { "max_dist": 0 },
@@ -131,7 +131,7 @@
     "type": "MONSTER",
     "id": "mon_troll_zombie",
     "copy-from": "mon_troll",
-    "name": "Undying",
+    "name": { "str_sp": "undying" },
     "description": "An enormous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
     "default_faction": "zombie",
     "harvest": "zombie",
@@ -154,7 +154,7 @@
   {
     "type": "MONSTER",
     "id": "mon_yulecat_zombie",
-    "name": "Zombified Yule Cat",
+    "name": "zombified Yule cat",
     "description": "A magical beast from Icelandic folklore, known for their catlike appearance and their hobby of eating Workshop Elves.  It creepily stumbles on its 4 legs with its squirming uneven body after meeting demise and being reborn just to eat you.",
     "looks_like": "mon_yulecat",
     "default_faction": "zombie",
@@ -188,7 +188,7 @@
     "type": "MONSTER",
     "id": "mon_yulecat_zombie_brute",
     "copy-from": "mon_yulecat_zombie",
-    "name": "Tod Cat",
+    "name": "Tod cat",
     "description": "Once used to its decomposed body, this nightmarish cat with thick teeth and razorshap claws seems to be looking around for things to \"play\" with.  Though its head is of a feline, it grins at you sadistically with a glint in its cold demonic eyes.",
     "path_settings": { "max_dist": 17 },
     "relative": {
@@ -256,7 +256,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_magician",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }

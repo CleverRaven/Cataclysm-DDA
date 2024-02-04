@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "american_180",
-        "name": { "str_sp": "American-180" },
+        "name": { "str": "American-180 submachine gun" },
         "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon."
       }
     ],
@@ -64,7 +64,7 @@
     "variants": [
       {
         "id": "marlin_9a",
-        "name": { "str_sp": "Marlin 39A" },
+        "name": { "str": "Marlin 39A rifle" },
         "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
       }
     ],
@@ -124,7 +124,7 @@
     "variants": [
       {
         "id": "moss_brownie",
-        "name": { "str_sp": "Mossberg Brownie" },
+        "name": { "str": "Mossberg Brownie pistol" },
         "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges."
       }
     ],
@@ -163,7 +163,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "pipe rifle: .22", "str_pl": "pipe rifles: .22" },
+    "name": { "str": ".22 pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
@@ -211,7 +211,7 @@
     "variants": [
       {
         "id": "ruger_1022",
-        "name": { "str_sp": "Ruger 10/22" },
+        "name": { "str": "Ruger 10/22 rifle" },
         "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
       }
     ],
@@ -266,7 +266,7 @@
     "variants": [
       {
         "id": "ruger_lcr_22",
-        "name": { "str_sp": "Ruger LCR .22" },
+        "name": { "str": "Ruger LCR .22 revolver" },
         "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame."
       }
     ],
@@ -296,7 +296,7 @@
     "variants": [
       {
         "id": "sig_mosquito",
-        "name": { "str_sp": "SIG Mosquito" },
+        "name": { "str": "SIG Mosquito pistol" },
         "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful."
       }
     ],
@@ -346,7 +346,7 @@
     "variants": [
       {
         "id": "sw_22",
-        "name": { "str_sp": "S&W 22A" },
+        "name": { "str": "S&W 22A pistol" },
         "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a medium sized pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst target shooters."
       }
     ],
@@ -392,7 +392,7 @@
     "variants": [
       {
         "id": "j22",
-        "name": { "str": "Jennings J-22" },
+        "name": { "str": "Jennings J-22 pistol" },
         "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues."
       }
     ],
@@ -438,7 +438,7 @@
     "variants": [
       {
         "id": "walther_p22",
-        "name": { "str": "Walther P22" },
+        "name": { "str": "Walther P22 pistol" },
         "description": "The Walther P22 is a blowback operated semi-automatic pistol intended for training with a platform very similar to more defensive handguns.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components (other than the barrel) being made of die-cast zinc alloy."
       }
     ],

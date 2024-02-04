@@ -15,6 +15,28 @@
     "effect": "attack"
   },
   {
+    "id": "potion_recover_mana_xe",
+    "type": "SPELL",
+    "name": "Recover Mana",
+    "description": "You regain mana.",
+    "valid_targets": [ "self" ],
+    "min_damage": 250,
+    "damage_increment": 50.0,
+    "max_damage": 2000,
+    "max_level": 35,
+    "effect": "recover_energy",
+    "effect_str": "MANA",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "message": "You start regenerating mana!",
+    "energy_source": "MANA",
+    "base_energy_cost": 0,
+    "energy_increment": 0,
+    "final_energy_cost": 0,
+    "flags": [ "SILENT", "NO_LEGS" ],
+    "difficulty": 3
+  },
+  {
     "id": "blackout_rage_drink",
     "type": "SPELL",
     "name": "Blackout rage drank",

@@ -615,5 +615,53 @@
       { "monster": "mon_hummingbird", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_woodpecker", "weight": 50, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STREAM",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_STREAM_SMALL", "weight": 30 },
+      { "group": "GROUP_STREAM_BIRDS", "weight": 30 },
+      { "group": "GROUP_STREAM_DOMESTIC", "weight": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STREAM_DOMESTIC",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_goat", "weight": 1, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_chicken", "weight": 10, "pack_size": [ 4, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STREAM_BIRDS",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_duck", "weight": 20, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_goose", "weight": 15, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_coot", "weight": 15, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_moorhen", "weight": 15, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_cormorant", "weight": 15, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_grebe", "weight": 15, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STREAM_SMALL",
+    "is_animal": true,
+    "monsters": [
+      {
+        "monster": "mon_otter",
+        "weight": 5,
+        "cost_multiplier": 5,
+        "pack_size": [ 1, 8 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_mink", "weight": 3, "pack_size": [ 1, 2 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_beaver", "weight": 8, "pack_size": [ 1, 3 ] }
+    ]
   }
 ]

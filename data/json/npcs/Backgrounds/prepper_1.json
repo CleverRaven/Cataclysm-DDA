@@ -30,7 +30,7 @@
           ]
         }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -41,7 +41,7 @@
     "responses": [
       { "text": "Did you get there?", "topic": "BGSS_PREPPER_1_STORY3" },
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -51,7 +51,7 @@
     "dynamic_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
     "responses": [
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -84,13 +84,7 @@
               "not": {
                 "and": [
                   { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "prepper_1_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }
@@ -112,7 +106,7 @@
           "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
           "opinion": { "trust": -2 },
           "effect": [
-            { "u_add_var": "prepper_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }
@@ -133,7 +127,7 @@
         },
         "effect": { "u_add_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -324,7 +318,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 14,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 14" ],
         "no": "That's pretty presumptive of you, considering it hasn't been that long since shit went down.  What made you assume I was dead?",
         "yes": "The door was open?  Was there anyone inside?  Why would you assume I was dead?"
       }
@@ -353,7 +347,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 14,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 14" ],
         "no": "Well, that's one way to say 'fuck you'!  How…  Why…  I was still trying to get back there, surviving and struggling just like you!  How would you feel if I came and stole all YOUR stuff right when you needed it most?!",
         "yes": "Well, that's one way to say 'fuck you'!  I know it's been a while since shit went down, but I didn't lock that door and put up that sign for no reason!  How would you feel if I came and stole all the stuff that YOU locked away for safe keeping?!"
       }
@@ -388,10 +382,10 @@
     "type": "talk_topic",
     "dynamic_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
     "responses": [
-      { "text": "You're right, sorry.", "topic": "TALK_FRIEND" },
+      { "text": "You're right, sorry.", "topic": "TALK_FRIEND_CONVERSATION" },
       {
         "text": "I'm just doing what I have to do.  Stick with me and we'll find plenty of stuff to replace it.",
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       }
     ]
   },
@@ -399,13 +393,18 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE4",
     "type": "talk_topic",
     "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
-    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST",
     "type": "talk_topic",
     "dynamic_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
-    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_FRIEND" } ]
+    "responses": [
+      {
+        "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.",
+        "topic": "TALK_FRIEND_CONVERSATION"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",
@@ -467,7 +466,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
         "no": "&<npc_name> sighs and pauses for a moment.\n\n\"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleashed on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
         "yes": "&<npc_name> sighs and pauses for a moment.\n\n\"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
       }
@@ -484,7 +483,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
         "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this. American propaganda about 'Chinese mind control' also influenced them. Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
         "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, sending agitators to riots, doing false flags with covert and overt agents alike…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
         "yes": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened."
@@ -497,7 +496,7 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
         "no": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I used to think it was China, for sure, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
         "yes": "The government.  Whoever was left, really.  I don't know…  I'm starting to think that maybe some of those folks were right…  Maybe this is some kind of punishment for humanity.  Maybe some god decided they'd had enough of us.  Or maybe there's no answer.  I can't explain some of the things I've seen."
       }

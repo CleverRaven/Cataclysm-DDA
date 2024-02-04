@@ -1,0 +1,2686 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "2lcanteen",
+    "picture": [
+      "    <color_light_gray>,__",
+      "  <color_dark_gray>_<color_light_gray>o┴</color>╨<color_light_gray>┴</color>┐_",
+      ".'<color_white>/</color><color_light_gray>/</color>     '.",
+      "│ <color_white>│</color><color_light_gray>|</color>   ┌. │",
+      "│ <color_white>│</color><color_light_gray>|</color>   │ ││",
+      "│ <color_white>│</color><color_light_gray>|</color>   │ ││",
+      "│ <color_white>│</color><color_light_gray>|</color>    '┘│",
+      "│ <color_white>│</color><color_light_gray>|</color>      │",
+      "'─<color_white>│</color><color_light_gray>┼</color>──────'",
+      "  <color_white>││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ││",
+      "  ''"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "30gal_barrel",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_light_blue>_________________",
+      "/               \\",
+      "│               │",
+      "║               ║",
+      "(===============)",
+      "║               ║",
+      "║               ║",
+      "║               ║",
+      "║               ║",
+      "(===============)",
+      "║               ║",
+      "│               │",
+      "│               │",
+      "'───────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "30gal_drum",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_light_gray>(=======╗╔=======)",
+      " <color_dark_gray>│     <color_light_gray>~°°'</color>     │",
+      " │              │",
+      " <==============>",
+      " │              │",
+      " │              │",
+      " │              │",
+      " │              │",
+      " <==============>",
+      " │              │",
+      " │              │",
+      " ╩══════════════╩"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "55gal_drum",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_light_gray>(=========╗╔=========)",
+      " <color_dark_gray>│       <color_light_gray>~°°'</color>       │",
+      " │                  │",
+      " │                  │",
+      " <==================>",
+      " │                  │",
+      " │                  │",
+      " │                  │",
+      " │                  │",
+      " │                  │",
+      " <==================>",
+      " │                  │",
+      " │                  │",
+      " │                  │",
+      " ╩══════════════════╩"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_canvas",
+    "picture": [
+      "         <color_brown>╒╤═╤╤═╤╤<color_white>.</color>",
+      "       .'/| ││ |\\<color_white>\\\\</color>",
+      "      / / / || \\ <color_white>││</color>\\",
+      "     / / |  /\\  |<color_white>│</color>\\<color_white>\\</color>\\",
+      "    / /  / |  |  <color_white>\\ │</color> \\",
+      "   / '  |  |  |  <color_white>│</color>'<color_white>│</color>\\ \\",
+      "   │    '     '  <color_white>│ │</color>  │",
+      "   │             <color_white>│ │</color>  │",
+      "  /              <color_white>│ *</color>   \\",
+      "  │              <color_white>* </color>    │",
+      "  │                    │",
+      "  │                    │",
+      " /                      \\",
+      " │                      │",
+      " │                      │",
+      " │                      │",
+      "/                        \\",
+      "│                        │",
+      "│                        │",
+      "'────────────────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_canvas_small",
+    "picture": [
+      "<color_brown>.=<color_white>*.</color>",
+      "/ \\<color_white>'</color>",
+      "'~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_plastic",
+    "picture": [
+      "   <color_white>,─.     .─.",
+      "  /.'/     |'/|",
+      " // |       \\ '\\",
+      " | \\│       ,\\\\ |.",
+      "/   '\\.-──-'─'.  │",
+      "|\\               \\",
+      "│   THANK  YOU   │",
+      "│   THANK  YOU  /|",
+      "\\   <color_red>THANK  YOU</color>   │",
+      ";'  THANK  YOU   /",
+      "│   THANK  YOU  .|",
+      "|,               \\",
+      "/<color_red>Have a nice day!</color>/",
+      "'--───--─────---'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_garbage",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "        <color_cyan>.   .",
+      "        \\\\ //",
+      "      <color_dark_gray>_.-<color_cyan>'X'</color>--.",
+      "    /'/'/.|.\\'\\'.",
+      "  .'.'/'| │ \\\\.'.\\",
+      "  │| / / .'\\ | \\ \\|",
+      "  |'' ' '   ' ' ' │",
+      "  ║-.           -~|",
+      "  |_            .-│",
+      "  ├-._         .-~║",
+      "  ║-.__       _.--┤",
+      "  /._  ~'    ' .-~\\",
+      " /'. ~'       '  .'\\",
+      "'~-─--══─═══-═─═──-~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "nylon_bag",
+    "picture": [
+      "       <color_dark_gray>______",
+      "     ,'-────-\\.",
+      "    /|        \\\\",
+      ".═══││════════││═══.",
+      "║   ││        ││   ║",
+      "║   ><        ><   ║",
+      "║   ││        ││   ║",
+      "║   ││        ││   ║",
+      "║   ││        ││   ║",
+      "║   ││        ││   ║",
+      "║   ││        ││   ║",
+      "'═══╧╧════════╧╧═══'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_garbage_reinforced",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "        <color_cyan>.. ..",
+      "       .\\\\V//.",
+      "      <color_dark_gray>_.<color_cyan>\\:X:/</color>-.",
+      "    /'/'/.|.\\'\\'.",
+      "  .'.'/'| │ \\\\.'.\\",
+      "  │| / / .'\\ | \\ \\|",
+      "  |'' ' '   ' ' ' │",
+      "  ║-.           -~|",
+      "  |_            .-│",
+      "  ├-._         .-~║",
+      "  ║-.__       _.--┤",
+      "  /._  ~'    ' .-~\\",
+      " /'. ~'       '  .'\\",
+      "'~-─--══─═══-═─═──-~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_paper_powder",
+    "picture": [
+      "<color_brown>┌──._.──┐",
+      "│   <color_dark_gray>≈</color>   │",
+      "│       │",
+      "│      `│",
+      "├       │",
+      "│       ║",
+      "╞─-     ┤",
+      "│      ,╡",
+      "╙───────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_zipper",
+    "picture": [
+      "<color_light_green>:==========:",
+      "<color_white>│          │",
+      "|          │",
+      "│          │",
+      "|          │",
+      "│          |",
+      "└───---───-┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_zipper_gallon",
+    "picture": [
+      "<color_light_blue>:≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡:",
+      "<color_white>│  _____          │",
+      "│ │~ _.-'         |",
+      "│ '-'             │",
+      "|                 │",
+      "│                 │",
+      "│                 |",
+      "│                 │",
+      "|                 |",
+      "│                 │",
+      "└---─────-────-───┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "dry_bag_large",
+    "picture": [
+      "    <color_dark_gray>_.-≈≈≈])([≈≈≈-._",
+      "  .'. /          \\ .'.",
+      " / /| |          | |\\ \\",
+      "/  | . '-.____.-'   |  \\",
+      "│   \\ '-.______.-' /   │",
+      "│    '.          .'    │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "│      <color_light_gray> §§  ┌──┐ </color>      │",
+      "│      <color_light_gray> §§  │§§│§</color>      │",
+      "│      <color_light_gray> §§  │§§│§</color>      │",
+      "│      <color_light_gray> §§  ├──┤§</color>      │",
+      "│      <color_light_gray> §§  │§§│§</color>      │",
+      "│      <color_light_gray> §§  ├──┤§</color>      │",
+      "│      <color_light_gray> §§  │§§│§</color>      │",
+      "│      <color_light_gray> ..  │§§│§</color>      │",
+      "│      <color_light_gray>|><| │§§│§</color>      │",
+      "│      <color_light_gray> ''  └──┘ </color>      │",
+      "│                      │",
+      "<color_blue>'._                  _.'",
+      "   '────────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_body_bag",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "                <color_dark_gray>___",
+      "              .|───|.",
+      "   ┌──────────┼┼───┼┼──────────┐",
+      "   ││~~~~~~~~~~~~║~~~~~~~~~~~~││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "  _││            ║            ││_",
+      ".|─┼┤            ║            ├┼─|.",
+      "││ ││            ║            ││ ││",
+      "'|─┼┤            ║            ├┼─|'",
+      "  ~││            ║            ││~",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "  _││            ║            ││_",
+      ".|─┼┤            ║            ├┼─|.",
+      "││ ││            8            ││ ││",
+      "'|─┼┤            ║            ├┼─|'",
+      "  ~││            ║            ││~",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "  _││            ║            ││_",
+      ".|─┼┤            ║            ├┼─|.",
+      "││ ││            ║            ││ ││",
+      "'|─┼┤            ║            ├┼─|'",
+      "  ~││            ║            ││~",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││            ║            ││",
+      "   ││____________║____________││",
+      "   └──────────┼┼───┼┼──────────┘",
+      "              '|───|'",
+      "                ~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_punching_bag_sack",
+    "picture": [
+      "    <color_dark_gray>__.───────.__",
+      " .-'             '-.",
+      "|~~~~~~~~~~~~~~~~~~~|",
+      "│~~~~~~~~~~~~~~~~~~~│",
+      "│  ___         ___  │",
+      "│.<color_light_gray>|</color>┴-┴<color_light_gray>|</color>.     .<color_light_gray>|</color>┴-┴<color_light_gray>|</color>.│",
+      "│| <color_light_gray>\\./</color> /     \\ <color_light_gray>\\./</color> |│",
+      "│ \\   /       \\   / │",
+      "│  \\.'         './  │",
+      "│                   │",
+      "│                   │",
+      "│-------------------│",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│-------------------│",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "|                   |",
+      "\\                   /",
+      " \\_________________/",
+      "  '.             .'",
+      "    '~'──<color_light_gray>┬</color>─<color_light_gray>┬</color>──'~'",
+      "         <color_light_gray>\\_/"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bag_iv",
+    "picture": [
+      "<color_white>┌─┬───┬─┐",
+      "│  ~º~  │",
+      "│ <color_dark_gray> ~~ ≈</color> │",
+      "│ <color_dark_gray>≈≈≈ ≈</color> │",
+      "│ <color_dark_gray>≈≈≈ ≈</color> │",
+      "│       │",
+      "'-┬‼─‼┬-'",
+      "  \"<color_yellow>║</color>~<color_light_blue>║</color>\"",
+      "     <color_light_blue>\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_glass",
+    "picture": [
+      "  <color_light_gray>╓╖",
+      "  <color_white>││",
+      "  ║║",
+      " /  \\",
+      "|    |",
+      "│    │",
+      "│    │",
+      "│    │",
+      "│    │",
+      "│    │",
+      "'────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_plastic",
+    "picture": [
+      "  <color_white>_",
+      " ,~.",
+      "/   \\",
+      "<color_light_gray>|<color_light_blue>≈≈≈</color>|</color>",
+      ")   (",
+      ":   :",
+      ":   :",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condiment_bottle_sealed",
+    "picture": [
+      "<color_white>.─────.",
+      "\\.---./",
+      "|│<color_dark_gray>≈≈≈</color>│|",
+      "/\\   /\\",
+      "\\ '-' /",
+      " |───|",
+      " ╘═=═╛"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_plastic_small",
+    "picture": [
+      " <color_dark_gray>╓─╖",
+      "<color_white>,'~'.",
+      "│<color_dark_gray>≈≈≈</color>│",
+      "│   │",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_plastic_pill_prescription",
+    "picture": [
+      "<color_white>±==±",
+      "<color_yellow>│<color_white>__</color>│",
+      "<color_white>│<color_dark_gray>≈≈</color>│",
+      "│__│</color>",
+      "│  │",
+      "└──┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_plastic_pill_painkiller",
+    "picture": [
+      " <color_light_blue>╓─╖",
+      "<color_white>,'~'.",
+      "<color_light_blue>│<color_white>≈≈≈</color>│",
+      "│<color_white>≈≈≈</color>│</color>",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_plastic_pill_supplement",
+    "picture": [
+      " <color_yellow>╓─╖",
+      "<color_green>,'~'.",
+      "<color_yellow>│<color_brown>≈≈≈</color>│",
+      "│<color_brown>≈≈≈</color>│</color>",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_twoliter",
+    "picture": [
+      "   <color_white>__",
+      "   ][",
+      " ,'  '.",
+      "/      \\",
+      "|<color_light_gray>______</color>|",
+      "<color_light_gray>│      │",
+      "│ <color_light_blue>≈≈≈≈</color> │",
+      "│ <color_light_blue>≈≈≈≈</color> │",
+      "│      │",
+      "│______│</color>",
+      "│ .  . │",
+      "'─'──'─'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bowl_clay",
+    "picture": [
+      "<color_brown>.────────.",
+      "<color_white>}========{*</color>",
+      "/|/'\\|\\./\\<color_white>|\\</color>",
+      "  '.__.'  <color_white>'</color>"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bowl_wood",
+    "picture": [
+      "<color_brown>________",
+      "\\      /",
+      " '.__.'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bowl_coconut",
+    "picture": [
+      "<color_brown>__________",
+      "'.      .'",
+      "  '~--~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bowl_skull",
+    "picture": [
+      "<color_white>.-.______",
+      "| /    \\ |",
+      " \\     _/",
+      "  '---~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_cigarette",
+    "picture": [
+      "<color_red>┌───┐",
+      "│,^.│",
+      "<color_white>│<color_dark_gray>≈≈≈</color>│",
+      "└───┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "case_cigar",
+    "picture": [
+      "<color_brown>.═══.",
+      "║   ║",
+      "║   ║",
+      "║   ║",
+      "║___║",
+      "|___|"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_snack",
+    "picture": [
+      "<color_red>┌───────┐",
+      "│ <color_light_blue>≈≈≈≈≈</color> │",
+      "│<color_yellow>()</color><color_dark_gray>~~~</color> <color_white>o</color>│",
+      "└───────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_small",
+    "picture": [
+      "<color_brown>┌────────────┐",
+      "│            │",
+      "│            │",
+      "│            │",
+      "│            │",
+      "└────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_small_folded",
+    "picture": [
+      "<color_brown>┌────────────╥────┐",
+      "├────────────╫────┤",
+      "│            │    │",
+      "│            │    │",
+      "│            │    │",
+      "│            │    │",
+      "├────────────╫────┤",
+      "└────────────╨────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_medium",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_brown>┌────────────────┐",
+      "│                │",
+      "│                │",
+      "│                │",
+      "│                │",
+      "│                │",
+      "│                │",
+      "└────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_medium_folded",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_brown>┌────────────────╥───────┐",
+      "│                ║       │",
+      "├────────────────╫───────┤",
+      "│                │       │",
+      "│                │       │",
+      "│                │       │",
+      "│                │       │",
+      "│                │       │",
+      "│                │       │",
+      "├────────────────╫───────┤",
+      "│                ║       │",
+      "└────────────────╨───────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_large",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:3</color>)</color>",
+      "<color_brown>┌───────────────────┐",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "└───────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_large_folded",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:3</color>)</color>",
+      "<color_brown>┌───────────────────╥────────────┐",
+      "│                   ║            │",
+      "│                   ║            │",
+      "├───────────────────╫────────────┤",
+      "│                   │            │",
+      "│                   │            │",
+      "│                   │            │",
+      "│                   │            │",
+      "│                   │            │",
+      "│                   │            │",
+      "├───────────────────╫────────────┤",
+      "│                   ║            │",
+      "│                   ║            │",
+      "└───────────────────╨────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_large_reinforced",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:3</color>)</color>",
+      "<color_brown>┌══<color_light_gray>╦</color>══════<color_light_gray>╦</color>══════<color_light_gray>╦</color>══┐",
+      "║│~<color_light_gray>║</color>~~~~~~<color_light_gray>║</color>~~~~~~<color_light_gray>║</color>~│║",
+      "<color_light_gray>╠══╬══════╬══════╬══╣</color>",
+      "║│ <color_light_gray>║</color>      <color_light_gray>║</color>      <color_light_gray>║</color> │║",
+      "║│ <color_light_gray>║</color>      <color_light_gray>║</color>      <color_light_gray>║</color> │║",
+      "<color_light_gray>╠══╬══════╬══════╬══╣</color>",
+      "║│_<color_light_gray>║</color>______<color_light_gray>║</color>______<color_light_gray>║</color>_│║",
+      "└══<color_light_gray>╩</color>══════<color_light_gray>╩</color>══════<color_light_gray>╩</color>══┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_oversize",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:5</color>)</color>",
+      "<color_brown>┌─────────────────────────┐",
+      "│                         │",
+      "│                         │",
+      "└─────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_oversize_folded",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:5</color>)</color>",
+      "<color_brown>┌─────────────────────────╥──┐",
+      "├─────────────────────────╫──┤",
+      "│                         │  │",
+      "│                         │  │",
+      "├─────────────────────────╫──┤",
+      "└─────────────────────────╨──┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_compact_wood",
+    "picture": [
+      "    <color_brown>___      ___",
+      "  ┌┬┴ ┴──────┴ ┴┬┐",
+      "  │~~~~~~~~~~~~~~│",
+      " <color_white>/</color>│<color_light_gray>:            :</color>│<color_white>\\</color>",
+      "<color_white>//</color>│--------------│<color_white>\\\\</color>",
+      "<color_white>││</color>│<color_light_gray>:            :</color>│<color_white>││</color>",
+      "<color_white>''</color>│______________│<color_white>''</color>",
+      "  └┴────────────┴┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_small_wood",
+    "picture": [
+      "<color_brown>┌────────────┐",
+      "│<color_light_gray>:          :</color>│",
+      "└────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_medium_wood",
+    "picture": [
+      "<color_brown>┌────────────────────────────────┐",
+      "│<color_light_gray>.                              .</color>│",
+      "│<color_light_gray>'                              '</color>│",
+      "│~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~│",
+      "│<color_light_gray>:                              :</color>│",
+      "│________________________________│",
+      "│<color_light_gray>.                              .</color>│",
+      "│<color_light_gray>'                              '</color>│",
+      "└────────────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_large_wood",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_brown>┌─────────────────────────────┐",
+      "│<color_light_gray>:                           :</color>│",
+      "│=============================│",
+      "│<color_light_gray>:                           :</color>│",
+      "│=============================│",
+      "│<color_light_gray>:                           :</color>│",
+      "│=============================│",
+      "│<color_light_gray>:                           :</color>│",
+      "│=============================│",
+      "│<color_light_gray>:                           :</color>│",
+      "└─────────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_oversize_wood",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:5</color>)</color>",
+      "<color_brown>┌─────────────────────────┐",
+      "├─────────────────────────┤",
+      "├─────────────────────────┤",
+      "└─────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_small_metal",
+    "picture": [
+      "<color_light_gray>╓────────────╖",
+      "║            ║",
+      "╙────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_medium_metal",
+    "picture": [
+      "<color_light_gray>╓────────────────────────────────╖",
+      "║                                ║",
+      "║                                ║",
+      "║                                ║",
+      "║                                ║",
+      "║                                ║",
+      "║                                ║",
+      "║                                ║",
+      "╙────────────────────────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_large_metal",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_light_gray>╓─────────────────────────────╖",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "║                             ║",
+      "╙─────────────────────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_oversize_metal",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:5</color>)</color>",
+      "<color_light_gray>╓─────────────────────────╖",
+      "║                         ║",
+      "║                         ║",
+      "╙─────────────────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bucket",
+    "picture": [
+      "     <color_light_gray>_.<color_brown>(=≡≡=)</color>._",
+      "   .'          '.",
+      "  /              \\",
+      " |                |",
+      "'┤________________├'",
+      " |                |",
+      " \\================/",
+      "  |              |",
+      "  \\              /",
+      "   |            |",
+      "   \\            /",
+      "    ~~~~~~~~~~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bucket_wood",
+    "picture": [
+      " <color_brown>╒╕           ╒╕",
+      "=││===========││=",
+      " │|           |│",
+      " ║ \\         / ║",
+      " │  '─┬────┬' │║",
+      " │ |       |   ║",
+      " ║ │  |        │",
+      " ║ │        |  │",
+      " ║   |      │  ║",
+      " │   │  │   |  ║",
+      " ║|     |      ║",
+      " ╙┴─────┴───┴──┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "camelbak",
+    "picture": [
+      "<color_dark_gray>.      .──.",
+      ".\\\\_  .|  |.  _/'.",
+      " Yo.~'-\\__/-'~.oY",
+      " \\'\\  _.--._  /'/",
+      " │ |.'      '.| │",
+      " │ /\\░░░░░░░░/\\ │",
+      " │ ||'.≈≈≈≈.'|| │",
+      " |/  \\ ~~~~ / | |",
+      "  \\  |      | |/",
+      " (│   \\    /  |│)",
+      "  │   |    |  |│",
+      "  |    \\  /   /|",
+      "   \\   |  |  //",
+      "   |  /    \\ ||",
+      "  (\\ /      \\\\/)",
+      "    '~──────~'°"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "can_drink",
+    "picture": [
+      "<color_light_gray>:===:",
+      "<color_light_blue>│<color_light_gray>≈≈≈</color>│",
+      "│   │",
+      "│   │</color>",
+      "'═══'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "carton_sealed",
+    "picture": [
+      "<color_white>╒═════╕</color>",
+      "<color_light_cyan>│~<color_white>(_)</color>~│",
+      "│~~~~~│",
+      "<color_blue>│ <color_white>≈≈≈</color> │",
+      "<color_white>│     │",
+      "│ <color_light_cyan>≈≈≈</color> │",
+      "│ <color_light_cyan>~~~</color> │",
+      "│  <color_dark_gray>~</color>oo│",
+      "└─────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "carton_milk",
+    "picture": [
+      "<color_white>╒═════╕</color>",
+      "<color_light_cyan>│~<color_white>(_)</color>~│",
+      "│~~~~~│",
+      "<color_blue>│ <color_white>≈≈≈</color> │",
+      "<color_white>│     │",
+      "│ <color_light_cyan>≈≈≈</color> │",
+      "│ <color_light_cyan>~~~</color> │",
+      "│  <color_dark_gray>~</color>oo│",
+      "└─────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "carton_egg",
+    "picture": [
+      "  <color_brown>________________",
+      "./__\"__<color_dark_gray>≈≈≈≈≈≈</color>__\"__\\.",
+      "'\\_/\\_/\\_/\\_/\\_/\\_/'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "plastic_bag_vac",
+    "picture": [
+      "<color_white>┌┬───────┬┐",
+      "╞╪═══════╪╡",
+      "││       ││",
+      "││       ││",
+      "││       ││",
+      "││       ││",
+      "││       ││",
+      "││       ││",
+      "││_______││",
+      "└─────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "can_food",
+    "picture": [
+      "<color_light_gray>______",
+      "<color_blue>│ <color_light_blue>≈≈</color> │</color>",
+      "└────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "can_medium",
+    "picture": [
+      "<color_light_gray>______",
+      "<color_red>│    │",
+      "│<color_white>≈≈≈≈</color>│</color>",
+      "<color_white>│ <color_red>≈≈</color> │",
+      "<color_light_gray>┴────┴"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "canteen",
+    "picture": [
+      "   <color_green>╓╥╖",
+      " .-╧=╧º.",
+      "/       \\",
+      "│       │",
+      "│       │",
+      "│       │",
+      "|       |",
+      "'───────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "thermos",
+    "picture": [
+      " <color_light_gray>.───.",
+      "/     \\",
+      "|     |",
+      "│<color_dark_gray>~~~~~</color>│",
+      "│ <color_dark_gray>[<color_red>≈</color>]</color> │",
+      "│     │",
+      "│     │",
+      "│     │",
+      "│     │",
+      "│     │",
+      "│_____│",
+      "└─────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "clay_canister",
+    "picture": [
+      " <color_brown>┌─┐",
+      ",' '.",
+      "│   │",
+      "│   │",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "clay_hydria",
+    "picture": [
+      "      <color_brown>===========__",
+      "       \\       /',.'.",
+      "       /       \\'  ||",
+      "   _.-'         '-.L|",
+      " .'      _____      '.",
+      "/      .'.---.'.      \\",
+      "│      ''     ''      │",
+      "\\                     /",
+      " \\                   /",
+      "  \\                 /",
+      "   \\               /",
+      "    '.           .'",
+      "      '.       .'",
+      "        >-───-<",
+      "       '~~~~~~~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "clay_watercont",
+    "picture": [
+      "     <color_brown>.────────────.",
+      "     \\\\/./\\'|\\.//./",
+      "      <color_white>}=========={*:.</color>",
+      "     /'//'.|\\'\\ /.\\ <color_white>\\\\</color>",
+      "   .'~' ~' ' ~'~' ~'.<color_white>\\\\</color>",
+      "  /                  \\<color_white>\\'</color>",
+      " /                    \\<color_white>'</color>",
+      " |                    |",
+      "/                      \\",
+      "│                      │",
+      "│                      │",
+      "│                      │",
+      "\\                      /",
+      " |                    |",
+      " │                    │",
+      " \\                    /",
+      "  |                  |",
+      "  │                  │",
+      "  \\                  /",
+      "   |                |",
+      "   \\                /",
+      "    |              |",
+      "    \\              /",
+      "     '────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "cup_plastic",
+    "picture": [
+      "<color_white>┌───┐",
+      "│   │",
+      "|   |",
+      "'==='"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "cup_foil",
+    "picture": [
+      "<color_light_gray>._,._._,",
+      "\\\\|\\|/|/",
+      " '^~\"~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "flask_glass",
+    "picture": [
+      "  <color_white>.<color_dark_gray>n</color>.",
+      "  <color_white>|<color_dark_gray>\"</color>|",
+      "  ) (",
+      " / =≡\\",
+      "/■ =≡ \\",
+      "'─────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "test_tube",
+    "picture": [
+      "<color_dark_gray>.,",
+      "<color_white>││",
+      "││",
+      "││",
+      "''"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "beaker",
+    "picture": [
+      "<color_white>╥───┐",
+      "│≈ ≡│",
+      "│▀ ≡│",
+      "'───'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "gradcylinder",
+    "picture": [
+      " <color_white>\\ |",
+      " │≡│",
+      " │≡│",
+      " │≡│",
+      " │≡│",
+      " │≡│",
+      " │≡│",
+      " │≡│",
+      "-╧═╧-"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "test_tube_micro",
+    "picture": [
+      "<color_white>._",
+      " V"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "flask_hip",
+    "picture": [
+      "   <color_light_gray>_",
+      "╓──~==╖",
+      "║     ║",
+      "║     ║",
+      "║  <color_dark_gray>≈</color>  ║",
+      "╙─────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jar_3l_glass_sealed",
+    "picture": [
+      "  <color_yellow>≡≡≡≡≡≡",
+      " <color_white>/      \\",
+      "| ≈≈≈≈≈≈ |",
+      "│  ≈≈≈   │",
+      "│        │",
+      "│        │",
+      "│        │",
+      "│        │",
+      "|        |",
+      " '──────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jar_glass_sealed",
+    "picture": [
+      "<color_yellow>≡≡≡≡≡≡",
+      "<color_white>│≈≈≈≈│",
+      "│≈≈  │",
+      "│    │",
+      "│    │",
+      "'────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jerrycan",
+    "picture": [
+      "   <color_dark_gray>.,</color> <color_red>.─────────.",
+      " <color_dark_gray>.</color><color_yellow>'</color> .' (~~~~~~~'.'.",
+      " <color_dark_gray>'</color>.'~~7~~~~~~~'. '.\\",
+      ".'≈≈.'.'\"\"\"\"\"'. './ \\",
+      "│≈.'.'▲DANGER  '. '.|",
+      "|'.'§ ▲FLAMMABLE '. |",
+      "│ |§§             | │",
+      "│ |§§             | │",
+      "| \\ § ▲           / |",
+      " \\ '-------------' /",
+      "  '───────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jerrycan_big",
+    "picture": [
+      "         <color_green>___________",
+      "   __   /.────────. ~'.",
+      " .:¬,' / |     _.'     |",
+      "  \\~_\\─' '────~        │",
+      " .-'      ----      .  │",
+      "|   '.    20 L     /   │",
+      "│     '.          /    │",
+      "│       |._______/     │",
+      "│       │'    './      │",
+      "│       │      │       │",
+      "│       │      │       │",
+      "│      /'.    .│       │",
+      "│     /~~~~~~~'|       │",
+      "│    /          '.     │",
+      "|   /             '.   |",
+      "'. '                  .'",
+      "  '-────────────────-'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jug_clay",
+    "picture": [
+      "<color_brown>.──────.",
+      " <color_white>}===={*.</color>",
+      "/\\./|\\'\\<color_white>\\\\</color>",
+      "│      │<color_white>|'</color>",
+      "│      │",
+      "│      │",
+      "|      |",
+      "\\      /",
+      " \\    /",
+      " ╘════╛"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jug_plastic",
+    "picture": [
+      "    <color_light_cyan>┌─┐",
+      "  <color_white>_.╨~╨._",
+      "/'  .-~-.\\.",
+      "│  │    ││|",
+      "│  '-._,|││",
+      "│ <color_light_cyan>.~'-._</color> '\\",
+      "│ <color_light_cyan>│ <color_white>≈≈≈</color> |</color> │",
+      "│ <color_blue>\\_____/</color> │",
+      "\\_\\_______/"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "fuel_tin",
+    "picture": [
+      " <color_light_gray>____ ╒╥╕",
+      "╥╨──╨─┴╨┴──╥",
+      "║          ║",
+      "║          ║",
+      "║          ║",
+      "║          ║",
+      "║          ║",
+      "║          ║",
+      "║          ║",
+      "╨──────────╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "keg",
+    "picture": [
+      "<color_light_gray>.───────────────────────.",
+      "│        .─┬─┬─.        │",
+      "│       |-'~~~'-|       │",
+      "│        '~~~~~'        │",
+      "}──'─────────────────'──{",
+      "│                       │",
+      "│                       │",
+      "/───────────────────────\\",
+      "\\───────────────────────/",
+      "│                       │",
+      "│                       │",
+      "│=======================│",
+      "│                       │",
+      "│                       │",
+      "/───────────────────────\\",
+      "\\───────────────────────/",
+      "│                       │",
+      "│                       │",
+      "}──.─────────────────.──{",
+      "│_______________________│",
+      " '─────────────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "large_stomach_sealed",
+    "picture": [
+      "         <color_yellow>.<color_white>*:-.</color>",
+      "        /   '.<color_white>\\</color>",
+      " .<color_white>*</color>._.-'      \\<color_white>'</color>",
+      "/   '         │",
+      "|             |",
+      "'.           /",
+      "  '~-──────-'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "metal_tank",
+    "picture": [
+      " <color_light_gray>.─────────────────────.",
+      "|-----------------------|",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│                       │",
+      "│          .─.          │",
+      "│         |   |         │",
+      "│          '─'          │",
+      "|-----------------------|",
+      " '─────────────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "metal_tank_little",
+    "picture": [
+      "<color_light_gray>   ___",
+      " .─┴─┴─.",
+      "|-------|",
+      "│       │",
+      "│       │",
+      "│       │",
+      "│       │",
+      "|-------|",
+      " '─────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "canteen_wood",
+    "picture": [
+      "       <color_white>*<color_brown>Ω<color_white>--._</color>",
+      "     _.┴-┴._ <color_white>\\</color>",
+      "   .'-'~~T'-'.<color_white>|</color>",
+      " <color_white>.</color>// |     | \\\\<color_white>.</color>",
+      "<color_white>/</color>|│  │        │|<color_white>\\</color>",
+      "<color_white>│</color>|│    |  │   │|<color_white>│</color>",
+      "<color_white>│</color> \\\\|     |  // <color_white>│</color>",
+      "<color_white>│</color>  '.-.___.-.'  <color_white>│</color>",
+      "<color_white>│</color>    '~─-─~'    <color_white>│</color>",
+      "<color_white>│               │",
+      "\\               /",
+      " |             |",
+      " │             │",
+      " │             │",
+      " \\             /",
+      "  |           |",
+      "  │           │",
+      "  \\           /",
+      "   |         |",
+      "   \\         /",
+      "    '.     .'",
+      "      '-─-'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "stomach_sealed",
+    "picture": [
+      "      <color_yellow>.<color_white>*:-.</color>",
+      "     /   '.<color_white>\\</color>",
+      ".<color_white>*</color>./'      \\<color_white>'</color>",
+      "|  '       |",
+      "'.        /",
+      "  '~-───-'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "waterproof_smart_phone_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "tardis_case",
+    "picture": [
+      "<color_blue>.════.",
+      "║<color_white>()[]</color>║",
+      "║<color_white>[]</color>[]║",
+      "║[][]║",
+      "║[][]║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "black_smart_phone_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "pink_smart_phone_case",
+    "picture": [
+      "<color_light_red>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "red_smart_phone_case",
+    "picture": [
+      "<color_red>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "dblue_smart_phone_case",
+    "picture": [
+      "<color_blue>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "lblue_smart_phone_case",
+    "picture": [
+      "<color_light_blue>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "cyan_smart_phone_case",
+    "picture": [
+      "<color_cyan>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "brown_smart_phone_case",
+    "picture": [
+      "<color_brown>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "white_smart_phone_case",
+    "picture": [
+      "<color_white>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "gray_smart_phone_case",
+    "picture": [
+      "<color_light_gray>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "orange_smart_phone_case",
+    "picture": [
+      "<color_yellow>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "lgreen_smart_phone_case",
+    "picture": [
+      "<color_light_green>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "dgreen_smart_phone_case",
+    "picture": [
+      "<color_green>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "violet_smart_phone_case",
+    "picture": [
+      "<color_pink>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "purple_smart_phone_case",
+    "picture": [
+      "<color_magenta>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "yellow_smart_phone_case",
+    "picture": [
+      "<color_yellow>.════.",
+      "║()  ║",
+      "║    ║",
+      "║    ║",
+      "║    ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bejeweled_smart_phone_case",
+    "picture": [
+      "<color_yellow>.════.",
+      "║():*║",
+      "║:* '║",
+      "║*.'*║",
+      "║ :*.║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bejeweled_smart_phone_case1",
+    "picture": [
+      "<color_white>.════.",
+      "║():*║",
+      "║:* '║",
+      "║*.'*║",
+      "║ :*.║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bejeweled_smart_phone_case2",
+    "picture": [
+      "<color_brown>.════.",
+      "║():*║",
+      "║:* '║",
+      "║*.'*║",
+      "║ :*.║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "hello_kitty_case",
+    "picture": [
+      "<color_white>.════.",
+      "║()w ║",
+      "║w <color_light_red>\"</color>w║",
+      "║<color_light_red>\"</color>w <color_light_red>^</color>║",
+      "║ <color_light_red>~</color>w ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "dollar_case",
+    "picture": [
+      "<color_green>.════.",
+      "║()$$║",
+      "║$$$$║",
+      "║$$$$║",
+      "║$$$$║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mech_case",
+    "picture": [
+      "<color_brown>.════.",
+      "║()<color_yellow>Φ</color>o║",
+      "║<color_yellow>☼</color>o<color_yellow>*°</color>║",
+      "║°<color_yellow>*{}</color>║",
+      "║<color_yellow>Φ{}</color>☼║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ace_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║ <color_white>/\\</color> ║",
+      "║<color_white>(,.)</color>║",
+      "║ <color_white>^^</color> ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "insta_case",
+    "picture": [
+      "<color_light_blue>.═══<color_pink>═.",
+      "<color_light_blue>║(<color_pink>)◄ <color_red>║",
+      "<color_pink>║ <color_red>► <color_pink>▲<color_red>║",
+      "║▼ ► ║",
+      "║ <color_yellow>▲ <color_red>▼<color_pink>║",
+      "<color_yellow>'═══<color_red>═<color_pink>'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "nightmare_case",
+    "picture": [
+      "<color_green>.════.",
+      "<color_red>║<color_dark_gray>()≈≈</color>║",
+      "<color_green>║ <color_white>|||</color>║",
+      "<color_red>║<color_brown>.↓↓↓</color>║",
+      "<color_green>║ <color_brown>`u'</color>║",
+      "<color_red>'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "jason_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║<color_white>.¬⌐.</color>║",
+      "║<color_white>╞öö╡</color>║",
+      "║<color_white>\\::/</color>║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ghostface_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()<color_white>_</color> ║",
+      "║ <color_white>d,b</color>║",
+      "║<color_dark_gray>[</color> <color_white>O</color> ║",
+      "║<color_white>⌡</color>   ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "pennywise_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║() <color_red>,║</color>",
+      "║<color_white>.</color> <color_red>/ ║</color>",
+      "║<color_white>q,</color><color_red>p ║</color>",
+      "║<color_white>\\w/</color><color_red>\\║</color>",
+      "'════<color_red>'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "candyman_case",
+    "picture": [
+      "<color_yellow>.════.",
+      "║(){}║",
+      "║}<color_dark_gray>.-.</color>║",
+      "║<color_light_gray>⌠</color><color_brown>├ ┤</color>║",
+      "║<color_brown>A≈<color_white>~</color>≈</color>║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "saw_case",
+    "picture": [
+      "<color_white>.════.",
+      "║()  ║",
+      "║<color_brown>.--╗</color>║",
+      "║<color_brown>|~~‼</color><color_red>║</color>",
+      "<color_red>║</color><color_brown>}≡≡{</color><color_red>║</color>",
+      "<color_red>'═</color>═<color_red>═</color>═<color_red>'</color>"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "tallman_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║<color_white>\\──/</color>║",
+      "║<color_white>|<color_red>≈§</color>|</color>║",
+      "║ <color_white>TT</color> ║",
+      "'════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "leatherface_case",
+    "picture": [
+      "<color_dark_gray>.════.",
+      "║()  ║",
+      "║<color_white>.vv.</color>║",
+      "║<color_white>}<color_yellow>|.</color>{</color>║",
+      "║<color_white>}<color_light_green>││</color>{</color>║",
+      "'════'</color>"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "waterproof_camera_case",
+    "picture": [
+      "<color_white>┌═══<color_dark_gray>==</color>┐",
+      "<color_dark_gray>[</color>( ) <color_dark_gray>§</color><color_light_gray>║</color>",
+      "└═════┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "waterskin",
+    "picture": [
+      "      <color_brown>\\~/",
+      "      <color_white>}={*.</color>",
+      "     //'|\\<color_white>\\\\</color>",
+      "  _./     \\._",
+      " /<color_white>•</color>/       \\<color_white>*</color>\\",
+      " <color_white>/</color>/         \\|",
+      "<color_white>/</color>/           \\<color_white>\\</color>",
+      "<color_white>│</color>│           │<color_white>│</color>",
+      "<color_white>│</color>\\           /<color_white>│</color>",
+      "<color_white>│</color> \\_       _/ <color_white>│</color>",
+      "<color_white>│</color>   ~─────~   <color_white>│",
+      "\\             /",
+      " |           |",
+      " │           │",
+      " │           │",
+      " \\           /",
+      "  |         |",
+      "  │         │",
+      "  \\         /",
+      "   |       |",
+      "   \\       /",
+      "    '.   .'",
+      "      '~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "waterskin2",
+    "picture": [
+      "   <color_brown>\\~/",
+      " __<color_white>}={*.</color>          _.────._ __",
+      "|<color_white>•</color>//'|\\<color_white>\\\\</color>       .'        '.<color_white>*</color>\\",
+      "'<color_white>│</color>│    '._   _.'            \\/",
+      " <color_white>│</color>\\       '~'               │<color_white>│</color>",
+      " <color_white>│</color> \\                        │<color_white>│</color>",
+      " <color_white>\\</color>  '.                      /<color_white>/</color>",
+      "  <color_white>|</color>   '-._               _.'<color_white>|</color>",
+      "  <color_white>│</color>       '~~──────────~'   <color_white>│",
+      "  │                         │",
+      "  \\                         /",
+      "   |                       |",
+      "   │                       │",
+      "   \\                       /",
+      "    |                     |",
+      "    \\                     /",
+      "     \\                   /",
+      "      \\                 /",
+      "       \\               /",
+      "        '.           .'",
+      "          '-._   _.-'",
+      "              '~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "waterskin3",
+    "picture": [
+      "   <color_brown>\\~/",
+      " __<color_white>}={*.</color>             _.──────._ __",
+      "|<color_white>•</color>//'|\\<color_white>\\\\</color>          .'          '.<color_white>*</color>\\",
+      "'<color_white>│</color>│    '-._    _.-'              \\/",
+      " <color_white>│</color>│        '~~'                  │<color_white>│</color>",
+      " <color_white>│</color>\\                              │<color_white>│</color>",
+      " <color_white>\\</color> \\                             /<color_white>/</color>",
+      "  <color_white>|</color> '.                         .'<color_white>|</color>",
+      "  <color_white>│</color>   '-._                 _.-'  <color_white>│</color>",
+      "  <color_white>│</color>       '~~────────────~'      <color_white>│",
+      "  \\                              /",
+      "   |                            |",
+      "   │                            │",
+      "   \\                            /",
+      "    |                          |",
+      "    \\                          /",
+      "     \\                        /",
+      "      \\                      /",
+      "       \\                    /",
+      "        '.                .'",
+      "          '._          _.'",
+      "             '-.____.-'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "wooden_barrel",
+    "picture": [
+      "  <color_light_gray>____________________________",
+      "  │          (•  •           │</color>",
+      "  <color_brown>│<color_light_gray>~~~~~~~~~~~~~~~~~~~~~~~~~~</color>│",
+      "  │<color_light_gray>__________________________</color>│",
+      " <color_light_gray>/~          (•  •           ~\\</color>",
+      " │<color_light_gray>~~~~~~~~~~~~~~~~~~~~~~~~~~~~</color>│",
+      " │                            │",
+      " │                            │",
+      "/<color_light_gray>______________________________</color>\\",
+      "<color_light_gray>│            (•  •             │</color>",
+      "│<color_light_gray>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</color>│",
+      "│                              │",
+      "│              __              │",
+      "│             |  |             │",
+      "│              ~~              │",
+      "│                              │",
+      "│<color_light_gray>______________________________</color>│",
+      "<color_light_gray>│             •  •)            │</color>",
+      "\\<color_light_gray>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</color>/",
+      " │                            │",
+      " │                            │",
+      " │<color_light_gray>____________________________</color>│",
+      " <color_light_gray>\\_           •  •)          _/</color>",
+      "  │<color_light_gray>~~~~~~~~~~~~~~~~~~~~~~~~~~</color>│",
+      "  │<color_light_gray>__________________________</color>│",
+      "  <color_light_gray>│           •  •)          │",
+      "  '~~~~~~~~~~~~~~~~~~~~~~~~~~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "wrapper",
+    "picture": [
+      "<color_white>┌-─--────-───-─--────---───-──┐",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "│                             │",
+      "└─---────--───-──--──-─-──--─-┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "wrapper_foil",
+    "picture": [
+      "<color_light_gray>┌---──-──---──--──-─┐",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "└─--──--────-─-───-─┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "wrapper_pr",
+    "picture": [
+      "<color_white>╒═════════╕",
+      "│ <color_light_red>Dai</color><color_yellow>Zoom</color> │",
+      "|><color_light_gray>≈≈≈≈≈</color><color_green>≈≈</color><|",
+      "└═════════┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "styrofoam_cup",
+    "picture": [
+      "   <color_white>║",
+      "   ║",
+      "=======",
+      "│     │",
+      "\\     /",
+      " |   |",
+      " \\   /",
+      " └───┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "plastic_bucket",
+    "picture": [
+      "<color_white>:≡≡≡≡≡≡≡≡≡≡≡≡:",
+      " ║          ║",
+      " ║          ║",
+      " ║          ║",
+      " ║          ║",
+      " ║          ║",
+      " ║          ║",
+      " ╙──────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom",
+    "picture": [
+      "<color_dark_gray>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_plain",
+    "picture": [
+      "<color_dark_gray>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_blue",
+    "picture": [
+      "<color_light_blue>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_red",
+    "picture": [
+      "<color_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_green",
+    "picture": [
+      "<color_light_green>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_yellow",
+    "picture": [
+      "<color_yellow>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_pink",
+    "picture": [
+      "<color_light_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_ribbed",
+    "picture": [
+      "<color_light_gray>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_cherry",
+    "picture": [
+      "<color_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_banana",
+    "picture": [
+      "<color_yellow>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_strawberry",
+    "picture": [
+      "<color_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_orange",
+    "picture": [
+      "<color_yellow>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_foodplace",
+    "picture": [
+      "<color_magenta>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_jalapeno",
+    "picture": [
+      "<color_light_green>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "balloon",
+    "picture": [
+      " <color_red>,.",
+      "/\\ \\",
+      "\\.'/",
+      " ||",
+      " ││",
+      " ~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "can_food_big",
+    "picture": [
+      "<color_light_gray>┬──────────┬",
+      "<color_blue>│          │",
+      "│  <color_white>≈≈≈≈≈≈</color>  │",
+      "│          │</color>",
+      "<color_dark_gray>│   <color_yellow>≈≈≈≈</color>   │</color>",
+      "┴──────────┴"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "survival_kit_box",
+    "picture": [
+      "<color_light_gray>[Tº============ºT]",
+      "'║              ║'",
+      " ╙──────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "large_survival_kit_box",
+    "picture": [
+      "<color_brown>┌──────────────────┐",
+      "│                  │",
+      "│     <color_dark_gray>ULTIMATE</color>     │",
+      "│   <color_dark_gray>SURVIVAL KIT</color>   │",
+      "│   <color_dark_gray>≈≈≈≈ ≈≈≈≈≈≈≈</color>   │",
+      "│                  │",
+      "└──────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "box_tea",
+    "picture": [
+      " <color_yellow>________",
+      "│  <color_brown>≈≈≈≈</color>  │",
+      "<color_green>│<color_white>○≤≥</color>  <color_light_gray>≈≈≈</color>│",
+      "└────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "stand_flyer",
+    "picture": [
+      " <color_white>.────────────.",
+      " │            │",
+      " │            │",
+      " │            │",
+      "╓┴──.      .──┴╖",
+      "║   '──────'   ║",
+      "╓───.      .───╖",
+      "║   '──────'   ║",
+      "╓───.      .───╖",
+      "╟---'──────'---╢",
+      "║              ║",
+      "╟--------------╢",
+      "║              ║",
+      "╙──────────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "1st_aid_box",
+    "picture": [
+      "<color_red>╔═<color_white>=</color>═╦═════╦═<color_white>=</color>═╗",
+      "║   '═════'   ║",
+      "║<color_white>FIRST AID KIT</color>║",
+      "║     <color_white>[+]</color>     ║",
+      "║             ║",
+      "╚═════════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ifak_pouch",
+    "picture": [
+      "     <color_red>/~~~\\",
+      " .───┴┬<color_dark_gray>=</color>┬┴───.",
+      "<color_dark_gray>,</color>│░░░░│ │[<color_white>+</color>]░│",
+      "<color_dark_gray>‼</color>│====│ │====│",
+      " │====│ │====│",
+      " │====│ │====│",
+      " │====│ │====│",
+      " '────┴─┴────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "rc_car_box",
+    "picture": [
+      "<color_dark_gray>┌─────────────┐",
+      "<color_blue>│<color_yellow>≈≈≈≈≈</color>      <color_white>≈≈</color>│",
+      "│<color_dark_gray>._  -←<color_red>,--<color_dark_gray>.</color>_</color></color>  │",
+      "│<color_dark_gray>≤`  <color_red>\\<color_dark_gray>ô</color>====<color_dark_gray>ô</color>≥</color></color> │</color>",
+      "└─────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "stirling_kit_box",
+    "picture": [
+      "<color_cyan>┌─────────────┐",
+      "│<color_white>≈≈≈≈</color>   <color_light_red>e  a</color>  │",
+      "│    <color_white>__\\M|'M|_</color>│",
+      "<color_white>│<color_red>≈≈</color>    <color_light_gray>; <color_yellow>*</color>-<color_white>.</color>~</color> │",
+      "└─────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "maker_kit_box",
+    "picture": [
+      "<color_cyan>┌─────────────┐",
+      "│<color_white>≈≈≈≈</color>   <color_light_red>e  a</color>  │",
+      "│<color_white>≈≈≈≈__<color_light_red>(</color><color_dark_gray>A</color><color_light_red>'|</color><color_light_cyan>A</color><color_light_red>\\</color>_</color>│",
+      "<color_white>│<color_red>≈≈</color>    <color_light_gray>:<color_light_red>=</color>`<color_red>⌂</color>/,</color> │",
+      "└─────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "robot_kit_box",
+    "picture": [
+      "<color_cyan>┌─────────────┐",
+      "│<color_white>≈≈≈≈</color>   <color_light_red>e  a</color>  │",
+      "│ <color_yellow>≈≈</color> <color_white>__<color_light_red>'</color><color_light_blue>A</color><color_light_red>|/</color><color_light_green>A</color><color_light_red>)</color>_</color>│",
+      "<color_white>│<color_red>≈≈</color>    <color_dark_gray>•</color> <color_light_gray>+<color_yellow>♫</color>,'</color> │",
+      "└─────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mre_bag_small",
+    "picture": [
+      "<color_light_red>╔↔↔↔↔↔↔↔╗",
+      "║ <color_dark_gray>≈≈≈≈≈</color> ║",
+      "║       ║",
+      "║ <color_dark_gray>≈≈≈≈≈</color> ║",
+      "╚↔↔↔↔↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mre_bag",
+    "picture": [
+      "<color_light_gray>.─────.─.",
+      "│|~~~~~|│",
+      "││     ││",
+      "││     ││",
+      "││     ││",
+      "││     ││",
+      "│|_____|│",
+      "'─────'─'"
+    ],
+    "//": "seems to be unused, so im assume its the entree bag that youd heat up"
+  },
+  {
+    "type": "ascii_art",
+    "id": "mre_package",
+    "picture": [
+      "<color_light_red>┌────────────┐",
+      "│~~~~~~~~~~~~│",
+      "│    <color_dark_gray>,╥╥.</color>    │",
+      "│    <color_dark_gray>|≥≤|  §</color> │",
+      "│  <color_dark_gray>≈≈≈≈≈≈≈≈</color>  │",
+      "│     <color_dark_gray>__  _</color>  │",
+      "│  <color_dark_gray>│V│├─)├-</color>  │",
+      "│  <color_dark_gray>' '' ' ~</color>  │",
+      "│   <color_dark_gray>≈≈≈≈≈≈</color>   │",
+      "│ <color_dark_gray>≈≈≈≈≈≈≈≈≈≈</color> │",
+      "│____________│",
+      "└<color_dark_gray>─</color>──────────<color_dark_gray>─</color>┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mre_bag_dessert",
+    "picture": [
+      "<color_light_red>╔═══════╗",
+      "↕ <color_dark_gray>≈≈≈≈≈</color> ↕",
+      "↕       ↕",
+      "╚═══════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "mre_bag_spread",
+    "picture": [
+      "<color_light_red>╔↔↔↔╗",
+      "║<color_dark_gray>≈≈≈</color>║",
+      "║   ║",
+      "║<color_dark_gray>≈≈≈</color>║",
+      "║   ║",
+      "╚═══╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ipok",
+    "picture": [
+      "<color_dark_gray>________",
+      "║------║",
+      "<color_red>╠      ╣</color>",
+      "║ <color_white>IPOK</color> ║",
+      "║ <color_white>│<color_dark_gray>§§</color>│</color> ║",
+      "║ <color_white>'~~'</color> ║",
+      "╚══════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "aquarium_medium",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_dark_gray>┌──────────────────────────────┐",
+      "├┬────────────────────────────┬┤",
+      "││                            ││",
+      "││                            ││",
+      "││                            ││",
+      "││                            ││",
+      "││                            ││",
+      "├┴────────────────────────────┴┤",
+      "└──────────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "aquarium_small",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "<color_dark_gray>┌──────────────────────────────┐",
+      "<color_white>│</color>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<color_white>│",
+      "│                              │",
+      "│                              │",
+      "│                              │",
+      "│                              │",
+      "│</color>______________________________<color_white>│</color>",
+      "└──────────────────────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "aquarium_large",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:4</color>)</color>",
+      "<color_dark_gray>╔══════════════════════════════╗",
+      "║                              ║",
+      "║                              ║",
+      "╚══════════════════════════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "small_propane_tank",
+    "picture": [
+      "   <color_dark_gray>▬",
+      "<color_green>.-~~~-.",
+      "<color_red>│<color_white>≈≈ ≈≈</color>│</color>",
+      "<color_dark_gray>│<color_light_red>≈</color><color_white>[<color_red>≈≈</color>]</color>│</color>",
+      "│ <color_white>~~~</color> │",
+      "│     │",
+      "├─────┤",
+      "└─────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_propane_tank",
+    "picture": [
+      "      <color_white>┌───────┐",
+      "     ~)\\ <color_light_gray>'T'</color> /(~",
+      "      |' .<color_yellow>Ω</color>. '|",
+      "  .--'~~~~^~~~~'--.",
+      ".'                 '.",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│___________________│",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "│                   │",
+      "'.                 .'",
+      "  '╤.═._.═══._.═.╤'",
+      "   └──────º──────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "large_propane_tank",
+    "picture": [
+      "      <color_white>┌─┬────────┬─┐",
+      "      l.│        │.l",
+      "       ││  <color_green>-╤╤-</color>  ││",
+      "      .'│   <color_yellow>()</color>   │'.",
+      "      │ │  <color_yellow>'[]</color>   │ │",
+      "   _.-╧═╧'~~~~~~'╧═╧-._",
+      " .'                    '.",
+      "/                        \\",
+      "│                        │",
+      "│------------------------│",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│________________________│",
+      "│                        │",
+      "\\                        /",
+      " )======================(",
+      "| <color_light_gray>==       ====       ==</color> |",
+      "'────────────────────────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "xl_propane_tank",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:2</color>)</color>",
+      "    <color_white>.═╤═==========═╤──",
+      "     ~│  /~~<color_green>¬⌐</color>~~\\  <color_light_gray>│</color>",
+      "      │  \\__<color_yellow>()</color>_<color_yellow>a</color>/  <color_light_gray>│</color>",
+      "    _.╧══========══╧._",
+      "  .'                  '.",
+      " /                      \\",
+      "|________________________|",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│                        │",
+      "│________________________│",
+      "|                        |",
+      " \\                      /",
+      "  '╤.____.══════.____.╤'",
+      "   │        ..        │",
+      "   '~~~~~~~~  ~~~~~~~~'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "shot_glass",
+    "picture": [
+      "<color_white>┌──┐",
+      "\\  /",
+      "'=='"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "30gal_drum_aluminum",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:3</color>)</color>",
+      "<color_light_gray>╔═<color_dark_gray>ªª</color>═══════════════════════╗",
+      "║<color_red>[]</color>XXXXXXXXXXXXXXXXXXXXXXXX║",
+      "║XXXXXXXXXXXXXXXXXXXXXXXXXX║",
+      "\"~~~~~~~~~~~~~~~~~~~~~~~~~~\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "55gal_drum_aluminum",
+    "picture": [
+      "<color_light_gray>(<color_yellow>1:3</color>)</color>",
+      "<color_light_gray>╔═<color_dark_gray>ªª</color>═══════════════════════╗",
+      "║<color_red>[]</color>XXXXXXXXXXXXXXXXXXXXXXXX║",
+      "║XXXXXXXXXXXXXXXXXXXXXXXXXX║",
+      "║XXXXXXXXXXXXXXXXXXXXXXXXXX║",
+      "║XXXXXXXXXXXXXXXXXXXXXXXXXX║",
+      "╚══════════════════════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "squeeze_tube",
+    "picture": [
+      " <color_white>/\\",
+      " ||",
+      "┌╨╨┐",
+      "<color_dark_gray>│<color_white>≈≈</color>│</color>",
+      "<color_light_blue>│<color_white>§≈</color>│",
+      "│<color_white>§≈</color>│",
+      "│<color_white>§</color> │",
+      "│  │",
+      "│<color_dark_gray>≈≈</color>│</color>",
+      "└──┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "squeeze_tube_small",
+    "picture": [
+      "<color_white>___",
+      "<color_light_blue>\\<color_dark_gray>≈</color>/",
+      "│<color_white>§</color>│",
+      "|<color_white>§</color>|</color>",
+      "<color_dark_gray>\\<color_white>≈</color>/</color>",
+      " M",
+      " V"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "bottle_gourd",
+    "picture": [
+      "    <color_white>.:<color_brown>A</color>*.",
+      "   <color_white>/</color><color_brown>.'~'.",
+      "  <color_white>/</color>/     \\",
+      " <color_white>/</color>|       |",
+      " <color_white>│</color>|       |",
+      " <color_white>':*=====*</color>",
+      "  .'     '<color_white>\\</color>",
+      " /        <color_white>│</color>\\",
+      "|         <color_white>│</color> |",
+      "|         <color_white>│</color> |",
+      " \\        <color_white>│</color>/",
+      "  '~─────~<color_white>││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ││",
+      "          ''"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "paint_can_steel",
+    "picture": [
+      "    <color_light_gray>_.--._",
+      "  .'      '.",
+      " /          \\",
+      "|╓==========╖|",
+      "[<color_dark_gray>│   <color_white>≈≈≈≈</color>   │</color>]",
+      " <color_red>│_</color><color_yellow>__</color><color_light_green>__</color><color_light_cyan>_</color><color_cyan>_</color><color_light_blue>_</color><color_blue>_</color><color_magenta>_</color><color_pink>│</color>",
+      " │          │",
+      " │ <color_white>≈≈≈≈≈≈≈≈</color> │",
+      " │   <color_dark_gray>≈≈≈≈</color>   │",
+      " │<color_dark_gray>≈≈       ≈</color>│",
+      " ╙──────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "paint_can_plastic",
+    "picture": [
+      "    <color_dark_gray>_.--._",
+      "  .'      '.",
+      " /          \\",
+      "|╓==========╖|",
+      "[<color_light_gray>│   <color_white>≈≈≈≈</color>   │</color>]",
+      " <color_red>│_</color><color_yellow>__</color><color_light_green>__</color><color_light_cyan>_</color><color_cyan>_</color><color_light_blue>_</color><color_blue>_</color><color_magenta>_</color><color_pink>│</color>",
+      " │          │",
+      " │ <color_white>≈≈≈≈≈≈≈≈</color> │",
+      " │   <color_light_gray>≈≈≈≈</color>   │",
+      " │<color_light_gray>≈≈       ≈</color>│",
+      " ╙──────────╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "lunchbox",
+    "picture": [
+      " <color_green>____________",
+      "(===\\____/===)",
+      "││          ││",
+      "└╧══════════╧┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "pencil_case",
+    "picture": [
+      " <color_dark_gray>.═══════════.",
+      "<color_light_gray>,</color>║    <color_white>≈≈≈</color>    ║",
+      "<color_light_gray>I</color>║           ║",
+      " '═══════════'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "cardboard_roll",
+    "picture": [
+      "<color_brown>┌──┐",
+      "│ \\│",
+      "│\\ │",
+      "└──┘"
+    ]
+  }
+]

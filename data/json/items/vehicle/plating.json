@@ -4,7 +4,7 @@
     "id": "sheet_metal",
     "name": { "str_sp": "sheet metal" },
     "description": "A thin sheet of metal.",
-    "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
+    "//": "Roughly in the 70 cm × 70 cm × 1.5 mm to 1 m × 1 m × 0.75 mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6 kg",
     "longest_side": "100 cm",
     "to_hit": -2,
@@ -159,8 +159,7 @@
     "copy-from": "chitin_plate",
     "name": { "str": "biosilicified chitin armor kit" },
     "description": "A piece of durable silica-coated chitin plating made for a vehicle.",
-    "material": [ "acidchitin" ],
-    "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "melee_damage": { "bash": 1.25 } }
+    "material": [ "acidchitin" ]
   },
   {
     "type": "GENERIC",

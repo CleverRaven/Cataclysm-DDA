@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"

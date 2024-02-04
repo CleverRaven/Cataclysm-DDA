@@ -56,7 +56,7 @@
     "id": "generator_7500w",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
-    "name": { "str": "7.5kW generator" },
+    "name": { "str": "7.5 kW generator" },
     "description": "A bulky but efficient electrical generator designed to be attached to an engine.",
     "weight": "48000 g",
     "volume": "7500 ml",

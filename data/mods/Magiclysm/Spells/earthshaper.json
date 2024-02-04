@@ -26,9 +26,9 @@
     "id": "stonefist_plus",
     "type": "SPELL",
     "name": "Improved Stonefist",
-    "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "NO_FAIL" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -296,12 +296,12 @@
     "id": "earthshaper_stoneskin_plus",
     "type": "SPELL",
     "name": "Improved Stoneskin",
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "aura_stoneskin",
     "shape": "blast",
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SOMATIC", "LOUD", "NO_FAIL" ],
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 6,
@@ -367,7 +367,7 @@
     "flags": [ "NO_PROJECTILE", "SILENT", "NO_HANDS" ],
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "stab",
+    "damage_type": "necrotic",
     "min_damage": 10,
     "damage_increment": 2,
     "max_damage": 45,
@@ -780,22 +780,127 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_MAP",
-    "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
-    "effect": [ { "u_cast_spell": { "id": "earthshaper_map_real" } } ],
+    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "effect": {
+      "switch": { "math": [ "u_spell_level('earthshaper_reveal_world_map')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_01", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_01" },
+            { "u_remove_item_with": "item_earthshaper_map_01" }
+          ]
+        },
+        {
+          "case": 3,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_02", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_02" },
+            { "u_remove_item_with": "item_earthshaper_map_02" }
+          ]
+        },
+        {
+          "case": 6,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_03", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_03" },
+            { "u_remove_item_with": "item_earthshaper_map_03" }
+          ]
+        },
+        {
+          "case": 9,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_04", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_04" },
+            { "u_remove_item_with": "item_earthshaper_map_04" }
+          ]
+        },
+        {
+          "case": 12,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_05", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_05" },
+            { "u_remove_item_with": "item_earthshaper_map_05" }
+          ]
+        },
+        {
+          "case": 15,
+          "effect": [
+            { "u_spawn_item": "item_earthshaper_map_06", "suppress_message": true },
+            { "run_eocs": "EOC_EARTHSHAPER_MAP_ITEM_06" },
+            { "u_remove_item_with": "item_earthshaper_map_06" }
+          ]
+        }
+      ]
+    },
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
   },
   {
-    "id": "earthshaper_map_real",
-    "type": "SPELL",
-    "name": "Reading the Earthbones Real Spell",
-    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
-    "valid_targets": [ "none" ],
-    "message": "The secrets of the living earth are revealed to you.",
-    "flags": [ "NO_HANDS", "SILENT" ],
-    "effect": "map",
-    "shape": "blast",
-    "max_level": 1,
-    "min_aoe": { "math": [ "( 7 + (u_spell_level('earthshaper_reveal_world_map') * 2.2) )" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_01" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_01_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_02" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_02_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_03" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_03_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_04",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_04" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_04_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_05",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_05" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_05_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP_ITEM_06",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_earthshaper_map_06" } ],
+        "true_eocs": [ { "id": "EOC_EARTHSHAPER_MAP_ITEM_06_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
   },
   {
     "id": "earthshaper_danger_sense",
@@ -813,7 +918,7 @@
     "max_level": 10,
     "base_casting_time": 400,
     "base_energy_cost": 350,
-    "min_duration": 30000,
+    "min_duration": 0,
     "max_duration": 300000,
     "duration_increment": 30000
   },
@@ -824,7 +929,7 @@
     "effect": [
       {
         "u_add_effect": "effect_tremorsense",
-        "duration": { "math": [ "(u_spell_level('earthshaper_danger_sense') * 30000)" ] }
+        "duration": { "math": [ "(u_spell_level('earthshaper_danger_sense') * 300)" ] }
       }
     ],
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails.", "type": "bad" } ]
@@ -832,7 +937,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
-    "recurrence": 1,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
     "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },
@@ -977,5 +1083,113 @@
       }
     ],
     "false_effect": { "u_message": "Without a connection to the living earth or a flat surface of solid rock, the spell fails." }
+  },
+  {
+    "id": "earthshaper_harden_earth",
+    "type": "SPELL",
+    "name": "Harden Earth",
+    "description": "Compress dirt together so it becomes as hard as rock.  A great way to turn makeshift barricades into a fortress.",
+    "valid_targets": [ "hostile", "ally", "ground", "self" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "spell_class": "EARTHSHAPER",
+    "difficulty": 4,
+    "max_level": 20,
+    "effect": "ter_transform",
+    "effect_str": "ter_earthshaper_harden_earth",
+    "shape": "line",
+    "min_range": 2,
+    "max_range": 20,
+    "range_increment": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 1500
+  },
+  {
+    "id": "earthshaper_sleep_in_earth",
+    "type": "SPELL",
+    "name": "Stone Slumber",
+    "description": "When standing on earth or stone, sink into the ground.  While submerged, you will heal faster, sleep will be more restorative, and you will not need to eat or drink.  Cast this spell again to return to the surface.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "spell_class": "EARTHSHAPER",
+    "difficulty": 8,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : 6000" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : 800" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
+    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH_2",
+          "condition": {
+            "or": [
+              { "u_is_on_terrain": "t_rock_floor_no_roof" },
+              { "u_is_on_terrain": "t_rock_floor" },
+              { "u_is_on_terrain": "t_rock_smooth" },
+              {
+                "and": [
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                  { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                  { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                  { "not": { "u_is_on_terrain": "t_fungus" } },
+                  { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                  { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                  { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                  { "not": { "u_is_on_terrain": "t_woodchips" } }
+                ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": -9,
+              "z_override": true
+            },
+            {
+              "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
+              "type": "good"
+            },
+            { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
+            { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+          ],
+          "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
+        }
+      }
+    ],
+    "false_effect": [
+      {
+        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "z_adjust": 0,
+        "z_override": true
+      },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
+      {
+        "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH_REMOVER",
+    "eoc_type": "EVENT",
+    "//": "No cheating and translocating out to keep your buffs",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
+    "effect": [ { "u_lose_trait": "EARTHSHAPER_STONE_SLEEP" } ]
   }
 ]

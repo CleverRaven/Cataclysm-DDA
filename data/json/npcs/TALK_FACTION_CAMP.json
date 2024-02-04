@@ -39,7 +39,7 @@
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Nothing.  Let's get back to work.", "topic": "TALK_DONE" }
     ]
   },

@@ -1,5 +1,69 @@
 [
   {
+    "id": "burning_trail",
+    "type": "SPELL",
+    "name": "Burning Trail",
+    "description": "Speak a short phrase and transform your footsteps into burning pits of flame, leaving a trail of fire behind you.  Each step will consume mana, but you will be immune to fire while the spell is in effect.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "CLEANSING_FLAME",
+    "difficulty": 8,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 1,
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_burning_trail') > -1 ? 0 : 50" ] },
+    "base_energy_cost": 25
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
+    "condition": { "not": { "u_has_effect": "effect_burning_trail" } },
+    "effect": [
+      { "u_add_effect": "effect_burning_trail", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_burning_trail" },
+      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2",
+    "condition": { "u_has_effect": "effect_burning_trail" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_3",
+            "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+            "effect": [
+              { "math": [ "u_val('mana')", "-=", "1" ] },
+              { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+              { "u_set_field": "fd_fire", "radius": 0, "hit_player": false },
+              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+            ],
+            "false_effect": [
+              { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" },
+              { "u_lose_effect": "effect_burning_trail" },
+              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP",
+    "effect": [ { "u_lose_effect": "effect_flame_immunity" } ]
+  },
+  {
     "type": "ter_furn_transform",
     "id": "immolate_transform",
     "furniture": [
