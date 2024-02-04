@@ -454,5 +454,49 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught in a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_vitakinetic",
+    "name": "Arising Vitakinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Just last week you were looking in an abandoned building and fell through a weak floor.  But you barely bled, and after a few minutes lying there you picked yourself up and managed to run away from the things that came to investigate the noise.  You didn't have enough water to properly clean your wounds but it hasn't seemed to have mattered.  You're already back to normal.",
+    "points": 6,
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_slow_bleeding", "level": 8 },
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_health_power_ally", "level": 4 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_sleeping_trance", "level": 5 },
+      { "id": "vita_cure_disease", "level": 5 },
+      { "id": "vita_pain_split", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_vitakinetic",
+    "name": "Ascended Vitakinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You've suffered injuries that should have killed you multiple times over by now and recovered in days every time.  You've broken your leg twice, your arm once, drank bad water that had you puking your guts out, nearly been disemboweled by some mutated thing…every single time, your powers kept you going.  Hopefully they'll see you through to the very end of all this.",
+    "points": 6,
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "vita_health_power", "level": 10 },
+      { "id": "vita_slow_bleeding", "level": 9 },
+      { "id": "vita_stop_bleeding", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_sleeping_trance", "level": 7 },
+      { "id": "vita_cure_disease", "level": 7 },
+      { "id": "vita_pain_split", "level": 8 },
+      { "id": "vita_stop_infection", "level": 12 },
+      { "id": "vita_healing_trance", "level": 6 },
+      { "id": "vita_blood_purge", "level": 6 },
+      { "id": "vita_banish_illness", "level": 4 }
+    ]
   }
 ]
