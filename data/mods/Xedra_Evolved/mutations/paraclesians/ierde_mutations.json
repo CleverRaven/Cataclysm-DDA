@@ -157,15 +157,38 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_KNOCKBACK_PUNCH",
+    "name": { "str": "Mountain-Toppling Punch" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to strike an enemy with a blow that does extra damage and knocks them backwards.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SMASHING_PUNCH" ],
+    "spells_learned": [ [ "ierde_knockback_punch_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CREATE_PITS",
     "name": { "str": "Earthen Grasp" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to create pits on diggable ground, dumping their enemies into them.",
+    "description": "Upon gaining this ability the Ierde gains the ability to create large pits on diggable ground, dumping their enemies into them.",
     "category": [ "IERDE" ],
-    "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_RESHAPE_THE_EARTH",
+    "name": { "str": "Reshape the Living Earth" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde may reshape the earth, raising or lowering earth or stone or turning the one into the other.",
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_reshape_the_earth_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -190,6 +213,22 @@
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "category": [ "IERDE" ],
     "spells_learned": [ [ "ierde_iron_armor_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_SCENT_AND_IRON",
+    "name": {
+      "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
+      "str": "An Iron Taste and an Iron Smell"
+    },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Ierde has taken the essence of iron into themselves.  They no longer smell anything like a human, smelling only like a faint whiff of iron if they have any scent at all, and can produce all their iron their body needs themselves.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "category": [ "IERDE" ],
+    "vitamin_rates": [ [ "iron", -1200 ] ],
+    "flags": [ "NO_SCENT" ]
   },
   {
     "type": "mutation",
@@ -290,6 +329,41 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_SINK_INTO_EARTH",
+    "name": { "str": "In the Earthmother's Embrace" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to sink into the living earth, where they will heal faster, they will not need to eat or drink, and sleep will be more restful for them.",
+    "prereqs": [ "IERDE_REGAIN_STAMINA_UNDERGROUND", "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "category": [ "IERDE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_SINK_INTO_EARTH_activate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_SLEEP",
+    "name": { "str": "Sleeping in the Earth" },
+    "description": "You are resting in the depths of the earth.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "fatigue_regen_modifier": 0.5,
+    "healing_awake": 0.8,
+    "healing_multiplier": 2.5,
+    "mending_modifier": 16,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "METABOLISM", "multiply": -1.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_SLOW_BLEEDING",
     "name": { "str": "Blood of the Earth" },
     "points": 2,
@@ -310,8 +384,7 @@
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_SLOW_BLEEDING" ],
-    "flags": [ "BLEED_IMMUNE" ],
-    "//": "Ideally there'd be a flag to let them bleed oil, but there doesn't currently seem to be"
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "mutation",
