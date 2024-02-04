@@ -234,7 +234,9 @@
     "entries": [
       { "item": "banner_dark_forest", "prob": 20 },
       { "item": "banner_butterfly_knight", "prob": 20 },
-      { "item": "banner_angry_darkness", "prob": 20 }
+      { "item": "banner_angry_darkness", "prob": 20 },
+      { "item": "banner_starry_wisdom", "prob": 20 },
+      { "item": "banner_thunderous_rush", "prob": 20 }
     ]
   },
   {
