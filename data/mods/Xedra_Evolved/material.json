@@ -117,7 +117,6 @@
     "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
     "repair_difficulty": 5
   },
-
   {
     "type": "material",
     "id": "fae_cotton",

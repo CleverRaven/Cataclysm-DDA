@@ -826,10 +826,7 @@
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "salamagman_champion", 40 ] ]
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "salamagman_champion", 40 ] ] },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_1", "FIREPROOF" ],
     "armor": { "bash": 16, "cut": 12, "bullet": 26 }
   },
