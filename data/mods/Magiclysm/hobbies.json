@@ -1,0 +1,83 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_beginner",
+    "name": "Spellcraft (Beginner)",
+    "description": "You took a few classes about magical theory before the Cataclysm and still remember most of it.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_intermediate",
+    "name": "Spellcraft (Intermediate)",
+    "description": "You were either a practicing mage or made a formal study of magical theory.  You could have designed spells in your spare time, if you had wanted.",
+    "points": 5,
+    "skills": [ { "level": 4, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_expert",
+    "name": "Spellcraft (Expert)",
+    "description": "You could have taught magical theory to mages, whether you know any spells or not.",
+    "points": 8,
+    "skills": [ { "level": 6, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_freshen_up",
+    "name": "Dabbler (Freshen Up)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Freshen Up, the most common spell in the pre-Cataclysm world.  It saved up a lot of time before work in your old life and you've certainly made a lot of use of it now that there's no more running water.",
+    "points": 4,
+    "spells": [ { "id": "classless_clean_clothing_and_self", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_crystallize_mana",
+    "name": "Dabbler (Crystallize Mana)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Crystallize Mana.  Sure, it ruined your social life and you slept for 12 hours a day, but you made a tidy sum of money producing mana crystals for mages who needed them.  Too bad all that money is useless now.",
+    "points": 4,
+    "spells": [ { "id": "crystallize_mana", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magical_light",
+    "name": "Dabbler (Magical Light)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Magical Light.  It was mostly a party trick, to be honest, and the weeks learning to cast a spell that any smartphone could replicate showed you how much work trying to learn real magic actually was.  But the nights are dark enough nowadays that you're glad you put in the effort.",
+    "points": 4,
+    "spells": [ { "id": "create_atomic_light", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_protection_aura",
+    "name": "Dabbler (Aura of Protection)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Aura of Protection.  To be honest, you originally learned it to try to replace the umbrella you kept leaving at home and were very disappointed when that didn't work.  It's saved you at least once from some strange gas in the air, though, so all that effort paid off.",
+    "points": 4,
+    "spells": [ { "id": "protection_aura", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_sound_bomb",
+    "name": "Dabbler (Sound Bomb)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sound Bomb.  You mostly used it for jokes, to play pranks on your friends and annoy the neighborhood dogs, but it's proven its worth now at the end of the world.",
+    "points": 4,
+    "spells": [ { "id": "sound_bomb", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_watch_spell",
+    "name": "Dabbler (Knowing the Day and the Hour)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knowing the Day and the Hour.  Your non-mage friends were always asking you why you bothered learning what was widely considered to be the least useful spell in the world, and sometimes you weren't sure yourself.  Even now that the network is down, you're still not entirely sure how important it is to know that it's exactly 6:12 a.m. vs. just \"sunrise\".  But if it ever is important, you'll know it.",
+    "points": 4,
+    "spells": [ { "id": "classless_watch_spell", "level": 5 } ]
+  }
+]
