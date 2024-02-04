@@ -3368,7 +3368,6 @@ bool game::save_achievements()
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        std::locale locale{ "C" };
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( achievement_file_path ),
         [&]( const char c ) {
@@ -3562,7 +3561,6 @@ void game::write_memorial_file( std::string sLastWords )
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        std::locale locale{ "C" };
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
