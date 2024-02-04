@@ -321,7 +321,7 @@
       ],
       "palettes": [ "druid_ritual_home" ],
       "terrain": { " ": "t_open_air", ">": "t_triffid_slope_down" },
-      "furniture": { "ŧ": "t_druid_table" },
+      "furniture": { "ŧ": "t_druid_table", "O": "f_magic_circle" },
       "items": {
         "ŧ": [
           { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
