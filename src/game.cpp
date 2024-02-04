@@ -55,6 +55,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "char_validity_check.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
@@ -3356,7 +3357,6 @@ bool game::save_achievements()
     const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
 
     std::ostringstream achievement_file_path;
-
     achievement_file_path << achievement_dir;
 
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
@@ -3368,22 +3368,46 @@ bool game::save_achievements()
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        achievement_file_path << cata::filter_invalid_filename_char( u.name );
+        std::locale locale{ "C" };
+        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.
     achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
     const int character_id = get_player_character().getID().get_value();
+
+    // Add a timestamp for uniqueness.
+
+#if defined(_WIN32)
+    SYSTEMTIME current_time;
+    GetLocalTime( &current_time );
+    achievement_file_path << string_format( "%d-%02d-%02d-%02d-%02d-%02d",
+                                            current_time.wYear, current_time.wMonth, current_time.wDay,
+                                            current_time.wHour, current_time.wMinute, current_time.wSecond );
+#else
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+    char buffer[suffix_len] {};
+    std::time_t t = std::time( nullptr );
+    tm current_time;
+    localtime_r( &t, &current_time );
+    size_t result = std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
+    if( result == 0 ) {
+        cata_fatal( "Could not construct filename" );
+    }
+    achievement_file_path << buffer;
+#endif
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
-
     // Clear past achievements so that it will be reloaded
     clear_past_achievements();
 
     return write_to_file( json_path_string, [&]( std::ostream & fout ) {
         get_achievements().write_json_achievements( fout );
     }, _( "player achievements" ) );
-
 }
 
 event_bus &game::events()
@@ -3500,7 +3524,7 @@ void game::write_memorial_file( std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
-            world_generator->active_world->world_name + "/";
+        world_generator->active_world->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
@@ -3530,14 +3554,19 @@ void game::write_memorial_file( std::string sLastWords )
 
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale {"C"};
+        std::locale locale{ "C" };
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        memorial_file_path << cata::filter_invalid_filename_char( u.name );
+        std::locale locale{ "C" };
+        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
+                              std::ostream_iterator<char>( memorial_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.

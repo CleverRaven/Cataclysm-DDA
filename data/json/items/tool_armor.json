@@ -730,14 +730,6 @@
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
-    "id": "homburg_hat",
-    "type": "ARMOR",
-    "name": { "str": "homburg hat" },
-    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
-    "material": [ "wool" ],
-    "copy-from": "fedora"
-  },
-  {
     "id": "thermal_socks",
     "type": "TOOL_ARMOR",
     "category": "clothing",
