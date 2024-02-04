@@ -76,7 +76,7 @@
     "subtype": "hobby",
     "id": "dabbler_watch_spell",
     "name": "Dabbler (Knowing the Day and the Hour)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knowing the Day and the Hour.  Your non-mage friends were always asking you why you bothered learning what was widely considered to be the least useful spell in the world, and sometimes you weren't sure yourself.  Even now that the network is done, you're still not entirely sure how important it is to know that it's exactly 6:12 a.m. vs. just \"sunrise\".  But if it ever is important, you'll know it.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knowing the Day and the Hour.  Your non-mage friends were always asking you why you bothered learning what was widely considered to be the least useful spell in the world, and sometimes you weren't sure yourself.  Even now that the network is down, you're still not entirely sure how important it is to know that it's exactly 6:12 a.m. vs. just \"sunrise\".  But if it ever is important, you'll know it.",
     "points": 4,
     "spells": [ { "id": "classless_watch_spell", "level": 5 } ]
   }
