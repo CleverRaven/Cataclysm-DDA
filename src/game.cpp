@@ -3524,7 +3524,7 @@ void game::write_memorial_file( std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
-        world_generator->active_world->world_name + "/";
+            world_generator->active_world->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
