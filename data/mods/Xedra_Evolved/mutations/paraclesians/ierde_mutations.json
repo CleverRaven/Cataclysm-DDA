@@ -344,7 +344,7 @@
   {
     "type": "mutation",
     "id": "IERDE_STONE_SLEEP",
-    "name": { "str": "Stony Sleep" },
+    "name": { "str": "Sleeping in the Earth" },
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
