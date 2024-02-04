@@ -104,7 +104,7 @@
           "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
           "effect": [
             {
-              "u_message": "A brilliant idea about the properties of dreamdross  hits your head, and you think you know how to utilize it now.",
+              "u_message": "A brilliant idea about the properties of dreamdross hits your head, and you think you know how to utilize it now.",
               "type": "good"
             }
           ]
