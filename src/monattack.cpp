@@ -1050,7 +1050,7 @@ bool mattack::boomer( monster *z )
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
     for( tripoint &i : line ) {
-        here.add_field( i, fd_bile, 1 );
+        here.add_field( i, fd_bile, 1.0f );
         // If bile hit a solid tile, return.
         if( here.impassable( i ) ) {
             here.add_field( i, fd_bile, 3 );
@@ -1059,7 +1059,7 @@ bool mattack::boomer( monster *z )
         }
     }
 
-    if( !target->dodge_check( z, 1 ) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
@@ -1099,9 +1099,9 @@ bool mattack::boomer_glow( monster *z )
         }
     }
 
-    if( !target->dodge_check( z, 1 ) ) {
+    if( !target->dodge_check( z, 1.0f) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-        target->on_dodge( z, 5, 1 );
+        target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
             target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
