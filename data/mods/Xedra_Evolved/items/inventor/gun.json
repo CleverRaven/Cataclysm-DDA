@@ -494,7 +494,7 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "A modified energy transformer. It converts the power flow into a slow heat cloud that ignites everything around it."
+    "description": "A modified energy transformer.  It converts the power flow into a slow heat cloud that ignites everything around it."
   },
   {
     "id": "inventor_glauncher_elec",
