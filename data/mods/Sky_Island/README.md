@@ -1,7 +1,6 @@
 # Sky Islands
 A raid-based gameplay overhaul mod for CDDA, inspired by games like Escape from Tarkov and Dark & Darker.
 ### Warning:
-- THIS REPOSITORY IS CURRENTLY FOR TESTING PURPOSES!  Expect possible bugs and balance issues, even more than usual.  When in a more polished state, efforts will be made to bring this new codebase to the mainline repo.  You MUST be playing an up to date (Experimental) version of C:DDA for this to work!
 - You MUST make a custom character for this.  "Play Now!" will not work.
 - The game uses code to search large areas of the map.  That means you may run into load times of up to a couple minutes at times.  You will generally be warned of these in-game, so please be patient.
 - Save often because there WILL be bugs and even occasionally crashes at this stage.
