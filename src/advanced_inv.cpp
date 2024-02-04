@@ -62,6 +62,9 @@
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
 using move_all_entry = std::pair<std::pair<int, int>, drop_or_stash_item_info>;
 
 namespace io
@@ -996,6 +999,16 @@ bool advanced_inventory::move_all_items()
             return false;
         }
     }
+    if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
+        popup_getkey( _( "Source container can't be unloaded." ) );
+        return false;
+    }
+    if( dpane.get_area() == AIM_CONTAINER &&
+        dpane.container.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
+        popup_getkey( _( "Destination container can't be reloaded." ) );
+        return false;
+    }
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
@@ -1561,7 +1574,16 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
     }
+    if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
+        popup_getkey( _( "Source container can't be unloaded." ) );
+        return false;
+    }
     if( destarea == AIM_CONTAINER ) {
+        if( dpane.container.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
+            popup_getkey( _( "Destination container can't be reloaded." ) );
+            return false;
+        }
         ret_val<void> can_contain = dpane.container->can_contain( *sitem->items.front() );
         if( can_contain.success() ) {
             can_contain = dpane.container.parents_can_contain_recursive( &*sitem->items.front() );
