@@ -69,10 +69,6 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
         prev_clip_rect = std::nullopt;
     }
 #endif
-    // The debug message might be shown during a normal UI's redraw callback,
-    // so we need to invalidate the frame buffer so it does not interfere
-    // with the display of the debug message.
-    reinitialize_framebuffer( true );
     ui_stack.emplace_back( *this );
 }
 
@@ -401,8 +397,6 @@ void ui_adaptor::redraw_invalidated( )
                     }
                 }
             }
-            // Callbacks may have changed window sizes; reinitialize the frame buffer.
-            reinitialize_framebuffer();
         }
 
         // Redraw invalidated UIs.

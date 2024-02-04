@@ -152,21 +152,11 @@ static int TERMINAL_HEIGHT;
 static bool fullscreen;
 static int scaling_factor;
 
-using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
-static std::vector<curseline> oversized_framebuffer;
-static std::vector<curseline> terminal_framebuffer;
-static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
-static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
-
-static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
-{
-    return lhs == rhs.get();
-}
 
 static void ClearScreen()
 {
@@ -328,17 +318,6 @@ static void WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
     }
 #endif
-    // Initialize framebuffer caches
-    terminal_framebuffer.resize( TERMINAL_HEIGHT );
-    for( int i = 0; i < TERMINAL_HEIGHT; i++ ) {
-        terminal_framebuffer[i].chars.assign( TERMINAL_WIDTH, cursecell( "" ) );
-    }
-
-    oversized_framebuffer.resize( TERMINAL_HEIGHT );
-    for( int i = 0; i < TERMINAL_HEIGHT; i++ ) {
-        oversized_framebuffer[i].chars.assign( TERMINAL_WIDTH, cursecell( "" ) );
-    }
-
     const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
     format.reset( SDL_AllocFormat( wformat ) );
     throwErrorIf( !format, "SDL_AllocFormat failed" );
@@ -591,103 +570,6 @@ static void try_sdl_update()
 void set_displaybuffer_rendertarget()
 {
     SetRenderTarget( renderer, display_buffer );
-}
-
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
-                                    int height )
-{
-    for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
-        std::fill_n( framebuffer[fby].chars.begin() + p.x, width, cursecell( "" ) );
-    }
-}
-
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
-{
-    for( curseline &i : framebuffer ) {
-        std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
-    }
-}
-
-void reinitialize_framebuffer( const bool force_invalidate )
-{
-    static int prev_height = -1;
-    static int prev_width = -1;
-    //Re-initialize the framebuffer with new values.
-    const int new_height = std::max( { TERMY, OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT } );
-    const int new_width = std::max( { TERMX, OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH } );
-    if( new_height != prev_height || new_width != prev_width ) {
-        prev_height = new_height;
-        prev_width = new_width;
-        oversized_framebuffer.resize( new_height );
-        for( int i = 0; i < new_height; i++ ) {
-            oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
-        }
-        terminal_framebuffer.resize( new_height );
-        for( int i = 0; i < new_height; i++ ) {
-            terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
-        }
-    } else if( force_invalidate || need_invalidate_framebuffers ) {
-        need_invalidate_framebuffers = false;
-        invalidate_framebuffer( oversized_framebuffer );
-        invalidate_framebuffer( terminal_framebuffer );
-    }
-}
-
-static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
-{
-    const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH,
-                                          TERRAIN_WINDOW_WIDTH ) );
-    const int oversized_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT,
-                                           TERRAIN_WINDOW_HEIGHT ) );
-
-    // check if the framebuffers/windows have been prepared yet
-    if( oversized_height == 0 || oversized_width == 0 ) {
-        return;
-    }
-    if( !g || win == nullptr ) {
-        return;
-    }
-    if( win == g->w_overmap || win == g->w_terrain ) {
-        return;
-    }
-
-    // track the dimensions for conversion
-    const point termpixel( win->pos.x * font->width, win->pos.y * font->height );
-    const int termpixel_x2 = termpixel.x + win->width * font->width - 1;
-    const int termpixel_y2 = termpixel.y + win->height * font->height - 1;
-
-    if( map_font != nullptr && map_font->width != 0 && map_font->height != 0 ) {
-        const point mapfont( termpixel.x / map_font->width, termpixel.y / map_font->height );
-        const int mapfont_x2 = std::min( termpixel_x2 / map_font->width, oversized_width - 1 );
-        const int mapfont_y2 = std::min( termpixel_y2 / map_font->height, oversized_height - 1 );
-        const int mapfont_width = mapfont_x2 - mapfont.x + 1;
-        const int mapfont_height = mapfont_y2 - mapfont.y + 1;
-        invalidate_framebuffer( oversized_framebuffer, mapfont, mapfont_width,
-                                mapfont_height );
-    }
-
-    if( overmap_font != nullptr && overmap_font->width != 0 && overmap_font->height != 0 ) {
-        const point overmapfont( termpixel.x / overmap_font->width, termpixel.y / overmap_font->height );
-        const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->width, oversized_width - 1 );
-        const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->height,
-                                             oversized_height - 1 );
-        const int overmapfont_width = overmapfont_x2 - overmapfont.x + 1;
-        const int overmapfont_height = overmapfont_y2 - overmapfont.y + 1;
-        invalidate_framebuffer( oversized_framebuffer, overmapfont,
-                                overmapfont_width,
-                                overmapfont_height );
-    }
-}
-
-// clear the framebuffer when werase is called on certain windows that don't use the main terminal font
-void cata_cursesport::handle_additional_window_clear( WINDOW *win )
-{
-    if( !g ) {
-        return;
-    }
-    if( win == g->w_terrain || win == g->w_overmap ) {
-        invalidate_framebuffer( oversized_framebuffer );
-    }
 }
 
 void clear_window_area( const catacurses::window &win_ )
@@ -1267,78 +1149,17 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                                   WindowHeight / scaling_factor );
     }
 
+    clear_window_area( w );
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
-    //Keeping track of the last drawn window
-    const cata_cursesport::WINDOW *winBuffer = static_cast<cata_cursesport::WINDOW *>
-            ( ::winBuffer.lock().get() );
-    if( !fontScaleBuffer ) {
-        fontScaleBuffer = tilecontext->get_tile_width();
-    }
-    const int fontScale = tilecontext->get_tile_width();
-    //This creates a problem when map_font is different from the regular font
-    //Specifically when showing the overmap
-    //And in some instances of screen change, i.e. inventory.
-    bool oldWinCompatible = false;
-
-    // clear the oversized buffer proportionally
-    invalidate_framebuffer_proportion( win );
-
-    // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap );
-
-    std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
-                                          terminal_framebuffer;
-
-    /*
-    Let's try to keep track of different windows.
-    A number of windows are coexisting on the screen, so don't have to interfere.
-
-    g->w_terrain, g->w_minimap, g->w_HP, g->w_status, g->w_status2, g->w_messages,
-     g->w_location, and g->w_minimap, can be buffered if either of them was
-     the previous window.
-
-    g->w_overmap and g->w_omlegend are likewise.
-
-    Everything else works on strict equality because there aren't yet IDs for some of them.
-    */
-    if( g && ( w == g->w_terrain || w == g->w_minimap ) ) {
-        if( winBuffer == g->w_terrain || winBuffer == g->w_minimap ) {
-            oldWinCompatible = true;
-        }
-    } else if( g && ( w == g->w_overmap || w == g->w_omlegend ) ) {
-        if( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
-            oldWinCompatible = true;
-        }
-    } else {
-        if( win == winBuffer ) {
-            oldWinCompatible = true;
-        }
-    }
 
     // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
-        if( !win->line[j].touched ) {
-            continue;
-        }
-
-        const int fby = win->pos.y + j;
-        if( fby >= static_cast<int>( framebuffer.size() ) ) {
-            // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
-            break;
-        }
-
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
-            const int fbx = win->pos.x + i;
-            if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
-                // prevent indexing outside the frame buffer. This might happen for some parts of the window.
-                break;
-            }
-
             const cursecell &cell = win->line[j].chars[i];
 
             const point draw( offset + point( i * font->width, j * font->height ) );
@@ -1347,23 +1168,16 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                 continue;
             }
 
-            // Avoid redrawing an unchanged tile by checking the framebuffer cache
-            // TODO: handle caching when drawing normal windows over graphical tiles
-            cursecell &oldcell = framebuffer[fby].chars[fbx];
-
-            if( oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer ) {
-                continue;
-            }
-            oldcell = cell;
-
             if( cell.ch.empty() ) {
                 continue; // second cell of a multi-cell character
             }
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                geometry->rect( renderer, draw, font->width, font->height,
-                                color_as_sdl( cell.BG ) );
+                if( cell.BG != catacurses::black ) {
+                    geometry->rect( renderer, draw, font->width, font->height,
+                                    color_as_sdl( cell.BG ) );
+                }
                 continue;
             }
             const int codepoint = UTF8_getch( cell.ch );
@@ -1427,9 +1241,6 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
         }
     }
     win->draw = false; //We drew the window, mark it as so
-    //Keeping track of last drawn window and tilemode zoom level
-    ::winBuffer = w.weak_ptr();
-    fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
 }
@@ -1527,9 +1338,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             prev_coord = coord;
             x_offset = width;
         }
-
-        invalidate_framebuffer( terminal_framebuffer, win->pos,
-                                TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
 
         update = true;
     } else if( g && w == g->w_terrain && map_font ) {
@@ -3530,7 +3338,6 @@ static void CheckMessages()
     // resizing already reinitializes the render target
     if( !resized && render_target_reset ) {
         throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-        reinitialize_framebuffer( true );
         needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
