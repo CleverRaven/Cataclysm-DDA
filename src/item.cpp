@@ -3284,17 +3284,21 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                iteminfo::lower_is_better | iteminfo::no_name,
                                loaded_mod->gun_recoil( player_character, true ) );
         }
+
+        if( parts->test( iteminfo_parts::GUN_RECOIL_THEORETICAL_MINIMUM ) ) {
+            info.back().bNewLine = true;
+            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better, loaded_mod->gun_recoil( player_character, true,
+                                       true ) );
+        }
+        if( parts->test( iteminfo_parts:: GUN_IDEAL_STRENGTH ) ) {
+            info.emplace_back( "GUN", "ideal_strength", _( " (when strength reaches: <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_base_weight() / 333.0_gram );
+        }
     }
     info.back().bNewLine = true;
-
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
-    if( std::any_of( fire_modes.begin(), fire_modes.end(),
-    []( const std::pair<gun_mode_id, gun_mode> &e ) {
-    return e.second.qty > 1 && !e.second.melee();
-    } ) ) {
-        info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
-    }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -10441,8 +10445,18 @@ damage_instance item::gun_damage( itype_id ammo ) const
 
     return ret;
 }
+units::mass item::gun_base_weight() const
+{
+    units::mass base_weight = type->weight;
+    for( const item *mod : gunmods() ) {
+        if( !mod->type->mod->ammo_modifier.empty() ) {
+            base_weight += mod->type->integral_weight;
+        }
+    }
+    return base_weight;
 
-int item::gun_recoil( const Character &p, bool bipod ) const
+}
+int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -10450,7 +10464,9 @@ int item::gun_recoil( const Character &p, bool bipod ) const
 
     ///\ARM_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
+    // now we need to add weight of receiver
+    double wt = ideal_strength ? gun_base_weight() / 333.0_gram : std::min( gun_base_weight(),
+                p.get_arm_str() * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {

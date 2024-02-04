@@ -335,8 +335,7 @@
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ],
-      { "group": "loose_chess_pieces", "prob": 3 }
+      [ "bondage_mask", 20 ]
     ]
   },
   {

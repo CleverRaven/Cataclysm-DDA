@@ -549,7 +549,6 @@
       { "item": "foodplace_zero_drink", "prob": 5, "container-item": "bottle_plastic" },
       { "item": "foodplace_zero_drink", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
-      { "item": "candycane", "prob": 1 },
       { "prob": 10, "group": "granola_bag_plastic_4" },
       { "prob": 80, "group": "cookies_box_snack_4" },
       { "prob": 10, "group": "tea_raw_bag_plastic_33" },
@@ -1029,8 +1028,7 @@
       { "group": "sandwiches", "prob": 75 },
       { "group": "lunchbox_fruit", "prob": 25 },
       { "item": "cheeseburger", "prob": 5 },
-      { "item": "hamburger", "prob": 5 },
-      { "item": "candycane", "prob": 1 }
+      { "item": "hamburger", "prob": 5 }
     ]
   },
   {

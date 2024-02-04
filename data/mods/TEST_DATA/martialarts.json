@@ -41,7 +41,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },

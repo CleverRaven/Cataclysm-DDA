@@ -287,9 +287,7 @@
       { "item": "holybook_sirach", "prob": 1 },
       { "item": "holybook_helliand", "prob": 1 },
       { "item": "holybook_biblechild_c", "prob": 25 },
-      { "item": "holybook_biblechild_p", "prob": 50 },
-      { "item": "holybook_odin", "prob": 10 },
-      { "item": "holybook_asatru", "prob": 10 }
+      { "item": "holybook_biblechild_p", "prob": 50 }
     ]
   },
   {
