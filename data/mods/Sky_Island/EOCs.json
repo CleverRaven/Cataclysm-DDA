@@ -310,10 +310,10 @@
     "effect": [
       { "math": [ "u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)" ] },
       { "math": [ "u_val('thirst')", "=", "min( u_val('thirst'), 800)" ] },
-      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
+      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
+      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "math": [ "u_vitamin('instability')", "=", "0" ] },
       { "math": [ "u_pain()", "=", "0" ] },
       { "math": [ "u_val('rad')", "=", "0" ] },
       { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
@@ -428,7 +428,7 @@
       {
         "u_message": "All difficulty settings set to default.  You can speak to the Heart of the Island to change these at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('15 minutes')" ] },
       { "math": [ "roomteleportselector", "=", "1" ] },
       { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
       { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
@@ -441,7 +441,7 @@
     "id": "EOC_difficulty0",
     "effect": [
       { "u_message": "Difficulty set to Casual.  You can speak to the Heart of the Island to change this at any time." },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('30 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -450,7 +450,7 @@
     "id": "EOC_difficulty1",
     "effect": [
       { "u_message": "Difficulty set to Normal.  You can speak to the Heart of the Island to change this at any time." },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('15 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -459,7 +459,7 @@
     "id": "EOC_difficulty2",
     "effect": [
       { "u_message": "Difficulty set to Hard.  You can speak to the Heart of the Island to change this at any time." },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "10 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('10 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -468,7 +468,7 @@
     "id": "EOC_difficulty3",
     "effect": [
       { "u_message": "Difficulty set to Impossible.  You can speak to the Heart of the Island to change this at any time." },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "5 m" } ] },
+      { "math": [ "sicknessintervals", "=", "time('5 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
