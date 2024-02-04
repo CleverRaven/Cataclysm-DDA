@@ -111,7 +111,7 @@
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 7 },
-      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_spot_weakness", "level": 7 },
       { "id": "clair_voyance", "level": 6 }
     ]
@@ -129,7 +129,7 @@
       { "id": "clair_night_vision", "level": 6 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 7 },
-      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_see_auras", "level": 8 },
       { "id": "clair_ranged_enhance", "level": 6 },
       { "id": "clair_spot_weakness", "level": 7 },
       { "id": "clair_voyance", "level": 8 },
@@ -290,8 +290,8 @@
       { "id": "pyrokinetic_flamethrower", "level": 9 },
       { "id": "pyrokinetic_thermogenesis", "level": 6 },
       { "id": "pyrokinetic_aura", "level": 6 },
-      { "id": "pyrokinetic_flame_immunity", " level": 7 },
-      { "id": "pyrokinetic_blast", " level": 5 }
+      { "id": "pyrokinetic_flame_immunity", "level": 7 },
+      { "id": "pyrokinetic_blast", "level": 5 }
     ]
   },
   {
