@@ -3148,49 +3148,53 @@ void monster::process_one_effect( effect &it, bool is_new )
                 //Apply multiplication first.
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
                     if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_acid, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_bash, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_BIO ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_bio, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_BULLET ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_bullet, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_COLD ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_cold, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_CUT ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_cut, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_ELEC ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_electric, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_HEAT ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_heat, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_STAB ) {
-
+                        enchantment_effects.armor_mod_mult.set_resist(damage_stab, pair_values.second.constant());
                     }
                 }
                 //Then addition
-                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
-                    if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BIO ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BULLET ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_COLD ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_CUT ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ELEC ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_HEAT ) {
-
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_STAB ) {
-
+                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_add ) {
+                    if (pair_values.first == enchant_vals::mod::ARMOR_ACID) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_acid, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_BASH) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_bash, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_BIO) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_bio, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_BULLET) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_bullet, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_COLD) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_cold, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_CUT) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_cut, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_ELEC) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_electric, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_HEAT) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_heat, pair_values.second.constant());
+                    }
+                    else if (pair_values.first == enchant_vals::mod::ARMOR_STAB) {
+                        enchantment_effects.armor_mod_abs.set_resist(damage_stab, pair_values.second.constant());
                     }
                 }
             }
