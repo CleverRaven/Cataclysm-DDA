@@ -104,7 +104,7 @@
     "copy-from": "mc_broadsword",
     "type": "TOOL",
     "name": { "str": "megachette (extended)", "str_pl": "megachettes (extended)" },
-    "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  Can be folded more than it make sense.",
+    "description": "A completely flat, single-edged blade.  While very visually appealing, it is no less deadly.  It can be folded more times than makes sense.",
     "replace_materials": { "mc_steel": "steel", "leather": "steel" },
     "use_action": {
       "menu_text": "Fold",
@@ -128,7 +128,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "\"Neon Angle\" (off)", "str_pl": "\"Neon Angles\" (off)" },
-    "description": "Light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle that emits 28000 centrigrade of heat on demand.  Probably violate dozens of OSHA regulations.",
+    "description": "A light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle, emitting 28000 centrigrades of heat on demand.  This probably violates dozens of OSHA regulations.",
     "weight": "1883 g",
     "volume": "2221 ml",
     "longest_side": "100 cm",
@@ -144,7 +144,7 @@
       "active": true,
       "type": "transform",
       "need_charges": 1,
-      "need_charges_msg": "\"Neon Angle\" battery is dead."
+      "need_charges_msg": "The \"Neon Angle\" battery is dead."
     },
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP", "PLASMA_AXE_WIDE" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "MUNDANE", "INVENTOR_CRAFTED" ],
@@ -165,7 +165,7 @@
     "copy-from": "inventor_plasma_axe_off",
     "type": "TOOL",
     "name": { "str": "\"Neon Angle\" (on)", "str_pl": "\"Neon Angles\" (on)" },
-    "description": "Light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle that emits 28000 centrigrade of heat on demand.  Probably violate dozens of OSHA regulations.",
+    "description": "A light, hollow aluminum bar with an installed plasma torch on the end in the form of a circle, emitting 28000 centrigrades of heat on demand.  This probably violates dozens of OSHA regulations.",
     "melee_damage": { "bash": 8, "heat": 46 },
     "power_draw": "900 W",
     "revert_to": "inventor_plasma_axe_off",
