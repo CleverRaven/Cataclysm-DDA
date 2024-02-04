@@ -132,7 +132,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_WALL",
-    "name": { "str": "Forest Shelter" },
+    "name": { "str": "The Forest Offers Shelter" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
@@ -194,7 +194,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
-    "name": { "str": "Summon the Children of the Boughs" },
+    "name": { "str": "Call the Children of the Roots" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,

@@ -506,7 +506,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+                "min( ( ( ( ( u_spell_level('biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
           }
@@ -1038,6 +1038,16 @@
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
     "enchantments": [ "enchant_electrokin_electric_strikes" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1818,6 +1828,43 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "flags": [ "BLEEDSLOW2" ]
   },
   {
     "type": "effect_type",

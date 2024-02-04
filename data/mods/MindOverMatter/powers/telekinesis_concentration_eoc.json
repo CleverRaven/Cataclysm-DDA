@@ -38,6 +38,8 @@
     "condition": { "u_has_effect": "effect_telekinetic_momentum" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
@@ -96,6 +98,8 @@
     "condition": { "u_has_effect": "effect_telekinetic_strength" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
@@ -267,6 +271,8 @@
     "condition": { "u_has_effect": "effect_telekinetic_vehicle_lift" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
@@ -328,6 +334,8 @@
     "condition": { "u_has_effect": "effect_telekinetic_levitation" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_seven", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(7)" ] },
+      { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",

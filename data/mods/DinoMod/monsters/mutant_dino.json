@@ -70,7 +70,7 @@
     "hp": 200,
     "melee_dice": 4,
     "description": "A bulky, beaked dinosaur with hooved front legs and two heads.  The four eyes are wide and rolling.",
-    "upgrades": {  },
+    "upgrades": false,
     "harvest": "mutant_bird_flightless"
   }
 ]

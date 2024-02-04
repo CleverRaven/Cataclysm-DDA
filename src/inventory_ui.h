@@ -6,11 +6,9 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -20,25 +18,22 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "input.h"
+#include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "map.h"
-#include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
-#include "units.h"
 #include "units_fwd.h"
 
+class basecamp;
 class Character;
 class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
+class tinymap;
 class ui_adaptor;
-struct point;
-struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -56,7 +51,6 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
-struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;

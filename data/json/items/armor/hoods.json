@@ -54,7 +54,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail coif" },
-    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.",
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": "1315 g",
     "volume": "500 ml",
     "price": 5012,
@@ -81,7 +81,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "XL mild steel chainmail coif" },
-    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -89,9 +88,7 @@
     "id": "xs_lc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
-    "looks_like": "lc_chainmail_hood",
     "name": { "str": "XS mild steel chainmail coif" },
-    "description": "A customized mild steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -100,7 +97,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "medium steel chainmail coif" },
-    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.",
     "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -108,7 +104,6 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_hood",
     "name": { "str": "XL medium steel chainmail coif" },
-    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -116,9 +111,7 @@
     "id": "xs_mc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_hood",
-    "looks_like": "mc_chainmail_hood",
     "name": { "str": "XS medium steel chainmail coif" },
-    "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -127,7 +120,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "high steel chainmail coif" },
-    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.",
     "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -135,7 +127,6 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hood",
     "name": { "str": "XL high steel chainmail coif" },
-    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -143,9 +134,7 @@
     "id": "xs_hc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hood",
-    "looks_like": "hc_chainmail_hood",
     "name": { "str": "XS high steel chainmail coif" },
-    "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -154,7 +143,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "hardened steel chainmail coif" },
-    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.",
     "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -162,7 +150,6 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hood",
     "name": { "str": "XL hardened steel chainmail coif" },
-    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -170,9 +157,7 @@
     "id": "xs_ch_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hood",
-    "looks_like": "ch_chainmail_hood",
     "name": { "str": "XS hardened steel chainmail coif" },
-    "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -181,7 +166,6 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
     "name": { "str": "tempered steel chainmail coif" },
-    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.",
     "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -189,7 +173,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hood",
     "name": { "str": "XL tempered steel chainmail coif" },
-    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -197,9 +180,7 @@
     "id": "xs_qt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hood",
-    "looks_like": "qt_chainmail_hood",
     "name": { "str": "XS tempered steel chainmail coif" },
-    "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

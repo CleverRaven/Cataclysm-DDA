@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -29,10 +28,9 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
-#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"

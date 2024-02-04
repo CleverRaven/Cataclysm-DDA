@@ -97,6 +97,7 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
@@ -348,7 +349,7 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
 
@@ -476,7 +477,7 @@ bool Creature::sees( const Creature &critter ) const
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
-    if( !fov_3d && posz() != t.z ) {
+    if( std::abs( posz() - t.z ) > fov_3d_z_range ) {
         return false;
     }
 
@@ -917,7 +918,8 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     if( proj_effects.count( "APPLY_SAP" ) ) {
         target.add_effect( effect_source( source ), effect_sap, 1_turns * dealt_dam.total_damage() );
     }
-    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 &&
+        !dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
         target.add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         target.add_effect( effect_source( source ), effect_paralyzepoison, 5_minutes );
     }
@@ -1235,7 +1237,9 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         // Only deal more HP than remains if damage not including crit multipliers is higher.
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
-    mod_pain( total_pain );
+    if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+        mod_pain( total_pain );
+    }
 
     apply_damage( source, bp, total_damage );
 
@@ -1370,7 +1374,7 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     if( player.has_trait( trait_DEBUG_CLOAK ) ) {
         return false;
     }
-    if( !fov_3d && posz() != player.posz() ) {
+    if( this == &player || !is_adjacent( &player, true ) ) {
         return false;
     }
     if( stumblemsg ) {
@@ -2993,6 +2997,11 @@ std::unordered_map<std::string, std::string> &Creature::get_values()
     return values;
 }
 
+bodypart_id Creature::get_max_hitsize_bodypart() const
+{
+    return anatomy( get_all_body_parts() ).get_max_hitsize_bodypart();
+}
+
 bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attack_high,
                                         int hit_roll ) const
 {
@@ -3149,12 +3158,6 @@ void Creature::add_msg_player_or_npc( const game_message_params &params, const t
                                       const translation &npc ) const
 {
     return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
-}
-
-void Creature::add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &pc,
-        const translation &npc ) const
-{
-    return add_msg_debug_player_or_npc( type, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const

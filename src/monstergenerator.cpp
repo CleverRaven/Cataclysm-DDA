@@ -819,6 +819,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
     }
+    if( was_loaded && jo.has_object( "extend" ) ) {
+        JsonObject ext = jo.get_object( "extend" );
+        ext.allow_omitted_members();
+        if( ext.has_object( "armor" ) ) {
+            armor = extend_resistances_instance( armor, ext.get_object( "armor" ) );
+        }
+    }
     armor_proportional.reset();
     if( jo.has_object( "proportional" ) ) {
         JsonObject jprop = jo.get_object( "proportional" );
@@ -1141,9 +1148,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
-                  mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
+        if( up.has_string( "into_group" ) ) {
+            if( up.has_string( "into" ) ) {
+                jo.throw_error_at( "upgrades", "Cannot specify both into_group and into." );
+            }
+            mandatory( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {} );
+            upgrade_into = mtype_id::NULL_ID();
+        } else if( up.has_string( "into" ) ) {
+            mandatory( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {} );
+            upgrade_group = mongroup_id::NULL_ID();
+        }
         bool multi = !!upgrade_multi_range;
         optional( up, was_loaded, "multiple_spawns", multi, false );
         if( multi && jo.has_bool( "multiple_spawns" ) ) {

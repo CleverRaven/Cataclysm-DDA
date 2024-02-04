@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "cold_snap",
     "name": "Cold Snap",
-    "description": "With a snap of your fingers, a target takes cold damage and freezes in place.",
+    "description": "With a snap of your fingers, the target takes cold damage and freezes in place.",
     "effect": "attack",
     "shape": "blast",
     "damage_type": "cold",

@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -671,19 +672,15 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 ret_val<void> profession::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
-        const achievement_completion_info *other_games = get_past_games().achievement(
-                    _requirement.value()->id );
-        if( !other_games ) {
-            return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                       _requirement.value()->name() );
-        } else if( other_games->games_completed.empty() ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        if( !has_req ) {
             return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this profession." ),
                        _requirement.value()->name() );

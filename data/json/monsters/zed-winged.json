@@ -183,7 +183,7 @@
     "copy-from": "mon_spawn_raptor",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of three flapping wings connected to a jagged, pointed object.",
-    "upgrades": {  },
+    "upgrades": false,
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 10,
     "vision_night": 25,
@@ -206,7 +206,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s explodes!"
     },
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -225,7 +225,7 @@
       { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] }
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": {  },
+    "upgrades": false,
     "extend": { "flags": [ "ELECTRIC" ] }
   }
 ]

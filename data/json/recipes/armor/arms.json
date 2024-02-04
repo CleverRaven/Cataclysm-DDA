@@ -285,7 +285,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "xs_armguard_metal",
@@ -339,7 +339,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_metal_sheets_elbows",
@@ -374,7 +374,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_metal_sheets_shoulders",
@@ -409,7 +409,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_paper",
@@ -998,11 +998,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1024,11 +1020,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_lc_armguard",
@@ -1211,11 +1203,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1237,11 +1225,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_lc_heavyarmguard",
@@ -1424,11 +1408,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1450,7 +1430,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armguard_lc_brigandine",
@@ -1470,7 +1450,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1493,7 +1473,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_lc_brigandine_xs",
@@ -1510,7 +1490,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_mc_brigandine",
@@ -1530,7 +1510,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1553,7 +1533,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_mc_brigandine_xs",
@@ -1570,7 +1550,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_hc_brigandine",
@@ -1590,7 +1570,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1613,7 +1593,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_hc_brigandine_xs",
@@ -1630,7 +1610,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_ch_brigandine",
@@ -1651,7 +1631,7 @@
       [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1676,7 +1656,7 @@
       [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_ch_brigandine_xs",
@@ -1694,7 +1674,7 @@
       [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armguard_qt_brigandine",
@@ -1714,7 +1694,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1738,11 +1718,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armguard_qt_brigandine_xs",
@@ -1759,11 +1735,7 @@
       [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "lc_elbow_guards",
@@ -1777,7 +1749,7 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1795,7 +1767,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "lc_elbow_guards_xs",
@@ -1806,7 +1778,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "mc_elbow_guards",
@@ -1820,7 +1792,7 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1838,7 +1810,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "mc_elbow_guards_xs",
@@ -1849,7 +1821,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "hc_elbow_guards",
@@ -1863,7 +1835,7 @@
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1881,7 +1853,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "hc_elbow_guards_xs",
@@ -1892,7 +1864,7 @@
     "time": "4 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "ch_elbow_guards",
@@ -1906,7 +1878,7 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1925,7 +1897,7 @@
     "time": "8 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "ch_elbow_guards_xs",
@@ -1936,7 +1908,7 @@
     "time": "8 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "qt_elbow_guards",
@@ -1950,7 +1922,7 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -1969,7 +1941,7 @@
     "time": "20 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "qt_elbow_guards_xs",
@@ -1980,11 +1952,7 @@
     "time": "20 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "lc_vambrace_brigandine",
@@ -2004,7 +1972,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -2027,7 +1995,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "xs_lc_vambrace_brigandine",
@@ -2044,7 +2012,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "mc_vambrace_brigandine",
@@ -2064,7 +2032,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -2087,7 +2055,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "xs_mc_vambrace_brigandine",
@@ -2104,7 +2072,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "hc_vambrace_brigandine",
@@ -2124,7 +2092,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -2147,7 +2115,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "xs_hc_vambrace_brigandine",
@@ -2164,7 +2132,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "ch_vambrace_brigandine",
@@ -2185,7 +2153,7 @@
       [ "carbon", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -2210,7 +2178,7 @@
       [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "xs_ch_vambrace_brigandine",
@@ -2228,7 +2196,7 @@
       [ "carbon", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "qt_vambrace_brigandine",
@@ -2248,7 +2216,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -2272,11 +2240,7 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "xs_qt_vambrace_brigandine",
@@ -2293,10 +2257,6 @@
       [ "strap_small", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   }
 ]

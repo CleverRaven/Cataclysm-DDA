@@ -8,5 +8,16 @@
         "text": "So I just got a message from our lead wizard liaison Jacob.  He's pretty out of it and has been blubbering for hours, but it seems like all of the central labs have been overrun.  Have the necromancers finally banded together to take us out?  What's their plan?"
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_psych",
+    "text": [
+      {
+        "id": "lab_file_psych_magiclysm_1",
+        "name": "Memo to All Staff",
+        "text": "Colleagues,\nThe use of animist magic in a therapeutic setting is a well-known part of a comprehensive treatment plan and has been for the better part of century.  Despite the unfortunate reputation that some animists are branded with, and despite the recent cases of spontaneous reanimation, animists are not and have never been merely necromancers.  As magi deal with the physical world, so do animists deal with the spiritual one, including our inner selves.  Rest assured that we are strictly adhering to proper treatment protocols that have been proven effective in clinical settings.  The health and safety of all XEDRA employees is our primary concern."
+      }
+    ]
   }
 ]

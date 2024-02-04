@@ -9,18 +9,18 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "inventory.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
-#include "iteminfo_query.h"
+#include "item_tname.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "localized_comparator.h"
@@ -88,8 +89,8 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
-                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
+                                          remove_color_tags( it->tname( 1, true ) ) } )
                .first->second;
     }
 
@@ -1660,15 +1661,18 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const std::string &denial = *entry.denial;
 
         if( !denial.empty() ) {
+            // Determine the width available for the first cell to print, then use that to trim the denial
+            const size_t first_cell_width = std::min( get_entry_cell_width( entry, 0 ),
+                                            x2 + cells[0].current_width - min_denial_gap );
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
-                                            get_entry_cell_width( entry, 0 ) ) ), 0 );
+                                            first_cell_width ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                                denial_width,
-                                c_red, denial );
+                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
+                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
+                             c_red ) ) : denial, denial_width ) );
             }
         }
 
@@ -1969,8 +1973,10 @@ bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
         }
     }
     if( !any_containable ) {
+        tname::segment_bitset segs( tname::unprefixed_tname );
+        segs.set( tname::segments::CONTENTS, false );
         popup( string_format( _( "%s contains no pockets that can contain item." ),
-                              destItem->tname( 1, false, 0, false, false, false ) ) );
+                              destItem->tname( 1, segs ) ) );
         return false;
     }
     action_menu.query();
@@ -2894,7 +2900,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), ent.front()->get_available_count() };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
         }
     }
 
@@ -3290,7 +3296,7 @@ item_location inventory_pick_selector::execute()
                         return input.entry->any_item();
                     }
                 }
-            } else if( input.action == "ANY_INPUT" ) {
+            } else if( input.action != "MOUSE_MOVE" && input.action != "COORDINATE" ) {
                 return input.entry->any_item();
             } else {
                 if( !dragActive && highlight( input.entry->any_item() ) ) {
@@ -3501,6 +3507,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
     ctxt.register_action( "DECREASE_COUNT" );
 
     max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
+    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -3590,7 +3597,26 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
-    if( selected.empty() || !selected.front()->is_selectable() ) {
+    // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
+    inventory_entry &highlighted_entry = get_active_column().get_highlighted();
+    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+        cata_assert( highlighted_entry.denial.has_value() );
+        const std::string &denial = *highlighted_entry.denial;
+
+        if( !denial.empty() ) {
+            const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
+                                          + colorize( denial, c_red );
+            query_popup()
+            .message( "%s", assembled )
+            .option( "QUIT" )
+            .query();
+        }
+        count = 0;
+        return;
+    }
+
+    // Deal with anything else that can't be selected
+    if( selected.empty() ) {
         count = 0;
         return;
     }
@@ -4475,7 +4501,6 @@ trade_selector::trade_selector( trade_ui *parent, Character &u,
     ctxt.register_action( ACTION_BANKBALANCE );
     resize( size, origin );
     _ui = create_or_get_ui_adaptor();
-    set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 }
 
 trade_selector::select_t trade_selector::to_trade() const

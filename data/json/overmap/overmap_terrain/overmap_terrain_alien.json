@@ -46,12 +46,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "slimepit_bottom", "slimepit_top" ],
+    "id": [ "slimepit_bottom" ],
     "name": "slime pit",
     "sym": "~",
     "color": "light_green",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "slimepit_top" ],
+    "copy-from": "slimepit_bottom",
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

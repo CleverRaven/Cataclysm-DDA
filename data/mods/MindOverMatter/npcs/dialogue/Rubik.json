@@ -43,7 +43,7 @@
       {
         "text": "[Telepathy 10+] *Go deeper*.",
         "topic": "TALK_EXODII_MERCHANT_deep_scan",
-        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "10" ] }
+        "condition": { "math": [ "u_school_level('TELEPATH')", ">=", "10" ] }
       }
     ]
   },

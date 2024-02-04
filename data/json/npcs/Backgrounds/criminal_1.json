@@ -5,7 +5,7 @@
     "dynamic_line": "I was just sittin' in lockup.  They took me in the night before, for a bullshit parole violation.  Assholes.  I was stuck in my cell when the cops all started yelling about an emergency, geared up, and left me in there havin' a <swear> staring contest with a security cam that probably wasn't even on.  I was stuck in there for two god-damn days, with no food and only a little water.  Then this big-ass zombie busted in.  I didn't know what the fuck to think, but if my cam wasn't working, the one in the hall sure was.  Tripped a motion sensor or some shit, alarm started going, and the big dumb fuck turned around to get at it while its arms were still stuck in the cell bars.  Ripped the whole door out.",
     "responses": [
       { "text": "Lucky you.  How did you get away?", "topic": "BGSS_CRIMINAL_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -16,7 +16,7 @@
     "responses": [
       { "text": "How did you keep from getting arrested?", "topic": "BGSS_CRIMINAL_1_STORY3" },
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -26,7 +26,7 @@
     "dynamic_line": "'cuz I know how cops think.  If you can call it that.  Early days, they were still going after alarms in case it meant, I dunno, survivors.  You smack some fucker's sports car, it starts wailing, the cops come to take a look and you can walk right behind 'em.  That's the thing about cops; they follow orders, right?  Even when the world's comin' apart.  I kept my head down until I got past the worst of it, but then, lucky me, I got sergeant brainiac.  Figured out why someone would trip an alarm on purpose, had them case all up and down the streets for me.  I wound up on the edge of town layin' low under an abandoned RV for a few hours.  By then… well, they had some other big problems to deal with.  For a little bit.  Might've survived if they hadn't blown their wads chasing me around the block.",
     "responses": [
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -36,7 +36,7 @@
     "dynamic_line": "Bullshit, that's what.  The assholes busted me on possession, wasn't even my fuckin' stash.  I don't do crack, man, that shit's nasty, I was just carryin' it for my buddy Johnny.  Y'know, this might be a <swear> hellhole now, but if I've seen the last power-trippin' asshole cop, it might all be worth it.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

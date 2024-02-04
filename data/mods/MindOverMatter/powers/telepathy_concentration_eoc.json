@@ -38,6 +38,8 @@
     "condition": { "u_has_effect": "effect_telepathic_learning_bonus" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
@@ -224,6 +226,8 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "u_add_morale": "morale_telepathy",
         "bonus": 10,

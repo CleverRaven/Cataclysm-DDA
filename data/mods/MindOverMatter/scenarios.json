@@ -1,5 +1,11 @@
 [
   {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "map_special": "mx_helicopter", "professions": [ "psi_telekinetic_testsubject", "psi_telepath_interrogater" ] },
+    "id": "heli_crash"
+  },
+  {
     "copy-from": "portal_dependent",
     "type": "scenario",
     "extend": { "professions": [ "psi_new_psychic", "psi_telekinetic_testsubject", "psi_teleporter_slider" ] },
