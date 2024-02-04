@@ -2896,7 +2896,7 @@ bool mattack::stare( monster *z )
         if( player_character.has_effect( effect_drunk ) &&
             ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
             add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
-            player_character.add_effect( effect_stunned, 2_seconds );
+            player_character.add_effect( effect_stunned, 4_seconds );
             return true;
         }
         if( player_character.sees( *z ) ) {
