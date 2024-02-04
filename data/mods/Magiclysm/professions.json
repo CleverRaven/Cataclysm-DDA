@@ -359,7 +359,11 @@
     "id": "ranger",
     "name": "Introspectionist",
     "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
-    "spells": [ { "id": "magic_missile", "level": 4 }, { "id": "classless_watch_spell", "level": 2 } ],
+    "spells": [
+      { "id": "magic_missile", "level": 4 },
+      { "id": "classless_watch_spell", "level": 2 },
+      { "id": "magus_far_hand_pull", "level": 3 }
+    ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "MAGUS" ],
@@ -645,6 +649,7 @@
       { "id": "magus_force_jar", "level": 3 },
       { "id": "magus_haste", "level": 2 },
       { "id": "cats_grace", "level": 1 },
+      { "id": "magus_far_hand_pull", "level": 5 },
       { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "MAGUS" ],

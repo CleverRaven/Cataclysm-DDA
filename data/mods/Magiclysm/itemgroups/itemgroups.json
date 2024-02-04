@@ -996,7 +996,8 @@
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
           { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
-          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 }
+          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
+          { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
         "prob": 45
       },

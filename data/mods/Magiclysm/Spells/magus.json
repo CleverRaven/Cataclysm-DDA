@@ -591,10 +591,36 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_UNDINE_WATER_PUSH_AWAY",
+    "id": "EOC_MAGUS_STOP_ATTACK_SHIELD",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "u_has_effect": "effect_magus_mageshield" },
     "effect": [ { "u_lose_effect": "effect_magus_mageshield" } ]
+  },
+  {
+    "id": "magus_far_hand_pull",
+    "type": "SPELL",
+    "name": "Sorcerer's Hand",
+    "description": "Pull a target or set of items to you.",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "difficulty": 2,
+    "max_level": 10,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": -1,
+    "max_damage": -10,
+    "damage_increment": -1,
+    "min_range": 1,
+    "max_range": 10,
+    "range_increment": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "final_energy_cost": 100,
+    "energy_increment": -10,
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -10
   }
 ]
