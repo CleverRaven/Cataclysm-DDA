@@ -227,7 +227,7 @@
     "id": "late_photokinetic",
     "name": "Ascended Photokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Many times a horde has passed within sight of you and simply never noticed you, and the few times they did, you just created illusions of yourself and all ran different directions.  The few stragglers were easy to sear to ash with focused light.",
-    "points": 7,
+    "points": 11,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
@@ -252,6 +252,47 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie to ash while scavenging in a ruined house.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
     "points": 5,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_pyrokinetic",
+    "name": "Arising Pyrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You don't even know how many zombies you've burned at this point, and keeping warm in winter certainly won't be a problem.",
+    "points": 7,
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "pyrokinetic_flash", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_call_flames", "level": 8 },
+      { "id": "pyrokinetic_quell_flames", "level": 5 },
+      { "id": "pyrokinetic_cloak", "level": 6 },
+      { "id": "pyrokinetic_flamethrower", "level": 6 },
+      { "id": "pyrokinetic_thermogenesis", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_pyrokinetic",
+    "name": "Ascended Pyrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
+    "points": 7,
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "pyrokinetic_flash", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_call_flames", "level": 8 },
+      { "id": "pyrokinetic_quell_flames", "level": 9 },
+      { "id": "pyrokinetic_cloak", "level": 8 },
+      { "id": "pyrokinetic_flamethrower", "level": 9 },
+      { "id": "pyrokinetic_thermogenesis", "level": 6 },
+      { "id": "pyrokinetic_aura", "level": 6 },
+      { "id": "pyrokinetic_flame_immunity", " level": 7 },
+      { "id": "pyrokinetic_blast", " level": 5 }
+    ]
   },
   {
     "type": "profession",
