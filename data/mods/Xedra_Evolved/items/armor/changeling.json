@@ -84,8 +84,8 @@
   {
     "id": "banner_thunderous_rush",
     "type": "ARMOR",
-    "name": { "str": "banner of thunderous rush", "str_pl": "banners of starry wisdom" },
-    "description": "A back mounted flag identifying the loyalties of troops. The heraldry on this banner is of lightning striking a tower that is falling.",
+    "name": { "str": "banner of thunderous rush", "str_pl": "banners of thunderous rush" },
+    "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of lightning striking a tower that is falling.",
     "weight": "633 g",
     "volume": "2 L",
     "price": 3900,
