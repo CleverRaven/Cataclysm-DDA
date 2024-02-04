@@ -1749,5 +1749,30 @@
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
     },
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "item_kelvinist_frozen_heart",
+    "type": "ARMOR",
+    "name": "Rime-Frozen Heart",
+    "description": "You don't feel anything.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "PADDED",
+      "INTEGRATED"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
   }
 ]

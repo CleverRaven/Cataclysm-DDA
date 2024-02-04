@@ -1869,5 +1869,14 @@
     "name": { "str": "Scroll of Traverse the Wilds", "str_pl": "Scrolls of Traverse the Wilds" },
     "description": "A favored spell of those hiking the Appalachian Trail, this spell increases your speed in the wilderness.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_traverse_the_wilds" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_no_emotion_spell",
+    "//": "Kevlinist spell",
+    "name": { "str": "Scroll of the Rime-Frozen Heart", "str_pl": "Scrolls of Rime-Frozen Heart" },
+    "description": "Highly-restricted before the Cataclysm, this spell prevents you from feeling any emotion for the duration.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_no_emotion_spell" ] }
   }
 ]

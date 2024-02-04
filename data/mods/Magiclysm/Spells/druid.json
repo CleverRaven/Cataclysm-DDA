@@ -1146,7 +1146,7 @@
     "max_duration": 900000,
     "duration_increment": 54000,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
+    "base_energy_cost": 200,
     "base_casting_time": 6000
   },
   {
@@ -1268,7 +1268,7 @@
     "effect": "attack",
     "effect_str": "EOC_DRUID_TRAVERSE_THE_WILDS",
     "shape": "blast",
-    "difficulty": 2,
+    "difficulty": 3,
     "max_level": 15,
     "min_duration": 90000,
     "max_duration": 1440000,
