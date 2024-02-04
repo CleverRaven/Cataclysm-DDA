@@ -573,7 +573,6 @@ class monster : public Creature
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
         //monster enchantment effects struct
-        monster_enchant_effects enchantment_effects = monster_enchant_effects();
         short ignoring = 0;
         bool aggro_character = true;
 
@@ -597,7 +596,7 @@ class monster : public Creature
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( item &itm );
-
+        pimpl<enchant_cache> enchantment_cache;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */

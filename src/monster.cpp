@@ -3147,56 +3147,11 @@ void monster::process_one_effect( effect &it, bool is_new )
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
                 //Apply multiplication first.
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
-                    //this is wrong and will overwrite previously set enchantment resists.
-                    if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_acid, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_bash, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BIO ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_bio, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_BULLET ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_bullet, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_COLD ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_cold, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_CUT ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_cut, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_ELEC ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_electric, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_HEAT ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_heat, pair_values.second.constant());
-                    } else if( pair_values.first == enchant_vals::mod::ARMOR_STAB ) {
-                        enchantment_effects.armor_mod_mult.set_resist(damage_stab, pair_values.second.constant());
-                    }
+                    enchantment_cache->add_value_mult(pair_values.first, pair_values.second.constant());
                 }
                 //Then addition
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_add ) {
-                    if (pair_values.first == enchant_vals::mod::ARMOR_ACID) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_acid, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_BASH) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_bash, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_BIO) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_bio, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_BULLET) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_bullet, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_COLD) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_cold, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_CUT) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_cut, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_ELEC) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_electric, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_HEAT) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_heat, pair_values.second.constant());
-                    }
-                    else if (pair_values.first == enchant_vals::mod::ARMOR_STAB) {
-                        enchantment_effects.armor_mod_abs.set_resist(damage_stab, pair_values.second.constant());
-                    }
+                    enchantment_cache->add_value_add(pair_values.first, pair_values.second.constant());
                 }
             }
         }
