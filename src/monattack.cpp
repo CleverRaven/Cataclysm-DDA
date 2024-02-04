@@ -143,7 +143,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_took_thorazine( "took thorazine" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
