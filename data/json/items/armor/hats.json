@@ -26,26 +26,6 @@
     ]
   },
   {
-    "id": "hat_floppy",
-    "type": "ARMOR",
-    "name": { "str": "floppy hat" },
-    "description": "A type of sun hat with a lightweight build and a wide brim that helps keep the sun out of your eyes, face, neck and shoulders.",
-    "material": "cotton",
-    "weight": "250 g",
-    "volume": "1000 ml",
-    "copy-from": "10gal_hat"
-  },
-  {
-    "id": "hat_cart",
-    "type": "ARMOR",
-    "name": { "str": "cartwheel hat" },
-    "description": "A type of sun hat with a flat, circular crown and an oversized brim that extends outward from the head, creating a striking silhouette.",
-    "material": "cotton",
-    "weight": "270 g",
-    "volume": "1150 ml",
-    "copy-from": "10gal_hat"
-  },
-  {
     "id": "bandana_head",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -68,38 +48,6 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "neckwarmer_head",
-    "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "name": { "str": "head neckwarmer" },
-    "description": "A synthetic fabric neckwarmer, worn over the head.",
-    "weight": "50 g",
-    "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 10,
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust the %s to cover your mouth and neck.",
-      "target": "neckwarmer",
-      "menu_text": "Cover mouth"
-    },
-    "material": [ "nylon" ],
-    "symbol": "[",
-    "looks_like": "scarf",
-    "color": "blue",
-    "warmth": 8,
-    "material_thickness": 0.2,
-    "environmental_protection": 2,
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -160,40 +108,6 @@
     ]
   },
   {
-    "id": "plumber_cap",
-    "type": "ARMOR",
-    "name": { "str": "plumber cap" },
-    "description": "The base item for the plumber's cap several variants.  It is a error if you found it naturally.",
-    "copy-from": "hat_ball",
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "plumber_cap_red",
-        "name": { "str": "red plumber cap" },
-        "description": "A soft red cap featuring a white circle in the center, with a prominent red “M” in the middle.  It shields your face from the sun.",
-        "weight": 1
-      },
-      {
-        "id": "plumber_cap_green",
-        "name": { "str_sp": "green plumber cap" },
-        "description": "A soft green cap featuring a white circle in the center, with a prominent green “L” in the middle.  It shields your face from the sun.",
-        "append": true
-      },
-      {
-        "id": "plumber_cap_yellow",
-        "name": { "str_sp": "yellow plumber cap" },
-        "description": "A soft yellow cap featuring a somewhat small white circle in the center, with a prominent navy blue “W” in the middle that oversizes the circle.  It shields your face from the sun.",
-        "append": true
-      },
-      {
-        "id": "plumber_cap_purple",
-        "name": { "str_sp": "purple plumber cap" },
-        "description": "A soft purple cap featuring a white circle in the center, with a prominent yellow “Γ” in the middle.  It shields your face from the sun.",
-        "append": true
-      }
-    ]
-  },
-  {
     "id": "bowhat",
     "type": "ARMOR",
     "name": { "str": "bowler hat" },
@@ -216,53 +130,6 @@
         "coverage": 100,
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "fascinator",
-    "type": "ARMOR",
-    "name": { "str": "fascinator hat" },
-    "description": "A small, decorative headpiece comprised of a modest, practically invisible headband and a small black hat adorned with false feathers or plastic flowers.",
-    "weight": "150 g",
-    "volume": "150 ml",
-    "price": 4500,
-    "price_postapoc": 50,
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "dark_gray",
-    "warmth": 1,
-    "material_thickness": 0.1,
-    "environmental_protection": 0,
-    "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
-    ]
-  },
-  {
-    "id": "deerstalker",
-    "type": "ARMOR",
-    "name": { "str": "deerstalker hat" },
-    "description": "A characteristic hat made of wool, with a checkered pattern and earflaps that can be tied on top of the hat or left hanging down.  The best hat, for the best of the post-apocalypse deer stalkers, or detectives.",
-    "weight": "205 g",
-    "volume": "1100 ml",
-    "price": 4500,
-    "price_postapoc": 50,
-    "material": [ "wool" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
       }
     ]
   },
@@ -377,13 +244,6 @@
     ]
   },
   {
-    "id": "fez",
-    "type": "ARMOR",
-    "name": { "str": "fez hat" },
-    "description": "A red, brimless, flat-topped headwear with a tassel on top.  Historically wore by various cultures and organizations thought history.",
-    "copy-from": "eboshi"
-  },
-  {
     "id": "hat_navy",
     "type": "ARMOR",
     "name": { "str": "eight point cap" },
@@ -462,360 +322,6 @@
     ]
   },
   {
-    "id": "hat_cloche",
-    "type": "ARMOR",
-    "name": { "str": "cloche hat" },
-    "description": "A typical bell-shaped hat usually wore by women (specially elderly ladies).  It is decorated with a pretty ribbon.",
-    "flags": [ "VARSIZE", "SUN_GLASSES", "FANCY" ],
-    "copy-from": "hat_boonie"
-  },
-  {
-    "id": "hat_bucket",
-    "type": "ARMOR",
-    "name": { "str": "bucket hat" },
-    "description": "A civilian, commercial-grade bucket hat.  Comfortable and somewhat stylish, it will keep the sun out of your eyes.",
-    "copy-from": "hat_boonie"
-  },
-  {
-    "id": "leather_hatball",
-    "repairs_like": "cowboy_hat",
-    "type": "ARMOR",
-    "name": { "str": "leather baseball cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A leather cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth, while also providing more protection from environmental cuts and scratches than its cloth counterpart.",
-    "weight": "128 g",
-    "volume": "500 ml",
-    "price": 3500,
-    "price_postapoc": 50,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "brown",
-    "warmth": 5,
-    "material_thickness": 0.1,
-    "environmental_protection": 3,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 50,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "vizor_hat",
-    "repairs_like": "balcrava",
-    "type": "ARMOR",
-    "name": { "str": "visor cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A crownless hat consisting simply of a visor with a adjustable strap encircling the head.  The top of the head is not covered and the visor protects the face, including eyes, nose, and cheeks, from the sun.  Popular amongst tennis players and joggers because it is very fresh, perfect to use in the summer!",
-    "weight": "76 g",
-    "volume": "345 ml",
-    "price": 3500,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "white",
-    "warmth": 1,
-    "material_thickness": 0.1,
-    "environmental_protection": 0,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 10,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "lvizor_hat",
-    "repairs_like": "cowboy_hat",
-    "type": "ARMOR",
-    "name": { "str": "leather visor cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A crownless hat consisting simply of a leather visor with a adjustable leather strap encircling the head.  The top of the head is not covered and the visor protects the face, including eyes, nose, and cheeks, from the sun and potential scratches.  Great to use in the summer.",
-    "weight": "106 g",
-    "volume": "345 ml",
-    "price": 3500,
-    "price_postapoc": 50,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "white",
-    "warmth": 1,
-    "material_thickness": 0.1,
-    "environmental_protection": 1,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 10,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "trucker_hat",
-    "repairs_like": "balclava",
-    "type": "ARMOR",
-    "name": { "str": "trucker cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  The trucker hat came about in it's true form in the early 1970's as a promotional give-away from US feed or farming supply companies to farmers, truck drivers (hence the name) and other rural workers.  It is perfect for keeping your head cool and the sun out of your eyes.",
-    "weight": "88 g",
-    "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "blue",
-    "warmth": 3,
-    "material_thickness": 0.1,
-    "environmental_protection": 1,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 80,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_truckball",
-        "name": { "str": "trucker cap" },
-        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.",
-        "weight": 70
-      },
-      {
-        "id": "beer_truckball",
-        "name": { "str": "beer trucker cap" },
-        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  It has the icon of a glass full of beer at the front, and a text in a funny font that reads: 'Beer is my diesel' besides it.",
-        "weight": 1
-      },
-      {
-        "id": "proud_truckball",
-        "name": { "str": "proud trucker cap" },
-        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  It has the icon of a truck, apparently a Ford F of some series, at the front, alongside the flag of the United States of America and a text that reads: 'Proud to be a Trucker'.  It is more than a cap, it is a symbol of the love and the respect for the people that once spent their lives on the road, so other people could live at comfort with all the goods they transported from great distances.",
-        "weight": 1
-      },
-      {
-        "id": "american_truckball",
-        "name": { "str": "American trucker cap" },
-        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  It is printed with the pattern of the flag of the United States of America.  Makes you feel like a patriot",
-        "weight": 10
-      },
-      {
-        "id": "empire_ball",
-        "name": { "str": "Brazilian Monarchist trucker cap" },
-        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  It is embossed with the pattern of the flag of the (now extinct) Empire of Brazil.  It shields your eyes from the sun and provides a little bit of warmth.  Probably owned by a Brazilian Monarchist.",
-        "weight": 1
-      },
-      {
-        "id": "baseball_fan_ball",
-        "name": { "str": "baseball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular baseball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 5
-      },
-      {
-        "id": "football_fan_ball",
-        "name": { "str": "football fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular football team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 5
-      },
-      {
-        "id": "soccer_fan_ball",
-        "name": { "str": "soccer fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular soccer team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "basketball_fan_ball",
-        "name": { "str": "basketball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular basketball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "volleyball_fan_ball",
-        "name": { "str": "volleyball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular volleyball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 2
-      },
-      {
-        "id": "hockey_fan_ball",
-        "name": { "str": "hockey fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular hockey team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 5
-      },
-      {
-        "id": "dodgeball_fan_ball",
-        "name": { "str": "dodgeball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular dodgeball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "rugby_fan_ball",
-        "name": { "str": "rugby fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular rugby team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "tennis_fan_ball",
-        "name": { "str": "tennis fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular tennis team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "lacrosse_fan_ball",
-        "name": { "str": "lacrosse fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular lacrosse team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "badminton_fan_ball",
-        "name": { "str": "badminton fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular badminton team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "flatball_fan_ball",
-        "name": { "str": "flatball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular flatball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "golf_fan_ball",
-        "name": { "str": "golf fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a local golf club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "snooker_fan_ball",
-        "name": { "str": "snooker fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a local snooker, pool and billiards club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "foosball_fan_ball",
-        "name": { "str": "foosball fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a local foosball club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "westling_fan_ball",
-        "name": { "str": "westling fan trucker cap" },
-        "description": "A snapback trucker cap displaying the logo of a popular westling rooster.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "id": "ltrucker_hat",
-    "repairs_like": "cowboy_hat",
-    "type": "ARMOR",
-    "name": { "str": "leather trucker cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A leather cap with a broad front and a plastic mesh at the back, allowing better air circulation.  It is perfect for keeping your head cool, protected from scratches and the sun out of your eyes.",
-    "weight": "120 g",
-    "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
-    "material": [ "leather", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "blue",
-    "warmth": 2,
-    "material_thickness": 0.1,
-    "environmental_protection": 2,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 80,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "scrap_cap1",
-    "repairs_like": "apron_plastic",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "plastic scrap cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor, with pieces of plastic attached or sewed to it.  While it is not exactly beautiful, it protects your head even more now that it is reinforced with plastic.  It shields your eyes from the sun and provides a little bit of warmth.",
-    "weight": "105 g",
-    "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hat_hard",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.6,
-    "environmental_protection": 3,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "plastic", "covered_by_mat": 80, "thickness": 0.3 }
-        ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "cover_vitals": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ],
-        "volume_encumber_modifier": 0.3
-      }
-    ]
-  },
-  {
-    "id": "scrap_cap2",
-    "repairs_like": "pot_helmet",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "scrap cap" },
-    "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
-    "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor, with small sheets of scrap metal attached or glued to it.  It is not exactly beautiful, but it protects your head even more now that it is reinforced with metal.  It shields your eyes from the sun and provides a little bit of warmth.",
-    "weight": "125 g",
-    "volume": "500 ml",
-    "price": 2800,
-    "price_postapoc": 50,
-    "material": [ "cotton", "iron" ],
-    "symbol": "[",
-    "looks_like": "hat_hard",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.6,
-    "environmental_protection": 4,
-    "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "iron", "covered_by_mat": 80, "thickness": 0.3 }
-        ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "cover_vitals": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ],
-        "volume_encumber_modifier": 0.3
-      }
-    ]
-  },
-  {
     "id": "hat_ball",
     "type": "ARMOR",
     "name": { "str": "baseball cap" },
@@ -847,7 +353,18 @@
         "id": "generic_hatball",
         "name": { "str": "baseball cap" },
         "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
-        "weight": 75
+        "weight": 40
+      },
+      {
+        "id": "baseball_fan_hatball",
+        "name": { "str": "baseball fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local baseball team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 5
+      },
+      {
+        "id": "football_fan_hatball",
+        "name": { "str": "football fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth."
       },
       {
         "id": "dollar_hatball",
@@ -859,18 +376,6 @@
         "id": "pine_hatball1",
         "name": { "str": "Lone Pine cap" },
         "description": "A snapback baseball cap displaying the shape of a single pine tree at the front.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "pine_hatball2",
-        "name": { "str": "Twin Pines cap" },
-        "description": "A snapback baseball cap displaying the shape of two pine trees at the front, with the sun right above them.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "pine_hatball3",
-        "name": { "str": "Pine Triad cap" },
-        "description": "A snapback baseball cap displaying the shape of three pine trees at the front, with the full moon (or the sun) right above them.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
@@ -889,12 +394,6 @@
         "id": "blood_hatball",
         "name": { "str": "blood donor cap" },
         "description": "A snapback baseball cap displaying the image of bloodpack connected to a drop of blood in the front, and under that image, a text that reads: 'Donating Blood', in white, and 'Save Lifes' in red.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "sigsauer_hatball",
-        "name": { "str": "SIG Sauer cap" },
-        "description": "A snapback baseball cap displaying the white-coloured icon of a pistol, apparently a SIG Sauer P320 or any other like it, with a text besides it.  It reads: 'SIG Sauer, when it counts'.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
@@ -934,18 +433,6 @@
         "weight": 1
       },
       {
-        "id": "radiation_hatball",
-        "name": { "str": "radioactive cap" },
-        "description": "A snapback baseball cap displaying the yellow icon of the well known symbol of radioactive danger, the trefoil, in the front, and a text reading 'Warning: Radioactive'.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "atom_hatball",
-        "name": { "str": "atomic cap" },
-        "description": "A snapback baseball cap displaying the blue icon of the well known symbol of the atom, a particle of matter that uniquely defines a chemical element in the front, and a text reading 'Warning: Atomic Activity'.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
         "id": "america_hatball",
         "name": { "str": "American cap" },
         "description": "A snapback baseball cap embossed with the pattern of the flag of the United States of America.  It shields your eyes from the sun, provides a little bit of warmth and also makes you feel like a real patriot.",
@@ -964,97 +451,18 @@
         "weight": 1
       },
       {
-        "id": "volleyball_fan_hatball",
-        "name": { "str": "volleyball fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular volleyball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
         "id": "hockey_fan_hatball",
         "name": { "str": "hockey fan cap" },
         "description": "A snapback baseball cap displaying the logo of a popular hockey team.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 5
       },
       {
-        "id": "dodgeball_fan_hatball",
-        "name": { "str": "dodgeball fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular dodgeball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "rugby_fan_hatball",
-        "name": { "str": "rugby fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular rugby team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "tennis_fan_hatball",
-        "name": { "str": "tennis fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular tennis team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "lacrosse_fan_hatball",
-        "name": { "str": "lacrosse fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular lacrosse team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "badminton_fan_hatball",
-        "name": { "str": "badminton fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular badminton team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "flatball_fan_hatball",
-        "name": { "str": "flatball fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular flatball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "golf_fan_hatball",
-        "name": { "str": "golf fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local golf club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "snooker_fan_hatball",
-        "name": { "str": "snooker fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local snooker, pool and billiards club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "foosball_fan_hatball",
-        "name": { "str": "foosball fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local foosball club.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "westling_fan_hatball",
-        "name": { "str": "westling fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a popular westling rooster.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 1
-      },
-      {
-        "id": "baseball_fan_hatball",
-        "name": { "str": "baseball fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local baseball team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 5
-      },
-      {
-        "id": "football_fan_hatball",
-        "name": { "str": "football fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
-        "weight": 5
+        "id": "generic_truckball",
+        "name": { "str": "trucker cap" },
+        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  The trucker hat came about in it's true form in the early 1970's as a promotional give-away from US feed or farming supply companies to farmers, truck drivers (hence the name) and other rural workers.  It is perfect for keeping your head cool and the sun out of your eyes.",
+        "weight": 2
       }
     ]
-  },
-  {
-    "id": "propeller_hat",
-    "type": "ARMOR",
-    "name": { "str": "propeller cap" },
-    "description": "A colorful cap with a brim and a plastic propeller on top.  It shields your eyes from the sun and make you look goofy.",
-    "copy-from": "hat_ball"
   },
   {
     "id": "hat_chef",
@@ -1166,13 +574,6 @@
     ]
   },
   {
-    "id": "beanie_hat",
-    "type": "ARMOR",
-    "name": { "str": "beanie hat" },
-    "description": "A comfortable, snug-fitting beanie hat.  Quite warm.",
-    "copy-from": "hat_cotton"
-  },
-  {
     "id": "hat_fur",
     "type": "ARMOR",
     "name": { "str": "fur hat" },
@@ -1198,125 +599,12 @@
     ]
   },
   {
-    "id": "conical_hat",
-    "type": "ARMOR",
-    "name": { "str": "conical hat" },
-    "description": "A conical hat typically made of bamboo, of asian origin.  It can be either a piece of a costume, a decorative item, something you'd find inside a dojo, etc.  This is the base item, it is a error if you found it naturally.",
-    "weight": "300 g",
-    "volume": "1500 ml",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "[",
-    "color": "brown",
-    "warmth": 5,
-    "material_thickness": 0.3,
-    "environmental_protection": 3,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "douli",
-        "name": { "str": "douli hat" },
-        "description": "A conical hat made of bamboo strips, with a wide brim, providing protection from the sun and rain, a pointed top and a chin strap to secure it in place.  Commonly worn by farmers and field workers in rural areas of China, but can be also part of a costume headgear, decorative item and etc.",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "satgat",
-        "name": { "str": "satgat hat" },
-        "description": "A conical hat made of bamboo strips, with a wide brim and a round top.  Often worn as part of traditional Korean attire, particularly by scholars and noblemen during the Joseon Dynasty, but can be also part of a costume headgear, decorative item and etc.",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "ngob",
-        "name": { "str": "ngob hat" },
-        "description": "A somewhat conical hat made of bamboo strips and straw, with a wide brim and a squarish top.  Commonly worn by farmers and laborers in rural areas of Thailand, but can be also part of a costume headgear, decorative item and etc.",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "nonla",
-        "name": { "str": "non la hat" },
-        "description": "A conical hat made of bamboo strips, with a wide brim that tapers to a point at the top.  Often worn by farmers and workers in Vietnam to shield them from the sun and rain.  The non la is also considered a symbol of Vietnamese culture and tradition, but can be also part of a costume headgear, decorative item and etc.",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "kasa",
-        "name": { "str": "kasa hat" },
-        "description": "A conical hat made of bamboo strips, with a a broad, flat brim and a rounded crown.  Typically wore by Japanese rice farmers, but can be also part of a costume headgear, decorative item and etc.",
-        "weight": 1,
-        "append": true
-      }
-    ]
-  },
-  {
-    "id": "ushanka",
-    "type": "ARMOR",
-    "name": { "str": "ushanka" },
-    "description": "A typically Russian hat made from the pelts of animals with earflaps.  Extremely warm to endure the Siberian Winter.",
-    "copy-from": "hat_fur"
-  },
-  {
-    "id": "coonskin",
-    "type": "ARMOR",
-    "name": { "str": "coonskin hat" },
-    "description": "A comfortable hat made of the pelt of a raccoon, with a distinctive black and white fur pattern.  It has the tail hanging loose.",
-    "copy-from": "hat_fur"
-  },
-  {
-    "id": "astrakhan",
-    "type": "ARMOR",
-    "name": { "str": "astrakhan hat" },
-    "description": "A historically luxurious hat with a tall, rounded crown and no brim, originally from Russia.",
-    "copy-from": "hat_fur"
-  },
-  {
     "id": "hat_faux_fur",
     "type": "ARMOR",
     "copy-from": "hat_fur",
     "looks_like": "hat_fur",
     "name": { "str": "faux fur hat" },
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
-    "material": [ "faux_fur", "cotton" ],
-    "warmth": 50
-  },
-  {
-    "id": "fushanka",
-    "type": "ARMOR",
-    "copy-from": "hat_fur",
-    "looks_like": "hat_fur",
-    "name": { "str": "faux fur ushanka" },
-    "description": "A ushanka made of faux fur, a typically Russian headgear with a nice pair of earflaps.  Like real fur, but without the suffering.  Very warm to endure the Russian Winter.",
-    "material": [ "faux_fur", "cotton" ],
-    "warmth": 50
-  },
-  {
-    "id": "fcoonskin",
-    "type": "ARMOR",
-    "copy-from": "hat_fur",
-    "looks_like": "hat_fur",
-    "name": { "str": "faux fur coonskin hat" },
-    "description": "A coonskin hat made of faux fur.  Like real racoon fur, but without the suffering.  Very warm and has the tail hanging loose.",
-    "material": [ "faux_fur", "cotton" ],
-    "warmth": 50
-  },
-  {
-    "id": "fastrakhan",
-    "type": "ARMOR",
-    "copy-from": "hat_fur",
-    "looks_like": "hat_fur",
-    "name": { "str": "faux fur astrakhan hat" },
-    "description": "A historically luxurious hat with a tall, rounded crown and no brim, originally from Russia, but made with fauxfur.  Like real fur, but without the suffering.",
     "material": [ "faux_fur", "cotton" ],
     "warmth": 50
   },
@@ -1734,7 +1022,7 @@
     "warmth": 45,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1771,20 +1059,6 @@
     ]
   },
   {
-    "id": "k_beanie",
-    "type": "ARMOR",
-    "name": { "str": "knit beanie hat" },
-    "description": "A very comfortable, snug-fitting beanie hat knitted from wool.  Very warm.",
-    "copy-from": "hat_knit"
-  },
-  {
-    "id": "chullo_hat",
-    "type": "ARMOR",
-    "name": { "str": "chullo hat" },
-    "description": "A comfortable chullo hat knitted from wool.  It provides warm for the head and ears.",
-    "copy-from": "hat_knit"
-  },
-  {
     "id": "hat_newsboy",
     "type": "ARMOR",
     "name": { "str": "newsboy cap" },
@@ -1800,7 +1074,7 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1978,21 +1252,6 @@
     ]
   },
   {
-    "id": "trilby_hat",
-    "type": "ARMOR",
-    "name": { "str": "trilby hat" },
-    "description": "A stylish narrow-brimmed hat with a sharply indented crown.",
-    "copy-from": "porkpie"
-  },
-  {
-    "id": "tyrolean_hat",
-    "type": "ARMOR",
-    "name": { "str": "Tyrolean hat" },
-    "description": "A hat with a tall crown and a brim that is turned up on all sides.  It is a traditional Alpine headwear that originated in the Tyrol region of Austria.",
-    "flags": [ "VARSIZE" ],
-    "copy-from": "porkpie"
-  },
-  {
     "id": "postman_hat",
     "type": "ARMOR",
     "name": { "str": "mail carrier hat" },
@@ -2071,22 +1330,6 @@
     ]
   },
   {
-    "id": "panama_hat",
-    "type": "ARMOR",
-    "name": { "str": "Panama hat" },
-    "description": "A typical hat woven out of straw with a unique weave and lightweight construction.  Its brim helps keep the sun out of your eyes.",
-    "weight": "35 g",
-    "copy-from": "straw_hat"
-  },
-  {
-    "id": "boater_hat",
-    "type": "ARMOR",
-    "name": { "str": "boater hat" },
-    "description": "A formal summer hat typically made of stiff sennit straw and featuring a flat crown and brim.  It is adorned with a ribbon around the crown.",
-    "flags": [ "VARSIZE", "FANCY" ],
-    "copy-from": "straw_hat"
-  },
-  {
     "id": "tinfoil_hat",
     "type": "ARMOR",
     "category": "armor",
@@ -2112,72 +1355,6 @@
     ]
   },
   {
-    "id": "tinfoil_boat",
-    "type": "ARMOR",
-    "name": { "str": "tinfoil boat hat" },
-    "description": "A sheet of aluminum foil that has been molded into the shape of a boat that fits the head.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM.",
-    "copy-from": "tinfoil_hat"
-  },
-  {
-    "id": "tinfoil_hat1",
-    "type": "ARMOR",
-    "name": { "str": "brimmed tinfoil hat" },
-    "description": "Some sheets of aluminum foil that had been molded into a form-fitting brimmed hat, just like those ones farmers wear.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, with some protection from the sun.",
-    "weight": "49 g",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES" ],
-    "copy-from": "tinfoil_hat"
-  },
-  {
-    "id": "tinfoil_fedora",
-    "type": "ARMOR",
-    "name": { "str": "tinfoil fedora" },
-    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting fedora.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but with STYLE.",
-    "weight": "32 g",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES", "FANCY" ],
-    "copy-from": "tinfoil_hat"
-  },
-  {
-    "id": "tinfoil_hatball",
-    "type": "ARMOR",
-    "name": { "str": "tinfoil cap" },
-    "description": "A couple sheets of aluminum foil that had been molded into a form-fitting cap that resembles a baseball cap, brim included.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM, but also with some protection against the sun.",
-    "weight": "32 g",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT", "SUN_GLASSES" ],
-    "copy-from": "tinfoil_hat"
-  },
-  {
-    "id": "paper_boat",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "paperboat hat" },
-    "description": "A hat constructed using a single sheet of paper, which was folded and manipulated to form the shape of a boat.",
-    "weight": "3 g",
-    "volume": "12 ml",
-    "price": 16,
-    "price_postapoc": 10,
-    "material": [ "paper" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "warmth": 2,
-    "color": "white",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR", "SOFT" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
-  },
-  {
-    "id": "news_boat",
-    "type": "ARMOR",
-    "name": { "str": "newspaperboat hat" },
-    "description": "A hat constructed using a single page of newspaper, which was folded and manipulated to form the shape of a boat.",
-    "copy-from": "paper_boat"
-  },
-  {
     "id": "tophat",
     "type": "ARMOR",
     "name": { "str": "top hat" },
@@ -2194,7 +1371,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUN_GLASSES", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "SUPER_FANCY" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -2220,7 +1397,7 @@
     "warmth": 7,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -2299,7 +1476,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -2324,7 +1501,7 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],

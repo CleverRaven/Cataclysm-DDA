@@ -114,7 +114,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 400 * str_req / std::max( 1, str );
         ///\EFFECT_STR decreases stamina cost of dragging vehicles
-        u.mod_stamina( -200 * str_req / std::max( 1, str ) );
+        u.burn_energy_all( -200 * str_req / std::max( 1, str ) );
         const int ex = dice( 1, 6 ) - 1 + str_req;
         if( ex > str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength

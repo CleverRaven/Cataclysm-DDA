@@ -1076,6 +1076,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_cannot_be_slowed",
+    "//": "Empty since the mutation explains what the effect is and does",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "grabbed", "slippery_terrain", "sap", "slimed", "webbed" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_undine_escape_grabs",
     "name": [ "Flow Like Water" ],
     "desc": [ "Your movements are inhumanly fluid." ],

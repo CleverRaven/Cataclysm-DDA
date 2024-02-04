@@ -117,33 +117,6 @@
     "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
-    "result": "scrap_cap1",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "40 m",
-    "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ], [ "needle_steel", 30 ], [ "tailors_kit", 30 ], [ "superglue", 1 ] ], [ [ "fire", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "plastic_chunk", 20 ], [ "thermo_resin_chunk", 20 ] ], [ [ "hat_ball", 1 ], [ "trucker_hat", 1 ] ] ]
-  },
-  {
-    "result": "scrap_cap2",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "difficulty": 2,
-    "time": "40 m",
-    "autolearn": true,
-    "components": [ [ [ "scrap", 20 ] ], [ [ "superglue", 1 ] ], [ [ "hat_ball", 1 ], [ "trucker_hat", 1 ] ] ]
-  },
-  {
     "result": "chaplet",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -2332,94 +2305,6 @@
     "autolearn": true,
     "tools": [  ],
     "components": [ [ [ "aluminum_foil", 4 ] ] ]
-  },
-  {
-    "result": "tinfoil_boat",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "60 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "aluminum_foil", 4 ] ] ]
-  },
-  {
-    "result": "tinfoil_fedora",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "60 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "aluminum_foil", 4 ] ] ]
-  },
-  {
-    "result": "tinfoil_hatball",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "60 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "aluminum_foil", 4 ] ] ]
-  },
-  {
-    "result": "tinfoil_hat1",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "30 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "aluminum_foil", 4 ] ] ]
-  },
-  {
-    "result": "paper_boat",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "40 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "paper", 1 ] ] ]
-  },
-  {
-    "result": "news_boat",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "40 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [  ],
-    "components": [
-      [
-        [ "newspaper_memorial", 1 ],
-        [ "newest_newspaper", 1 ],
-        [ "many_years_old_newspaper", 1 ],
-        [ "years_old_newspaper", 1 ],
-        [ "one_year_old_newspaper", 1 ],
-        [ "months_old_newspaper", 1 ],
-        [ "weeks_old_newspaper", 1 ]
-      ]
-    ]
   },
   {
     "result": "tricorne",
