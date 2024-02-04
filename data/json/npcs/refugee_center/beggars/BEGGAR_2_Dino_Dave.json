@@ -235,7 +235,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_YES",
-    "dynamic_line": "Nobody's the same, not even twins.  But I'll tell you something, don't take the pills they give you.  Not when the big eye is out.",
+    "dynamic_line": "Nobody's the same, not even twins.  But I'll tell you something.  The big eye is afraid of the voices.",
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
