@@ -3147,11 +3147,11 @@ void monster::process_one_effect( effect &it, bool is_new )
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
                 //Apply multiplication first.
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
-                    enchantment_cache->add_value_mult(pair_values.first, pair_values.second.constant());
+                    enchantment_cache->add_value_mult( pair_values.first, pair_values.second.constant() );
                 }
                 //Then addition
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_add ) {
-                    enchantment_cache->add_value_add(pair_values.first, pair_values.second.constant());
+                    enchantment_cache->add_value_add( pair_values.first, pair_values.second.constant() );
                 }
             }
         }
