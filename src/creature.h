@@ -500,7 +500,7 @@ class Creature : public viewer
         /**
          * If training_level is anything but 0, the check will only train target's skill to that level
         */
-        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0 );
+        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0.0f );
         bool dodge_check( monster *z, float training_level = 0 );
         bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
                           float training_level = 0 );
