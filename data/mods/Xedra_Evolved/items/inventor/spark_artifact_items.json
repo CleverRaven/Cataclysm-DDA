@@ -46,7 +46,7 @@
     "id": "xe_art_sculpture",
     "type": "GENERIC",
     "name": { "str": "abstract sculpture" },
-    "description": "It's a sculpture but you can't identify what it is of.\nIt may have unknown powers; try activating them.",
+    "description": "It's a sculpture, but you can't identify what it depicts.\nIt may have unknown powers; try activating them.",
     "symbol": "S",
     "volume": "215 ml",
     "weight": "300 g",

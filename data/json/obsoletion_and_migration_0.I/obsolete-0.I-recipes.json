@@ -38,5 +38,50 @@
     "result": "news_boat",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "checkpaper",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "makeshift_chess",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "chess",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "small_chess",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "handmade_chess",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "handmade_chess",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "checkers",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "small_checkers",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "handmade_checkers",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

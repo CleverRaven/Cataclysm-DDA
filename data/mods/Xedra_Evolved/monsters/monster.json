@@ -37,7 +37,7 @@
     "id": "mon_shifter",
     "type": "MONSTER",
     "name": { "str": "shifter" },
-    "description": "Tall body on four legs, surrounded with a \"glitched\" aura - it constantly changes its own position.",
+    "description": "A tall body on four legs, surrounded by a \"glitched\" aura - it constantly changes its own position.",
     "default_faction": "player",
     "bodytype": "dog",
     "species": [ "NETHER" ],

@@ -1180,9 +1180,9 @@
   {
     "type": "mutation",
     "id": "PSYCHOPATH",
-    "name": { "str": "Psychopath" },
+    "name": { "str": "Uncaring" },
     "points": 2,
-    "description": "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
+    "description": "You don't feel any remorse or guilt for harming your fellow man.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },

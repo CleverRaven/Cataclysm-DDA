@@ -103,7 +103,7 @@
     "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
     "name": [ "glamoured" ],
     "desc": [ "The world is beautiful and breathtaking but maybe also terrifying." ],
-    "apply_message": "Colors brighten and vision sharpens.",
+    "apply_message": "The colors brighten and your vision sharpens.",
     "remove_message": "The world becomes a duller place.",
     "rating": "mixed",
     "max_duration": "30 m",
@@ -162,8 +162,8 @@
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
     "desc": [
-      "You have one incredibly amazing idea.  You think you should <color_yellow>research</color> it.",
-      "You've got a few theories you'd like to explore.  Pick laptop, cup of coffee, and <color_yellow>research</color> it as proper scientist.",
+      "You have an incredibly amazing idea.  You think you should <color_yellow>research</color> it.",
+      "You've got a few theories you'd like to explore.  Grab a laptop, a cup of coffee, and <color_yellow>research</color> it like a proper scientist.",
       "Your brain can't hold any more brilliance.  To the <color_yellow>research</color> table!"
     ],
     "max_intensity": 3,
@@ -186,9 +186,9 @@
     "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
     "desc": [
       "Sometimes the world nearby twists.  Was it you?",
-      "Sometimes there is an odd noise you hear.  Sounds like a whisper.",
+      "Sometimes you hear an odd noise, like a whisper.",
       "You feel someone's presences.  They are wondering.",
-      "Random voices jump into your head time to time.  Most of them are friendly.",
+      "Random voices jump into your head from time to time.  Most of them are friendly.",
       "You clearly feel the otherworldly presence.  They are ready to help you."
     ],
     "max_intensity": 5,
@@ -1073,6 +1073,15 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_cannot_be_slowed",
+    "//": "Empty since the mutation explains what the effect is and does",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "grabbed", "slippery_terrain", "sap", "slimed", "webbed" ]
   },
   {
     "type": "effect_type",

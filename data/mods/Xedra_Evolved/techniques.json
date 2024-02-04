@@ -4,8 +4,8 @@
     "id": "tec_devil_tail_puncture",
     "name": "TAIL_SHOT",
     "messages": [
-      "Your devil tail shoot itself into %s, penetrating its body like a bullet",
-      "<npcname>'s devil tail shoot itself into %s, penetrating its body like a bullet"
+      "Your devil tail shoots itself into %s, penetrating its body like a bullet",
+      "<npcname>'s devil tail shoots itself into %s, penetrating its body like a bullet"
     ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -24,8 +24,8 @@
     "id": "tec_devil_tail_wide",
     "name": "TAIL_SWEEP",
     "messages": [
-      "Your devil tail make a fast move, cutting heavily everybody in front",
-      "<npcname>'s devil tail make a fast move, cutting heavily everybody in front"
+      "Your devil tail makes a fast move, heavily cutting everybody in front",
+      "<npcname>'s devil tail makes a fast move, heavily cutting everybody in front"
     ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -46,8 +46,8 @@
     "//": "not an actual grab, but would be nice to be so",
     "name": "TAIL_GRAB",
     "messages": [
-      "Your devil tail grab %s, and make it fall on the ground",
-      "<npcname>'s devil tail grab %s, and make it fall on the ground"
+      "Your devil tail grabs %s and throws them to the ground",
+      "<npcname>'s devil tail grabs %s and throws them to the ground"
     ],
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -92,8 +92,8 @@
     "condition": { "and": [ { "math": [ "u_val('size') -1", "<=", "n_val('size')" ] } ] },
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
     "messages": [
-      "In instant you melt %s and those nearby with sprawling attack!",
-      "In instant <npcname> melts %s and those nearby with sprawling attack!"
+      "In an instant you melt %s and those nearby with a sprawling attack!",
+      "In an instant <npcname> melts %s and those nearby with a sprawling attack!"
     ],
     "description": "150% damage, 120% move, attack multiple enemies, crit only, min 4 melee",
     "attack_vectors": [ "WEAPON" ]

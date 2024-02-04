@@ -2012,6 +2012,7 @@
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
@@ -2024,6 +2025,7 @@
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
+    "max_duration": "6 m",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }

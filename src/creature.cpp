@@ -1426,7 +1426,7 @@ bool Creature::attack_air( const tripoint &p )
     return true;
 }
 
-bool Creature::dodge_check( float hit_roll, bool force_try )
+bool Creature::dodge_check( float hit_roll, bool force_try, float )
 {
     // If successfully uncanny dodged, no need to calculate dodge chance
     if( uncanny_dodge() ) {
@@ -1448,12 +1448,13 @@ bool Creature::dodge_check( float hit_roll, bool force_try )
     return false;
 }
 
-bool Creature::dodge_check( monster *z )
+bool Creature::dodge_check( monster *z, float training_level )
 {
-    return dodge_check( z->get_hit() );
+    return dodge_check( z->get_hit(), training_level );
 }
 
-bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst )
+bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
+                            float training_level )
 {
 
     if( is_monster() ) {
@@ -1474,9 +1475,9 @@ bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &d
 
     //If attack might remove more than half of the part's hp, dodge no matter the odds
     if( dmg_ratio >= 0.5f ) {
-        return dodge_check( z->get_hit(), true );
+        return dodge_check( z->get_hit(), true, training_level );
     } else if( dmg_ratio > 0.0f ) { // else apply usual rules
-        return dodge_check( z->get_hit() );
+        return dodge_check( z->get_hit(), training_level );
     }
 
     return false;

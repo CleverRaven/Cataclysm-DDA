@@ -203,5 +203,155 @@
     "id": "holybook_asatru",
     "type": "MIGRATION",
     "replace": "poetic_edda"
+  },
+  {
+    "id": "wcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "rcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "becheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_pawn",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_knight",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_bishop",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_rook",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_queen",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_king",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_pawn",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_knight",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_bishop",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_rook",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_queen",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_king",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "checkpaper",
+    "type": "MIGRATION",
+    "replace": "paper"
+  },
+  {
+    "id": "small_checkboard",
+    "type": "MIGRATION",
+    "replace": "tinder"
+  },
+  {
+    "id": "checkboard",
+    "type": "MIGRATION",
+    "replace": "tinder"
+  },
+  {
+    "id": "handmade_chess",
+    "type": "MIGRATION",
+    "replace": "chess"
+  },
+  {
+    "id": "makeshift_chess",
+    "type": "MIGRATION",
+    "replace": "chess"
+  },
+  {
+    "id": "handmade_checkers",
+    "type": "MIGRATION",
+    "replace": "makeshift_checkers"
+  },
+  {
+    "id": "terraforming_mars",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_venus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_jupiter",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_saturn",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_uranus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_neptune",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_pluto",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_earth",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
   }
 ]

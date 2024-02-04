@@ -85,7 +85,7 @@
   },
   {
     "type": "MONSTER",
-    "id": "base_drone",
+    "abstract": "base_drone",
     "copy-from": "base_drone",
     "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 14 } }
   },
