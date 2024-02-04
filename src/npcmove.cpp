@@ -2841,7 +2841,7 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
 bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool force )
 {
-    return update_path( p.raw() );
+    return update_path( p.raw(), no_bashing, force );
 }
 
 void npc::set_guard_pos( const tripoint_abs_ms &p )
