@@ -224,20 +224,6 @@ static int compute_kill_xp( const mtype_id &mon_type )
     return mon_type->difficulty + mon_type->difficulty_base;
 }
 
-// Internal use only.
-// For tracking what few effects of enchants
-// are relevant to monsters.
-struct monster_enchant_effects {
-    resistances armor_mod_abs = resistances();
-    resistances armor_mod_mult = resistances();
-    int speed_mod_abs = 0;
-    int regen_hp_mod = 0;
-    int max_hp_abs = 0;
-
-    float speed_mod_mult = 0;
-    float max_hp_mult = 0;
-};
-
 monster::monster()
 {
     unset_dest();

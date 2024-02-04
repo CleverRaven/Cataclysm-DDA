@@ -34,7 +34,6 @@ class effect;
 class effect_source;
 class item;
 struct monster_plan;
-struct monster_enchant_effects;
 namespace catacurses
 {
 class window;
