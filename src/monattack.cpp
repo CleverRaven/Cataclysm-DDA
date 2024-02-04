@@ -1099,7 +1099,7 @@ bool mattack::boomer_glow( monster *z )
         }
     }
 
-    if( !target->dodge_check( z, 1.0f) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
         target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
