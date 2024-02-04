@@ -36,6 +36,7 @@
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_technomancer_invisibility",
+    "components": "spell_components_invisibility",
     "shape": "blast",
     "flags": [ "SILENT", "SOMATIC" ],
     "spell_class": "TECHNOMANCER",

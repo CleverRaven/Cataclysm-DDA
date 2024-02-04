@@ -700,6 +700,7 @@
     "flags": [ "SOMATIC", "LOUD" ],
     "effect": "attack",
     "effect_str": "effect_shape_of_dust",
+    "components": "spell_components_shape_of_dust",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",

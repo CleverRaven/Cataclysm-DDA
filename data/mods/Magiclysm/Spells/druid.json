@@ -1348,5 +1348,28 @@
       { "u_lose_effect": "effect_druid_traverse_the_wilds" },
       { "u_message": "As you approach civilization, your spell fades.", "type": "bad" }
     ]
+  },
+  {
+    "id": "druid_bearmantle",
+    "type": "SPELL",
+    "name": "Bearmantle",
+    "description": "Adopt some of the aspect of the bear, protecting you from cold and preparing you for winter.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_bearmantle",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "components": "spell_components_feralform",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "base_casting_time": 1500,
+    "base_energy_cost": 200,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 48000,
+    "max_duration": 720000,
+    "duration_increment": 48000
   }
 ]
