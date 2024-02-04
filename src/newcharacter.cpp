@@ -4155,21 +4155,22 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
             }
-            if( []( avatar &a ) -> bool {
-            for( const char b : a.name ) {
+            if( []( avatar & a ) -> bool {
+            for( const char b : a.name )
+                {
                     if( !is_char_allowed( b ) ) {
                         const unsigned char uc = static_cast<unsigned char>( b );
                         if( std::isprint( uc ) ) {
                             if( !query_yn(
                                     string_format(
-                                        _( "Your name has invalid chars: '%c'. \nYou can reserve it if you want but not recommend. Are you SURE?"
+                                        _( "Your name has invalid chars: '%c'.\nYou can reserve it if you want but not recommend.  Are you SURE?"
                                          ), uc ) ) ) {
                                 return true;
                             }
                             return false;
 
                         } else if( !query_yn( string_format(
-                                                  _( "Your name has invalid chars: 0x%x. \nYou can reserve it if you want but not recommend. Are you SURE?"
+                                                  _( "Your name has invalid chars: 0x%x.\nYou can reserve it if you want but not recommend.  Are you SURE?"
                                                    ), uc ) ) ) {
                             return true;
                         }
@@ -4177,11 +4178,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     }
                 }
                 return false;
-            }( you ) )
-            {
+            }( you ) ) {
                 continue;
-            } else if( query_yn( _( "Are you SURE you're finished?" ) ) )
-            {
+            } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
                 tabs.complete = true;
                 break;
             }
