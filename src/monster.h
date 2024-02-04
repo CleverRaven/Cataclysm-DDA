@@ -571,7 +571,6 @@ class monster : public Creature
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
-        //monster enchantment effects struct
         short ignoring = 0;
         bool aggro_character = true;
 
