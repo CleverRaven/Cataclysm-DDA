@@ -784,7 +784,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "heat", "amount": 4 } ],
-    "special_attacks": [ { "id": "salamagman_hand_axe" } ],
+    "special_attacks": [ { "id": "salamagman_handaxe" } ],
     "dodge": 2,
     "harvest": "salamander",
     "dissect": "dissect_salamander_single",
@@ -792,7 +792,7 @@
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": { "subtype": "collection", "groups": [ [ "salamagman", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "salamagman", 40 ] ] },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_1", "FIREPROOF" ],
     "armor": { "bash": 16, "cut": 12, "bullet": 26 }
   },
@@ -818,7 +818,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "heat", "amount": 4 } ],
-    "special_attacks": [ { "id": "salamagman_battle_axe" } ],
+    "special_attacks": [ { "id": "salamagman_battleaxe" } ],
     "dodge": 2,
     "harvest": "salamander",
     "dissect": "dissect_salamander_single",
@@ -828,7 +828,7 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "salamagman_champion", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "salamagman_champion", 40 ] ]
     },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_1", "FIREPROOF" ],
     "armor": { "bash": 16, "cut": 12, "bullet": 26 }

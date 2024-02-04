@@ -117,6 +117,7 @@
     "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 },
     "repair_difficulty": 5
   },
+
   {
     "type": "material",
     "id": "fae_cotton",
@@ -142,6 +143,28 @@
     ],
     "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 2, "bullet": 3 },
     "repair_difficulty": 4
+  },
+  {
+    "type": "material",
+    "id": "elemental_cotton",
+    "name": "elemental gossamer",
+    "//": "Material for use in fae clothing.  It's 2/3rds the weight and 2/3rds as encumbering as cotton.  Won't burn and twice the difficulty to repair.",
+    "density": 1.05,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "chip_resist": 6,
+    "breathability": "GOOD",
+    "wind_resist": 70,
+    "repaired_with": "elemental_gossamer_patchwork",
+    "salvaged_into": "elemental_gossamer_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
+    "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 2, "bullet": 3 },
+    "repair_difficulty": 8
   },
   {
     "type": "material",
