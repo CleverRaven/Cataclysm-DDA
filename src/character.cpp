@@ -1949,7 +1949,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
     difficulty = std::max( difficulty, 0.0f );
 
     // If training_level is set, treat that as the difficulty instead
-    if( training_level != 0.0 ) {
+    if( training_level != 0.0f ) {
         difficulty = training_level;
     }
 
