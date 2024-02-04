@@ -47,18 +47,9 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "dabbler_crystallize_mana",
-    "name": "Dabbler (Crystallize Mana)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Crystallize Mana.  Sure, it ruined your social life and you slept for 12 hours a day, but you made a tidy sum of money producing mana crystals for mages who needed them.  Too bad all that money is useless now.",
-    "points": 4,
-    "spells": [ { "id": "crystallize_mana", "level": 5 } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
     "id": "dabbler_magical_light",
     "name": "Dabbler (Magical Light)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Magical Light.  It was mostly a party trick, to be honest, and learning to showed up how much work trying to learn real magic actually was.  But the nights are dark enough nowadays that you're glad you put in the effect.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Magical Light.  It was mostly a party trick, to be honest, and the weeks learning to cast a spell that any smartphone could replicate showed you how much work trying to learn real magic actually was.  But the nights are dark enough nowadays that you're glad you put in the effort.",
     "points": 4,
     "spells": [ { "id": "create_atomic_light", "level": 5 } ]
   },
