@@ -995,7 +995,8 @@
           { "item": "spell_scroll_phase_door", "prob": 50 },
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
-          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 }
+          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1279,7 +1280,8 @@
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
           { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
           { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
-          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 },
+          { "item": "spell_scroll_druid_traverse_the_wilds", "prob": 40 }
         ],
         "prob": 45
       },

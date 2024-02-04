@@ -1851,5 +1851,23 @@
     "name": { "str": "Scroll of Freshen Up", "str_pl": "Scrolls of Freshen Up" },
     "description": "The single most well-known spell in the entire world before the Cataclysm.  Why take a shower and do your laundry if you can get magic to do it for you?",
     "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_stop_attack_shield",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mageshield", "str_pl": "Scrolls of Mageshield" },
+    "description": "A common protective spell even before the Cataclysm, Mageshield will render you completely invincible…against a single attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_stop_attack_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_traverse_the_wilds",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Traverse the Wilds", "str_pl": "Scrolls of Traverse the Wilds" },
+    "description": "A favored spell of those hiking the Appalachian Trail, this spell increases your speed in the wilderness.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_traverse_the_wilds" ] }
   }
 ]
