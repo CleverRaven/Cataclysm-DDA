@@ -82,7 +82,6 @@ jobs:
       run: |
         emsdk activate ccache-git-emscripten-64bit
         export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
-        echo $PATH
         ccache --show-stats
         ccache -M 5G
         ccache -c
@@ -91,6 +90,8 @@ jobs:
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' && !failure() }}
       run: |
+        emsdk activate ccache-git-emscripten-64bit
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         ccache -C
 
     - name: Assemble web bundle
