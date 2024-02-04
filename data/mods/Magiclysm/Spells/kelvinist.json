@@ -678,7 +678,7 @@
     "max_duration": 960000,
     "duration_increment": 60000,
     "energy_source": "MANA",
-    "base_energy_cost": 500,
+    "base_energy_cost": 650,
     "base_casting_time": 6000
   }
 ]
