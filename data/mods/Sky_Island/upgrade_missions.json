@@ -10,17 +10,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_scouting1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals slightly more of the map around exit points and mission targets.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals slightly more of the map around exit points and mission targets.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancetargets", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_scouting1" },
         {
@@ -29,7 +29,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_scouting1",
     "type": "GENERIC",
@@ -54,14 +54,21 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-		[ [ "glasses_eye", 1], [ "glasses_bifocal", 1 ], [ "glasses_reading", 1 ], [ "fancy_glasses_eye", 1], [ "fancy_glasses_bifocal", 1 ], [ "fancy_glasses_reading", 1 ] ],
-	    [ [ "pipe", 1 ] ],
-		[ [ "wire", 5 ] ],
-		[ [ "tinder", 5 ] ],
-		[ [ "cordage_short", 1, "LIST" ] ]
-	]
+      [
+        [ "glasses_eye", 1 ],
+        [ "glasses_bifocal", 1 ],
+        [ "glasses_reading", 1 ],
+        [ "fancy_glasses_eye", 1 ],
+        [ "fancy_glasses_bifocal", 1 ],
+        [ "fancy_glasses_reading", 1 ]
+      ],
+      [ [ "pipe", 1 ] ],
+      [ [ "wire", 5 ] ],
+      [ [ "tinder", 5 ] ],
+      [ [ "cordage_short", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scouting2",
@@ -74,17 +81,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_scouting2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a bit more of the map around exit points and mission targets.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a bit more of the map around exit points and mission targets.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancetargets", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_scouting2" },
         {
@@ -93,7 +100,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_scouting2",
     "type": "GENERIC",
@@ -118,15 +125,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "binoculars", 1 ] ],
-	    [ [ "warptoken", 2 ] ],
-	    [ [ "cu_pipe", 5 ] ],
-	    [ [ "duct_tape", 20 ] ],
-		[ [ "light_plus_battery_cell", 5], [ "light_battery_cell", 10 ], [ "light_disposable_cell", 15 ] ],
-		[ [ "cordage", 1, "LIST" ] ]
-	]
+      [ [ "binoculars", 1 ] ],
+      [ [ "warptoken", 2 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "duct_tape", 20 ] ],
+      [ [ "light_plus_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_disposable_cell", 15 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scouting3",
@@ -139,17 +146,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_scouting3" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals even more of the map around exit points and mission targets.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals even more of the map around exit points and mission targets.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancetargets", "=", "4" ] },
         { "u_forget_recipe": "upgradekey_scouting3" },
         {
@@ -158,7 +165,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_scouting3",
     "type": "GENERIC",
@@ -183,15 +190,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
-	    [ [ "warptoken", 5 ] ],
-	    [ [ "scrap_aluminum", 12 ] ],
-	    [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
-		[ [ "medium_battery_cell", 2], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
-		[ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
-	]
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
+      [ [ "warptoken", 5 ] ],
+      [ [ "scrap_aluminum", 12 ] ],
+      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
+      [ [ "medium_battery_cell", 2 ], [ "medium_plus_battery_cell", 4 ], [ "medium_disposable_cell", 6 ] ],
+      [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scouting4",
@@ -204,17 +211,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_scouting4" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a lot of the map around exit points and mission targets.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a lot of the map around exit points and mission targets.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancetargets", "=", "6" ] },
         { "u_forget_recipe": "upgradekey_scouting4" },
         {
@@ -223,7 +230,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_scouting4",
     "type": "GENERIC",
@@ -248,16 +255,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "lens", 2 ], [ "lens_small", 1 ] ],
-	    [ [ "warptoken", 8 ] ],
-	    [ [ "microscope", 1 ] ],
-	    [ [ "silver_small", 20 ] ],
-	    [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
-		[ [ "heavy_plus_battery_cell", 1], [ "heavy_battery_cell", 2 ], [ "heavy_disposable_cell", 4 ] ],
-		[ [ "rope_30", 1 ] ]
-	]
+      [ [ "lens", 2 ], [ "lens_small", 1 ] ],
+      [ [ "warptoken", 8 ] ],
+      [ [ "microscope", 1 ] ],
+      [ [ "silver_small", 20 ] ],
+      [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
+      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ], [ "heavy_disposable_cell", 4 ] ],
+      [ [ "rope_30", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scouting5",
@@ -270,17 +277,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_scouting5" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancetargets", "=", "10" ] },
         { "u_forget_recipe": "upgradekey_scouting5" },
         {
@@ -289,7 +296,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_scouting5",
     "type": "GENERIC",
@@ -314,16 +321,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "microscope_dissecting", 1 ] ],
-	    [ [ "sensor_module", 1 ] ],
-	    [ [ "holybook_wicca1", 1 ] ],
-	    [ [ "warptoken", 12 ] ],
-	    [ [ "platinum_small", 10 ] ],
-		[ [ "battery_car", 1], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-		[ [ "hd_tow_cable", 1 ] ]
-	]
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "holybook_wicca1", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing1",
@@ -336,17 +343,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_landing1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a bit more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 70 seconds.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a bit more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 70 seconds.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancelanding", "=", "4" ] },
         { "math": [ "invistime", "=", "70" ] },
         { "u_forget_recipe": "upgradekey_landing1" },
@@ -356,7 +363,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_landing1",
     "type": "GENERIC",
@@ -381,14 +388,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "pillow", 2 ], [ "down_pillow", 2 ] ],
-	    [ [ "sheet", 2 ] ],
-	    [ [ "tinder", 10 ] ],
-		[ [ "glass_shard", 20] ],
-		[ [ "seed_flower", 5 ] ]
-	]
+      [ [ "pillow", 2 ], [ "down_pillow", 2 ] ],
+      [ [ "sheet", 2 ] ],
+      [ [ "tinder", 10 ] ],
+      [ [ "glass_shard", 20 ] ],
+      [ [ "seed_flower", 5 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing2",
@@ -401,17 +408,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_landing2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 80 seconds.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 80 seconds.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancelanding", "=", "8" ] },
         { "math": [ "invistime", "=", "80" ] },
         { "u_forget_recipe": "upgradekey_landing2" },
@@ -421,7 +428,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_landing2",
     "type": "GENERIC",
@@ -446,16 +453,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "mattress", 1 ], [ "down_mattress", 1 ] ],
-	    [ [ "quilt", 5 ], [ "quilt_patchwork", 5 ] ],
-	    [ [ "warptoken", 2 ] ],
-	    [ [ "blanket", 2 ], [ "fur_blanket", 2 ], [ "down_blanket", 2 ] ],
-	    [ [ "feather", 40 ], [ "down_feather", 40 ] ],
-		[ [ "shot_glass", 1] ],
-		[ [ "spurge", 5 ] ]
-	]
+      [ [ "mattress", 1 ], [ "down_mattress", 1 ] ],
+      [ [ "quilt", 5 ], [ "quilt_patchwork", 5 ] ],
+      [ [ "warptoken", 2 ] ],
+      [ [ "blanket", 2 ], [ "fur_blanket", 2 ], [ "down_blanket", 2 ] ],
+      [ [ "feather", 40 ], [ "down_feather", 40 ] ],
+      [ [ "shot_glass", 1 ] ],
+      [ [ "spurge", 5 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing3",
@@ -468,17 +475,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_landing3" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal even more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 90 seconds.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal even more of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 90 seconds.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancelanding", "=", "12" ] },
         { "math": [ "invistime", "=", "90" ] },
         { "u_forget_recipe": "upgradekey_landing3" },
@@ -488,7 +495,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_landing3",
     "type": "GENERIC",
@@ -513,15 +520,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "cleansuit", 1 ] ],
-	    [ [ "warptoken", 5 ] ],
-	    [ [ "teddy_bear", 2 ] ],
-	    [ [ "felt_patch", 4 ] ],
-		[ [ "crackpipe", 1 ], [ "pipe_glass", 1 ] ],
-		[ [ "seed_mushroom", 5 ] ]
-	]
+      [ [ "cleansuit", 1 ] ],
+      [ [ "warptoken", 5 ] ],
+      [ [ "teddy_bear", 2 ] ],
+      [ [ "felt_patch", 4 ] ],
+      [ [ "crackpipe", 1 ], [ "pipe_glass", 1 ] ],
+      [ [ "seed_mushroom", 5 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing4",
@@ -534,17 +541,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_landing4" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a lot of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 100 seconds.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a lot of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 100 seconds.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancelanding", "=", "16" ] },
         { "math": [ "invistime", "=", "100" ] },
         { "u_forget_recipe": "upgradekey_landing4" },
@@ -554,7 +561,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_landing4",
     "type": "GENERIC",
@@ -579,16 +586,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "hazmat_suit", 1 ], [ "wetsuit", 1 ] ],
-	    [ [ "warptoken", 8 ] ],
-	    [ [ "shark_plushie", 1 ] ],
-	    [ [ "faux_fur", 20 ] ],
-		[ [ "eclipse_glasses", 1 ], [ "pipe_glass", 1 ] ],
-		[ [ "dahlia_root", 5 ] ],
-		[ [ "poppy_bud", 10 ] ]
-	]
+      [ [ "hazmat_suit", 1 ], [ "wetsuit", 1 ] ],
+      [ [ "warptoken", 8 ] ],
+      [ [ "shark_plushie", 1 ] ],
+      [ [ "faux_fur", 20 ] ],
+      [ [ "eclipse_glasses", 1 ], [ "pipe_glass", 1 ] ],
+      [ [ "dahlia_root", 5 ] ],
+      [ [ "poppy_bud", 10 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing5",
@@ -601,17 +608,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_landing5" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 120 seconds.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 120 seconds.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "scoutingdistancelanding", "=", "24" ] },
         { "math": [ "invistime", "=", "120" ] },
         { "u_forget_recipe": "upgradekey_landing5" },
@@ -621,7 +628,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_landing5",
     "type": "GENERIC",
@@ -646,16 +653,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-	    [ [ "warptoken", 12 ] ],
-	    [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-	    [ [ "fur", 40 ] ],
-		[ [ "glasses_monocle", 1 ] ],
-		[ [ "heroin", 1 ] ],
-		[ [ "coke", 20 ] ]
-	]
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability1",
@@ -668,17 +675,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_stability1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 9 pulses instead of the default 8, allowing you to stay out 12.5% longer before warpsickness takes over.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 9 pulses instead of the default 8, allowing you to stay out 12.5% longer before warpsickness takes over.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "bonuspulses", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_stability1" },
         {
@@ -687,7 +694,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_stability1",
     "type": "GENERIC",
@@ -712,16 +719,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "antibiotics", 4 ], [ "weak_antibiotic", 8 ], [ "strong_antibiotic", 2 ] ],
-	    [ [ "warptoken", 3 ] ],
-	    [ [ "antifungal", 4 ] ],
-	    [ [ "antiparasitic", 4 ] ],
-	    [ [ "weed", 10 ] ],
-		[ [ "amplifier", 5 ] ],
-		[ [ "news_regional", 1 ] ]
-	]
+      [ [ "antibiotics", 4 ], [ "weak_antibiotic", 8 ], [ "strong_antibiotic", 2 ] ],
+      [ [ "warptoken", 3 ] ],
+      [ [ "antifungal", 4 ] ],
+      [ [ "antiparasitic", 4 ] ],
+      [ [ "weed", 10 ] ],
+      [ [ "amplifier", 5 ] ],
+      [ [ "news_regional", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability2",
@@ -734,17 +741,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_stability2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 10 pulses instead of the default 8, allowing you to stay out 25% longer before warpsickness takes over.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 10 pulses instead of the default 8, allowing you to stay out 25% longer before warpsickness takes over.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "bonuspulses", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_stability2" },
         {
@@ -753,7 +760,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_stability2",
     "type": "GENERIC",
@@ -778,18 +785,18 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "flu_shot", 2 ] ],
-	    [ [ "warptoken", 8 ] ],
-	    [ [ "prussian_blue", 4 ], [ "iodine", 4 ], [ "prussian_blue", 4 ] ],
-	    [ [ "meth", 10 ] ],
-		[ [ "solar_cell", 5 ] ],
-	    [ [ "motor", 1 ] ],
-		[ [ "mag_news", 1 ] ],
-		[ [ "mag_beauty", 1 ] ],
-		[ [ "mag_cars", 1 ] ]
-	]
+      [ [ "flu_shot", 2 ] ],
+      [ [ "warptoken", 8 ] ],
+      [ [ "prussian_blue", 4 ], [ "iodine", 4 ], [ "prussian_blue", 4 ] ],
+      [ [ "meth", 10 ] ],
+      [ [ "solar_cell", 5 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "mag_news", 1 ] ],
+      [ [ "mag_beauty", 1 ] ],
+      [ [ "mag_cars", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability3",
@@ -802,17 +809,17 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_stability3" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 11 pulses instead of the default 8, allowing you to stay out 37.5% longer before warpsickness takes over.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 11 pulses instead of the default 8, allowing you to stay out 37.5% longer before warpsickness takes over.",
+          "popup": true
+        }
       ]
     },
-	"end": {
-      "effect": [        
+    "end": {
+      "effect": [
         { "math": [ "bonuspulses", "=", "3" ] },
         { "u_forget_recipe": "upgradekey_stability3" },
         {
@@ -821,7 +828,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_stability3",
     "type": "GENERIC",
@@ -846,18 +853,26 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "mutagen_medical", 1 ], [ "iv_mutagen_medical", 1 ] ],
-	    [ [ "warptoken", 15 ] ],
-	    [ [ "geiger_off", 1 ] ],
-	    [ [ "scalpel", 1 ] ],
-	    [ [ "stethoscope", 1 ] ],
-	    [ [ "meth", 10 ] ],
-		[ [ "transponder", 4 ] ],
-	    [ [ "receiver", 4 ] ],
-	    [ [ "recipe_maiar", 1 ], [ "recipe_lab_elec", 1 ], [ "textbook_atomic_lab", 1 ], [ "recipe_lab_cvd", 1 ], [ "recipe_creepy", 1 ], [ "recipe_animal", 1 ], [ "recipe_labchem", 1 ] ]
-	]
+      [ [ "mutagen_medical", 1 ], [ "iv_mutagen_medical", 1 ] ],
+      [ [ "warptoken", 15 ] ],
+      [ [ "geiger_off", 1 ] ],
+      [ [ "scalpel", 1 ] ],
+      [ [ "stethoscope", 1 ] ],
+      [ [ "meth", 10 ] ],
+      [ [ "transponder", 4 ] ],
+      [ [ "receiver", 4 ] ],
+      [
+        [ "recipe_maiar", 1 ],
+        [ "recipe_lab_elec", 1 ],
+        [ "textbook_atomic_lab", 1 ],
+        [ "recipe_lab_cvd", 1 ],
+        [ "recipe_creepy", 1 ],
+        [ "recipe_animal", 1 ],
+        [ "recipe_labchem", 1 ]
+      ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability4",
@@ -870,16 +885,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_stability4" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 12 pulses instead of the default 8, allowing you to stay out 50% longer before warpsickness takes over.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 12 pulses instead of the default 8, allowing you to stay out 50% longer before warpsickness takes over.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonuspulses", "=", "4" ] },
         { "u_forget_recipe": "upgradekey_stability4" },
@@ -889,7 +904,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_stability4",
     "type": "GENERIC",
@@ -914,15 +929,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
-	    [ [ "warptoken", 25 ] ],
-	    [ [ "plut_cell", 5 ] ],
-	    [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
-	    [ [ "c4", 1 ] ],
-	    [ [ "fidget_spinner", 1 ] ]
-	]
+      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
+      [ [ "warptoken", 25 ] ],
+      [ [ "plut_cell", 5 ] ],
+      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
+      [ [ "c4", 1 ] ],
+      [ [ "fidget_spinner", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_slaughter",
@@ -935,16 +950,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_slaughter" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: One special slaughter mission will be assigned during each expedition, rewarding warp shards if you kill a certain number of specifically targeted enemies before returning home.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: One special slaughter mission will be assigned during each expedition, rewarding warp shards if you kill a certain number of specifically targeted enemies before returning home.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "slaughterunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_slaughter" },
@@ -954,7 +969,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_slaughter",
     "type": "GENERIC",
@@ -979,10 +994,8 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "components": [
-	    [ [ "corpse", 5 ] ]
-	]
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "corpse", 5 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_exit1",
@@ -995,16 +1008,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_exit1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have two different locations you can exit from.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have two different locations you can exit from.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonusexits", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_exit1" },
@@ -1014,7 +1027,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_exit1",
     "type": "GENERIC",
@@ -1039,13 +1052,19 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "roller_blades", 1 ] ],
-	    [ [ "jacket_windbreaker", 1 ] ],
-		[ [ "crowbar", 1], [ "heavy_crowbar", 1 ] ],
-		[ [ "speedo", 1 ], [ "bikini_bottom_short", 1 ], [ "bikini_bottom", 1 ], [ "loincloth", 1 ], [ "loincloth_fur", 1 ] ]
-	]
+      [ [ "roller_blades", 1 ] ],
+      [ [ "jacket_windbreaker", 1 ] ],
+      [ [ "crowbar", 1 ], [ "heavy_crowbar", 1 ] ],
+      [
+        [ "speedo", 1 ],
+        [ "bikini_bottom_short", 1 ],
+        [ "bikini_bottom", 1 ],
+        [ "loincloth", 1 ],
+        [ "loincloth_fur", 1 ]
+      ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_exit2",
@@ -1058,16 +1077,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_exit2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have three different locations you can exit from.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have three different locations you can exit from.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonusexits", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_exit2" },
@@ -1077,7 +1096,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_exit2",
     "type": "GENERIC",
@@ -1102,14 +1121,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "grapnel", 1 ] ],
-	    [ [ "warptoken", 1 ] ],
-	    [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
-		[ [ "fire_ax", 1], [ "crash_axe", 1 ] ],
-		[ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
-	]
+      [ [ "grapnel", 1 ] ],
+      [ [ "warptoken", 1 ] ],
+      [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
+      [ [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
+      [ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_bonusmissions1",
@@ -1122,16 +1141,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_bonusmissions1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition now offers a randomly assigned mission, which will reward you with valuable warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition now offers a randomly assigned mission, which will reward you with valuable warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonusmissions", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions1" },
@@ -1141,7 +1160,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_bonusmissions1",
     "type": "GENERIC",
@@ -1166,18 +1185,18 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "fp_loyalty_card", 1 ] ],
-	    [ [ "coin_penny", 1 ] ],
-	    [ [ "coin_nickel", 1 ] ],
-	    [ [ "coin_dime", 1 ] ],
-	    [ [ "coin_quarter", 1 ] ],
-	    [ [ "money_one", 1 ] ],
-	    [ [ "money_five", 1 ] ],
-	    [ [ "money_ten", 1 ] ],
-	    [ [ "money_twenty", 1 ] ]
-	]
+      [ [ "fp_loyalty_card", 1 ] ],
+      [ [ "coin_penny", 1 ] ],
+      [ [ "coin_nickel", 1 ] ],
+      [ [ "coin_dime", 1 ] ],
+      [ [ "coin_quarter", 1 ] ],
+      [ [ "money_one", 1 ] ],
+      [ [ "money_five", 1 ] ],
+      [ [ "money_ten", 1 ] ],
+      [ [ "money_twenty", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_bonusmissions2",
@@ -1190,16 +1209,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_bonusmissions2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 2 different randomly assigned missions, increasing the possibility for earning warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 2 different randomly assigned missions, increasing the possibility for earning warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonusmissions", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions2" },
@@ -1209,7 +1228,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_bonusmissions2",
     "type": "GENERIC",
@@ -1234,20 +1253,20 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "gasdiscount_platinum", 1 ] ],
-	    [ [ "warptoken", 3 ] ],
-	    [ [ "silver_small", 200 ] ],
-	    [ [ "opal", 1 ] ],
-	    [ [ "pearl", 1 ] ],
-	    [ [ "citrine", 1 ] ],
-	    [ [ "peridot", 1 ] ],
-	    [ [ "amethyst", 1 ] ],
-	    [ [ "tourmaline", 1 ] ],
-	    [ [ "aquamarine", 1 ] ],
-	    [ [ "alexandrite", 1 ] ]
-	]
+      [ [ "gasdiscount_platinum", 1 ] ],
+      [ [ "warptoken", 3 ] ],
+      [ [ "silver_small", 200 ] ],
+      [ [ "opal", 1 ] ],
+      [ [ "pearl", 1 ] ],
+      [ [ "citrine", 1 ] ],
+      [ [ "peridot", 1 ] ],
+      [ [ "amethyst", 1 ] ],
+      [ [ "tourmaline", 1 ] ],
+      [ [ "aquamarine", 1 ] ],
+      [ [ "alexandrite", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_bonusmissions3",
@@ -1260,16 +1279,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_bonusmissions3" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 3 different randomly assigned missions, increasing the possibility for earning warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 3 different randomly assigned missions, increasing the possibility for earning warp shards. Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "bonusmissions", "=", "3" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions3" },
@@ -1279,7 +1298,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_bonusmissions3",
     "type": "GENERIC",
@@ -1304,18 +1323,18 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
-	    [ [ "warptoken", 6 ] ],
-	    [ [ "gold_small", 500 ] ],
-	    [ [ "diamond", 5 ] ],
-	    [ [ "ruby", 5 ] ],
-	    [ [ "emerald", 5 ] ],
-	    [ [ "onyx", 5 ] ],
-	    [ [ "garnet", 5 ] ],
-	    [ [ "sapphire", 5 ] ]
-	]
+      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
+      [ [ "warptoken", 6 ] ],
+      [ [ "gold_small", 500 ] ],
+      [ [ "diamond", 5 ] ],
+      [ [ "ruby", 5 ] ],
+      [ [ "emerald", 5 ] ],
+      [ [ "onyx", 5 ] ],
+      [ [ "garnet", 5 ] ],
+      [ [ "sapphire", 5 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_hardmissions1",
@@ -1328,16 +1347,16 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_hardmissions1" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: New and more challenging types of missions are available to be randomly assigned in every expedition. Harder missions will reward many more warp shards.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: New and more challenging types of missions are available to be randomly assigned in every expedition. Harder missions will reward many more warp shards.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
         { "math": [ "hardmissions", "=", "10" ] },
         { "math": [ "hardermissions", "=", "5" ] },
@@ -1348,7 +1367,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_hardmissions1",
     "type": "GENERIC",
@@ -1373,17 +1392,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "qualities": [
-       { "id": "PISTOL", "level": 1 }
-	],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "PISTOL", "level": 1 } ],
     "components": [
-	    [ [ "bat", 1 ], [ "bwirebat", 1 ], [ "nailbat", 1 ] ],
-	    [ [ "warptoken", 2 ] ],
-	    [ [ "bandages", 10 ] ],
-	    [ [ "liq_bandage", 80 ] ],
-		[ [ "9mm", 50], [ "9mmfmj", 50 ], [ "9mmP", 30 ], [ "9mmP2", 20 ] ]
-	]
+      [ [ "bat", 1 ], [ "bwirebat", 1 ], [ "nailbat", 1 ] ],
+      [ [ "warptoken", 2 ] ],
+      [ [ "bandages", 10 ] ],
+      [ [ "liq_bandage", 80 ] ],
+      [ [ "9mm", 50 ], [ "9mmfmj", 50 ], [ "9mmP", 30 ], [ "9mmP2", 20 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_hardmissions2",
@@ -1396,20 +1413,20 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_hardmissions2" },
-          {
-            "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: New and even more challenging types of missions are available to be randomly assigned in every expedition. Harder missions will reward many more warp shards.",
-            "popup": true
-          }
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: New and even more challenging types of missions are available to be randomly assigned in every expedition. Harder missions will reward many more warp shards.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "hardmissions", "=", "15" ] },
-      { "math": [ "hardermissions", "=", "15" ] },
-      { "math": [ "hardestmissions", "=", "10" ] },
+        { "math": [ "hardmissions", "=", "15" ] },
+        { "math": [ "hardermissions", "=", "15" ] },
+        { "math": [ "hardestmissions", "=", "10" ] },
         { "u_forget_recipe": "upgradekey_hardmissions2" },
         {
           "u_message": "The greatest trespasses against the island now glimmer in the dark, guiding your hand as a tool of order. Return these chaotic energies to the tranquility of the warpstream.\nThe missions you are randomly assigned in each expedition are even more varied, and can now pull from the hardest and most rewarding challenges.",
@@ -1442,18 +1459,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "qualities": [
-       { "id": "SHOTGUN", "level": 1 }
-	],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "SHOTGUN", "level": 1 } ],
     "components": [
-	    [ [ "hammer_sledge", 1 ], [ "hammer_sledge_short", 1 ], [ "hammer_sledge_heavy", 1 ] ],
-	    [ [ "warptoken", 2 ] ],
-	    [ [ "quikclot", 8 ] ],
-	    [ [ "bfipowder", 10 ] ],
-		[ [ "shot_00", 40] ],
-	    [ [ "grenade", 1 ] ]
-	]
+      [ [ "hammer_sledge", 1 ], [ "hammer_sledge_short", 1 ], [ "hammer_sledge_heavy", 1 ] ],
+      [ [ "warptoken", 2 ] ],
+      [ [ "quikclot", 8 ] ],
+      [ [ "bfipowder", 10 ] ],
+      [ [ "shot_00", 40 ] ],
+      [ [ "grenade", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_rankup1",
@@ -1466,18 +1481,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_rankup1" },
         {
           "u_message": "You are ready to ascend to a higher tier of strength and ability. Complete this trial and prove yourself, and you will discover new powers for yourself and the island.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reach Rank 1. Some upgrades and unlocks will not be available until you have ranked up. You will also instantly learn several new warp-related crafting recipes.",
-            "popup": true
+          "popup": true
         }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "islandrank", "=", "2" ] },
+        { "math": [ "islandrank", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_rankup1" },
         { "u_learn_recipe": "warp_carrier" },
         { "u_learn_recipe": "recipe_craft_random_artifact" },
@@ -1493,7 +1508,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_rankup1",
     "type": "GENERIC",
@@ -1518,20 +1533,18 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [
-       { "id": "HAMMER", "level": 2 },
-       { "id": "BOIL", "level": 2 },
-       { "id": "JACK", "level": 1 },
-       { "id": "HOSE", "level": 1 },
-       { "id": "STRAIN", "level": 1 },
-       { "id": "SAW_W", "level": 2 },
-       { "id": "WRENCH_FINE", "level": 1 },
-       { "id": "WRENCH", "level": 2 }
-	],
-    "components": [
-	    [ [ "warptoken", 2 ] ]
-	]
+      { "id": "HAMMER", "level": 2 },
+      { "id": "BOIL", "level": 2 },
+      { "id": "JACK", "level": 1 },
+      { "id": "HOSE", "level": 1 },
+      { "id": "STRAIN", "level": 1 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [ [ [ "warptoken", 2 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_rankup2",
@@ -1544,8 +1557,8 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_rankup2" },
         {
           "u_message": "You are ready to ascend to a higher tier of strength and ability. Complete this trial and prove yourself, and you will discover new powers for yourself and the island.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reach Rank 2. Some upgrades and unlocks will not be available until you have ranked up. You will also instantly learn several new warp-related crafting recipes.",
@@ -1553,9 +1566,9 @@
         }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "islandrank", "=", "4" ] },
+        { "math": [ "islandrank", "=", "4" ] },
         { "u_forget_recipe": "upgradekey_rankup2" },
         { "u_learn_recipe": "warphome" },
         { "u_learn_recipe": "warp_autodoc_inert" },
@@ -1569,7 +1582,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_rankup2",
     "type": "GENERIC",
@@ -1594,20 +1607,18 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [
-       { "id": "BUTCHER", "level": 16 },
-       { "id": "CHEM", "level": 2 },
-       { "id": "DRILL", "level": 1 },
-       { "id": "CUT_FINE", "level": 2 },
-       { "id": "MOP", "level": 1 },
-       { "id": "SMOOTH", "level": 1 },
-       { "id": "WINNOW", "level": 1 },
-       { "id": "PRY", "level": 2 }
-	],
-    "components": [
-	    [ [ "warptoken", 4 ] ]
-	]
+      { "id": "BUTCHER", "level": 16 },
+      { "id": "CHEM", "level": 2 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "CUT_FINE", "level": 2 },
+      { "id": "MOP", "level": 1 },
+      { "id": "SMOOTH", "level": 1 },
+      { "id": "WINNOW", "level": 1 },
+      { "id": "PRY", "level": 2 }
+    ],
+    "components": [ [ [ "warptoken", 4 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_raidlength1",
@@ -1620,18 +1631,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_raidlength1" },
-          {
-            "u_message": "With some success under your belt, you feel ready to tackle more ambitious expeditions, and the island seems to know it.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Large Expeditions when leaving via the warp obelisk. Large Expeditions last 2x as long, but mission targets and exit points are significantly farther away.",
-            "popup": true
-          }
+        {
+          "u_message": "With some success under your belt, you feel ready to tackle more ambitious expeditions, and the island seems to know it.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Large Expeditions when leaving via the warp obelisk. Large Expeditions last 2x as long, but mission targets and exit points are significantly farther away.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "longerraids", "=", "1" ] },
+        { "math": [ "longerraids", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_raidlength1" },
         {
           "u_message": "You are ready for a longer haul.\nLarge Expeditions are now available at the warp obelisk. Exits and missions will be farther away, but you will have twice as long to spend earthside. Use this time wisely, and set your sights on bigger targets. What will you do with your newfound time?",
@@ -1639,7 +1650,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_raidlength1",
     "type": "GENERIC",
@@ -1664,14 +1675,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "mask_gas", 1 ], [ "mask_gas_half", 1 ] ],
-	    [ [ "warptoken", 1 ] ],
-	    [ [ "backpack", 4 ], [ "backpack_leather", 4 ] ],
-	    [ [ "granola", 6 ] ],
-		[ [ "water_mineral", 5 ] ]
-	]
+      [ [ "mask_gas", 1 ], [ "mask_gas_half", 1 ] ],
+      [ [ "warptoken", 1 ] ],
+      [ [ "backpack", 4 ], [ "backpack_leather", 4 ] ],
+      [ [ "granola", 6 ] ],
+      [ [ "water_mineral", 5 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_raidlength2",
@@ -1684,18 +1695,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_raidlength2" },
-          {
-            "u_message": "You've seen enough safe returns to know your way around an expedition. Now if you could spend even more time earthside, you'd be able to tackle even bigger and more ambitious goals.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Extended Expeditions when leaving via the warp obelisk. Extended Expeditions last 3x as long, but mission targets and exit points are much farther away.",
-            "popup": true
-          }
+        {
+          "u_message": "You've seen enough safe returns to know your way around an expedition. Now if you could spend even more time earthside, you'd be able to tackle even bigger and more ambitious goals.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Extended Expeditions when leaving via the warp obelisk. Extended Expeditions last 3x as long, but mission targets and exit points are much farther away.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "longerraids", "=", "2" ] },
+        { "math": [ "longerraids", "=", "2" ] },
         { "u_forget_recipe": "upgradekey_raidlength2" },
         {
           "u_message": "You're in it to win it, and are prepared to take a long time exploring the world below.\nExtended Expeditions are now available at the warp obelisk. Exits and missions will be much farther away, but you will have three times as long to spend earthside. Pack supplies for a day trip and be sure to bring plenty of storage space. Where will you go with your newfound time?",
@@ -1703,7 +1714,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_raidlength2",
     "type": "GENERIC",
@@ -1728,14 +1739,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "boots_hiking", 2 ] ],
-	    [ [ "backpack_hiking", 2 ] ],
-	    [ [ "pants_hiking", 1 ] ],
-	    [ [ "rehydration_drink", 5 ] ],
-		[ [ "protein_bar_evac", 10 ], [ "protein_smoothie", 4 ] ]
-	]
+      [ [ "boots_hiking", 2 ] ],
+      [ [ "backpack_hiking", 2 ] ],
+      [ [ "pants_hiking", 1 ] ],
+      [ [ "rehydration_drink", 5 ] ],
+      [ [ "protein_bar_evac", 10 ], [ "protein_smoothie", 4 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_basementsunlock",
@@ -1748,18 +1759,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_basementsunlock" },
-          {
-            "u_message": "Being guaranteed to start in a town or city would cut down on your hikes through the wilderness. But popping down in the middle of the street with no warning could really attract hordes. Basements aren't always safe, but they're probably safer than walking down Main in broad daylight, and might be a good location to begin future expeditions.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Basement starts when leaving via the warp obelisk.",
-            "popup": true
-          }
+        {
+          "u_message": "Being guaranteed to start in a town or city would cut down on your hikes through the wilderness. But popping down in the middle of the street with no warning could really attract hordes. Basements aren't always safe, but they're probably safer than walking down Main in broad daylight, and might be a good location to begin future expeditions.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Basement starts when leaving via the warp obelisk.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "basementsunlocked", "=", "1" ] },
+        { "math": [ "basementsunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_basementsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition in a basement. Not glamorous, but at least it ensures you won't be stranded out in some desolate field.",
@@ -1767,7 +1778,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_basementsunlock",
     "type": "GENERIC",
@@ -1792,16 +1803,24 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "wolfsuit", 1 ], [ "dragonsuit", 1 ], [ "felinesuit", 1 ], [ "dinosuit", 1 ], [ "sharksuit", 1 ], [ "wolfsuit", 1 ], [ "wolfsuit", 1 ] ],
-	    [ [ "bodypillow", 2 ] ],
-	    [ [ "catan", 1 ] ],
-	    [ [ "dnd", 1 ] ],
-		[ [ "snakesnladders", 1 ] ],
-		[ [ "chess", 1 ] ],
-		[ [ "RPG_die", 4 ] ]
-	]
+      [
+        [ "wolfsuit", 1 ],
+        [ "dragonsuit", 1 ],
+        [ "felinesuit", 1 ],
+        [ "dinosuit", 1 ],
+        [ "sharksuit", 1 ],
+        [ "wolfsuit", 1 ],
+        [ "wolfsuit", 1 ]
+      ],
+      [ [ "bodypillow", 2 ] ],
+      [ [ "catan", 1 ] ],
+      [ [ "dnd", 1 ] ],
+      [ [ "snakesnladders", 1 ] ],
+      [ [ "chess", 1 ] ],
+      [ [ "RPG_die", 4 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_roofsunlock",
@@ -1814,18 +1833,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_roofsunlock" },
-          {
-            "u_message": "If basements aren't cutting it, there's always rooftops. Starting one floor up will give you a good vantage and relative safety from the busy streets while still ensuring you begin your expedition in a town or city.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Rooftop starts when leaving via the warp obelisk. In case you need to make a quick descent, bear in mind that the warpcloak effect you have briefly at the start of each expedition prevents fall damage.",
-            "popup": true
-          }
+        {
+          "u_message": "If basements aren't cutting it, there's always rooftops. Starting one floor up will give you a good vantage and relative safety from the busy streets while still ensuring you begin your expedition in a town or city.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Rooftop starts when leaving via the warp obelisk. In case you need to make a quick descent, bear in mind that the warpcloak effect you have briefly at the start of each expedition prevents fall damage.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "roofsunlocked", "=", "1" ] },
+        { "math": [ "roofsunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_roofsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition on some rooftop. Dangerous, perhaps, but it ensures proximity to points of interest, and besides, there are all kinds of buildings this might land you on.",
@@ -1833,7 +1852,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_roofsunlock",
     "type": "GENERIC",
@@ -1858,17 +1877,17 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "survivor_scope", 1 ] ],
-	    [ [ "golf_tee", 1 ] ],
-	    [ [ "feather", 40 ], [ "down_feather", 40 ] ],
-        [ [ "eggs_any_shape", 6, "LIST" ] ],
-	    [ [ "golf_ball", 1 ] ],
-		[ [ "chair_folding", 1 ] ],
-		[ [ "tourist_table", 1 ] ],
-		[ [ "stepladder", 1 ], [ "aluminum_stepladder", 1 ] ]
-	]
+      [ [ "survivor_scope", 1 ] ],
+      [ [ "golf_tee", 1 ] ],
+      [ [ "feather", 40 ], [ "down_feather", 40 ] ],
+      [ [ "eggs_any_shape", 6, "LIST" ] ],
+      [ [ "golf_ball", 1 ] ],
+      [ [ "chair_folding", 1 ] ],
+      [ [ "tourist_table", 1 ] ],
+      [ [ "stepladder", 1 ], [ "aluminum_stepladder", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_labsunlock",
@@ -1881,18 +1900,18 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "upgradekey_labsunlock" },
-          {
-            "u_message": "Labs are rare and valuable finds, and clearing them out will take the better part of a long expedition. It would be much so easier if you could start right outside one!\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Lab starts when leaving via the warp obelisk. This expedition type is unique in that it will require a Labs Catalyst in your inventory when you select the expedition, which will then be consumed on leaving.",
-            "popup": true
-          }
+        {
+          "u_message": "Labs are rare and valuable finds, and clearing them out will take the better part of a long expedition. It would be much so easier if you could start right outside one!\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select random Lab starts when leaving via the warp obelisk. This expedition type is unique in that it will require a Labs Catalyst in your inventory when you select the expedition, which will then be consumed on leaving.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-      { "math": [ "labsunlocked", "=", "1" ] },
+        { "math": [ "labsunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_labsunlock" },
         {
           "u_message": "With this upgrade, you're guaranteed to begin your expedition at an underground lab. Be aware that you will need to have a Labs Catalyst on you when activating the warp obelisk, and these will be consumed on leaving.",
@@ -1900,7 +1919,7 @@
         }
       ]
     }
-  },  
+  },
   {
     "id": "upgradekey_labsunlock",
     "type": "GENERIC",
@@ -1925,15 +1944,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "id_science", 1 ] ],
-	    [ [ "plut_cell", 5 ] ],
-	    [ [ "oxy_torch", 1 ] ],
-		[ [ "oxyacetylene", 120 ] ],
-		[ [ "mutagen", 2 ], [ "iv_mutagen", 1 ] ],
-		[ [ "jackhammer", 1 ], [ "elec_jackhammer", 1 ] ]
-	]
+      [ [ "id_science", 1 ] ],
+      [ [ "plut_cell", 5 ] ],
+      [ [ "oxy_torch", 1 ] ],
+      [ [ "oxyacetylene", 120 ] ],
+      [ [ "mutagen", 2 ], [ "iv_mutagen", 1 ] ],
+      [ [ "jackhammer", 1 ], [ "elec_jackhammer", 1 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_BUILD_base1",
@@ -1946,27 +1965,27 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "buildkey_base1" },
-          {
-            "u_message": "The island seems to be a suitable safe haven for staging future expeditions, but while there's no threat of monsters, it's still harshly exposed to the elements. Having even minimal covered shelter would go a long way towards helping you rest and recuperate between expeditions.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Bunker Entrance. A simple concrete entrance leading down into the lower levels of the island, including a small subterranean chamber.",
-            "popup": true
-          }
+        {
+          "u_message": "The island seems to be a suitable safe haven for staging future expeditions, but while there's no threat of monsters, it's still harshly exposed to the elements. Having even minimal covered shelter would go a long way towards helping you rest and recuperate between expeditions.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Bunker Entrance. A simple concrete entrance leading down into the lower levels of the island, including a small subterranean chamber.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "skyisland_build_base", "=", "1" ] },
-      { "u_forget_recipe": "buildkey_base1" },
-      { "run_eocs": "EOC_skyisland_build_base1" },
-	  {
-        "u_message": "It is done. A small bunker has been carved into the foundations of this island. You will find the stairs nearby.\nThis is only the beginning.",
-        "popup": true
-      }
+        { "math": [ "skyisland_build_base", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_base1" },
+        { "run_eocs": "EOC_skyisland_build_base1" },
+        {
+          "u_message": "It is done. A small bunker has been carved into the foundations of this island. You will find the stairs nearby.\nThis is only the beginning.",
+          "popup": true
+        }
       ]
     }
-  },  
+  },
   {
     "id": "buildkey_base1",
     "type": "GENERIC",
@@ -1991,15 +2010,15 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-	    [ [ "stick", 4 ], [ "stick_long", 2 ], [ "twig", 16 ] ],
-	    [ [ "rock", 10 ] ],
-	    [ [ "pebble", 10 ] ],
-	    [ [ "sharp_rock", 1 ] ],
-	    [ [ "scrap", 4 ] ],
-		[ [ "withered", 4 ] ]
-	]
+      [ [ "stick", 4 ], [ "stick_long", 2 ], [ "twig", 16 ] ],
+      [ [ "rock", 10 ] ],
+      [ [ "pebble", 10 ] ],
+      [ [ "sharp_rock", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "withered", 4 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_BUILD_bigroom1",
@@ -2012,27 +2031,27 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "buildkey_bigroom1" },
-          {
-            "u_message": "Now that work on the island bunker has begun, a large central room would be ideal. With all the loot you'll be scavenging on expeditions, it could make a useful storeroom and crafting center.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 1. A hollow chamber beneath the island's center to serve as a multipurpose space, with tons of room to expand.",
-            "popup": true
-          }
+        {
+          "u_message": "Now that work on the island bunker has begun, a large central room would be ideal. With all the loot you'll be scavenging on expeditions, it could make a useful storeroom and crafting center.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 1. A hollow chamber beneath the island's center to serve as a multipurpose space, with tons of room to expand.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "skyisland_build_bigroom", "=", "1" ] },
-      { "u_forget_recipe": "buildkey_bigroom1" },
-      { "run_eocs": "EOC_skyisland_build_bigroom1" },
-	  {
-        "u_message": "Construction complete. A central room has been dug out in the bunker beneath the island.",
-        "popup": true
-      }
+        { "math": [ "skyisland_build_bigroom", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_bigroom1" },
+        { "run_eocs": "EOC_skyisland_build_bigroom1" },
+        {
+          "u_message": "Construction complete. A central room has been dug out in the bunker beneath the island.",
+          "popup": true
+        }
       ]
     }
-  },  
+  },
   {
     "id": "buildkey_bigroom1",
     "type": "GENERIC",
@@ -2057,20 +2076,16 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "qualities": [
-       { "id": "DIG", "level": 1 },
-       { "id": "HAMMER", "level": 2 },
-       { "id": "SCREW", "level": 1 }
-	],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-	    [ [ "2x4", 1 ] ],
-	    [ [ "hinge", 5 ] ],
-	    [ [ "nail", 20 ] ],
-		[ [ "nuts_bolts", 15 ] ],
-		[ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
-		[ [ "cordage", 5, "LIST" ] ]
-	]
+      [ [ "2x4", 1 ] ],
+      [ [ "hinge", 5 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
   },
   {
     "id": "SKYISLAND_BUILD_bigroom2",
@@ -2083,27 +2098,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "buildkey_bigroom2" },
-          {
-            "u_message": "The central room would be a lot more useful if it were larger. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 2. Expand the central room to fit more loot, furniture, or anything else you may need.",
-            "popup": true
-          }
+        {
+          "u_message": "The central room would be a lot more useful if it were larger. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 2. Expand the central room to fit more loot, furniture, or anything else you may need.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "skyisland_build_bigroom", "=", "2" ] },
-      { "u_forget_recipe": "buildkey_bigroom2" },
-      { "run_eocs": "EOC_skyisland_build_bigroom2" },
-	  {
-        "u_message": "Construction complete. The central room has grown.",
-        "popup": true
-      }
+        { "math": [ "skyisland_build_bigroom", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_bigroom2" },
+        { "run_eocs": "EOC_skyisland_build_bigroom2" },
+        { "u_message": "Construction complete. The central room has grown.", "popup": true }
       ]
     }
-  },  
+  },
   {
     "id": "buildkey_bigroom2",
     "type": "GENERIC",
@@ -2128,18 +2140,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "qualities": [
-       { "id": "WRENCH", "level": 2 },
-       { "id": "SCREW_FINE", "level": 1 },
-       { "id": "DRILL", "level": 1 }
-	],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
-	    [ [ "shovel", 1 ], [ "shovel_snow", 1] ],
-	    [ [ "sheet_metal", 8 ] ],
-	    [ [ "frame", 2 ] ],
-		[ [ "cordage", 1, "LIST" ] ]
-	]
+      [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "SKYISLAND_BUILD_bigroom3",
@@ -2152,27 +2160,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "buildkey_bigroom3" },
-          {
-            "u_message": "The central room is a good start, but it could be much bigger. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 3. Expand the central room to very generous dimensions.",
-            "popup": true
-          }
+        {
+          "u_message": "The central room is a good start, but it could be much bigger. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 3. Expand the central room to very generous dimensions.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "skyisland_build_bigroom", "=", "3" ] },
-      { "u_forget_recipe": "buildkey_bigroom3" },
-      { "run_eocs": "EOC_skyisland_build_bigroom3" },
-	  {
-        "u_message": "Construction complete. The central room has grown even further.",
-        "popup": true
-      }
+        { "math": [ "skyisland_build_bigroom", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_bigroom3" },
+        { "run_eocs": "EOC_skyisland_build_bigroom3" },
+        { "u_message": "Construction complete. The central room has grown even further.", "popup": true }
       ]
     }
-  },  
+  },
   {
     "id": "buildkey_bigroom3",
     "type": "GENERIC",
@@ -2197,21 +2202,17 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
-    "qualities": [
-       { "id": "WRENCH", "level": 2 },
-       { "id": "SCREW_FINE", "level": 1 },
-       { "id": "DRILL", "level": 1 }
-	],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
-	    [ [ "wood_beam", 4 ] ],
-	    [ [ "sheet_metal", 8 ] ],
-	    [ [ "frame", 2 ] ],
-	    [ [ "wearable_light", 2 ] ],
-		[ [ "hard_plate", 4], [ "steel_plate", 8 ] ],
-		[ [ "battery_car", 1], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-		[ [ "cordage", 1, "LIST" ] ]
-	]
+      [ [ "wood_beam", 4 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "wearable_light", 2 ] ],
+      [ [ "hard_plate", 4 ], [ "steel_plate", 8 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "SKYISLAND_BUILD_bigroom4",
@@ -2224,27 +2225,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "buildkey_bigroom4" },
-          {
-            "u_message": "The central room is big. But not yet big enough. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 4. Expand the central room to its maximum size.",
-            "popup": true
-          }
+        {
+          "u_message": "The central room is big. But not yet big enough. Time to get to work.\nA new recipe has been learned. Craft this artifact to permanently upgrade the island.\n\nNew Structure: Main Room 4. Expand the central room to its maximum size.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "skyisland_build_bigroom", "=", "4" ] },
-      { "u_forget_recipe": "buildkey_bigroom4" },
-      { "run_eocs": "EOC_skyisland_build_bigroom4" },
-	  {
-        "u_message": "Construction complete. The central room is now at its maximum size.",
-        "popup": true
-      }
+        { "math": [ "skyisland_build_bigroom", "=", "4" ] },
+        { "u_forget_recipe": "buildkey_bigroom4" },
+        { "run_eocs": "EOC_skyisland_build_bigroom4" },
+        { "u_message": "Construction complete. The central room is now at its maximum size.", "popup": true }
       ]
     }
-  },  
+  },
   {
     "id": "buildkey_bigroom4",
     "type": "GENERIC",
@@ -2269,23 +2267,23 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],	
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [
-       { "id": "SAW_M_FINE", "level": 1 },
-       { "id": "SAW_M", "level": 2 },
-       { "id": "WELD", "level": 1 },
-       { "id": "GLARE", "level": 1 }
-	],
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WELD", "level": 1 },
+      { "id": "GLARE", "level": 1 }
+    ],
     "components": [
-		[ [ "storage_battery", 1 ] ],
-	    [ [ "mil_plate", 2 ] ],
-		[ [ "acidchitin_plate", 2], [ "chitin_plate", 4 ] ],
-	    [ [ "hdframe", 2 ] ],
-	    [ [ "block_and_tackle", 1 ] ],
-	    [ [ "mannequin", 1 ] ],
-		[ [ "hd_pipe", 4] ],
-		[ [ "hd_pipe_fittings", 4] ]
-	]
+      [ [ "storage_battery", 1 ] ],
+      [ [ "mil_plate", 2 ] ],
+      [ [ "acidchitin_plate", 2 ], [ "chitin_plate", 4 ] ],
+      [ [ "hdframe", 2 ] ],
+      [ [ "block_and_tackle", 1 ] ],
+      [ [ "mannequin", 1 ] ],
+      [ [ "hd_pipe", 4 ] ],
+      [ [ "hd_pipe_fittings", 4 ] ]
+    ]
   },
   {
     "id": "SKYISLAND_UPGRADE_security1",
@@ -2298,24 +2296,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "secure_container_1" },
-          {
-            "u_message": "You have been granted the recipe to craft an Alpha Secure Container. This little miracle defies the very laws of physics and insists upon its own permanence. In short, it will give you an integrated pocket you can always access. The contents of this pocket are completely secure and will not be lost, even if you die and are returned to the island.\n\nYou can only ever equip one secure container.",
-            "popup": true
-          }
+        {
+          "u_message": "You have been granted the recipe to craft an Alpha Secure Container. This little miracle defies the very laws of physics and insists upon its own permanence. In short, it will give you an integrated pocket you can always access. The contents of this pocket are completely secure and will not be lost, even if you die and are returned to the island.\n\nYou can only ever equip one secure container.",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "securitylevel", "=", "1" ] },
-      { "u_forget_recipe": "secure_container_1" },
-      { "u_add_trait": "mut_secure_container_1" },
-	  {
-        "u_message": "The strange metaphysical container suddenly snaps inward, clinging to the very core of your being. Anything stored here will not be lost on death.",
-        "popup": true
-      }
+        { "math": [ "securitylevel", "=", "1" ] },
+        { "u_forget_recipe": "secure_container_1" },
+        { "u_add_trait": "mut_secure_container_1" },
+        {
+          "u_message": "The strange metaphysical container suddenly snaps inward, clinging to the very core of your being. Anything stored here will not be lost on death.",
+          "popup": true
+        }
       ]
     }
   },
@@ -2331,9 +2329,7 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-		[ [ "warptoken", 5] ]
-	]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_security2",
@@ -2346,24 +2342,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "secure_container_2" },
-          {
-            "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
-            "popup": true
-          }
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "securitylevel", "=", "2" ] },
-      { "u_forget_recipe": "secure_container_2" },
-      { "u_add_trait": "mut_secure_container_2" },
-	  {
-        "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
-        "popup": true
-      }
+        { "math": [ "securitylevel", "=", "2" ] },
+        { "u_forget_recipe": "secure_container_2" },
+        { "u_add_trait": "mut_secure_container_2" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
+          "popup": true
+        }
       ]
     }
   },
@@ -2379,9 +2375,7 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-		[ [ "warptoken", 5] ]
-	]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_security3",
@@ -2394,24 +2388,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "secure_container_3" },
-          {
-            "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
-            "popup": true
-          }
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "securitylevel", "=", "3" ] },
-      { "u_forget_recipe": "secure_container_3" },
-      { "u_add_trait": "mut_secure_container_3" },
-	  {
-        "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
-        "popup": true
-      }
+        { "math": [ "securitylevel", "=", "3" ] },
+        { "u_forget_recipe": "secure_container_3" },
+        { "u_add_trait": "mut_secure_container_3" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
+          "popup": true
+        }
       ]
     }
   },
@@ -2427,9 +2421,7 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-		[ [ "warptoken", 5] ]
-	]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_security4",
@@ -2442,24 +2434,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "secure_container_4" },
-          {
-            "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
-            "popup": true
-          }
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "securitylevel", "=", "4" ] },
-      { "u_forget_recipe": "secure_container_4" },
-      { "u_add_trait": "mut_secure_container_4" },
-	  {
-        "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
-        "popup": true
-      }
+        { "math": [ "securitylevel", "=", "4" ] },
+        { "u_forget_recipe": "secure_container_4" },
+        { "u_add_trait": "mut_secure_container_4" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
+          "popup": true
+        }
       ]
     }
   },
@@ -2475,9 +2467,7 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-		[ [ "warptoken", 5] ]
-	]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_security5",
@@ -2490,24 +2480,24 @@
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
-	"start": {
-      "effect": [ 
+    "start": {
+      "effect": [
         { "u_learn_recipe": "secure_container_5" },
-          {
-            "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
-            "popup": true
-          }
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.\n\nEMPTY YOUR SECURE CONTAINER FIRST! Anything left inside when upgrading will be lost forever!",
+          "popup": true
+        }
       ]
     },
-	"end": {
+    "end": {
       "effect": [
-	  { "math": [ "securitylevel", "=", "5" ] },
-      { "u_forget_recipe": "secure_container_5" },
-      { "u_add_trait": "mut_secure_container_5" },
-	  {
-        "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
-        "popup": true
-      }
+        { "math": [ "securitylevel", "=", "5" ] },
+        { "u_forget_recipe": "secure_container_5" },
+        { "u_add_trait": "mut_secure_container_5" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding. Your secure container can now carry more.",
+          "popup": true
+        }
       ]
     }
   },
@@ -2523,8 +2513,6 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-		[ [ "warptoken", 5] ]
-	]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   }
 ]
