@@ -3400,6 +3400,7 @@ bool game::save_achievements()
     }
     achievement_file_path << buffer;
 #endif
+
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
     // Clear past achievements so that it will be reloaded
@@ -11972,7 +11973,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );
-            u.mod_stamina( -750 );
+            u.burn_energy_all( -750 );
             move_cost += 500;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
@@ -12137,7 +12138,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     } else {
         u.moves -= move_cost;
-        u.mod_stamina( -move_cost );
+        u.burn_energy_all( -move_cost );
     }
 
     if( surfacing || submerging ) {
