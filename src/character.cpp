@@ -1929,7 +1929,7 @@ void Character::on_try_dodge()
     set_activity_level( EXTRA_EXERCISE );
 }
 
-void Character::on_dodge( Creature *source, float difficulty )
+void Character::on_dodge( Creature *source, float difficulty, float training_level )
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
     // We can ignore dodges_left because it was already checked in get_dodge()
@@ -1946,8 +1946,13 @@ void Character::on_dodge( Creature *source, float difficulty )
 
     // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, difficulty * 2, difficulty );
 
+    // If training_level is set, treat that as the difficulty instead
+    if( training_level != 0.0 ) {
+        difficulty = training_level;
+    }
+
+    practice( skill_dodge, difficulty * 2, difficulty );
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
