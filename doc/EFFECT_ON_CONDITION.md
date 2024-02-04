@@ -20,8 +20,10 @@ An effect_on_condition is an object allowing the combination of dialog condition
   - [Event EOC Types:](#event-eoc-types)
   - [Context Variables For Other EOCs](#context-variables-for-other-eocs)
 - [Effects](#effects)
+  - [General](#general)
   - [Character effects](#character-effects)
   - [Item effects](#item-effects)
+  - [Map effects](#map-effects)
   - [Map Updates](#map-updates)
 
 ## Fields
@@ -57,6 +59,32 @@ Talker, in context of effect on condition, is any entity, that can use specific 
 
 For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant, check the player as beta talker, despite the id imply it should be `npc_`; This is a legacy of dialogue system, from which EoC was extended, and won't be fixed, since dialogues still use it fully
 
+### Typical Alpha and Beta Talkers by cases
+
+| EOC                                              | Alpha (possible types)      | Beta (possible types)       |
+| ------------------------------------------------ | ----------------------      | --------------------------- |
+| Talk with NPC                                    | player (Avatar)             | NPC (NPC)                   |
+| Talk with monster                                | player (Avatar)             | monster (monster)           |
+| Use computer                                     | player (Avatar)             | computer (Furniture)        |
+| furniture: "examine_action"                      | player (Avatar)             | NONE                        |
+| SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) |
+| use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 |
+| tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
+| countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
+| COMESTIBLE: "consumption_effect_on_conditions"   | user (Character)            | item (item)                 |
+| activity_type: "completion_eoc"                  | character (Character)       | NONE                        |
+| activity_type: "do_turn_eoc"                     | character (Character)       | NONE                        |
+| addiction_type: "effect_on_condition"            | character (Character)       | NONE                        |
+| bionics: "activated_eocs"                        | character (Character)       | NONE                        |
+| bionics: "deactivated_eocs"                      | character (Character)       | NONE                        |
+| bionics: "processed_eocs"                        | character (Character)       | NONE                        |
+| mutation: "activated_eocs"                       | character (Character)       | NONE                        |
+| mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
+| mutation: "processed_eocs"                       | character (Character)       | NONE                        |
+| recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+
+Note, that using `use_action: "type": "effect_on_conditions"` automatically passes the context variable `id`, that stores the id of an item that was activated
+
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
@@ -70,13 +98,16 @@ Effect on Condition uses a huge variety of different values for effects or for c
 | duration | string, that contain number and unit of time, that the game code transform into seconds and put into the game. It is possible to use int instead of duration, but it is recommended to use duration for the readability sake. Possible values are `s`/`seconds`, `m`/`minutes`, `h`/`hours`, `d`/`days` | `1`, `"1 s"`, `"1 seconds"`, `"60 minutes"`, `3600`, `"99 minutes"`, `"2 d"`, `"365 days"`   |
 | value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br>`[ "30 seconds", "50 seconds" ]`,</br>`[ -1, 1 ]`,</br>`[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`,</br>`[ { "global_val": "small_variable" }, 100 ]` |
 | array | not a separate format, it means the field can accept multiple values, and the game either will pick one random between them, or apply all of them simultaneously | `[ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ]`  |
-| variable object | any [variable object](##variable-object)  | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
+| variable object | any [variable object](##variable-object); can be int, time or string, stored in said variable, or math syntax | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
+| location variable | not a separate format, just any [variable object](##variable-object) that store location coordinates, usually obtained by using `u_location_variable` / `npc_location_variable`  | `{ "global_val": "some_location" }`,</br>`{ "u_val": "some_location_i_know" }` |
+
+There is some amount of another types, that are not explained here, like "search_data" or "fake_spell", but since this one are rarely reused, they are described in the effects that utilize them
 
 ## Variable Object
 
-Variable object is a value, that changes due some conditions. Variable can be int, time, string, `arithmetic`/`math` expression or value between two. Types of values are:
+Variable object is a value, that changes due some conditions. Variable can be int, time, string, `math` expression or location variable. Types of variables are:
 
-- `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
+- `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (or if you swap the avatar, for example; the secret one NPC told to character A would be lost for character B); 
 - `npc_val` - variable, that is stored in beta talker
 - `global_val` - variable, that is store in the world, and won't be lost until you delete said world
 - `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
@@ -92,6 +123,9 @@ Variable object is a value, that changes due some conditions. Variable can be in
 
 - If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
 - If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
+
+For example, imagine you have context variable `{ "context_val": "my_best_spell" }`, and this `my_best_gun` variable contain text `any_random_gun`; also you have a `{ "global_val": "any_random_gun" }`, and this `any_random_gun` variable happened to contain text `ak47`
+With both of this, you can use effect `"u_spawn_item": { "var_val": "my_best_gun" }`, and the game will spawn `ak47`, since it is what is stored inside `my_best_gun` global variable
 
 The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
@@ -115,11 +149,6 @@ You make sound `Wow, your'e smart` equal to beta talker's intelligence
 you add morale, equal to `ps_str` portal storm strength value
 ```json
 { "u_add_morale": "global_val", "bonus": { "global_val": "ps_str" } }
-```
-
-you add morale, equal to `ps_str` portal storm strength value plus 1, using old arithmetic syntax
-```json
-{ "u_add_morale": "global_val", "bonus":  { "arithmetic": [ { "global_val": "ps_str" }, "+", { "const": 1 } ] }
 ```
 
 you add morale, equal to `ps_str` portal storm strength value plus 1
@@ -254,9 +283,23 @@ return true if alpha talker is female
 "condition": "npc_female",
 ```
 
-return true if beta talker is male or female; return false, if talker is not capable to have a gender (if monster, for example, can be used if you want to target only alpha or beta talkers)
+### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
+- type: simple string
+- return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
+- `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
+- `npc` is any NPC, except Avatar
+- `character` is both NPC or Avatar
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+return true if alpha talker is character (avatar or NPC)
 ```json
-"condition": { "or": [ "npc_male", "npc_female" ] },
+"condition": "u_is_character",
 ```
 
 ### `u_at_om_location`, `npc_at_om_location`
@@ -344,6 +387,21 @@ Checks do alpha talker has `FEATHERS` mutation
 { "u_has_martial_art": "style_aikido" }
 ```
 
+### `u_using_martial_art`, `npc_using_martial_art`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker using the martial art
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+```json
+{ "u_using_martial_art": "style_aikido" }
+```
+
 ### `u_has_flag`, `npc_has_flag`
 - type: string or [variable object](##variable-object)
 - return true if alpha or beta talker has specific flag; special flag `MUTATION_THRESHOLD` can be used to check do alpha talker has any mutant threshold; for monsters both json flags (applied by effects) and monster flags can be checked
@@ -427,33 +485,6 @@ checks this var exists
 { "expects_vars": [ "u_met_me", "u_met_you", "u_met_yourself" ] }
 ```
 
-### `u_compare_var`, `npc_compare_var`
-- type: int or [variable object](##variable-object)
-- If talker has a stored variable, you can compare it to some value using `op`. 
-- **deprecated in favor of [math](#math) syntax, please do not use it**
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-#### Examples
-`gunsmith_ammo_from` is equal to 545
-```json
-{ "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 }
-```
-
-### `u_compare_time_since_var`, `npc_compare_time_since_var`
-- type: duration
-- Same as `u_compare_var`, allows to check how much time passed since variable with `"type": "timer"` was create or updated, using one of `==`, `!=`, `<`, `>`, `<=`, `>=` operators; `type`, `context`, `op` and `time` is required
-
-#### Examples
-Checks is RandEnc was added more than 1 hour ago
-```json
-{ "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" }
-```
-
 ### `compare_string`
 - type: pair of strings or [variable objects](##variable-object)
 - Compare two strings, and return true if strings are equal
@@ -467,6 +498,27 @@ checks if `victim_type` is `mon_zombie_phase_shrike`
 checks is `victim_type` has `zombie` faction
 ```json
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+```
+
+### `u_profession`
+- type: string or [variable object](##variable-object)
+- Return true if player character has the given profession id or its "hobby" subtype
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the character has selected Heist Driver profession at the character creation
+```json
+{ "u_profession": "heist_driver" }
+```
+
+True if the character has selected Fishing background at the character creation
+```json
+{ "u_profession": "fishing" }
 ```
 
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
@@ -483,22 +535,6 @@ checks is `victim_type` has `zombie` faction
 True, if alpha talker has str 7 or more
 ```json
 { "u_has_strength": 7 }
-```
-
-### `u_has_hp`, `npc_has_hp`
-- type: int or [variable object](##variable-object)
-- Return true, if alpha or beta talker HP is value or bigger; additional parameter `bodypart` can be used to check HP of specific body part, otherwise sum of all body parts (or just hp, if monster uses it) is used. Effect checks only current HP, not max HP
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
-
-#### Examples
-Checks does your torso has more than 84 hp 
-```json
-{ "u_has_hp": 84, "bodypart": "torso" }
 ```
 
 ### `u_has_part_temp`, `npc_has_part_temp`
@@ -583,9 +619,9 @@ check do you have any bionic presented
 { "u_has_bionics": "ANY" }
 ```
 
-### `u_has_effect`, `npc_has_effect`
+### `u_has_effect`, `npc_has_effect`, `u_has_any_effect`, `npc_has_any_effect`
 - type: string or [variable object](##variable-object)
-- return true if alpha or beta talker has specific effect applied;
+- return true if alpha or beta talker has specific effect applied. `_has_effect` checks only one effect, when `_has_any_effect` check a range, and return true if at least one effect is applied;
 - `intensity` can be used to check an effect of specific intensity;
 - `bodypart` can be used to check effect applied on specific body part
 - martial arts `static_buffs` can be checked in form `mabuff:buff_id`
@@ -612,6 +648,27 @@ checks do you have aikido stance active
 { "u_has_effect": "mabuff:buff_aikido_static1" }
 ```
 
+checks are you hot or cold
+```json
+{ "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
+```
+
+### `u_has_proficiency`, `npc_has_proficiency`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has mastered a proficiency (to 100%).
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you have `Principles of Chemistry`
+```json
+{ "u_has_proficiency": "prof_intro_chemistry" }
+```
+
 ### `u_can_stow_weapon`, `npc_can_stow_weapon`
 - type: simple string
 - return true if alpha or beta talker wield an item, and have enough space to put it away
@@ -623,12 +680,12 @@ checks do you have aikido stance active
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
 
 #### Examples
-
+You have equipped an item that you can stow
 ```json
 "u_can_stow_weapon"
 ```
 
-You have equipped an item with
+You have equipped an item that you can not stow, either because it's bionic pseudoitem, you have no space to store it, or by any another reason
 ```json
 { "not": "u_can_stow_weapon" }
 ```
@@ -654,7 +711,7 @@ You have equipped an item with
 { "not": "u_can_drop_weapon" }
 ```
 
-
+`u_has_wielded_with_flag` may be used to replicate the effect
 ```json
 { "u_has_wielded_with_flag": "NO_UNWIELD" }
 ```
@@ -896,6 +953,128 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 ```
 
 
+### `u_query_tile`, `npc_query_tile`
+- type: string
+- Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
+- `anywhere`, `line_of_sight`, `around` are possible
+  - `anywhere` is the same as the "look around" UI
+  - `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)
+  - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
+- `target_var` is [variable object](##variable-object) to contain coordinates of selected tile (**mandatory**)
+- `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
+- `z_level` defines allow if select other z-level  for `anywhere`
+- `message` is displayed while selecting
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Display coordinates of selected tile.
+```json
+{
+  "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+  "then": { "u_message": "<context_val:pos>" },
+  "else": { "u_message": "Canceled" }
+}
+```
+
+### `map_terrain_with_flag`, `map_furniture_with_flag`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific flag
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the north terrain or furniture has `TRANSPARENT` flag.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ter_furn_check",
+  "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,-1,0)" }, "target_var": { "context_val": "loc" } },
+      {
+        "if": { "map_terrain_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North terrain: TRANSPARENT" },
+        "else": { "u_message": "North terrain: Not TRANSPARENT" }
+      },
+      {
+        "if": { "map_furniture_with_flag": "TRANSPARENT", "loc": { "context_val": "loc" } },
+        "then": { "u_message": "North furniture: TRANSPARENT" },
+        "else": { "u_message": "North furniture: Not TRANSPARENT" }
+      }
+  ]
+},
+```
+
+### `map_in_city`
+- type: location string or [variable object](##variable-object)
+- return true if the location is in a city
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Check the location is in a city.
+```json
+{ "u_location_variable": { "context_val": "loc" } },
+{
+  "if": { "map_in_city": { "context_val": "loc" } },
+  "then": { "u_message": "Inside city" },
+  "else": { "u_message": "Outside city" }
+},
+```
+
+### `player_see_u`, `player_see_npc`
+- type: simple string
+- return true if player can see alpha or beta talker
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+return true if player can see NPC.
+```json
+"condition": "player_see_npc",
+```
+
+### `u_can_see_location`, `npc_can_see_location`
+- type: location string or [variable object](##variable-object)
+- return true if alpha or beta talker can see the location
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+You can see selected location.
+```json
+{
+  "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+  "then": {
+    "if": { "u_can_see_location": { "context_val": "pos" } },
+    "then": { "u_message": "You can see <context_val:pos>." },
+    "else": { "u_message": "You cant see <context_val:pos>." }
+  }
+}
+```
+
+### `has_ammo`
+- type: simple string
+- return true if beta talker is an item and has enough ammo for at least one "shot".
+
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 
@@ -925,28 +1104,30 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
 | buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` },<br/> { "corpse_type", `mtype_id` },<br/> { "corpse_name", `string` }, | character / NONE |
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
-| character_casts_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
+| character_casts_spell | Triggers when a character casts spells. When a spell with multiple effects is cast, the number of effects will be triggered | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_dies |  | { "character", `character_id` }, | character / NONE |
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
-| character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` }, | character / NONE |
+| character_kills_monster |  | { "killer", `character_id` },<br/> { "victim_type", `mtype_id` },<br/> { "exp", `int` }, | character / monster |
 | character_learns_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` }, | character / NONE |
-| character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
-| character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / NONE |
-| character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
-| character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / NONE |
+| character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
+| character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
+| character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / monster |
+| character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
+| character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
 | character_takes_damage | | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
-| character_wakes_up | | { "character", `character_id` }, | character / NONE |
+| character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
+| character_attempt_to_fall_asleep | triggers in the moment character tries to fall asleep, after confirming and setting an alarm, but before "you lie down" | { "character", `character_id` }, | character / NONE |
+| character_falls_asleep | triggers in the moment character actually falls asleep; trigger includes cases where character sleep for a short time because of fatigue or drugn; duration of the sleep can be changed mid sleep because of hurt/noise/light/pain thresholds and another factors | { "character", `character_id` }, { "duration", `int_` (in seconds) } | character / NONE |
 | character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
 | character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
 | consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
@@ -976,6 +1157,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | fuel_tank_explodes | Triggers when vehicle part (that is watertight container/magazine with magazine pocket/or is a reactor) is sufficiently damaged | { "vehicle_name", `string` }, | avatar / NONE |
 | gains_addiction | |  { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
 | gains_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
+| gains_proficiency | | { "character", `character_id` },<br/> { "proficiency", `proficiency_id` }, | character / NONE |
 | gains_skill_level | | { "character", `character_id` },<br/> { "skill", `skill_id` },<br/> { "new_level", `int` }, | character / NONE |
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "is_suicide", `bool` },<br/> { "last_words", `string` }, | avatar / NONE |
 | game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` },<br/> { "is_debug", `bool` },<br/> { "avatar_id", `character_id` },<br/> { "avatar_name", `string` },<br/> { "avatar_is_male", `bool` },<br/> { "avatar_profession", `profession_id` },<br/> { "avatar_custom_profession", `string` }, | avatar / NONE |
@@ -988,18 +1170,19 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | installs_faulty_cbm | | { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
 | learns_martial_art | |  { "character", `character_id` },<br/> { "martial_art", `matype_id` }, | character / NONE |
 | loses_addiction | | { "character", `character_id` },<br/> { "add_type", `addiction_id` }, | character / NONE |
+| loses_mutation | |  { "character", `character_id` },<br/> { "trait", `trait_id` }, | character / NONE |
 | npc_becomes_hostile | Triggers when NPC's attitude is set to `NPCATT_KILL` via dialogue effect `hostile` | { "npc", `character_id` },<br/> { "npc_name", `string` }, | NPC / NONE |
 | opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
 | opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
 | player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_gets_achievement | | { "achievement", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
-| player_levels_spell | | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "new_level", `int` }, | character / NONE |
+| player_levels_spell | triggers when player changes it's spell level, either by casting a spell, reading spell book, or using EoC. Spawning a new character with spells defined by using `spells` in chargen option will also run an event | { "character", `character_id` },<br/>{ "spell", `spell_id` },<br/>{ "new_level", `int` },{ "spell_class", `trait_id` } | character / NONE |
 | reads_book | | { "character", `character_id` } | character / NONE |
 | releases_subspace_specimens | Triggers when Release Specimens option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | removes_cbm | |  { "character", `character_id` },<br/> { "bionic", `bionic_id` }, | character / NONE |
 | seals_hazardous_material_sarcophagus | Triggers via `srcf_seal_order` computer action | NONE | avatar / NONE |
-| spellcasting_finish | | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` }  | character / NONE |
+| spellcasting_finish | Triggers only once when a character finishes casting a spell | { "character", `character_id` },<br/> { "success", `bool` },<br/>  { "spell", `spell_id` },<br/> { "school", `trait_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | telefrags_creature | (Unimplemented) | { "character", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
 | teleglow_teleports | Triggers when character(only avatar is actually eligible) is teleported due to teleglow effect | { "character", `character_id` } | character / NONE |
 | teleports_into_wall | Triggers when character(only avatar is actually eligible) is teleported into wall | { "character", `character_id` },<br/> { "obstacle_name", `string` }, | character / NONE |
@@ -1019,9 +1202,967 @@ Other EOCs have some variables as well that they have access to, they are as fol
 | mutation: "processed_eocs" | { "this", `mutation_id` } |
 | mutation: "deactivated_eocs" | { "this", `mutation_id` } |
 | damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |
+| furniture: "examine_action" | { "this", `furniture_id` }, { "pos", `tripoint` } |
 
 
 # Effects
+
+## General
+
+#### `sound_effect`
+Play a sound effect from sound pack `"type": "sound_effect"`
+
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "sound_effect" | **mandatory** | string or [variable object](#variable-object) | sound effect, that would be used, respond to `variant` field in `"type": "sound_effect"` |
+| "id" | optional | string or [variable object](#variable-object) | `id`, that would be used to play, respond to `id` field in `"type": "sound_effect"`  | 
+| "outdoor_event" | optional | boolean | default false; if true, and player is underground, the player is less likely to hear the sound | 
+| "volume" | optional | int or [variable object](#variable-object)  | default 80; volume at which the sound would be played; affected by hearing modifier | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+
+Plays sound `bionics`, variant `pixelated` with volume 50
+```json
+{ "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
+```
+
+
+#### `open_dialogue`
+Opens up a dialog between the participants; this should only be used in effect_on_conditions, not in actual npc dialogue
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "topic" | optional | string or [variable object](#variable-object) | if used, instead of the dialogue with the participant, this topic would be used with an empty talker |
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if was successful, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Opens dialogue with topic `TALK_PERK_MENU_MAIN`
+```json
+{ "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
+```
+
+Opens a dialogue with computer; computer has defined `"chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],` on the map side, which makes it valid participant
+```json
+  {
+    "id": "EOC_REFUGEE_CENTER_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+```
+
+#### `take_control`
+If beta talker is NPC, take control of it
+
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "take_control" | **mandatory** | simple string | makes you control the NPC; works only if avatar (you) is alpha talker, and beta talker is NPC |
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if `take_control` was successful, all `true_eocs` are run, otherwise all `false_eocs` run | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Takes control of NPC
+```json
+"effect": [ "take_control" ]
+```
+
+Takes control of NPC; If successful; `EOC_GOOD` is run, if not, `EOC_BAD` is run
+```json
+{ "take_control": { "true_eocs": [ "EOC_GOOD" ], "false_eocs": [ "EOC_BAD" ] } }
+```
+
+#### `take_control_menu`
+Opens up a menu to choose a follower to take control of.
+Works only with your followers
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Opens the menu to swap the avatar
+```json
+"effect": [ "take_control_menu" ]
+```
+
+
+#### `give_achievement`
+Marks the given achievement as complete
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "give_achievement" | **mandatory** | string or [variable object](#variable-object) | the achievement that would be given |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Gives achievement `escaped_the_cataclysm`
+```json
+{ "give_achievement": "escaped_the_cataclysm" }
+```
+
+`assign_mission: `string or [variable object](#variable-object)   Will assign mission to the player.
+
+#### `assign_mission`
+Will assign mission to the player
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "assign_mission" | **mandatory** | string or [variable object](#variable-object) | Mission that would be assigned to the player |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Assign you a `MISSION_REACH_FAKE_DAVE` mission
+```json
+{ "assign_mission": "MISSION_REACH_FAKE_DAVE" }
+```
+
+#### `remove_active_mission`
+Will remove mission from the player's active mission list without failing it.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "remove_active_mission" | **mandatory** | string or [variable object](#variable-object) | mission that would be removed |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+removes `MISSION_BONUS_KILL_BOSS` mission from your list
+```json
+{ "remove_active_mission": "MISSION_BONUS_KILL_BOSS" }
+```
+
+
+#### `finish_mission`
+Will complete mission the player has, in one way or another
+// todo - test how optional `success` and `step` actually are
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "finish_mission" | **mandatory** | string or [variable object](#variable-object) | id of the mission that would be finished |
+| "success" | optional | boolean | default false; if true, complete the mission as successful | 
+| "step" | optional | int | if used, complete mission up to this step | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Complete the mission `DID_I_WIN` as failed
+```json
+{ "finish_mission": "DID_I_WIN" }
+```
+
+Complete the mission `DID_I_WIN` as successful
+```json
+{ "finish_mission": "DID_I_WIN", "success": true }
+```
+
+Complete the first step of a `DID_I_WIN` mission
+```json
+{ "finish_mission": "DID_I_WIN", "step": 1 }
+```
+
+#### `offer_mission`
+Adds this mission on a list NPC can offer
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "offer_mission" | **mandatory** | string, [variable object](#variable-object) or array | id of a mission to offer |
+
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+NPC can offer mission `MISSION_GET_RELIC` now
+```json
+{ "offer_mission": "MISSION_GET_RELIC" }
+```
+
+Same as before
+```json
+{ "offer_mission": [ "MISSION_GET_RELIC" ] }
+```
+
+NPC can offer missions `MISSION_A`, `B` and `C` now
+```json
+{ "offer_mission": [ "MISSION_A", "MISSION_B", "MISSION_C" ] }
+```
+
+
+#### `run_eocs`
+Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` effect
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Run `EOC_DO_GOOD_THING` EoC
+```json
+{ "run_eocs": [ "EOC_DO_GOOD_THING" ] }
+```
+
+Run inline `are_you_strong` EoC
+```json
+"run_eocs": {
+  "id": "are_you_strong",
+  "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+  "effect": [ { "u_message": "You are strong" } ],
+  "false_effect": [ { "u_message": "You are normal" } ]
+}
+```
+
+Inline EoCs could have their own inline EoCS
+This EoC checks your str stat, and if it's less than 4, write `You are weak`; 
+if it's bigger, `are_you_strong` EoC is run, that checks is your str is bigger than 8; if it's less, `You are normal` is written
+if it's bigger, `are_you_super_strong` effect is run, that checks is your str is bigger than 12; If it's less, `You are strong` is written; if it's more, `You are super strong` is written
+```json
+{
+  "type": "effect_on_condition",
+  "id": "are_you_weak",
+  "//": "there is a variety of ways you can do the exact same effect that would work better",
+  "//2": "but for the sake of example, let's ignore it",
+  "condition": { "math": [ "u_val('strength')", ">", "4" ] },
+  "false_effect": [ { "u_message": "You are weak" } ],
+  "effect": {
+    "run_eocs": {
+      "id": "are_you_strong",
+      "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+      "false_effect": [ { "u_message": "You are normal" } ],
+      "effect": {
+        "run_eocs": {
+          "id": "are_you_super_strong",
+          "condition": { "math": [ "u_val('strength')", ">", "12" ] },
+          "effect": [ { "u_message": "You are super strong" } ],
+          "false_effect": [ { "u_message": "You are strong" } ]
+        }
+      }
+    }
+  }
+}
+```
+
+Use Context Variable as a eoc (A trick for loop)
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "debug_eoc_for_loop",
+    "effect": [ { "run_eoc_with": "eoc_for_loop", "variables": { "i": "0", "length": "10", "eoc": "eoc_msg_hello_world" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_msg_hello_world",
+    "effect": [ { "u_message": "hello world" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_for_loop",
+    "condition": { "and": [ { "expects_vars": [ "i", "length", "eoc" ] }, { "math": [ "_i", "<", "_length" ] } ] },
+    "effect": [ { "run_eocs": [ { "context_val": "eoc" } ] }, { "math": [ "_i", "++" ] }, { "run_eocs": "eoc_for_loop" } ],
+    "//": "Checks i is lesser than length, and if true, runs EoC, stored in context val 'eoc', increment i, and runs itself again; all context variables would be saved and passed to the next iteration"
+  }
+```
+#### `u_set_talker`, `npc_set_talker`
+Store the character_id of You or NPC into a variable object
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_talker" / "npc_set_talker" | **mandatory** | [variable object](#variable-object) | the variable object to store the character_id |
+
+##### Examples
+
+```json
+{
+  "effect": [ 
+    { "u_set_talker": { "global_val": "u_character_id" } }, 
+    { "u_message": "Your character id is <global_val:u_character_id>" }
+  ]
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### `run_eoc_with`
+Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
+| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
+| "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or [u_set_talker](#u_set_talkernpc_set_talker) ) or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
+| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
+| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC;  all variables should be strings, even if it's int; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Run `EOC_BOOM` EoC; completely same as `run_eocs`
+```json
+{ "run_eoc_with": "EOC_BOOM" }
+```
+
+Run `EOC_BOOM` EoC at `where_my_enemy_is` location variable
+```json
+{ "run_eoc_with": "EOC_BOOM", "beta_loc": { "global_val": "where_my_enemy_is" } },
+```
+
+The first EoC `EOC_I_NEED_AN_AR15` run another `EOC_GIVE_A_GUN` EoC, and give it two variables: variable `gun_name` with value `ar15_223medium` and variable `amount_of_guns` with value `5`;
+Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variables, but now the values are `ak47` and `3`
+`EOC_GIVE_A_GUN`, once called, will spawn a gun, depending on variables it got
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_I_NEED_AN_AR15",
+  "effect": [
+    {
+      "run_eoc_with": "EOC_GIVE_A_GUN",
+      "variables": {
+        "gun_name": "ar15_223medium",
+        "amount_of_guns": "5"
+      }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_I_NEED_AN_AK47",
+  "effect": [
+    {
+      "run_eoc_with": "EOC_GIVE_A_GUN",
+      "variables": {
+        "gun_name": "ak47",
+        "amount_of_guns": "3"
+      }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_GIVE_A_GUN",
+  "condition": { "expects_vars": [ "gun_name", "amount_of_guns" ] },
+  "effect": [
+    {
+      "u_spawn_item": { "context_val": "gun_name" },
+      "count": { "context_val": "amount_of_guns" }
+    }
+  ]
+}
+```
+Control a NPC and return to your original body.
+By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
+Then, by using `EOC_return_to_player`, you can return to your original body.
+```json
+
+{
+  "type": "effect_on_condition",
+  "id": "EOC_control_npc",
+  "effect": [
+    { "u_set_talker": { "global_val": "player_id" } },
+    {
+      "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+      "then": {
+        "run_eoc_with": {
+          "id": "_EOC_control_npc_do",
+          "effect": [
+            {
+              "if": "npc_is_npc",
+              "then": [ "follow", "take_control" ],
+              "else": { "message": "Please select a NPC." }
+            }
+          ]
+        },
+        "beta_loc": { "context_val": "loc" },
+        "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
+      },
+      "else": { "u_message": "Canceled" }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_return_to_player",
+  "effect": [
+    {
+      "run_eoc_with": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
+      "alpha_talker": "avatar",
+      "beta_talker": { "global_val": "player_id" },
+      "false_eocs": { "id": "_EOC_return_to_player_fail_msg", "effect": { "message": "Unable to locate your original body." } }
+    }
+  ]
+}
+```
+
+#### `queue_eocs`
+  Same as `run_eocs`, but instead of running EoCs right now, put it in queue and run it in some future
+
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "queue_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object) or array of eocs | EoCs, that would be added into queue; Could be an inline EoC |
+| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 | 
+
+##### Valid talkers:
+If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+run `EOC_BOOM_RIGHT_NOW` instantly
+```json
+{ "queue_eocs": "EOC_BOOM_RIGHT_NOW" }
+```
+
+run `EOC_BOOM_RANDOM` randomly in 20-30 seconds
+```json
+{ "queue_eocs": "EOC_BOOM_RANDOM", "time_in_future": [ "20 seconds", "30 seconds" ] },
+```
+
+#### `queue_eoc_with`
+Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into some future, with provided variables as context variables
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
+| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
+| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+see a detailed example in `run_eoc_with`
+In three hours, you will be given five AR-15
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_I_NEED_AN_AR15_BUT_NOT_NOW",
+  "effect": [
+    {
+      "queue_eoc_with": "EOC_GIVE_A_GUN",
+      "time_in_future": "3 h",
+      "variables": {
+        "gun_name": "ar15_223medium",
+        "amount_of_guns": 5
+      }
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "EOC_GIVE_A_GUN",
+  "condition": { "expects_vars": [ "gun_name", "amount_of_guns" ] },
+  "effect": [
+    {
+      "u_spawn_item": { "context_val": "gun_name" },
+      "count": { "context_val": "amount_of_guns" }
+    }
+  ]
+}
+```
+
+#### `u_roll_remainder`, `npc_roll_remainder`
+If you or NPC does not have all of the listed bionics, mutations, spells or recipes, gives one randomly
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_roll_remainder" / "npc_roll_remainder" | **mandatory** | string, [variable](#variable-object) or array of both | thing, that would be rolled and given |
+| "type" | **mandatory** | string or [variable object](#variable-object) | type of thing that would be given; can be one of `bionic`, `mutation`, `spell` or `recipe` | 
+| "message" | optional | string or [variable object](#variable-object) | message, that would be displayed in log, once remainder is used; `%s` symbol can be used in this message to write the name of a thing, that would be given; message would be printed only if roll was successful | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | If reminder was positive, all EoCs in `true_eocs` run, otherwise `false_eocs` run | 
+
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Tries to give you a mutation `A`, `B` or `C`, if you don't have one, with message `You got %s!`; If roll is successful, `EOC_SUCCESS` is run, otherwise `EOC_FAIL` is run
+```json
+{
+  "u_roll_remainder": [ "mutationA", "mutationB", "mutationC" ],
+  "type": "mutation",
+  "message": "You got %s!",
+  "true_eocs": [ "EOC_SUCCESS" ],
+  "false_eocs": [ "EOC_FAIL" ]
+}
+```
+
+
+#### `if`
+Set effects to be executed when conditions are met and when conditions are not met.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself | 
+| "then" | **mandatory** | effect | Effect(s) executed when conditions are met. | 
+| "else" | optional | effect | Effect(s) executed when conditions are not met. | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Displays a different message the first time it is run and the second time onwards
+```json
+{
+  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+  "then": { "u_message": "You have variable." },
+  "else": [
+    { "u_message": "You don't have variable." },
+    {
+      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+      "then": [
+        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        { "u_message": "Vriable added." }
+      ]
+    }
+  ]
+}
+```
+
+
+#### `switch`
+Check the value, and, depending on it, pick the case that would be run
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "switch" | **mandatory** | variable/math_expression | the value, that would be read; only numerical values can be used |
+| "cases" | **mandatory** | `case` and `effect` | effects, that would be run, if the value of switch is higher or equal to this case | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+Checks the level of `some_spell` spell, and, related to this, do something: for spell level 0 it casts another_spell, for spell level 3 it adds effect "drunk", and so on.
+```json
+{
+  "switch": { "math": [ "u_spell_level('some_spell')" ] },
+  "cases": [
+    { "case": 0, "effect": { "u_cast_spell": { "id": "another_spell" } } },
+    { "case": 3, "effect": { "u_add_effect": "drunk", "duration": "270 minutes" } },
+    { "case": 6, "effect": { "u_lose_bionic": "bio_power_storage" } },
+    { "case": 9, "effect": { "run_eocs": [ "EOC_DO_GOOD_THING" ] } },
+    {
+      "case": 12,
+      "effect": [
+        { "u_forget_martial_art": "style_eskrima" },
+        { "u_forget_martial_art": "style_crane" },
+        { "u_forget_martial_art": "style_judo" }
+      ]
+    }
+  ]
+}
+```
+
+
+#### `foreach`
+Executes the effect repeatedly while storing the values ​​of a specific list one by one in the variable.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "foreach" | **mandatory** | string | Type of list. `"ids"`, `"item_group"`, `"monstergroup"`, `"array"` are available. |
+| "var" | **mandatory** | [variable objects](#variable-object) | Variable to store value in the list. |
+| "effect" | **mandatory** | effect | Effect(s) executed. |
+| "target" | **mandatory** | See below | Changes depending on the value of "foreach". See below. |
+
+The correspondence between "foreach" and "target" is as follows.
+
+| "foreach" | Value | Info |
+| --- | --- | --- |
+| "ids" | string | List the IDs of objects that appear in the game. `"bodypart"`, `"flag"`, `"trait"`, `"vitamin"` are available. |
+| "item_group" | string | List the IDs of items in the item group. |
+| "monstergroup" | string | List the IDs of monsters in the monster group. |
+| "array" | array of strings or [variable objects](#variable-object) | List simple strings. |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Resets all of your vitamins.
+```json
+{
+  "foreach": "ids",
+  "var": { "context_val": "id" },
+  "target": "vitamin",
+  "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
+}
+```
+
+
+#### `u_run_npc_eocs`, `npc_run_npc_eocs`
+NPC run EoCs, provided by this effect; can work outside of reality bubble
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
+| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` | 
+| "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
+| "npc_range" | optional | int or [variable object](#variable-object) | if used, only NPC in this range are affected |
+| "npc_must_see" | optional | boolean | default false; if true, only NPC you can see are affected | 
+ 
+example of specifying `unique_id` in mapgen using `npcs`:
+```json
+"npcs": { "T": { "class": "guard", "unique_id": "GUARD7" } },
+```
+
+and using `place_npcs`:
+```json
+"place_npcs": [ { "class": "arsonist", "x": 9, "y": 1, "unique_id": "GUARD7" } ],
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+All NPC in range 30, that you can see, run `EOC_DEATH` and `EOC_TAXES`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_KILL_ALL_NPCS_YOU_SEE_30_TILES",
+  "effect": [
+    {
+      "u_run_npc_eocs": [ "EOC_DEATH", "EOC_TAXES" ],
+      "npc_range": 30,
+      "npc_must_see": true
+    }
+  ]
+}
+```
+
+Move refugee center guards `GUARD1` - `GUARD7` to the `_First` position - EoC for effect is inlined
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION",
+  "effect": [
+    {
+      "u_run_npc_eocs": [
+        {
+          "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_SHIFT",
+          "effect": {
+            "u_set_guard_pos": { "global_val": "_First" },
+            "unique_id": true
+          }
+        }
+      ],
+      "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
+    }
+  ]
+}
+```
+
+
+#### `u_run_inv_eocs`, `npc_run_inv_eocs`
+Run EOCs on items in your or NPC's inventory
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
+| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
+| "true_eocs" / "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+##### Examples
+Picks an item in character's hands, and run `EOC_DESTROY_ITEM` EoC on it
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_PICK_ITEM_IN_HANDS",
+  "effect": [
+    {
+      "u_run_inv_eocs": "random",
+      "search_data": [ { "wielded_only": true } ],
+      "true_eocs": [ "EOC_DESTROY_ITEM" ]
+    }
+  ]
+}
+```
+Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC_DO_SOMETHING_WITH_ITEM` on it; if there is no such item, `EOC_NO_SUCH_ITEM` is run
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_PICK_WOODEN_ITEM",
+  "effect": [
+    {
+      "u_run_inv_eocs": "manual",
+      "search_data": [ { "material": "wood", "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND" ] } ],
+      "true_eocs": [ "EOC_DO_SOMETHING_WITH_ITEM" ]
+      "false_eocs": [ { "id": "EOC_NO_SUCH_ITEM", "effect": [ { "u_message": "You don't have an item i need" } ] } ]
+    }
+  ]
+}
+```
+
+
+#### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
+Search items around you on the map, and run EoC on them
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_map_run_item_eocs", "npc_map_run_item_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
+| "loc" | optional | location variable | location, where items would be scanned; lack of it would scan only tile the talker stands on | 
+| "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | radius around the location/talker that would be searched | 
+| "title" | optional | string or [variable object](#variable-object) | name of the menu that would be shown, if `manual` or `manual_mult` values are used | 
+| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+
+Run `EOC_GOOD` on all items 5-10 tiles around you (but not tiles 1-4 tiles around you)
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST",
+    "effect": [
+      {
+        "u_map_run_item_eocs": "all",
+        "min_radius": 5,
+        "max_radius": 10,
+        "title": "Something good?",
+        "true_eocs": [ "EOC_GOOD" ]
+      }
+    ]
+  }
+```
+
+Create context variable `loc` where player stands
+Scan all items 1-10 tiles around the `loc` (actually `loc` can be omitted here, since it's the same location as player); open the `Test: Item collection` menu, where player can pick items from said radius; after confirmation, all picked items are run in `EOC_map_item_test_run`
+`EOC_map_item_test_run` teleport all items to `loc`, and print `Items rolled at your feet`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_item_test1",
+  "effect": [
+    { "u_location_variable": { "context_val": "loc" } },
+    {
+      "u_map_run_item_eocs": "manual_mult",
+      "loc": { "context_val": "loc" },
+      "min_radius": 1,
+      "max_radius": 10,
+      "title": "Test: Item collection",
+      "true_eocs": [
+        {
+          "id": "EOC_map_item_test_run",
+          "effect": [ { "npc_teleport": { "context_val": "loc" } }, { "u_message": "Items rolled at your feet." } ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Search `crashing_ship_4`  overmap terrain 10 overmap tiles around the player, on z-level -10 (where the ship is places), then in this overmap search `t_escape_pod_floor` terrain, and if found, put it's coordinates to `escape_pod_crate` context value
+Search all items on `escape_pod_crate` tile, and run `EOC_AFS_ESCAPE_POD_CARGO_TP` (it will teleport items to `new_map` location)
+Print a message with popup
+Teleport player to `new_map`
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_ESCAPE_POD_CHAIR",
+  "effect": [
+    {
+      "u_location_variable": { "context_val": "escape_pod_crate" },
+      "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+      "terrain": "t_escape_pod_floor",
+      "target_max_radius": 24
+    },
+    {
+      "u_map_run_item_eocs": "all",
+      "loc": { "context_val": "escape_pod_crate" },
+      "min_radius": 0,
+      "max_radius": 0,
+      "true_eocs": [ { "id": "EOC_AFS_ESCAPE_POD_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "new_map" } } ] } ]
+    },
+    {
+      "u_message": "You make sure that all equipment is strapped down and loose items are put away to avoid projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
+      "popup": true
+    },
+    { "u_teleport": { "global_val": "new_map" }, "force": true }
+  ]
+}
+```
+
+#### `weighted_list_eocs`
+Will choose one of a list of eocs to activate based on it's weight
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "weighted_list_eocs" | **mandatory** | n/a | EoC that would be run, and it's weight; EoC can be either id or inline EoC, and weight can be int or variable object |
+
+##### Examples
+
+Run one EoC from the list
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_WEIGHT",
+  "effect": {
+    "weighted_list_eocs": [
+      [ "EOC_THING_1", 1 ],
+      [ "EOC_THING_2", 1 ],
+      [ "EOC_THING_3", 3 ],
+      { "id": "EOC_THING_4", "effect": [ { "u_message": "A test message appears!", "type": "bad" } ] },
+      [ "EOC_THING_5", { "math": [ "super_important_variable + 4" ] } ],
+      [ "EOC_THING_6", { "math": [ "_super_important_context_variable + 4" ] } ],
+      [ "EOC_THING_7", { "math": [ "33 + 77" ] } ]
+    ]
+  }
+}
+```
+
+#### `run_eoc_selector`
+Open a menu, that allow to select one of multiple options
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) | list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
+| "names" | optional | array of strings or [variable objects](#variable-object) | name of the option, that would be shown on the list; amount of names should be equal amount of EoCs | 
+| "descriptions" | optional | array of strings or [variable objects](#variable-object) | description of the options, that would be shown on the list; amount of descriptions should be equal amount of EoCs | 
+| "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs | 
+| "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
+| "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
+| "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
+| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoCs; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+you can pick one of four options from `Choose your destiny` list; 
+```json
+{
+  "run_eoc_selector": [ "EOC_OPTION_1", "EOC_OPTION_2", "EOC_OPTION_3", "EOC_OPTION_4" ],
+  "names": [ "Option 1", "Option 2", "Option 3", "Option 4" ],
+  "keys": [ "a", "b", "1", "2" ],
+  "title": "Choose your destiny",
+  "descriptions": [
+    "Gives you something good",
+    "Gives you something bad",
+    "Gives you twice as good",
+    "Gives you twice as bad, but condition is not met, so you can't pick it up"
+  ]
+}
+```
+
+#### `run_eoc_until`
+Run EoC multiple times, until specific condition would be met
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "run_eoc_until" | **mandatory** | string or [variable object](#variable-object) | EoC that would be run multiple times |
+| "condition" | **mandatory** | string or [variable object](#variable-object) | name of condition, that would be checked; doesn't support inline condition, so it should be specified in `set_condition` somewhere before the effect; **condition should return "false" to terminate the loop** | 
+| "iteration" | optional | int or [variable object](#variable-object) | default 100; amount of iteration, that is allowed to run; if amount of iteration exceed this number, EoC is stopped, and game sends the error message | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+`EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "my_variable", "<", "10" ] } },
+      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  },
+```
 
 ## Character effects
 
@@ -1069,6 +2210,25 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 { "u_mutate_category": { "global_val": "next_mutation" }
 ```
 
+#### `u_mutate_towards`, `npc_mutate_towards`
+
+Similar to the above, but designates a desired end-point of mutation and uses the normal mutate_towards steps to get there, respecting base traits and `changes_to/cancels/types` restrictions.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_mutate_towards" / "npc_mutate_towards" | **mandatory** | string or [variable object](##variable-object) | Trait ID |
+| "category"     | optional | string or [variable object](#variable-object) | default ANY, defines which category to use for the mutation steps - necessary for vitamin usage
+| "use_vitamins" | optional | boolean | same as in `u_mutate`, requires a defined `category` | 
+
+##### Examples
+Mutate towards Tail Stub (removing any incompatibilities) using the category set in the variable, deprecating that vitamin and using the category's base trait removal chance/multiplier.
+```json
+      {
+        "u_mutate_towards": "TAIL_STUB",
+        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "use_vitamins": true
+      },
+```
 
 #### `u_add_effect`, `npc_add_effect`
 
@@ -1167,6 +2327,7 @@ Give character or NPC some mutation/trait
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_trait" / "npc_add_trait" | **mandatory** | string or [variable object](##variable-object) | id of trait that should be given |
+| "variant" | optional | string or [variable object](##variable-object) | id of the trait's variant |
 
 ##### Valid talkers:
 
@@ -1185,13 +2346,18 @@ Adds trait, stored in `trait_id` context value, to the character:
 { "u_add_trait": { "context_val": "trait_id" } }
 ```
 
+Adds `hair_mohawk` trait with the `purple` variant to the character:
+```json
+{ "u_add_trait": "hair_mohawk", "variant": "purple" }
+```
 
-#### `u_lose_effect`, `npc_effect`
+#### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](##variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](##variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 
 ##### Valid talkers:
 
@@ -1203,6 +2369,11 @@ Remove effect from character or NPC, if it has one
 Removes `infection` effect from player:
 ```json
 { "u_lose_effect": "infection" }
+```
+
+Removes `bleed` effect from player's head:
+```json
+{ "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:
@@ -1308,7 +2479,7 @@ The character learn Eskrima
 
 Character learn martial art, stored in `ma_id` context value
 ```json
-{ "u_learn_martial_art": { "context_val": "ma_id" }
+{ "u_learn_martial_art": { "context_val": "ma_id" } }
 ```
 
 
@@ -1333,7 +2504,7 @@ Character forget Eskrima
 
 Character forget martial art, stored in `ma_id` context value
 ```json
-{ "u_forget_martial_art": { "context_val": "ma_id" }
+{ "u_forget_martial_art": { "context_val": "ma_id" } }
 ```
 
 
@@ -1412,40 +2583,6 @@ Character remove variable `on` of type `bio` and context `blade_electric`
 { "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
 ```
 
-
-#### `u_adjust_var`, `npc_adjust_var`
-Your character or the NPC will adjust the stored variable by `adjustment`. **Slowly removed from usage in favor of `math`**
-
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_adjust_var", "npc_adjust_var" | **mandatory** | string | variable to adjust |
-| "adjustment" | **mandatory** | int, float or [variable object](##variable-object) | size of adjustment | 
-| "type", "context" | optional | string | additional text to describe your variable; not mandatory, but required to adjust correct variable |
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-Increases the variable `mission_1` for 1
-```json
-{ "u_adjust_var": "mission_1", "type": "mission", "context": "test", "adjustment": 1 }
-```
-
-Decreases the variable `mission_2` for 5
-```json
-{ "u_adjust_var": "mission_2", "type": "mission", "context": "test", "adjustment": -5 }
-```
-
-Increases the variable `mission_3` for random amount from 0 to 50
-```json
-{ "u_adjust_var": "mission_3", "type": "mission", "context": "test", "adjustment": { "math": [ "rand(50)" ] } }
-```
-
-
 #### `set_string_var`
 Store string from `set_string_var` in the variable object `target_var`
 
@@ -1454,6 +2591,7 @@ Store string from `set_string_var` in the variable object `target_var`
 | --- | --- | --- | --- | 
 | "set_string_var" | **mandatory** | string, [variable object](##variable-object), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
+| "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 
 
 ##### Valid talkers:
@@ -1481,39 +2619,9 @@ Replace text in `place_name` variable with one of 5 string, picked randomly; fur
 }
 ```
 
-
-#### `if`
-Set effects to be executed when conditions are met and when conditions are not met.
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "if" | **mandatory** | [dialogue condition](#dialogue-conditions) | condition itself | 
-| "then" | **mandatory** | effect | Effect(s) executed when conditions are met. | 
-| "else" | optional | effect | Effect(s) executed when conditions are not met. | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-##### Examples
-Displays a different message the first time it is run and the second time onwards
+Concatenate string of variable `foo` and `bar`
 ```json
-{
-  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-  "then": { "u_message": "You have variable." },
-  "else": [
-    { "u_message": "You don't have variable." },
-    {
-      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
-      "then": [
-        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-        { "u_message": "Vriable added." }
-      ]
-    }
-  ]
-}
+{ "set_string_var": "<global_val:foo><global_val:bar>", "target_var": { "global_val": "new" }, "parse_tags": true }
 ```
 
 
@@ -1559,11 +2667,13 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 | "u_location_variable" / "npc_location_variable" | **mandatory** | [variable object](##variable-object) | variable, where the location would be saved | 
 | "min_radius", "max_radius" | optional | int, float or [variable object](##variable-object) | default 0; radius around the player or NPC, where the location would be searched | 
 | "outdoor_only" | optional | boolean | default false; if true, only outdoor values would be picked | 
+| "passable_only" | optional | boolean | default false; if true, only passable values would be picked | 
 | "target_params" | optional | assign_mission_target | if used, the search would be performed not from `u_` or `npc_` location, but from `mission_target`. it uses an [assign_mission_target](MISSIONS_JSON.md) syntax | 
 | "x_adjust", "y_adjust", "z_adjust" | optional | int, float or [variable object](##variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
 | "terrain" / "furniture" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
 | "target_min_radius", "target_max_radius" | optional | int, float or [variable object](##variable-object) | default 0, min and max radius for search, if previous field was used | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if the location was found, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Valid talkers:
 
@@ -1852,8 +2962,8 @@ Your character or the NPC will gain a morale bonus
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_morale" / "npc_add_morale" | **mandatory** | string or [variable object](##variable-object) | `morale_type`, that would be given by effect |
-| "bonus" | optional | int, float or [variable object](##variable-object) | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
-| "max_bonus" | optional | int, float or [variable object](##variable-object) | default false; cap, beyond which mood won't increase or decrease | 
+| "bonus" | **mandatory** | int, [variable object](##variable-object) or array of both | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
+| "max_bonus" | **mandatory** | int, [variable object](##variable-object) or array of both | default false; cap, beyond which mood won't increase or decrease | 
 | "duration" | optional | int, duration or [variable object](##variable-object) | default 1 hour; how long the morale effect would last | 
 | "decay_start" | optional | int, duration or [variable object](##variable-object) | default 30 min; when the morale effect would start to decay | 
 | "capped" | optional | boolean | default false; if true, `bonus` is not decreased when stacked (e.g. `bonus` of 100 gives mood bonus as 100, 200, 300 and so on) |  
@@ -1937,12 +3047,12 @@ adds [ your strength stat ] amount of faction trust
 #### `u_lose_faction_trust`
 same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
 
-#### `u_message`, `npc_message`
-Display a text message in the log
+#### `u_message`, `npc_message`, `message`
+Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_message" / "npc_message" | **mandatory** | string or [variable object](##variable-object) | default true |
+| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](##variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed |
 | "type" | optional | string or [variable object](##variable-object) | default neutral; how the message would be displayed in log (usually means the color); could be any of good (green), neutral (white), bad (red), mixed (purple), warning (yellow), info (blue), debug (appear only if debug mode is on), headshot (purple), critical (yellow), grazing (blue) | 
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
@@ -1969,21 +3079,25 @@ Print a snippet from `local_files_simple`, and popup it. The snippet is always t
  { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
 ```
 
+Print a text with a context variable
+```json
+  { "u_message": "Test event with trait_id FIRE! <context_val:trait_id>", "type": "good" } 
+```
 
 #### `u_cast_spell`, `npc_cast_spell`
 You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `energy_source`, `cast_time`, `components`, `difficulty` and `spell_class` fields), and uses additional fields 
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_cast_spell" / "npc_cast_spell" | **mandatory** | [variable object](##variable-object) | information of what spell and how it should be casted |
+| "u_cast_spell" / "npc_cast_spell" | **mandatory** | `fake_spell` | information of what spell and how it should be casted; next field can be used: |
 | "id" | **mandatory** | string or [variable object](##variable-object) | part of `_cast_spell`; define the id of spell to cast | 
 | "hit_self" | optional | boolean | part of `_cast_spell`; default false; if true, the spell could affect the caster (either as self damage from AoE spell, or as applying effect for buff spell) | 
 | "message" | optional | string or [variable object](##variable-object) | part of `_cast_spell`; message to send when spell is casted | 
 | "npc_message" | optional | string or [variable object](##variable-object) | part of `_cast_spell`; message if npc uses | 
 | "min_level", "max_level" | optional | int, float or [variable object](##variable-object) | part of `_cast_spell`; level of the spell that would be casted (min level define what the actual spell level would be casted, adding max_level make EoC pick a random level between min and max) | 
-| "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in random place, like `RANDOM_TARGET` spell flag was used | 
-| "true_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was casted successfully, all EoCs from this field would be triggered; | 
-| "false_eocs" | optional | string, [variable object](##variable-object), `effect_on_condition` or range of all of them | if spell was not casted successfully, all EoCs from this field would be triggered | 
+| "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in the location set by "loc" | 
+| "loc" | optional | [variable object](##variable-object) | Set target location of the spell. If not used, target to caster's location |
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if spell was casted successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Valid talkers:
 
@@ -2084,47 +3198,6 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 }
 ```
 
-
-#### `u_set_hp`, `npc_set_hp`
-HP of you or NPC would be set to some amount
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_set_hp" / "npc_set_hp" | **mandatory** | int, float or [variable object](##variable-object) | amount of HP to set |
-| "target_part" | optional | string or [variable object](##variable-object) | default whole body; if used, the HP adjustment would be applied only to this body part | 
-| "only_increase" | optional | boolean | default false; if true, the HP could be only increased | 
-| "main_only" | optional | boolean | default false; if true, only main body parts would be affected - arms, legs, head, torso etc.; can't be used with `minor_only` | 
-| "minor_only" | optional | boolean | default false; if true, only minor parts would be affected - eyes, mouth, hands, foots etc.; can't be used with `main_only` | 
-| "max" | optional | boolean | default false; if true, `_set_hp` value would be ignored, and body part would be healed to it's max HP | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-
-HP of whole body would be set to 10
-```json
-{ "u_set_hp": 10 }
-```
-
-Random bodypart would be healed entirely
-```json
-{ "u_set_hp": 0, "max": true, "target_part": "RANDOM" }
-```
-
-You increase the HP of your minor parts to 50, if possible
-```json
-{ "u_set_hp": 50, "minor_only": true, "only_increase": true }
-```
-
-You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
-```json
-{ "u_set_hp": { "math": { "u_hp('leg_r') + 10" } }, "target_part": "leg_r" }
-```
-
 #### `u_die`, `npc_die`
 You or NPC will instantly die
 
@@ -2182,6 +3255,65 @@ NPC is prevented from death.
   "required_event": "character_dies",
   "condition": { "u_has_trait": "DEBUG_PREVENT_DEATH" },
   "effect": [ "u_prevent_death" ]
+}
+```
+
+#### `u_attack`, `npc_attack`
+Alpha or beta talker forced to use a technique or special attack
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_attack" / "npc_attack" | **mandatory** | string, boolean or [variable object](#variable-object) | technique, that would be used; `"tec_none"` can be used, in this case a default autoattack would be used |
+| "allow_special" | optional | boolean | default true; if true, special attacks should be selected (`special_attack` that monsters can use, like `monster_attack` or `spell`) | 
+| "allow_unarmed" | optional | boolean | default true; if true, unarmed techniques can be considered | 
+| "forced_movecost" | optional | int or [variable object](#variable-object) | default -1; If used, attack will consume this amount of moves (100 moves = 1 second); negative value make it use the default movecost of attack | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+you use autoattack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_test",
+  "effect": [ { "u_attack": "tec_none" } ]
+},
+```
+
+mutator `valid_technique` return random technique, that alpha talker can use; this technique is set into `random_attack` global variable; then you attack using this technique
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_mutator",
+  "effect": [
+    { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "random_attack" } },
+    { "u_attack": { "global_val": "random_attack" } }
+  ]
+}
+```
+
+Picks random pankration technique, assign it to `pankration_random_attack`, and use it in attack
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_attack_random_tech",
+  "effect": [
+    {
+      "set_string_var": [
+        "tec_pankration_cross",
+        "tec_pankration_kick",
+        "tec_pankration_grabknee",
+        "tec_pankration_grabdisarm",
+        "tec_pankration_grabthrow"
+      ],
+      "target_var": { "context_val": "pankration_random_attack" }
+    },
+    { "u_attack": { "context_val": "pankration_random_attack" } }
+  ]
 }
 ```
 
@@ -2243,6 +3375,33 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 Force you consume drug item
 ```json
 { "u_activate": "consume_drug" }
+```
+
+## Map effects
+
+#### `map_spawn_item`
+Spawn and place the item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "map_spawn_item" | **mandatory** | string or [variable object](##variable-object) | id of item or item group that should spawn |
+| "loc" | optional | [variable object](##variable-object) | Location that the item spawns. If not used, spawns from player's location |
+| "count" | optional | int or [variable object](##variable-object) | default 1; Number of item copies |
+| "container" | optional | string or [variable object](##variable-object) | id of container. Item is contained in container if specified |
+| "use_item_group" | optional | bool | default false; If true, it will instead create items from the item group given. ("count" and "containter" will be ignored since they are defined in the item group.) |
+| "flags" | optional | array of string or [variable object](#variable-object) | The item will have all the flags from the array `flags` |
+
+##### Examples
+Spawn a plastic bottle on ground
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_map_spawn_item",
+  "effect": [
+    { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "loc" } },
+    { "map_spawn_item": "bottle_plastic", "loc": { "mutator": "loc_relative_u", "target": "(0,1,0)" } }
+  ]
+},
 ```
 
 ## Map Updates
@@ -2442,10 +3601,11 @@ Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster that would be spawned |
+| "u_spawn_monster", "npc_spawn_monster" | **mandatory** | string or [variable object](##variable-object) | monster or monstergroup that would be spawned, using "" picks randomly from nearby monsters |
 | "real_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of monsters, that would be spawned | 
 | "hallucination_count" | optional | int, [variable object](##variable-object) or value between two | default 0; amount of hallucination versions of the monster that would be spawned |
-| "group" | optional | boolean | default false; if true, `_spawn_monster` would spawn a monster from `monstergroup`; the game pick only one monster from group, so to create mix from different monsters from monstergroup, multiple `u_spawn_monster` should be used | 
+| "group" | optional | boolean | default false; if true, `_spawn_monster` will spawn a monster from `monstergroup` |
+| "single_target" | optional | boolean | default false; if true, `_spawn_monster` the game pick only one monster from the provided `monstergroup` or from nearby monsters | 
 | "min_radius", "max_radius" | optional | int, [variable object](##variable-object) or value between two | default 1 and 10 respectively; range around the target, where the monster would spawn | 
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, monsters would be able to spawn only outside or only inside buildings | 
 | "open_air_allowed" | optional | boolean | default false; if true, monsters can spawn in the open air | 
@@ -2453,7 +3613,7 @@ Spawn some monsters around you, NPC or `target_var`
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, critters would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the monster would spawn from this location instead of you or NPC | 
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see monster or monsters that was spawned, related message would be printed | 
-| "true_eocs", "false_eocs" | optional | eocs_array | if at least 1 monster was spawned, all EoCs from `true_eocs` is called, otherwise all EoCs from `false_eocs` is called | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Examples
 Spawn 2-5 zombies in range 3-24 around player with lifespan 40-120 seconds, with messages if player see spawn
@@ -2494,7 +3654,7 @@ Spawn some NPC near you or another NPC
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, NPC would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the NPC would spawn from this location instead of you or NPC | 
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see NPC or NPCs that was spawned, related message would be printed | 
-| "true_eocs", "false_eocs" | optional | eocs_array | if at least 1 monster was spawned, all EoCs from `true_eocs` is called, otherwise all EoCs from `false_eocs` is called | 
+| "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
 ##### Examples
 Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, for 1-3 minutes and with messages 
@@ -2529,3 +3689,62 @@ Spawn blood 10 tiles around the player outdoor
 ```json
 { "u_set_field": "fd_blood", "radius": 10, "outdoor_only": true, "intensity": 3 }
 ```
+
+#### `turn_cost`
+Subtract this many turns from the alpha talker's moves.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "turn_cost" | **mandatory** | number, duration, [variable object](##variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+
+##### Examples
+
+```json
+{
+  "effect": [
+    { "turn_cost": "1 sec" }
+  ]
+}
+```
+
+```json
+{
+  "effect": [
+    { "turn_cost": 0.6 }
+  ]
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### `transform_item`
+Convert the beta talker (which must be an item) into a different item, optionally activating it. Works similarly to the "transform" use_action.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "transform_item" | **mandatory** | string or [variable object](##variable-object) | item ID to transform to |
+| "active" | optional | boolean | if true, activate the item |
+
+##### Examples
+
+```json
+{
+  "condition": "has_ammo",
+  "effect": [
+    { "transform_item": "chainsaw_on", "active": true }
+  ],
+  "false_effect": {
+    "u_message": "You yank the cord, but nothing happens."
+  }
+}
+```
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |

@@ -300,13 +300,7 @@
         "distribution": [
           {
             "collection": [
-              {
-                "distribution": [
-                  { "group": "default_zombie_clothes", "prob": 90 },
-                  { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
-                  { "group": "default_zombie_clothes_halloween", "event": "halloween", "prob": 10 }
-                ]
-              },
+              { "group": "default_zombie_clothes" },
               {
                 "distribution": [ { "group": "default_zombie_items", "prob": 80 }, { "group": "default_zombie_items_pockets", "prob": 20 } ]
               }

@@ -20,8 +20,8 @@
       [ "can_corn", 35 ],
       [ "cooked_pumpkin", 20 ],
       [ "can_spam", 30 ],
-      [ "salt", 10 ],
-      [ "seasoning_salt", 5 ],
+      { "prob": 10, "group": "salt_bag_plastic_100" },
+      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
       [ "vinegar", 10 ],
       { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
@@ -56,6 +56,7 @@
     "id": "stash_drugs",
     "items": [
       { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
       { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
@@ -117,6 +118,13 @@
     "items": [ { "group": "small_bugout" } ]
   },
   {
+    "id": "small_bugout_bag_4",
+    "type": "item_group",
+    "container-item": "backpack_denim",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
+  },
+  {
     "id": "small_bugout",
     "type": "item_group",
     "//": "a light bugout, stuff people would have on hand, not super full",
@@ -159,7 +167,8 @@
       { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
-      { "group": "civilian_armor", "count": 2, "prob": 35 }
+      { "group": "civilian_armor", "count": 2, "prob": 35 },
+      { "group": "bugout_large_extras", "prob": 40 }
     ]
   },
   {
@@ -263,6 +272,13 @@
   },
   {
     "type": "item_group",
+    "id": "bugout_large_extras",
+    "subtype": "distribution",
+    "//": "Large items of questionable use in a bugout bag.",
+    "entries": [ { "item": "folding_solar_panel" } ]
+  },
+  {
+    "type": "item_group",
     "id": "bugout_bad_pack",
     "subtype": "distribution",
     "//": "an item that wouldn't be super useful to the player, recreational items and such.",
@@ -333,6 +349,13 @@
     "id": "child_bugout_bag_2",
     "type": "item_group",
     "container-item": "backpack_leather",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
+    "id": "child_bugout_bag_3",
+    "type": "item_group",
+    "container-item": "backpack_denim",
     "on_overflow": "spill",
     "items": [ { "group": "child_bugout" } ]
   },

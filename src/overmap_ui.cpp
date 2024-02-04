@@ -5,13 +5,9 @@
 #include <chrono>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
-#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
@@ -24,7 +20,6 @@
 #include "all_enum_values.h"
 #include "avatar.h"
 #include "basecamp.h"
-#include "cached_options.h"
 #include "calendar.h"
 #include "enum_conversions.h"
 #ifdef TILES
@@ -40,18 +35,15 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "display.h"
-#include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "input.h"
+#include "input_context.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -61,11 +53,9 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
-#include "player_activity.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -77,7 +67,6 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
@@ -93,6 +82,7 @@ static const oter_str_id oter_unexplored( "unexplored" );
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 #if defined(__ANDROID__)
@@ -553,6 +543,7 @@ static void draw_ascii(
                              100;
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
+    const bool show_map_revealed = uistate.overmap_show_revealed_omts;
 
     const oter_id forest = oter_forest.id();
 
@@ -644,6 +635,7 @@ static void draw_ascii(
         size_t count = 0;
     };
     std::unordered_set<tripoint_abs_omt> npc_path_route;
+    std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     std::unordered_map<point_abs_omt, int> player_path_route;
     std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
     auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
@@ -781,9 +773,15 @@ static void draw_ascii(
                 // npc path
                 ter_color = c_red;
                 ter_sym = "!";
+            } else if( blink && show_map_revealed &&
+                       revealed_highlights.find( omp ) != revealed_highlights.end() ) {
+                // Revealed map tiles
+                ter_color = c_magenta;
+                ter_sym = "&";
             } else if( blink && showhordes &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
-                       get_and_assign_los( los, player_character, omp, sight_points ) ) {
+                       ( get_and_assign_los( los, player_character, omp, sight_points ) ||
+                         uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
@@ -1188,6 +1186,7 @@ static void draw_om_sidebar(
             print_hint( "PLACE_TERRAIN", c_light_blue );
             print_hint( "PLACE_SPECIAL", c_light_blue );
             print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+            print_hint( "LONG_TELEPORT", c_light_blue );
             ++y;
         }
 
@@ -1211,6 +1210,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
+        print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
@@ -1697,8 +1697,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
-            is_river_or_lake( dest_ter ) ) {
-            params.water_cost = 100;
+            is_water_body( dest_ter ) ) {
+            params.set_cost( oter_travel_cost_type::water, 100 );
         }
     }
     // literal "edge" case: the vehicle may be in a different OMT than the player
@@ -1816,6 +1816,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_HORDES" );
     ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
+    ictxt.register_action( "TOGGLE_MAP_REVEALS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
@@ -1826,6 +1827,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
         ictxt.register_action( "SET_SPECIAL_ARGS" );
+        ictxt.register_action( "LONG_TELEPORT" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -1976,6 +1978,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
+        } else if( action == "TOGGLE_MAP_REVEALS" ) {
+            uistate.overmap_show_revealed_omts = !uistate.overmap_show_revealed_omts;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
@@ -1994,6 +1998,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             place_ter_or_special( ui, curs, action );
         } else if( action == "SET_SPECIAL_ARGS" ) {
             set_special_args( curs );
+        } else if( action == "LONG_TELEPORT" && curs != overmap::invalid_tripoint ) {
+            g->place_player_overmap( curs );
+            add_msg( _( "You teleport to submap %s." ), curs.to_string() );
+            action = "QUIT";
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }

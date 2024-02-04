@@ -572,7 +572,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "dirt_road_forest" ],
+    "om_terrain": [ "dirt_road_forest", "cabin_liam_driveway" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",

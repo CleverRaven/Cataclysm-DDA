@@ -428,6 +428,60 @@
     ]
   },
   {
+    "id": "backpack_denim",
+    "type": "ARMOR",
+    "name": { "str": "denim backpack" },
+    "description": "A denim backpack.  Solid storage for few encumbrance.  The texture feels nice.",
+    "//": "It's modeled as our normal backpack but made of 16.5 oz denim.",
+    "weight": "560 g",
+    "volume": "2 L",
+    "price": 5000,
+    "price_postapoc": 300,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      },
+      {
+        "//": "water bottle pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "24 cm",
+        "min_item_length": "18 cm",
+        "moves": 80,
+        "description": "Small pocket for a water bottle.",
+        "ripoff": 2
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack.",
+        "ripoff": 3,
+        "transparent": true
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 1.1,
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
     "id": "backpack_tactical_large",
     "type": "ARMOR",
     "name": { "str": "large tactical backpack" },
@@ -749,7 +803,7 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -779,7 +833,7 @@
       }
     ],
     "material_thickness": 5,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -1595,8 +1649,7 @@
       {
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
-        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 1
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
     ]
   },
@@ -1821,7 +1874,32 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You slide the bag to your side.",
+      "menu_text": "Adjust",
+      "target": "mbag_sided",
+      "moves": 120
+    }
+  },
+  {
+    "id": "mbag_sided",
+    "type": "ARMOR",
+    "name": { "str": "messenger bag" },
+    "copy-from": "mbag",
+    "sided": true,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ],
+    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
   },
   {
     "id": "molle_pack",
@@ -2154,7 +2232,7 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
     "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]

@@ -48,11 +48,7 @@ When you have a comestible you want to add to the files, just go down this list,
 
 `raw_veggy.json` -- comestible that is a vegetable in its raw form.
 
-`irradiated_veggy.json` -- comestible that is an irradiated vegetable. has an indefinite shelf life.
-
 `raw_fruit.json` -- comestible that is a fruit in its raw form.
-
-`irradiated_fruit.json` -- comestible that is an irradiated fruit. has an indefinite shelf life.
 
 `veggy_dishes.json` -- comestible made of vegetables.
 

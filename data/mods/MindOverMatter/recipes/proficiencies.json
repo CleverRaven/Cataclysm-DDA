@@ -1,8 +1,163 @@
 [
   {
     "type": "proficiency_category",
+    "id": "prof_concentration",
+    "name": "Concentration",
+    "description": "Proficiencies that help with maintaining concentration even in the face of distractions."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_basic",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Beginner)" },
+    "description": "You are capable of holding the same thing in mind even when sitting in an uncomfortable position or after skipping a meal.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_intermediate",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Expert)" },
+    "description": "You can maintain your concentration even if outside in winter without a coat or while in combat with a zombie.",
+    "can_learn": true,
+    "time_to_learn": "32 h",
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.25,
+    "required_proficiencies": [ "prof_concentration_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_concentration_master",
+    "category": "prof_concentration",
+    "name": { "str": "Concentration (Master)" },
+    "description": "You can maintain your concentration even when suffering crippling injuries or while on mind-altering substances.",
+    "can_learn": true,
+    "time_to_learn": "64 h",
+    "default_time_multiplier": 3,
+    "default_skill_penalty": 0.3,
+    "required_proficiencies": [ "prof_concentration_intermediate" ]
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_contemplation",
+    "name": "Contemplation",
+    "description": "Proficiencies that help with discovering new powers or improving existing ones."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_biokinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Biokinetic Insight" },
+    "description": "You have an understanding of how biokinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_clairsentience",
+    "category": "prof_contemplation",
+    "name": { "str": "Clairsentient Insight" },
+    "description": "You have an understanding of how clairsentience functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_electrokinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Electrokinetic Insight" },
+    "description": "You have an understanding of how electrokinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_photokinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Photokinetic Insight" },
+    "description": "You have an understanding of how photokinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_pyrokinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Pyrokinetic Insight" },
+    "description": "You have an understanding of how pyrokinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_telekinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Telekinetic Insight" },
+    "description": "You have an understanding of how telekinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_telepathy",
+    "category": "prof_contemplation",
+    "name": { "str": "Telepathic Insight" },
+    "description": "You have an understanding of how telepathy functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_teleportation",
+    "category": "prof_contemplation",
+    "name": { "str": "Teleportation Insight" },
+    "description": "You have an understanding of how teleportation functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_contemplation_vitakinesis",
+    "category": "prof_contemplation",
+    "name": { "str": "Vitakinetic Insight" },
+    "description": "You have an understanding of how vitakinesis functions and unlocking new powers is easier for you.",
+    "can_learn": true,
+    "default_time_multiplier": 1.0,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "200 h",
+    "//": "Length is deliberate"
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_psionic",
-    "name": "Psionic",
+    "name": "Psionic Crafting",
     "description": "Proficiencies that help with channeling psionic energy into physical objects or into more esoteric applications."
   },
   {
@@ -19,7 +174,7 @@
   {
     "type": "proficiency",
     "id": "prof_psionic_ritual",
-    "category": "prof_psionics",
+    "category": "prof_psionic",
     "name": { "str": "Thought-form Construction" },
     "description": "You are adept at the focused concentration and elaborate mental exercises required to practice more esoteric psionic abilities.",
     "can_learn": true,
@@ -54,7 +209,7 @@
   {
     "type": "proficiency",
     "id": "prof_psionic_morphic",
-    "category": "prof_psionics",
+    "category": "prof_psionic",
     "name": { "str": "Morphology Alteration" },
     "description": "You have mastered using psionics to affect the form of living beings.",
     "can_learn": true,

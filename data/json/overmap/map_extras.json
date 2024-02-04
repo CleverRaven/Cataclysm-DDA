@@ -202,6 +202,18 @@
     "flags": [ "EXODII" ]
   },
   {
+    "id": "mx_golden_monoliths",
+    "type": "map_extra",
+    "name": { "str": "Golden monoliths" },
+    "description": "There are some strange metal formations here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_golden_monoliths_map" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "x",
+    "color": "yellow",
+    "autonote": true,
+    "flags": [ "YRAX" ]
+  },
+  {
     "id": "mx_lab_concourse_area",
     "type": "map_extra",
     "name": { "str": "Start location concourse area" },
@@ -570,10 +582,33 @@
     "id": "mx_city_trap",
     "type": "map_extra",
     "name": { "str": "Zombie Trap" },
-    "description": "Zombie trap.",
+    "description": "Someone put up a trap against zombies here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_city_trap" },
+    "sym": "I",
+    "color": "green",
+    "autonote": true,
     "min_max_zlevel": [ 0, 0 ],
     "flags": [ "MAN_MADE" ]
+  },
+  {
+    "id": "mx_laststand",
+    "type": "map_extra",
+    "name": { "str": "Last Stand" },
+    "description": "Some people made a last stand against the zombies here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_laststand" },
+    "sym": "X",
+    "color": "green",
+    "autonote": true,
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
+  },
+  {
+    "id": "mx_fungal_zone",
+    "type": "map_extra",
+    "name": { "str": "Fungal infestation" },
+    "description": "Fungal-infested location.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fungal_zone" },
+    "min_max_zlevel": [ 0, 0 ]
   },
   {
     "id": "mx_reed",

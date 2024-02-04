@@ -25,7 +25,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -36,6 +35,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -247,7 +247,7 @@ void item::add_rain_to_container( int charges )
         // This is easy. Just add 1 charge of the rain liquid to the container.
         // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
         ret.poison = one_in( 10 ) ? 1 : 0;
-        put_in( ret, item_pocket::pocket_type::CONTAINER );
+        put_in( ret, pocket_type::CONTAINER );
     } else {
         static const std::set<itype_id> allowed_liquid_types{
             itype_water

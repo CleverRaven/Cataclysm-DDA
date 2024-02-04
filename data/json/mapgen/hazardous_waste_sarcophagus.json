@@ -153,7 +153,7 @@
           "failures": [ { "action": "alarm" } ]
         }
       },
-      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
+      "place_vehicles": [ { "vehicle": "military_cargo_trucks", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
     }
   },
   {
@@ -289,7 +289,6 @@
         "c": { "item": "office_supplies", "chance": 60 },
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
-        " ": { "item": "map_extra_science", "chance": 1 },
         "~": [
           { "item": "trash", "chance": 15 },
           { "item": "sewer", "chance": 15 },

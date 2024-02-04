@@ -76,7 +76,7 @@
     "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM" ],
     "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
@@ -101,6 +101,7 @@
       {
         "id": "scratch",
         "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
       {
@@ -144,7 +145,7 @@
   {
     "id": "mon_nightmare_sheep",
     "type": "MONSTER",
-    "name": { "str_sp": "hunllef rams" },
+    "name": { "str": "hunllef ram" },
     "description": "Hunllef rams, also known as Nightmare Sheep, are a particularly vicious breed of sheep suspected to be from another plane of existence.  Both males and females display deadly horns and a willingness to use them on most other creatures that come near them.  They are the most biddable source of parabolan wool and often take a protective stance towards other sheep, so some farmers will risk life and limb to keep them.",
     "default_faction": "hunllef",
     "bodytype": "dog",
@@ -315,7 +316,7 @@
       [ "SMASH", 30 ]
     ],
     "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
     "zombify_into": "mon_troll_zombie",
     "armor": { "cut": 16, "bullet": 13 }
   },

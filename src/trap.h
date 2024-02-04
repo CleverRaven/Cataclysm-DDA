@@ -153,9 +153,9 @@ struct trap {
          */
         units::mass trigger_weight = 500_gram;
         /**
-         * If a sound of at least this volume reaches the trap, it triggers.
+         * Determines how much sound is needed to trigger the trap. Defined as {min,max}.
          */
-        int sound_threshold = 0;
+        std::pair<int, int> sound_threshold = {0, 0};
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -163,7 +163,7 @@ struct trap {
         // data required for trapfunc::spell()
         fake_spell spell_data;
         int comfort = 0;
-        int floor_bedding_warmth = 0;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**

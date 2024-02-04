@@ -206,7 +206,7 @@
       },
       {
         "id": "faction_base_farm_2_0",
-        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), no recipes",
+        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), processing recipes",
         "om_terrains": [
           "field",
           "dirt_road",
@@ -451,6 +451,7 @@
       { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
       { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
       { "id": "starch", "description": " Cook: Starch" },
+      { "id": "water_clean", "description": " Boil: Water" },
       { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
       { "id": "flatbread", "description": " Cook: Flatbread" },
       { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
@@ -509,14 +510,13 @@
     "type": "recipe_group",
     "id": "saltworks_recipes_2",
     "building_type": "COOK",
-    "//": "You can make the recipes work by adding a container like canning but it's a huge pain because of pockets and inconsistency in liquid volumes",
     "recipes": [
-      { "id": "brew_fruit_wine", "description": " WIP Brew: Fruit Wine Must" },
-      { "id": "brew_mead", "description": " WIP Brew: Spiced Wine Must" },
-      { "id": "brew_dandelion_wine", "description": " WIP Brew: Dandelion Wine Must" },
-      { "id": "brew_burdock_wine", "description": " WIP Brew: Burdock Wine Must" },
-      { "id": "brew_pine_wine", "description": " WIP Brew: Pine Wine Must" },
-      { "id": "brew_hb_beer", "description": " WIP Brew: Beer" }
+      { "id": "brew_fruit_wine", "description": "Brew: Fruit Wine Must" },
+      { "id": "brew_mead", "description": "Brew: Spiced Wine Must" },
+      { "id": "brew_dandelion_wine", "description": "Brew: Dandelion Wine Must" },
+      { "id": "brew_burdock_wine", "description": "Brew: Burdock Wine Must" },
+      { "id": "brew_pine_wine", "description": "Brew: Pine Wine Must" },
+      { "id": "brew_hb_beer", "description": "Brew: Beer" }
     ]
   },
   {
@@ -524,10 +524,10 @@
     "id": "saltworks_recipes_3",
     "building_type": "COOK",
     "recipes": [
-      { "id": "brandy", "description": " WIP Distill: Brandy" },
-      { "id": "gin_from_mash", "description": " WIP Distill: Gin" },
-      { "id": "vodka_from_wash", "description": " WIP Distill: Vodka" },
-      { "id": "rum", "description": " WIP Distill: Rum" }
+      { "id": "brandy", "description": "Distill: Brandy" },
+      { "id": "gin_from_mash", "description": "Distill: Gin" },
+      { "id": "vodka_from_wash", "description": "Distill: Vodka" },
+      { "id": "rum", "description": "Distill: Rum" }
     ]
   },
   {
@@ -566,7 +566,7 @@
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
-      { "id": "lc_steel_lump", "description": " Craft: Mild Carbon Steel, Lump" }
+      { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
   },
   {
@@ -586,10 +586,10 @@
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" },
-      { "id": "lc_wire", "description": " Craft: Mild Carbon Steel, Wire" },
-      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Carbon Steel, Link" },
-      { "id": "lc_link_sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
-      { "id": "mc_steel_lump", "description": " Craft: Medium Carbon Steel, Lump" }
+      { "id": "lc_wire", "description": " Craft: Mild Steel, Wire" },
+      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Steel, Link" },
+      { "id": "lc_link_sheet", "description": " Craft: Mild Steel, Link Sheet" },
+      { "id": "mc_steel_lump", "description": " Craft: Medium Steel, Lump" }
     ]
   },
   {
@@ -599,13 +599,13 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
+      { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
-      { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
-      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
-      { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
+      { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
+      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
+      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" }
     ]
   },
   {
@@ -624,9 +624,9 @@
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
-      { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
-      { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
-      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
+      { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
+      { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
+      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
       { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
       { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
@@ -648,10 +648,10 @@
       { "id": "crowbar", "description": " Craft: Crowbar" },
       { "id": "pot", "description": " Craft: Pot" },
       { "id": "hoe", "description": " Craft: Hoe" },
-      { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
-      { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
-      { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
-      { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
+      { "id": "hc_steel_lump", "description": " Craft: High Steel, Lump" },
+      { "id": "hc_wire", "description": " Craft: High Steel, Wire" },
+      { "id": "hc_chain_link_fabrication", "description": " Craft: High Steel, Link" },
+      { "id": "hc_link_sheet", "description": " Craft: High Steel, Link Sheet" }
     ]
   },
   {

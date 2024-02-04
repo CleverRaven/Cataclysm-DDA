@@ -21,6 +21,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
+      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
@@ -52,6 +53,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
+      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },

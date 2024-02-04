@@ -14,6 +14,7 @@
 #include "clone_ptr.h"
 #include "color.h"
 #include "enum_bitset.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
@@ -69,6 +70,12 @@ struct map_bash_info {
     bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
                const std::string &context );
 };
+struct map_deconstruct_skill {
+    skill_id id; // Id of skill to increase on successful deconstruction
+    int min; // Minimum level to recieve xp
+    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
+};
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
@@ -79,6 +86,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
+    std::optional<map_deconstruct_skill> skill;
     bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
@@ -173,6 +181,7 @@ struct plant_data {
  * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
  * TREE - This terrain is a tree
+ * MUTANT_TREE - This furniture is a special tree grown from a post-thresh plant mutant, probably the player
  * HARVESTED - This terrain has been harvested so it won't bear any fruit
  * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
@@ -251,10 +260,14 @@ enum class ter_furn_flag : int {
     TFLAG_YOUNG,
     TFLAG_PLANT,
     TFLAG_FISHABLE,
+    TFLAG_GRAZABLE,
+    TFLAG_GRAZER_INEDIBLE,
+    TFLAG_BROWSABLE,
     TFLAG_TREE,
     TFLAG_PLOWABLE,
     TFLAG_ORGANIC,
     TFLAG_CONSOLE,
+    TFLAG_TREE_PLANTABLE,
     TFLAG_PLANTABLE,
     TFLAG_GROWTH_HARVEST,
     TFLAG_MOUNTABLE,
@@ -310,6 +323,10 @@ enum class ter_furn_flag : int {
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
     TFLAG_NO_FLOOR_WATER,
+    TFLAG_MUTANT_TREE,
+    TFLAG_SINGLE_SUPPORT,
+    TFLAG_CLIMB_ADJACENT,
+    TFLAG_FLOATS_IN_AIR,
 
     NUM_TFLAG_FLAGS
 };
@@ -327,7 +344,6 @@ struct connect_group {
         std::set<ter_furn_flag> connects_to_flags;
         std::set<ter_furn_flag> rotates_to_flags;
 
-        bool was_loaded;
         static void load( const JsonObject &jo );
         static void reset();
 };
@@ -489,10 +505,10 @@ struct map_data_common_t {
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Warmth provided by the terrain (for sleeping, etc.)
-        int floor_bedding_warmth = 0;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
-        units::volume max_volume = 1000_liter;
+        units::volume max_volume = DEFAULT_TILE_VOLUME;
 
         translation description;
 
@@ -638,7 +654,7 @@ struct furn_t : map_data_common_t {
     /** Emissions of furniture */
     std::set<emit_id> emissions;
 
-    int bonus_fire_warmth_feet = 300;
+    units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
@@ -692,6 +708,7 @@ extern ter_id t_null,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
+       t_grass_alien,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -760,7 +777,7 @@ extern ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_water_pool, t_sewage,
+       t_swater_surf, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,

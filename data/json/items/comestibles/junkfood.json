@@ -152,7 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chocpretzels",
-    "name": { "str": "chocolate-covered pretzel" },
+    "name": { "str_sp": "chocolate-covered pretzel" },
     "weight": "96 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -231,7 +231,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy",
-    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candies" },
+    "name": { "str_sp": "peanut butter candy" },
     "weight": "39 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -252,7 +252,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy2",
-    "name": { "str": "chocolate candy", "str_pl": "chocolate candies" },
+    "name": { "str_sp": "chocolate candy" },
     "weight": "57 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -333,14 +333,14 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3gator",
-    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "name": { "str_sp": "chewy reptilian candy" },
     "copy-from": "candy3",
     "description": "A handful of colorful fruit-flavored chewy candies shaped in a reptilian fashion.  Made by SugarRush."
   },
   {
     "type": "COMESTIBLE",
     "id": "cow_candy",
-    "name": { "str": "candy cattle" },
+    "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.",
     "symbol": "*",
     "copy-from": "candy2",
@@ -349,7 +349,7 @@
   {
     "type": "COMESTIBLE",
     "id": "licorice",
-    "name": { "str": "licorice" },
+    "name": { "str_sp": "licorice" },
     "container": "bag_plastic",
     "symbol": "%",
     "volume": "10 ml",
@@ -389,7 +389,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy_bracelet",
-    "name": { "str_sp": "candy bracelet" },
+    "name": { "str": "candy bracelet" },
     "looks_like": "copper_bracelet",
     "color": "yellow",
     "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
@@ -400,7 +400,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maple_candy",
-    "name": { "str": "maple syrup candy", "str_pl": "maple syrup candies" },
+    "name": { "str_sp": "maple syrup candy" },
     "weight": "18 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -442,7 +442,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers_roe",
-    "name": { "str": "graham cracker chunk" },
+    "name": { "str_sp": "graham cracker chunks" },
     "copy-from": "grahmcrackers",
     "description": "These dry, sugary cracker pellets will leave you thirsty, and they're not the right size to make s'mores with.  Made by SugarRush!"
   },
@@ -557,7 +557,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choco_coffee_beans",
-    "name": { "str": "chocolate-covered coffee bean" },
+    "name": { "str_sp": "chocolate-covered coffee beans" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -569,7 +569,7 @@
     "symbol": "%",
     "quench": -1,
     "addiction_potential": 2,
-    "calories": 140,
+    "calories": 160,
     "description": "Roasted coffee beans coated with dark chocolate, a natural source of concentrated caffeine.",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -694,7 +694,7 @@
   {
     "type": "COMESTIBLE",
     "id": "caramel_apple",
-    "name": { "str_sp": "caramel apple" },
+    "name": { "str": "caramel apple" },
     "weight": "192 g",
     "color": "white",
     "comestible_type": "FOOD",
@@ -919,7 +919,7 @@
   {
     "type": "COMESTIBLE",
     "id": "frozen_dinner",
-    "name": { "str": "uncooked TV dinner" },
+    "name": { "str_sp": "uncooked TV dinner" },
     "weight": "453 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",
@@ -940,7 +940,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooked_dinner",
-    "name": { "str": "cooked TV dinner" },
+    "name": { "str_sp": "cooked TV dinner" },
     "weight": "450 g",
     "color": "brown",
     "spoils_in": "12 hours",
@@ -961,7 +961,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fchicken",
-    "name": { "str": "deep-fried chicken" },
+    "name": { "str_sp": "deep-fried chicken" },
     "weight": "168 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1143,7 +1143,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onion_rings",
-    "name": { "str": "onion ring" },
+    "name": { "str_sp": "onion rings" },
     "weight": "166 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -1264,7 +1264,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maltballs",
-    "name": { "str": "malted milk ball" },
+    "name": { "str_sp": "malted milk balls" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -1369,7 +1369,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gelatin_dessert_powder",
-    "name": "gelatin dessert powder",
+    "name": { "str_sp": "gelatin dessert powder" },
     "weight": "175 g",
     "color": "white",
     "spoils_in": "1461 days",
@@ -1454,7 +1454,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pasta_carbonara",
-    "name": { "str": "pasta carbonara" },
+    "name": { "str_sp": "pasta carbonara" },
     "weight": "209 g",
     "color": "yellow",
     "spoils_in": "21 days",
@@ -1477,7 +1477,7 @@
   {
     "type": "COMESTIBLE",
     "id": "amatriciana_pasta",
-    "name": { "str": "amatriciana pasta" },
+    "name": { "str_sp": "amatriciana pasta" },
     "weight": "209 g",
     "color": "red",
     "spoils_in": "21 days",

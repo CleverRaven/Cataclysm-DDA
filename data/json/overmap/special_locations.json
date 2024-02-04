@@ -127,6 +127,26 @@
   },
   {
     "type": "overmap_location",
+    "id": "ocean_surface",
+    "terrains": [ "ocean_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_water_cube",
+    "terrains": [ "ocean_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_bed",
+    "terrains": [ "ocean_bed" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_shore",
+    "terrains": [ "ocean_shore" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "potential_basement_lab_entrance",
     "terrains": [ "basement" ]
   },
@@ -134,5 +154,27 @@
     "type": "overmap_location",
     "id": "open_air",
     "terrains": [ "open_air" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "agricultural",
+    "terrains": [
+      "dirt_road",
+      "dirt_road_forest",
+      "dirt_road_turnback",
+      "dirt_road_turn",
+      "dirt_road_turn_forest",
+      "dirt_road_3way_forest",
+      "dirt_road_3way",
+      "dirt_road_4way",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U",
+      "hayfield_straight",
+      "hayfield_turnL",
+      "hayfield_turnR",
+      "hayfield_end"
+    ]
   }
 ]

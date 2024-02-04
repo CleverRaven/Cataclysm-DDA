@@ -90,91 +90,111 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              unsigned char line_id, const point &p, unsigned char color ) const
 {
+    const int horizontal_thickness = 1;
+    const int vertical_thickness = 2;
+    const int starting_x_offset = ( width - vertical_thickness ) / 2;
+    const int starting_y_offset = ( height - horizontal_thickness ) / 2;
     SDL_Color sdl_color = palette[color];
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
+                                       horizontal_thickness,
                                        sdl_color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box top left
         case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                        p.x + width,
-                                       1,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                      p.y + height,
-                                     2,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box top right
         case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ),
+                                       p.x + starting_x_offset + vertical_thickness,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                      p.y + height,
-                                     2,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ),
+                                       p.x + starting_x_offset + vertical_thickness,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
-                                     2, sdl_color );
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ),
+                                     p.y + starting_y_offset + horizontal_thickness,
+                                     vertical_thickness, sdl_color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                        p.x + width,
-                                       1,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
-                                     2, sdl_color );
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ),
+                                     p.y + starting_y_offset + horizontal_thickness,
+                                     vertical_thickness, sdl_color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ), 2,
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + starting_y_offset,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
+                                     vertical_thickness,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                        p.x + width,
-                                       1,
+                                       horizontal_thickness,
                                        sdl_color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
                                      p.y + height,
-                                     2,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
+                                       horizontal_thickness,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
+                                     vertical_thickness,
                                      sdl_color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
+            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
+                                     vertical_thickness,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + starting_x_offset,
+                                       horizontal_thickness,
                                        sdl_color );
             break;
         default:

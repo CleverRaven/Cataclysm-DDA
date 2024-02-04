@@ -4,7 +4,7 @@
     "type": "TOOL",
     "name": { "str": "anvil" },
     "description": "A heavy block of oddly-shaped steel complete with a pritchel hole and hardy hole.  Once installed, it can be used in most metalworking fabrication recipes.",
-    "weight": "26000 g",
+    "weight": "26 kg",
     "volume": "12 L",
     "price": 100000,
     "price_postapoc": 2000,
@@ -20,7 +20,7 @@
     "type": "TOOL",
     "name": { "str": "bronze anvil" },
     "description": "A block of oddly-shaped bronze complete with a pritchel hole and hardy hole.  Once installed, it can be used in most metalworking fabrication recipes.",
-    "weight": "26000 g",
+    "weight": "26 kg",
     "volume": "12 L",
     "price": 60000,
     "price_postapoc": 750,
@@ -36,7 +36,7 @@
     "type": "TOOL",
     "name": { "str": "heavy anvil" },
     "description": "An absolutely enormous block of oddly-shaped steel with all the bells and whistles a blacksmith could ask for on an anvil.  Necessary for heavy-duty metalworking or dropping on roadrunners.",
-    "weight": "225000 g",
+    "weight": "225 kg",
     "volume": "110 L",
     "price": 100000,
     "price_postapoc": 2000,
@@ -52,7 +52,7 @@
     "type": "TOOL",
     "name": { "str": "crude anvil" },
     "description": "An anvil-shaped object cut out of some form of metal stock or a railroad track.  Usable on its own for simpler metalworking, but could be improved for more advanced recipes.",
-    "weight": "27000 g",
+    "weight": "27 kg",
     "volume": "12 L",
     "price": 100000,
     "price_postapoc": 2000,
@@ -191,7 +191,7 @@
     "id": "forge",
     "type": "TOOL",
     "name": { "str": "electric forge" },
-    "description": "A portable electric metalworking forge, powered by batteries.  With the right tools, you could use this for metalworking.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "description": "An electric metalworking forge, powered by your electric grid.  With the right tools, you could use this for metalworking.",
     "weight": "10000 g",
     "volume": "6 L",
     "price": 40000,
@@ -202,9 +202,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
-    ],
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -289,7 +287,7 @@
     "id": "lc_link_sheet",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "low steel chainmail sheet" },
+    "name": { "str": "mild steel chainmail sheet" },
     "description": "A sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -345,6 +343,13 @@
     "melee_damage": { "bash": 10 }
   },
   {
+    "id": "hotcut_bronze",
+    "type": "TOOL",
+    "copy-from": "hotcut",
+    "name": { "str": "hotcut" },
+    "material": [ "bronze" ]
+  },
+  {
     "id": "hotcut",
     "type": "TOOL",
     "name": { "str": "hotcut" },
@@ -394,6 +399,13 @@
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 3 },
     "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
+  },
+  {
+    "id": "metalworking_tongs_bronze",
+    "type": "TOOL",
+    "copy-from": "metalworking_tongs",
+    "name": { "str": "pair of flatjaw bronze tongs", "str_pl": "pairs of flatjaw bronze tongs" },
+    "material": [ "bronze" ]
   },
   {
     "id": "metalworking_tongs",
@@ -459,20 +471,54 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "casting_mold_small",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "small sandcasting mold" },
+    "description": "A small mold for casting molten metals into different shapes.",
+    "volume": "8 L",
+    "weight": "6000 g",
+    "longest_side": "20 cm",
+    "sub": ""
+  },
+  {
+    "id": "casting_mold_large",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "large sandcasting mold" },
+    "description": "A large mold for casting molten metals into different shapes.",
+    "volume": "150 L",
+    "weight": "76600 g",
+    "longest_side": "60 cm",
+    "sub": "casting_mold"
+  },
+  {
+    "id": "casting_mold_long",
+    "type": "TOOL",
+    "copy-from": "casting_mold",
+    "name": { "str": "long sandcasting mold" },
+    "description": "A large, long, mold for casting molten metals into different shapes.",
+    "volume": "69 L",
+    "weight": "37000 g",
+    "longest_side": "110 cm",
+    "sub": "casting_mold"
+  },
+  {
     "id": "casting_mold",
     "type": "TOOL",
     "name": { "str": "sand casting mold" },
-    "description": "A mold for casting molten metals into different shapes.",
-    "weight": "540 g",
-    "volume": "400 ml",
-    "longest_side": "100 cm",
+    "description": "A medium mold for casting molten metals into different shapes.",
+    "weight": "19200 g",
+    "volume": "36 L",
+    "longest_side": "40 cm",
     "price": 800,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": [ "clay", "wood" ],
+    "material": [ "sand", "clay", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "sub": "casting_mold_small"
   },
   {
     "id": "stone_polishing",

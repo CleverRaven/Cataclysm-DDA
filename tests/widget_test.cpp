@@ -242,7 +242,7 @@ TEST_CASE( "text_widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0, false ) == "Zero" );
+        CHECK( words.text( false, 0 ) == "Zero" );
     }
 }
 
@@ -504,44 +504,44 @@ TEST_CASE( "widgets_showing_body_temperature_and_delta", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_all_parts_temp_cur( 499 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 27.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_blue>Freezing!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_red>(Rising!!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_red>↑↑↑</color>" );
 
-    ava.set_all_parts_temp_cur( 1999 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 30.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_cyan>Very cold!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_red>↑↑</color>" );
 
-    ava.set_all_parts_temp_cur( 3499 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 33.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_blue>Chilly</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_yellow>(Rising)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_yellow>↑</color>" );
 
-    ava.set_all_parts_temp_cur( 5000 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 37_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_green>Comfortable</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: " );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_green>-</color>" );
 
-    ava.set_all_parts_temp_cur( 6501 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 40.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_yellow>warm</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_blue>↓</color>" );
 
-    ava.set_all_parts_temp_cur( 8001 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 43.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_red>Very hot!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_cyan>↓↓</color>" );
 
-    ava.set_all_parts_temp_cur( 9501 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 46.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_red>Scorching!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );

@@ -9,6 +9,13 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_Pablo_1",
+    "age": 28,
+    "height": 184,
+    "str": 10,
+    "dex": 8,
+    "int": 10,
+    "per": 10,
+    "personality": { "aggression": -10, "bravery": -5, "collector": 2, "altruism": 3 },
     "faction": "free_merchants"
   },
   {
@@ -18,25 +25,28 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Pablo is a young professional who survived with his wife, but she was pregnant and lost the baby.",
-    "bonus_str": { "rng": [ -1, 3 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
     "worn_override": "REFUGEE_Pablo_worn",
     "carry_override": "REFUGEE_Pablo_carried",
     "weapon_override": "REFUGEE_Pablo_wield",
     "traits": [
       { "trait": "QUICK" },
       { "trait": "Exp_Bookkeeping1" },
-      { "group": "Appearance_Latin" },
+      { "trait": "SKIN_MEDIUM" },
+      { "trait": "eye_color", "variant": "brown" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
-      { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
+      { "skill": "bashing", "bonus": 1 },
+      { "skill": "computer", "bonus": 4 },
+      { "skill": "cooking", "bonus": 1 },
+      { "skill": "driving", "bonus": 2 },
+      { "skill": "fabrication", "bonus": 1 },
+      { "skill": "mechanics", "bonus": 1 },
+      { "skill": "melee", "bonus": 2 },
+      { "skill": "speech", "bonus": 2 },
+      { "skill": "swimming", "bonus": 1 }
     ]
   },
   {
@@ -100,7 +110,12 @@
       {
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
         "topic": "TALK_REFUGEE_Pablo_Tacoma2",
-        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+          ]
+        }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
@@ -195,11 +210,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 5,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
       "yes": "It's pretty tough here.  People have made so much effort to make things better, and the group is kind of coming together, but I just don't feel like I could ever belong, you know?  I need somewhere with a sky, and a little privacy.",
       "no": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane."
     },
@@ -207,8 +218,13 @@
       {
         "text": "Why not move to the Tacoma Commune?",
         "topic": "TALK_REFUGEE_Pablo_Tacoma",
-        "effect": { "u_add_var": "Pablo_ask_tacoma", "type": "recruit", "context": "general", "value": "yes" },
-        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
+        "effect": { "assign_mission": "MISSION_TACOMA_Nunez" },
+        "condition": {
+          "and": [
+            { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+            { "not": { "u_has_mission": "MISSION_TACOMA_Nunez" } }
+          ]
+        }
       },
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
@@ -226,11 +242,38 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Tacoma2",
-    "dynamic_line": "This is amazing news!  Thank you so much!  I've talked to some of the traders who have been there and I really think I can help, mostly with the manual labor but also with the bookkeeping end.  It sounds so much better than this place.  Thanks, my friend!  We'll get packing, and see if we can get a place on the next caravan out.  It'll be a little while I'm sure, but at least our child won't be born in captivity."
+    "dynamic_line": "This is amazing news!  Thank you so much!  I've talked to some of the traders who have been there and I really think I can help, mostly with the manual labor but also with the bookkeeping end.  It sounds so much better than this place.  Thanks, my friend!  We'll get packing, and see if we can get a place on the next caravan out.  It'll be a little while I'm sure, but at least our child won't be born in captivity.",
+    "speaker_effect": {
+      "effect": [
+        { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
+        { "math": [ "nunez_travel_timer", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
+        { "math": [ "nunez_travel_stage", "=", "1" ] }
+      ]
+    }
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Recruit",
     "dynamic_line": "Really?  I might consider it.  Talk to my wife, Dana.  She's put down a lot more roots here, it would be up to her I think.  I'd go anywhere right now."
+  },
+  {
+    "id": "MISSION_TACOMA_Nunez",
+    "type": "mission_definition",
+    "name": { "str": "Find out if the Nunez family can find work at Tacoma Ranch." },
+    "goal": "MGOAL_NULL",
+    "difficulty": 2,
+    "value": 1000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Find out if the Nunez family can find work at Tacoma Ranch.",
+      "offer": "n/a",
+      "accepted": "n/a",
+      "rejected": "n/a",
+      "advice": "n/a",
+      "inquire": "n/a",
+      "success": "n/a",
+      "success_lie": "n/a",
+      "failure": "n/a"
+    }
   }
 ]

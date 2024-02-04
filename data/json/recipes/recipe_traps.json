@@ -38,11 +38,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "traps", 2 ],
     "difficulty": 3,
-    "time": "30 m",
+    "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nail", 10 ] ] ]
+    "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "VISE", "level": 1 } ],
+    "components": [ [ [ "wire_barbed", 10 ], [ "wire", 10 ], [ "nails", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -88,7 +89,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nails", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -103,7 +104,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -214,7 +215,7 @@
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 200 ], [ "nail", 100 ] ],
+      [ [ "bb", 200 ], [ "nails", 100, "LIST" ] ],
       [
         [ "gunpowder", 720 ],
         [ "chem_black_powder", 720 ],

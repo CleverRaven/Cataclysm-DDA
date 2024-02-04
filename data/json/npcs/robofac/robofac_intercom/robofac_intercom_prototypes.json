@@ -9,10 +9,8 @@
         "text": "Have you decoded the disk?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
-            },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", "<", "time('1 d')" ] },
+            { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
@@ -22,10 +20,8 @@
         "text": "It's been a while.  Have you decoded that disk from the tower?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
-            {
-              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
-            },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_armor)", ">", "time('1 d')" ] },
+            { "math": [ "hub01_uhmwpe_researched", "!=", "1" ] },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
         },
@@ -54,7 +50,6 @@
         "text": "I'd like to request a Hybrid Weapons Platform.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
@@ -65,23 +60,174 @@
         "text": "How goes work on the HWP?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": "<", "time": "7 d" },
-            {
-              "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
-            },
+            { "math": [ "has_var(u_timer_hub_rnd_u_waiting_on_gun)" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", "<", "time('7 d')" ] },
             { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
       },
       {
+        "text": "I'd like to request a replacement Modular Defense System.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rig" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "I'd like to request a set of prototype armor.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_basic" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "I'd like to request a set of turnout armor.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_nomex" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "I'd like to request a set of ballistic armor.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_kevlar" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "I'd like to request a set of kinetic armor.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rubber" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "I'd like to request a set of soldier armor.",
+        "effect": { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_military" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST"
+      },
+      {
+        "text": "How is my ordered armor going?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+            {
+              "or": [
+                { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_basic",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_rubber",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_nomex",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_kevlar",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_military",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_NO"
+      },
+      {
+        "text": "How is my ordered armor going?  It should be done by now.",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
+            {
+              "or": [
+                { "u_has_var": "u_armor_type", "value": "robofac_armor_pieces_rig", "type": "dialogue", "context": "hub_rnd" },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_basic",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_rubber",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_nomex",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_kevlar",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                },
+                {
+                  "u_has_var": "u_armor_type",
+                  "value": "robofac_armor_pieces_military",
+                  "type": "dialogue",
+                  "context": "hub_rnd"
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_YES"
+      },
+      {
         "text": "The HWP should be complete by now, right?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": ">", "time": "7 d" },
-            {
-              "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
-            },
+            { "math": [ "has_var(u_timer_hub_rnd_u_waiting_on_gun)" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_gun)", ">", "time('7 d')" ] },
             { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
           ]
         },
@@ -111,7 +257,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -126,7 +272,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -141,7 +287,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
@@ -151,7 +297,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
@@ -174,7 +320,7 @@
         "text": "Any progress on the anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "5 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('5 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
           ]
         },
@@ -184,7 +330,7 @@
         "text": "Any progress on the anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "5 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('5 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
           ]
         },
@@ -204,7 +350,7 @@
         "text": "Any progress on the Hub anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "2 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('2 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
           ]
         },
@@ -214,7 +360,7 @@
         "text": "Any progress on the Hub anchor?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "2 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('2 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
           ]
         },
@@ -224,7 +370,7 @@
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "!=", { "const": 1 } ] },
+            { "math": [ "hub01_hwp_exotic_researched", "!=", "1" ] },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
             {
@@ -238,7 +384,7 @@
         "text": "Any progress on the exotic barrel?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "3 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
@@ -248,7 +394,7 @@
         "text": "Have you finished work on that exotic conversion kit?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "3 d" },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
@@ -279,10 +425,13 @@
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_GUN_YES",
     "//": "quick access to prototype menu through the merc vouching",
     "type": "talk_topic",
-    "dynamic_line": "Yes, Foster gave you quite a recommendation.  Very well - I will authorize you access to our prototype services for agents in the field.  This includes the Hybrid Weapons Platform.",
+    "dynamic_line": "Yes, Foster gave you quite a recommendation.  Very well - I will authorize you access to our prototype fabrication services for agents in the field.  This includes the Hybrid Weapons Platform, alongside the ability to order spare or replacement parts for your field gear.",
     "speaker_effect": { "effect": [ { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } ] },
     "responses": [
-      { "text": "Great.  What exactly is it, anyway?", "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST" },
+      {
+        "text": "Great.  What exactly is this 'Hybrid Weapons Platform', anyway?",
+        "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST"
+      },
       { "text": "Thanks.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
@@ -294,7 +443,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
-        { "arithmetic": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "=", { "const": 1 } ] }
+        { "math": [ "hub01_uhmwpe_researched", "=", "1" ] }
       ]
     },
     "responses": [
@@ -353,7 +502,7 @@
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 8 },
           { "u_add_faction_trust": 2 },
-          { "u_add_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED"
@@ -373,6 +522,248 @@
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
       { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ROBOFAC_INTERCOM_ARMOR_REQUEST" ],
+    "//": "buying armor",
+    "type": "talk_topic",
+    "dynamic_line": "Understood.  The parts will finish fabrication in 24 hours, once you hand over the stipulated HGC.  Depending on our currently available selection, the price will range from 2 to 4 HGC for non-specialty equipment.",
+    "responses": [
+      {
+        "//": "Armor Rig response.",
+        "text": "[3 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_rig"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 3 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Prototype Armor response.",
+        "text": "[2 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_basic"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Turnout Armor response.",
+        "text": "[4 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_nomex"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 4 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Ballistic Armor response.",
+        "text": "[4 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_kevlar"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 4 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Kinetic Armor response.",
+        "text": "[4 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_rubber"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 4 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Military Armor response.",
+        "text": "[12 HGC] Here you go.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
+            {
+              "u_has_var": "u_armor_type",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "robofac_armor_pieces_military"
+            }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 12 },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_NO",
+    "type": "talk_topic",
+    "dynamic_line": "The parts are still being printed.  Please be patient.",
+    "responses": [ { "text": "Okay, I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_FINISHED_YES",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, we've finished printing the requested armor pieces.  Transferring to you now.",
+    "responses": [
+      {
+        "//": "Armor Rig response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rig" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_armor_rig" },
+          { "u_spawn_item": "robofac_head_rig" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Prototype Armor response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_basic" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_basic_mantle" },
+          { "u_spawn_item": "robofac_basic_skirt" },
+          { "u_spawn_item": "robofac_basic_vambraces" },
+          { "u_spawn_item": "robofac_basic_greaves" },
+          { "u_spawn_item": "robofac_basic_helmet" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Turnout Armor response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_nomex" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_nomex_mantle" },
+          { "u_spawn_item": "robofac_nomex_skirt" },
+          { "u_spawn_item": "robofac_nomex_vambraces" },
+          { "u_spawn_item": "robofac_nomex_greaves" },
+          { "u_spawn_item": "robofac_nomex_helmet" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Ballistic Armor response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_kevlar" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_kevlar_mantle" },
+          { "u_spawn_item": "robofac_kevlar_skirt" },
+          { "u_spawn_item": "robofac_kevlar_vambraces" },
+          { "u_spawn_item": "robofac_kevlar_greaves" },
+          { "u_spawn_item": "robofac_kevlar_helmet" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Kinetic Armor response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_rubber" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_rubber_skirt" },
+          { "u_spawn_item": "robofac_rubber_vambraces" },
+          { "u_spawn_item": "robofac_rubber_greaves" },
+          { "u_spawn_item": "robofac_rubber_mantle" },
+          { "u_spawn_item": "robofac_rubber_helmet" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "//": "Military Armor response.",
+        "text": "Sweet, thanks.",
+        "condition": { "u_has_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "robofac_armor_pieces_military" },
+        "effect": [
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_armor_type", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_spawn_item": "robofac_military_skirt" },
+          { "u_spawn_item": "robofac_military_vambraces" },
+          { "u_spawn_item": "robofac_military_greaves" },
+          { "u_spawn_item": "robofac_military_mantle" },
+          { "u_spawn_item": "robofac_military_helmet" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
     ]
   },
   {
@@ -421,6 +812,7 @@
         "effect": [
           { "u_add_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_lose_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd" },
           { "u_spawn_item": "robofac_gun" },
           { "u_spawn_item": "robofac_gun_ar" },
           { "u_spawn_item": "robofac_gun_smg" },
@@ -449,7 +841,7 @@
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           {
             "u_add_var": "u_current_project",
@@ -495,7 +887,7 @@
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
         ],
@@ -541,7 +933,7 @@
           { "u_sell_item": "RobofacCoin", "count": 2 },
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
         ],
@@ -590,7 +982,7 @@
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_consume_item": "robofac_armor_rig", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
         ],
@@ -690,7 +1082,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_faction_trust": 1 },
-        { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
         { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
         { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
       ],
@@ -713,9 +1105,7 @@
     "//": "creating EXODII barrel",
     "type": "talk_topic",
     "dynamic_line": "The project was a success!  The ammo is fairly rudimentary, but ultimately proved simple to manufacture, and has lended itself well to large magazines.  We will transfer a copy of the conversion kit in a moment; it is capable of accepting the standard magazines that Exodii weapons usually use, and we have also begun production of specialized magazines ourselves.  Thank you for allowing us this opportunity.",
-    "speaker_effect": {
-      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "=", { "const": 1 } ] } ]
-    },
+    "speaker_effect": { "effect": [ { "math": [ "hub01_hwp_exotic_researched", "=", "1" ] } ] },
     "responses": [
       {
         "text": "Thanks.",

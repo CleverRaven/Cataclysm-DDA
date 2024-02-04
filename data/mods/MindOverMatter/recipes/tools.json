@@ -14,7 +14,7 @@
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_psionic_basic", "required": false } ],
     "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
-    "components": [ [ [ "matrix_crystal_drained", 4 ] ] ],
+    "components": [ [ [ "matrix_crystal_drained", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

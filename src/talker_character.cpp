@@ -17,6 +17,8 @@
 #include "weather.h"
 
 class time_duration;
+
+static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
@@ -95,7 +97,7 @@ int talker_character_const::get_hp_max( const bodypart_id &bp ) const
     return me_chr_const->get_hp_max( bp );
 }
 
-int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+units::temperature talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
 }
@@ -248,9 +250,15 @@ void talker_character::mutate_category( const mutation_category_id &mut_cat,
     me_chr->mutate_category( mut_cat, use_vitamins );
 }
 
-void talker_character::set_mutation( const trait_id &new_trait )
+void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
+                                       const bool &use_vitamins )
 {
-    me_chr->set_mutation( new_trait );
+    me_chr->mutate_towards( trait, mut_cat, nullptr, use_vitamins );
+}
+
+void talker_character::set_mutation( const trait_id &new_trait, const mutation_variant *variant )
+{
+    me_chr->set_mutation( new_trait, variant );
 }
 
 void talker_character::unset_mutation( const trait_id &old_trait )
@@ -343,7 +351,7 @@ int talker_character_const::get_spell_level( const trait_id &spell_school ) cons
 {
     int spell_level = -1;
     for( const spell &sp : me_chr_const->spells_known_of_class( spell_school ) ) {
-        spell_level = std::max( sp.get_level(), spell_level );
+        spell_level = std::max( sp.get_effective_level(), spell_level );
     }
     return spell_level;
 }
@@ -353,14 +361,14 @@ int talker_character_const::get_spell_level( const spell_id &spell_name ) const
     if( !me_chr_const->magic->knows_spell( spell_name ) ) {
         return -1;
     }
-    return me_chr_const->magic->get_spell( spell_name ).get_level();
+    return me_chr_const->magic->get_spell( spell_name ).get_effective_level();
 }
 
 int talker_character_const::get_highest_spell_level() const
 {
     int spell_level = -1;
     for( const spell *sp : me_chr_const->magic->get_spells() ) {
-        spell_level = std::max( sp->get_level(), spell_level );
+        spell_level = std::max( sp->get_effective_level(), spell_level );
     }
     return spell_level;
 }
@@ -434,14 +442,21 @@ void talker_character::add_effect( const efftype_id &new_effect, const time_dura
     me_chr->add_effect( new_effect, dur, target_part, permanent, intensity, force );
 }
 
-void talker_character::remove_effect( const efftype_id &old_effect )
+void talker_character::remove_effect( const efftype_id &old_effect, const std::string &bp )
 {
-    me_chr->remove_effect( old_effect );
+    bodypart_id target_part;
+    if( "RANDOM" == bp ) {
+        target_part = get_player_character().random_body_part( true );
+    } else {
+        target_part = bodypart_str_id( bp );
+    }
+    me_chr->remove_effect( old_effect, target_part );
 }
 
-std::string talker_character_const::get_value( const std::string &var_name ) const
+std::optional<std::string> talker_character_const::maybe_get_value( const std::string &var_name )
+const
 {
-    return me_chr_const->get_value( var_name );
+    return me_chr_const->maybe_get_value( var_name );
 }
 
 void talker_character::set_value( const std::string &var_name, const std::string &value )
@@ -531,8 +546,19 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
-void talker_character::i_add_or_drop( item &new_item )
+void talker_character::i_add_or_drop( item &new_item, bool force_equip )
 {
+    if( force_equip ) {
+        if( me_chr->can_wear( new_item ).success() ) {
+            new_item.set_flag( json_flag_FIT );
+            me_chr->wear_item( new_item, false );
+            return;
+        } else if( !me_chr->has_wield_conflicts( new_item ) &&
+                   !me_chr->martial_arts_data->keep_hands_free && //No wield if hands free
+                   me_chr->wield( new_item ) ) {
+            return;
+        }
+    }
     me_chr->i_add_or_drop( new_item );
 }
 
@@ -661,6 +687,16 @@ double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) c
     return me_chr_const->worn.damage_resist( dt, bp );
 }
 
+int talker_character_const::coverage_at( bodypart_id &id ) const
+{
+    return me_chr_const->worn.get_coverage( id );
+}
+
+int talker_character_const::encumbrance_at( bodypart_id &id ) const
+{
+    return me_chr_const->encumb( id );
+}
+
 void talker_character::mod_pain( int amount )
 {
     me_chr->mod_pain( amount );
@@ -732,6 +768,11 @@ bool talker_character_const::can_see() const
 {
     return !me_chr_const->is_blind() && ( !me_chr_const->in_sleep_state() ||
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
+}
+
+bool talker_character_const::can_see_location( const tripoint &pos ) const
+{
+    return me_chr_const->sees( pos );
 }
 
 void talker_character::set_fatigue( int amount )
@@ -906,24 +947,24 @@ static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
     bodypart_id current_bp_extreme = u->get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u->get_all_body_parts() ) {
-        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
             current_bp_extreme = bp;
         }
-        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
-            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+        if( units::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            units::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
             conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-int talker_character_const::get_body_temp() const
+units::temperature talker_character_const::get_body_temp() const
 {
     return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
-int talker_character_const::get_body_temp_delta() const
+units::temperature_delta talker_character_const::get_body_temp_delta() const
 {
     return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
@@ -932,6 +973,11 @@ int talker_character_const::get_body_temp_delta() const
 bool talker_character_const::knows_martial_art( const matype_id &id ) const
 {
     return me_chr_const->martial_arts_data->has_martialart( id );
+}
+
+bool talker_character_const::using_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->selected_style() == id;
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )
@@ -1108,10 +1154,9 @@ std::string talker_character_const::spell_seminar_text( const spell_id &s ) cons
     return s->name.translated();
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
+std::vector<bodypart_id> talker_character::get_all_body_parts( get_body_part_flags flags ) const
 {
-    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
-                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
+    return me_chr->get_all_body_parts( flags );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const

@@ -62,7 +62,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
-        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "sheet_cotton", "count": 4 },
+        { "item": "cotton_patchwork", "count": 4 },
         { "item": "nail", "charges": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
@@ -77,7 +78,8 @@
         { "item": "2x4", "count": [ 2, 5 ] },
         { "item": "nail", "charges": [ 3, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "cotton_patchwork", "count": [ 20, 30 ] }
+        { "item": "sheet_cotton", "count": [ 3, 4 ] },
+        { "item": "cotton_patchwork", "count": [ 3, 4 ] }
       ]
     }
   },
@@ -239,7 +241,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
+    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100 L" }
   },
   {
     "type": "furniture",

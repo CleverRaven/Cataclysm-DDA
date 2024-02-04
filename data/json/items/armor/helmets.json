@@ -307,6 +307,36 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "helmet_soviet_tanker",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "soviet tanker helmet" },
+    "description": "A Soviet era tanker helmet.  It's distinctive foam pads are meant to protect a tank driver from bumps against the cramped interior.",
+    "price": 10000,
+    "price_postapoc": 1200,
+    "weight": "950 g",
+    "volume": "1200 ml",
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "green",
+    "warmth": 30,
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
+    "armor": [
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 10,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "material": [
+          { "type": "canvas", "thickness": 1 },
+          { "type": "canvas", "covered_by_mat": 40, "thickness": 1 },
+          { "type": "plastic_pad", "covered_by_mat": 40, "thickness": 15 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "tac_fullhelmet",
     "type": "ARMOR",
     "category": "armor",
@@ -570,7 +600,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_barbute",
     "name": { "str": "XL barbute helm" },
-    "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is ogre sized.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -578,9 +607,7 @@
     "id": "helmet_barbute_xs",
     "type": "ARMOR",
     "copy-from": "helmet_barbute",
-    "looks_like": "helmet_barbute",
     "name": { "str": "XS barbute helm" },
-    "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is goblin sized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -696,7 +723,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_chitin",
     "name": { "str": "XL chitinous helmet" },
-    "description": "A helmet made from giant insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -706,7 +732,6 @@
     "copy-from": "helmet_chitin",
     "looks_like": "helmet_chitin",
     "name": { "str": "XS chitinous helmet" },
-    "description": "A helmet made from the exoskeletons of insects.  Covering the entire head, it is very light and durable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "WATERPROOF", "STURDY", "UNDERSIZE" ]
   },
@@ -744,7 +769,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_conical",
     "name": { "str": "XL conical helm" },
-    "description": "A helmet made for a giant Mongolian warrior from a pulp novel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -754,7 +778,6 @@
     "copy-from": "helmet_conical",
     "looks_like": "helmet_conical",
     "name": { "str": "XS conical helm" },
-    "description": "A conical iron helm with additional protection for the neck, associated with the Mongol Empire.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -767,16 +790,13 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "relative": { "melee_damage": { "bash": 1 } },
-    "material_thickness": 5
+    "relative": { "melee_damage": { "bash": 1 } }
   },
   {
     "id": "xl_helmet_acidchitin",
     "type": "ARMOR",
     "copy-from": "helmet_acidchitin",
     "name": { "str": "XL biosilicified chitin helmet" },
-    "description": "A helmet made from giant acidic insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -786,7 +806,6 @@
     "copy-from": "helmet_acidchitin",
     "looks_like": "helmet_acidchitin",
     "name": { "str": "XS biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -886,7 +905,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_galea",
     "name": { "str": "XL galea", "str_pl": "XL galeae" },
-    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head built for a Titan.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -894,9 +912,7 @@
     "id": "helmet_galea_xs",
     "type": "ARMOR",
     "copy-from": "helmet_galea",
-    "looks_like": "helmet_galea",
     "name": { "str": "XS galea", "str_pl": "XS galeae" },
-    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -955,7 +971,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "name": { "str": "XL kabuto" },
-    "description": "A medieval Japanese helmet with a scowling face mask, fit for an Oni.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -965,7 +980,6 @@
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
     "name": { "str": "XS kabuto" },
-    "description": "A medieval Japanese helmet with a scowling face mask that provides excellent protection to the entire head and face.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "UNDERSIZE" ]
   },
@@ -1002,7 +1016,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_larmor",
     "name": { "str": "XL leather armor helmet" },
-    "description": "A thick leather helmet that provides excellent protection for the head.  This one is quite large.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1010,9 +1023,7 @@
     "id": "helmet_larmor_xs",
     "type": "ARMOR",
     "copy-from": "helmet_larmor",
-    "looks_like": "helmet_larmor",
     "name": { "str": "XS leather armor helmet" },
-    "description": "A thick leather helmet that provides excellent protection for the head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "UNDERSIZE" ]
   },
@@ -1077,7 +1088,7 @@
     "price": 32500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "material": [ "plastic", "epoxy", "plastic_pad" ],
+    "material": [ "plastic", "hard_plastic_transp", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
@@ -1104,7 +1115,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "eyes" ],
@@ -1115,7 +1126,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "covers": [ "mouth" ],
@@ -1138,7 +1149,7 @@
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "plastic_pad", "covered_by_mat": 50, "thickness": 16 }
         ],
@@ -1175,6 +1186,7 @@
     "armor": [
       {
         "material": [
+          { "type": "hard_plastic_transp", "covered_by_mat": 40, "thickness": 2.0 },
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
@@ -1338,7 +1350,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_nasal",
     "name": { "str": "XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1346,9 +1357,7 @@
     "id": "helmet_nasal_xs",
     "type": "ARMOR",
     "copy-from": "helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1357,7 +1366,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of steel.",
     "weight": "1507 g",
     "volume": "2 L",
     "price": 26000,
@@ -1419,7 +1428,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "mild steel XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1427,9 +1435,7 @@
     "id": "xs_lc_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "mild steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1438,7 +1444,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "medium steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -1446,7 +1451,6 @@
     "type": "ARMOR",
     "copy-from": "mc_helmet_nasal",
     "name": { "str": "medium steel XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1454,9 +1458,7 @@
     "id": "xs_mc_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "mc_helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "medium steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1465,7 +1467,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "high steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -1473,7 +1474,6 @@
     "type": "ARMOR",
     "copy-from": "hc_helmet_nasal",
     "name": { "str": "high steel XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1481,9 +1481,7 @@
     "id": "xs_hc_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "hc_helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "high steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1492,7 +1490,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "tempered steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -1500,7 +1497,6 @@
     "type": "ARMOR",
     "copy-from": "qt_helmet_nasal",
     "name": { "str": "tempered steel XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1508,9 +1504,7 @@
     "id": "xs_qt_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "qt_helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "tempered steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1519,7 +1513,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "hardened steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1527,7 +1520,6 @@
     "type": "ARMOR",
     "copy-from": "ch_helmet_nasal",
     "name": { "str": "hardened steel XL nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1535,9 +1527,7 @@
     "id": "xs_ch_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "ch_helmet_nasal",
-    "looks_like": "helmet_nasal",
     "name": { "str": "hardened steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1572,7 +1562,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_plate",
     "name": { "str": "XL great helm" },
-    "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1580,9 +1569,7 @@
     "id": "helmet_plate_xs",
     "type": "ARMOR",
     "copy-from": "helmet_plate",
-    "looks_like": "helmet_plate",
     "name": { "str": "XS great helm" },
-    "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1612,7 +1599,7 @@
       {
         "id": "morion",
         "name": { "str": "morion" },
-        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "description": "The tall crested helmet of a Spanish conquistador.  Heavy rusting implies it might be that many years old.",
         "color": "dark_gray",
         "weight": 0,
         "append": false
@@ -1630,7 +1617,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_kettle",
     "name": { "str": "XL kettle helmet" },
-    "description": "A wide-brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.  This one is larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1670,7 +1656,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
     "name": { "str": "XL scrap helmet" },
-    "description": "An oversized helmet made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1678,9 +1663,7 @@
     "id": "helmet_scrap_xs",
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
-    "looks_like": "helmet_scrap",
     "name": { "str": "XS scrap helmet" },
-    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1903,7 +1886,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_corinthian",
     "name": { "str": "XL Corinthian helm" },
-    "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.  Of godlike proportions.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1912,7 +1894,6 @@
     "type": "ARMOR",
     "copy-from": "helmet_corinthian",
     "name": { "str": "XS Corinthian helm" },
-    "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1992,7 +1973,6 @@
     "id": "pot_helmet_xs",
     "type": "ARMOR",
     "copy-from": "pot_helmet",
-    "looks_like": "pot_helmet",
     "name": { "str": "XS pot helmet" },
     "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2102,7 +2082,6 @@
     "copy-from": "lc_lighthelm_close",
     "type": "ARMOR",
     "name": { "str": "medium steel light close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2116,7 +2095,6 @@
     "copy-from": "lc_lighthelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "medium steel light close helm (raised)", "str_pl": "medium steel light close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_lighthelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2148,7 +2126,6 @@
     "copy-from": "lc_lighthelm_close",
     "type": "ARMOR",
     "name": { "str": "high steel light close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2162,7 +2139,6 @@
     "copy-from": "lc_lighthelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "high steel light close helm (raised)", "str_pl": "high steel light close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_lighthelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2194,7 +2170,6 @@
     "copy-from": "lc_lighthelm_close",
     "type": "ARMOR",
     "name": { "str": "hardened steel light close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2208,7 +2183,6 @@
     "copy-from": "lc_lighthelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "hardened steel light close helm (raised)", "str_pl": "hardened steel light close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_lighthelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2240,7 +2214,6 @@
     "copy-from": "lc_lighthelm_close",
     "type": "ARMOR",
     "name": { "str": "tempered steel light close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2254,7 +2227,6 @@
     "copy-from": "lc_lighthelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "tempered steel light close helm (raised)", "str_pl": "tempered steel light close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_lighthelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -2375,7 +2347,6 @@
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "medium steel close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2384,7 +2355,6 @@
     "copy-from": "lc_helm_close_raised",
     "type": "ARMOR",
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2411,7 +2381,6 @@
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "high steel close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2420,7 +2389,6 @@
     "copy-from": "lc_helm_close_raised",
     "type": "ARMOR",
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2447,7 +2415,6 @@
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "hardened steel close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "ch_helm_close_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2456,7 +2423,6 @@
     "copy-from": "lc_helm_close_raised",
     "type": "ARMOR",
     "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2483,7 +2449,6 @@
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "tempered steel close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -2492,7 +2457,6 @@
     "copy-from": "lc_helm_close_raised",
     "type": "ARMOR",
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -2575,7 +2539,6 @@
     "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
     "name": { "str": "mild steel heavy close helm (raised)", "str_pl": "mild steel heavy close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "lc_heavyhelm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
@@ -2618,7 +2581,6 @@
     "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
     "name": { "str": "medium steel heavy close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2632,7 +2594,6 @@
     "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "medium steel heavy close helm (raised)", "str_pl": "medium steel heavy close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_heavyhelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2664,7 +2625,6 @@
     "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
     "name": { "str": "high steel heavy close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2678,7 +2638,6 @@
     "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "high steel heavy close helm (raised)", "str_pl": "high steel heavy close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_heavyhelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2710,7 +2669,6 @@
     "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
     "name": { "str": "hardened steel heavy close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2724,7 +2682,6 @@
     "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "hardened steel heavy close helm (raised)", "str_pl": "hardened steel heavy close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_heavyhelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2756,7 +2713,6 @@
     "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
     "name": { "str": "tempered steel heavy close helm" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
@@ -2770,7 +2726,6 @@
     "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "tempered steel heavy close helm (raised)", "str_pl": "tempered steel heavy close helms (raised)" },
-    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_heavyhelm_close", "menu_text": "Lower" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -2887,6 +2842,17 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "melee_damage": { "bash": 1 }
@@ -2896,9 +2862,9 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel.",
-    "weight": "2400g",
-    "volume": "1500ml",
+    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of steel.",
+    "weight": "2400 g",
+    "volume": "1500 ml",
     "price": 26000,
     "price_postapoc": 2500,
     "material": [ "lc_steel" ],
@@ -2949,7 +2915,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "mild steel XL turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -2958,7 +2923,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "mild steel XS turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2967,7 +2931,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "medium steel turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel.",
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -2975,7 +2938,6 @@
     "type": "ARMOR",
     "copy-from": "mc_helmet_turban",
     "name": { "str": "medium steel XL turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -2984,7 +2946,6 @@
     "type": "ARMOR",
     "copy-from": "mc_helmet_turban",
     "name": { "str": "medium steel XS turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2993,7 +2954,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "high steel turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel.",
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -3001,7 +2961,6 @@
     "type": "ARMOR",
     "copy-from": "hc_helmet_turban",
     "name": { "str": "high steel XL turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -3010,7 +2969,6 @@
     "type": "ARMOR",
     "copy-from": "hc_helmet_turban",
     "name": { "str": "high steel XS turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -3019,7 +2977,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "tempered steel turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -3027,7 +2984,6 @@
     "type": "ARMOR",
     "copy-from": "qt_helmet_turban",
     "name": { "str": "tempered steel XL turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -3036,7 +2992,6 @@
     "type": "ARMOR",
     "copy-from": "qt_helmet_turban",
     "name": { "str": "tempered steel XS turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -3045,7 +3000,6 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "name": { "str": "hardened steel turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -3053,7 +3007,6 @@
     "type": "ARMOR",
     "copy-from": "ch_helmet_turban",
     "name": { "str": "hardened steel XL turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -3062,7 +3015,6 @@
     "type": "ARMOR",
     "copy-from": "ch_helmet_turban",
     "name": { "str": "hardened steel XS turban helmet" },
-    "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   }

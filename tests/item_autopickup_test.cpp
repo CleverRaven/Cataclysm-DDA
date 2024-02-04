@@ -1,12 +1,12 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player_helpers.h"
 #include "options.h"
 #include "pickup.h"
+#include "player_helpers.h"
+#include "pocket_type.h"
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
@@ -40,7 +40,7 @@ static const itype_id itype_wallet_leather( "wallet_leather" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wrapper( "wrapper" );
 
-static const item_pocket::pocket_type pocket_type_container = item_pocket::pocket_type::CONTAINER;
+static const pocket_type pocket_type_container = pocket_type::CONTAINER;
 
 class unique_item
 {

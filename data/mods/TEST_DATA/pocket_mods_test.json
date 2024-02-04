@@ -1,0 +1,166 @@
+[
+  {
+    "type": "test_data",
+    "pocket_mod_data": {
+      "change existing magazine well": {
+        "base_item": "debug_gun_with_mag_well",
+        "mod_item": "debug_retool_mag_well",
+        "//": "array values are before/after mod insertion",
+        "expected_pockets": { "MAGAZINE_WELL": [ 1, 1 ] }
+      },
+      "add magazine well to item without one": {
+        "base_item": "debug_gun_no_mag_well",
+        "mod_item": "debug_retool_mag_well",
+        "expected_pockets": { "MAGAZINE_WELL": [ 0, 1 ] }
+      },
+      "add pocket to pocketless tool": {
+        "base_item": "debug_tool_no_pockets",
+        "mod_item": "debug_retool_container_no_mag_well",
+        "expected_pockets": { "CONTAINER": [ 0, 1 ] }
+      },
+      "add pocket to tool with pocket": {
+        "base_item": "debug_tool_one_pocket",
+        "mod_item": "debug_retool_container_no_mag_well",
+        "expected_pockets": { "CONTAINER": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "id": "debug_gun_no_mag_well",
+    "type": "GUN",
+    "name": { "str": "debug gun without mag well" },
+    "copy-from": "rifle_auto",
+    "description": "Just a debug gun.",
+    "weight": "902 g",
+    "volume": "1550 ml",
+    "longest_side": "520 mm",
+    "price": 125000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "symbol": "(",
+    "color": "black",
+    "ammo": [ "NULL" ],
+    "dispersion": 150,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "melee_damage": { "bash": 12 },
+    "flags": [ "NO_TURRET" ]
+  },
+  {
+    "id": "debug_gun_with_mag_well",
+    "type": "GUN",
+    "name": "debug gun with mag well",
+    "copy-from": "debug_gun_no_mag_well",
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "ammo_restriction": { "223": 20 } } ]
+  },
+  {
+    "id": "debug_tool_no_pockets",
+    "type": "TOOL",
+    "name": "debug tool with no pockets",
+    "description": "debug",
+    "symbol": "(",
+    "volume": "1L",
+    "weight": "1kg"
+  },
+  {
+    "id": "debug_tool_one_pocket",
+    "type": "TOOL",
+    "name": "debug tool with one pocket",
+    "copy-from": "debug_tool_no_pockets",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2L" } ]
+  },
+  {
+    "id": "debug_retool_container_no_mag_well",
+    "type": "TOOLMOD",
+    "name": "debug toolmod to add container",
+    "description": "debug",
+    "symbol": "(",
+    "volume": "1L",
+    "weight": "1kg",
+    "pocket_mods": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1L" } ]
+  },
+  {
+    "id": "debug_retool_mag_well",
+    "type": "GUNMOD",
+    "name": { "str": "debug gunmod to add/alter magazine well" },
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
+    "weight": "2268 g",
+    "volume": "1550 ml",
+    "longest_side": "480 mm",
+    "integral_volume": "1550 ml",
+    "integral_weight": "2268 g",
+    "integral_longest_side": "41 cm",
+    "barrel_length": "406 mm",
+    "price": 25999,
+    "price_postapoc": 1000,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "debug_modular_ar15" ],
+    "install_time": "5 m",
+    "ammo_modifier": [ "223" ],
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
+          "survivor223mag"
+        ]
+      }
+    ],
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+  }
+]

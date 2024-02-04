@@ -20,7 +20,6 @@
 #include "butchery_requirements.h"
 #include "cata_assert.h"
 #include "cata_scope_helpers.h"
-#include "cata_utility.h"
 #include "character_modifier.h"
 #include "city.h"
 #include "climbing.h"
@@ -46,11 +45,11 @@
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
+#include "input.h"
 #include "item_action.h"
 #include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "json_loader.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
@@ -79,7 +78,6 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
-#include "path_info.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
@@ -98,7 +96,6 @@
 #include "speech.h"
 #include "speed_description.h"
 #include "start_location.h"
-#include "string_formatter.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -268,6 +265,7 @@ void DynamicDataLoader::initialize()
     add( "bionic", &bionic_data::load_bionic );
     add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
+    add( "profession_blacklist", &profession_blacklist::load_profession_blacklist );
     add( "profession_group", &profession_group::load_profession_group );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
@@ -615,6 +613,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
     profession::reset();
+    profession_blacklist::reset();
     proficiency::reset();
     proficiency_category::reset();
     mood_face::reset();
@@ -733,6 +732,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             {
                 _( "Monster types" ), []()
                 {
+                    set_mon_flag_ids();
                     MonsterGenerator::generator().finalize_mtypes();
                 }
             },

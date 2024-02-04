@@ -123,10 +123,10 @@ void computer::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string computer::get_value( const std::string &key ) const
+std::optional<std::string> computer::maybe_get_value( const std::string &key ) const
 {
     auto it = values.find( key );
-    return ( it == values.end() ) ? "" : it->second;
+    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
 static computer_action computer_action_from_legacy_enum( int val );

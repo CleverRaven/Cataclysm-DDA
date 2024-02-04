@@ -81,5 +81,14 @@
     "longest_side": "20 cm",
     "material": [ "paper" ],
     "copy-from": "book_antho_tpl"
+  },
+  {
+    "id": "poetic_edda",
+    "type": "BOOK",
+    "name": { "str": "Poetic Edda", "str_pl": "copies of the Poetic Edda" },
+    "description": "The Poetic Edda is a collection of Old Norse narrative poems in alliterative verse recounting some of the stories of Norse mythology.",
+    "weight": "672 g",
+    "volume": "1368 ml",
+    "copy-from": "book_antho_tpl"
   }
 ]

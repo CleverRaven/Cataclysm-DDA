@@ -6,11 +6,12 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] },
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_rural" ],
+    "id": [ "s_gas", "s_gas_rural", "s_gas_g1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
@@ -19,9 +20,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_rural_roof" ],
+    "id": [ "s_gas_g0" ],
+    "copy-from": "s_gas",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_roof_1", "s_gas_rural_roof", "s_gas_g1_roof" ],
     "copy-from": "generic_city_building",
-    "looks_like": "s_gas_roof_1",
     "name": "gas station roof",
     "color": "light_blue"
   },
@@ -381,6 +387,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_fabricstore" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_clothes",
+    "name": "fabric store",
+    "color": "blue",
+    "extend": { "flags": [ "SOURCE_TAILORING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_fabricstore_roof" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_clothes_roof",
+    "name": "fabric store roof",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_bookstore",
@@ -648,14 +671,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "name": "megastore parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "extras": "build",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 }
+    "id": [
+      "megastore_parking_0_0",
+      "megastore_parking_1_0",
+      "megastore_parking_2_0",
+      "megastore_parking_3_0",
+      "megastore_parking_0_1",
+      "megastore_parking_1_1",
+      "megastore_parking_2_1",
+      "megastore_parking_3_1",
+      "megastore_parking_0_2",
+      "megastore_parking_0_3",
+      "megastore_parking_0_4"
+    ],
+    "copy-from": "s_lot"
   },
   {
     "type": "overmap_terrain",
@@ -672,9 +701,7 @@
     "name": "megastore",
     "sym": "M",
     "color": "blue",
-    "extras": "build",
-    "see_cost": 2,
-    "mondensity": 2,
+    "copy-from": "generic_city_building",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 }
   },
   {
@@ -683,9 +710,7 @@
     "name": "megastore",
     "sym": "+",
     "color": "light_blue",
-    "extras": "build",
-    "see_cost": 5,
-    "mondensity": 2,
+    "copy-from": "generic_city_building",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
@@ -1811,19 +1836,6 @@
     "id": "s_games_roof",
     "name": "gaming store roof",
     "copy-from": "s_games"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_gas_g1", "s_gas_g0" ],
-    "copy-from": "s_gas",
-    "sym": "g",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_gas_g1_roof", "s_gas_g0_roof" ],
-    "name": "gas station roof",
-    "copy-from": "s_gas_g1"
   },
   {
     "type": "overmap_terrain",

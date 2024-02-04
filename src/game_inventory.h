@@ -3,11 +3,11 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <utility>
 
 #include "inventory_ui.h"
+#include "item.h"
 #include "item_location.h"
 #include "type_id.h"
 
@@ -15,7 +15,6 @@ class Character;
 struct tripoint;
 
 class avatar;
-class item;
 class repair_item_actor;
 class salvage_actor;
 
@@ -111,12 +110,16 @@ item_location container_for( Character &you, const item &liquid, int radius = 0,
 item_location disassemble( Character &you );
 /** Gunmod installation menu. */
 item_location gun_to_modify( Character &you, const item &gunmod );
+/** Gunmod removal menu. */
+item_location gunmod_to_remove( Character &you, item &gun );
 /** Book reading menu. */
 item_location read( Character &you );
 /** E-Book reading menu. */
 item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
+/** Select books to save to E-Book reader menu. */
+drop_locations ebooksave( Character &who, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, Character &victim );
 /** Item activation menu. */
@@ -153,6 +156,8 @@ item_location sterilize_cbm( Character &you );
 item_location change_sprite( Character &you );
 /** Unload item menu **/
 std::pair<item_location, bool> unload( Character &you );
+item::reload_option select_ammo( Character &you, const item_location &loc, bool prompt = false,
+                                 bool empty = true );
 /*@}*/
 
 } // namespace inv

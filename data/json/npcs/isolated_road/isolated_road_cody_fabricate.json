@@ -26,19 +26,19 @@
       {
         "text": "[400 merch, 2mm] I like to stay light.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 400 } },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_thickness", "=", "2" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
         "text": "[500 merch, 4mm] A middle ground would be good.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 500 } },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_thickness", "=", "4" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
         "text": "[600 merch, 6mm] Never skimp on protection.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 600 } },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_thickness", "=", "6" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       }
     ]
@@ -58,19 +58,19 @@
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[3 weeks, great protection] High carbon steel sounds great.",
-        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" } ],
+        "text": "[3 weeks, great protection] High steel sounds great.",
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_wait", "=", "3" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       },
       {
         "text": "[4 weeks, exceptional protection] I'll wait for the best you can do.",
-        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_wait", "=", "4" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       },
       {
         "text": "[5 weeks, CBM-integrated protection] I'd like nomad armor.",
         "condition": { "u_has_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
-        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_wait", "=", "5" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       }
     ]
@@ -81,7 +81,7 @@
     "effect": [
       { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" },
       { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-      { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+      { "math": [ "u_timer_artisans_u_waiting_on_armor", "=", "time('now')" ] },
       { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
     ]
   },
@@ -90,18 +90,10 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_compare_var": "blacksmith_wait",
-      "type": "number",
-      "context": "artisans",
-      "op": "==",
-      "value": 3,
-      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
+      "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ],
+      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
       "no": {
-        "u_compare_var": "blacksmith_wait",
-        "type": "number",
-        "context": "artisans",
-        "op": "==",
-        "value": 4,
+        "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ],
         "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
         "no": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements."
       }

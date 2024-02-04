@@ -1,0 +1,77 @@
+[
+  {
+    "id": "ammo_can_shot_any_full",
+    "type": "item_group",
+    "items": [
+      { "group": "ammo_can_shot_full", "prob": 100 },
+      { "group": "ammo_can_beanbag_full", "prob": 100 },
+      { "group": "ammo_can_slug_full", "prob": 100 }
+    ]
+  },
+  {
+    "id": "ammo_can_shot_any_part",
+    "type": "item_group",
+    "items": [
+      { "group": "ammo_can_shot_part", "prob": 100 },
+      { "group": "ammo_can_beanbag_part", "prob": 100 },
+      { "group": "ammo_can_slug_part", "prob": 100 }
+    ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_shot_full",
+    "container-item": "ammo_can_50_shot_160",
+    "items": [ { "group": "ammo_box_shot", "count": 32 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_shot_part",
+    "container-item": "ammo_can_50_shot_160",
+    "items": [ { "group": "ammo_box_shot", "count": [ 0, 32 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_shot",
+    "container-item": "ammo_box_army_5_shot",
+    "items": [ { "item": "shot_00", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_beanbag_full",
+    "container-item": "ammo_can_50_beanbag_160",
+    "items": [ { "group": "ammo_box_shot", "count": 32 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_beanbag_part",
+    "container-item": "ammo_can_50_beanbag_160",
+    "items": [ { "group": "ammo_box_shot", "count": [ 0, 32 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_shot",
+    "container-item": "ammo_box_army_5_shot",
+    "items": [ { "item": "shot_bird", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+  },
+  {
+    "//": "---------------------------------------------------",
+    "type": "item_group",
+    "id": "ammo_can_slug_full",
+    "container-item": "ammo_can_30_shot_120",
+    "items": [ { "group": "ammo_box_slug", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_slug_part",
+    "container-item": "ammo_can_30_shot_120",
+    "items": [ { "group": "ammo_box_slug", "count": [ 0, 24 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_box_slug",
+    "container-item": "ammo_box_army_5_slug",
+    "items": [ { "item": "shot_slug", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+  }
+]

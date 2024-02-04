@@ -35,25 +35,253 @@ static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
-static const mon_flag_str_id mon_flag_ACID_BLOOD( "ACID_BLOOD" );
-static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
-static const mon_flag_str_id mon_flag_ARTHROPOD_BLOOD( "ARTHROPOD_BLOOD" );
-static const mon_flag_str_id mon_flag_BILE_BLOOD( "BILE_BLOOD" );
-static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
-static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
-static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
-static const mon_flag_str_id mon_flag_GRABS( "GRABS" );
-static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
-static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
-static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
-static const mon_flag_str_id mon_flag_POISON( "POISON" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-static const mon_flag_str_id mon_flag_SMELLS( "SMELLS" );
-static const mon_flag_str_id mon_flag_SWIMS( "SWIMS" );
-static const mon_flag_str_id mon_flag_VENOM( "VENOM" );
-static const mon_flag_str_id mon_flag_WARM( "WARM" );
-
 static const species_id species_MOLLUSK( "MOLLUSK" );
+
+// NOLINTNEXTLINE(cata-static-int_id-constants)
+mon_flag_id mon_flag_ACIDPROOF,
+            mon_flag_ACIDTRAIL,
+            mon_flag_ACID_BLOOD,
+            mon_flag_ALL_SEEING,
+            mon_flag_ALWAYS_SEES_YOU,
+            mon_flag_ALWAYS_VISIBLE,
+            mon_flag_ANIMAL,
+            mon_flag_AQUATIC,
+            mon_flag_ARTHROPOD_BLOOD,
+            mon_flag_ATTACKMON,
+            mon_flag_ATTACK_LOWER,
+            mon_flag_ATTACK_UPPER,
+            mon_flag_BADVENOM,
+            mon_flag_BASHES,
+            mon_flag_BILE_BLOOD,
+            mon_flag_BORES,
+            mon_flag_CAMOUFLAGE,
+            mon_flag_CANPLAY,
+            mon_flag_CAN_BE_CULLED,
+            mon_flag_CAN_DIG,
+            mon_flag_CAN_OPEN_DOORS,
+            mon_flag_CLIMBS,
+            mon_flag_COMBAT_MOUNT,
+            mon_flag_CONSOLE_DESPAWN,
+            mon_flag_CONVERSATION,
+            mon_flag_CORNERED_FIGHTER,
+            mon_flag_DEADLY_VIRUS,
+            mon_flag_DESTROYS,
+            mon_flag_DIGS,
+            mon_flag_DOGFOOD,
+            mon_flag_DORMANT,
+            mon_flag_GEN_DORMANT,
+            mon_flag_DRIPS_GASOLINE,
+            mon_flag_DRIPS_NAPALM,
+            mon_flag_DROPS_AMMO,
+            mon_flag_EATS,
+            mon_flag_ELECTRIC,
+            mon_flag_ELECTRIC_FIELD,
+            mon_flag_ELECTRONIC,
+            mon_flag_FAE_CREATURE,
+            mon_flag_FILTHY,
+            mon_flag_FIREPROOF,
+            mon_flag_FIREY,
+            mon_flag_FISHABLE,
+            mon_flag_FLIES,
+            mon_flag_GOODHEARING,
+            mon_flag_GRABS,
+            mon_flag_GROUP_BASH,
+            mon_flag_GROUP_MORALE,
+            mon_flag_GUILT_ANIMAL,
+            mon_flag_GUILT_CHILD,
+            mon_flag_GUILT_HUMAN,
+            mon_flag_GUILT_OTHERS,
+            mon_flag_HARDTOSHOOT,
+            mon_flag_HAS_MIND,
+            mon_flag_HEARS,
+            mon_flag_HIT_AND_RUN,
+            mon_flag_HUMAN,
+            mon_flag_ID_CARD_DESPAWN,
+            mon_flag_IMMOBILE,
+            mon_flag_INSECTICIDEPROOF,
+            mon_flag_INTERIOR_AMMO,
+            mon_flag_KEENNOSE,
+            mon_flag_KEEP_DISTANCE,
+            mon_flag_LOUDMOVES,
+            mon_flag_MECH_DEFENSIVE,
+            mon_flag_MECH_RECON_VISION,
+            mon_flag_MILKABLE,
+            mon_flag_NEMESIS,
+            mon_flag_NEVER_WANDER,
+            mon_flag_NIGHT_INVISIBILITY,
+            mon_flag_NOGIB,
+            mon_flag_NOHEAD,
+            mon_flag_NOT_HALLUCINATION,
+            mon_flag_NO_BREATHE,
+            mon_flag_NO_BREED,
+            mon_flag_NO_FUNG_DMG,
+            mon_flag_NO_NECRO,
+            mon_flag_PACIFIST,
+            mon_flag_PARALYZEVENOM,
+            mon_flag_PATH_AVOID_DANGER_1,
+            mon_flag_PATH_AVOID_DANGER_2,
+            mon_flag_PATH_AVOID_FALL,
+            mon_flag_PATH_AVOID_FIRE,
+            mon_flag_PAY_BOT,
+            mon_flag_PET_HARNESSABLE,
+            mon_flag_PET_MOUNTABLE,
+            mon_flag_PET_WONT_FOLLOW,
+            mon_flag_PHOTOPHOBIC,
+            mon_flag_PLASTIC,
+            mon_flag_POISON,
+            mon_flag_PRIORITIZE_TARGETS,
+            mon_flag_PUSH_MON,
+            mon_flag_PUSH_VEH,
+            mon_flag_QUEEN,
+            mon_flag_QUIETDEATH,
+            mon_flag_RANGED_ATTACKER,
+            mon_flag_REVIVES,
+            mon_flag_REVIVES_HEALTHY,
+            mon_flag_RIDEABLE_MECH,
+            mon_flag_SEES,
+            mon_flag_SHORTACIDTRAIL,
+            mon_flag_SILENT_DISAPPEAR,
+            mon_flag_SLUDGEPROOF,
+            mon_flag_SLUDGETRAIL,
+            mon_flag_SMALLSLUDGETRAIL,
+            mon_flag_SMALL_HIDER,
+            mon_flag_SMELLS,
+            mon_flag_STUMBLES,
+            mon_flag_STUN_IMMUNE,
+            mon_flag_SUNDEATH,
+            mon_flag_SWARMS,
+            mon_flag_SWIMS,
+            mon_flag_VAMP_VIRUS,
+            mon_flag_VENOM,
+            mon_flag_VERMIN,
+            mon_flag_WARM,
+            mon_flag_WATER_CAMOUFLAGE,
+            mon_flag_WEBWALK,
+            mon_flag_WIELDED_WEAPON;
+
+void set_mon_flag_ids()
+{
+    mon_flag_ACIDPROOF = mon_flag_id( "ACIDPROOF" );
+    mon_flag_ACIDTRAIL = mon_flag_id( "ACIDTRAIL" );
+    mon_flag_ACID_BLOOD = mon_flag_id( "ACID_BLOOD" );
+    mon_flag_ALL_SEEING = mon_flag_id( "ALL_SEEING" );
+    mon_flag_ALWAYS_SEES_YOU = mon_flag_id( "ALWAYS_SEES_YOU" );
+    mon_flag_ALWAYS_VISIBLE = mon_flag_id( "ALWAYS_VISIBLE" );
+    mon_flag_ANIMAL = mon_flag_id( "ANIMAL" );
+    mon_flag_AQUATIC = mon_flag_id( "AQUATIC" );
+    mon_flag_ARTHROPOD_BLOOD = mon_flag_id( "ARTHROPOD_BLOOD" );
+    mon_flag_ATTACKMON = mon_flag_id( "ATTACKMON" );
+    mon_flag_ATTACK_LOWER = mon_flag_id( "ATTACK_LOWER" );
+    mon_flag_ATTACK_UPPER = mon_flag_id( "ATTACK_UPPER" );
+    mon_flag_BADVENOM = mon_flag_id( "BADVENOM" );
+    mon_flag_BASHES = mon_flag_id( "BASHES" );
+    mon_flag_BILE_BLOOD = mon_flag_id( "BILE_BLOOD" );
+    mon_flag_BORES = mon_flag_id( "BORES" );
+    mon_flag_CAMOUFLAGE = mon_flag_id( "CAMOUFLAGE" );
+    mon_flag_CANPLAY = mon_flag_id( "CANPLAY" );
+    mon_flag_CAN_BE_CULLED = mon_flag_id( "CAN_BE_CULLED" );
+    mon_flag_CAN_DIG = mon_flag_id( "CAN_DIG" );
+    mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
+    mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
+    mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
+    mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
+    mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
+    mon_flag_CORNERED_FIGHTER = mon_flag_id( "CORNERED_FIGHTER" );
+    mon_flag_DEADLY_VIRUS = mon_flag_id( "DEADLY_VIRUS" );
+    mon_flag_DESTROYS = mon_flag_id( "DESTROYS" );
+    mon_flag_DIGS = mon_flag_id( "DIGS" );
+    mon_flag_DOGFOOD = mon_flag_id( "DOGFOOD" );
+    mon_flag_DORMANT = mon_flag_id( "DORMANT" );
+    mon_flag_GEN_DORMANT = mon_flag_id( "GEN_DORMANT" );
+    mon_flag_DRIPS_GASOLINE = mon_flag_id( "DRIPS_GASOLINE" );
+    mon_flag_DRIPS_NAPALM = mon_flag_id( "DRIPS_NAPALM" );
+    mon_flag_DROPS_AMMO = mon_flag_id( "DROPS_AMMO" );
+    mon_flag_EATS = mon_flag_id( "EATS" );
+    mon_flag_ELECTRIC = mon_flag_id( "ELECTRIC" );
+    mon_flag_ELECTRIC_FIELD = mon_flag_id( "ELECTRIC_FIELD" );
+    mon_flag_ELECTRONIC = mon_flag_id( "ELECTRONIC" );
+    mon_flag_FAE_CREATURE = mon_flag_id( "FAE_CREATURE" );
+    mon_flag_FILTHY = mon_flag_id( "FILTHY" );
+    mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
+    mon_flag_FIREY = mon_flag_id( "FIREY" );
+    mon_flag_FISHABLE = mon_flag_id( "FISHABLE" );
+    mon_flag_FLIES = mon_flag_id( "FLIES" );
+    mon_flag_GOODHEARING = mon_flag_id( "GOODHEARING" );
+    mon_flag_GRABS = mon_flag_id( "GRABS" );
+    mon_flag_GROUP_BASH = mon_flag_id( "GROUP_BASH" );
+    mon_flag_GROUP_MORALE = mon_flag_id( "GROUP_MORALE" );
+    mon_flag_GUILT_ANIMAL = mon_flag_id( "GUILT_ANIMAL" );
+    mon_flag_GUILT_CHILD = mon_flag_id( "GUILT_CHILD" );
+    mon_flag_GUILT_HUMAN = mon_flag_id( "GUILT_HUMAN" );
+    mon_flag_GUILT_OTHERS = mon_flag_id( "GUILT_OTHERS" );
+    mon_flag_HARDTOSHOOT = mon_flag_id( "HARDTOSHOOT" );
+    mon_flag_HAS_MIND = mon_flag_id( "HAS_MIND" );
+    mon_flag_HEARS = mon_flag_id( "HEARS" );
+    mon_flag_HIT_AND_RUN = mon_flag_id( "HIT_AND_RUN" );
+    mon_flag_HUMAN = mon_flag_id( "HUMAN" );
+    mon_flag_ID_CARD_DESPAWN = mon_flag_id( "ID_CARD_DESPAWN" );
+    mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
+    mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
+    mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
+    mon_flag_KEENNOSE = mon_flag_id( "KEENNOSE" );
+    mon_flag_KEEP_DISTANCE = mon_flag_id( "KEEP_DISTANCE" );
+    mon_flag_LOUDMOVES = mon_flag_id( "LOUDMOVES" );
+    mon_flag_MECH_DEFENSIVE = mon_flag_id( "MECH_DEFENSIVE" );
+    mon_flag_MECH_RECON_VISION = mon_flag_id( "MECH_RECON_VISION" );
+    mon_flag_MILKABLE = mon_flag_id( "MILKABLE" );
+    mon_flag_NEMESIS = mon_flag_id( "NEMESIS" );
+    mon_flag_NEVER_WANDER = mon_flag_id( "NEVER_WANDER" );
+    mon_flag_NIGHT_INVISIBILITY = mon_flag_id( "NIGHT_INVISIBILITY" );
+    mon_flag_NOGIB = mon_flag_id( "NOGIB" );
+    mon_flag_NOHEAD = mon_flag_id( "NOHEAD" );
+    mon_flag_NOT_HALLUCINATION = mon_flag_id( "NOT_HALLUCINATION" );
+    mon_flag_NO_BREATHE = mon_flag_id( "NO_BREATHE" );
+    mon_flag_NO_BREED = mon_flag_id( "NO_BREED" );
+    mon_flag_NO_FUNG_DMG = mon_flag_id( "NO_FUNG_DMG" );
+    mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
+    mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
+    mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
+    mon_flag_PATH_AVOID_DANGER_1 = mon_flag_id( "PATH_AVOID_DANGER_1" );
+    mon_flag_PATH_AVOID_DANGER_2 = mon_flag_id( "PATH_AVOID_DANGER_2" );
+    mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
+    mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
+    mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
+    mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
+    mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
+    mon_flag_PHOTOPHOBIC = mon_flag_id( "PHOTOPHOBIC" );
+    mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
+    mon_flag_POISON = mon_flag_id( "POISON" );
+    mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
+    mon_flag_PUSH_MON = mon_flag_id( "PUSH_MON" );
+    mon_flag_PUSH_VEH = mon_flag_id( "PUSH_VEH" );
+    mon_flag_QUEEN = mon_flag_id( "QUEEN" );
+    mon_flag_QUIETDEATH = mon_flag_id( "QUIETDEATH" );
+    mon_flag_RANGED_ATTACKER = mon_flag_id( "RANGED_ATTACKER" );
+    mon_flag_REVIVES = mon_flag_id( "REVIVES" );
+    mon_flag_REVIVES_HEALTHY = mon_flag_id( "REVIVES_HEALTHY" );
+    mon_flag_RIDEABLE_MECH = mon_flag_id( "RIDEABLE_MECH" );
+    mon_flag_SEES = mon_flag_id( "SEES" );
+    mon_flag_SHORTACIDTRAIL = mon_flag_id( "SHORTACIDTRAIL" );
+    mon_flag_SILENT_DISAPPEAR = mon_flag_id( "SILENT_DISAPPEAR" );
+    mon_flag_SLUDGEPROOF = mon_flag_id( "SLUDGEPROOF" );
+    mon_flag_SLUDGETRAIL = mon_flag_id( "SLUDGETRAIL" );
+    mon_flag_SMALLSLUDGETRAIL = mon_flag_id( "SMALLSLUDGETRAIL" );
+    mon_flag_SMALL_HIDER = mon_flag_id( "SMALL_HIDER" );
+    mon_flag_SMELLS = mon_flag_id( "SMELLS" );
+    mon_flag_STUMBLES = mon_flag_id( "STUMBLES" );
+    mon_flag_STUN_IMMUNE = mon_flag_id( "STUN_IMMUNE" );
+    mon_flag_SUNDEATH = mon_flag_id( "SUNDEATH" );
+    mon_flag_SWARMS = mon_flag_id( "SWARMS" );
+    mon_flag_SWIMS = mon_flag_id( "SWIMS" );
+    mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
+    mon_flag_VENOM = mon_flag_id( "VENOM" );
+    mon_flag_VERMIN = mon_flag_id( "VERMIN" );
+    mon_flag_WARM = mon_flag_id( "WARM" );
+    mon_flag_WATER_CAMOUFLAGE = mon_flag_id( "WATER_CAMOUFLAGE" );
+    mon_flag_WEBWALK = mon_flag_id( "WEBWALK" );
+    mon_flag_WIELDED_WEAPON = mon_flag_id( "WIELDED_WEAPON" );
+}
 
 mtype::mtype()
 {
@@ -92,7 +320,7 @@ mtype::mtype()
 
     aggro_character = true;
 
-    pre_flags_.emplace( mon_flag_HUMAN );
+    pre_flags_.emplace( "HUMAN" );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -105,20 +333,12 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
     return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
-bool mtype::has_flag( const mon_flag_id &flag ) const
-{
-    return flags.count( flag ) > 0;
-}
-
 void mtype::set_flag( const mon_flag_id &flag, bool state )
 {
     if( state ) {
         flags.emplace( flag );
     } else {
-        auto iter = flags.find( flag );
-        if( iter != flags.end() ) {
-            flags.erase( iter );
-        }
+        flags.erase( flag );
     }
 }
 

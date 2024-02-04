@@ -3,11 +3,11 @@
     "type": "monstergroup",
     "name": "AFS_GROUP_MOXIE_LOW_RISK",
     "monsters": [
-      { "monster": "mon_moxie_scavenger", "weight": 350, "cost_multiplier": 0 },
-      { "monster": "mon_moxie_scavenger", "weight": 250, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_moxie_regenerator", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_moxie_grabby", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_human_biomachine", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_moxie_scavenger", "weight": 350, "cost_multiplier": 1 },
+      { "monster": "mon_moxie_scavenger", "weight": 250, "cost_multiplier": 1, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_regenerator", "weight": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_moxie_grabby", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_human_biomachine", "weight": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -16,7 +16,7 @@
     "monsters": [
       { "monster": "mon_human_biomachine", "weight": 70, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_human_biomachine", "weight": 20, "cost_multiplier": 0, "pack_size": [ 5, 6 ] },
-      { "group": "AFS_GROUP_MOXIE_LOW_RISK", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "group": "AFS_GROUP_MOXIE_LOW_RISK", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
   }
 ]

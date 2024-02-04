@@ -10,6 +10,7 @@
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
     "valid_mod_locations": [
       [ "sling", 1 ],
+      [ "bayonet lug", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -95,6 +96,7 @@
     "reload": 3000,
     "valid_mod_locations": [
       [ "sling", 1 ],
+      [ "bayonet lug", 1 ],
       [ "underbarrel", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],

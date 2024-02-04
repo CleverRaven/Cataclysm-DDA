@@ -77,7 +77,7 @@
     "copy-from": "fake_item",
     "name": { "str": "basecamp drop hammer" },
     "description": "A fake drop hammer used for basecamps.",
-    "qualities": [ [ "HAMMER", 5 ] ]
+    "qualities": [ [ "HAMMER", 5 ], [ "ANVIL", 3 ] ]
   },
   {
     "id": "parkour_practice",

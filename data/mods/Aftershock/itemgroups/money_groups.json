@@ -1,0 +1,16 @@
+[
+  {
+    "id": "augustmoon_shop_money",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "item": "UICA_10000d", "count": 5 },
+      { "item": "UICA_1000d", "count": 5 },
+      { "item": "UICA_100d", "count": 20 },
+      { "item": "UICA_10d", "count": 10 },
+      { "item": "UICA_50d", "count": 10 },
+      { "item": "UICA_1d", "count": 10 }
+    ]
+  }
+]

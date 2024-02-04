@@ -9,29 +9,25 @@
       {
         "id": "decoy_anarch",
         "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
-        "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
-        "weight": 1
+        "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques."
       },
       {
         "id": "decoy_anarch_1",
         "name": { "str": "Driving Around", "str_pl": "copies of Driving Around" },
         "description": "A travelogue about a group of teenagers in the late nineties.",
-        "//": "978-1638607175",
-        "weight": 1
+        "//": "978-1638607175"
       },
       {
         "id": "decoy_anarch_2",
         "name": { "str": "Off The Road", "str_pl": "copies of Off The Road" },
         "description": "A notebook about living off-the-grid, with a wide collection of stories, examples, tips, and advice.",
-        "//": "978-3899555943",
-        "weight": 1
+        "//": "978-3899555943"
       },
       {
         "id": "decoy_anarch_3",
         "name": { "str": "Traffic: Why We Drive the Way We Do", "str_pl": "copies of Traffic: Why We Drive the Way We Do" },
         "description": "A big research book that talks about how roads are built, why they're built in such a manner, and what we can do to improve it.",
-        "//": "978-0307277190",
-        "weight": 1
+        "//": "978-0307277190"
       }
     ],
     "weight": "220 g",
@@ -58,68 +54,57 @@
       {
         "id": "mag_cars",
         "name": { "str": "Top Gear", "str_pl": "issues of Top Gear" },
-        "description": "Lots of articles about cars and driving techniques.",
-        "weight": 1
+        "description": "Lots of articles about cars and driving techniques."
       },
       {
         "id": "mag_cars_1",
         "name": { "str": "Automobile", "str_pl": "issues of Automobile" },
-        "description": "A nice-looking magazine about the automobile industry, with shiny images and long articles.  Dated 2019.",
-        "weight": 1
+        "description": "A nice-looking magazine about the automobile industry, with shiny images and long articles.  Dated 2019."
       },
       {
         "id": "mag_cars_2",
         "name": { "str": "Automotive Industries", "str_pl": "issues of Automotive Industries" },
-        "description": "A monthly report about recent changes in the transport industry.",
-        "weight": 1
+        "description": "A monthly report about recent changes in the transport industry."
       },
       {
         "id": "mag_cars_3",
         "name": { "str": "Autoweek", "str_pl": "issues of Autoweek" },
-        "description": "A shabby magazine about new and old cars, automobile reviews, general motorsports, and DIY.",
-        "weight": 1
+        "description": "A shabby magazine about new and old cars, automobile reviews, general motorsports, and DIY."
       },
       {
         "id": "mag_cars_4",
         "name": { "str": "Car and Driver", "str_pl": "issues of Car and Driver" },
-        "description": "An absolutely generic monthly magazine about the automotive industry.",
-        "weight": 1
+        "description": "An absolutely generic monthly magazine about the automotive industry."
       },
       {
         "id": "mag_cars_5",
         "name": { "str": "Car Craft", "str_pl": "issues of Car Craft" },
-        "description": "Flashy journal about cars, racing, and mechanics.",
-        "weight": 1
+        "description": "Flashy journal about cars, racing, and mechanics."
       },
       {
         "id": "mag_cars_6",
         "name": { "str": "Diesel Power", "str_pl": "issues of Diesel Power" },
-        "description": "An automotive magazine, focused on heavily modifying trucks, SUVs, and cars powered by diesel.",
-        "weight": 1
+        "description": "An automotive magazine, focused on heavily modifying trucks, SUVs, and cars powered by diesel."
       },
       {
         "id": "mag_cars_7",
         "name": { "str": "Cruisin' Style Magazine", "str_pl": "issues of Cruisin' Style Magazine" },
-        "description": "A really old issue about classic car maintenance and restoration.",
-        "weight": 1
+        "description": "A really old issue about classic car maintenance and restoration."
       },
       {
         "id": "mag_cars_8",
         "name": { "str": "Hot Rod", "str_pl": "issues of Hot Rod" },
-        "description": "Monthly magazine about hot rodding, drag racing, and muscle cars.",
-        "weight": 1
+        "description": "Monthly magazine about hot rodding, drag racing, and muscle cars."
       },
       {
         "id": "mag_cars_9",
         "name": { "str": "Motor Trend", "str_pl": "issues of Motor Trend" },
-        "description": "Boring automobile magazine with a big shiny label.",
-        "weight": 1
+        "description": "Boring automobile magazine with a big shiny label."
       },
       {
         "id": "mag_cars_10",
         "name": { "str": "Quatro Rodas", "str_pl": "issues of Quatro Rodas" },
-        "description": "It seems to be a car magazine, but you can only understand the images, as the text is written in another language.",
-        "weight": 1
+        "description": "It seems to be a car magazine, but you can only understand the images, as the text is written in another language."
       }
     ],
     "weight": "60 g",
@@ -146,22 +131,19 @@
       {
         "id": "manual_driving",
         "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
-        "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
-        "weight": 1
+        "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts."
       },
       {
         "id": "manual_driving_1",
         "name": { "str": "Guide to Passing the Driving Test", "str_pl": "copies of Guide to Passing the Driving Test" },
         "description": "A thick, heavy book about every thing you may be asked in your driving exam.  The biggest part of the book contains a 'theory test' with detailed answers, and many how-to's related to driving overall.",
-        "//": "978-1789630473",
-        "weight": 1
+        "//": "978-1789630473"
       },
       {
         "id": "manual_driving_2",
         "name": { "str": "The official DVSA guide to driving", "str_pl": "copies of The official DVSA guide to driving" },
         "description": "This book is packed with comprehensive information about driving, how to do it properly, and take joy in it.  You wonder how this manual made it here, as DVSA is a British organization, and the book contains information about specific British driving rules.",
-        "//": "978-0115537011",
-        "weight": 1
+        "//": "978-0115537011"
       },
       {
         "id": "manual_driving_3",
@@ -170,15 +152,13 @@
           "str_pl": "copies of Automated Driving and Driver Assistance Systems"
         },
         "description": "This book explains the technologies and approaches of advanced driving systems, how they are designed, and why it is hard to get a good result.  It is difficult to understand sometimes, but it shows driving from a perspective an average driver wouldn't think about.",
-        "//": "978-0367265595",
-        "weight": 1
+        "//": "978-0367265595"
       },
       {
         "id": "manual_driving_4",
         "name": { "str": "The Driving Instructor's Handbook", "str_pl": "copies of The Driving Instructor's Handbook" },
         "description": "Detailed textbook about how to provide driving lessons, what may be discussed, and how to prevent dangerous situations and collisions.",
-        "//": "978-1398602786",
-        "weight": 1
+        "//": "978-1398602786"
       }
     ],
     "weight": "404 g",
@@ -204,29 +184,25 @@
       {
         "id": "textbook_anarch",
         "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
-        "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
-        "weight": 1
+        "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police."
       },
       {
         "id": "textbook_anarch_1",
         "name": { "str": "The Anarchist Cookbook", "str_pl": "copies of The Anarchist Cookbook" },
         "description": "Classic illegal manual about making weapons and explosives.  The first page contains a quote from its author William Powell, that describes it as \"a youthful indiscretion or mistake that can haunt someone during their early years or even longer\".",
-        "//": "really? you don't know how to find the anarchist cookbook?",
-        "weight": 1
+        "//": "really? you don't know how to find the anarchist cookbook?"
       },
       {
         "id": "textbook_anarch_2",
         "name": { "str": "Science of Revolutionary Warfare", "str_pl": "copies of Science of Revolutionary Warfare" },
         "description": "A small, shabby book about making explosives, poisons, and weapons with resources you may find in your backyard.",
-        "//": "978-0879472115",
-        "weight": 1
+        "//": "978-0879472115"
       },
       {
         "id": "textbook_anarch_3",
         "name": { "str": "The Poor Man's James Bond", "str_pl": "copies of The Poor Man's James Bond" },
         "description": "A collection of American paramilitary knowledge throughout history, containing a lot of information about how to make dangerous weapons and explosives in pretty dry language.",
-        "//": "978-0879472306",
-        "weight": 1
+        "//": "978-0879472306"
       }
     ],
     "weight": "223 g",

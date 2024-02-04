@@ -106,6 +106,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_CITY_HORDE_THRESHOLD",
+    "info": "Minimum city size to guarantee extra zombies are spawned in cities.  0 means all cities spawn extra zombies.  Negative values disable extra city zombies.",
+    "stype": "int",
+    "value": 4
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_CITY_HORDE_SMALL_CITY_CHANCE",
+    "info": "Probability of a city smaller than SPAWN_HORDE_THRESHOLD having city zombies spawned, express in 'one in x' fashion .",
+    "stype": "int",
+    "value": 16
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_CITY_HORDE_SPREAD",
+    "info": "A scaling factor that determines how far from the center of cities extra zombies spawn, multiplied by city size, when city hordes are indicated.",
+    "stype": "float",
+    "value": 1.5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_CITY_HORDE_SCALAR",
+    "info": "A scaling factor that determines how many zombies are spawned in cites, multiplied by city size, when city hordes are indicated.",
+    "stype": "float",
+    "value": 80.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "SPAWN_ANIMAL_DENSITY",
     "info": "A scaling factor that determines density of wild, formerly domesticated and mutated animal spawns.",
     "stype": "float",
@@ -260,10 +288,52 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_OCEANS",
+    "info": "Allows to place procgen oceans during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_FORESTS",
     "info": "Allows to place procgen forests during overmap generation.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_NORTH",
+    "info": "Rate at which forest coverage of the map increases to the North, based on regional map settings thresholds.  0=no increase.",
+    "stype": "float",
+    "value": 0.04
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_EAST",
+    "info": "Rate at which forest coverage of the map increases to the East.  0=no increase.",
+    "stype": "float",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_WEST",
+    "info": "Rate at which forest coverage of the map increases to the West.  0=no increase.",
+    "stype": "float",
+    "value": 0.02
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_SOUTH",
+    "info": "Rate at which forest coverage of the map increases to the South.  0=no increase.",
+    "stype": "float",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_LIMIT",
+    "info": "Caps how high the forest threshold can rise.  No cities form at values over 0.4",
+    "stype": "float",
+    "value": 0.395
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -330,6 +400,41 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_NORTH",
+    "info": "Rate at which urbanity of the map increases to the North.  0=no increase.  Negative numbers are technically allowed but may cause weird effects.",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_EAST",
+    "info": "Rate at which urbanity of the map increases to the East.  0=no increase.",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_WEST",
+    "info": "Rate at which urbanity of the map increases to the South.  0=no increase.",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_SOUTH",
+    "info": "Rate at which urbanity of the map increases to the West.  0=no increase.",
+    "stype": "int",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_MAXIMUM_URBANITY",
+    "info": "How urban do we allow our megacities to go?  Mostly functions as a multiple of map settings city size.",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERRIDE_VEHICLE_INIT_STATE",
     "info": "If true, initial status and amount of fuel for all spawned vehicles will be overridden by values of VEHICLE_STATUS_AT_SPAWN and VEHICLE_FUEL_AT_SPAWN options.",
     "stype": "bool",
@@ -351,10 +456,24 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OUTSIDE_DEFINED_OMAP_OMT",
+    "info": "If .omap s are being used this is the overmap terrain used outside of the defined overmaps.",
+    "stype": "string_input",
+    "value": "lake_surface"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "EMP_DISABLE_ELECTRONICS",
     "info": "Whether EMP effects will permanently disable items.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CAPITALISM",
+    "info": "NPCs will accept your bank balance as payment in trades.",
+    "stype": "bool",
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -376,5 +495,19 @@
     "info": "When mutating, displays a menu which allows players to pick from a list of possible mutations.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Defaults to Boston.",
+    "stype": "float",
+    "value": 42.36
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Defaults to Boston.",
+    "stype": "float",
+    "value": -71.06
   }
 ]

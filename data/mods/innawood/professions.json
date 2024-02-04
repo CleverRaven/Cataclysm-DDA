@@ -33,8 +33,12 @@
     "pets": [ { "name": "mon_goat", "amount": 2 } ],
     "items": {
       "both": {
-        "items": [ "loincloth_leather", "leather_belt", "socks", "mocassins", "shirt_straw" ],
         "entries": [
+          { "item": "loincloth_leather" },
+          { "item": "leather_belt" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "shirt_straw" },
           { "item": "rope_makeshift_6", "count": 2 },
           { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
           { "item": "bucket_wood", "custom-flags": [ "auto_wield" ] }
@@ -52,7 +56,14 @@
     "proficiencies": [ "prof_fibers", "prof_knapping" ],
     "items": {
       "both": {
-        "items": [ "cloak_leather", "footrags_leather", "chestwrap_leather", "loincloth_fur", "stone_chopper", "straw_basket" ]
+        "entries": [
+          { "item": "cloak_leather" },
+          { "item": "footrags_leather" },
+          { "item": "chestwrap_leather" },
+          { "item": "loincloth_fur" },
+          { "item": "stone_chopper" },
+          { "item": "straw_basket" }
+        ]
       }
     }
   },
@@ -66,18 +77,16 @@
     "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "items": {
       "both": {
-        "items": [
-          "straw_basket",
-          "grass_cloak",
-          "shirt_straw",
-          "skirt_grass",
-          "footrags_leather",
-          "grass_keffiyeh",
-          "primitive_knife",
-          "tourniquet_upper",
-          "arm_splint"
-        ],
         "entries": [
+          { "item": "straw_basket" },
+          { "item": "grass_cloak" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "footrags_leather" },
+          { "item": "grass_keffiyeh" },
+          { "item": "primitive_knife" },
+          { "item": "tourniquet_upper" },
+          { "item": "arm_splint" },
           { "item": "bandages_birchbark_adv", "count": 10 },
           { "item": "cattail_jelly", "charges": 7, "container-item": "bowl_clay" }
         ]
@@ -93,8 +102,13 @@
     "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "mocassins", "tunic", "footrags_leather" ],
-        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+        "entries": [
+          { "item": "wicker_backpack" },
+          { "item": "mocassins" },
+          { "item": "tunic" },
+          { "item": "footrags_leather" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" }
+        ]
       }
     }
   },
@@ -106,18 +120,18 @@
     "points": 5,
     "items": {
       "both": {
-        "items": [
-          "primitive_shovel",
-          "bronze_pickaxe",
-          "mocassins",
-          "torch",
-          "waterskin",
-          "tunic",
-          "helmet_larmor",
-          "gloves_wraps_leather",
-          "bigtrapper_pack"
-        ],
-        "entries": [ { "item": "fire_drill", "ammo-item": "notch", "charges": 24 } ]
+        "entries": [
+          { "item": "primitive_shovel" },
+          { "item": "bronze_pickaxe" },
+          { "item": "mocassins" },
+          { "item": "torch" },
+          { "item": "waterskin" },
+          { "item": "tunic" },
+          { "item": "helmet_larmor" },
+          { "item": "gloves_wraps_leather" },
+          { "item": "bigtrapper_pack" },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
+        ]
       }
     }
   },
@@ -127,12 +141,20 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
-    "skills": [ { "level": 2, "name": "archery" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 2, "name": "archery" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
     "items": {
       "both": {
-        "items": [ "mocassins", "shirt_straw", "skirt_grass", "longbow" ],
         "entries": [
+          { "item": "mocassins" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "longbow" },
           { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath_birchbark", "contents-item": "primitive_knife" }
         ]
@@ -150,12 +172,16 @@
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "melee" },
       { "level": 1, "name": "swimming" },
-      { "level": 1, "name": "dodge" }
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "survival" }
     ],
+    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
         "entries": [
+          { "item": "footrags_leather" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
           { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
           { "item": "spear_stone", "custom-flags": [ "auto_wield" ] }
         ]
@@ -169,11 +195,19 @@
     "name": "Javelin Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for javelin throwing.  Why, if the world ended, there's nothing you'd want at your side more than your trusty javelins.  So, when it did, you made sure to bring them along.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "throw" }, { "level": 1, "name": "stabbing" }, { "level": 1, "name": "swimming" } ],
+    "skills": [
+      { "level": 2, "name": "throw" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_spears_familiar", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "footrags_leather", "shirt_straw", "skirt_grass" ],
         "entries": [
+          { "item": "footrags_leather" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
           { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
           { "item": "javelin_bag", "contents-group": "bag_javelin_hunter" }
         ]
@@ -187,12 +221,19 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_fletching" ],
-    "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
+    ],
     "items": {
       "both": {
-        "items": [ "mocassins", "shirt_straw", "skirt_grass" ],
         "entries": [
+          { "item": "mocassins" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
           {
             "item": "compositecrossbow",
             "ammo-item": "bolt_simple_wood",
@@ -215,11 +256,15 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
     "traits": [ "OUTDOORSMAN" ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
         "entries": [
+          { "item": "wicker_backpack" },
+          { "item": "footrags_leather" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "straw_hat" },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
           { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
           { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
@@ -236,11 +281,15 @@
     "vehicle": "canoe",
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" }, { "level": 1, "name": "driving" } ],
     "traits": [ "OUTDOORSMAN" ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "footrags_leather", "shirt_straw", "skirt_grass", "straw_hat" ],
         "entries": [
+          { "item": "wicker_backpack" },
+          { "item": "footrags_leather" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "straw_hat" },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
           { "item": "fishing_rod_basic", "custom-flags": [ "auto_wield" ] },
           { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
@@ -258,21 +307,21 @@
     "proficiencies": [ "prof_metalworking", "prof_redsmithing" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "mocassins",
-          "longshirt",
-          "apron_leather",
-          "gloves_leather",
-          "primitive_hammer",
-          "copper_knife",
-          "wicker_backpack",
-          "crucible_clay"
+        "entries": [
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "longshirt" },
+          { "item": "apron_leather" },
+          { "item": "gloves_leather" },
+          { "item": "primitive_hammer" },
+          { "item": "copper_knife" },
+          { "item": "wicker_backpack" },
+          { "item": "crucible_clay" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -283,8 +332,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "skirt_grass", "shirt_straw", "footrags", "straw_basket", "primitive_knife" ],
         "entries": [
+          { "item": "skirt_grass" },
+          { "item": "shirt_straw" },
+          { "item": "footrags" },
+          { "item": "straw_basket" },
+          { "item": "primitive_knife" },
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
@@ -298,24 +351,24 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 2,
     "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting" ],
+    "proficiencies": [ "prof_fibers", "prof_carving", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "socks",
-          "mocassins",
-          "hat_fur",
-          "shirt_straw",
-          "cloak_leather",
-          "patchwork_scarf",
-          "light_snare_kit",
-          "wicker_backpack"
-        ],
-        "entries": [ { "item": "copper_knife", "container-item": "sheath" } ]
+        "entries": [
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "hat_fur" },
+          { "item": "shirt_straw" },
+          { "item": "cloak_leather" },
+          { "item": "patchwork_scarf" },
+          { "item": "light_snare_kit" },
+          { "item": "wicker_backpack" },
+          { "item": "copper_knife", "container-item": "sheath" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -338,21 +391,21 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "straw_basket",
-          "straw_fedora",
-          "longshirt",
-          "pants",
-          "socks",
-          "mocassins",
-          "patchwork_scarf",
-          "awl_bone",
-          "bronze_shears"
-        ],
-        "entries": [ { "item": "needle_bone", "ammo-item": "plant_fibre", "charges": 200 } ]
+        "entries": [
+          { "item": "straw_basket" },
+          { "item": "straw_fedora" },
+          { "item": "longshirt" },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "patchwork_scarf" },
+          { "item": "awl_bone" },
+          { "item": "bronze_shears" },
+          { "item": "needle_bone", "ammo-item": "plant_fibre", "charges": 200 }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -361,14 +414,29 @@
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
     "points": 0,
-    "skills": [ { "level": 2, "name": "swimming" } ],
+    "skills": [
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "melee" }
+    ],
+    "proficiencies": [ "prof_great_axes_familiar", "prof_hand_axes_familiar", "prof_hand_axes_pro" ],
     "items": {
       "both": {
-        "items": [ "pants", "socks", "mocassins", "straw_hat", "longshirt", "patchwork_scarf", "vest_leather", "rope_makeshift_6" ],
-        "entries": [ { "item": "copper_ax", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "straw_hat" },
+          { "item": "longshirt" },
+          { "item": "patchwork_scarf" },
+          { "item": "vest_leather" },
+          { "item": "rope_makeshift_6" },
+          { "item": "copper_ax", "custom-flags": [ "auto_wield" ] }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -380,11 +448,18 @@
     "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "straw_basket", "shirt_straw", "skirt_grass", "socks", "mocassins", "bone_flute" ],
-        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
+        "entries": [
+          { "item": "straw_basket" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "bone_flute" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -393,7 +468,7 @@
     "name": "Tribal Warrior Recruit",
     "description": "Joining the tribal guard has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of emergency.  As far as you can tell, the elders abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar", "prof_spears_familiar" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "archery" },
@@ -404,8 +479,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "helmet_larmor", "armor_larmor", "socks", "boots_larmor", "gauntlets_larmor" ],
         "entries": [
+          { "item": "helmet_larmor" },
+          { "item": "armor_larmor" },
+          { "item": "socks" },
+          { "item": "boots_larmor" },
+          { "item": "gauntlets_larmor" },
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
           { "item": "spear_copper", "container-item": "spearsling" },
@@ -413,8 +492,8 @@
           { "item": "longbow", "contents-item": [ "primitive_bow_silencer" ] }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -429,17 +508,22 @@
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "swimming" }
     ],
+    "proficiencies": [ "prof_short_swords_familiar", "prof_short_swords_pro", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "helmet_larmor", "armor_larmor", "socks", "boots_larmor", "gauntlets_larmor" ],
         "entries": [
+          { "item": "helmet_larmor" },
+          { "item": "armor_larmor" },
+          { "item": "socks" },
+          { "item": "boots_larmor" },
+          { "item": "gauntlets_larmor" },
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "sword_bronze", "container-item": "scabbard" },
           { "item": "copper_knife", "container-item": "sheath_birchbark" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -448,12 +532,23 @@
     "name": "Tribal Arbalist",
     "description": "From your first hunt, you showed talent with a crossbow.  While the tribe was well guarded by your aim, you're all alone now.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching" ],
-    "skills": [ { "level": 3, "name": "rifle" }, { "level": 3, "name": "gun" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar" ],
+    "skills": [
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
     "items": {
       "both": {
-        "items": [ "leathersandals", "helmet_larmor", "vambrace_larmor", "socks", "skirt_grass", "vest_leather", "legguard_larmor" ],
         "entries": [
+          { "item": "leathersandals" },
+          { "item": "helmet_larmor" },
+          { "item": "vambrace_larmor" },
+          { "item": "socks" },
+          { "item": "skirt_grass" },
+          { "item": "vest_leather" },
+          { "item": "legguard_larmor" },
           {
             "item": "compositecrossbow",
             "ammo-item": "bolt_simple_wood",
@@ -465,8 +560,8 @@
           { "item": "copper_knife", "container-item": "sheath_birchbark" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -477,22 +572,22 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-          "loincloth_leather",
-          "wicker_backpack",
-          "patchwork_scarf",
-          "straw_hat",
-          "socks",
-          "mocassins",
-          "seed_blueberries",
-          "seed_strawberries",
-          "seed_wheat",
-          "seed_hops",
-          "seed_barley",
-          "seed_sugar_beet",
-          "seed_tomato"
-        ],
-        "entries": [ { "item": "bronze_hoe", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "loincloth_leather" },
+          { "item": "wicker_backpack" },
+          { "item": "patchwork_scarf" },
+          { "item": "straw_hat" },
+          { "item": "socks" },
+          { "item": "mocassins" },
+          { "item": "seed_blueberries" },
+          { "item": "seed_strawberries" },
+          { "item": "seed_wheat" },
+          { "item": "seed_hops" },
+          { "item": "seed_barley" },
+          { "item": "seed_sugar_beet" },
+          { "item": "seed_tomato" },
+          { "item": "bronze_hoe", "custom-flags": [ "auto_wield" ] }
+        ]
       }
     }
   },
@@ -503,21 +598,19 @@
     "description": "You were on the road with friends from your tribe to search for a new settlement spot when you seemed to be yanked somewhere completely different.  You see no sign of your friends, but at least you got your equipment and some seeds with you.",
     "points": 3,
     "skills": [ { "level": 4, "name": "survival" }, { "level": 2, "name": "archery" } ],
-    "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
+    "proficiencies": [ "prof_basketweaving", "prof_pottery", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "wicker_backpack",
-          "tunic",
-          "mocassins",
-          "cloak",
-          "chaps_leather",
-          "bandana_head",
-          "copper_knife",
-          "shortbow",
-          "loincloth"
-        ],
         "entries": [
+          { "item": "wicker_backpack" },
+          { "item": "tunic" },
+          { "item": "mocassins" },
+          { "item": "cloak" },
+          { "item": "chaps_leather" },
+          { "item": "bandana_head" },
+          { "item": "copper_knife" },
+          { "item": "shortbow" },
+          { "item": "loincloth" },
           { "item": "seed_pumpkin", "count": 5 },
           { "item": "seed_beans", "count": 5 },
           { "item": "seed_corn", "count": 5 },
@@ -536,11 +629,18 @@
     "points": 4,
     "description": "Living under your craftsmanship, the tribe was no longer bound to caves lest they freeze in the night.  You won't have to work nearly as hard for just yourself.",
     "skills": [ { "level": 4, "name": "fabrication" } ],
-    "proficiencies": [ "prof_carving", "prof_carpentry_basic" ],
+    "proficiencies": [ "prof_carving", "prof_carpentry_basic", "prof_hand_axes_familiar" ],
     "items": {
       "both": {
-        "items": [ "wicker_backpack", "tunic", "clogs", "socks", "helmet_larmor", "copper_knife", "primitive_hammer", "loincloth" ],
         "entries": [
+          { "item": "wicker_backpack" },
+          { "item": "tunic" },
+          { "item": "clogs" },
+          { "item": "socks" },
+          { "item": "helmet_larmor" },
+          { "item": "copper_knife" },
+          { "item": "primitive_hammer" },
+          { "item": "loincloth" },
           { "item": "copper_ax", "container-item": "axe_ring" },
           { "item": "primitive_adze", "container-item": "rope_makeshift_6" },
           { "item": "primitive_shovel", "custom-flags": [ "auto_wield" ] }
@@ -557,8 +657,15 @@
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "trapper_pack", "tunic", "mocassins", "socks", "helmet_larmor", "primitive_hammer", "loincloth", "frame_wood_light" ],
         "entries": [
+          { "item": "trapper_pack" },
+          { "item": "tunic" },
+          { "item": "mocassins" },
+          { "item": "socks" },
+          { "item": "helmet_larmor" },
+          { "item": "primitive_hammer" },
+          { "item": "loincloth" },
+          { "item": "frame_wood_light" },
           { "item": "adobe_brick", "count": 10 },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" },
           { "item": "wood_smoother", "custom-flags": [ "auto_wield" ] }

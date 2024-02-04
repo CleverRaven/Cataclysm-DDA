@@ -1,0 +1,74 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be in a city or a faction camp",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT" } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "homullus_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_2",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
+            "condition": {
+              "or": [
+                { "u_at_om_location": "FACTION_CAMP_ANY" },
+                { "u_near_om_location": "evac_center_13", "range": 3 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+                { "u_near_om_location": "ranch_camp_41", "range": 3 },
+                { "u_near_om_location": "godco_5", "range": 3 },
+                { "u_at_om_location": "homullus_genius_loci_NW" },
+                { "u_at_om_location": "homullus_genius_loci_NE" },
+                { "u_at_om_location": "homullus_genius_loci_SW" },
+                { "u_at_om_location": "homullus_genius_loci_SE" },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Homullus knows. Probability is [11-Difficulty]",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+          ]
+        }
+      ]
+    },
+    "effect": { "weighted_list_eocs": [ [ "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER", 4 ] ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  }
+]

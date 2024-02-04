@@ -41,6 +41,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "require_targeting_player": false,
         "description": "The deranged agent fires their Five-seveN!"
       }
@@ -59,7 +60,8 @@
       "CLIMBS",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   }

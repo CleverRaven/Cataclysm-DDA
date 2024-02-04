@@ -44,6 +44,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -66,7 +67,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "name.h"
 #include "npc.h"
 #include "output.h"
 #include "pathfinding.h"
@@ -163,6 +163,8 @@ static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
@@ -179,14 +181,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
-
-static const mon_flag_str_id mon_flag_EATS( "EATS" );
-static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
-static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
-static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
-static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
-static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
@@ -293,7 +287,12 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
                                   dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
-        return true;
+        // whether this function returns true determines whether it applies a status effect like paralysis or mutation
+        if( atk.dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+            return false;
+        } else {
+            return true;
+        }
     } else {
         if( atk.missed_by == 1 ) {
             target->add_msg_if_player( m_good,
@@ -338,15 +337,49 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) &&
+            ( here.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST, p ) ||
+              here.has_flag( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
-    }
-    if( target ) {
-        here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
-        here.i_clear( *target );
-        return true;
+        if( target ) {
+            if( z->amount_eaten <= z->stomach_size ) {
+                add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.furnname( p ) );
+                here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+                here.i_clear( *target );
+                z->amount_eaten += 350;
+                return true;
+            }
+        }
+        map_stack items = here.i_at( p );
+        for( item &item : items ) {
+            //This prevents crop eaters from eating planted seeds
+            if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
+                continue;
+            }
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ||
+                !item.has_flag( flag_CATTLE ) ) {
+                continue;
+            }
+            if( z->amount_eaten <= z->stomach_size ) {
+                //Check for stomach size 0 so as to not break creatures which haven't
+                //been given a stomach size yet.
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
     }
     return true;
 }
@@ -451,30 +484,21 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.has_flag( flag_INEDIBLE ) ||
+                item.made_of( material_water ) ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() &&
-                z->amount_eaten < z->stomach_size ) {
+            if( z->type->baby_egg != item.type->get_id() && ( z->amount_eaten <= z->stomach_size ) ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    z->amount_eaten += 1;
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
                     here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    z->amount_eaten += 1;
-                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
-                    here.use_amount( p, 1, item.type->get_id(), consumed );
-                }
-                return true;
-            }
-            if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
-                int consumed = 1;
-                if( item.count_by_charges() ) {
-                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
-                    here.use_charges( p, 1, item.type->get_id(), consumed );
-                } else {
+                    int kcal = item.get_comestible()->default_nutrition.kcal();
+                    z->amount_eaten += kcal;
                     add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
                     here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
@@ -496,12 +520,75 @@ bool mattack::eat_carrion( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //TODO: Completely eaten corpses should leave bones and other inedibles.
-            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
+            if( item.has_flag( flag_CORPSE ) && item.damage() < item.max_damage() &&
+                z->amount_eaten < z->stomach_size &&
                 ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
                   item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
-                item.mod_damage( 500 );
-                z->amount_eaten += 1;
+                item.mod_damage( 700 );
+                if( item.damage() >= item.max_damage() && item.can_revive() ) {
+                    item.set_flag( flag_PULPED );
+                }
+                z->amount_eaten += 100;
                 add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool mattack::graze( monster *z )
+{
+    map &here = get_map();
+    //Grazers eat grass and entire plants or bushes. Toxic/inedible plants can be blacklisted with GRAZER_INEDIBLE.
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        //Don't eat grass right next to the player.
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+            ( z->amount_eaten <= z->stomach_size ) ) {
+            here.furn_set( p, f_null );
+            z->amount_eaten += 50;
+            //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_SHRUB, p ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
+            ( z->amount_eaten <= z->stomach_size ) ) {
+            add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), here.tername( p ) );
+            here.ter_set( p, t_dirt );
+            z->amount_eaten += 174;
+            //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
+            return true;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, p ) && z->amount_eaten < z->stomach_size ) {
+            here.ter_set( p, here.get_ter_transforms_into( p ) );
+            z->amount_eaten += 70;
+            //Calorie amount is based on the "grass" dummy item, as with the grazer mutation.
+            return true;
+        }
+    }
+    return true;
+}
+
+bool mattack::browse( monster *z )
+{
+    map &here = get_map();
+    //Browsers eat fruit/nuts/etc off of seasonally harvestable plants and trees.
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        // Don't forage for food if the player is right there.
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_BROWSABLE, p ) && ( z->amount_eaten <= z->stomach_size ) ) {
+            const harvest_id harvest = here.get_harvest( p );
+            if( !harvest.is_null() || !harvest->empty() ) {
+                add_msg_if_player_sees( *z, _( "The %1s eats from the %2s." ), z->name(), here.tername( p ) );
+                here.ter_set( p, here.get_ter_transforms_into( p ) );
+                z->amount_eaten += 174;
+                //Calorie amount is based on the "underbrush" dummy item, as with the grazer mutation.
                 return true;
             }
         }
@@ -980,7 +1067,7 @@ bool mattack::boomer( monster *z )
     }
 
     if( !target->dodge_check( z ) ) {
-        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
@@ -1020,11 +1107,11 @@ bool mattack::boomer_glow( monster *z )
     }
 
     if( !target->dodge_check( z ) ) {
-        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
+        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
         target->on_dodge( z, 5 );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
-            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+            target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
             if( target->has_effect( effect_glowing ) ) {
                 break;
             }
@@ -1157,6 +1244,10 @@ bool mattack::resurrect( monster *z )
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
+        // check to ensure that we destroy any dormant zombie traps in the same tile.
+        if( here.tr_at( raised.first ) == trap_id( "tr_dormant_corpse" ) ) {
+            here.remove_trap( raised.first );
+        }
         if( sees_necromancer ) {
             add_msg( m_info, _( "You feel a strange pulse of energy from the %s." ), z->name() );
         }
@@ -1949,8 +2040,8 @@ bool mattack::fungus_inject( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
-
-        if( one_in( 10 - dam ) ) {
+        // do not fungal infect a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 10 - dam ) ) {
             player_character.add_effect( effect_fungus, 10_minutes, true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2004,8 +2095,8 @@ bool mattack::fungus_bristle( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_if_player( m_bad, _( "The %1$s sinks several needlelike barbs into your %2$s!" ),
                                    z->name(), body_part_name_accusative( hit ) );
-
-        if( one_in( 15 - dam ) ) {
+        // no fungal infection if it is a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 15 - dam ) ) {
             target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
@@ -2168,7 +2259,8 @@ bool mattack::fungus_fortify( monster *z )
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
+    // no way to pump spores into a bionic limb
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) && dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
@@ -2295,9 +2387,10 @@ bool mattack::dermatik( monster *z )
         return true;
     }
 
-    // Can the bug penetrate our armor?
+    // Can the bug penetrate our armor? Or is the limb a bionic one?
     const bodypart_id targeted = target->get_random_body_part();
-    if( 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
+    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) &&
+        4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
@@ -2922,9 +3015,9 @@ bool mattack::nurse_assist( monster *z )
         if( target->is_wearing( itype_badge_doctor ) ||
             z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
-                           string_format(
-                               _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
-                               Name::generate( target->male ) ) );
+                           SNIPPET.expand( target->male
+                                           ? _( "a soft robotic voice say, \"Welcome doctor <male_full_name>.  I'll be your assistant today.\"" )
+                                           : _( "a soft robotic voice say, \"Welcome doctor <female_full_name>.  I'll be your assistant today.\"" ) ) );
             target->add_effect( effect_assisted, 20_turns, false, 12 );
             return true;
         }
@@ -3168,15 +3261,19 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "…database connection lost!" );
+    std::string msg;
     if( one_in( 6 ) ) {
-        cname = Name::generate( player_character.male );
+        if( player_character.male ) {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <male_full_name>!\"" ) );
+        } else {
+            msg = SNIPPET.expand( _( "a robotic voice boom, \"Citizen <female_full_name>!\"" ) );
+        }
     } else if( one_in( 3 ) ) {
-        cname = player_character.name;
+        msg = string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), player_character.name );
+    } else {
+        msg = _( "a robotic voice boom, \"Citizen… database connection lost!\"" );
     }
-    sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                   string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
-                   z->type->id.str() );
+    sounds::sound( z->pos(), 15, sounds::sound_t::alert, msg, false, "speech", z->type->id.str() );
 
     if( player_character.is_armed() ) {
         std::string msg = string_format( _( "\"Drop your %s!  Now!\"" ),
@@ -4124,7 +4221,7 @@ bool mattack::stretch_bite( monster *z )
                                        z->name(),
                                        body_part_name_accusative( hit ) );
 
-        if( one_in( 16 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {
@@ -4505,26 +4602,26 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    for( Creature &creature : g->all_creatures() ) {
-        if( !creature.is_hallucination() ) {
-            if( creature.is_avatar() || creature.is_npc() ) {
-                Character *character = creature.as_character();
-                if( one_in( 20 ) && character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
-                    parrot->sees( *character ) ) {
-                    parrot_common( parrot );
-                    return true;
-                }
+    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot]( Creature * creature ) {
+        if( !creature->is_hallucination() && one_in( 20 ) ) {
+            if( creature->is_avatar() || creature->is_npc() ) {
+                Character *character = creature->as_character();
+                return character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
+                       parrot->sees( *character );
             } else {
-                monster *monster = creature.as_monster();
-                if( one_in( 20 ) && ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                                      ( monster->anger > 0 &&
-                                        monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-                    parrot->sees( *monster ) ) {
-                    parrot_common( parrot );
-                    return true;
-                }
+                monster *monster = creature->as_monster();
+                return ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
+                         ( monster->anger > 0 &&
+                           monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
+                       parrot->sees( *monster );
             }
         }
+        return false;
+    } );
+
+    if( other ) {
+        parrot_common( parrot );
+        return true;
     }
 
     return false;

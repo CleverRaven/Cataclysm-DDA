@@ -17,16 +17,62 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "intensity_levels": [
+      {
+        "name": "bile splatter",
+        "sym": "}",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 1,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "bile stain",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 2,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "puddle of bile",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 3,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
-    "half_life": "1 days",
+    "half_life": "30 minutes",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_acid"
+  },
+  {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
   },
   {
     "id": "fd_gibs_flesh",
@@ -169,15 +215,50 @@
     "type": "field_type",
     "legacy_enum_id": 6,
     "intensity_levels": [
-      { "name": "slime trail", "color": "light_green" },
-      { "name": "slime stain" },
-      { "name": "puddle of slime", "color": "green" }
+      {
+        "name": "slime trail",
+        "color": "light_green",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 1,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "slime stain",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 2,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "puddle of slime",
+        "color": "green",
+        "effects": [
+          {
+            "effect_id": "slippery_terrain",
+            "intensity": 3,
+            "min_duration": "1 second",
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ]
+      }
     ],
     "description_affix": "covered_in",
     "decay_amount_factor": 2,
     "apply_slime_factor": 10,
     "is_splattering": true,
-    "half_life": "1 days",
+    "half_life": "25 minutes",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
@@ -1386,6 +1467,81 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_hallucinogenic_spores",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "hallucinogenic cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the hallucinogenic cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 8,
+        "concentration": 1.5,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "4 minutes",
+            "max_duration": "5 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic acid gas",
+        "color": "green",
+        "translucency": 0,
+        "concentration": 4,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_heavy",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "5 minutes",
+            "max_duration": "6 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground swirling and fracturing from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 3,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "4 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
+  },
+  {
     "id": "fd_cold_air1",
     "type": "field_type",
     "legacy_enum_id": 41,
@@ -1829,5 +1985,13 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_construction_site",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "Construction site", "sym": ".", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true,
+    "looks_like": "fd_shadow"
   }
 ]

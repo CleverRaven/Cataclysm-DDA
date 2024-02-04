@@ -1,13 +1,17 @@
 #include "test_data.h"
 
 #include "flexbuffer_json.h"
+#include "generic_factory.h"
 
 std::set<itype_id> test_data::known_bad;
+std::unordered_set<oter_type_id> test_data::overmap_terrain_coverage_whitelist;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
 std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
 std::map<spawn_type, std::vector<container_spawn_test_data>> test_data::container_spawn_data;
+std::map<std::string, pocket_mod_test_data> test_data::pocket_mod_data;
 std::map<std::string, npc_boarding_test_data> test_data::npc_boarding_data;
+std::vector<bash_test_set> test_data::bash_tests;
 
 void efficiency_data::deserialize( const JsonObject &jo )
 {
@@ -40,12 +44,42 @@ void container_spawn_test_data::deserialize( const JsonObject &jo )
     }
 }
 
+void pocket_mod_test_data::deserialize( const JsonObject &jo )
+{
+    jo.read( "base_item", base_item );
+    jo.read( "mod_item", mod_item );
+    jo.read( "expected_pockets", expected_pockets );
+}
+
 void npc_boarding_test_data::deserialize( const JsonObject &jo )
 {
     jo.read( "vehicle", veh_prototype );
     jo.read( "player_pos", player_pos );
     jo.read( "npc_pos", npc_pos );
     jo.read( "npc_target", npc_target );
+}
+
+void bash_test_loadout::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "strength", strength );
+    mandatory( jo, false, "expected_ability", expected_smash_ability );
+    optional( jo, false, "worn", worn );
+    optional( jo, false, "wielded", wielded, std::nullopt );
+}
+
+void single_bash_test::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "loadout", loadout );
+    optional( jo, false, "furn_tries", furn_tries );
+    optional( jo, false, "ter_tries", ter_tries );
+}
+
+void bash_test_set::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "furn", tested_furn );
+    optional( jo, false, "ter", tested_ter );
+    mandatory( jo, false, "tests", tests );
 }
 
 void test_data::load( const JsonObject &jo )
@@ -56,6 +90,14 @@ void test_data::load( const JsonObject &jo )
         std::set<itype_id> new_known_bad;
         jo.read( "known_bad", new_known_bad );
         known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
+    }
+
+    if( jo.has_array( "overmap_terrain_coverage_whitelist" ) ) {
+        std::unordered_set<oter_type_str_id> new_overmap_terrain_coverage_whitelist;
+        jo.read( "overmap_terrain_coverage_whitelist", new_overmap_terrain_coverage_whitelist );
+        for( const oter_type_str_id &o : new_overmap_terrain_coverage_whitelist ) {
+            overmap_terrain_coverage_whitelist.insert( o.id() );
+        }
     }
 
     if( jo.has_object( "drag_data" ) ) {
@@ -74,6 +116,12 @@ void test_data::load( const JsonObject &jo )
         std::map<itype_id, double> new_expected_dps;
         jo.read( "expected_dps", new_expected_dps );
         expected_dps.insert( new_expected_dps.begin(), new_expected_dps.end() );
+    }
+
+    if( jo.has_object( "bash_test" ) ) {
+        bash_test_set loaded;
+        optional( jo, false, "bash_test", loaded );
+        bash_tests.push_back( loaded );
     }
 
     if( jo.has_object( "spawn_data" ) )  {
@@ -109,6 +157,12 @@ void test_data::load( const JsonObject &jo )
             container_spawn_data[spawn_type::map].insert( container_spawn_data[spawn_type::map].end(),
                     test_map.begin(), test_map.end() );
         }
+    }
+
+    if( jo.has_object( "pocket_mod_data" ) ) {
+        std::map<std::string, pocket_mod_test_data> new_pocket_mod_data;
+        jo.read( "pocket_mod_data", new_pocket_mod_data );
+        pocket_mod_data.insert( new_pocket_mod_data.begin(), new_pocket_mod_data.end() );
     }
 
     if( jo.has_object( "npc_boarding_data" ) ) {

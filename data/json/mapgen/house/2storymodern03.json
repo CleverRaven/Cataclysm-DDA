@@ -102,6 +102,7 @@
         "G": "t_sidewalk"
       },
       "furniture": { "≠": "f_piano", "$": "f_stool", "&": "f_table" },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 4, "chance": 80, "status": 0 } ],
       "items": { "&": { "item": "table_foyer", "chance": 50 } }
     }
   },

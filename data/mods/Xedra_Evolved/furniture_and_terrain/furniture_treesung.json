@@ -1,0 +1,145 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_chair_treesung",
+    "name": "treesung wooden chair",
+    "symbol": "#",
+    "description": "A simple wooden chair with four legs, a seat, and a back.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.  There's even a small branch with a leaf extending from the top.",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_treesung", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 30, 60 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wardrobe_treesung",
+    "name": "treesung wardrobe",
+    "looks_like": "f_dresser",
+    "description": "A very large wooden cabinet for storing clothes, effectively an upright closet.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.  There's even a bit of moss growing on the sides.",
+    "symbol": "{",
+    "color": "i_green",
+    "move_cost_mod": -1,
+    "coverage": 85,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "FLAMMABLE", "ORGANIC", "EASY_DECONSTRUCT", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ],
+    "deconstruct": { "items": [ { "item": "wardrobe_treesung" } ] },
+    "max_volume": "500 L",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 150, 350 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_table_treesung",
+    "name": "treesung table",
+    "description": "A treesung wooden table.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "EASY_DECONSTRUCT", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
+    "deconstruct": { "items": [ { "item": "table_treesung", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bedframe_treesung",
+    "name": "treesung bed frame",
+    "symbol": "#",
+    "description": "A sturdy wooden bed frame built to hold most standard mattresses.  It's all made of a single, solid piece of wood, with twists and curves like it grew in place rather than being made.",
+    "color": "green",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "bedframe_treesung", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "EASY_DECONSTRUCT", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [ { "item": "splinter", "count": [ 50, 150 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_treesung",
+    "name": "bed",
+    "symbol": "#",
+    "description": "A standard mattress on a treesung wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "color": "green",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bedframe_treesung" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "splinter", "count": [ 25, 50 ] },
+        { "item": "sheet_cotton", "count": [ 5, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 8, 15 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_down_treesung",
+    "name": "down bed",
+    "symbol": "0",
+    "description": "A down mattress on a treesung wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ], "furn_set": "f_bedframe_treesung" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "splinter", "count": [ 25, 50 ] },
+        { "item": "sheet_cotton", "count": [ 1, 2 ] },
+        { "item": "cotton_patchwork", "count": [ 10, 15 ] },
+        { "item": "down_feather", "count": [ 45, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  }
+]

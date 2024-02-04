@@ -1,0 +1,188 @@
+[
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_1",
+    "name": { "str": "mannequin skin" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Your skin has turned the color of antique dolls.  Your skin is now a pearlescent white.  This has no gameplay effects.",
+    "types": [ "skin_tone" ],
+    "leads_to": [ "HOMULLUS_SKIN_2" ],
+    "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_2",
+    "name": { "str": "porcelain skin" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": -3,
+    "description": "Your skin has smoothed and all blemishes fade quickly away.  Somewhat reduces wet effects and is tougher but heals a little slower.",
+    "types": [ "SKIN" ],
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "changes_to": [ "HOMULLUS_SKIN_3" ],
+    "healing_multiplier": 0.9,
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "integrated_armor": [ "integrated_porcelain_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SKIN_3",
+    "name": { "str": "latex skin" },
+    "points": 3,
+    "visibility": 10,
+    "ugliness": -6,
+    "mixed_effect": true,
+    "description": "Your skin has become latex like.  It provides some additional protection and attractiveness but heals at a much slower rate.",
+    "types": [ "SKIN" ],
+    "prereqs": [ "HOMULLUS_SKIN_2" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "healing_multiplier": 0.7,
+    "wet_protection": [
+      { "part": "head", "ignored": 5 },
+      { "part": "leg_l", "ignored": 16 },
+      { "part": "leg_r", "ignored": 16 },
+      { "part": "foot_l", "ignored": 5 },
+      { "part": "foot_r", "ignored": 5 },
+      { "part": "arm_l", "ignored": 14 },
+      { "part": "arm_r", "ignored": 14 },
+      { "part": "hand_l", "ignored": 4 },
+      { "part": "hand_r", "ignored": 4 },
+      { "part": "torso", "ignored": 30 }
+    ],
+    "integrated_armor": [ "integrated_latex_skin" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DREAMWALKER",
+    "name": { "str": "Dreamwalker" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
+    "category": [ "HOMULLUS" ],
+    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to find a goblin fruit when in the remnants of civilization.",
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRETTY",
+    "copy-from": "PRETTY",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BEAUTIFUL",
+    "copy-from": "BEAUTIFUL",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BEAUTIFUL2",
+    "copy-from": "BEAUTIFUL2",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BEAUTIFUL3",
+    "copy-from": "BEAUTIFUL3",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_ALPHA",
+    "copy-from": "STR_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP",
+    "copy-from": "DEX_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_2",
+    "copy-from": "DEX_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_ALPHA",
+    "copy-from": "DEX_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP",
+    "copy-from": "INT_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_2",
+    "copy-from": "INT_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_ALPHA",
+    "copy-from": "INT_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP",
+    "copy-from": "PER_UP",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_2",
+    "copy-from": "PER_UP_2",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_ALPHA",
+    "copy-from": "PER_ALPHA",
+    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+  }
+]

@@ -22,7 +22,7 @@
     "id": "GLACIER_MAGE",
     "condition": "ALWAYS",
     "name": { "str": "Stalactite" },
-    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions.  Also your attacks may deal additional cold damage from time to time.",
+    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions, and enemies are often hurt when try to attack you in melee.",
     "//": "push attacks",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
     "hit_you_effect": [ { "id": "glacier_mage_attack", "once_in": 14 } ]

@@ -90,6 +90,15 @@ struct limb_score_effect {
     void deserialize( const JsonObject &jo );
 };
 
+struct effect_dur_mod {
+    efftype_id effect_id;
+    float modifier;
+    bool same_bp;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -232,6 +241,7 @@ class effect_type
         std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
         std::vector<limb_score_effect> limb_score_data;
+        std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
 };
@@ -376,6 +386,8 @@ class effect
 
         // Extract limb score modifiers for descriptions
         std::vector<limb_score_effect> get_limb_score_data() const;
+
+        std::vector<effect_dur_mod> get_effect_dur_scaling() const;
 
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;

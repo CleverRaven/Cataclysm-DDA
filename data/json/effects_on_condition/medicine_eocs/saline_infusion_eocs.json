@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "SALINE_INFUSION",
+    "//volume_of_saline": "Amount of saline the bag has. Converts to 'blood' as 250 ml (2500 units of vitamin) of blood volume for each liter of saline.",
+    "condition": { "expects_vars": [ "volume_of_saline" ] },
+    "effect": [
+      { "math": [ "u_amount_of_saline_infused", "=", "_volume_of_saline" ] },
+      { "u_assign_activity": "ACT_SALINE_INFUSE", "duration": { "math": [ "_volume_of_saline / 0.55555556" ] } },
+      { "u_consume_item": { "context_val": "id" } },
+      {
+        "set_string_var": "<context_val:id>_empty",
+        "target_var": { "context_val": "bag_to_drop" },
+        "parse_tags": true
+      },
+      { "u_spawn_item": { "context_val": "bag_to_drop" }, "suppress_message": true },
+      {
+        "u_message": "You prepare the tubing, insert the needle into a vein, and patiently wait for the saline solution to flow into your bloodstream.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "SALINE_INFUSION_eff",
+    "//": "4 ml of saline per 1 ml of blood, rate 2L/hour.  1 ml of blood = 10 units of vitamin",
+    "//2": "because of do_turn_eoc, effect has some precision loss when calculates the amount of blood compensated, in favor of the player",
+    "effect": [ { "math": [ "u_vitamin('blood')", "+=", "(u_amount_of_saline_infused * ( 10 / 4 )) / 3600" ] } ]
+  }
+]

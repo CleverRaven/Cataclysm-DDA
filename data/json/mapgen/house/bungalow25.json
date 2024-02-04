@@ -1,0 +1,105 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow25",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        ".?---------p............",
+        ".#{{{{{##*o###%%^##o##..",
+        ".#-----|$ L|q#%%##8_t#..",
+        ".#-----|R b|+#oo#Q__So%.",
+        ".#-----|R       +__BB#%.",
+        ".#-----|R  ||+|||||||#..",
+        ".#-----|R y|b zz|D dd#..",
+        ".#-----+  V|    |   ¤#..",
+        ".#-----|  V|&  /|  @@o%.",
+        ".#||||||   ||||||  @@o%.",
+        ".#1_4_y         +   ¤#..",
+        ".o5_7_   s`l`H|+|#oo##..",
+        ".oO_JA   x`l`H| Z#=,,(..",
+        ".#F_J_   s`l`H| Wo=,,(..",
+        "^#3___    ```T|UU#=,,(..",
+        ".#2_66     E |####,,G(..",
+        ".#||||       y#,,,,,K(..",
+        ".#v d|+| `h`` ¶,,,,,K(..",
+        ".#|+|| | hffh o,,,,,G(..",
+        ".#     | `ff` #((,,(((..",
+        ".# @@  | hffh #%........",
+        ".#¤@@¤D|y``h`y#%........",
+        ".##oo#####oo###%........",
+        "........................"
+      ],
+      "terrain": {
+        "_": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "-": "t_concrete",
+        ",": "t_floor_noroof",
+        "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
+        "(": "t_railing_v",
+        "{": "t_door_metal_locked",
+        "?": "t_gates_mech_control",
+        "`": "t_carpet_green",
+        "h": "t_carpet_green",
+        "f": "t_carpet_green",
+        "T": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "K": "t_floor_noroof",
+        "G": "t_floor_noroof"
+      },
+      "furniture": { "$": "f_rack", "&": "f_ergometer", "/": "f_treadmill", "=": "f_rack" },
+      "items": {
+        "=": [ { "item": "sports", "chance": 30 }, { "item": "camping", "chance": 30 } ],
+        "$": { "item": "clothing_outdoor_shoes", "chance": 50 }
+      },
+      "place_loot": [ { "item": "television", "x": 9, "y": 12 } ],
+      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 5, "chance": 15, "status": 80, "rotation": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow25_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        " -------------   -----  ",
+        " -...........-  5-...-  ",
+        " -...........----....-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -....X..............-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...............-----  ",
+        " -.&.............-      ",
+        " -...............-      ",
+        " 5...............-      ",
+        " -............----      ",
+        " -............-         ",
+        " -.......oooo.-         ",
+        " -.......oooo.-         ",
+        " -.......oooo.-         ",
+        " -.......oooo.-         ",
+        " -............-         ",
+        " --------------         ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

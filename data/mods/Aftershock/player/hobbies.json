@@ -1,0 +1,12 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_speed_freak",
+    "name": "Speed Freak",
+    "description": "Were you a mercenary, a criminal, a pirate or a very dedicated adrenaline junkie?  Whatever you were before, now you've got a speed freak rig pumping drugs into your veins 24/7.  Statistically you'll die young, your body burned out by all the drugs, but what other chance did you have to become an immortal legend?  None.",
+    "points": 3,
+    "CBMs": [ "afs_bio_chemical_enhancement_rig", "bio_adrenaline", "bio_metabolics", "bio_power_storage_mkII" ],
+    "skills": [ { "level": 1, "name": "dodge" } ]
+  }
+]

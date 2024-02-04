@@ -1,0 +1,1349 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_ZAP_ENEMIES",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "and": [ { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "4" ] } ] }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_zap_enemies')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_zap_enemies" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_zap_enemies" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could use your powers to charge your skin with electricity, shocking and damaging anyone who strikes you, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_MELEE_ATTACKS",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "5" ] },
+                { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "5" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_melee_attacks')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_melee_attacks" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_melee_attacks" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could channel electricity through your arms while you attack, adding a shock to the blow, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_HACKING_INTERFACE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "4" ] },
+                { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "4" ] },
+                { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_hacking_interface" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_hacking_interface" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could create an electrical interface to hack nearby devices, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_ROBOT_INTERFACE",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "12" ] },
+                { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "8" ] },
+                { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_robot_interface')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_robot_interface" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_robot_interface" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could directly manipulate a nearby robot's circuitry, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PERSONAL_BATTERY",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "5" ] },
+                { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_personal_battery')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_personal_battery" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_personal_battery" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could extend a galvanic charge outward from your skin, charging any compatible devices you're carrying with you, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PARALYSIS",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "6" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "5" ] },
+                    { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "8" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_paralysis')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_paralysis" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_paralysis" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could overload an organic target's nervous system, causing seizures and incapacitating them for a brief period, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_REDUCE_PAIN",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "or": [
+                { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "4" ] },
+                {
+                  "and": [
+                    { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "8" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_reduce_pain')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_reduce_pain" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_reduce_pain" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could use your control over nervous systems to reduce the pain you feel and recover from it faster, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BOLT",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "12" ] },
+                    { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "8" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_lightning_bolt" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could extend your electrical discharges, unleashing blasts of lightning at your enemies, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_RECHARGE_VEHICLE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "9" ] },
+                    { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "7" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "10" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_recharge_vehicle" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_recharge_vehicle" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could charge vehicle or residential batteries instead of just the small ones in portable devices, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_PAIN_IMMUNE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "9" ] } ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_pain_immune')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_pain_immune" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_pain_immune')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_pain_immune" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could block the pain signals in your body entire for a short time, letting you fight on through hideous wounds, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_SPEED_BOOST",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "11" ] },
+                    { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "6" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "5" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_speed_boost')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_speed_boost" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_speed_boost')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_speed_boost" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could enhance your reflexes and synaptic reaction time, both moving and thinking faster, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_KILL_ROBOT",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "13" ] }
+                  ]
+                },
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_kill_robot')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_kill_robot" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_kill_robot" },
+      {
+        "u_message": "Use of your powers has led to an insight.  With a single overwhelming power surge, you could overload and destroy a robotic or cybernetic enemy, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_AURA",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "12" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "15" ] },
+                    { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_lightning_aura')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_lightning_aura" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_lightning_aura')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_aura" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could charge the air around you with so much electricity that lightning would lash out at anyone around you, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BLAST",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "6" ] },
+                    { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", ">=", "10" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "12" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_lightning_blast')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_lightning_blast" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_lightning_blast')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_lightning_blast" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Not only could you hurl a bolt of lightning, but an actual thunderbolt that causes an explosion at the point of impact, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_REVIVE",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_speed_boost')", ">=", "8" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "13" ] },
+                    { "math": [ "u_spell_level('electrokinetic_pain_immune')", ">=", "6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_effect": [
+              "sleep",
+              "effect_psi_learning_new_power",
+              "effect_vitakin_wakeful_resting",
+              "infected",
+              "spores",
+              "taint",
+              "visuals",
+              "hallu",
+              "motor_seizure",
+              "frostbite",
+              "blisters",
+              "formication",
+              "pre_common_cold",
+              "common_cold",
+              "pre_flu",
+              "flu",
+              "pre_conjunctivitis_viral",
+              "conjunctivitis_viral",
+              "pre_conjunctivitis_bacterial",
+              "conjunctivitis_bacterial",
+              "asthma",
+              "brainworms",
+              "bloodworms",
+              "grabbed",
+              "lack_sleep",
+              "sleep_deprived",
+              "under_operation",
+              "zapped",
+              "electrocuted",
+              "anemia",
+              "redcells_anemia",
+              "scurvy",
+              "toxin_buildup",
+              "bad_food_ennui",
+              "hypovolemia",
+              "disabled",
+              "foodpoison",
+              "venom_pain",
+              "venom_dmg",
+              "badpoison",
+              "onfire",
+              "dazed",
+              "stunned"
+            ]
+          }
+        },
+        { "math": [ "u_spell_level('electrokinetic_revive')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_revive" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "ELECTROKINETIC" } }, { "math": [ "u_spell_level('electrokinetic_revive')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_revive" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could charge a corpse's nervous system, manipulating the signals and forcing dead flesh to move and fight for you, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  }
+]

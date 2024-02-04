@@ -50,6 +50,7 @@
         "=": "t_carpet_red",
         "L": "t_carpet_red"
       },
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
       "furniture": { "£": "f_exercise", "$": "f_treadmill", "?": "f_bookcase" },
       "place_loot": [ { "item": "television", "x": 10, "y": 3 }, { "group": "SUS_cooking_bookcase", "x": 16, "y": 8 } ]
     }

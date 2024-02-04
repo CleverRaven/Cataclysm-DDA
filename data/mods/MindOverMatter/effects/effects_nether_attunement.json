@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_disease_psionic_drain",
+    "name": [ "Nether-Attunement" ],
+    "desc": [
+      "You feel a little odd and your control over your powers isn't as sure as it was.  There might be unexpected results of you channeling psionics now."
+    ],
+    "apply_message": [
+      [
+        "You feel a little odd, like you've just awoken from a dream.  All that psionic channeling might have unexpected effects.",
+        "mixed"
+      ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ]
+    ],
+    "remove_message": "You take a deep breath as the strange feelings fade.  You are in full control of your powers once again.",
+    "max_intensity": 12
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_nether_attention",
+    "name": [ "Observed" ],
+    "desc": [ "You have the strong impression that someone, or something, is watching you." ],
+    "remove_message": "The endless feeling of being watched finally fades away.",
+    "rating": "bad",
+    "show_intensity": false,
+    "max_intensity": 10,
+    "max_duration": "21 days",
+    "dur_add_perc": 25,
+    "int_dur_factor": "3 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_health_bonus",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_health_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  }
+]

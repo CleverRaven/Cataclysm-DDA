@@ -235,7 +235,9 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "charges_per_use": 25,
+    "qualities": [ [ "HACK", 2 ] ]
   },
   {
     "id": "geiger_off",
@@ -279,6 +281,33 @@
     },
     "tick_action": [ "GEIGER_ACTIVE" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
+  },
+  {
+    "id": "resonance_measurement_device",
+    "type": "TOOL",
+    "name": { "str": "Otherworldy measuring device" },
+    "description": "This strange contraption appears to be little more than a laminated box built around a battery, a poorly backlit screen, and a wound spool of cloth netting.  The letters \"X E D R A\" are emblazoned on the side.  To operate the device, unfurl the netting and place it around the object to analyze.  Despite not appearing to do anything, it consumes an enormous amount of electricity and provides a brief numerical readout.",
+    "weight": "600 g",
+    "volume": "900 ml",
+    "price": "1500000 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "plastic", "aluminum", "cotton" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 5000,
+    "use_action": [ "MEASURE_RESONANCE" ],
+    "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_atomic_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "nre_recorder",
@@ -374,7 +403,7 @@
       },
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
-    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -421,7 +450,7 @@
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
     "tick_action": [ "EPIC_MUSIC" ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mp3",
@@ -730,6 +759,7 @@
     "type": "TOOL",
     "name": { "str": "UPS (on)", "str_pl": "UPSes (on)" },
     "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
@@ -762,6 +792,7 @@
     "type": "TOOL",
     "name": { "str": "UPS (off)", "str_pl": "UPSes (off)" },
     "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor, and some guns, but drains batteries quickly.  Use it to turn it on.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,

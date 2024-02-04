@@ -1,39 +1,178 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_GOBLIN_FRUIT",
+    "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON",
     "condition": {
       "or": [
-        { "u_is_on_terrain_with_flag": "SHRUB" },
-        { "u_is_on_terrain": "t_tree_young" },
-        { "u_is_on_terrain": "t_bamboo_tall" },
-        { "u_is_on_terrain": "t_dirt" },
-        { "u_is_on_terrain": "t_dirtmound" },
-        { "u_is_on_terrain": "t_clay" },
-        { "u_is_on_terrain": "t_sand" },
-        { "u_is_on_terrain": "t_sandmound" },
-        { "u_is_on_terrain": "t_grave" },
-        { "u_is_on_terrain": "t_forestfloor" },
-        { "u_is_on_terrain": "t_grass" },
-        { "u_is_on_terrain": "t_grass_long" },
-        { "u_is_on_terrain": "t_grass_tall" },
-        { "u_is_on_terrain": "t_grass_dead" },
-        { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-        { "u_is_on_terrain": "t_mud" },
-        { "u_is_on_terrain": "t_dirt_underground" },
-        { "u_is_on_terrain": "t_moss" },
-        { "u_is_on_terrain": "t_rock_floor_no_roof" },
-        { "u_is_on_terrain": "t_rock_floor" },
-        { "u_is_on_terrain": "t_rock_smooth" },
-        { "u_is_on_terrain": "t_rock_wall_half" },
-        { "u_is_on_terrain": "t_mud_underground" },
-        { "u_is_on_terrain": "t_moss_underground" },
-        { "u_is_on_terrain": "t_clay_underground" },
-        { "u_is_on_terrain": "t_sand_underground" },
-        { "u_is_on_terrain": "t_dirt_underground" }
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        {
+          "and": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+            { "not": { "u_is_on_terrain": "t_fungus" } },
+            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+            { "not": { "u_is_on_terrain": "t_swater_surf" } },
+            { "not": { "u_is_on_terrain": "t_woodchips" } }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_ierde_sense_nearby_monsters", "duration": "PERMANENT" } ],
+    "false_effect": [
+      {
+        "u_message": "You must be in contact with the living earth or underground to activate The Soil Knows Those Who Tread Upon It",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF",
+    "effect": [ { "u_lose_effect": "effect_ierde_sense_nearby_monsters" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_ierde_sense_nearby_monsters" },
+        {
+          "or": [
+            { "math": [ "u_val('pos_z')", ">=", "1" ] },
+            {
+              "or": [
+                { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                { "u_is_on_terrain": "t_grass_alien" },
+                { "u_is_on_terrain": "t_vitrified_sand" },
+                { "u_is_on_terrain": "t_pit_corpsed" },
+                { "u_is_on_terrain": "t_fungus" },
+                { "u_is_on_terrain": "t_glassed_sand" },
+                { "u_is_on_terrain": "t_rubber_mulch" },
+                { "u_is_on_terrain": "t_swater_surf" },
+                { "u_is_on_terrain": "t_woodchips" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_deactivate_trait": "IERDE_DETECT_NEARBY_MONSTERS_EARTH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_IRON_ARMOR_SPELL",
+    "condition": {
+      "and": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "ierde_iron_armor_spell_real", "hit_self": true } } ],
+    "false_effect": [ { "u_message": "You must be on living earth or stone to infuse yourself with iron.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SMASHING_PUNCH_activated",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "2",
+          "spell_to_cast": "ierde_smashing_punch_spell",
+          "message_success": "You gather yourself for a moment and strike.",
+          "message_fail": ""
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_NO_SLEEP_MEDITATE_activate",
+    "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "1",
+          "spell_to_cast": "ierde_no_sleep_meditate_spell",
+          "message_success": "You settle down, feeling the ground beneath you, and begin your vigil",
+          "message_fail": ""
+        }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be underground to begin your vigil!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_NO_SLEEP_MEDITATE",
+    "condition": { "or": [ { "math": [ "u_val('fatigue') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "effect": [ { "u_assign_activity": "ACT_IERDE_NO_SLEEP_MEDITATE", "duration": "510 minutes" } ],
+    "false_effect": [ { "u_message": "You're feeling refreshed and have no need to begin a vigil.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_IERDE_NO_SLEEP_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "watching",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "do_turn_eoc": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN",
+    "condition": { "math": [ "u_val('fatigue') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_FATIGUE", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
+    "false_effect": [
+      {
+        "u_message": "You are fully refreshed, and can end your vigil now.",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SLEEP_FATIGUE",
+    "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
+    "effect": [ { "math": [ "u_val('fatigue')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SLEEP_DEPRIVATION",
+    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
   }
 ]

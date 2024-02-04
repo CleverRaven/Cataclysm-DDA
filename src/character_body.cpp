@@ -22,7 +22,9 @@ static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_betablock( "betablock" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blisters( "blisters" );
@@ -106,7 +108,7 @@ void Character::update_body_wetness( const w_point &weather )
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
 
-        const int temp_conv = get_part_temp_conv( bp );
+        const units::temperature temp_conv = get_part_temp_conv( bp );
         // do sweat related tests assuming not underwater
         if( !is_underwater() ) {
             const int wetness = get_part_wetness( bp );
@@ -132,7 +134,10 @@ void Character::update_body_wetness( const w_point &weather )
             }
 
             // Make clothing slow down drying
-            const float clothing_mult = worn.clothing_wetness_mult( bp );
+            const float base_clothing_mult = worn.clothing_wetness_mult( bp );
+            // always some evaporation even if completely covered
+            // doesn't handle things that would be "air tight"
+            const float clothing_mult = std::max( base_clothing_mult, .1f );
 
             const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;
@@ -147,7 +152,7 @@ void Character::update_body_wetness( const w_point &weather )
             // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
             // down to not having a slowdown
             if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
-                mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
+                mod_part_temp_cur( bp, -0.008_C_delta * clothing_mult );
             }
         }
 
@@ -325,7 +330,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_health();
     }
 
-    if( calendar::once_every( 10_minutes ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         update_bloodvol_index();
         update_heartrate_index();
         update_circulation();
@@ -410,9 +415,6 @@ void Character::update_bodytemp()
     weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
-    // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/100
-    int Ctemperature = static_cast<int>( 100 * units::to_celsius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -438,44 +440,53 @@ void Character::update_bodytemp()
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = here.furn( pos() );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
-    // Temperature norms, unit is Celsius/100
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
-    const int ambient_norm = has_sleep ? 3100 : 1900;
+    const units::temperature ambient_norm = has_sleep ? 31_C : 19_C;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
     // Hunger / Starvation
-    // -1000 when about to starve to death
-    // -1333 when starving with light eater
-    // -2000 if you managed to get 0 metabolism rate somehow
+    // -2C when about to starve to death
+    // -2.6666C when starving with light eater
+    // -4C if you managed to get 0 metabolism rate somehow
     const float met_rate = metabolic_rate();
-    const int hunger_warmth = static_cast<int>( 2000 * std::min( met_rate, 1.0f ) - 2000 );
+    const units::temperature_delta hunger_warmth = 4_C_delta * std::min( met_rate, 1.0f ) - 4_C_delta;
     // Give SOME bonus to those living furnaces with extreme metabolism
-    const int metabolism_warmth = static_cast<int>( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
+    const units::temperature_delta metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 2_C_delta;
     // Fatigue
-    // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( clamp( -1.5f * get_fatigue(), -1350.0f,
-                               0.0f ) );
+    // -1.725C when exhausted, scaled up and capped at 900 fatigue.
+    const float scaled_fatigue = clamp( get_fatigue(), 0,
+                                        900 ) / static_cast<float>( fatigue_levels::EXHAUSTED );
+    const units::temperature_delta fatigue_warmth = has_sleep ? 0_C_delta : -1.725_C_delta *
+            scaled_fatigue;
 
     // Sunlight
-    const int sunlight_warmth = !g->is_sheltered( pos() ) ? incident_sun_irradiance(
-                                    get_weather().weather_id, calendar::turn ) * 1.5 : 0;
+    const float scaled_sun_irradiance = incident_sun_irradiance( get_weather().weather_id,
+                                        calendar::turn ) / max_sun_irradiance();
+    const units::temperature_delta sunlight_warmth = !g->is_sheltered( pos() ) ? 3_C_delta *
+            scaled_sun_irradiance :
+            0_C_delta;
     const int best_fire = get_best_fire( pos() );
 
-    const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature = 100 * units::to_celsius(
-                                      get_weather().get_cur_weather_gen().get_water_temperature() );
+    const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0_C_delta;
+    const units::temperature water_temperature =
+        get_weather().get_cur_weather_gen().get_water_temperature();
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
-    const int mutation_heat_low = bodytemp_modifier_traits( true );
-    const int mutation_heat_high = bodytemp_modifier_traits( false );
+    const units::temperature_delta mutation_heat_low = bodytemp_modifier_traits( true );
+    const units::temperature_delta mutation_heat_high = bodytemp_modifier_traits( false );
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
-    const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
+    const units::temperature_delta mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
-    const int h_radiation = units::to_fahrenheit_delta( get_heat_radiation( pos() ) );
+    const units::temperature_delta h_radiation = get_heat_radiation( pos() );
+
+    // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
+    // Blisters arbitrarily scale with the sqrt of the temperature difference in fahrenheit.
+    const int radiation_blister_count = h_radiation > 44_C_delta ? static_cast<int>( std::sqrt(
+                                            units::to_fahrenheit_delta( h_radiation - 44_C_delta ) ) ) : 0;
 
     std::map<bodypart_id, std::vector<const item *>> clothing_map;
     for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -484,7 +495,8 @@ void Character::update_bodytemp()
     // fat insulates and increases total heat production of body, but it should have a diminishing effect.
     // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
     // effects start to kick in halfway through overweightness
-    int bmi_heat_bonus = std::floor( 50 * std::sqrt( std::max( 0.0f, ( get_bmi_fat() - 8.0f ) ) ) );
+    const units::temperature_delta bmi_heat_bonus = 0.1_C_delta * std::sqrt( std::max( 0.0f,
+            ( get_bmi_fat() - 8.0f ) ) );
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
@@ -498,18 +510,17 @@ void Character::update_bodytemp()
             continue;
         }
 
-        // This adjusts the temperature scale to match the bodytemp scale,
-        // it needs to be reset every iteration
-        int adjusted_temp = Ctemperature - ambient_norm;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
-        double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                    get_part_temp_cur( bp ) );
-        // Produces a smooth curve between 30.0 and 60.0.
-        double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth_per_bp[bp] );
-        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment *
-                                             bonus_warmth_per_bp[bp] );
+        const double scaled_temperature = logarithmic_range( units::to_celsius( BODYTEMP_VERY_COLD ),
+                                          units::to_celsius( BODYTEMP_VERY_HOT ),
+                                          units::to_celsius( get_part_temp_cur( bp ) ) );
+        // Produces a smooth curve between 0.06C and 0.12C.
+        const units::temperature_delta homeostasis_adjustment = 0.06_C_delta * ( 1.0 + scaled_temperature );
+        const units::temperature_delta clothing_warmth_adjustment = homeostasis_adjustment *
+                warmth_per_bp[bp];
+        const units::temperature_delta clothing_warmth_adjusted_bonus = homeostasis_adjustment *
+                bonus_warmth_per_bp[bp];
         // WINDCHILL
 
         bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) *
@@ -524,21 +535,33 @@ void Character::update_bodytemp()
         };
 
         // Intrinsic bp warmth is always applied
-        int bp_temp_min = bp->temp_min;
-        int bp_temp_bonus = bp->temp_max - bp_temp_min;
+        const units::temperature_delta bp_temp_min = bp->temp_min;
+        const units::temperature_delta bp_temp_bonus = bp->temp_max - bp_temp_min;
 
+        // Change the ambient temperature into a delta based on our comfortable temperature.
+        units::temperature_delta adjusted_temp = player_local_temp - ambient_norm;
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        // Convert to 0.01C
         if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ||
             ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
-            adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
-            windchill = units::from_kelvin_delta( 0 );
+            adjusted_temp = water_temperature - ambient_norm; // Swap out air temp for water temp.
+            windchill = 0_C_delta;
         }
+
+        // In previous versions, the contribution from ambient normal temperature was calculated in an
+        // arbitrary scale where 100u = 1C, but body temperature was 500u = 1C. We need to scale the
+        // delta down to preserve this bug.
+        adjusted_temp /= 5.0;
+
+        // In previous versions the body temperature calculations mixed units, which caused a lot of bugs.
+        // This results in needing to preserve those bugs for game balance, which is why we are doing this
+        // odd scaling of windchill.
+        const units::temperature_delta bugged_windchill = units::from_celsius_delta(
+                    units::to_fahrenheit_delta( windchill ) * 100.0 / 500.0 );
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
-        int temp = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustment + bp_temp_min +
-                   units::to_fahrenheit_delta( windchill ) * 100;
+        const units::temperature temp = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustment +
+                                        bp_temp_min + bugged_windchill;
         set_part_temp_conv( bp, temp );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
@@ -553,11 +576,9 @@ void Character::update_bodytemp()
         int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
 
         if( get_part_frostbite_timer( bp ) > 0 ) {
-            mod_part_frostbite_timer( bp, -std::max( 5, h_radiation ) );
+            mod_part_frostbite_timer( bp, -std::max( 5.0f, units::to_fahrenheit_delta( h_radiation ) ) );
         }
-        // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
-        blister_count += h_radiation - 111 > 0 ?
-                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
+        blister_count += radiation_blister_count;
 
         const bool pyromania = has_trait( trait_PYROMANIA );
         // BLISTERS : Skin gets blisters from intense heat exposure.
@@ -585,10 +606,10 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, sunlight_warmth );
         // DISEASES
         if( bp == body_part_head && has_effect( effect_flu ) ) {
-            mod_part_temp_conv( bp, 1500 );
+            mod_part_temp_conv( bp, 3_C_delta );
         }
         if( has_common_cold ) {
-            mod_part_temp_conv( bp, -750 );
+            mod_part_temp_conv( bp, -1.5_C_delta );
         }
 
         temp_equalizer( bp, bp->connected_to );
@@ -601,7 +622,7 @@ void Character::update_bodytemp()
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
-        int bonus_fire_warmth = 0;
+        units::temperature_delta bonus_fire_warmth = 0_C_delta;
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             if( bp == body_part_foot_l || bp == body_part_foot_r ) {
@@ -620,19 +641,24 @@ void Character::update_bodytemp()
 
         }
 
-        const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus +
-                                 bp_temp_bonus;
-        if( bonus_warmth > 0 ) {
+        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
+        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+        const double convergence_multiplier = 1 - std::exp( -0.002 );
+
+        const units::temperature_delta comfortable_warmth = bonus_fire_warmth + lying_warmth;
+        const units::temperature_delta bonus_warmth = comfortable_warmth + metabolism_warmth +
+                mutation_heat_bonus + bp_temp_bonus;
+        if( bonus_warmth > 0_C_delta ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = 501 * BODYTEMP_NORM - 499 * get_part_temp_conv( bp );
-            if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
+            const units::temperature_delta delta = ( BODYTEMP_NORM - get_part_temp_conv(
+                    bp ) ) / convergence_multiplier;
+            units::temperature desired = BODYTEMP_NORM + delta;
+            if( units::abs( BODYTEMP_NORM - desired ) < 2_C_delta ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
                 desired = BODYTEMP_HOT; // Cap excess at sane temperature
             }
-
             if( desired < get_part_temp_conv( bp ) ) {
                 // Too hot, can't help here
             } else if( desired < get_part_temp_conv( bp ) + bonus_warmth ) {
@@ -645,7 +671,7 @@ void Character::update_bodytemp()
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
-            if( comfortable_warmth > 0 &&
+            if( comfortable_warmth > 0_C_delta &&
                 calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
@@ -653,39 +679,24 @@ void Character::update_bodytemp()
             }
         }
 
-        const int temp_before = get_part_temp_cur( bp );
-        const int cur_temp_conv = get_part_temp_conv( bp );
-        int temp_difference = temp_before - cur_temp_conv; // Negative if the player is warming up.
-        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
-        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
-        int rounding_error = 0;
-        // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
-        if( temp_difference < 0 && temp_difference > -600 ) {
-            rounding_error = 1;
-        }
-        if( temp_before != cur_temp_conv ) {
-            set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + cur_temp_conv +
-                               rounding_error ) );
-        }
+        const units::temperature temp_before = get_part_temp_cur( bp );
+        const units::temperature cur_temp_conv = get_part_temp_conv( bp );
+        units::temperature_delta temp_difference = cur_temp_conv - temp_before;
 
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if( clothing_warmth_adjusted_bonus != 0 &&
+        if( clothing_warmth_adjusted_bonus > 0_C_delta &&
             ( ( cur_temp_conv + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
               get_part_temp_cur( bp ) < BODYTEMP_COLD ) ) {
             mod_part_temp_conv( bp, clothing_warmth_adjusted_bonus );
-            rounding_error = 0;
-            if( temp_difference < 0 && temp_difference > -600 ) {
-                rounding_error = 1;
-            }
-            const int new_temp_conv = get_part_temp_conv( bp );
-            if( temp_before != new_temp_conv ) {
-                temp_difference = get_part_temp_cur( bp ) - new_temp_conv;
-                set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + new_temp_conv +
-                                   rounding_error ) );
-            }
+            const units::temperature new_temp_conv = get_part_temp_conv( bp );
+            temp_difference = new_temp_conv - get_part_temp_cur( bp );
         }
-        const int temp_after = get_part_temp_cur( bp );
+
+        // Finally apply the temperature changes, subject to decay.
+        set_part_temp_cur( bp, temp_before + temp_difference * convergence_multiplier );
+
+        const units::temperature temp_after = get_part_temp_cur( bp );
         // PENALTIES
         if( temp_after < BODYTEMP_FREEZING ) {
             add_effect( effect_cold, 1_turns, bp, true, 3 );
@@ -775,7 +786,7 @@ void Character::update_bodytemp()
             }
         }
 
-        const int conv_temp = get_part_temp_conv( bp );
+        const units::temperature conv_temp = get_part_temp_conv( bp );
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
         if( conv_temp <= BODYTEMP_COLD && windchill < units::from_fahrenheit_delta( -10 ) &&
@@ -826,7 +837,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     **/
 
     const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
-    const int temp_after = get_part_temp_cur( bp );
+    const units::temperature temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
         bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
@@ -929,10 +940,22 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
+        // For vitamins, normal vitamins go through guts.
+        // However, drug vitamins skip guts and get absorbed directly into the body.
+        for( const auto &vitamin : digested_to_guts.nutr.vitamins() ) {
+            // collect all drug vitamins in a map
+            std::map<vitamin_id, int> drug_vitamins;
+            const vitamin_type &vitamin_type = vitamin.first->type();
+            if( vitamin_type == vitamin_type::DRUG ) {
+                drug_vitamins[vitamin.first] = vitamin.second;
+            }
+            vitamins_mod( effect_vitamin_mod( drug_vitamins ) );
+        }
+
         guts.ingest( digested_to_guts );
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
-        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins ) );
+        vitamins_mod( effect_vitamin_mod( digested_to_body.nutr.vitamins() ) );
         log_activity_level( activity_history.average_activity() );
 
         if( !foodless && rates.hunger > 0.0f ) {
@@ -1315,6 +1338,21 @@ float Character::get_heartrate_index() const
     return heart_rate_index;
 }
 
+void Character::set_heartrate_effect_mod( int mod )
+{
+    heart_rate_effect_mod = mod;
+}
+
+void Character::modify_heartrate_effect_mod( int mod )
+{
+    heart_rate_effect_mod += mod;
+}
+
+int Character::get_heartrate_effect_mod() const
+{
+    return heart_rate_effect_mod;
+}
+
 void Character::update_heartrate_index()
 {
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
@@ -1349,23 +1387,72 @@ void Character::update_heartrate_index()
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) >
             10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
-            hr_nicotine_mod = 0.4f;
+            hr_nicotine_mod = 0.2f;
         } else {
             hr_nicotine_mod = 0.1f;
         }
     }
-    // Todo: Implement cardio effect (lowers HR?)
-    float hr_health_mod = 0;
+    // ********************
+    // diff ratio goes from 3.0 to 1.0. This should correspond to a natural decrease of around 20% bpm at max fitness.
+    // however this ratio should also increase cardiac output, as the heart is more efficient. So lower bpm, same CO.
+    //const float cardio_fit = get_cardiofit();
+    //const float max_cardio_fit = get_cardio_acc_base();
+    //const float diff = max_cardio_fit / cardio_fit;
+    //const float hr_health_mod = ( diff - 3.0f ) * 0.1f;
+    // ********************
+    //  EDIT: It is a better idea to change the actual avg_nat_bpm that this index is multiplied by, rather than changing this index.
+    //  This way, it won't have any direct health effects, which makes more sense.
+    //  I am leaving the code above commented in case anyone thinks it should be restored.
 
-    //Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
+    // Pain simply adds 1% per point after it reaches 5 (that's arbitrary)
     // this seems weird -- A character with brachycardia shouldn't be able to just hurt themselves to fix it.
     const int cur_pain = get_perceived_pain();
     float hr_pain_mod = 0.0f;
     if( cur_pain > 5 ) {
         hr_pain_mod = 0.01 * ( cur_pain - 5 );
     }
-    // TODO: Add support for adrenaline trait
-    const float hr_trait_mod = 0.0f;
+    // clamp to a reasonable 30% increase in heart rate.
+    if( hr_pain_mod > 0.3f ) {
+        hr_pain_mod = 0.3f;
+    }
+
+    float hr_adrenaline_mod = 0.0f;
+    if( has_effect( effect_adrenaline ) ) {
+        const int adrenaline_level = get_effect_int( effect_adrenaline );
+        // at adrenaline level 0, do nothing.
+        // at adrenaline level 1, decrease heart rate by 10% (comedown).
+        // at adrenaline level 2, increase heart rate by 20% (woooo!).
+        if( adrenaline_level == 1 ) {
+            hr_adrenaline_mod = -0.1f;
+        } else if( adrenaline_level == 2 ) {
+            hr_adrenaline_mod = 0.2f;
+        }
+    }
+
+    // if under the effect of a betablocker, decrease hr_adrenaline_mod and hr_pain_mod
+    if( has_effect( effect_betablock ) ) {
+        const int betablock_level = get_effect_int( effect_betablock );
+        // at betablock level 1, reduce by 60%
+        // at betablock level 2, 80%.
+        // at betablock level 3, 100%.
+        float betablock_mod = 1.0f;
+        if( betablock_level == 1 ) {
+            betablock_mod = 0.4f;
+        } else if( betablock_level == 2 ) {
+            betablock_mod = 0.2f;
+        } else if( betablock_level == 3 ) {
+            betablock_mod = 0.0f;
+        }
+        hr_adrenaline_mod *= betablock_mod;
+        hr_pain_mod *= betablock_mod;
+    }
+
+    // activity mods are "non-direct" and should not affect heart rate that much. Clamp their effect to 70%.
+    // this means you cannot actually have serious tachycardia by just working out too much while in pain.
+    float hr_activity_mods = hr_adrenaline_mod + hr_pain_mod + hr_stamina_mod;
+    if( hr_activity_mods > 0.7f ) {
+        hr_activity_mods = 0.7f;
+    }
 
     // TODO: implement support for HR increasing to compensate for low BP.
     // it seems that heart rate and blood pressure changes are not linear - the heart is unreasonably efficient at
@@ -1375,9 +1462,13 @@ void Character::update_heartrate_index()
     // index change as blood vessels dilate. In other words, your blood pressure doesn't double when you're exercising.
     const float hr_bp_loss_mod = 0.0f;
 
-    heart_rate_index = 1.0f + hr_temp_mod + hr_stamina_mod + hr_stim_mod + hr_nicotine_mod +
-                       hr_health_mod + hr_pain_mod + hr_trait_mod + hr_bp_loss_mod;
-    // update_circulation();
+    const int effect_mod = get_heartrate_effect_mod();
+    // heartrate effect is an integer.  Div by 10000 currently.(HR mod of 200 in JSON becomes 2%).
+    constexpr float HR_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    const float hr_effect_mod = effect_mod * HR_EFFECT_INT_TO_FLOAT_MULT;
+
+    heart_rate_index = 1.0f + hr_temp_mod + hr_activity_mods + hr_stim_mod + hr_nicotine_mod
+                       + hr_bp_loss_mod + hr_effect_mod;
 }
 
 float Character::get_bloodvol_index() const
@@ -1385,12 +1476,12 @@ float Character::get_bloodvol_index() const
     return blood_vol_index;
 }
 
+
 void Character::update_bloodvol_index()
 {
     // vitamin_blood ranges from -50k(death) to 0(no hypovolemia).
     blood_vol_index = 1.0f - ( static_cast<float>( vitamin_get( vitamin_blood ) ) / static_cast<float>
                                ( vitamin_blood->min() ) );
-    // update_circulation();
 }
 
 float Character::get_circulation_resistance() const
@@ -1398,21 +1489,78 @@ float Character::get_circulation_resistance() const
     return circulation_resistance;
 }
 
-void Character::set_circulation_resistance( float ncirculation_resistance )
+void Character::set_bp_effect_mod( int mod )
 {
-    circulation_resistance = ncirculation_resistance;
-    update_circulation();
+    bp_effect_mod = mod;
+}
+
+void Character::modify_bp_effect_mod( int mod )
+{
+    bp_effect_mod += mod;
+}
+
+int Character::get_bp_effect_mod() const
+{
+    return bp_effect_mod;
+}
+
+void Character::update_circulation_resistance()
+{
+    const int bp_effect_mod = get_bp_effect_mod();
+    constexpr float BP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    const float bp_item_effect_mod = bp_effect_mod * BP_EFFECT_INT_TO_FLOAT_MULT;
+
+    // should also be affected by stance.
+    // DOI: 10.1111/j.1365-2702.2005.01494.x
+    // when prone, 8% higher than standing.
+    float bp_stance_mod = 0.0f;
+    if( is_prone() ) {
+        bp_stance_mod = 0.08f;
+    }
+
+    circulation_resistance = 1.0f + bp_item_effect_mod + bp_stance_mod;
 }
 
 void Character::update_circulation()
 {
+    update_circulation_resistance();
     circulation = get_bloodvol_index() * get_heartrate_index() * get_circulation_resistance();
-    // Incredibly annoying debug function - don't forget to comment out before merge!
+    //Incredibly annoying debug function - don't forget to comment out before merge!
     //if( circulation < 0.8 ) {
-    //    debugmsg( "Low blood pressure: " + std::to_string( circulation ) + " " + std::to_string(
+    //    debugmsg( "Low blood pressure: " + std::to_string(circulation_resistance) + " " + std::to_string(
     //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
     //} else if( circulation > 2.0 ) {
-    //    debugmsg( "High blood pressure" + std::to_string( circulation ) + " " + std::to_string(
+    //    debugmsg( "High blood pressure" + std::to_string(circulation_resistance) + " " + std::to_string(
     //                  get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
     //}
+
+    //debugmsg( "Blood INFO: " + std::to_string( circulation_resistance ) + " " + std::to_string(
+    //              get_bloodvol_index() ) + " " + std::to_string( get_heartrate_index() ) );
+}
+
+float Character::get_respiration_rate() const
+{
+    return respiration_rate;
+}
+
+int Character::get_respiration_effect_mod() const
+{
+    return resp_rate_effect_mod;
+}
+
+void Character::modify_respiration_effect_mod( int mod )
+{
+    resp_rate_effect_mod += mod;
+}
+
+void Character::set_respiration_effect_mod( int mod )
+{
+    resp_rate_effect_mod = mod;
+}
+
+void Character::update_respiration_rate()
+{
+    const int effect_mod = get_respiration_effect_mod();
+    constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
+    respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
 }

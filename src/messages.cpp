@@ -8,7 +8,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "panels.h"
@@ -24,26 +24,27 @@
 #endif
 #include <algorithm>
 #include <deque>
-#include <functional>
 #include <iterator>
 #include <memory>
 #include <string>
 
 #include "options.h"
 
+static const efftype_id effect_weed_high( "weed_high" );
+
 namespace
 {
 
 struct game_message {
     std::string       message;
-    time_point timestamp_in_turns  = calendar::turn_zero;
+    time_point timestamp_in_turns = calendar::turn_zero;
     int               timestamp_in_user_actions = 0; // NOLINT(cata-serialize)
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
     unsigned cooldown_seen = 1; // NOLINT(cata-serialize)
     // hide the message, because at some point it was in cooldown period.
     bool cooldown_hidden = false; // NOLINT(cata-serialize)
-    game_message_type type  = m_neutral;
+    game_message_type type = m_neutral;
 
     game_message() = default;
     game_message( std::string &&msg, game_message_type const t ) :
@@ -94,7 +95,7 @@ struct game_message {
         return c_dark_gray;
     }
 
-    void deserialize( const JsonObject &obj )  {
+    void deserialize( const JsonObject &obj ) {
         obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
@@ -178,6 +179,8 @@ class messages_impl
                 return;
             }
 
+            modify_msg_with_exclamations( msg, type );
+
             game_message m = game_message( std::move( msg ), type );
 
             refresh_cooldown( m, flags );
@@ -236,6 +239,113 @@ class messages_impl
             // If the current message is in the cooldown range then hide it.
             if( cm_turn <= max_cooldown_range ) {
                 message.cooldown_hidden = true;
+            }
+        }
+
+        void modify_msg_with_exclamations( std::string &msg, game_message_type const type ) {
+            // add smileys to messages if the player is high on weed
+            Character *p_char = &get_player_character();
+            if( !p_char->has_effect( effect_weed_high ) ) {
+                return;
+            }
+
+            const time_duration weed_dur = p_char->get_effect_dur( effect_weed_high );
+            const float in_minutes = to_minutes<float>( weed_dur );
+            // we will now calculate how often smiley faces should appear in messages.
+            // Slowly rises. 0 at 0, 1 at 22.5, 2 at 45 mins. Asymptote at 3.
+            const float max_per_msg = 3 - 3 / ( 1 + 0.001 * in_minutes * in_minutes );
+            //possible values for smiles_for_this_msg are 0,1,2,3.
+            int smiles_for_this_msg = static_cast<int>( round( rng_normal( 0, max_per_msg ) ) );
+
+            // now insert the smiley face somewhere in the msg string. We want to avoid breaking up words, so we will only replace spaces.
+            // find all suitable locations for smiley. That is, end of message + all spaces (except after certain words)
+            std::vector<size_t> smiley_locations;
+            // we also need to track space locations to extract words properly. Annoying but necessary.
+            std::vector<size_t> space_locations;
+
+            // end of msg
+            smiley_locations.push_back( msg.size() );
+            // now all spaces
+            for( size_t j = 0; j < msg.size(); j++ ) {
+                if( msg[j] == ' ' ) {
+                    bool wordskip = false;
+                    // fancy logic. It's weird if the smiley comes after "to" or "that" or "a". Let's try and skip words like those.
+                    // We skip all short words (<=3 letters), and all words in the forbidden_words array.
+                    if( !space_locations.empty() ) {
+                        const size_t prev_space = space_locations.back();
+                        // if prev_space is the previous char, skip
+                        if( prev_space == j - 1 ) {
+                            wordskip = true;
+                        }
+                        // check that smiley_locations.back() did not return none
+                        if( prev_space != std::string::npos ) {
+                            const std::string word = msg.substr( prev_space, j - prev_space );
+                            const std::array<std::string, 6> forbidden_words = { " that", " with", " this", " over", " your", " onto" };
+                            for( const std::string &forbidden_word : forbidden_words ) {
+                                if( word == forbidden_word ) {
+                                    wordskip = true;
+                                    break;
+                                }
+                            }
+                            if( word.size() > 1 && word.size() <= 4 ) {
+                                wordskip = true;
+                            }
+                        }
+                    } else {
+                        // skip very first word
+                        wordskip = true;
+                    }
+                    space_locations.push_back( j );
+                    if( !wordskip ) {
+                        smiley_locations.push_back( j );
+                    }
+                }
+            }
+            // first, check if smiles_for_this_msg == len(smiley_locations)
+            if( smiles_for_this_msg >= static_cast<int>( smiley_locations.size() ) ) {
+                smiles_for_this_msg = static_cast<int>( smiley_locations.size() ) - 1;
+            }
+            // then pick one at random
+            for( int i = 0; i < smiles_for_this_msg; i++ ) {
+                const size_t smiley_location = random_entry_removed( smiley_locations );
+                std::string smiley_string = " :)";
+                if( type == m_good || type == m_critical ) {
+                    if( one_in( 5 ) ) {
+                        smiley_string = " :D";
+                    }
+                }
+                msg.insert( smiley_location, smiley_string );
+                //for( size_t j = 0; j < smiley_locations.size(); j++ ) {
+                // modernize-loop-convert. Use range-based for loop instead.
+                for( size_t &smil_loc : smiley_locations ) {
+                    if( smil_loc > smiley_location ) {
+                        // we increment to account for the insertion of the smiley string
+                        smil_loc += 3;
+                    }
+                }
+            }
+
+            // if we are *very* high, there will be a chance to finish a long message with an exclamation
+            if( smiles_for_this_msg > 1 ) {
+                int woah_chance = static_cast<int>( 10 / smiles_for_this_msg );
+                if( msg.size() > 16 && one_in( woah_chance ) ) {
+                    std::vector<std::string> exclamations = {
+                        "Woah.", "Dude."
+                    };
+                    std::vector<std::string> good_exclamations = {
+                        "Cool!", "Wicked!", "Awesome!"
+                    };
+                    std::vector<std::string> bad_exclamations = {
+                        "Not cool.", "Oof.", "Bummer."
+                    };
+                    if( type == m_good || type == m_critical || type == m_headshot ) {
+                        msg += " " + random_entry( good_exclamations );
+                    } else if( type == m_bad || type == m_grazing ) {
+                        msg += " " + random_entry( bad_exclamations );
+                    } else {
+                        msg += " " + random_entry( exclamations );
+                    }
+                }
             }
         }
 
@@ -316,6 +426,11 @@ std::vector<std::pair<std::string, std::string>> Messages::recent_messages( cons
     return player_messages.recent_messages( count );
 }
 
+bool Messages::has_debug_filter( debugmode::debug_filter type )
+{
+    return debug_mode && debugmode::enabled_filters.count( type ) == 1;
+}
+
 void Messages::serialize( JsonOut &json )
 {
     json.member( "player_messages" );
@@ -344,18 +459,6 @@ void Messages::add_msg( std::string msg )
 void Messages::add_msg( const game_message_params &params, std::string msg )
 {
     player_messages.add_msg_string( std::move( msg ), params );
-}
-
-void Messages::add_msg_debug( debugmode::debug_filter type, std::string msg )
-{
-    if( debug_mode &&
-        std::find(
-            debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-            type ) == debugmode::enabled_filters.end() ) {
-        return;
-    }
-
-    player_messages.add_msg_string( std::move( msg ), m_debug );
 }
 
 void Messages::clear_messages()
@@ -901,11 +1004,6 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
-void add_msg_debug( debugmode::debug_filter type, std::string msg )
-{
-    Messages::add_msg_debug( type, std::move( msg ) );
-}
-
 void add_msg_if_player_sees( const tripoint &target, std::string msg )
 {
     if( get_player_view().sees( target ) ) {
@@ -933,21 +1031,5 @@ void add_msg_if_player_sees( const Creature &target, const game_message_params &
 {
     if( get_player_view().sees( target ) ) {
         Messages::add_msg( params, std::move( msg ) );
-    }
-}
-
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   std::string msg )
-{
-    if( get_player_view().sees( target ) ) {
-        Messages::add_msg_debug( type, std::move( msg ) );
-    }
-}
-
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   std::string msg )
-{
-    if( get_player_view().sees( target ) ) {
-        Messages::add_msg_debug( type, std::move( msg ) );
     }
 }

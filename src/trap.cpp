@@ -168,7 +168,9 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "sound_threshold", sound_threshold );
@@ -367,13 +369,27 @@ bool trap::is_funnel() const
 
 bool trap::has_sound_trigger() const
 {
-    return !is_null() && sound_threshold > 0;
+    const bool has_sound_thresh = sound_threshold.first > 0 && sound_threshold.second > 0;
+    return !is_null() && has_sound_thresh;
 }
 
 bool trap::triggered_by_sound( int vol, int dist ) const
 {
     const int volume = vol - dist;
-    return !is_null() && volume >= sound_threshold;
+    // now determine sound threshold probabilities
+    // linear model: 0% below sound_min, 25% at sound_min, 100% at sound_max
+    const int sound_min = sound_threshold.first;
+    const int sound_max = sound_threshold.second;
+    const int sound_range = sound_max - sound_min;
+    if( volume < sound_min ) {
+        return false;
+    }
+    int sound_chance = 100;
+    if( sound_range > 0 ) {
+        sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
+    }
+    //debugmsg("Sound chance: %d%%", sound_chance);
+    return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const

@@ -1,0 +1,179 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be on natural earth or stone or underground",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "IERDE" },
+        {
+          "u_has_any_trait": [
+            "IERDE_STOMP_GROUND_SMASH",
+            "IERDE_CREATE_PITS",
+            "IERDE_SUMMON_EARTH_ELEMENTAL",
+            "IERDE_CULTIVATE_GOBLIN_FRUIT",
+            "PARACLESIAN_MAKE_GOSSAMER"
+          ]
+        },
+        {
+          "or": [
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            },
+            { "u_at_om_location": "ierde_genius_loci_NW" },
+            { "u_at_om_location": "ierde_genius_loci_NE" },
+            { "u_at_om_location": "ierde_genius_loci_SW" },
+            { "u_at_om_location": "ierde_genius_loci_SE" }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "IERDE" } },
+    "effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Ierde knows. Probability is [11-Difficulty]",
+    "condition": {
+      "or": [
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] },
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_LEVELER_IERDE_STOMP_GROUND_SMASH", 8 ],
+        [ "EOC_LEVELER_IERDE_CREATE_PITS", 7 ],
+        [ "EOC_LEVELER_IERDE_IRON_ARMOR", 6 ],
+        [ "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT", 8 ],
+        [ "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT", 3 ],
+        [ "EOC_LEVELER_IERDE_MAKE_GOSSAMER", 4 ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_STOMP_GROUND_SMASH",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_stomp_ground_smash_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_CREATE_PITS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_create_pits_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_create_pits_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_IRON_ARMOR",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_iron_armor_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_iron_armor_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_summon_earth_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  }
+]

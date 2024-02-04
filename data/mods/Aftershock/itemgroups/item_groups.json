@@ -99,19 +99,19 @@
     "id": "consumer_electronics",
     "type": "item_group",
     "copy-from": "consumer_electronics",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_imager", 2 ], [ "atomic_light", 4 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_imager", 2 ], [ "atomic_light", 4 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "electronics",
     "type": "item_group",
     "copy-from": "electronics",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_imager", 2 ], [ "atomic_light", 2 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_imager", 2 ], [ "atomic_light", 2 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "lab_dorm",
     "type": "item_group",
     "copy-from": "lab_dorm",
-    "extend": { "items": [ [ "afs_atomic_smartphone", 5 ], [ "atomic_light", 3 ] ] }
+    "extend": { "items": [ [ "afs_atomic_smartphone", 5 ], [ "atomic_light", 3 ], [ "STEED_registry", 1 ] ] }
   },
   {
     "id": "subway",
@@ -343,6 +343,7 @@
       { "group": "afs_scrapgroup", "count": [ 1, 3 ], "prob": 30 },
       { "group": "exoticplants", "count": [ 1, 3 ], "prob": 30 },
       { "group": "science", "count": [ 1, 3 ], "prob": 30 },
+      { "group": "afs_exo_basic_accessories", "count": 1, "prob": 15 },
       { "item": "subsuit_xl" }
     ]
   },
@@ -448,8 +449,8 @@
     "id": "afs_exo_basic_power",
     "type": "item_group",
     "items": [
-      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 50, 100 ] },
-      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 50, 100 ] },
+      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 200, 300 ] },
+      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 200, 300 ] },
       { "item": "exo_aux_power", "prob": 25, "charges": [ 50, 100 ] },
       { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
     ]
@@ -458,8 +459,8 @@
     "id": "afs_exo_advanced_power",
     "type": "item_group",
     "items": [
-      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 50, 100 ] },
-      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 50, 100 ] },
+      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 200, 300 ] },
+      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 200, 300 ] },
       { "item": "exo_asrg", "prob": 10 },
       { "item": "exo_aux_power", "count": [ 0, 1 ], "prob": 25, "charges": [ 50, 100 ] },
       { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
@@ -500,6 +501,42 @@
       { "group": "afs_exo_basic_accessories", "prob": 75 },
       { "group": "afs_exo_basic_accessories", "prob": 75 },
       { "group": "afs_power_tools", "prob": 75 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_security",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_exo_combat_underlayer", "prob": 75 },
+      { "item": "afs_exo_standard_underlayer", "prob": 25 },
+      { "item": "afs_exo_hazard_underlayer", "prob": 10 },
+      { "item": "exo_helmet_steel", "prob": 90 },
+      { "item": "exo_torso_steel", "prob": 90 },
+      { "item": "exo_arm_steel", "prob": 90 },
+      { "item": "exo_leg_steel", "prob": 90 },
+      { "item": "exo_sonic_unit", "prob": 60 },
+      { "item": "exo_microwave_cannon", "prob": 60 },
+      { "item": "afs_cartridge", "count": [ 0, 4 ], "prob": 95, "charges": [ 50, 100 ] },
+      { "group": "afs_exo_basic_power", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_military",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit", "prob": 5 },
+      { "item": "afs_exo_combat_underlayer", "prob": 75 },
+      { "item": "afs_exo_hazard_underlayer", "prob": 25 },
+      { "item": "exo_helmet_vcc", "prob": 90 },
+      { "item": "exo_torso_vcc", "prob": 90 },
+      { "item": "exo_arm_vcc", "prob": 90 },
+      { "item": "exo_leg_vcc", "prob": 90 },
+      { "item": "exo_electrolaser", "prob": 15 },
+      { "item": "exo_flame_thrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
+      { "item": "afs_cartridge", "count": [ 2, 6 ], "prob": 95, "charges": [ 50, 100 ] },
+      { "group": "afs_exo_advanced_power", "prob": 25 }
     ]
   }
 ]

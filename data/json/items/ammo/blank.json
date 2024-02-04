@@ -5,6 +5,7 @@
     "type": "AMMO",
     "name": { "str_sp": ".22 blank" },
     "description": "A powder load .22 blank used for powder actuated tools.",
+    "ascii_picture": "22_blank",
     "price": 100,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

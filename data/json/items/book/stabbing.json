@@ -9,50 +9,43 @@
       {
         "id": "mag_stabbing",
         "name": { "str": "Duelist's Annual", "str_pl": "issues of Duelist's Annual" },
-        "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
-        "weight": 1
+        "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form."
       },
       {
         "id": "mag_stabbing_1",
         "name": { "str": "Fencer's Start-Up", "str_pl": "copies of Fencer's Start-Up" },
         "description": "A beginner's guide to traditional and sport fencing - rules, proper defense and offense, movement, etc.",
-        "//": "978-1884654770",
-        "weight": 1
+        "//": "978-1884654770"
       },
       {
         "id": "mag_stabbing_2",
         "name": { "str": "Learning Fencing", "str_pl": "copies of Learning Fencing" },
         "description": "A childish book about fencing, where the mascot Foily guides the reader through the different nuances of fencing with lots of photos and images.",
-        "//": "978-1782551133",
-        "weight": 1
+        "//": "978-1782551133"
       },
       {
         "id": "mag_stabbing_3",
         "name": { "str": "The Complete Guide to Fencing", "str_pl": "copies of The Complete Guide to Fencing" },
         "description": "A thick book, written by professional fencers, that covers every possible aspect of modern sport fencing.",
-        "//": "978-1782551119",
-        "weight": 1
+        "//": "978-1782551119"
       },
       {
         "id": "mag_stabbing_4",
         "name": { "str": "Fencing: Skills, Tactics, Training", "str_pl": "copies of Fencing: Skills, Tactics, Training" },
         "description": "A textbook for fence instructors that fulfills every aspect a fencer must know, from the very basics to a master level, from theory to drill training exercises.",
-        "//": "978-1847973054",
-        "weight": 1
+        "//": "978-1847973054"
       },
       {
         "id": "mag_stabbing_5",
         "name": { "str": "Modern Saber Fencing", "str_pl": "copies of Modern Saber Fencing" },
         "description": "This book highlights the modern technologies used in fencing, with new possible techniques and scientific research that underlies the latest training methods.",
-        "//": "978-0978902230",
-        "weight": 1
+        "//": "978-0978902230"
       },
       {
         "id": "mag_stabbing_6",
         "name": { "str": "Fencing: A Renaissance Treatise", "str_pl": "copies of Fencing: A Renaissance Treatise" },
         "description": "An ancient treatise explaining the fundamental ideas of fencing that are still used today - distance, time, line, blade opposition, counterattacks, countertime, etc.",
-        "//": "978-1599101293",
-        "weight": 1
+        "//": "978-1599101293"
       }
     ],
     "weight": "80 g",
@@ -79,8 +72,7 @@
       {
         "id": "manual_stabbing",
         "name": { "str": "FM 23-25 Army bayonet manual", "str_pl": "copies of FM 23-25 Army bayonet manual" },
-        "description": "A hefty military field manual about bayonet usage and combat theory.",
-        "weight": 1
+        "description": "A hefty military field manual about bayonet usage and combat theory."
       },
       {
         "id": "manual_stabbing_1",
@@ -89,8 +81,7 @@
           "str_pl": "copies of The Halberd and Other European Pole Arms, 1300-1650"
         },
         "description": "Small, but comprehensive introduction to the pole arms of medieval Europe: from the simple pike, through the halberd in its many forms, to the roncone, bardiche, and many others.",
-        "//": "9780919316386",
-        "weight": 1
+        "//": "9780919316386"
       },
       {
         "id": "manual_stabbing_2",
@@ -99,15 +90,13 @@
           "str_pl": "copies of Boarders Away: With Steel-Edged Weapons and Polearms"
         },
         "description": "An all-encompassing study of naval armament under fighting sail.  This volume covers pikes and fighting blades in use between 1626 and 1826.",
-        "//": "978-0917218507",
-        "weight": 1
+        "//": "978-0917218507"
       },
       {
         "id": "manual_stabbing_3",
         "name": { "str": "Polearms of Paulus Hector Mair", "str_pl": "copies of Polearms of Paulus Hector Mair" },
         "description": "The summarized and preserved experience of Paulus Hector Mair, an ancient German fencing master, using spears, lances, halberds, poleaxes, and similar weapons.",
-        "//": "978-1648371059",
-        "weight": 1
+        "//": "978-1648371059"
       },
       {
         "id": "manual_stabbing_4",
@@ -116,15 +105,13 @@
           "str_pl": "copies of Hafted Weapons in Medieval and Renaissance Europe"
         },
         "description": "Research about the long history of a huge variety of weapons in medieval times, with lots of illustrations.",
-        "//": "978-9004144095",
-        "weight": 1
+        "//": "978-9004144095"
       },
       {
         "id": "manual_stabbing_5",
         "name": { "str": "Japanese Spears", "str_pl": "copies of Japanese Spears" },
         "description": "A fully illustrated guide to the use of polearms, ranging from the earliest halberds and spears reaching Japan from the Asian mainland to the sophisticated naginata, nagamaki, and various forms of yari used by the Japanese samurai through the medieval period.",
-        "//": "978-1901903560",
-        "weight": 1
+        "//": "978-1901903560"
       }
     ],
     "weight": "454 g",
@@ -150,63 +137,54 @@
       {
         "id": "manual_knives",
         "name": { "str": "Spetsnaz Knife Techniques", "str_pl": "copies of Spetsnaz Knife Techniques" },
-        "description": "A classic Soviet text on the art of attacking with a blade.",
-        "weight": 1
+        "description": "A classic Soviet text on the art of attacking with a blade."
       },
       {
         "id": "manual_knives_1",
         "name": { "str": "Knife Fighting Targets", "str_pl": "copies of Knife Fighting Targets" },
         "description": "Simple, practical and useful martial art techniques to use in a fight.  On the first page the author says they will not be held responsible for any harm caused by using advice from this book.",
-        "//": "978-1941845646",
-        "weight": 1
+        "//": "978-1941845646"
       },
       {
         "id": "manual_knives_2",
         "name": { "str": "Book of Knives", "str_pl": "copies of Book of Knives" },
         "description": "Authored by a state trooper and policeman from Michigan, it contains a lot of experience on real fights with a knife and against a knife.",
-        "//": "978-1451637557",
-        "weight": 1
+        "//": "978-1451637557"
       },
       {
         "id": "manual_knives_3",
         "name": { "str": "The Ka-Bar Knife Combat Manual", "str_pl": "copies of The Ka-Bar Knife Combat Manual" },
         "description": "This manual teaches the reader to use the Ka-Bar, an iconic knife of the U.S. Army that carries the energy and spirit of soldiers.",
-        "//": "978-1678011840",
-        "weight": 1
+        "//": "978-1678011840"
       },
       {
         "id": "manual_knives_4",
         "name": { "str": "Put 'Em Down, Take 'Em Out!", "str_pl": "copies of Put 'Em Down, Take 'Em Out!" },
         "description": "\"Knife Fighting Techniques From Folsom Prison\".  This book describe fighting with a shiv in the tight walls of a jail.",
-        "//": "978-0873644846",
-        "weight": 1
+        "//": "978-0873644846"
       },
       {
         "id": "manual_knives_5",
         "name": { "str": "Queen of Knives", "str_pl": "copies of Queen of Knives" },
-        "description": "A small, femme-oriented manual about self-defense with knife.",
-        "weight": 1
+        "description": "A small, femme-oriented manual about self-defense with knife."
       },
       {
         "id": "manual_knives_6",
         "name": { "str": "Secrets of the Karambit", "str_pl": "copies of Secrets of the Karambit" },
         "description": "This book aspires to describe and explain the history, design, materials, and demonstrate deployment and drills with the unusual Indonesian weapon known as the karambit knife.  The final impression is disappointing.",
-        "//": "978-1530527953",
-        "weight": 1
+        "//": "978-1530527953"
       },
       {
         "id": "manual_knives_7",
         "name": { "str": "Combat Knives and Knife Combat", "str_pl": "copies of Combat Knives and Knife Combat" },
         "description": "A comprehensive compendium about different types of knives and their usage in various martial arts.",
-        "//": "978-0764348341",
-        "weight": 1
+        "//": "978-0764348341"
       },
       {
         "id": "manual_knives_8",
         "name": { "str": "The Silent Bodyguard", "str_pl": "copies of The Silent Bodyguard" },
         "description": "\"The Art of Knife Fencing & the Chronicles of the Modern Fighting Knife and their Wielders\".  This book teaches the reader how to defend against an aggressor with various weapons.",
-        "//": "979-8667992141",
-        "weight": 1
+        "//": "979-8667992141"
       }
     ],
     "weight": "454 g",

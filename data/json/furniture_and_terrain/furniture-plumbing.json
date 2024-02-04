@@ -97,7 +97,11 @@
       "str_max": 30,
       "sound": "porcelain breaking!",
       "sound_fail": "whunk!",
-      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] }, { "item": "wax", "count": 1 } ]
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] },
+        { "item": "wax_paraffin", "count": 1 }
+      ]
     }
   },
   {

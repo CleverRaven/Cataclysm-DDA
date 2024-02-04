@@ -445,7 +445,7 @@ bool Character::i_drop_at( item &it, int qty )
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : parent->all_items_top( pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
     }
@@ -654,7 +654,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [&guy, &e, obj] {
                     item &it = *item_location( obj );
-                    guy.store( e, it, false, e.insert_cost( it ), item_pocket::pocket_type::CONTAINER, true );
+                    guy.store( e, it, false, e.insert_cost( it ), pocket_type::CONTAINER, true );
                     return !guy.has_item( it );
                 }
             } );

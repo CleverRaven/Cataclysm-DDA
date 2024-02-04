@@ -451,7 +451,7 @@
     "copy-from": "mon_zyrannosaurus",
     "description": "A massive dinosaur corpse with enormous teeth wrapped with heavy chains to allow some control.",
     "fungalize_into": "mon_zyrannosaurus_fungus",
-    "upgrades": {  },
+    "upgrades": false,
     "aggression": 0
   },
   {
@@ -1459,7 +1459,7 @@
     "name": { "str": "chained Pachycephalosaurus zombie" },
     "copy-from": "mon_zachycephalosaurus",
     "description": "A feathered dinosaur corpse with a domed head with heavy chains to allow some control.",
-    "upgrades": {  },
+    "upgrades": false,
     "aggression": 0,
     "speed": 80,
     "attack_cost": 80
@@ -1743,7 +1743,7 @@
     "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, rigid neck.",
     "burn_into": "mon_zuetzalcoatlus_scorched",
     "fungalize_into": "mon_zuetzalcoatlus_fungus",
-    "upgrades": {  }
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -1767,12 +1767,49 @@
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
     "burn_into": "mon_zosasaurus_scorched",
     "fungalize_into": "mon_zosasaurus_fungus",
-    "upgrades": {  },
+    "upgrades": false,
     "flags": [
       "SEES",
       "HEARS",
       "DESTROYS",
-      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "HIT_AND_RUN"
+    ],
+    "armor": { "bash": 5, "cut": 7, "bullet": 7 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zlesiosaurus",
+    "name": { "str": "plesiosaurus zombie" },
+    "copy-from": "mon_zosasaurus",
+    "looks_like": "mon_zhark",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "//": "When large weights and volumes are fixed this should be 11000 L and 11000 kg",
+    "bodytype": "gator",
+    "speed": 18,
+    "attack_cost": 18,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "weakpoint_sets": [ "wps_mosasaur_body" ],
+    "hp": 120,
+    "description": "The ragged bloated corpse of a large aquatic dinosaur the size of a car, with a crocodile-like head, long neck, and swimming fins.",
+    "burn_into": "mon_zlesiosaurus_scorched",
+    "fungalize_into": "mon_zlesiosaurus_fungus",
+    "upgrades": false,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "DESTROYS",
       "SWIMS",
       "AQUATIC",
       "POISON",

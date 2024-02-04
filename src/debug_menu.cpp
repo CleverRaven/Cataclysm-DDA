@@ -5,24 +5,19 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdlib>
 #include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <locale>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -52,7 +47,6 @@
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -64,6 +58,7 @@
 #include "game_inventory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -80,7 +75,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -98,7 +92,6 @@
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
-#include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -233,14 +226,12 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
-        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
-        case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
@@ -252,6 +243,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::TOGGLE_SETUP_MUTATION: return "TOGGLE_SETUP_MUTATION";
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
+		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -483,7 +475,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -491,7 +482,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
-            { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
+            { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print factions info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
@@ -583,7 +574,6 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
-        { uilist_entry( debug_menu_index::EDIT_CAMP_LARDER, true, 'l', _( "Edit the faction camp larder" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -601,6 +591,18 @@ static int quick_setup_uilist()
     return uilist( _( "Quick setup…" ), uilist_initializer );
 }
 
+static int faction_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::EDIT_FACTION, true, 'e', _( "Edit faction" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'p', _( "Print factions info to console" ) ) },
+    };
+
+    return uilist( _( "Faction" ), uilist_initializer );
+}
+
+
+
 /**
  * Create the debug menu UI list.
  * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
@@ -609,19 +611,24 @@ static int quick_setup_uilist()
  */
 static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
+    enum {
+        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_QUICK_SETUP
+    };
+
     std::vector<uilist_entry> menu = {
-        { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
+        { uilist_entry( D_INFO, true, 'i', _( "Info…" ) ) },
     };
 
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
-            { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
-            { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
-            { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
-            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
-            { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
-            { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
-            { uilist_entry( 8, true, 'q', _( "Quick setup…" ) ) },
+            { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
+            { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
+            { uilist_entry( D_PLAYER,      true, 'p', _( "Player…" ) ) },
+            { uilist_entry( D_FACTION,     true, 'f', _( "Faction…" ) ) },
+            { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
+            { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
+            { uilist_entry( D_MAP,         true, 'm', _( "Map…" ) ) },
+            { uilist_entry( D_QUICK_SETUP, true, 'q', _( "Quick setup…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -641,28 +648,31 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         int action;
 
         switch( group ) {
-            case 1:
+            case D_INFO:
                 action = info_uilist( display_all_entries );
                 break;
-            case 2:
+            case D_SPAWNING:
                 action = spawning_uilist();
                 break;
-            case 3:
+            case D_PLAYER:
                 action = player_uilist();
                 break;
-            case 4:
+            case D_FACTION:
+                action = faction_uilist();
+                break;
+            case D_TELEPORT:
                 action = teleport_uilist();
                 break;
-            case 5:
+            case D_MAP:
                 action = map_uilist();
                 break;
-            case 6:
+            case D_GAME:
                 action = game_uilist();
                 break;
-            case 7:
+            case D_VEHICLE:
                 action = vehicle_uilist();
                 break;
-            case 8:
+            case D_QUICK_SETUP:
                 action = quick_setup_uilist();
                 break;
 
@@ -705,7 +715,7 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
+    description << spl.enumerate_spell_data( chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
@@ -728,7 +738,7 @@ static void spell_description(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
                     _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
-                    spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
+                    spl.energy_cost_encumbered( chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
     dialogue d( get_talker_for( chrc ), nullptr );
     // Casting Time: 0 (impeded)
@@ -736,7 +746,7 @@ static void spell_description(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
                     _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
-                    spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
+                    spl.casting_time_encumbered( chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time.evaluate(
                                    d ) ) ) ) << '\n';
 
@@ -1586,60 +1596,34 @@ static void character_edit_needs_menu( Character &you )
 
 static void character_edit_hp_menu( Character &you )
 {
-    const int torso_hp = you.get_part_hp_cur( bodypart_id( "torso" ) );
-    const int head_hp = you.get_part_hp_cur( bodypart_id( "head" ) );
-    const int arm_l_hp = you.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    const int arm_r_hp = you.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    const int leg_l_hp = you.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    const int leg_r_hp = you.get_part_hp_cur( bodypart_id( "leg_r" ) );
     uilist smenu;
-    smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-    smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-    smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-    smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-    smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-    smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
-    smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
+    int pos = 0;
+    char hotkey = 'a';
+    std::vector<bodypart_id> part_ids = you.get_all_body_parts( get_body_part_flags::only_main );
+    for( bodypart_id part_id : part_ids ) {
+        smenu.addentry( pos, true, hotkey, "%s: %d", part_id->name, you.get_part_hp_cur( part_id ) );
+        pos++;
+        hotkey++;
+    }
+    smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
+    part_ids.emplace_back( body_part_bp_null );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
-    int bp_ptr = -1;
     bool all_select = false;
 
-    switch( smenu.ret ) {
-        case 0:
-            bp = body_part_torso;
-            bp_ptr = torso_hp;
-            break;
-        case 1:
-            bp = body_part_head;
-            bp_ptr = head_hp;
-            break;
-        case 2:
-            bp = body_part_arm_l;
-            bp_ptr = arm_l_hp;
-            break;
-        case 3:
-            bp = body_part_arm_r;
-            bp_ptr = arm_r_hp;
-            break;
-        case 4:
-            bp = body_part_leg_l;
-            bp_ptr = leg_l_hp;
-            break;
-        case 5:
-            bp = body_part_leg_r;
-            bp_ptr = leg_r_hp;
-            break;
-        case 6:
-            all_select = true;
-            break;
-        default:
-            break;
+    if( smenu.ret > static_cast<int>( part_ids.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    bp = part_ids.at( smenu.ret ).id();
+    if( bp == body_part_bp_null ) {
+        all_select = true;
     }
 
-    if( bp.is_valid() ) {
+    if( bp.is_valid() && bp != body_part_bp_null ) {
         int value;
-        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
+                       you.get_part_hp_cur( bp.id() ) ) &&
+            value >= 0 )  {
             you.set_part_hp_cur( bp.id(), value );
             you.reset_stats();
         }
@@ -1658,12 +1642,12 @@ static void character_edit_hp_menu( Character &you )
 static void character_edit_opinion_menu( npc *np )
 {
     uilist smenu;
-    smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
-    smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
-    smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
-    smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
-    smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
-    smenu.addentry( 5, true, 'd', "%s: %d", _( "sold" ), np->op_of_u.sold );
+    smenu.addentry( 0, true, 't', "%s: %d", _( "trust" ), np->op_of_u.trust );
+    smenu.addentry( 1, true, 'f', "%s: %d", _( "fear" ), np->op_of_u.fear );
+    smenu.addentry( 2, true, 'v', "%s: %d", _( "value" ), np->op_of_u.value );
+    smenu.addentry( 3, true, 'a', "%s: %d", _( "anger" ), np->op_of_u.anger );
+    smenu.addentry( 4, true, 'o', "%s: %d", _( "owed" ), np->op_of_u.owed );
+    smenu.addentry( 5, true, 's', "%s: %d", _( "sold" ), np->op_of_u.sold );
 
     smenu.query();
     int value;
@@ -1830,6 +1814,32 @@ static void character_edit_desc_menu( Character &you )
     }
 }
 
+static faction *select_faction()
+{
+    std::vector<faction *> factions;
+    for( const auto &elem : g->faction_manager_ptr->all() ) {
+        factions.push_back( g->faction_manager_ptr->get( elem.first ) );
+    }
+
+    if( factions.empty() ) {
+        return nullptr;
+    }
+
+    uilist factionlist;
+    int facnum = 0;
+    for( const faction *faction : factions ) {
+        factionlist.addentry( facnum++, true, MENU_AUTOASSIGN, "%s", faction->name.c_str() );
+    }
+
+    factionlist.w_y_setup = 0;
+    factionlist.query();
+    if( factionlist.ret < 0 || static_cast<size_t>( factionlist.ret ) >= factions.size() ) {
+        return nullptr;
+    }
+
+    return factions[factionlist.ret];
+}
+
 static void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -1859,7 +1869,7 @@ static void character_edit_menu()
     if( np != nullptr ) {
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
-             np->myclass->get_name() << std::endl;
+             np->myclass->get_name() << " " << _( "class ID:" ) << np->myclass.obj().id << std::endl;
         if( !np->get_unique_id().empty() ) {
             data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
         }
@@ -1900,7 +1910,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -1941,8 +1951,9 @@ static void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add mission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
-        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
+        nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -2157,7 +2168,8 @@ static void character_edit_menu()
             size_t i = 0;
             for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
-                classes.addentry( i, true, -1, cl.get_name() );
+                classes.addentry( i, true, -1, string_format( _( "%1$s (ID: %2$s)" ), cl.get_name(),
+                                  cl.id.c_str() ) );
                 i++;
             }
 
@@ -2194,8 +2206,9 @@ static void character_edit_menu()
         }
         case D_CHECK_TEMP: {
             for( const bodypart_id &bp : you.get_all_body_parts() ) {
-                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
-                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+                add_msg( string_format( "%s: temperature: %f K, temperature conv: %f K, wetness: %d", bp->name,
+                                        units::to_kelvin( you.get_part_temp_cur( bp ) ), units::to_kelvin( you.get_part_temp_conv( bp ) ),
+                                        you.get_part_wetness( bp ) ) );
             }
             break;
         }
@@ -2239,6 +2252,115 @@ static void character_edit_menu()
             you.set_value( "npctalk_var_" + key, value );
             break;
         }
+        case D_FACTION: {
+            const faction *fac = select_faction();
+            if( fac != nullptr ) {
+                you.as_npc()->set_fac( fac->id );
+            }
+            break;
+        }
+    }
+}
+
+static void faction_edit_opinion_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', "%s: %d", _( "Like" ), fac->likes_u );
+    smenu.addentry( 1, true, 'r', "%s: %d", _( "Respect" ), fac->respects_u );
+    smenu.addentry( 2, true, 't', "%s: %d", _( "Trust" ), fac->trusts_u );
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change like from %d to: " ), fac->likes_u ) ) {
+                fac->likes_u = value;
+            }
+            break;
+        case 1:
+            if( query_int( value, _( "Change respect from %d to: " ), fac->respects_u ) ) {
+                fac->respects_u = value;
+            }
+            break;
+        case 2:
+            if( query_int( value, _( "Change trust from %d to: " ), fac->trusts_u ) ) {
+                fac->trusts_u = value;
+            }
+            break;
+    }
+}
+
+static void faction_edit_menu()
+{
+
+    faction *const fac = select_faction();
+
+    if( fac == nullptr ) {
+        return;
+    }
+
+    uilist nmenu;
+
+    std::stringstream data;
+    data << fac->name << std::endl;
+    data << fac->describe() << std::endl;
+    data << string_format( _( "Id: %s" ), fac->id.c_str() ) << std::endl;
+    data << string_format( _( "Wealth: %d" ), fac->wealth ) << " | "
+         << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
+    data << string_format( _( "Size: %d" ), fac->size ) << " | "
+         << string_format( _( "Power: %d" ), fac->power ) << " | "
+         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+    data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
+         << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
+         << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
+    data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
+         << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
+
+    nmenu.text = data.str();
+
+    enum {
+        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
+    };
+    nmenu.addentry( D_WEALTH, true, 'w', "%s", _( "Set wealth" ) );
+    nmenu.addentry( D_SIZE, true, 's', "%s", _( "Set size" ) );
+    nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
+    nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
+    nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
+    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
+
+    nmenu.query();
+    int value;
+    switch( nmenu.ret ) {
+        case D_WEALTH:
+            if( query_int( value, _( "Change wealth from %d to: " ), fac->wealth ) ) {
+                fac->wealth = value;
+            }
+            break;
+        case D_SIZE:
+            if( query_int( value, _( "Change size from %d to: " ), fac->size ) ) {
+                fac->size = value;
+            }
+            break;
+        case D_POWER:
+            if( query_int( value, _( "Change power from %d to: " ), fac->power ) ) {
+                fac->power = value;
+            }
+            break;
+        case D_FOOD:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
+                fac->food_supply = value;
+            }
+            break;
+        case D_OPINION:
+            faction_edit_opinion_menu( fac );
+            break;
+        case D_KNOWN:
+            fac->known_by_u = !fac->known_by_u;
+            break;
+        case D_LONE:
+            fac->lone_wolf_faction = !fac->lone_wolf_faction;
+            break;
     }
 }
 
@@ -2521,6 +2643,7 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    add_msg( m_info, _( "Is debugger active: %s" ), isDebuggerActive() ? _( "Yes" ) : _( "No" ) );
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }
@@ -3145,9 +3268,6 @@ void debug()
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
-        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reachability_zones();
-            break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
             break;
@@ -3216,7 +3336,7 @@ void debug()
             break;
         case debug_menu_index::UNLOCK_ALL:
             if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  You will need to save the character in order to record this.  Achievements are tracked from the save/achievements/ folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }
@@ -3492,16 +3612,6 @@ void debug()
             break;
         }
 
-        case debug_menu_index::EDIT_CAMP_LARDER: {
-            faction *your_faction = get_player_character().get_faction();
-            int larder;
-            if( query_int( larder, _( "Set camp larder kCals to?  Currently: %d" ),
-                           your_faction->food_supply ) ) {
-                your_faction->food_supply = larder;
-            }
-            break;
-        }
-
         case debug_menu_index::IMPORT_FOLLOWER: {
             cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
             std::vector<cata_path> npc_files = get_files_from_path( ".npc",
@@ -3590,6 +3700,10 @@ void debug()
             u.set_power_level( 2500_kJ );
             break;
         }
+
+        case debug_menu_index::EDIT_FACTION:
+            faction_edit_menu();
+            break;
 
         case debug_menu_index::last:
             return;

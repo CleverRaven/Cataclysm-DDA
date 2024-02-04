@@ -5,9 +5,10 @@
     "name": { "str": "potion fruit (apple)", "str_pl": "potion fruits (apple)" },
     "description": "An apple infused with mana.  It will heal you if you eat it.",
     "copy-from": "apple",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "66 days 16 hours",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the apple potion fruit.",
@@ -25,9 +26,10 @@
     "name": { "str": "potion fruit (peach)", "str_pl": "potion fruits (peach)" },
     "description": "A peach infused with mana.  It will cure illness if you eat it.",
     "copy-from": "peach",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the peach potion fruit.",
@@ -45,9 +47,10 @@
     "name": { "str": "potion fruit (pear)", "str_pl": "potion fruits (pear)" },
     "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
     "copy-from": "pear",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "40 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the pear potion fruit.",
@@ -65,9 +68,10 @@
     "name": { "str": "handful of potion fruits (blackberries)", "str_pl": "handfuls of potion fruits (blackberries)" },
     "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
     "copy-from": "blackberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of blackberry potion fruits.",
@@ -85,9 +89,10 @@
     "name": { "str": "handful of potion fruits (raspberries)", "str_pl": "handfuls of potion fruits (raspberries)" },
     "description": "A handful of raspberries infused with mana.  It will lessen your pain if you eat it.",
     "copy-from": "raspberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of raspberry potion fruits.",
@@ -105,9 +110,10 @@
     "name": { "str": "handful of potion fruits (strawberries)", "str_pl": "handfuls of potion fruits (strawberries)" },
     "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
     "copy-from": "strawberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of strawberry potion fruits.",
@@ -125,9 +131,10 @@
     "name": { "str": "handful of potion fruits (elderberries)", "str_pl": "handfuls of potion fruits (elderberries)" },
     "description": "A handful of elderberries infused with mana.  It will keep you alert and awake.",
     "copy-from": "elderberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of elderberry potion fruits.",
@@ -145,10 +152,11 @@
     "name": { "str": "handful of potion fruits (blueberries)", "str_pl": "handfuls of potion fruits (blueberries)" },
     "description": "A handful of blueberries infused with mana.  One handful is more satisfying than a whole bottle of water.",
     "copy-from": "blueberries",
+    "comestible_type": "FOOD",
     "proportional": { "calories": 0.5 },
     "quench": 100,
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] }
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -156,9 +164,10 @@
     "name": { "str": "handful of potion fruits (cranberries)", "str_pl": "handfuls of potion fruits (cranberries)" },
     "description": "A handful of cranberries infused with mana.  It will remove impurities in your blood.",
     "copy-from": "cranberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of cranberry potion fruits.",
@@ -176,9 +185,10 @@
     "name": { "str": "handful of potion fruits (huckleberries)", "str_pl": "handfuls of potion fruits (huckleberries)" },
     "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
     "copy-from": "huckleberries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of huckleberry potion fruits.",
@@ -196,9 +206,10 @@
     "name": { "str": "handful of potion fruits (wintergreen berries)", "str_pl": "handfuls of potion fruits (wintergreen berries)" },
     "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
     "copy-from": "wintergreen_berry",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of wintergreen berry potion fruits.",
@@ -216,9 +227,10 @@
     "name": { "str": "handful of potion fruits (cherries)", "str_pl": "handfuls of potion fruits (cherries)" },
     "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
     "copy-from": "cherries",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of cherry potion fruits.",
@@ -236,9 +248,10 @@
     "name": { "str": "handful of potion fruits (apricots)", "str_pl": "handfuls of potion fruits (apricots)" },
     "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
     "copy-from": "apricot",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of apricot potion fruits.",
@@ -256,9 +269,10 @@
     "name": { "str": "handful of potion fruits (grapes)", "str_pl": "handfuls of potion fruits (grapes)" },
     "description": "A handful of grapes infused with mana.  It will cure intoxication.",
     "copy-from": "grapes",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of grape potion fruits.",
@@ -276,9 +290,10 @@
     "name": { "str": "potion fruit (mayapple)", "str_pl": "potion fruits (mayapple)" },
     "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
     "copy-from": "mayapple",
+    "comestible_type": "FOOD",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the mayapple potion fruits.",
@@ -289,5 +304,29 @@
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_MAYAPPLE",
     "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_m_stellatum_berries",
+    "name": {
+      "str": "potion fruit (starry false Solomon's seal berries)",
+      "str_pl": "potion fruits (starry false Solomon's seal berries)"
+    },
+    "description": "A handful of starry false Solomon's seal berries infused with mana.  It will restore your mana.",
+    "copy-from": "m_stellatum_berries",
+    "comestible_type": "FOOD",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "30 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the starry false Solomon's seal potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_SOLOMON_SEAL",
+    "effect": [ { "math": [ "u_val('mana')", "+=", "rng(200,600)" ] } ]
   }
 ]

@@ -306,7 +306,7 @@
     "type": "GENERIC",
     "id": "giant_wood_screw",
     "name": { "str": "giant wooden screw" },
-    "description": "An giant screw carved out of solid wood, a simple component used to convert rotational energy into a downward movement of greater force.",
+    "description": "A giant screw carved out of solid wood, a simple component used to convert rotational energy into a downward movement of greater force.",
     "category": "spare_parts",
     "//": "weight for a bit less than 3x3x4 wooden beam at 0.60 g/cm3 density, substracted from wood beam stats above",
     "weight": "15000 g",

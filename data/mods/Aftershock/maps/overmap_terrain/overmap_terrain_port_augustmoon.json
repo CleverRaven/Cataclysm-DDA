@@ -1,0 +1,46 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "augustmoon_outer_space" ],
+    "name": "Port Augustmoon's orbit",
+    "sym": " ",
+    "color": "black",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "augustmoon_main_concourse1", "augustmoon_main_concourse2" ],
+    "name": "Port Augustmoon",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "augustmoon_docking_arm",
+    "name": "Docking Arm Strbd.  2",
+    "sym": "i",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "augustmoon_bar",
+    "name": "Artificial Feel",
+    "sym": "-",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "augustmoon_solar_array1", "augustmoon_solar_array2" ],
+    "name": "solar array",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2
+  }
+]

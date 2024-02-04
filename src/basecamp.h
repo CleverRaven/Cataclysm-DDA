@@ -3,7 +3,6 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,11 +15,10 @@
 #include "craft_command.h"
 #include "game_inventory.h"
 #include "inventory.h"
-#include "memory_fast.h"
+#include "map.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -31,9 +29,11 @@ class time_duration;
 class zone_data;
 enum class farm_ops : int;
 class item;
-class mission_data;
 class recipe;
-class tinymap;
+
+const int work_day_hours = 10;
+const int work_day_rest_hours = 8;
+const int work_day_idle_hours = 6;
 
 struct expansion_data {
     std::string type;
@@ -263,9 +263,22 @@ class basecamp
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
+        inline const std::vector<tripoint_abs_ms> &get_liquid_dumping_spot() const {
+            return liquid_dumping_spots;
+        }
         // dumping spot in absolute co-ords
         inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
+        }
+        inline void set_liquid_dumping_spot( const std::vector<tripoint_abs_ms> &liquid_dumps ) {
+            // Nowhere qualified to dump liquid? Dump it wherever everything else goes.
+            if( liquid_dumps.empty() ) {
+                liquid_dumping_spots.clear();
+                liquid_dumping_spots.emplace_back( dumping_spot );
+                return;
+            } //else
+            liquid_dumping_spots.clear();
+            liquid_dumping_spots = liquid_dumps;
         }
         void place_results( const item &result );
 
@@ -306,11 +319,11 @@ class basecamp
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
@@ -319,7 +332,7 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
+        void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
@@ -369,6 +382,9 @@ class basecamp
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
+
+        /// Choose which expansion slot to check for field conversion
+        bool survey_field_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return( const mission_id &miss_id );
@@ -433,6 +449,8 @@ class basecamp
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
+        // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
+        std::vector<tripoint_abs_ms> liquid_dumping_spots;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)

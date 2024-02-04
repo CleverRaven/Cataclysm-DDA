@@ -2141,14 +2141,14 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_frog_small",
+        "monster": "mon_strange_bigfrog",
         "weight": 20,
         "cost_multiplier": 2,
         "ends": "84 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_frog_small",
+        "monster": "mon_strange_bigfrog",
         "weight": 25,
         "cost_multiplier": 2,
         "starts": "84 hours",
@@ -2156,7 +2156,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_frog_small",
+        "monster": "mon_strange_bigfrog",
         "weight": 30,
         "cost_multiplier": 2,
         "starts": "180 hours",
@@ -2164,7 +2164,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_frog_giant",
+        "monster": "mon_strange_giganfrog",
         "weight": 30,
         "cost_multiplier": 2,
         "starts": "15 days",
@@ -2172,7 +2172,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_frog_giant",
+        "monster": "mon_strange_giganfrog",
         "weight": 40,
         "cost_multiplier": 2,
         "starts": "540 hours",

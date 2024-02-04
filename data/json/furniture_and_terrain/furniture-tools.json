@@ -14,6 +14,7 @@
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
+      "skill": { "skill": "electronics", "multiplier": 0.5, "min": 1, "max": 4 },
       "furn_set": "f_counter",
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
@@ -64,6 +65,7 @@
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
+      "skill": { "skill": "electronics", "min": 1, "max": 8 },
       "furn_set": "f_counter",
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
@@ -111,6 +113,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {
+      "skill": { "skill": "electronics", "min": 1, "max": 8 },
       "furn_set": "f_table",
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
@@ -740,6 +743,7 @@
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "EXAMINE_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
+    "rotates_to": "WALL",
     "bash": {
       "str_min": 6,
       "str_max": 40,

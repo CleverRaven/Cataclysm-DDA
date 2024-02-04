@@ -42,13 +42,14 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is relatively heavy for its size and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": [ "ceramic" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
     "weight": "150 g",
     "volume": "50 ml",
     "longest_side": "8 cm",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
     "qualities": [ [ "BUTCHER", -66 ] ],
-    "melee_damage": { "bash": 2, "cut": 2 }
+    "melee_damage": { "bash": 2, "cut": 2 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
@@ -71,7 +72,7 @@
     "id": "incendiary",
     "type": "AMMO",
     "category": "chems",
-    "name": { "str": "incendiary", "str_pl": "incendiaries" },
+    "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": "2 g",
     "volume": "500 ml",
@@ -164,7 +165,9 @@
     "longest_side": "8 cm",
     "to_hit": -3,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
-    "melee_damage": { "bash": 5, "cut": 3 }
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 5, "cut": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "sole_rubber",
@@ -209,34 +212,6 @@
     "price_postapoc": 50,
     "material": [ "rubber" ],
     "symbol": "=",
-    "color": "dark_gray"
-  },
-  {
-    "id": "iotv_shoulder_plate",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "ballistic shoulder protector" },
-    "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
-    "weight": "1000 g",
-    "volume": "600 ml",
-    "price": 60000,
-    "price_postapoc": 100,
-    "material": [ "nylon", "kevlar_layered" ],
-    "symbol": ",",
-    "color": "dark_gray"
-  },
-  {
-    "id": "iotv_groin_plate",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "ballistic groin protector" },
-    "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to US military body armor.",
-    "weight": "1500 g",
-    "volume": "1000 ml",
-    "price": 60000,
-    "price_postapoc": 100,
-    "material": [ "nylon", "kevlar_layered" ],
-    "symbol": ",",
     "color": "dark_gray"
   },
   {
@@ -312,5 +287,20 @@
     "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
     "symbol": ",",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "wax_paraffin",
+    "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
+    "category": "spare_parts",
+    "weight": "225 g",
+    "color": "white",
+    "material": [ "paraffin_wax" ],
+    "symbol": "%",
+    "description": "A large chunk of paraffin wax.",
+    "price": 500,
+    "price_postapoc": 10,
+    "volume": "250 ml",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]

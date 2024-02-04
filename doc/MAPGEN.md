@@ -243,7 +243,9 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
+is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
+the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
+(An insanely high value like 10000000 is useful for testing.)
 
 Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
@@ -258,7 +260,7 @@ Examples:
     "//3": "evaluated dynamically from global variable"
     "weight": { "global_val": "my_weight" },
     "//4": "evaluated dynamically from math expression"
-    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
 ```
 
 
@@ -559,6 +561,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
+| random_name | Options for generating a name for this monster. If not set, the value of name will be used. If set to "random", "female", or "male", a random unisex/female/male given name will be used. If set to "snippet", any snippets in `name` will be expanded, and that will be the name given.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
 | use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
@@ -832,7 +835,7 @@ Example:
 
 ### Place signs with "signs"
 
-Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
+Places a sign with a message written on it. Either "signage" or "snippet" must be defined.  The
 message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
 name, or `<city>` that will insert the nearest city name.
 
@@ -884,7 +887,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`). Default is 1 in 100 chance.
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 

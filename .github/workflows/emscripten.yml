@@ -1,0 +1,91 @@
+name: Emscripten build
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: emscripten-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: mymindstorm/setup-emsdk@v13
+
+    - name: Prepare web data
+      run: ./build-scripts/prepare-web-data.sh
+
+    - name: Install ccache
+      run: |
+        sudo apt-get update
+        sudo apt-get install ccache
+
+    - name: Get ccache vars
+      id: get-vars
+      run: |
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
+
+    - name: ccache cache files
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ github.ref_name }}-emscripten--${{ steps.get-vars.outputs.datetime }}
+        restore-keys: |
+          ccache-master-emscripten--
+
+    - name: Build with emcc (emscripten)
+      run: ./build-scripts/build-emscripten.sh
+
+    - name: post-build ccache manipulation
+      run: |
+        ccache --show-stats --verbose
+        ccache -M 4G
+        ccache -c
+        ccache --show-stats --verbose
+
+    - name: clear ccache on PRs
+      if: ${{ github.ref_name != 'master' && !failure() }}
+      run: |
+        ccache -C
+
+    - name: Assemble web bundle
+      run: ./build-scripts/prepare-web.sh
+
+    - name: Create artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: play-cdda
+        path: build/*

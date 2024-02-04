@@ -111,6 +111,11 @@
     "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
+    "id": "NO_LEAK",
+    "type": "json_flag",
+    "info": "Causes a boat hull to float even when damaged."
+  },
+  {
     "id": "NONBELTABLE",
     "type": "json_flag",
     "info": "There's no place to attach a seat belt, so you get thrown from the vehicle in a crash."
@@ -176,7 +181,7 @@
   {
     "id": "WIND_TURBINE",
     "type": "json_flag",
-    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1m/s of wind the vehicle is exposed to."
+    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1 m/s of wind the vehicle is exposed to."
   },
   {
     "id": "WATER_WHEEL",
@@ -661,5 +666,33 @@
     "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
     "type": "json_flag",
     "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
+  },
+  {
+    "id": "CARGO_PASSABLE",
+    "type": "json_flag",
+    "info": "Items stored here won't get in the way of any passengers."
+  },
+  {
+    "id": "HUGE_OK",
+    "type": "json_flag",
+    "info": "Even when roofed, this part is roomy enough to comfortably admit very large creatures, like cows and horses."
+  },
+  {
+    "id": "IGNORE_LEG_REQUIREMENT",
+    "type": "json_flag"
+  },
+  {
+    "id": "NEED_LEG",
+    "info": "Operating this part will require at least one working leg.",
+    "type": "json_flag"
+  },
+  {
+    "id": "INOPERABLE_SMALL",
+    "info": "People who are very short may be unable to make use of this part.",
+    "type": "json_flag"
+  },
+  {
+    "id": "IGNORE_HEIGHT_REQUIREMENT",
+    "type": "json_flag"
   }
 ]

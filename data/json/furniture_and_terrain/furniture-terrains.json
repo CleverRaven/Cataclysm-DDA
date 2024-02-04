@@ -109,7 +109,8 @@
         { "item": "box_large", "count": 1 },
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
-        { "item": "cotton_patchwork", "count": 50 },
+        { "item": "sheet_cotton", "count": [ 6, 7 ] },
+        { "item": "cotton_patchwork", "count": [ 7, 12 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
@@ -124,7 +125,8 @@
         { "item": "box_large", "count": [ 0, 1 ] },
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
-        { "item": "cotton_patchwork", "count": [ 20, 50 ] },
+        { "item": "sheet_cotton", "count": [ 2, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 12, 10 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
@@ -170,7 +172,8 @@
       "items": [
         { "item": "box_small", "count": 10 },
         { "item": "cardboard", "count": 10 },
-        { "item": "cotton_patchwork", "count": 10 },
+        { "item": "sheet_cotton", "count": 1 },
+        { "item": "cotton_patchwork", "count": 2 },
         { "item": "paper", "count": 50 },
         { "item": "plastic_sheet", "count": 2 }
       ]
@@ -184,6 +187,7 @@
         { "item": "box_small", "count": [ 0, 10 ] },
         { "item": "cardboard", "count": [ 5, 9 ] },
         { "item": "paper", "count": [ 10, 40 ] },
+        { "item": "sheet_cotton", "count": [ 0, 1 ] },
         { "item": "cotton_patchwork", "count": [ 0, 10 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
       ]
@@ -205,7 +209,8 @@
         { "item": "box_large", "count": 1 },
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
-        { "item": "cotton_patchwork", "count": 50 },
+        { "item": "sheet_cotton", "count": [ 6, 7 ] },
+        { "item": "cotton_patchwork", "count": [ 10, 12 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
@@ -220,7 +225,8 @@
         { "item": "box_large", "count": [ 0, 1 ] },
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
-        { "item": "cotton_patchwork", "count": [ 20, 50 ] },
+        { "item": "sheet_cotton", "count": [ 2, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 4, 10 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
@@ -244,7 +250,8 @@
         { "item": "box_large", "count": 1 },
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
-        { "item": "cotton_patchwork", "count": 50 },
+        { "item": "sheet_cotton", "count": [ 6, 7 ] },
+        { "item": "cotton_patchwork", "count": [ 10, 12 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
@@ -259,7 +266,8 @@
         { "item": "box_large", "count": [ 0, 1 ] },
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
-        { "item": "cotton_patchwork", "count": [ 20, 50 ] },
+        { "item": "sheet_cotton", "count": [ 2, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 12, 10 ] },
         { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }

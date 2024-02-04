@@ -6,8 +6,11 @@ trigger: specific
 # TODO implement more commands, add more users
 users:
   active:
+    # maintainer
     - casswedson
+    # curator
     - Maleclypse
+    # voluntiers
     - Termineitor244
     - Faalagorn
     - Ilysen
@@ -41,7 +44,23 @@ users:
     - Procyonae
     - harakka
     - Karol1223
+    - Bobtron
 
 keywords:
   - name: confirm-bug
     value: '\/(C|c)onfirm.*'
+
+  - name: close-duplicate
+    value: '\/(D|d)uplicate.*'
+
+  - name: close-invalid
+    value: '\/(I|i)nvalid.*'
+
+  - name: good-first-issue
+    # example: /good-first-issue
+    value: '\/(G|g)ood[\s-]*(F|f)irst[\s-]*(I|i)ssue.*'
+
+  - name: help-wanted
+    # - only works in PRs
+    # example: /help-wanted
+    value: '\/(H|h)elp[\s-]*(W|w)anted.*'

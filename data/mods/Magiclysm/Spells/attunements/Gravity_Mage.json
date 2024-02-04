@@ -11,7 +11,7 @@
     "min_damage": 25,
     "max_damage": 60,
     "damage_increment": 1,
-    "damage_type": "bash",
+    "damage_type": "gravity",
     "min_aoe": 2,
     "max_aoe": 7,
     "aoe_increment": 0.2,
@@ -25,7 +25,7 @@
     "type": "SPELL",
     "spell_class": "GRAVITY_MAGE",
     "name": "Graviton Polarization",
-    "description": "Changes and amplifies gravitational pull towards a point you choose even through walls.  Pulls in items and deals bashing damage in its center.",
+    "description": "Changes and amplifies gravitational pull towards a point you choose, even through walls.  Pulls in items and deals bashing damage in its center.",
     "valid_targets": [ "self", "ally", "hostile", "ground", "item", "field" ],
     "effect": "area_pull",
     "shape": "blast",
@@ -60,7 +60,7 @@
     "min_damage": 35,
     "max_damage": 105,
     "damage_increment": 2,
-    "damage_type": "bash",
+    "damage_type": "gravity",
     "min_aoe": 0,
     "max_aoe": 2,
     "aoe_increment": 0.06,
@@ -73,7 +73,7 @@
     "type": "SPELL",
     "id": "gravity_mage_leap",
     "name": "Gravity Leap",
-    "description": "Decrease your mass at the minimum, and use mana flow to jump out of your enemies on really huge distance.",
+    "description": "Decrease your weight to a minimum, and use a mana flow to jump to your enemies from a long distance.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "dash",
@@ -97,7 +97,7 @@
     "id": "gravity_mage_melee",
     "type": "SPELL",
     "name": "Tactile Telekinesis",
-    "description": "It's way easier to manipulate with object's gravity, when you take a contact with target.  Control the gravity around yourself to increase your own inertia to make heavy, devastating attacks.",
+    "description": "When you make contact with an object, it's way easier to manipulate its gravity.  Control gravity around yourself to change your inertia in order to make quick but heavy attacks.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "gravity_mage_melee",
@@ -128,7 +128,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": -30 },
           { "value": "BONUS_BLOCK", "add": 2 },
           { "value": "MELEE_DAMAGE", "multiply": 1 }
         ]

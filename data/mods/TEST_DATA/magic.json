@@ -8,7 +8,7 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "effect": "attack",
     "shape": "blast",
-    "spell_class": "MAGUS",
+    "spell_class": "test_trait",
     "energy_source": "MANA",
     "base_casting_time": 100,
     "base_energy_cost": 150,

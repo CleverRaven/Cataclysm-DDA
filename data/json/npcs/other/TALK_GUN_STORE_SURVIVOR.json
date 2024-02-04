@@ -39,6 +39,16 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_WHO" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
         "effect": "start_trade"
@@ -68,6 +78,16 @@
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_WHY_HERE"
       },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
         "effect": "start_trade"
@@ -93,6 +113,16 @@
     "dynamic_line": "Well, they weren't really around to lock it up.  Whoever got here first blew their head off with a 12-gauge, but they were up and movin', tried to kill me too.  They're out in the dumpster now.",
     "responses": [
       { "text": "I'm sorry to hear that.  Mabye we should change the subject.", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",

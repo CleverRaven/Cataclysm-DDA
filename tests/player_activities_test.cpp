@@ -14,6 +14,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "point.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -375,7 +376,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             battery.ammo_set( battery.ammo_default(), 300 );
 
             item elec_shears( itype_test_shears_off );
-            elec_shears.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            elec_shears.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
@@ -421,7 +422,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             battery.ammo_set( battery.ammo_default(), 5 );
 
             item elec_shears( itype_test_shears_off );
-            elec_shears.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            elec_shears.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
@@ -691,7 +692,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             battery.ammo_set( battery.ammo_default(), 2 );
 
             item it_boltcut_elec( itype_test_boltcutter_elec );
-            it_boltcut_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            it_boltcut_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_boltcut_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter_elec );
@@ -955,7 +956,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             battery.ammo_set( battery.ammo_default() );
 
             item it_hacksaw_elec( itype_test_hacksaw_elec );
-            it_hacksaw_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            it_hacksaw_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw_elec );
@@ -1693,7 +1694,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( firstaid_activity_actor( 1, std::string(), get_avatar().getID() ) ); },
     [] { return player_activity( forage_activity_actor( 1 ) ); },
     [] { return player_activity( gunmod_remove_activity_actor( 1, item_location(), 0 ) ); },
-    [] { return player_activity( hacking_activity_actor() ); },
+    [] { return player_activity( hacking_activity_actor( item_location() ) ); },
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
@@ -1762,9 +1763,9 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     clear_avatar();
     clear_map();
     set_time_to_day();
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
     map &m = get_map();
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 
     for( const std::function<player_activity()> &setup_activity : test_activities ) {
         player_activity activity = setup_activity();

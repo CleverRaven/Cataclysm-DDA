@@ -4,53 +4,59 @@
     "copy-from": "flamethrower_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "flamethrower" },
-    "description": "A large flamethrower with substantial gas reserves.  Very menacing and deadly.",
-    "weight": "1587 g",
-    "volume": "4 L",
-    "longest_side": "100 cm",
+    "name": { "str": "M9-7 flamethrower" },
+    "description": "A large flamethrower with substantial gas reserves.  The steel frame, with canvas accoutrements and aluminum cylinders, are all colored olive drab, like so many other pieces of equipment from the Vietnam War era.",
+    "//": "This thing, like so many others, needs multimag, for the pyrotechnic igniter cartridges AND for the nitrogen propellant gas.  But flamethrowers are fun, so we're glossing over that for now.",
+    "weight": "11340 g",
+    "volume": "69450 ml",
+    "longest_side": "584 mm",
     "price": 80000,
     "price_postapoc": 6000,
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "to_hit": -2,
     "range": 6,
     "dispersion": 300,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+    "modes": [ [ "DEFAULT", "Jet", 1 ], [ "AUTO", "Gout", 4 ] ],
+    "extend": { "flags": [ "BELTED", "ONLY_ONE", "PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 40, "thickness": 2 },
+            { "type": "aluminum", "covered_by_mat": 100, "thickness": 2 }
+          ],
+          "volume_encumber_modifier": 0.2307,
+          "encumbrance": [ 0, 60 ],
+          "coverage": 80,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "valid_mod_locations": [ [ "rail mount", 1 ], [ "grip", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [
+      {
+        "magazine_well": "1196 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": false,
+        "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ]
+      }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ],
     "melee_damage": { "bash": 10 }
   },
   {
     "id": "rm451_flamethrower",
-    "copy-from": "flamethrower_base",
+    "copy-from": "flamethrower",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "RM451 flamethrower" },
-    "description": "A military-grade combat flamethrower designed by Rivtech, the RM451 flamethrower incorporates a cycling pressure rapid-feed fuel system with a high-speed piezoelectric igniter.  Solidly built with durability in mind, it serves as an incredibly destructive weapon in the right hands.",
-    "weight": "1320 g",
-    "volume": "3500 ml",
-    "longest_side": "945 mm",
+    "name": { "str": "DARPA flamethrower" },
+    "description": "A modernized flamethrower, using alloy components and composite pressure tanks.  Despite having been replaced by the M202 FLASH, due to the questionable effectiveness of the flamethrower in modern combat, it appears that someone, somewhere, needed a flamethrower for the modern age, as the date code on many of the components is within the past five years.  While this resembles the Vietnam War era M9-7, the wand ignition system has been improved with a piezoelectric one, in addition to the material improvements of the system overall.",
+    "//": "It's not very advanced because it was made very quickly to provide working flamethrowers to a certain agency",
+    "proportional": { "weight": 0.66 },
     "price": 970000,
     "price_postapoc": 10000,
-    "to_hit": -1,
-    "material": [ "superalloy", "ceramic" ],
+    "material": [ "aluminum", "carbonfiber" ],
     "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
-    "dispersion": 240,
-    "durability": 9,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "NON_FOULING" ],
-    "ammo_to_fire": 20,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rm4502", "rm4504" ] } ],
-    "melee_damage": { "bash": 10 }
+    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel", 1 ] ]
   }
 ]

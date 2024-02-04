@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -14,8 +13,7 @@
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "game.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_stack.h"
@@ -248,6 +246,10 @@ drop_locations auto_pickup::select_items(
         // do not auto pickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
+            continue;
+        }
+        // do not auto pickup spilt liquids
+        if( item_entry->made_of( phase_id::LIQUID ) ) {
             continue;
         }
         rule_state pickup_state = get_autopickup_rule( item_entry );

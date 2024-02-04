@@ -203,7 +203,7 @@
     "id": "flask_sludge_field",
     "type": "COMESTIBLE",
     "name": { "str": "potion of slippery splash", "str_pl": "potions of slippery splash" },
-    "description": "At first it was the small spell, designed to trap and kill small bugs and rodents, but someone found it useful in real fight, and improve it.",
+    "description": "At first only an insignificant spell designed to trap and kill small bugs and rodents, someone found it pretty useful in a real fight and improved it with that goal in mind.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_sludge_field", "no_fail": true, "level": 0 },

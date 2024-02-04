@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "IERDE_SKIN_1",
-    "name": { "str": "Clay of the earth" },
+    "name": { "str": "Clay of the Earth" },
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "IERDE_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "Pebbled Skin" },
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
@@ -40,7 +40,7 @@
   {
     "type": "mutation",
     "id": "IERDE_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "Stone Skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -66,6 +66,266 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_EYES",
+    "name": { "str": "Ierde Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde's eyes begin reflecting their mood: a pale white streaked with rose when happy; pale green or grey when calm, and pure obsidian black when angry.  Glare no longer impacts them and they are not bothered by light levels when sleeping.",
+    "category": [ "IERDE" ],
+    "integrated_armor": [ "integrated_ierde_eyes" ],
+    "flags": [ "SEESLEEP" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_EARS",
+    "name": { "str": "Ierde Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Ierde's ears are longer and pointed, like the peak of a high mountain.  They can hear slightly better and are unphased by loud sounds.",
+    "category": [ "IERDE" ],
+    "hearing_modifier": 1.3,
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FISTS",
+    "name": { "str": "Fists of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your stony skin makes your fists hit like hammers.  Though your attacks are slower, you do more bashing damage with your punches and can use your hands to replace some simple tools.",
+    "types": [ "CLAWS" ],
+    "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "category": [ "IERDE" ],
+    "integrated_armor": [ "integrated_ierde_fists" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_SLEEP_MEDITATE",
+    "name": { "str": "Unsleeping Earth Vigil" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to rest and recover energy as though sleeping, while underground.  Activate to to begin the vigil.",
+    "prereqs": [ "IERDE_EYES" ],
+    "category": [ "IERDE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_NO_SLEEP_MEDITATE_activate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_DETECT_NEARBY_MONSTERS_EARTH",
+    "name": { "str": "The Soil Knows Those Who Tread Upon It" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as the Ierde maintains contact with natural earth or stone, or is underground.",
+    "prereqs": [ "IERDE_EYES" ],
+    "prereqs2": [ "IERDE_EARS" ],
+    "category": [ "IERDE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON" ],
+    "deactivated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SMASHING_PUNCH",
+    "name": { "str": "Avalanche Blow" },
+    "points": 3,
+    "description": "With a brief moment to stabilize themselves, the Ierde strikes a wall, door, or other terrain feature with the force of a falling boulder, doing many times their normal damage.",
+    "category": [ "IERDE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_SMASHING_PUNCH_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STOMP_GROUND_SMASH",
+    "name": { "str": "Earthquake Stomp" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to stomp on the ground and cause a minor local earthquake.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_SMASHING_PUNCH" ],
+    "spells_learned": [ [ "ierde_stomp_ground_smash_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CREATE_PITS",
+    "name": { "str": "Earthen Grasp" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to create pits on diggable ground, dumping their enemies into them.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SUMMON_EARTH_ELEMENTAL",
+    "name": { "str": "Calling the Children of the Stones" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Ierde to summon a minor earth elemental to support them in the world for a short time.",
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_summon_earth_spirit", 1 ] ],
+    "//": "Eventually add further spells in this area with more powerful elementals."
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_IRON_ARMOR",
+    "name": { "str": "Invulnerable Iron Skin" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Stone endures but armor is made of metal.  While standing on natural earth or stone, the Ierde can infuse their skin with metal, slowing their movement and encumbering them but rendering them much harder to damage.",
+    "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_iron_armor_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CARDIO",
+    "name": { "str": "Tireless Strength of the Earth" },
+    "points": 2,
+    "description": "The Ierde can draw on the boundless strength of the earth, increasing their stamina.",
+    "changes_to": [ "IERDE_CARDIO2" ],
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "cardio_multiplier": 1.6
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CARDIO2",
+    "name": { "str": "Unceasing Strength of the Earth" },
+    "points": 5,
+    "description": "The Ierde can draw even deeper on the boundless strength of the earth, greatly increasing their stamina.",
+    "changes_to": [ "IERDE_CARDIO3" ],
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "cardio_multiplier": 2.4
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CARDIO3",
+    "name": { "str": "Inexhaustible Strength of the Earth" },
+    "points": 8,
+    "description": "The Ierde can draw from boundless strength of the very depths of the earth, enormously increasing their stamina.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SKIN_3" ],
+    "cardio_multiplier": 3.5
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_REGAIN_STAMINA_UNDERGROUND",
+    "name": { "str": "Stone Does Not Grow Weary" },
+    "points": 5,
+    "description": "When underground or on natural earth, the Ierde recovers Stamina 50% faster.",
+    "category": [ "IERDE" ],
+    "changes_to": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "prereqs": [ "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_HEAL_FASTER_UNDERGROUND",
+    "name": { "str": "The Stone Endures" },
+    "points": 7,
+    "description": "When underground or on natural earth, the Ierde recovers Stamina 50% faster and heals 33% faster.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "prereqs2": [ "IERDE_REGAIN_STAMINA_UNDERGROUND" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 }, { "value": "REGEN_HP", "multiply": 0.33 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SLOW_BLEEDING",
+    "name": { "str": "Blood of the Earth" },
+    "points": 2,
+    "description": "The Ierde's blood has turned black and grown thick and tar-like.  They will bleed much more slowly.",
+    "category": [ "IERDE" ],
+    "changes_to": [ "IERDE_STOP_BLEEDING" ],
+    "prereqs": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "flags": [ "BLEEDSLOW2" ],
+    "//": "Ideally there'd be a flag to let them bleed oil, but there doesn't currently seem to be"
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STOP_BLEEDING",
+    "name": { "str": "Black Blood of the Earth" },
+    "points": 8,
+    "description": "The Ierde's blood has turned into a black sludge that barely flows.  They no longer bleed at all.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SKIN_3" ],
+    "prereqs2": [ "IERDE_SLOW_BLEEDING" ],
+    "flags": [ "BLEED_IMMUNE" ],
+    "//": "Ideally there'd be a flag to let them bleed oil, but there doesn't currently seem to be"
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_KNOCKBACK",
+    "name": { "str": "The Mountain Does Not Move" },
+    "points": 4,
+    "description": "Though the earth shivers and shakes, the mountain stands tall.  The Ierde is immune to knockback.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "prereqs2": [ "IERDE_STR_BONUS_1", "IERDE_STR_BONUS_2", "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -74,5 +334,99 @@
     "description": "Upon gaining this ability the Ierde gains the ability to grow a goblin fruit from a earth or stone.",
     "category": [ "IERDE" ],
     "spells_learned": [ [ "ierde_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STR_BONUS_1",
+    "name": { "str": "Vigor of the Soil" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "IERDE_STR_BONUS_2" ],
+    "description": "Like the bountiful soil, the Ierde is filled with power.  +3 Strength.",
+    "category": [ "IERDE" ],
+    "passive_mods": { "str_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STR_BONUS_2",
+    "name": { "str": "Vigor of the Stone" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_1" ],
+    "prereqs2": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "changes_to": [ "IERDE_STR_BONUS_3" ],
+    "description": "Like the stone, the Ierde can withstand any punishment.  +5 Strength.",
+    "category": [ "IERDE" ],
+    "passive_mods": { "str_mod": 5 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STR_BONUS_3",
+    "name": { "str": "Vigor of the Mountain" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_2" ],
+    "prereqs2": [ "IERDE_CARDIO2" ],
+    "changes_to": [ "IERDE_STR_BONUS_4" ],
+    "description": "Like the mountain, the Ierde is unmoved by calamity.  +7 Strength.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "passive_mods": { "str_mod": 7 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STR_BONUS_4",
+    "name": { "str": "Vigor of the Bedrock" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_3" ],
+    "prereqs2": [ "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "description": "Like the bedrock, the Ierde's might can support the entire world.  +9 Strength.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "passive_mods": { "str_mod": 9 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_PER_BONUS",
+    "name": { "str": "The Hills Overlook the Valleys" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_EYES" ],
+    "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
+    "category": [ "IERDE" ],
+    "passive_mods": { "per_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_DISEASE_OR_PARA",
+    "name": { "str": "The Stone Does Not Rot" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "description": "The stones do not rot as the trees or humans do, and neither is the Ierde affected by the frailties of the flesh.  They are immune to disease and cannot suffer from parasites.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "flags": [ "PARAIMMUNE", "NO_DISEASE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_MIND_PROBLEMS",
+    "name": { "str": "Mind of Iron" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "IERDE_PER_BONUS" ],
+    "prereqs2": [ "IERDE_CARDIO3" ],
+    "description": "The Ierde's mind has the resilience of iron, and they cannot be affected by delusions, hallucinations, or other mental problems.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "enchantments": [ "ench_ierde_no_mind_problems" ]
   }
 ]

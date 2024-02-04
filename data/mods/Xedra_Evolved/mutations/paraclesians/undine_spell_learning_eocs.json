@@ -1,0 +1,404 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER",
+    "//": "Must be partially or fully submerged in water, in a swamp, or within 1 tile of a pond, river, lake, or ocean",
+    "recurrence": [ "6 h", "36 h" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNDINE" },
+        {
+          "u_has_any_trait": [
+            "CREATE_FOG",
+            "GRANT_BUOYANCY",
+            "ACIDIC_MIST",
+            "WAVE_RIDER",
+            "WATER_SEALED",
+            "SUMMON_FISH",
+            "UNDINE_BASH_AND_SLOW",
+            "UNDINE_DRAG_INWARD",
+            "UNDINE_TIDAL_WAVE",
+            "SUMMON_WATER_ELEMENTAL",
+            "CLOUD_OF_STEAM_UNDINE",
+            "UNDINE_CULTIVATE_GOBLIN_FRUIT",
+            "PARACLESIAN_MAKE_GOSSAMER"
+          ]
+        },
+        {
+          "or": [
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" },
+            { "u_near_om_location": "generic_river_bank", "range": 1 },
+            { "u_near_om_location": "generic_river", "range": 1 },
+            { "u_near_om_location": "river_center", "range": 1 },
+            { "u_near_om_location": "river", "range": 1 },
+            { "u_near_om_location": "river_c_not_ne", "range": 1 },
+            { "u_near_om_location": "river_c_not_nw", "range": 1 },
+            { "u_near_om_location": "river_c_not_se", "range": 1 },
+            { "u_near_om_location": "river_c_not_sw", "range": 1 },
+            { "u_near_om_location": "river_ne", "range": 1 },
+            { "u_near_om_location": "river_se", "range": 1 },
+            { "u_near_om_location": "river_sw", "range": 1 },
+            { "u_near_om_location": "river_nw", "range": 1 },
+            { "u_near_om_location": "lake_shore", "range": 1 },
+            { "u_near_om_location": "lake_surface", "range": 1 },
+            { "u_near_om_location": "ocean", "range": 1 },
+            { "u_near_om_location": "ocean_shore", "range": 1 },
+            { "u_near_om_location": "ocean_surface", "range": 1 },
+            { "u_near_om_location": "ocean_bed", "range": 1 },
+            { "u_near_om_location": "ocean_water_cube", "range": 1 },
+            { "u_near_om_location": "ocean_surface", "range": 1 },
+            { "u_near_om_location": "pond_field", "range": 1 },
+            { "u_at_om_location": "fishing_pond_0_0" },
+            { "u_at_om_location": "fishing_pond_1_0" },
+            { "u_at_om_location": "fishing_pond_0_1" },
+            { "u_at_om_location": "fishing_pond_1_1" },
+            { "u_at_om_location": "forest_water" },
+            { "u_at_om_location": "undine_genius_loci_NW" },
+            { "u_at_om_location": "undine_genius_loci_NE" },
+            { "u_at_om_location": "undine_genius_loci_SW" },
+            { "u_at_om_location": "undine_genius_loci_SE" }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "UNDINE" } },
+    "effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+    "//": "This is a separate EoC to allow looping through until it finds a spell the Undine knows. Probability is [11-Difficulty]",
+    "condition": {
+      "or": [
+        { "math": [ "u_spell_level('create_fog')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('grant_buoyancy')", "<", "20" ] },
+        { "math": [ "u_spell_level('acidic_mist')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('deadly_mist')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('wave_rider')", "<", "20" ] },
+        { "math": [ "u_spell_level('water_pocket')", "<", "20" ] },
+        { "math": [ "u_spell_level('summon_fish')", "<", "35" ] },
+        { "math": [ "u_spell_level('charm_fish')", "<", "35" ] },
+        { "math": [ "u_spell_level('summon_kraken')", "<", "35" ] },
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('undine_drag_inward_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('undine_tidal_wave_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('summon_water_sprite')", "<", "35" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_undine')", "<", "35" ] },
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_LEVELER_UNDINE_CREATE_FOG", 9 ],
+        [ "EOC_LEVELER_UNDINE_GRANT_BUOYANCY", 6 ],
+        [ "EOC_LEVELER_UNDINE_ACIDIC_MIST", 9 ],
+        [ "EOC_LEVELER_UNDINE_DEADLY_MIST", 9 ],
+        [ "EOC_LEVELER_UNDINE_WAVE_RIDER", 6 ],
+        [ "EOC_LEVELER_UNDINE_WATER_SEALED", 7 ],
+        [ "EOC_LEVELER_UNDINE_SUMMON_FISH", 8 ],
+        [ "EOC_LEVELER_UNDINE_CHARM_FISH", 7 ],
+        [ "EOC_LEVELER_UNDINE_SUMMON_KRAKEN", 4 ],
+        [ "EOC_LEVELER_UNDINE_BASH_AND_SLOW_SPELL", 8 ],
+        [ "EOC_LEVELER_UNDINE_DRAG_INWARD_SPELL", 5 ],
+        [ "EOC_LEVELER_UNDINE_TIDAL_WAVE_SPELL", 2 ],
+        [ "EOC_LEVELER_UNDINE_CLOUD_OF_STEAM", 7 ],
+        [ "EOC_LEVELER_UNDINE_CULTIVATE_GOBLIN_FRUIT", 3 ],
+        [ "EOC_LEVELER_UNDINE_MAKE_GOSSAMER", 4 ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_CREATE_FOG",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('create_fog')", ">=", "0" ] },
+        { "math": [ "u_spell_level('create_fog')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('create_fog')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_GRANT_BUOYANCY",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('grant_buoyancy')", ">=", "0" ] },
+        { "math": [ "u_spell_level('grant_buoyancy')", "<", "20" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('grant_buoyancy')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_ACIDIC_MIST",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('acidic_mist')", ">=", "0" ] },
+        { "math": [ "u_spell_level('acidic_mist')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('acidic_mist')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_DEADLY_MIST",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('deadly_mist')", ">=", "0" ] },
+        { "math": [ "u_spell_level('deadly_mist')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('deadly_mist')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_WAVE_RIDER",
+    "condition": {
+      "and": [ { "math": [ "u_spell_level('wave_rider')", ">=", "0" ] }, { "math": [ "u_spell_level('wave_rider')", "<", "20" ] } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('wave_rider')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_WATER_SEALED",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('water_pocket')", ">=", "0" ] },
+        { "math": [ "u_spell_level('water_pocket')", "<", "20" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('water_pocket')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_SUMMON_FISH",
+    "condition": {
+      "and": [ { "math": [ "u_spell_level('summon_fish')", ">=", "0" ] }, { "math": [ "u_spell_level('summon_fish')", "<", "35" ] } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('summon_fish')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_CHARM_FISH",
+    "condition": {
+      "and": [ { "math": [ "u_spell_level('charm_fish')", ">=", "0" ] }, { "math": [ "u_spell_level('charm_fish')", "<", "35" ] } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('charm_fish')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_SUMMON_KRAKEN",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('summon_kraken')", ">=", "0" ] },
+        { "math": [ "u_spell_level('summon_kraken')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('summon_kraken')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_BASH_AND_SLOW_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('undine_bash_and_slow_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_DRAG_INWARD_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('undine_drag_inward_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('undine_drag_inward_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('undine_drag_inward_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_TIDAL_WAVE_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('undine_tidal_wave_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('undine_tidal_wave_spell')", "<", "str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('undine_tidal_wave_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_SUMMON_WATER_SPRITE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('summon_water_sprite')", ">=", "0" ] },
+        { "math": [ "u_spell_level('summon_water_sprite')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('summon_water_sprite')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_CLOUD_OF_STEAM",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('cloud_of_steam_undine')", ">=", "0" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_undine')", "<", "35" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('cloud_of_steam_undine')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_CULTIVATE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", ">=", "0" ] },
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('undine_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_UNDINE_MAKE_GOSSAMER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  }
+]

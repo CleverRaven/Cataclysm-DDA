@@ -29,36 +29,6 @@
   },
   {
     "type": "enchantment",
-    "id": "ENCH_GASTROPOD_FOOT",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_NO_RIGHT_LEG",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_stub_r" } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_NO_LEFT_LEG",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_stub_l" } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_RIGHT_PROSTHETIC",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_stub_r" }, { "gain": "leg_prosthetic_r" } ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_LEFT_PROSTHETIC",
-    "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_stub_l" }, { "gain": "leg_prosthetic_l" } ]
-  },
-  {
-    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -135,5 +105,13 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "id": "ench_wings_insect_active",
+    "type": "enchantment",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "Your rapidly buzzing wings propel you with extra speed.",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
   }
 ]

@@ -29,7 +29,8 @@
     "name": "meteorology station",
     "sym": "─",
     "color": "dark_gray",
-    "see_cost": 1
+    "see_cost": 1,
+    "travel_cost_type": "road"
   },
   {
     "type": "overmap_terrain",
