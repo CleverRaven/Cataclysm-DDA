@@ -156,6 +156,7 @@
       [ "spell_scroll_druid_healing", 25 ],
       [ "spell_scroll_druid_summon_tanglevine", 35 ],
       [ "spell_scroll_druid_wood_living_tree_spell", 40 ],
+      [ "spell_scroll_invisibility", 40 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
       [ "spell_scroll_hoary_blast", 50 ],
@@ -210,7 +211,7 @@
       [ "spell_scroll_magus_word_of_recall", 25 ],
       [ "lightning_storm_scroll", 50 ],
       [ "spell_scroll_vacuum_decompression", 50 ],
-      [ "spell_scroll_invisibility", 10 ],
+      [ "spell_scroll_animist_mass_hiding_aoe", 25 ],
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_shape_of_dust", 30 ],
       [ "spell_scroll_summon_eshaper_golem", 30 ],
@@ -237,7 +238,13 @@
     "id": "spellbook_tier_0",
     "type": "item_group",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ], [ "novice_stormshaper_book", 30 ] ]
+    "items": [
+      [ "wizard_beginner", 30 ],
+      [ "priest_beginner", 30 ],
+      [ "techno_idiots", 30 ],
+      [ "novice_stormshaper_book", 30 ],
+      [ "book_lazy_magic", 30 ]
+    ]
   },
   {
     "id": "spellbook_tier_1",

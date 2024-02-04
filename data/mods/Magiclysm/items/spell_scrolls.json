@@ -1887,5 +1887,14 @@
     "name": { "str": "Scroll of the Sorcerer's Hand", "str_pl": "Scrolls of Sorcerer's Hand" },
     "description": "Pull a distant creature or item toward you.  The ultimate spell for the couch potato mage.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_far_hand_pull" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_mass_hiding_aoe",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of the Spiritual Isolation", "str_pl": "Scrolls of Spiritual Isolation" },
+    "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
   }
 ]

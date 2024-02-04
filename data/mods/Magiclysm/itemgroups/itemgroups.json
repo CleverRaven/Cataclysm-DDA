@@ -1023,10 +1023,7 @@
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
-      }
+      { "distribution": [ { "item": "recovery_spellbook", "prob": 10 } ], "prob": 5 }
     ]
   },
   {
@@ -1161,17 +1158,15 @@
       {
         "distribution": [
           { "item": "techno_em", "prob": 5 },
+          { "item": "recovery_spellbook", "prob": 5 },
           { "item": "spell_scroll_holographic_transposition", "prob": 10 },
           { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
           { "item": "spell_scroll_animated_blade", "prob": 50 },
           { "item": "spell_scroll_mirror_image", "prob": 50 },
-          { "item": "spell_scroll_improved_knock", "prob": 50 }
+          { "item": "spell_scroll_improved_knock", "prob": 50 },
+          { "item": "spell_scroll_invisibility", "prob": 30 }
         ],
         "prob": 10
-      },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
     ]
