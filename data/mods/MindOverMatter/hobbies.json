@@ -101,6 +101,46 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_clairsentient",
+    "name": "Arising Clairsentient",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can see auras around people that tell you what they're feeling, and you've already used it to avoid someone who was feigning being injured with the hope of stealing your gear.  You can see through walls, and tell where the best place to hit something is to take it down for good.  That last ability will definitely get plenty of use.",
+    "points": 8,
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "clair_night_vision", "level": 6 },
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 7 },
+      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_spot_weakness", "level": 7 },
+      { "id": "clair_voyance", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_clairsentient",
+    "name": "Ascended Clairsentient",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can finish books in a few hours and remember almost everything you read, you had to fix a bicycle a few weeks ago and even though you've never tried to do that before in your life, everything you needed to do just…came to you.  What's more, last time the Zs attacked you, you never got a scratch.  Three of them came at you at once and you dodged every attack because you could see what they were going to do before they did it.  If only you could see where you needed to go to be safe.",
+    "points": 14,
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "clair_night_vision", "level": 6 },
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 7 },
+      { "id": "clair_aura_sight", "level": 8 },
+      { "id": "clair_ranged_enhance", "level": 6 },
+      { "id": "clair_spot_weakness", "level": 7 },
+      { "id": "clair_voyance", "level": 8 },
+      { "id": "clair_dodge_power", "level": 7 },
+      { "id": "clair_craft_bonus", "level": 7 },
+      { "id": "clair_clear_sight", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_electrokinetic",
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
@@ -160,6 +200,49 @@
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You noticed that light seemed to bend at the will of your thoughts, when you were almost caught by a wandering horde, light slowly dimmed enough for you to hide in the shadows.  You have a sense that there's more to your newfound talents.",
     "points": 4,
     "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_photokinetic",
+    "name": "Arising Photokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can make the air glow and fire lasers from your hands, and even sometimes hear radio signals.  You haven't heard any other survivors out there yet, but you listen for a bit every night, just in case.",
+    "points": 7,
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "photokinetic_light_local", "level": 8 },
+      { "id": "photokinetic_create_light", "level": 6 },
+      { "id": "photokinetic_snuff_light", "level": 5 },
+      { "id": "photokinetic_light_dodge", "level": 7 },
+      { "id": "photokinetic_light_beam", "level": 7 },
+      { "id": "photokinetic_camouflage", "level": 6 },
+      { "id": "photokinetic_rad_immunity", "level": 6 },
+      { "id": "photokinetic_radio", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_photokinetic",
+    "name": "Ascended Photokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Many times a horde has passed within sight of you and simply never noticed you, and the few times they did, you just created illusions of yourself and all ran different directions.  The few stragglers were easy to sear to ash with focused light.",
+    "points": 7,
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "photokinetic_light_local", "level": 11 },
+      { "id": "photokinetic_create_light", "level": 10 },
+      { "id": "photokinetic_snuff_light", "level": 7 },
+      { "id": "photokinetic_light_dodge", "level": 9 },
+      { "id": "photokinetic_light_beam", "level": 9 },
+      { "id": "photokinetic_camouflage", "level": 8 },
+      { "id": "photokinetic_rad_immunity", "level": 6 },
+      { "id": "photokinetic_light_image", "level": 7 },
+      { "id": "photokinetic_radio", "level": 4 },
+      { "id": "photokinetic_invisibility", "level": 8 },
+      { "id": "photokinetic_light_flash", "level": 6 }
+    ]
   },
   {
     "type": "profession",
