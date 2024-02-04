@@ -235,7 +235,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_YES",
-    "dynamic_line": "Nobody's the same, not even twins.  But I'll tell you something.  The big eye is afraid of the voices.",
+    "dynamic_line": "Nobody's the same, not even twins.  But I'll tell you something.  The big eye looked at me.  It heard the voices, and it blinked.",
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
