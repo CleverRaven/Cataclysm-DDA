@@ -451,7 +451,7 @@
     "subtype": "hobby",
     "id": "gateway_teleporter",
     "name": "Gateway Initiate",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  But teleporting through walls isn't the most impressive part.  You spent a few days in an abandoned basement and on a scavenging trip, one of those rioters surprised you.  Snarling, she had you by the arm and was prepared to smash in your head with a pipe and then you were just…back safe in that basement.  That will definitely come in handy/",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  But teleporting through walls isn't the most impressive part.  You spent a few days in an abandoned basement and on a scavenging trip, one of those rioters surprised you.  Snarling, she had you by the arm and was prepared to smash in your head with a pipe and then you were just…back safe in that basement.  That will definitely come in handy.",
     "points": 5,
     "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
     "skills": [ { "level": 1, "name": "metaphysics" } ],
