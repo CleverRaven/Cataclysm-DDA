@@ -172,7 +172,7 @@
   {
     "id": "mon_frog_shocker",
     "type": "MONSTER",
-    "name": { "str": "shocker frog" },
+    "name": { "str": "jumping jolter" },
     "description": "The hum coming from this giant, rotten frog sounds unlike any kind of vocalization.  The sound is clearly a result of the bolts of electricity that skip across its skin and arc between its lips.",
     "copy-from": "mon_proxy_frog_zombie",
     "speed": 75,
