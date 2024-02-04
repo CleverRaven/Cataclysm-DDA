@@ -4177,5 +4177,15 @@
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+	"id": "silver_hair_beads"
+	"copy-from": "garnet_silver_tiara",
+	"type": "ARMOR",
+	"name": { "str": "silver hair beads" },
+	"description": "An assortment of shiny silver beads used to decorate locs or braids.",
+	"material": [ "type": "silver" ],
+	"looks_like": "silver_ring",
+	"color": "white",
   }
 ]
