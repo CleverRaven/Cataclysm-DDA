@@ -60,12 +60,7 @@
     "harvest": "demihuman",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [
-      [
-        "FEAR_PARALYZE",
-        0
-      ]
-    ],
+    "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
