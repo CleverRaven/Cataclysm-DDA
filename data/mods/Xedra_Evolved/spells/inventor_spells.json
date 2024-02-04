@@ -47,7 +47,7 @@
     "id": "cable_whip",
     "type": "SPELL",
     "name": { "str": "Electric Brandish" },
-    "description": "Small whip attack, that uses energized cables as conductor.",
+    "description": "A small whip attack that uses energized cables as a conductor.",
     "components": "spell_components_cable_whip",
     "effect": "attack",
     "shape": "cone",

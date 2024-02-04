@@ -32,15 +32,9 @@
     "enchantments": [
       {
         "values": [
-          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] } },
-          {
-            "value": "THIRST",
-            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
-          },
-          {
-            "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
-          }
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
+          { "value": "THIRST", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
+          { "value": "METABOLISM", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } }
         ]
       }
     ]
@@ -58,9 +52,7 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: CLAIRSENTIENT')))" ] } }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } } ]
       }
     ]
   },
@@ -76,8 +68,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') / -4" ] } },
-          { "value": "PAIN", "multiply": { "math": [ "u_val('spell_level', 'school: ELECTROKINETIC') * -0.007" ] } }
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_school_level('ELECTROKINETIC') / -4" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "u_school_level('ELECTROKINETIC') * -0.007" ] } }
         ]
       }
     ]
@@ -453,19 +445,15 @@
     "name": { "str": "Telepathic Suggestion" },
     "points": 0,
     "description": "You are subtly influencing the minds of the people you speak to.",
-    "social_modifiers": { "lie": 15, "persuade": 15, "intimidate": 15 },
     "valid": false,
     "player_display": true,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
-          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
-          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
-          {
-            "value": "SOCIAL_PERSUADE",
-            "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] }
-          }
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
+          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } }
         ]
       }
     ]
@@ -480,11 +468,7 @@
     "valid": false,
     "player_display": true,
     "purifiable": false,
-    "enchantments": [
-      {
-        "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_val('spell_level', 'school: TELEPORTER')))" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_school_level('TELEPORTER')))" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -500,11 +484,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] } },
-          {
-            "value": "MAX_HP",
-            "multiply": { "math": [ "(0.05 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] }
-          }
+          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_school_level('VITAKINETIC')))" ] } },
+          { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.01 * u_school_level('VITAKINETIC')))" ] } }
         ]
       }
     ]

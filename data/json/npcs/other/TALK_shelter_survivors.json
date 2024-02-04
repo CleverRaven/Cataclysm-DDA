@@ -40,6 +40,16 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_EVAC_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Care to trade?", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", "effect": "start_trade" },
       {
         "text": "Why don't you come with me?",
@@ -58,7 +68,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_STORY",
-    "dynamic_line": "When shit hit the fan, I ran out here to this emergency shelter.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around.",
+    "dynamic_line": "I found this emergency shelter when I was running from the chaos back in the cities.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around; just the spot to stay 'till who knows when.",
     "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
   }
 ]

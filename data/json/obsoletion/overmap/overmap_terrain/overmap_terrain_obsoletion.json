@@ -119,5 +119,17 @@
     "name": "farm house 2nd floor",
     "sym": "^",
     "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_parking",
+    "name": "megastore parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 },
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]

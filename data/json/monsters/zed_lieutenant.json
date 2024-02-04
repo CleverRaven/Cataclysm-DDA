@@ -41,8 +41,7 @@
       {
         "type": "melee",
         "id": "LTNT_ILLUMINATE_YOU",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "condition": { "and": [ { "not": { "npc_has_effect": "Shadow_Reveal" } }, "npc_is_character" ] },
         "range": 30,
         "dodgeable": false,
         "blockable": false,
@@ -56,8 +55,7 @@
       {
         "type": "spell",
         "id": "LTNT_LIFE_DRAIN",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, { "or": [ "npc_male", "npc_female" ] } ] },
+        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "PLOWABLE" }, "npc_is_character" ] },
         "spell_data": { "id": "LTNT_LIFE_DRAIN", "min_level": 1 },
         "monster_message": "The ground blackens before you.",
         "cooldown": 20
@@ -65,8 +63,7 @@
       {
         "type": "spell",
         "id": "LTNT_attract_nearby",
-        "//": "Dirty little hack: We have a condition that the target is male OR female, meaning it only evaluates true for the player (and NPCs)",
-        "condition": { "or": [ "npc_male", "npc_female" ] },
+        "condition": "npc_is_character",
         "spell_data": { "id": "LTNT_attract_nearby", "min_level": 1 },
         "monster_message": "Your hearing is overwhelmed by a booming sound!",
         "cooldown": 30
@@ -83,11 +80,9 @@
       "NO_BREATHE",
       "HARDTOSHOOT",
       "CAN_OPEN_DOORS",
-      "SUNDEATH",
       "CLIMBS",
       "BORES",
       "DESTROYS",
-      "FIREPROOF",
       "ALL_SEEING",
       "ALWAYS_SEES_YOU",
       "HAS_MIND",
@@ -98,10 +93,11 @@
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
       "PHOTOPHOBIC",
+      "NOT_HALLUCINATION",
       "PATH_AVOID_DANGER_2"
     ],
     "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
-    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }
+    "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100 }
   },
   {
     "id": "LTNT_LIFE_DRAIN",
@@ -165,9 +161,9 @@
       {
         "u_spawn_monster": "GROUP_AMALGAMATIONS_SPAWNED",
         "group": true,
-        "//": "This always spawns 6 of the same type, which is not ideal (6 soldiers is way too deadly). Consider revising the weights if/when talk_effect_fun_t::set_spawn_monster can pick each individual spawn from the group.",
         "real_count": 6,
-        "//2": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
+        "outdoor_only": true,
+        "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
         "target_var": { "global_val": "drain_terrain" }
       },
@@ -318,7 +314,9 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": { "and": [ { "days_since_cataclysm": 7 }, { "math": [ "Lieutenants_active", "<", "1" ] } ] },
+    "condition": {
+      "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active", "<", "1" ] } ]
+    },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
     "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
     "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
@@ -326,10 +324,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "recurrence": [ "3 hours", "6 hours" ],
+    "recurrence": [ "15 minutes", "9 hours" ],
     "global": true,
     "run_for_npcs": false,
     "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
+    "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
     "condition": {
       "and": [
         { "one_in_chance": 6 },
@@ -337,6 +336,7 @@
         { "not": { "u_has_effect": "sleep" } },
         { "math": [ "Lieutenants_active", ">", "0" ] },
         { "math": [ "Shadow_Lurking", ">", "0" ] },
+        { "math": [ "Shadow_Warnings", ">=", "1" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -346,12 +346,44 @@
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
+      { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WARN",
+    "eoc_type": "ACTIVATION",
+    "//1": "Same conditions as EOC_LIEUTENANT_SPAWN_SHADOW, minus the RNG check and the warnings check.",
+    "//2": "We also use a modified check regarding Lieutenants_active and Shadow_Lurking so that we can get warnings before the normal spawn time (7 days).",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        {
+          "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
+        },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Warnings", "+=", "1" ] },
       {
-        "u_message": "You shiver as the night closes in…",
-        "type": "bad",
-        "popup": true,
-        "popup_w_interrupt_query": true
+        "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
+        "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
+        "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
+    "effect": [
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
     ]
   },
   {
@@ -380,16 +412,27 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen. (Sundeath is only a problem after up to 90 minutes after sunrise)",
+    "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
     "condition": {
       "and": [
-        { "or": [ { "npc_allies": 3 }, { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": "u_is_outside" }, "is_day" ] },
+        { "not": { "compare_string": [ "", { "global_val": "shadow_encounter_XYZ_pos" } ] } },
+        {
+          "or": [
+            { "npc_allies": 3 },
+            { "u_at_om_location": "FACTION_CAMP_ANY" },
+            { "not": "u_is_outside" },
+            "is_day",
+            { "math": [ "distance('u', shadow_encounter_XYZ_pos)", ">=", "180" ] }
+          ]
+        },
         { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
       ]
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
+    "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
       { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
@@ -422,7 +465,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
     "eoc_type": "ACTIVATION",
-    "condition": { "compare_num": [ { "distance": [ "u", { "global_val": "Shadow_monster" } ] }, ">=", { "const": 30 } ] },
+    "condition": { "math": [ "distance('u', 'Shadow_monster')", ">=", "30" ] },
     "effect": [
       { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
       {
@@ -430,6 +473,23 @@
         "success_message": "You can't outrun your own shadow!",
         "force": true
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "Shadow_Warnings_Snippets_early",
+    "text": [
+      "Even out here you can still see the burning cities lighting up the horizon.  What scares you most is not the gunshots you sometimes hear in the far distance, but the idea of what people keep shooting at.  Tonight you hear automatic gunfire winding down into single shots.\n\nJust what could make them shoot that much, all the way out here?",
+      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizeable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "Shadow_Warnings_Snippets_late",
+    "text": [
+      "The nights are mostly calm and lonely nowadays, but you could almost swear it's been getting darker since the Cataclysm.  Every once in a while you feel like the darkness is creeping up on you when you turn your back.",
+      "The wind sure is howling tonight.  It almost sounds like something is out there.  Out here.  With you.",
+      "In the distance you think you saw something …skitter?  Crawl?  It didn't move like anything you've seen before.  Whatever it was, it's probably a bad idea to let it surprise you in unfamiliar terrain in the darkness."
     ]
   }
 ]

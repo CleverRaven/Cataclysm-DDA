@@ -135,19 +135,19 @@
   {
     "id": "chestrig",
     "type": "ARMOR",
-    "name": { "str_sp": "chest rig" },
+    "name": { "str": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_chestrig",
-        "name": { "str_sp": "chest rig" },
+        "name": { "str": "chest rig" },
         "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
         "weight": 30
       },
       {
         "id": "flag_chestrig",
-        "name": { "str_sp": "patriot’s chest rig" },
+        "name": { "str": "patriot's chest rig" },
         "description": "An American flag is proudly embroidered across the front of each pouch, with a tiny, eagle-winged .50-caliber bullet crowning each banner.",
         "append": true
       }
@@ -208,7 +208,6 @@
     "type": "ARMOR",
     "copy-from": "chestrig",
     "name": { "str": "XL chest rig" },
-    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -216,9 +215,7 @@
     "id": "xs_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "looks_like": "chestrig",
     "name": { "str": "XS chest rig" },
-    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits small forms.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -458,6 +455,33 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "pipe_quiver",
+    "type": "ARMOR",
+    "name": { "str": "pipe quiver" },
+    "description": "A makeshift quiver fashioned from a pipe, worn at the waist.  Heavier and thinner than a typical quiver, it can only hold 10 arrows or bolts.  Use insert to store arrows or bolts.",
+    "weight": "800 g",
+    "volume": "370 ml",
+    "price": 6500,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1.5,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 10, "bolt": 10 }, "moves": 20 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
     "id": "quiver_large",
     "type": "ARMOR",
     "name": { "str": "large quiver" },
@@ -494,6 +518,26 @@
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "pipe_quiver_large",
+    "type": "ARMOR",
+    "name": { "str": "large pipe quiver" },
+    "description": "A large makeshift quiver fashioned from 3 pipes, worn on the back.  Heavier and thinner than a typical large quiver, it can only hold 30 arrows or bolts.  Use insert to store arrows or bolts.",
+    "weight": "2000 g",
+    "volume": "810 ml",
+    "price": 8800,
+    "price_postapoc": 1000,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1.5,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 30, "bolt": 30 }, "moves": 30 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "quiver_takedown_bow",
@@ -563,7 +607,6 @@
         "magazine_well": "350 ml",
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "300 ml",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
@@ -573,51 +616,41 @@
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "300 mm",
-        "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "300 mm",
-        "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
         "max_item_length": "250 mm",
-        "min_item_volume": "200 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
-        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60,
+        "moves": 100,
         "volume_encumber_modifier": 0.25
       },
       {
@@ -634,7 +667,6 @@
     "type": "ARMOR",
     "copy-from": "tacvest",
     "name": { "str": "XL tac vest" },
-    "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -642,9 +674,7 @@
     "id": "xs_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "looks_like": "tacvest",
     "name": { "str": "XS tac vest" },
-    "description": "This light vest is meant to carry your magazines, shells and pistols.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

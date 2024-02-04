@@ -44,7 +44,7 @@
     "id": "alt_tshirt",
     "type": "ARMOR",
     "name": { "str": "slightly off t-shirt" },
-    "description": "A short-sleeved cotton shirt with a design.  The design seems strange somehow when you think about this t-shirt as compared to others you've seen before.",
+    "description": "A short-sleeved cotton tee featuring a uniquely odd design that sets it apart from any you've seen before.",
     "copy-from": "tshirt",
     "variant_type": "generic",
     "variants": [
@@ -347,8 +347,7 @@
     "id": "pants_no_pocket_gossamer",
     "type": "ARMOR",
     "copy-from": "pants",
-    "name": { "ctxt": "clothing", "str_sp": "gossamer hose" },
-    "//~": "Hose here refers to the Medieval clothing.",
+    "name": { "//~": "Hose here refers to the Medieval clothing.", "ctxt": "clothing", "str_sp": "gossamer hose" },
     "description": "A pair of tight-fitting gossamer pants with no pockets.  They would have been the absolute height of fashion five hundred years ago.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",

@@ -4,11 +4,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "afs_any_laser_s_gun", "prob": 10 },
-      { "group": "afs_any_laser_h_gun", "prob": 2 },
+      { "group": "afs_any_laser_gun", "prob": 12 },
       { "group": "afs_any_plasma_gun", "prob": 5 },
       { "group": "afs_any_voltaic_gun", "prob": 2 }
     ]
+  },
+  {
+    "id": "afs_any_laser_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_any_laser_s_gun", "prob": 10 }, { "group": "afs_any_laser_h_gun", "prob": 2 } ]
   },
   {
     "id": "afs_any_laser_s_gun",
@@ -67,6 +72,13 @@
     ]
   },
   {
+    "id": "afs_civilian_laser_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [ [ "afs_bootleg_cartridge", 80 ], [ "afs_compact_cartridge", 10 ] ]
+  },
+  {
     "id": "afs_any_plasma_mag",
     "type": "item_group",
     "subtype": "distribution",
@@ -87,6 +99,35 @@
     "subtype": "distribution",
     "ammo": 100,
     "items": [ [ "afs_voltaic_cartridge", 30 ] ]
+  },
+  {
+    "id": "afs_civilian_energy_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Plasma isnt sold to civilians",
+    "items": [ { "group": "afs_civilian_laser_gun", "prob": 12 }, { "group": "afs_civilian_voltaic_gun", "prob": 2 } ]
+  },
+  {
+    "id": "afs_civilian_laser_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_v29", 40 ], [ "afs_av22", 60 ] ]
+  },
+  {
+    "id": "afs_civilian_voltaic_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_voltaic_pistol", 90 ] ]
+  },
+  {
+    "id": "afs_civilian_energy_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_laser_mag", "prob": 10 }, { "group": "afs_any_voltaic_mag", "prob": 3 } ]
   },
   {
     "type": "item_group",

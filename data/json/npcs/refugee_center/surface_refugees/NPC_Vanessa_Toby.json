@@ -177,11 +177,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 5,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
           "yes": "Well, I",
           "no": "You want the sarcastic version, or the really sarcastic version?  I"
         },
@@ -287,7 +283,7 @@
       "effect": [
         { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     }
   }

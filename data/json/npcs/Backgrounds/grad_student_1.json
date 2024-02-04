@@ -6,7 +6,7 @@
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_GRAD_STUDENT_1_STORY2" },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -17,7 +17,7 @@
     "responses": [
       { "text": "Something must have driven you out of the motel.", "topic": "BGSS_GRAD_STUDENT_1_STORY3" },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -27,7 +27,7 @@
     "dynamic_line": "Yes.  Simple hunger.  The vending machines sold only peanuts and biscuits.  I wasn't about to rely on that for survival.  I stayed long enough to realize no one was going to come for me, then packed up what I could and drove off.  Eventually my car was caught in a downpour of acid rain that stripped the tires and left me to carry on on foot, living the life of a hunter gatherer.  Honestly, I think I eat better this way than I did as a grad student.",
     "responses": [
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -37,7 +37,7 @@
     "dynamic_line": "I was in biochemistry.  Specifically, if you're interested, I was studying the folding of non-standard nucleic acids into enzyme-like structures.  It sounds more interesting than it was; most of my time was spent cursing at computer screens and wishing we had more information on threose chains at unusual temperatures and pressures for modeling.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

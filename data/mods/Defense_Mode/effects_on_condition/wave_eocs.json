@@ -77,23 +77,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_VANILLA_ONLY_HUMANS",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -109,23 +93,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_ZOMBIE",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -141,23 +109,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_SPIDER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -173,23 +125,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_ROBOT_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -205,23 +141,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_TRIFFID_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -237,23 +157,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_NETHER_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -269,23 +173,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_FERAL",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -305,23 +193,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_RATKIN_EVOLVED",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -341,23 +213,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_MIL_HELIPAD",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,

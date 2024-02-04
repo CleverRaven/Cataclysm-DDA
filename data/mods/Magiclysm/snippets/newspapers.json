@@ -20,8 +20,13 @@
       },
       {
         "id": "magiclysm_months_old_news_2",
-        "//": "My idea here is that the different species cannot have children together but adoption is common, so you could have the adopted son of a human father and a dwarven mother named like \"Eric Johnson, son of Rupert, of Clan Stonehammer\",etc.  Hence the secretary's name--elven father, human mother, adopted.",
+        "//": "The idea here is that the different species cannot have children together but adoption is common, so you could have the adopted son of a human father and a dwarven mother named like \"Eric Johnson, son of Rupert, of Clan Stonehammer\",etc.  Hence the secretary's name--elven father, human mother, adopted.",
         "text": "Secretary of Thaumaturgy Adam Maerhanar released a statement today stating that all national parks would be closed to the public until further notice due to increased wilderness spirit activity.  The notice further stated that the cause was under investigation but an unnamed source indicated it was probably due to natural solar cycles: \"The stars, the sun, the moon, we know these all affect spirits' behavior.  Despite existing alongside them for thousands of years, there's still so much we don't know about them.\""
+      },
+      {
+        "id": "magiclysm_months_old_news_3",
+        "//": "MAGIC is a cute acronym like some American laws have--Measures Against Grevious Injury from Charms Act.",
+        "text": "Five members of the radical activist group Gaia's Children were arrested today as part of a protest over new logging operations being conducted in the Lake Tarleton area.  The members are alleged to have blockaded the entrance to a facility storing logging equipment, using magic to prevent authorities from entering for over an hour before surrendering peacefully.  While no one was harmed during the incident, all the equipment within was irreparably damaged.  Thaumaturgical investigators have stated that the damage is consistent with usage of the Cause Rot spell, knowledge of which is restricted to licensed mages per the MAGIC Act.  A spokeswoman from Gaia's Children stated that its members had taken, \"Appropriate measures to prevent agitating the local spirits and desecrating the sanctity of the Earth.\"  Investigations are ongoing."
       }
     ]
   },
@@ -46,6 +51,14 @@
       {
         "id": "magiclysm_many_years_old_news_1",
         "text": "Staff at Johns Hopkins University yesterday announced promising results in the long search for a health catalyst spell.  While an actual prototype formula has not been released, the draft paper indicates that animal testing showed a five percent decrease in long-term mortality rates in rats suffering from a dozen different types of cancers.  \"A true universal healing catalyst spell would really be the Holy Grail\", said Dr. Olivia k'Ħarzag, Director of Thaumaturgical Oncology Research at Johns Hopkins University.  \"Modern cancer research's greatest limiting factor is that the most potent biomantic healing spells can only affect the caster.  If we can find a way to encourage the body's own defenses that works on a wide scale, even if we can't directly cure the cancer, we could save so many more people.\""
+      },
+      {
+        "id": "magiclysm_many_years_old_news_2",
+        "text": "Investigations are continuing into the death of local wizard Sivi, daughter of Ḥalmet of Clan Redaxe, who was found dead in her home last month.  No foul play is suspected at this time.  An initial report by medical examiners at Massachusetts General Hospital indicated the cause of death as multiple organ failure following a sudden illness.  \"It's very strange\", said a source close to the matter, \"Her organs all looked like those of an elderly person, even though 96 is barely middle-age for a dwarf.  She could have expected to live another hundred years easily.  If you ask me, it's all that research she was doing into the effects of Haste magic.  Probably hasted herself right through to the end of her life.  We've seen side effects in Haste over-usage before but never to a fatal degree.\"  When asked for comment, Dr. Olivia Wright, a professor of control thaumaturgy at MIT&M, said, \"The idea of \"haste-death\" shows up in rumors repeatedly but there has never been a single confirmed case.  Haste places stress on the body, of course, but the stress is accounted for as part of the effects of the spell.  Ms. Sivi's death was tragic, but fearmongering about the effects of magic helps no one.\""
+      },
+      {
+        "id": "magiclysm_many_years_old_news_3",
+        "text": "The American Association of Medical Biomancy today announced a breakthrough in the use of cure disease spells against the novel coronavirus.  The press release stated that efficacy had broken 90% and a full cure had been achieved for the first time.  \"Magic doesn't have a mind of its own,\" said AAMB representative Dr. Ssmthisk, \"it has to be adapted to new circumstances just as any other art or science does.  Just as new weapons called for refinement of protection spells, new diseases require new thaumaturgical treatments.\"  Dr. Ssmthisk also stressed the importance of the ongoing vaccination effort in overcoming COVID-19.  \" I know it's not the news everyone wants to hear, but a vaccine is really the only way out.  Even if every biomancer in the country licensed to practice medicine spent every waking hour and all of our mana curing COVID-19, it would still take us over a decade just to cure the people who have it now, and that's not counting any new infections in the meantime and takes us away from any other treatments we could do.  So please follow the appropriate precautions.\""
       }
     ]
   }

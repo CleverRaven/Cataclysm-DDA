@@ -497,9 +497,13 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
-        bool dodge_check( float hit_roll, bool force_try = false );
-        bool dodge_check( monster *z );
-        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+        /**
+         * If training_level is anything but 0, the check will only train target's skill to that level
+        */
+        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0.0f );
+        bool dodge_check( monster *z, float training_level = 0.0f );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
+                          float training_level = 0.0f );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
@@ -510,7 +514,7 @@ class Creature : public viewer
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty, float training_level = 0.0f ) = 0;
         /**
          * Invoked when the creature attempts to dodge, regardless of success or failure.
          */
@@ -538,6 +542,9 @@ class Creature : public viewer
 
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
+
+        // returns true if the creature is a faerie creature
+        virtual bool is_fae() const = 0;
 
         // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
@@ -675,6 +682,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
         void clear_values();
 
         virtual units::mass get_weight() const = 0;
@@ -1111,68 +1119,6 @@ class Creature : public viewer
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
-        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
-                                              const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
-                                      Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
-                                      Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
-                                           const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
-                                   Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
-                                   Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                const std::string &/*player_msg*/,
-                const std::string &/*npc_msg*/ ) const {}
-        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                                          const translation &/*player_msg*/,
-                                          const translation &/*npc_msg*/ ) const;
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
-                                          const char *const npc_msg, Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg, Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         virtual void add_msg_player_or_say( const game_message_params &/*params*/,
@@ -1308,6 +1254,8 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;

@@ -414,6 +414,7 @@
       [ "coat_lab", 20 ],
       [ "helmet_army", 40 ],
       [ "helmet_army_outdated", 30 ],
+      [ "helmet_soviet_tanker", 3 ],
       [ "helmet_conical", 1 ],
       [ "helmet_liner", 10 ],
       [ "hat_fur", 15 ],
@@ -758,6 +759,7 @@
       [ "helmet_liner", 20 ],
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
+      [ "helmet_soviet_tanker", 1 ],
       { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
@@ -998,6 +1000,7 @@
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
           { "item": "violin", "prob": 90 },
@@ -1030,7 +1033,14 @@
     "id": "mussto_stringinst",
     "type": "item_group",
     "//": "for music store",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
+    "items": [
+      [ "acoustic_guitar", 100 ],
+      [ "violin", 80 ],
+      [ "ukulele", 90 ],
+      [ "kantele", 10 ],
+      [ "banjo", 100 ],
+      [ "guitar_electric", 100 ]
+    ]
   },
   {
     "id": "bowling_alcohol",
@@ -2133,7 +2143,10 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+    "items": [
+      { "group": "quicklime_bag", "prob": 85 },
+      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",

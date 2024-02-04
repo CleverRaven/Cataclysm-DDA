@@ -71,16 +71,11 @@
       {
         "text": "Has anyone come recently?",
         "condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" },
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "not": { "npc_compare_time_since_var": "wait", "type": "time", "context": "survivors", "op": "<", "time": "14 days" }
-          }
-        },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
-            { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+            { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
             { "mapgen_update": "lighthouse_man_survivor", "om_terrain": "lighthouse_ground" }
           ]
         },
@@ -139,7 +134,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  First floor is clear.",
@@ -151,7 +146,7 @@
             { "npc_at_om_location": "lighthouse_z1" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Second floor is clear.",
@@ -163,7 +158,7 @@
             { "npc_at_om_location": "lighthouse_z2" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Third floor is clear.",
@@ -175,7 +170,7 @@
             { "npc_at_om_location": "lighthouse_z3" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Fourth floor is clear.",
@@ -187,7 +182,7 @@
             { "npc_at_om_location": "lighthouse_z4" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 }
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
@@ -198,7 +193,7 @@
             { "npc_at_om_location": "lighthouse_z5" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
       },
       {
@@ -210,7 +205,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "effect": { "math": [ "npc_count_cleaning_lighthouse_man", "++" ] },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -358,7 +353,7 @@
       "effect": [
         "follow_only",
         { "npc_first_topic": "TALK_lighthouse_man_cleaning" },
-        { "npc_add_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "0" }
+        { "math": [ "npc_count_cleaning_lighthouse_man", "=", "0" ] }
       ]
     },
     "end": {
@@ -472,7 +467,7 @@
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
       },
       "effect": [
-        { "npc_add_var": "wait", "type": "time", "context": "survivors", "time": true },
+        { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
         { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" }
       ]
     },

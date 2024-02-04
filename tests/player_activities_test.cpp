@@ -14,6 +14,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "point.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -1693,7 +1694,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( firstaid_activity_actor( 1, std::string(), get_avatar().getID() ) ); },
     [] { return player_activity( forage_activity_actor( 1 ) ); },
     [] { return player_activity( gunmod_remove_activity_actor( 1, item_location(), 0 ) ); },
-    [] { return player_activity( hacking_activity_actor() ); },
+    [] { return player_activity( hacking_activity_actor( item_location() ) ); },
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
@@ -1762,9 +1763,9 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     clear_avatar();
     clear_map();
     set_time_to_day();
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
     map &m = get_map();
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 
     for( const std::function<player_activity()> &setup_activity : test_activities ) {
         player_activity activity = setup_activity();

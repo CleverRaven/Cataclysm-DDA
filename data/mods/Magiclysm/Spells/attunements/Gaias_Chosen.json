@@ -23,7 +23,7 @@
     "id": "dust_reborn",
     "type": "SPELL",
     "name": "Dust Reborn",
-    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When times come, and your body will be close to destruction, you can abandon it, transferring your consciousness into undamaged one.  But it has the huge price, and for body immortality you pay with temporary body weakness.",
+    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When the times come and your body is close to destruction, you can abandon it, transferring your consciousness into the cast.  But it brings with it a great price, and for your immortality, you pay with temporary bodily weakness.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_DUST_REBORN_INITIAL",
@@ -65,42 +65,15 @@
     "enchantments": [
       {
         "values": [
-          {
-            "value": "ARMOR_ACID",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BASH",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BIO",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_COLD",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_CUT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "terra_armor" }, "*", { "const": -3 } ] }
-          }
+          { "value": "ARMOR_ACID", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } }
         ]
       }
     ]

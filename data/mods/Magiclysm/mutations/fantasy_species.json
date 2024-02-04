@@ -306,7 +306,8 @@
     "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
-    "passive_mods": { "str_mod": -1, "dex_mod": 2 }
+    "passive_mods": { "str_mod": -1, "dex_mod": 2 },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.12 } ] } ]
   },
   {
     "type": "mutation",
@@ -560,7 +561,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
+    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it was considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
     "types": [ "TEETH" ],
     "category": [ "SPECIES_GOBLIN" ],
     "attacks": [
@@ -573,6 +574,18 @@
         "base_damage": { "damage_type": "stab", "amount": 6 }
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_EYES",
+    "valid": false,
+    "name": { "str": "Nocturnal Vision" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human.",
+    "category": [ "SPECIES_GOBLIN" ],
+    "enchantments": [ "ench_goblin_eyes" ]
   },
   {
     "type": "mutation",
@@ -733,7 +746,8 @@
     "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
     "category": [ "SPECIES_RAVENFOLK" ],
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",

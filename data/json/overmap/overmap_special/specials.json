@@ -475,20 +475,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Rural Gas Station",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gas_rural_roof_north" },
-      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
-    "locations": [ "land" ],
-    "city_distance": [ 20, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "Hunting Lodge",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lodge_ground1_north" },
@@ -558,6 +544,79 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Rural Gas Station",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_rural_roof_north" },
+      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "gas station bunker",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_north" },
+      { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] },
+      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [
+      { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      {
+        "point": [ -1, -1, 0 ],
+        "terrain": "road",
+        "existing": true,
+        "connection": "local_road",
+        "from": [ -1, 0, 0 ]
+      },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field", "forest_without_trail" ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "gas station bunkerless",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_north" },
+      { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] },
+      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [
+      { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      {
+        "point": [ -1, -1, 0 ],
+        "terrain": "road",
+        "existing": true,
+        "connection": "local_road",
+        "from": [ -1, 0, 0 ]
+      },
+      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field", "forest_without_trail" ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
   {
@@ -1446,7 +1505,7 @@
     "type": "overmap_special",
     "id": "Slime Pit",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_top" }, { "point": [ 0, 0, -1 ], "overmap": "slimepit_bottom" } ],
-    "locations": [ "wilderness" ],
+    "locations": [ "wilderness", "agricultural" ],
     "city_distance": [ 3, 30 ],
     "occurrences": [ 0, 3 ],
     "rotate": false,
@@ -2863,7 +2922,7 @@
     ],
     "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 5, 40 ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "FARM", "MAN_MADE" ]
   },
@@ -2881,7 +2940,7 @@
     ],
     "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
     "locations": [ "field" ],
-    "city_distance": [ 5, 60 ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "FARM", "MAN_MADE" ]
   },
@@ -2905,8 +2964,11 @@
   {
     "type": "overmap_special",
     "id": "Derelict Property",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "derelict_property_north" } ],
-    "locations": [ "field", "forest_without_trail" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "derelict_property_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "derelict_property_roof_north" }
+    ],
+    "locations": [ "field", "forest_with_swamp" ],
     "city_distance": [ 1, 10 ],
     "occurrences": [ 0, 10 ],
     "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
@@ -3988,7 +4050,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "ws_giant_sinkhole_1_north" },
       { "point": [ 0, 0, -1 ], "overmap": "ws_giant_sinkhole_2_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "wilderness", "road", "agricultural" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
@@ -4341,7 +4403,7 @@
       { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 5, 60 ],
+    "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
@@ -6952,24 +7014,6 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, -1 ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "gas station bunker",
-    "overmaps": [
-      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_south" },
-      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_south" },
-      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_south" },
-      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_south" },
-      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_south" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "field", "forest_without_trail" ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]

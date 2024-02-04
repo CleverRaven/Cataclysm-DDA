@@ -9,7 +9,7 @@
     "effect": "attack",
     "effect_str": "blind",
     "shape": "line",
-    "damage_type": "stab",
+    "damage_type": "light",
     "min_damage": 40,
     "damage_increment": 15.0,
     "max_damage": 565,

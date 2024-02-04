@@ -62,8 +62,8 @@
         { "monster": "GROUP_QUIVERFULL", "x": [ 2, 14 ], "y": [ 15, 21 ], "chance": 1 }
       ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 2, "y": 0, "chance": 80, "status": 0 },
+        { "vehicle": "rolling_trash_can", "x": 3, "y": 0, "chance": 80, "status": 0 },
         { "vehicle": "tricycle", "x": 10, "y": 8, "chance": 50, "status": 0 },
         { "vehicle": "tricycle", "x": 4, "y": 21, "chance": 50, "status": 0 }
       ]

@@ -132,29 +132,6 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "rag",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "rag" },
-    "description": "A largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "//": "This is much, much bigger than it should be.",
-    "//2": "Based on the density used for cotton patchwork, which disassembles into rags, it should be 52ml.",
-    "//3": "But I don't want to touch the tests that are insistent it should take longer to manipulate, so here we are.",
-    "//4": "Rags will be going away soonish. I need to finish the other recipe changes first.",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "symbol": ",",
-    "color": "white",
-    "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
-      "WASH_HARD_ITEMS"
-    ],
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "cotton_patchwork",
     "type": "TOOL",
     "category": "spare_parts",

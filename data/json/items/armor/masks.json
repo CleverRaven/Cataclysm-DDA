@@ -63,31 +63,6 @@
     "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
-    "id": "neckwarmer",
-    "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "name": { "str": "neckwarmer" },
-    "description": "A synthetic fabric neckwarmer, worn over the mouth for warmth and minor protection from dust and other contaminants.  It also warm and protect your neck, throat, and the sides of your face.",
-    "weight": "50 g",
-    "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 10,
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust the %s to cover your head.",
-      "target": "neckwarmer_head",
-      "menu_text": "Cover head"
-    },
-    "material": [ "nylon" ],
-    "symbol": "[",
-    "looks_like": "scarf",
-    "color": "blue",
-    "warmth": 8,
-    "material_thickness": 0.2,
-    "environmental_protection": 2,
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
-  },
-  {
     "id": "bondage_mask",
     "type": "ARMOR",
     "name": { "str": "bondage mask" },

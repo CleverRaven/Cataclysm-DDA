@@ -33,10 +33,10 @@ TEST_CASE( "fun_for_non-food", "[fun_for][nonfood]" )
     std::pair<int, int> actual_fun;
 
     SECTION( "non-food has no fun value" ) {
-        item rag( "rag" );
-        REQUIRE_FALSE( rag.is_comestible() );
+        item sheet_cotton( "sheet_cotton" );
+        REQUIRE_FALSE( sheet_cotton.is_comestible() );
 
-        actual_fun = dummy.fun_for( rag );
+        actual_fun = dummy.fun_for( sheet_cotton );
         CHECK( actual_fun.first == 0 );
         CHECK( actual_fun.second == 0 );
     }

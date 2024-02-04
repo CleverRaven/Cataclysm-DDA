@@ -6,7 +6,7 @@
     "recurrence": [ "5 h", "120 h" ],
     "condition": {
       "and": [
-        { "compare_num": [ "moon", "==", { "const": 3 } ] },
+        { "math": [ "moon_phase() == 3" ] },
         { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
       ]
     },
@@ -15,8 +15,8 @@
       "run_eocs": {
         "id": "eoc_eggsac_mantain_or_remove_switch",
         "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" },
-        "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 10 ], [ "eggsac_remove", { "u_val": "strength" } ] ] },
-        "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 25 ], [ "eggsac_remove", { "u_val": "strength" } ] ] }
+        "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 10 ], [ "eggsac_remove", { "math": [ "u_val('strength')" ] } ] ] },
+        "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", 25 ], [ "eggsac_remove", { "math": [ "u_val('strength')" ] } ] ] }
       }
     }
   },
@@ -67,16 +67,8 @@
     "condition": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" },
     "deactivate_condition": { "not": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" } },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen_troglobite" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] }
-        ]
-      },
-      {
-        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
-      },
+      { "math": [ "u_vitamin('mutagen_troglobite')", "+=", "750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "manifest_destiny_goblin_complete",
@@ -93,16 +85,8 @@
     "condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
     "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen_troglobite" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
-        ]
-      },
-      {
-        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
-      },
+      { "math": [ "u_vitamin('mutagen_troglobite')", "+=", "1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "destiny_goblin_removal",
@@ -119,12 +103,8 @@
     "condition": { "u_has_trait": "MANIFEST_DESTINY_SPIDER" },
     "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
     "effect": [
-      {
-        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_spider" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
-      },
-      {
-        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
-      },
+      { "math": [ "u_vitamin('mutagen_spider')", "+=", "750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "manifest_destiny_spider_complete",
@@ -141,16 +121,8 @@
     "condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
     "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" } },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen_spider" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
-        ]
-      },
-      {
-        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
-      },
+      { "math": [ "u_vitamin('mutagen_spider')", "+=", "1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "destiny_goblin_spider",
@@ -164,14 +136,6 @@
     "type": "effect_on_condition",
     "id": "consume_human_blood",
     "condition": { "u_has_trait": "VAMPIRE" },
-    "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "human_blood_vitamin" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
-        ]
-      }
-    ]
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
   }
 ]

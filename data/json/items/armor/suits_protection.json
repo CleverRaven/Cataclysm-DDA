@@ -86,10 +86,8 @@
     "name": { "str": "biosilicified chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
-    "material_thickness": 5,
     "environmental_protection": 2,
     "price_postapoc": 3500,
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "melee_damage": { "bash": 1 } }
   },
   {
@@ -315,8 +313,8 @@
     "id": "armor_ch_metal_sheets",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets",
-    "name": { "str": "case hardened sheet metal armor" },
-    "description": "A full set of armor hammered out from sheet metal and case hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
+    "name": { "str": "hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -365,8 +363,8 @@
     "id": "armor_ch_metal_sheets_heavy",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_heavy",
-    "name": { "str": "heavy case hardened sheet metal armor" },
-    "description": "A full set of armor hammered out from sheet metal and case hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
+    "name": { "str": "heavy hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
     "material": [ "ch_steel" ],
     "armor": [
       {
@@ -493,7 +491,7 @@
     "id": "armor_ch_metal_sheets_chain",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_chain",
-    "name": { "str": "case hardened junkyard plate armor" },
+    "name": { "str": "hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, and case-hardened for extra strength.  It might be crude and uncomfortably heavy, but it was clearly made by a skilled metalworker and offers excellent protection.",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "armor": [
@@ -531,7 +529,7 @@
     "id": "armor_ch_metal_sheets_chain_heavy",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_chain_heavy",
-    "name": { "str": "heavy case hardened junkyard plate armor" },
+    "name": { "str": "heavy hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, with a double-thick chestpiece, and case-hardened for extra strength.  Top-of-the-line in armor that looks like it was made from banged-up lockers, for the skilled metalworker that values protection over being able to move.",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "armor": [
@@ -569,7 +567,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -630,7 +628,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "medium steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -646,7 +644,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "high steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -661,14 +659,14 @@
     "id": "armor_ch_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "case hardened light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened steel light plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened light plate armor" },
+    "name": { "str": "XL hardened light plate armor" },
     "copy-from": "armor_ch_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -677,14 +675,14 @@
     "id": "armor_qt_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "name": { "str": "tempered light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "name": { "str": "tempered steel light plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered light plate armor" },
+    "name": { "str": "XL tempered steel light plate armor" },
     "copy-from": "armor_qt_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -694,7 +692,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "20 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -755,7 +753,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "medium steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -772,7 +770,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -788,14 +786,14 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_plate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened plate armor" },
+    "name": { "str": "XL hardened plate armor" },
     "copy-from": "armor_ch_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -805,14 +803,14 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str": "tempered plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "name": { "str": "tempered steel plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_plate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered plate armor" },
+    "name": { "str": "XL tempered steel plate armor" },
     "copy-from": "armor_qt_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -822,7 +820,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -883,13 +881,13 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "medium steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy plate armor" },
+    "name": { "str": "XL medium steel heavy plate armor" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -899,7 +897,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "high steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -914,14 +912,14 @@
     "id": "armor_ch_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "case hardened heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "name": { "str": "hardened steel heavy plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened heavy plate armor" },
+    "name": { "str": "XL hardened heavy plate armor" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -930,8 +928,8 @@
     "id": "armor_qt_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "name": { "str": "tempered heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "name": { "str": "tempered steel heavy plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -1247,6 +1245,7 @@
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "9356 g",
     "//": "Should be lighter when irl hauberk as it does not cover legs",
     "volume": "2750 ml",
@@ -1397,7 +1396,6 @@
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "budget_steel_chain" },
     "name": { "str": "chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1419,126 +1417,112 @@
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail hauberk" },
-    "description": "A fully customized mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "xl_lc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL low steel chainmail hauberk" },
-    "description": "A fully customized XL mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL mild steel chainmail hauberk" }
   },
   {
     "id": "lc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS low steel chainmail hauberk" },
-    "description": "A fully customized XS mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS mild steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail hauberk" },
-    "description": "A fully customized medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "xl_mc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail hauberk" },
-    "description": "A fully customized XL medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL medium steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail hauberk" },
-    "description": "A fully customized XS medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS medium steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail hauberk" },
-    "description": "A fully customized high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "xl_hc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail hauberk" },
-    "description": "A fully customized XL high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL high steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail hauberk" },
-    "description": "A fully customized XS high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS high steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "hardened steel chainmail hauberk" },
-    "description": "A fully customized case hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "xl_ch_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail hauberk" },
-    "description": "A fully customized XL case hardened chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL hardened steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail hauberk" },
-    "description": "A fully customized XS case hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS hardened steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail hauberk" },
-    "description": "A fully customized tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "xl_qt_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail hauberk" },
-    "description": "A fully customized XL tempered chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL tempered steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail hauberk" },
-    "description": "A fully customized XS tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS tempered steel chainmail hauberk" }
   },
   {
     "abstract": "base_chainmail_sjumpsuit",
     "copy-from": "base_chainmail_hauberk",
     "type": "ARMOR",
     "name": { "str": "chainmail sleeveless jumpsuit" },
+    "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "10669 g",
     "pocket_data": [
       {
@@ -1682,126 +1666,112 @@
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_lc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XL mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "lc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XS mild steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_mc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XL medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XS medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_hc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XL high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XS high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_ch_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XL hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XS hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_qt_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XL tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XL tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail sleeveless jumpsuit" },
-    "description": "A fully customized XS tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection."
+    "name": { "str": "XS tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "abstract": "base_chainmail_jumpsuit",
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
     "name": { "str": "chainmail jumpsuit" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "13131 g",
     "volume": "3250 ml",
     "longest_side": "15 cm",
@@ -2009,126 +1979,112 @@
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail jumpsuit" },
-    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "xl_lc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail jumpsuit" },
-    "description": "A fully customized XL mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL mild steel chainmail jumpsuit" }
   },
   {
     "id": "lc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail jumpsuit" },
-    "description": "A fully customized XS mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS mild steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail jumpsuit" },
-    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "xl_mc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail jumpsuit" },
-    "description": "A fully customized XL medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL medium steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail jumpsuit" },
-    "description": "A fully customized XS medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS medium steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail jumpsuit" },
-    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "xl_hc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail jumpsuit" },
-    "description": "A fully customized XL high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL high steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail jumpsuit" },
-    "description": "A fully customized XS high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS high steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "case hardened steel chainmail jumpsuit" },
-    "description": "A fully customized case hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "xl_ch_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL case hardened steel chainmail jumpsuit" },
-    "description": "A fully customized XL case hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL hardened steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS case hardened steel chainmail jumpsuit" },
-    "description": "A fully customized XS case hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS hardened steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail jumpsuit" },
-    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "tempered steel chainmail jumpsuit" }
   },
   {
     "id": "xl_qt_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail jumpsuit" },
-    "description": "A fully customized XL tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL tempered steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail jumpsuit" },
-    "description": "A fully customized XS tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS tempered steel chainmail jumpsuit" }
   },
   {
     "abstract": "base_chainmail_suit",
     "copy-from": "base_chainmail_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "chainmail armor" },
+    "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "14446 g",
     "pocket_data": [
       {
@@ -2347,120 +2303,105 @@
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "mild steel chainmail armor" },
-    "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "xl_lc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail armor" },
-    "description": "A fully customized XL mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL mild steel chainmail armor" }
   },
   {
     "id": "lc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail armor" },
-    "description": "A fully customized XS mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS mild steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "medium steel chainmail armor" },
-    "description": "A fully customized medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "xl_mc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail armor" },
-    "description": "A fully customized XL medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL medium steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail armor" },
-    "description": "A fully customized XS medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS medium steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "high steel chainmail armor" },
-    "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "xl_hc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail armor" },
-    "description": "A fully customized XL high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL high steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail armor" },
-    "description": "A fully customized XS high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS high steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "case hardened steel chainmail armor" },
-    "description": "A fully customized case hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "xl_ch_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL case hardened steel chainmail armor" },
-    "description": "A fully customized XL case hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL hardened steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS case hardened steel chainmail armor" },
-    "description": "A fully customized XS case hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS hardened steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "tempered steel chainmail armor" },
-    "description": "A fully customized tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "xl_qt_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail armor" },
-    "description": "A fully customized XL tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XL tempered steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail armor" },
-    "description": "A fully customized XS tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection."
+    "name": { "str": "XS tempered steel chainmail armor" }
   },
   {
     "id": "chainmail_suit_faraday",
@@ -3339,7 +3280,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [
@@ -3408,7 +3349,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [
@@ -3477,7 +3418,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "ammo": "battery",
     "armor": [

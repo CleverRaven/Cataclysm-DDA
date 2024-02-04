@@ -246,7 +246,7 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
@@ -299,7 +299,7 @@ jobs:
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching

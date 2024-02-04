@@ -33,7 +33,7 @@
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
-    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION", "GUILT_HUMAN" ]
   },
   {
     "id": "mon_civilian_stationary",
@@ -117,7 +117,7 @@
     "speed": 0,
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
     "morale": 0,
-    "upgrades": { "into": "mon_zombie_crawler", "into_group": "GROUP_NULL" },
+    "upgrades": { "into": "mon_zombie_crawler" },
     "delete": { "flags": [ "SEES", "HEARS" ] },
     "copy-from": "mon_civilian_stationary"
   },

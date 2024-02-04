@@ -5,7 +5,7 @@
     "dynamic_line": "I was at school for <the_cataclysm>.  Funny thing, actually: I was gearing up to run a zombie survival RPG with my friends on the weekend.  Ha, I didn't think it'd turn into a LARP!  Okay….  No, that wasn't funny.",
     "responses": [
       { "text": "How did you survive school?", "topic": "BGSS_NERD_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -16,7 +16,7 @@
     "responses": [
       { "text": "What about your parents?", "topic": "BGSS_NERD_1_PARENTS" },
       { "text": "What got you out of there?", "topic": "BGSS_NERD_1_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -26,7 +26,7 @@
     "dynamic_line": "I'm not stupid.  I know they're gone.  Who knows where… maybe in an evac shelter, maybe in a FEMA camp.  Most of everyone is dead.",
     "responses": [
       { "text": "What got you out of the house?", "topic": "BGSS_NERD_1_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -36,7 +36,7 @@
     "dynamic_line": "Eventually the zombies came.  I figured they would.  Before the net cut out, there were plenty of videos online making it clear enough what was going on.  I'd picked out some good gear and loaded my bag up with supplies….  When they started knocking at the door, I slipped out the back and took to the street.  And here I am.",
     "responses": [
       { "text": "What about your parents?", "topic": "BGSS_NERD_1_PARENTS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

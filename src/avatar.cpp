@@ -68,6 +68,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "scenario.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -1453,6 +1454,16 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
+item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
+        bool empty )
+{
+    if( !base ) {
+        return item::reload_option();
+    }
+
+    return game_menus::inv::select_ammo( *this, base, prompt, empty );
+}
+
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
@@ -1778,7 +1789,15 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
 void avatar::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = profession::get_all_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    choices.erase( std::remove_if( choices.begin(), choices.end(),
+    [this]( const string_id<profession> &hobby ) {
+        return !prof->allows_hobby( hobby );
+    } ), choices.end() );
+    if( choices.empty() ) {
+        debugmsg( "Why would you blacklist all hobbies?" );
+        choices = profession::get_all_hobbies();
+    };
 
     int random = rng( 0, 5 );
 

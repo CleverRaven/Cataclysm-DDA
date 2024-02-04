@@ -13,9 +13,9 @@
     "type": "overmap_special",
     "id": "landing_pad",
     "locations": [ "land", "swamp" ],
-    "city_distance": [ -1, 1 ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 1 ],
+    "city_distance": [ -1, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 1 ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "land_pad_outpost_a1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "land_pad_outpost_a1_roof_north" },
@@ -36,6 +36,7 @@
       { "point": [ 0, 4, 0 ], "overmap": "land_pad_b1_above_north" },
       { "point": [ 1, 4, 0 ], "overmap": "land_pad_b2_above_north" }
     ],
+    "priority": 1,
     "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "EXOPLANET" ]
   },
   {
@@ -95,9 +96,9 @@
       { "point": [ 1, 0, 0 ], "overmap": "maintenance_outpost_a2_north" },
       { "point": [ 1, 0, 1 ], "overmap": "maintenance_outpost_a2_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "maintenance_outpost_b1_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "maintenance_outpost_b2_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_roof_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],
@@ -161,6 +162,35 @@
       { "point": [ 0, 0, 2 ], "overmap": "robot_dispatch_roof_north" }
     ],
     "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Port Augustmoon",
+    "overmaps": [
+      { "point": [ 0, -1, -9 ], "overmap": "augustmoon_docking_arm_north" },
+      { "point": [ -1, 0, -9 ], "overmap": "augustmoon_bar_north" },
+      { "point": [ 0, 0, -9 ], "overmap": "augustmoon_main_concourse1_north" },
+      { "point": [ 1, 0, -9 ], "overmap": "augustmoon_solar_array1_north" },
+      { "point": [ 0, 1, -9 ], "overmap": "augustmoon_main_concourse2_north" },
+      { "point": [ 1, 1, -9 ], "overmap": "augustmoon_solar_array2_north" },
+      { "point": [ -2, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -1, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 0, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 1, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -3, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -2, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -2, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -1, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, 1, -9 ], "overmap": "augustmoon_outer_space" }
+    ],
+    "locations": [ "land" ],
+    "priority": 1,
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "EXOPLANET" ]
   },
   {
     "type": "overmap_special",

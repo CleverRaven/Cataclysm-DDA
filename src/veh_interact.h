@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
@@ -14,17 +13,16 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "inventory.h"
+#include "input_context.h"
 #include "item_location.h"
 #include "mapdata.h"
-#include "memory_fast.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
+class inventory;
 class vpart_info;
 struct requirement_data;
 

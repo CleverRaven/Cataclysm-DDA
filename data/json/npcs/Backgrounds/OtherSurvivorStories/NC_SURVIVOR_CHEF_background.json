@@ -9,9 +9,7 @@
         "topic": "BOSS_NC_SURVIVOR_CHEF_Story2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01" },
             { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" } }
           ]
@@ -19,7 +17,7 @@
         "effect": { "assign_mission": "directions_chef" },
         "switch": true
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

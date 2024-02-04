@@ -13,12 +13,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_concentration') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_concentration') * 132) + 560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_concentration') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_concentration') * 605) + 1033) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -38,18 +38,20 @@
     "condition": { "u_has_effect": "effect_telepathic_learning_bonus" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_concentration') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_concentration') * 132) + 560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_concentration') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_concentration') * 605) + 1033) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -76,7 +78,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_shield') * 25) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_shield') * 36) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -109,7 +111,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_shield') * 25) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_shield') * 36) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -125,18 +127,18 @@
       { "u_message": "You reach out with your powers, looking for nearby minds.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telepath_sense_minds", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       {
         "queue_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_mind_sense') * 40) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_mind_sense') * 26) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_mind_sense') * 50) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_mind_sense') * 131) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -156,7 +158,7 @@
     "condition": { "u_has_effect": "effect_telepath_sense_minds" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -164,12 +166,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_mind_sense') * 40) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_mind_sense') * 26) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_mind_sense') * 50) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_mind_sense') * 131) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -189,8 +191,8 @@
         "u_add_morale": "morale_telepathy",
         "bonus": 10,
         "max_bonus": 25,
-        "duration": "4 hours",
-        "decay_start": "2 hours"
+        "duration": "2 hours",
+        "decay_start": "1 hours"
       },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
@@ -198,12 +200,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_morale') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_morale') * 381) + 981) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_morale') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_morale') * 899) + 2520) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -224,24 +226,26 @@
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "u_add_morale": "morale_telepathy",
         "bonus": 10,
         "max_bonus": 25,
-        "duration": "4 hours",
-        "decay_start": "2 hours"
+        "duration": "2 hours",
+        "decay_start": "1 hours"
       },
       {
         "queue_eocs": "EOC_TELEPATH_MORALE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('telepathic_morale') * 150) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_morale') * 381) + 981) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('telepathic_morale') * 150) + 7200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('telepathic_morale') * 899) + 2520) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

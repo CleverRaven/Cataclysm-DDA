@@ -1,0 +1,280 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_BROKE_FAE_BAN",
+    "effect": [
+      {
+        "u_add_morale": "morale_broke_fae_ban",
+        "bonus": -20,
+        "max_bonus": -80,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      {
+        "u_add_effect": "effect_broke_fae_ban",
+        "duration": { "math": [ "rand(259200) + 86400" ] },
+        "intensity": { "math": [ "u_effect_intensity('effect_broke_fae_ban') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN",
+    "//": "This is separate rather than in-line due to bug #70978",
+    "effect": [ { "math": [ "u_pain()", "+=", "rand(35) + 8" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_CUT_TREE",
+    "eoc_type": "EVENT",
+    "required_event": "cuts_tree",
+    "condition": { "u_has_trait": "THRESH_ARVORE" },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stabbing pain as the tree falls.  One of your own, murdered by your hand.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_trait": "THRESH_ARVORE" },
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "arvore_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY_2",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "evac_center_13", "range": 3 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+                { "u_near_om_location": "ranch_camp_41", "range": 3 },
+                { "u_near_om_location": "godco_5", "range": 3 },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [
+              { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+              { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+              { "math": [ "u_val('fatigue')", "+=", "150" ] },
+              {
+                "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_DIDNT_SLEEP_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            "u_is_outside",
+            {
+              "and": [
+                { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
+                { "not": { "u_is_on_terrain": "t_rock_floor" } },
+                { "not": { "u_is_on_terrain": "t_rock_smooth" } },
+                { "not": { "u_is_on_terrain": "t_rock_wall_half" } },
+                { "not": { "u_is_on_terrain": "t_dirt_underground" } },
+                { "not": { "u_is_on_terrain": "t_mud_underground" } },
+                { "not": { "u_is_on_terrain": "t_moss_underground" } },
+                { "not": { "u_is_on_terrain": "t_clay_underground" } },
+                { "not": { "u_is_on_terrain": "t_claymound_underground" } },
+                { "not": { "u_is_on_terrain": "t_sand_underground" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "math": [ "u_val('fatigue')", "+=", "150" ] },
+      {
+        "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_USED_TOOLS_ON_THE_EARTH",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stabbing pain as your tools dig into the living earth.  Tools made of material torn from the earth by humans.  You should not be using them.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_character",
+    "condition": { "u_has_trait": "THRESH_HOMULLUS" },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": {
+      "and": [ { "u_has_trait": "THRESH_HOMULLUS" }, { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] } ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_FAE_BAN_GET_WET",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SALAMANDER" },
+        { "u_has_trait": "SALAMANDER_SKIN_2" },
+        { "compare_string": [ "wet", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "Accursed water!  The touch of it burns you like acid, reminding you of your nature.  Your flames must not be dowsed.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "or": [ { "not": "u_is_outside" }, { "u_is_on_terrain_with_flag": "INDOORS" } ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You gasp as you awaken, the still air barely moving into your lungs.  You long for the blowing winds.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "u_has_trait": "SYLPH_FLY_AT_WILL" },
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_sylph_underground_timer", "duration": "61 minutes" },
+      {
+        "queue_eocs": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+        "time_in_future": [ "60 minutes", "60 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_SYLPH" },
+        { "math": [ "u_val('pos_z')", ">=", "0" ] },
+        { "u_has_effect": "effect_sylph_underground_timer" },
+        "u_is_outside"
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_sylph_underground_timer" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+    "condition": { "and": [ { "u_has_trait": "THRESH_SYLPH" }, { "u_has_effect": "effect_sylph_underground_timer" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "The walls seem like they're closing in on you.  You were born to fly free, to dance on the winds, not to cower underground like a worm.  You have to get out to the open sky.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_SLEEP_ON_LAND",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "THRESH_UNDINE" }, { "u_has_trait": "UNDINE_SLEEP_WATER" }, { "not": "u_is_underwater" } ] },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      {
+        "u_message": "You gasp as you awaken, thin air barely filling your lungs as you struggle to breath.  You long for the soothing embrace of the waters.",
+        "type": "bad"
+      }
+    ]
+  }
+]
