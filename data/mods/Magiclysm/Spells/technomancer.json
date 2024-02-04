@@ -306,10 +306,10 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC", "NO_PROJECTILE" ],
     "effect": "attack",
-    "shape": "blast",
+    "shape": "line",
     "spell_class": "TECHNOMANCER",
     "energy_source": "BIONIC",
-    "difficulty": 3,
+    "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 100,
     "casting_time_increment": -1.0,
@@ -323,7 +323,11 @@
     "damage_type": "light",
     "min_range": 10,
     "max_range": 25,
-    "range_increment": 1.0
+    "range_increment": 1.0,
+    "field_id": "fd_laser",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_chance": 1
   },
   {
     "id": "animated_blade",

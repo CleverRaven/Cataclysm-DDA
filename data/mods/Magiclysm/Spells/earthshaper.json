@@ -1158,6 +1158,11 @@
               "z_override": true
             },
             {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth_return" },
+              "min_radius": 0,
+              "max_radius": 0
+            },
+            {
               "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
               "type": "good"
             },
@@ -1169,14 +1174,7 @@
       }
     ],
     "false_effect": [
-      {
-        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
-        "min_radius": 0,
-        "max_radius": 0,
-        "z_adjust": 0,
-        "z_override": true
-      },
-      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth_return" } },
       {
         "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
         "type": "good"

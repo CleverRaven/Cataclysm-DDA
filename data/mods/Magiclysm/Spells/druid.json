@@ -1261,7 +1261,7 @@
     "id": "druid_traverse_the_wilds",
     "type": "SPELL",
     "name": "Traverse the Wilds",
-    "description": "Blend in the wilds and urge them to speed your passage. Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The spell cannot be cast near civilization and similarly will fade if your travels take you out of the wilds.",
+    "description": "Blend in the wilds and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The spell cannot be cast near civilization and similarly will fade if your travels take you out of the wilds.",
     "valid_targets": [ "self" ],
     "spell_class": "DRUID",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
