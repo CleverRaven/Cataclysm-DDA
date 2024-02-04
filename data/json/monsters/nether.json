@@ -51,28 +51,22 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 8,
-    "melee_dice": 6,
-    "grab_strength": 25,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "melee_skill": 7,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "bleed_rate": 50,
     "harvest": "demihuman",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ [ "FEAR_PARALYZE", 0 ],       {
-      "id": "grab",
-      "cooldown": 15
-    },
-    {
-      "id": "bite_humanoid"
-    },
-    {
-      "id": "scratch_humanoid"
-    } ],
-    "death_function": [ { "effect": { "id": "death_amigara" } } 
-  ],
+    "special_attacks": [
+      [
+        "FEAR_PARALYZE",
+        0
+      ]
+    ],
+    "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
     "armor": { "electric": 1 }

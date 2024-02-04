@@ -220,6 +220,7 @@ static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
@@ -2689,7 +2690,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    if( !level.can_train() || in_sleep_state() ||
+    if( !level.can_train() || in_sleep_state() || has_effect( effect_fearparalyze ) ||
         ( static_cast<int>( get_skill_level( id ) ) >= MAX_SKILL ) ) {
         // Do not practice if: cannot train, asleep, or at effective skill cap
         // Leaving as a skill method rather than global for possible future skill cap setting
