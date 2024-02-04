@@ -96,7 +96,7 @@
     "id": "warpwoodbag",
     "name": { "str": "warped lumberjack's bag" },
     "copy-from": "warpbag_base",
-    "description": "THIS ITEM HAS BEEN OBSOLETED. If you have one from an old save, you may continue to use it, but no more may be crafted. You can deconstruct this for a full refund on warp shards.",
+    "description": "THIS ITEM HAS BEEN OBSOLETED.  If you have one from an old save, you may continue to use it, but no more may be crafted.  You can deconstruct this for a full refund on warp shards.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -133,7 +133,7 @@
     "id": "warpdirtbag",
     "name": { "str": "warped excavator's bag" },
     "copy-from": "warpbag_base",
-    "description": "THIS ITEM HAS BEEN OBSOLETED. If you have one from an old save, you may continue to use it, but no more may be crafted. You can deconstruct this for a full refund on warp shards.",
+    "description": "THIS ITEM HAS BEEN OBSOLETED.  If you have one from an old save, you may continue to use it, but no more may be crafted.  You can deconstruct this for a full refund on warp shards.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -171,7 +171,7 @@
     "id": "warpmetalbag",
     "name": { "str": "warped scrapper's bag" },
     "copy-from": "warpbag_base",
-    "description": "THIS ITEM HAS BEEN OBSOLETED. If you have one from an old save, you may continue to use it, but no more may be crafted. You can deconstruct this for a full refund on warp shards.",
+    "description": "THIS ITEM HAS BEEN OBSOLETED.  If you have one from an old save, you may continue to use it, but no more may be crafted.  You can deconstruct this for a full refund on warp shards.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -225,7 +225,7 @@
     "id": "warphaulbag",
     "name": { "str": "warped hauler's harness", "str_pl": "warped hauler's harnesses" },
     "copy-from": "warpbag_base",
-    "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness.  They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel twice as light. Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items! Just beware you don't break your back doing it.",
+    "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness.  They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel twice as light.  Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items!  Just beware you don't break your back doing it.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -387,14 +387,14 @@
     "name": { "str_sp": "material token" },
     "type": "AMMO",
     "copy-from": "warptoken",
-    "description": "A very tiny disc-shaped blue wafer. It seems to shift in your grasp, feeling one moment like a grain of sand, then a sharp metal fragment, then a wooden splinter. These miniature tokens are rewarded for surviving a raid, and can be crafted on your island for a large supply of common resources by using infinity nodes as a catalyst."
+    "description": "A very tiny disc-shaped blue wafer.  It seems to shift in your grasp, feeling one moment like a grain of sand, then a sharp metal fragment, then a wooden splinter.  These miniature tokens are rewarded for surviving a raid, and can be crafted on your island for a large supply of common resources by using infinity nodes as a catalyst."
   },
   {
     "id": "warp_labs_catalyst",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Labs Catalyst" },
-    "description": "A bit of warp power, a magnetic stripe keycard from a dangerous place, and a little hope, blended well. This item is required to begin a Labs expedition, and is consumed when leaving.",
+    "description": "A bit of warp power, a magnetic stripe keycard from a dangerous place, and a little hope, blended well.  This item is required to begin a Labs expedition, and is consumed when leaving.",
     "volume": "5 ml",
     "weight": "5 g",
     "material": [ "stone" ],
@@ -405,7 +405,7 @@
     "id": "warp_folded_heart",
     "type": "TOOL",
     "name": { "str": "Heartseed" },
-    "description": "A whorl of black stone that feels impossibly heavy for its size. Activate this on your island to place the Heart of the Island, the catalyst of future upgrades.",
+    "description": "A whorl of black stone that feels impossibly heavy for its size.  Activate this on your island to place the Heart of the Island, the catalyst of future upgrades.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_islandstatue" },
     "volume": "5 ml",
     "weight": "5 g",
@@ -417,7 +417,7 @@
     "id": "warp_folded_infinitree",
     "type": "TOOL",
     "name": { "str": "infinity tree sapling" },
-    "description": "A fragile little wisp of a sapling. Its leaves shake and quiver, shimmering with strange energies. Activate this on your island to place an infinity tree, which can be used as a catalyst to turn material tokens into wooden resources.",
+    "description": "A fragile little wisp of a sapling.  Its leaves shake and quiver, shimmering with strange energies.  Activate this on your island to place an infinity tree, which can be used as a catalyst to turn material tokens into wooden resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinitree1" },
     "volume": "5 ml",
     "weight": "5 g",
@@ -429,7 +429,7 @@
     "id": "warp_folded_infinitystone",
     "type": "TOOL",
     "name": { "str": "infinity stone source" },
-    "description": "A crackling little cluster of pebbles that spark as they knock together, tumbling about from forces unseen. Activate this on your island to place an infinity stone, which can be used as a catalyst to turn material tokens into stony and earthen resources.",
+    "description": "A crackling little cluster of pebbles that spark as they knock together, tumbling about from forces unseen.  Activate this on your island to place an infinity stone, which can be used as a catalyst to turn material tokens into stony and earthen resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinitystone" },
     "volume": "5 ml",
     "weight": "5 g",
@@ -441,7 +441,7 @@
     "id": "warp_folded_infinityore",
     "type": "TOOL",
     "name": { "str": "infinity ore crucible" },
-    "description": "A miniature tangle of metal that resembles a dust bunny made of barbed wire. It twists in upon itself endlessly, folding and unfolding in ways that don't seem possible. Activate this on your island to place an infinity ore, which can be used as a catalyst to turn material tokens into metal resources.",
+    "description": "A miniature tangle of metal that resembles a dust bunny made of barbed wire.  It twists in upon itself endlessly, folding and unfolding in ways that don't seem possible.  Activate this on your island to place an infinity ore, which can be used as a catalyst to turn material tokens into metal resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinityore" },
     "volume": "5 ml",
     "weight": "5 g",

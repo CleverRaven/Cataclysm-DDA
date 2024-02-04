@@ -15,7 +15,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_initiate_randomport",
-    "//": "The actual EOC that teleports the player to the ground. If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized. A target location must already be stored when this is called. When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die. Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
+    "//": "The actual EOC that teleports the player to the ground.  If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
     "effect": [
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       {
@@ -34,7 +34,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_return_OM_teleport",
-    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It heals you enough to fix broken limbs. It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
+    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It heals you enough to fix broken limbs.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
     "effect": [
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
@@ -66,7 +66,7 @@
       { "math": [ "gettokens", "=", "0" ] },
       { "math": [ "owed_material_tokens", "=", "lengthofthisraid * 75 + 50" ] },
       {
-        "u_message": "You've returned home safely using a designated exit point. You have earned <global_val:owed_material_tokens> material tokens for your success.",
+        "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
       {
@@ -82,7 +82,7 @@
     "condition": { "and": [ { "math": [ "islandrank", "==", "0" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
     "effect": [
       {
-        "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red. The sensation is indescribable. You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
+        "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
         "popup": true
       },
       { "math": [ "islandrank", "=", "1" ] }
@@ -95,7 +95,7 @@
     "condition": { "and": [ { "math": [ "islandrank", "==", "2" ] }, { "math": [ "raidswon", ">=", "20" ] } ] },
     "effect": [
       {
-        "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult. The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful. Your mouth tastes of blood. As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
+        "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
         "popup": true
       },
       { "math": [ "islandrank", "=", "3" ] }
@@ -261,7 +261,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEAL_NEWBIE",
-    "//": "Runs when using the HEAL function from the Heart of the Island. Runs a checklist. If you're under a certain amount of won raids, it heals you for free. If you're over and you have 4 warp shards, it takes those and heals you. If you can't pay, it does nothing.",
+    "//": "Runs when using the HEAL function from the Heart of the Island.  Runs a checklist.  If you're under a certain amount of won raids, it heals you for free.  If you're over and you have 4 warp shards, it takes those and heals you.  If you can't pay, it does nothing.",
     "condition": { "math": [ "islandrank", "==", "0" ] },
     "effect": [
       { "run_eocs": [ "EOC_healall" ] },
@@ -275,7 +275,7 @@
         "if": { "u_has_items": { "item": "warptoken", "count": 4 } },
         "then": [
           {
-            "u_message": "The warp shards you were holding dissipate into a mist and swirl in tiny vortices around your body. The price is paid, and you are healed.",
+            "u_message": "The warp shards you were holding dissipate into a mist and swirl in tiny vortices around your body.  The price is paid, and you are healed.",
             "popup": true
           },
           { "run_eocs": [ "EOC_healall" ] },
@@ -349,7 +349,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_return_heal",
-    "//": "Similar to the death heal, but only increases health, never reduces it. This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died. To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized. This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
+    "//": "Similar to the death heal, but only increases health, never reduces it.  This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died.  To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized.  This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
     "effect": [
       { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 15)" ] },
       { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 15)" ] },
@@ -597,7 +597,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_claritystone",
-    "//": "Triggered on asking the statue about stats, formerly this was the Stat Stone. View stats, upgrade progress, or try to update their version of the mod.",
+    "//": "Triggered on asking the statue about stats, formerly this was the Stat Stone.  View stats, upgrade progress, or try to update their version of the mod.",
     "effect": [
       {
         "run_eoc_selector": [ "EOC_statcheck", "EOC_progresscheck", "EOC_buildcheck" ],
@@ -673,16 +673,16 @@
     "id": "EOC_skyisland_versioncheck",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "//": "On loading a game, checks if the save was made using an old version of this mod. If so, tries to update it with the necessary new items and variables. UPDATE THE NUMBER IN THE CONDITION BELOW AS VERSIONS UPDATE, THAT'S WHAT DETERMINES WHAT THE OFFICIAL CURRENT VERSION OF THIS MOD IS.",
+    "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.  UPDATE THE NUMBER IN THE CONDITION BELOW AS VERSIONS UPDATE, THAT'S WHAT DETERMINES WHAT THE OFFICIAL CURRENT VERSION OF THIS MOD IS.",
     "condition": { "math": [ "versionupdate", "!=", "1" ] },
     "effect": [
-      { "u_message": "Your save was last used with an older version of Sky Island. Attempting to update...", "popup": true },
+      { "u_message": "Your save was last used with an older version of Sky Island.  Attempting to update…", "popup": true },
       {
         "if": { "not": { "u_has_trait": "awayfromhome" } },
         "then": [ { "run_eocs": "EOC_skyisland_versionupdate" } ],
         "else": [
           {
-            "u_message": "Error. Update not applied.\n\nReason: Cannot update while on expedition. Return home, save and close your game, and try loading this save again.",
+            "u_message": "Error.  Update not applied.\n\nReason: Cannot update while on expedition.  Return home, save and close your game, and try loading this save again.",
             "popup": true
           }
         ]
@@ -694,14 +694,14 @@
     "id": "EOC_skyisland_versionupdate",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "//": "On loading a game, checks if the save was made using an old version of this mod. If so, tries to update it with the necessary new items and variables.",
+    "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.",
     "condition": { "math": [ "versionupdate", "!=", "1" ] },
     "effect": [
       {
         "if": { "math": [ "versionupdate", "<", "1" ] },
         "then": [
           {
-            "u_message": "Your save was made with a pre-Milestone 1 version of Sky Island, which means it lacks upgrades and the Heart of the Island. Attempting to update...",
+            "u_message": "Your save was made with a pre-Milestone 1 version of Sky Island, which means it lacks upgrades and the Heart of the Island.  Attempting to update…",
             "popup": true
           },
           { "run_eocs": "EOC_difficultycheck" },
@@ -726,7 +726,7 @@
           { "math": [ "invistime", "=", "60" ] },
           { "u_spawn_item": "warp_folded_heart", "count": 1 },
           {
-            "u_message": "Milestone 1 applied. You have been given a Heartseed. Activate it while on your island to create the new Heart of the Island. Interact with the Heart to access new upgrade options.",
+            "u_message": "Milestone 1 applied.  You have been given a Heartseed.  Activate it while on your island to create the new Heart of the Island.  Interact with the Heart to access new upgrade options.",
             "popup": true
           },
           {
@@ -745,11 +745,11 @@
             ]
           },
           {
-            "u_message": "The stat stone, healing salve, difficulty adjuster, and similar items are removed. These options are instead accessed by speaking to the Heart of the Island.\n\nWarped bags and quickheals are obsolete. If you already have any, they can still be used, or salvaged for a refund of warp shards.\n\nAny further changes are documented in the patch notes.",
+            "u_message": "The stat stone, healing salve, difficulty adjuster, and similar items are removed.  These options are instead accessed by speaking to the Heart of the Island.\n\nWarped bags and quickheals are obsolete.  If you already have any, they can still be used, or salvaged for a refund of warp shards.\n\nAny further changes are documented in the patch notes.",
             "popup": true
           }
         ],
-        "else": [ { "u_message": "Your save is post-Milestone 1. Skipping update 1...", "popup": true } ]
+        "else": [ { "u_message": "Your save is post-Milestone 1.  Skipping update 1…", "popup": true } ]
       },
       { "u_message": "Your save should be up to date now.", "popup": true }
     ]

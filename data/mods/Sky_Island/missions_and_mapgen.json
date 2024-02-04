@@ -48,7 +48,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "Something went wrong. The game could not find a suitable teleport location. Please try using the obelisk again.",
+        "u_message": "Something went wrong.  The game could not find a suitable teleport location.  Please try using the obelisk again.",
         "popup": true
       }
     ]
