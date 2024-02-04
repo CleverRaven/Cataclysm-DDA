@@ -1,6 +1,13 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_REVEAL_OVERMAP",
+    "condition": "u_is_outside",
+    "effect": [ { "u_cast_spell": { "id": "sylph_reveal_overmap_spell_real" } } ],
+    "false_effect": [ { "u_message": "You must be outdoors to cast Like a Bird on the Wing.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_JUMP_HIGH_ON",
     "effect": [
       {

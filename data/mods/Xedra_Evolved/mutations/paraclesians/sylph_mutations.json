@@ -134,6 +134,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_REVEAL_OVERMAP",
+    "name": { "str": "Like a Bird on the Wing" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to see surrounding terrain as though standing on high.",
+    "prereqs": [ "SYLPH_PER_BONUS_1" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_reveal_overmap_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,
@@ -375,7 +387,7 @@
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "SYLPH_INT_BONUS_2" ],
-    "prereqs": [ "SYLPH_SKIN_2" ],
+    "prereqs": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 2 }
@@ -402,7 +414,7 @@
     "prereqs": [ "SYLPH_EYES" ],
     "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 4 },
+    "passive_mods": { "per_mod": 3 },
     "flags": [ "ENHANCED_VISION" ]
   },
   {

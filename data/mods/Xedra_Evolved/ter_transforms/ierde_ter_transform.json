@@ -92,13 +92,13 @@
     "id": "ter_ierde_make_destroy_walls",
     "terrain": [
       {
-        "result": "t_solid_rock",
+        "result": "t_rock",
         "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
         "message": "The stone rises up into a stone wall."
       },
-      { "result": "t_rock_floor", "valid_terrain": [ "t_solid_rock" ], "message": "The stone wall sinks away." },
+      { "result": "t_rock_floor", "valid_terrain": [ "t_rock" ], "message": "The stone wall sinks away." },
       {
-        "result": "t_solid_rock",
+        "result": "t_rock",
         "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
         "message": "The stone rises up into a stone wall."
       },
@@ -109,37 +109,31 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_ierde_make_pits",
+    "terrain": [
+      { "result": "t_dirt", "valid_terrain": [ "t_soil" ], "message": "The solid earth sinks away." },
+      { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" },
+      { "result": "t_hole", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_ierde_raise_earth",
     "terrain": [
       {
-        "result": "t_stone_ramp_up_low",
-        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
-        "message": "The ground rises up into a stone ramp."
+        "result": "t_earthen_stairs_up",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble", "t_rock" ],
+        "message": "The ground rises up into a set of earthen stairs."
       },
       {
-        "result": "t_stone_ramp_up_high",
-        "valid_terrain": [ "t_stone_ramp_up_low" ],
-        "message": "The low stone ramp rises until it touches the ceiling."
-      },
-      {
-        "result": "t_rock",
-        "valid_terrain": [ "t_stone_ramp_up_high" ],
-        "message": "The high stone ramp rises until it's a wall of solid rock."
-      },
-      {
-        "result": "t_earth_ramp_up_low",
+        "result": "t_earthen_stairs_up",
         "valid_flags": [ "DIGGABLE" ],
-        "message": "The dirt rises up into an earthen ramp."
+        "message": "The dirt rises up into a set of earthen stairs."
       },
       {
-        "result": "t_earth_ramp_up_high",
-        "valid_terrain": [ "t_earth_ramp_up_low" ],
-        "message": "The low earthen ramp rises until it touches the ceiling."
-      },
-      {
-        "result": "t_soil",
-        "valid_terrain": [ "t_earth_ramp_up_high" ],
-        "message": "The high earthen ramp rises until it's a wall of solid earth."
+        "result": "t_earthen_stairs_up",
+        "valid_terrain": [ "t_soil" ],
+        "message": "The dirt rises up into a set of earthen stairs."
       }
     ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
@@ -149,34 +143,19 @@
     "id": "ter_ierde_lower_earth",
     "terrain": [
       {
-        "result": "t_stone_ramp_down_high",
-        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
-        "message": "The ground sinks into a stone ramp."
+        "result": "t_earthen_stairs_down",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble", "t_rock" ],
+        "message": "The ground sinks down into a set of earthen stairs."
       },
       {
-        "result": "t_stone_ramp_down_low",
-        "valid_terrain": [ "t_stone_ramp_down_high" ],
-        "message": "The high stone ramp lowers until it extends further downward."
-      },
-      {
-        "result": "t_open_air",
-        "valid_terrain": [ "t_stone_ramp_down_low" ],
-        "message": "The low stone ramp falls away, leaving empty air."
-      },
-      {
-        "result": "t_earth_ramp_down_high",
+        "result": "t_earthen_stairs_down",
         "valid_flags": [ "DIGGABLE" ],
-        "message": "The dirt sinks down into an earthen ramp."
+        "message": "The dirt sinks down into a set of earthen stairs."
       },
       {
-        "result": "t_earth_ramp_down_low",
-        "valid_terrain": [ "t_earth_ramp_down_high" ],
-        "message": "The high earthen ramp further lowers until it leads down to the level below."
-      },
-      {
-        "result": "t_open_air",
-        "valid_terrain": [ "t_earth_ramp_down_low" ],
-        "message": "The low earthen ramp sinks even further, leaving empty air."
+        "result": "t_earthen_stairs_down",
+        "valid_terrain": [ "t_soil" ],
+        "message": "The dirt sinks down into a set of earthen stairs."
       }
     ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
@@ -189,6 +168,17 @@
         "result": "t_rock_smooth",
         "valid_terrain": [ "t_rock" ],
         "message": "All imperfections in the stone are smoothed away."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_churn_earth",
+    "terrain": [
+      {
+        "result": "t_dirtmound",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor", "t_grass", "t_grass_long", "t_grass_tall", "t_grass_dead", "t_grass_white", "t_pit_shallow" ],
+        "message": "The ground churns as a long straight furrow suitable for planting appears."
       }
     ]
   },

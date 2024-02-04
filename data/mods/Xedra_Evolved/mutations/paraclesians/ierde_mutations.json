@@ -157,14 +157,26 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_KNOCKBACK_PUNCH",
+    "name": { "str": "Mountain-Toppling Punch" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to strike an enemy with a blow that does extra damage and knocks them backwards.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SMASHING_PUNCH" ],
+    "spells_learned": [ [ "ierde_knockback_punch_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CREATE_PITS",
     "name": { "str": "Earthen Grasp" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to create pits on diggable ground, dumping their enemies into them.",
+    "description": "Upon gaining this ability the Ierde gains the ability to create large pits on diggable ground, dumping their enemies into them.",
     "category": [ "IERDE" ],
-    "prereqs": [ "IERDE_CARDIO", "IERDE_CARDIO2", "IERDE_CARDIO3" ],
+    "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
   },
   {
@@ -318,7 +330,7 @@
   {
     "type": "mutation",
     "id": "IERDE_SINK_INTO_EARTH",
-    "name": { "str": " In the Earthmother's Embrace" },
+    "name": { "str": "In the Earthmother's Embrace" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
