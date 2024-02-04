@@ -1983,7 +1983,7 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
         is_worn( *it ) ||
         ( ( !myclass->sells_belongings || it->has_flag( flag_TRADER_KEEP_EQUIPPED ) ) &&
           it.held_by( *this ) ) ) {
-        return ret_val<void>::make_failure( _( "<npcname> will never sell this" ) );
+        return ret_val<void>::make_failure( _( "Won't sell their own equipment" ) );
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -2016,11 +2016,11 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
     }
 
     if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
-        return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
+        return ret_val<void>::make_failure( _( "Will never buy this" ) );
     }
 
     if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
-        return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
+        return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
     }
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );

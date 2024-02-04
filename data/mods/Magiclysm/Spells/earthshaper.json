@@ -367,7 +367,7 @@
     "flags": [ "NO_PROJECTILE", "SILENT", "NO_HANDS" ],
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "stab",
+    "damage_type": "necrotic",
     "min_damage": 10,
     "damage_increment": 2,
     "max_damage": 45,

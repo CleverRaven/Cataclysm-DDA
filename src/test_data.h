@@ -94,6 +94,7 @@ class test_data
     public:
         // todo: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
+        static std::unordered_set<oter_type_id> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;

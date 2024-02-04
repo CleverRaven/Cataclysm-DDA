@@ -103,54 +103,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "santa_boots",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa boots", "str_pl": "pairs of Santa boots" },
-    "description": "A tough pair of black leather boots, trimmered with white faux fur.  For tough everyday work at the North Pole.",
-    "weight": "1100 g",
-    "volume": "2700 ml",
-    "price": 10000,
-    "price_postapoc": 750,
-    "to_hit": -2,
-    "symbol": "[",
-    "looks_like": "dress_shoes",
-    "color": "black",
-    "warmth": 20,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "faux_fur", "covered_by_mat": 10, "thickness": 0.5 }
-        ],
-        "encumbrance": 12,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "melee_damage": { "bash": 1 }
-  },
-  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -2291,47 +2243,6 @@
     ]
   },
   {
-    "id": "santa_shoes",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
-    "description": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs Claus or Santa style and comfort.",
-    "weight": "850 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "material": [ "cotton", "rubber" ],
-    "symbol": "[",
-    "looks_like": "shoes_bowling",
-    "color": "light_blue",
-    "warmth": 20,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
-        "encumbrance": 4,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
-        "coverage": 60
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
-        "coverage": 100
-      }
-    ]
-  },
-  {
     "id": "straw_sandals",
     "type": "ARMOR",
     "name": { "str": "pair of straw sandals", "str_pl": "pairs of straw sandals" },
@@ -3309,17 +3220,6 @@
         "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
         "description": "This one has patterns akin to the polysexual flag.",
         "weight": 25,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "santa_stockings",
-        "name": { "str": "pair of Christmas stockings", "str_pl": "pairs of Christmas stockings" },
-        "description": {
-          "str": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
-          "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
-        },
-        "weight": 1,
         "color": "green",
         "append": true
       }

@@ -722,10 +722,13 @@ void outfit::sort_armor( Character &guy )
         werase( w_encumb );
 
         // top bar
-        wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
+        std::string header_title = _( "Sort Armor" );
+        wprintz( w_sort_cat, c_white, header_title );
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
-        wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
-        right_print( w_sort_cat, 0, 0, c_white, string_format(
+        temp = string_format( "  << %s >>", temp );
+        wprintz( w_sort_cat, c_yellow, temp );
+        int keyhint_offset = utf8_width( header_title ) + utf8_width( temp ) + 1;
+        right_print( w_sort_cat, 0, 0, c_white, trim_by_length( string_format(
                          _( "[<color_yellow>%s</color>] Hide sprite.  "
                             "[<color_yellow>%s</color>] Change side.  "
                             "Press [<color_yellow>%s</color>] for help.  "
@@ -733,7 +736,7 @@ void outfit::sort_armor( Character &guy )
                          ctxt.get_desc( "TOGGLE_CLOTH" ),
                          ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ), getmaxx( w_sort_cat ) - keyhint_offset ) );
 
         leftListSize = tmp_worn.size();
         if( leftListLines > leftListSize ) {
