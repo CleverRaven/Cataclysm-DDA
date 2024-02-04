@@ -225,7 +225,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_FLAMINGEYE_NO",
-    "dynamic_line": "That's OK, nobody's perfect, ha ha...",
+    "dynamic_line": "That's OK, nobody's perfect, ha ha…",
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
