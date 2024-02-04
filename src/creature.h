@@ -497,9 +497,13 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
-        bool dodge_check( float hit_roll, bool force_try = false );
-        bool dodge_check( monster *z );
-        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+        /**
+         * If training_level is anything but 0, the check will only train target's skill to that level
+        */
+        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0.0f );
+        bool dodge_check( monster *z, float training_level = 0.0f );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
+                          float training_level = 0.0f );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
@@ -510,7 +514,7 @@ class Creature : public viewer
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty, float training_level = 0.0f ) = 0;
         /**
          * Invoked when the creature attempts to dodge, regardless of success or failure.
          */

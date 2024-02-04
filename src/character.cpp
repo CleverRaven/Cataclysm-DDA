@@ -220,6 +220,7 @@ static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
@@ -1191,7 +1192,7 @@ ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || is_driving() ) {
+        has_effect( effect_winded ) || has_effect( effect_fearparalyze ) || is_driving() ) {
         add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
         return ret_val<void>::make_failure();
     }
@@ -1953,7 +1954,7 @@ void Character::on_try_dodge()
     set_activity_level( EXTRA_EXERCISE );
 }
 
-void Character::on_dodge( Creature *source, float difficulty )
+void Character::on_dodge( Creature *source, float difficulty, float training_level )
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
     // We can ignore dodges_left because it was already checked in get_dodge()
@@ -1970,8 +1971,13 @@ void Character::on_dodge( Creature *source, float difficulty )
 
     // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, difficulty * 2, difficulty );
 
+    // If training_level is set, treat that as the difficulty instead
+    if( training_level != 0.0f ) {
+        difficulty = training_level;
+    }
+
+    practice( skill_dodge, difficulty * 2, difficulty );
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
