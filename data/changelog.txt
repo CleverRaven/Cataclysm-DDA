@@ -95,12 +95,10 @@ Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
 Adds treetops and makes trees climbable
 Allow bird wings to glide
-Did you know we didn't have any hallucinations for a while? now they're back, baby!
 Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
 EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
-Flashlight Pouch added to Airsoft Helmet
 
 
 ## Content:
@@ -188,18 +186,10 @@ Addition of many new books, from religious texts to magazines, mainly for fluff 
 Modularize Desert Eagle, add .50 AE
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
 Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
-2 unicorn variants for plush toy item
+JSONize Electrohack Tool
 Previously Innawoods-only stream mutables are now in the main game
-Heavy-duty headlamp
-A few fixes I wanted to clear up before Christmas
-Add SIGHT_RANGE_FAE enchantment
-Add a new random encounter, the road tripper.
-Adds the fungal acid zombie - day tripper
 Added ASCII art for most containers
 Making Shadow Spawn Messages editable
-Proportional price change for estoc_fake is in the extend section, but should be in the proportional
-Fix the name for chewing gum item variants and adds more flavors
-Adds kantele
 
 
 ## Interface:
@@ -348,17 +338,7 @@ Paraclesian Map extras
 [DinoMod] plesiosaurus
 [MoM] Power learning revamp: Teleportation, Electrokinesis, and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
-[MoM] Power learning revamp: Pyrokinesis
-[Xedra Evolved] More Paraclesian spells
-[Magiclysm] Scale Magus stat buffs with spell level
-[Xedra Evolved] Add more fae bans for post-threshold Paraclesians
-[Xedra Evolved] More Sylph traits
 Aftershock: Add the Port Augustmoon Station
-[Magiclysm] Require druid to be in natural surroundings to cast Restoration
-[Magiclysm] Add new Biomancer spells 
-[MoM] Power learning revamp: Telepathy
-[Magiclysm] Add Cleansing Flame fire trail spell
-[Magiclysm] Add MOTION_VISION_RANGE to Shaman attunement
 
 
 ## Balance:
@@ -411,13 +391,6 @@ Activity suit is actually waterproof, soft surfaces are less slippery, boomer on
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
-added sublimbs and changed protective values for studded gloves
-Audit .357, .45, .454, 4.6, .500S&W Magazines
-Some mutagen tweaks
-Balance the energy consumption of 1-cylinder diesel engine
-Made brick constructions need smoothing 1, and concrete ones smoothing 2
-Audit 66mm, 40mm, .357SIG, .40S&W, .380, .303, .300WM Magazines
-Caltrops from nails/wire make sense
 Pianos can be fast-deconstructed and thus be moved as an item
 Obsolete trickle charger CBMs
 
@@ -529,21 +502,9 @@ clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
-[MoM] Check each body part for poison and badpoison
-[MoM] Fix Telekinesis Contemplation recipes
-In npctalk.cpp, some vectors' initializations are wrong
-Prevent uninitialized int
-Fix u_is_outside mutation condition crashing the game
-Fixed makeshift sieve recipe
-Remove the by-product steel blocks from the tin recipes
-[MoM] Fix Doomseer error
-fixes guilt spell to use flags
-Do not attempt initialize audio if built without
 Fixes issue where some CBMs could be taken off via forcing a pet to wear them
 You can use all kinds of ropes in all constructions now.
-Handle nullptr in spawn-monsters-submap
-monsters that regenerate in darkness would only regenerate by a single HP per turn
-actually give spells listed in hobbies
+Did you know we didn't have any hallucinations for a while? now they're back, baby!
 
 
 ## Performance:
@@ -611,10 +572,6 @@ Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
 Migrate names to snippets & add weighted snippets
 Add `_ib` variants of coord.
-Migrate reload ammo selection menu to inventory_selector
-Remove tags from synthetic_recipe_fail_chances
-Add more exception handling so lastworld.json cannot prevent it from starting
-JSONize Electrohack Tool
 
 
 ## Build:
