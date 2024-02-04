@@ -3147,6 +3147,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
                 //Apply multiplication first.
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
+                    //this is wrong and will overwrite previously set enchantment resists.
                     if( pair_values.first == enchant_vals::mod::ARMOR_ACID ) {
                         enchantment_effects.armor_mod_mult.set_resist(damage_acid, pair_values.second.constant());
                     } else if( pair_values.first == enchant_vals::mod::ARMOR_BASH ) {
