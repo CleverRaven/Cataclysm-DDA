@@ -358,6 +358,48 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_telepath",
+    "name": "Arising Telepath",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Sure, the zombies are immune to telepathy, but those rioters aren't and neither are some of the monsters you've run into.  At least once, you managed to warn off another survivor who you knew meant to rob you.  You left him unconscious and without his weapons, and if the zombies got him, well, he shouldn't have messed with you.",
+    "points": 6,
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telepathic_concentration", "level": 7 },
+      { "id": "telepathic_mind_sense", "level": 8 },
+      { "id": "telepathic_shield", "level": 6 },
+      { "id": "telepathic_morale", "level": 8 },
+      { "id": "telepathic_blast", "level": 6 },
+      { "id": "telepathic_animal_mind_control", "level": 5 },
+      { "id": "telepathic_confusion", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_telepath",
+    "name": "Ascended Telepath",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Controlling human minds is still too hard but at this point, animal minds are child's play.  A while back, some kind of mutated wolf or dog or something jumped you in the forest and after a few seconds, it was wagging its tail and jumping around like a new puppy.  You wish you still had it with you, but it died fighting off some kind of pink crustacean…thing, giving you time to run.  The bravest dog you ever had.",
+    "points": 10,
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "skills": [ { "level": 7, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telepathic_concentration", "level": 10 },
+      { "id": "telepathic_mind_sense", "level": 11 },
+      { "id": "telepathic_shield", "level": 9 },
+      { "id": "telepathic_morale", "level": 8 },
+      { "id": "telepathic_blast", "level": 8 },
+      { "id": "telepathic_animal_mind_control", "level": 10 },
+      { "id": "telepathic_confusion", "level": 9 },
+      { "id": "telepathic_fear", "level": 7 },
+      { "id": "telepathic_invisibility", "level": 8 },
+      { "id": "telepathic_blast_radius", "level": 6 },
+      { "id": "telepathic_beast_taming", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_teleporter",
     "name": "Newly-Awakened Teleporter",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You were fleeing down a side street when you heard a crash above you.  You looked up and saw something hurtling through the air down toward you, you closed your eyes and wished you were anywhere but where you were, and then… you were.  Indoors, in a house near the street, and you went out the back door and made good your escape.  You're very, very good at escaping now.",
