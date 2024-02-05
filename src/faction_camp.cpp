@@ -5544,13 +5544,9 @@ bool basecamp::distribute_food()
             return false;
         }
         nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
-        // Do this multiplication separately so we don't null out the entire struct for rot_multip < 1
-        from_it.calories *= rot_multip( it, container );
-        nutrients_to_add.calories += from_it.calories;
-        auto vits = from_it.vitamins();
-        for( auto &vit : vits ) {
-            nutrients_to_add.add_vitamin( vit.first, ( vit.second * rot_multip( it, container ) ) );
-        }
+        // Do this multiplication separately to make sure we're using the *= operator with double argument..
+        from_it *= rot_multip( it, container );
+        nutrients_to_add += from_it;
         if( from_it.kcal() <= 0 ) {
             // can happen if calories is low and rot is high.
             return false;
@@ -5600,11 +5596,7 @@ bool basecamp::distribute_food()
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
     faction *yours = get_player_character().get_faction();
-    yours->food_supply.calories += nutrients_to_add.calories;
-    auto vits = nutrients_to_add.vitamins();
-    for( auto &vit : vits ) {
-        yours->food_supply.add_vitamin( vit.first, vit.second );
-    }
+    yours->food_supply += nutrients_to_add;
     return true;
 }
 

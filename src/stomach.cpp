@@ -191,6 +191,19 @@ nutrients &nutrients::operator*=( int r )
     return *this;
 }
 
+nutrients &nutrients::operator*=( double r )
+{
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when *= called!" );
+    }
+    calories *= r;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) * r;
+    }
+    return *this;
+}
+
 nutrients &nutrients::operator/=( int r )
 {
     if( !finalized ) {

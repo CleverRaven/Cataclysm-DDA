@@ -70,6 +70,7 @@ struct nutrients {
         nutrients &operator+=( const nutrients &r );
         nutrients &operator-=( const nutrients &r );
         nutrients &operator*=( int r );
+        nutrients &operator*=( double r );
         nutrients &operator/=( int r );
 
         friend nutrients operator*( nutrients l, int r ) {
