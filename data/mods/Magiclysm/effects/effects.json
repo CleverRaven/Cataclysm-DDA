@@ -1053,6 +1053,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_eat_tons_of_food",
+    "name": [ "Gluttonous Consumption" ],
+    "desc": [ "You feel like you could eat a horse." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_flesh_rending",
     "name": [ "Rending" ],
     "desc": [ "Your flesh is twisting itself apart!" ],
@@ -1106,6 +1113,20 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "id": "effect_dispel_magic",

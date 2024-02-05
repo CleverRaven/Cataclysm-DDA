@@ -1265,7 +1265,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "DRUID",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "attack",
+    "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_TRAVERSE_THE_WILDS",
     "shape": "blast",
     "difficulty": 3,
@@ -1323,23 +1323,27 @@
           "or": [
             { "not": "u_is_outside" },
             {
-              "or": [
+              "and": [
                 { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
                 { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
                 { "not": { "u_is_on_terrain_with_flag": "YOUNG" } }
               ]
             },
-            { "u_near_om_location": "road_curved", "range": 1 },
-            { "u_near_om_location": "road_four_way", "range": 1 },
-            { "u_near_om_location": "road_tee", "range": 1 },
-            { "u_near_om_location": "road_straight", "range": 1 },
-            { "u_near_om_location": "road_end", "range": 1 },
-            { "u_near_om_location": "road_sw", "range": 1 },
-            { "u_near_om_location": "road_ne", "range": 1 },
-            { "u_near_om_location": "road_ew", "range": 1 },
-            { "u_near_om_location": "road_ns", "range": 1 },
-            { "u_near_om_location": "road_nesw", "range": 1 },
-            { "u_near_om_location": "road", "range": 1 }
+            {
+              "or": [
+                { "u_near_om_location": "road_curved", "range": 1 },
+                { "u_near_om_location": "road_four_way", "range": 1 },
+                { "u_near_om_location": "road_tee", "range": 1 },
+                { "u_near_om_location": "road_straight", "range": 1 },
+                { "u_near_om_location": "road_end", "range": 1 },
+                { "u_near_om_location": "road_sw", "range": 1 },
+                { "u_near_om_location": "road_ne", "range": 1 },
+                { "u_near_om_location": "road_ew", "range": 1 },
+                { "u_near_om_location": "road_ns", "range": 1 },
+                { "u_near_om_location": "road_nesw", "range": 1 },
+                { "u_near_om_location": "road", "range": 1 }
+              ]
+            }
           ]
         }
       ]

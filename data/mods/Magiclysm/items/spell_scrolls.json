@@ -1893,7 +1893,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_mass_hiding_aoe",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Spiritual Isolation", "str_pl": "Scrolls of Spiritual Isolation" },
+    "name": { "str": "Scroll of A Shadow in the Crowd", "str_pl": "Scrolls of A Shadow in the Crowd" },
     "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
   },

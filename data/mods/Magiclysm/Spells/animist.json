@@ -891,7 +891,7 @@
   {
     "id": "animist_mass_hiding_aoe",
     "type": "SPELL",
-    "name": "Spiritual Isolation",
+    "name": "A Shadow in the Crowd",
     "description": "",
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ANIMIST",
@@ -916,8 +916,8 @@
   {
     "id": "animist_mass_hiding_self",
     "type": "SPELL",
-    "name": "Spiritual Isolation Self",
-    "description": "Puts an effect on you so anyone affected by Spiritual Isolation knows to ignore you.  It's a bug if you have this directly.",
+    "name": "A Shadow in the Crowd Self",
+    "description": "Puts an effect on you so anyone affected by A Shadow in the Crowd knows to ignore you.  It's a bug if you have this directly.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -925,8 +925,8 @@
     "effect": "attack",
     "effect_str": "telepathic_ignorance_self",
     "shape": "blast",
-    "min_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 30) + 30" ] },
-    "max_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 30) + 30" ] }
+    "min_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 3000) + 3000" ] },
+    "max_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 3000) + 3000" ] }
   },
   {
     "id": "animist_luck_bone",
