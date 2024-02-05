@@ -962,7 +962,7 @@ void game::chat()
             std::string popupdesc =
                 _( "What do you want to add to the message log?  (This will have no in-game effect!)" );
             string_input_popup popup;
-            popup.title( _( "Add a message" ) )
+            popup.title( _( "Do something" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
