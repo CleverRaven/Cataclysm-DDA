@@ -234,7 +234,7 @@
     "id": "biokin_adrenaline",
     "type": "SPELL",
     "name": "[Ψ]Adrenaline Trigger",
-    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a .",
+    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a speed boost, albeit at a draining cost when the boost expires.",
     "message": "Your heartbeat surges as your body floods with adrenaline.",
     "teachable": false,
     "valid_targets": [ "self" ],
