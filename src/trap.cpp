@@ -294,7 +294,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect + distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 
