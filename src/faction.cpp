@@ -126,6 +126,7 @@ faction_template::faction_template( const JsonObject &jsobj )
 {
     jsobj.get_member( "description" ).read( desc );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
+    jsobj.read( "food_supply", food_supply.calories, true );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
         price_rules.emplace_back( currency, 1, 0 );
