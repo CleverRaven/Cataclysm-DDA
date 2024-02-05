@@ -5455,6 +5455,8 @@ int camp_food_supply( int change )
         yours->food_supply.calories = 0;
     }
 
+    //TODO: These nutrients should actually be consumed by the workers
+
     return yours->food_supply.kcal();
 }
 
@@ -5497,7 +5499,7 @@ bool basecamp::distribute_food()
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
-    int total = 0;
+    nutrients nutrients_to_add;
 
     const auto rot_multip = [&]( const item & it, item * const container ) {
         if( !it.goes_bad() ) {
@@ -5541,14 +5543,18 @@ bool basecamp::distribute_food()
         if( it.rotten() ) {
             return false;
         }
-        const int kcal = getAverageJoe().compute_effective_nutrients( it ).kcal() * it.count() * rot_multip(
-                             it,
-                             container );
-        if( kcal <= 0 ) {
+        nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
+        // Do this multiplication separately so we don't null out the entire struct for rot_multip < 1
+        from_it.calories *= rot_multip( it, container );
+        nutrients_to_add.calories += from_it.calories;
+        auto vits = from_it.vitamins();
+        for( auto &vit : vits ) {
+            nutrients_to_add.add_vitamin( vit.first, ( vit.second * rot_multip( it, container ) ) );
+        }
+        if( from_it.kcal() <= 0 ) {
             // can happen if calories is low and rot is high.
             return false;
         }
-        total += kcal;
         return true;
     };
 
@@ -5587,13 +5593,18 @@ bool basecamp::distribute_food()
         }
     }
 
-    if( total <= 0 ) {
+    if( nutrients_to_add.kcal() <= 0 ) {
         popup( _( "No suitable items are located at the drop points…" ) );
         return false;
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), total );
-    camp_food_supply( total );
+    popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
+    faction *yours = get_player_character().get_faction();
+    yours->food_supply.calories += nutrients_to_add.calories;
+    auto vits = nutrients_to_add.vitamins();
+    for( auto &vit : vits ) {
+        yours->food_supply.add_vitamin( vit.first, vit.second );
+    }
     return true;
 }
 
