@@ -2309,7 +2309,7 @@ static void faction_edit_menu()
          << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
     data << string_format( _( "Size: %d" ), fac->size ) << " | "
          << string_format( _( "Power: %d" ), fac->power ) << " | "
-         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
     data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
          << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
@@ -2348,8 +2348,8 @@ static void faction_edit_menu()
             }
             break;
         case D_FOOD:
-            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
-                fac->food_supply = value;
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
+                fac->food_supply.calories = ( value * 1000 ) ;
             }
             break;
         case D_OPINION:

@@ -4434,7 +4434,7 @@ bool npc::consume_food_from_camp()
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
+        int kcals_to_eat = std::min( desired_kcals, yours->food_supply.kcal() );
 
         if( kcals_to_eat > 0 ) {
             // We need food and there's some available, so let's eat it
@@ -4460,7 +4460,7 @@ bool npc::consume_food_from_camp()
             // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
             set_hunger( -1 );
 
-            yours->food_supply -= kcals_to_eat;
+            yours->food_supply.calories -= ( kcals_to_eat * 1000 );
             return true;
         } else {
             // We need food but there's none to eat :(

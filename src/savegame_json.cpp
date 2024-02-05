@@ -3812,7 +3812,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "size", size );
     jo.read( "power", power );
     if( !jo.read( "food_supply", food_supply ) ) {
-        food_supply = 100;
+        food_supply.calories = 100000;
     }
     if( !jo.read( "wealth", wealth ) ) {
         wealth = 100;

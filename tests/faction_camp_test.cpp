@@ -33,18 +33,18 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( this_omt.xy() );
     basecamp *test_camp = *bcp;
     WHEN( "a base item is added to larder" ) {
-        camp_faction->food_supply = 0;
+        camp_faction->food_supply.calories = 0;
         item test_100_kcal( "test_100_kcal" );
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
         m.i_clear( zone_local.raw() );
         m.add_item_or_charges( zone_local, test_100_kcal );
         REQUIRE( m.has_items( zone_local ) );
         test_camp->distribute_food();
-        CHECK( camp_faction->food_supply == 100 );
+        CHECK( camp_faction->food_supply.kcal() == 100 );
     }
 
     WHEN( "an item with inherited components is added to larder" ) {
-        camp_faction->food_supply = 0;
+        camp_faction->food_supply.calories = 0;
         item test_100_kcal( "test_100_kcal" );
         item test_200_kcal( "test_200_kcal" );
         item_components made_of;
@@ -56,7 +56,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
         m.i_clear( zone_local.raw() );
         m.add_item_or_charges( zone_local, test_200_kcal );
         test_camp->distribute_food();
-        CHECK( camp_faction->food_supply == 200 );
+        CHECK( camp_faction->food_supply.kcal() == 200 );
     }
 }
 // TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts, costs calories)

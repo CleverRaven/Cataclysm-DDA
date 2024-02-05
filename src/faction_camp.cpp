@@ -5441,21 +5441,21 @@ int camp_food_supply_days( float exertion_level )
 {
     faction *yours = get_player_character().get_faction();
 
-    return yours->food_supply / time_to_food( 24_hours, exertion_level );
+    return yours->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
 }
 
 int camp_food_supply( int change )
 {
     faction *yours = get_player_character().get_faction();
-    yours->food_supply += change;
-    if( yours->food_supply < 0 ) {
-        yours->likes_u += yours->food_supply / 1250;
-        yours->respects_u += yours->food_supply / 625;
-        yours->trusts_u += yours->food_supply / 625;
-        yours->food_supply = 0;
+    yours->food_supply.calories += ( change * 1000 );
+    if( yours->food_supply.calories < 0 ) {
+        yours->likes_u += yours->food_supply.kcal() / 1250;
+        yours->respects_u += yours->food_supply.kcal() / 625;
+        yours->trusts_u += yours->food_supply.kcal() / 625;
+        yours->food_supply.calories = 0;
     }
 
-    return yours->food_supply;
+    return yours->food_supply.kcal();
 }
 
 int camp_food_supply( time_duration work, float exertion_level )
