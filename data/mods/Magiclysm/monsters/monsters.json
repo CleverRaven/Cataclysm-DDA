@@ -323,11 +323,29 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ],
         "condition": { "not": { "u_has_effect": "maimed_arm" } }
       },
-      { "id": "smash", "throw_strength": 96 }
+      { "id": "smash", "throw_strength": 96 },
+      {
+        "id": "mon_troll_regenerate_limb",
+        "type": "spell",
+        "spell_data": { "id": "mon_troll_regenerate_limb_spell", "hit_self": true },
+        "cooldown": 15,
+        "condition": { "and": [ { "math": [ "u_hp('ALL')", ">", "200" ] }, { "u_has_effect": "maimed_arm" } ] }
+      }
     ],
     "regenerates": 12,
     "regeneration_modifiers": [ [ "onfire", -12 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "HAS_MIND",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "GRABS",
+      "FLAMMABLE"
+    ],
     "zombify_into": "mon_troll_zombie",
     "armor": { "cut": 16, "bullet": 13, "heat": -15, "acid": -15 }
   },
