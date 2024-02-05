@@ -133,6 +133,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_druid_traverse_the_wilds",
+    "name": "Dabbler (Traverse the Wilds)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Traverse the Wilds.  Part of the joy of hiking is taking your time, of being away from the tyranny of clocks and schedules and deadlines.  But sometimes, it was nice to just see the miles fly by, to reach the summit before sunrise and take in the view without getting up at 2 a.m., to finish the entire trail and still have time to sit down and eat a leisurely dinner.  And it's not like you teleported, after all.  Regardless of the magic, you still had to walk every single step.",
+    "points": 4,
+    "spells": [ { "id": "druid_traverse_the_wilds", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_eshaper_spawn_tools",
     "name": "Dabbler (Utility Molding)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Utility Molding.  You read a pamphlet once entitled, \"One Spell is All You Need!\" and thought it seemed like a good idea.  And true, maybe you've never needed a mining pick before, but the ability to all up a knife or a shovel or a hammer whenever you want has come in handy countless times.",

@@ -1774,5 +1774,38 @@
       "INTEGRATED"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
+  },
+  {
+    "id": "aura_bearmantle",
+    "type": "ARMOR",
+    "name": "bearmantle",
+    "description": "Think as the bear.  Move as the bear.  Sleep as the bear.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "INTEGRATED",
+      "NONCONDUCTIVE",
+      "TRANSPARENT"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [ "HEAVYSLEEPER2", "FAT", "URSINE_FUR", "SMELLY2", "STRONGER_RESISTCHILL", "HIBERNATE" ]
+        }
+      ]
+    }
   }
 ]
