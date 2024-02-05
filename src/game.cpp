@@ -371,8 +371,7 @@ static void achievement_attained( const achievement *a, bool achievements_enable
         } else if( popup_option == "always" ) {
             show_popup = true;
         } else if( popup_option == "first" ) {
-            const achievement_completion_info *past_info = get_past_games().achievement( a->id );
-            show_popup = !past_info || past_info->games_completed.empty();
+            show_popup = !get_past_achievements().is_completed( a->id );
         } else {
             debugmsg( "Unexpected ACHIEVEMENT_COMPLETED_POPUP option value %s", popup_option );
             show_popup = false;
@@ -3377,11 +3376,8 @@ bool game::save_achievements()
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
 
-    // Clear past achievements so that it will be reloaded
-    clear_past_achievements();
-
     return write_to_file( json_path_string, [&]( std::ostream & fout ) {
-        get_achievements().write_json_achievements( fout );
+        get_achievements().write_json_achievements( fout, u.name );
     }, _( "player achievements" ) );
 
 }
