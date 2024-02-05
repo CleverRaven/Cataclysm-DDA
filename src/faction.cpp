@@ -121,7 +121,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
-	, food_supply(jsobj.get_int("food_supply"))
+    , food_supply()
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
