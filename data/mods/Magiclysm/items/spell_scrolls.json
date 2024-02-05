@@ -1900,19 +1900,28 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_animist_mass_hiding_aoe",
+    "id": "spell_scroll_animist_luck_bone",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Spiritual Isolation", "str_pl": "Scrolls of Spiritual Isolation" },
+    "name": { "str": "Scroll of Osseous Luck", "str_pl": "Scrolls of Osseous Luck" },
     "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
-    "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "animist_luck_bone" ] }
   },
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_bearmantle",
     "//": "Druid spell",
-    "name": { "str": "Scroll of the Bearmantle", "str_pl": "Scrolls of Bearmantle" },
+    "name": { "str": "Scroll of Bearmantle", "str_pl": "Scrolls of Bearmantle" },
     "description": "Take on some of the characteristics of the bear, making it much easier to survive the winter.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_bearmantle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_eat_tons_of_food",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Gluttonous Consumption", "str_pl": "Scrolls of Gluttonous Consumption" },
+    "description": "For when you don't know where your next meal is coming from and you want to make sure absolutely nothing goes to waste.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
   }
 ]

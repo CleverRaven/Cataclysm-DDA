@@ -203,6 +203,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_magus_far_hand_pull",
+    "name": "Dabbler (Sorcerer's Hand)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sorcerer's Hand.  Alright, fine, you admit it, you learned magic because of laziness.  It seems odd to say, with all the hours after work and late at night, studying until you could make your keys twitch and fall off the table and eventually until you can grab a drink from across the room, but it's true.  You could reach nearly everything without having to get up.  Anyway, you're way more active now, and being able to grab things from across the room has come in handy more than once since the end of the world.",
+    "points": 4,
+    "spells": [ { "id": "magus_far_hand_pull", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_magus_spiderclimb",
     "name": "Dabbler (Spider Climb)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Spider Climb.  A lot of people in the rockclimbing community said you were cheating, and, to be honest, they were right.  But every time you saw one of those spectacular views from the summit, well, those complaints didn't mean that much.",
