@@ -354,6 +354,8 @@
     "type": "MONSTER",
     "copy-from": "mon_troll",
     "looks_like": "mon_troll",
+    "name": "stone troll",
+    "description": "A monstrous, gray-skinned humanoid, almost three meters tall but as thin as the average human.  Stone trolls have rocky skin that's almost impervious to hand weapons, but they turn to stone in the sunlight.",
     "melee_damage": [ { "damage_type": "bash", "amount": 18 } ],
     "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
     "extend": { "flags": [ "SUNDEATH" ] },
@@ -364,6 +366,8 @@
     "type": "MONSTER",
     "copy-from": "mon_troll",
     "looks_like": "mon_troll",
+    "name": "sea troll",
+    "description": "A monstrous, green-skinned humanoid, almost three meters tall but as thin as the average human.  Sea trolls are just as mean and dangerous as trolls on land, but they can also swim and breathe in water.",
     "proportional": { "hp": 0.9, "speed": 0.8, "volume": 0.9, "weight": 0.9 },
     "extend": { "flags": [ "SWIMS" ] }
   },
