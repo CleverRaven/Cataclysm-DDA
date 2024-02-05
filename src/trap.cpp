@@ -254,7 +254,7 @@ bool trap::detected_by_ground_sonar() const
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, average per/int, and a focus of 50,
+    // Assuming no knowledge of traps or proficiencies, and average per/int,
     // most characters will get a mean_roll of 6.
     // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it.
     // This gets worse if you are fatigued, or can't see as well.
@@ -269,9 +269,6 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
-
-    // Your current focus strongly affects your ability to spot things.
-    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
@@ -297,8 +294,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect +
-                            focus_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect + distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 
