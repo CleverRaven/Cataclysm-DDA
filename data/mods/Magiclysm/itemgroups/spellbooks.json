@@ -62,6 +62,7 @@
       [ "spell_scroll_classless_dispel_magic", 45 ],
       [ "spell_scroll_sound_bomb", 35 ],
       [ "spell_scroll_animist_summon_watcher", 30 ],
+      [ "spell_scroll_animist_luck_bone", 20 ],
       [ "spell_scroll_pain_split", 25 ],
       [ "spell_scroll_bio_grotesque", 40 ],
       [ "spell_scroll_bio_fleshpouch", 30 ],

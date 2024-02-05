@@ -222,5 +222,11 @@
         [ "chem_black_powder", 5 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_luck_bone",
+    "type": "requirement",
+    "//": "A bone for the osseous luck spell",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
   }
 ]

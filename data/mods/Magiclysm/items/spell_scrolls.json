@@ -1903,7 +1903,7 @@
     "id": "spell_scroll_animist_luck_bone",
     "//": "Animist spell",
     "name": { "str": "Scroll of Osseous Luck", "str_pl": "Scrolls of Osseous Luck" },
-    "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
+    "description": "Summon benevolent spirits into a bone, granting minor benefits.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_luck_bone" ] }
   },
   {

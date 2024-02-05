@@ -927,5 +927,28 @@
     "shape": "blast",
     "min_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 30) + 30" ] },
     "max_duration": { "math": [ "(u_spell_level('animist_mass_hiding_aoe') * 30) + 30" ] }
+  },
+  {
+    "id": "animist_luck_bone",
+    "type": "SPELL",
+    "name": { "str": "Osseous Luck" },
+    "description": "Attract spirits of good fortune to a bone, granting minor bonuses as long as it is carried.  Though benevolent, the spirits are capricious, and exactly what benefits they will provide cannot be determined ahead of time.  The bone crumbles to dust when the spell duration expires and the spirits leave.",
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "spell_class": "ANIMIST",
+    "effect": "spawn_item",
+    "effect_str": "item_animist_luck_bone",
+    "components": "spell_components_luck_bone",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "difficulty": 5,
+    "max_level": 20,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 72000,
+    "max_duration": 1512000,
+    "duration_increment": 72000,
+    "energy_source": "MANA",
+    "base_casting_time": 30000,
+    "base_energy_cost": 600
   }
 ]

@@ -1044,7 +1044,11 @@
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
+        "distribution": [
+          { "item": "priest_advanced", "prob": 10 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_luck_bone", "prob": 30 }
+        ],
         "prob": 35
       },
       {
@@ -1053,7 +1057,8 @@
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
-          { "item": "spell_scroll_recover_pain", "prob": 50 }
+          { "item": "spell_scroll_recover_pain", "prob": 50 },
+          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 }
         ],
         "prob": 10
       },
