@@ -65,7 +65,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_COLD_IRON",
+    "id": "EOC_ALCHEMY3_COLD_IRON",
     "condition": {
       "and": [
         { "u_has_trait": "perk_ALCHEMY3" },
