@@ -56,7 +56,7 @@
     "name": { "str": "dreamforged arrow" },
     "symbol": "=",
     "color": "light_gray",
-    "looks_like": "arrow_metal_sharpened_fletched",
+    "looks_like": "arrow_metal",
     "description": "A dreamforged arrow with a razor-sharp tip.",
     "material": [ "forged_dreamstuff" ],
     "volume": "40 ml",
