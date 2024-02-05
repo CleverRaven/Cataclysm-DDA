@@ -1726,6 +1726,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::CONTENTS, b_contents );
     bits.set( tname::segments::CONTENTS_FULL, b_contents );
     bits.set( tname::segments::CONTENTS_ABREV, b_contents );
+    bits.set( tname::segments::CONTENTS_COUNT, b_contents );
     return { bits };
 }
 
