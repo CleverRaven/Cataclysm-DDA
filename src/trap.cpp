@@ -289,9 +289,9 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
         // Knowing how to set traps gives you a small bonus to spotting them as well.
     }
 
-    // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
-    // That represents a -2 at dead tired, -4 at exhausted, and so on.
-    const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
+    // For every 1000 points of sleep deprivation, reduce your roll by 1.
+    // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
+    const float fatigue_penalty = ( p.get_sleep_deprivation() / 1000.0f );
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
                             proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
