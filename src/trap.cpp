@@ -254,10 +254,10 @@ bool trap::detected_by_ground_sonar() const
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, and average per/int,
-    // most characters will get a mean_roll of 6.
-    // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it.
-    // This gets worse if you are fatigued, or can't see as well.
+    // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
+    // most characters will get a mean_roll of 6 against a trap that is one tile away.
+    // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it (per turn).
+    // This gets worse if you are sleep deprived, or can't see as well.
     // Obviously it rapidly gets better as your skills improve.
 
     // Devices skill is helpful for spotting traps
@@ -297,6 +297,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
                             proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
+
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Character %s rolling to detect trap %s. Actual roll: %i, average roll: %f, roll required to detect: %i.",
+                   p.get_name(), name(), roll, mean_roll, visibility );
 
     return roll > visibility;
 }
