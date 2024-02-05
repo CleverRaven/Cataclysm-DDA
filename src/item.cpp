@@ -13244,8 +13244,11 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
-        } else if( !veh.part( veh.part_at( mount ) ).carried_stack.empty() ) {
-            return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+        } else {
+            const int part_at = veh.part_at( mount );
+            if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
+                return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+            }
         }
     } else {
         const link_up_actor *it_actor = static_cast<const link_up_actor *>
