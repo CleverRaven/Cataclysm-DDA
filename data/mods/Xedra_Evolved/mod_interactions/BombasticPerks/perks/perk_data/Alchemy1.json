@@ -75,7 +75,7 @@
     },
     "effect": [
       {
-        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
+        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_arming_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
