@@ -415,7 +415,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
-    NPC_CHAT_FLAVOR,
+    NPC_CHAT_MISC,
     NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
@@ -878,7 +878,7 @@ void game::chat()
 
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( NPC_CHAT_FLAVOR, true, 'T', _( "Flavor message" ) );
+    nmenu.addentry( NPC_CHAT_MISC, true, 'T', _( "Miscellaneous action" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -924,7 +924,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
-    std::string flavor_msg;
+    std::string misc_msg;
     bool is_order = true;
     nmenu.query();
 
@@ -958,7 +958,7 @@ void game::chat()
             is_order = false;
             break;
         }
-        case NPC_CHAT_FLAVOR: {
+        case NPC_CHAT_MISC: {
             std::string popupdesc =
                 _( "What do you want to add to the message log?  (This will have no in-game effect!)" );
             string_input_popup popup;
@@ -968,7 +968,7 @@ void game::chat()
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            flavor_msg = popup.text();
+            misc_msg = popup.text();
             is_order = false;
             break;
         }
@@ -1235,8 +1235,8 @@ void game::chat()
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
-    if( !flavor_msg.empty() ) {
-        add_msg( flavor_msg );
+    if( !misc_msg.empty() ) {
+        add_msg( misc_msg );
     }
 
     u.moves -= 100;
