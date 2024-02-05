@@ -79,7 +79,12 @@ void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_u
     add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
 }
 
-using item_name_t = std::pair<std::string, std::string>;
+// using item_name_t = std::pair<std::string, std::string>;
+struct item_name_t {
+    std::string sort_key;
+    std::string full_name;
+    unsigned int contents_count{};
+};
 using name_cache_t = std::unordered_map<item const *, item_name_t>;
 name_cache_t item_name_cache;
 int item_name_cache_users = 0;
@@ -89,8 +94,9 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
-                                          remove_color_tags( it->tname( 1, true ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, tname::tname_sort_key ) ),
+                                          remove_color_tags( it->tname( 1, true ) ),
+                                          it->aggregated_contents().count } )
                .first->second;
     }
 
@@ -582,8 +588,9 @@ nc_color inventory_entry::get_invlet_color() const
 void inventory_entry::update_cache()
 {
     item_name_t &names = get_cached_name( &*any_item() );
-    cached_name = &names.first;
-    cached_name_full = &names.second;
+    cached_name = &names.sort_key;
+    contents_count = names.contents_count;
+    cached_name_full = &names.full_name;
 }
 
 void inventory_entry::cache_denial( inventory_selector_preset const &preset ) const
@@ -674,7 +681,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( *e.cached_name, *e.cached_name_full,
+        return std::make_tuple( *e.cached_name, e.contents_count, *e.cached_name_full,
                                 e.any_item()->link_sort_key(), e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );

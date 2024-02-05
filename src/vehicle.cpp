@@ -6741,17 +6741,25 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
     }
     const int tow_cable_idx = get_tow_part();
     if( first_vehicle ) {
-        vehicle *other_veh = is_towing() ? tow_data.get_towed() :
+        const bool first_veh_is_towing = is_towing();
+        vehicle *other_veh = first_veh_is_towing ? tow_data.get_towed() :
                              is_towed() ? tow_data.get_towed_by() : nullptr;
+        const int other_tow_cable_idx = other_veh ? other_veh->get_tow_part() : -1;
+        const point other_tow_cable_mount = other_veh && other_tow_cable_idx > -1 ?
+                                            other_veh->part( other_tow_cable_idx ).mount : point();
+        if( other_veh ) {
+            other_veh->invalidate_towing();
+        }
         if( tow_cable_idx > -1 ) {
             vehicle_part &vp = parts[tow_cable_idx];
             item drop = part_to_item( vp );
             drop.set_damage( 0 );
-            const int other_tow_cable_idx = other_veh ? other_veh->get_tow_part() : -1;
+            tripoint drop_pos = global_part_pos3( vp );
+            remove_part( vp );
             if( other_tow_cable_idx > -1 ) {
                 drop.reset_link( false );
-                drop.link_to( *other_veh, other_veh->part( other_tow_cable_idx ).mount );
-                if( is_towing() ) {
+                drop.link_to( *other_veh, other_tow_cable_mount, link_state::vehicle_tow );
+                if( first_veh_is_towing ) {
                     drop.link().source = link_state::no_link;
                     drop.link().target = link_state::vehicle_tow;
                 } else {
@@ -6770,12 +6778,8 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
                     put_into_vehicle_or_drop( *remover, item_drop_reason::deliberate, drops );
                 }
             } else {
-                get_map().add_item_or_charges( global_part_pos3( vp ), drop );
+                get_map().add_item_or_charges( drop_pos, drop );
             }
-            remove_part( vp );
-        }
-        if( other_veh ) {
-            other_veh->invalidate_towing();
         }
         tow_data.clear_towing();
     } else {
