@@ -255,10 +255,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
     // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
-    // most characters will get a mean_roll of 6 against a trap that is one tile away.
-    // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it (per turn).
+    // most characters will get a mean_roll of 6.5 against a trap that is one tile away.
+    // With a std deviation of 3, that leaves a ~12% chance of spotting a landmine when you are next to it (per turn).
     // This gets worse if you are sleep deprived, or can't see as well.
-    // Obviously it rapidly gets better as your skills improve.
+    // Obviously it rapidly gets better as your skills improve, with most of the improvement coming from proficiencies.
 
     // Devices skill is helpful for spotting traps
     const float traps_skill_level = p.get_skill_level( skill_traps );
@@ -274,19 +274,19 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
     const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
 
-    int proficiency_effect = -2;
-    // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+    int proficiency_effect = -1;
+    // Without at least a basic traps proficiency, your skill level is effectively three levels lower.
     if( p.has_proficiency( proficiency_prof_traps ) ) {
-        proficiency_effect += 2;
+        proficiency_effect += 1;
         // If you have the basic traps prof, negate the above penalty
     }
     if( p.has_proficiency( proficiency_prof_spotting ) ) {
-        proficiency_effect += 4;
-        // If you have the spotting proficiency, add 4 levels.
+        proficiency_effect += 3;
+        // If you have the spotting proficiency, add a whopping 9 effective skill levels.
     }
     if( p.has_proficiency( proficiency_prof_trapsetting ) ) {
         proficiency_effect += 1;
-        // Knowing how to set traps gives you a small bonus to spotting them as well.
+        // Knowing how to set effective traps gives you a considerable bonus to spotting them as well.
     }
 
     // For every 1000 points of sleep deprivation, reduce your roll by 1.
