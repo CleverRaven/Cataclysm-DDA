@@ -1198,5 +1198,21 @@
     "symbol": "?",
     "color": "pink",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
+  },
+  {
+    "id": "anti_magic_dispel_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "A Year of Living Without Magic", "str_pl": "copies of A Year of Living Without Magic" },
+    "//": "1 Classless spell",
+    "description": "A guide to living without any magic at all, including ways to perform tasks that were traditionally performed with magic, such as starting fires, tending minor wounds, cooking and preserving food, doing laundry, and so on.  Somewhat hypocritically, it does include a dispelling spell in the back of the book.",
+    "weight": "258 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
   }
 ]

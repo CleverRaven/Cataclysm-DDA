@@ -261,7 +261,8 @@
       [ "druid_healing_power_spellbook", 30 ],
       [ "hologram_and_teleport_spellbook", 30 ],
       [ "messed_up_spells_spellbook", 30 ],
-      [ "biomancy_fasting_spellbook", 30 ]
+      [ "biomancy_fasting_spellbook", 30 ],
+      [ "anti_magic_dispel_spellbook", 30 ]
     ]
   },
   {
