@@ -4447,9 +4447,8 @@ bool npc::consume_food_from_camp()
             // or becoming engorged
             units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
 
-            // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
-            // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
-            nutrients nutr = bcp->camp_food_supply( kcals_to_eat );
+            // Returns the actual amount of calories and vitamins taken from the camp's larder.
+            nutrients nutr = bcp->camp_food_supply( -kcals_to_eat );
 
             stomach.ingest( food_summary{
                 0_ml,
@@ -4460,7 +4459,6 @@ bool npc::consume_food_from_camp()
             // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
             set_hunger( -1 );
 
-            yours->food_supply.calories -= ( kcals_to_eat * 1000 );
             return true;
         } else {
             // We need food but there's none to eat :(
