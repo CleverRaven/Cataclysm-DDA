@@ -1076,5 +1076,24 @@
     "symbol": "?",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
+  },
+  {
+    "id": "windrunning_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Born of a Gale: A Taxonomy of Air and Weather Spirits",
+      "str_pl": "copies of Born of a Gale: A Taxonomy of Air and Weather Spirits"
+    },
+    "//": "1 Stormshaper spell",
+    "description": "A formal study of the various sylphs, anemoi, shedim, hytersprites, hyades, ame-onna, and other spirits associated with air, wind, or weather.",
+    "weight": "1588 g",
+    "volume": "2250 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
   }
 ]
