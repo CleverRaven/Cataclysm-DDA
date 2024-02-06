@@ -33,12 +33,7 @@
     "type": "item_group",
     "id": "afs_arrows",
     "subtype": "distribution",
-    "items": [
-      [ "arrow_nano", 5 ],
-      [ "arrow_cf", 10 ],
-      [ "arrow_metal", 20 ],
-      [ "arrow_metal_bodkin", 20 ]
-    ]
+    "items": [ [ "arrow_nano", 5 ], [ "arrow_cf", 10 ], [ "arrow_metal", 20 ], [ "arrow_metal_bodkin", 20 ] ]
   },
   {
     "type": "item_group",
