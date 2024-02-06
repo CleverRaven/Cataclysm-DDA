@@ -560,6 +560,7 @@
   },
   {
     "id": "zpap85mag",
+    "type": "MAGAZINE",
     "//": "Values copied from a STANAG magazine.",
     "name": { "str": "ZPAP 85 30-round magazine" },
     "description": "A 30-round box magazine for use with the ZPAP 85 and ZPAP M90 rifles.",
