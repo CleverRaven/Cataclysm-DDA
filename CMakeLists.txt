@@ -56,7 +56,9 @@ endif ()
 add_definitions(-DCMAKE)
 
 # Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+execute_process(COMMAND ${CMAKE_COMMAND}
+    -DGIT_BINARY=${GIT_BINARY}
+    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
     ERROR_VARIABLE GIT_VERSION
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
