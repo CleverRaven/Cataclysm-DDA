@@ -828,7 +828,7 @@
     "category": "manuals",
     "name": { "str": "Arcano-hiking for Fun", "str_pl": "copies of Arcano-hiking for Fun" },
     "//": "1 classless, 1 druid spell",
-    "description": "A thin book about the usefulness of magic in hiking, such as keeping clean, keeping the weather good, staying dry, and otherwise avoiding all the problems of the mundane outsdoors.",
+    "description": "A thin book about the usefulness of magic in hiking, such as keeping clean, keeping the weather good, staying dry, and otherwise avoiding all the problems of the mundane outdoors.",
     "weight": "900 g",
     "volume": "1200 ml",
     "price": 5000,
@@ -846,7 +846,7 @@
       "str": "The Effects of Technological Progress on Magic",
       "str_pl": "copies of The Effects of Technological Progress on Magic"
     },
-    "description": "A thick book about the history of magic's interactions with technology.  It delves deeply into why technological solutions have mostly replaced magic in daily life even though mages can have immense personal power: the incompatiblity of Control and Harmony schools, the technological ease-of-use from the end-user perspective, and even the way some nations' legal systems have worked to discourage magic use so as to prevent individuals from attaining too much power.",
+    "description": "A thick book about the history of magic's interactions with technology.  It delves deeply into why technological solutions have mostly replaced magic in daily life even though mages can have immense personal power: the incompatibility of Control and Harmony schools, the technological ease-of-use from the end-user perspective, and even the way some nations' legal systems have worked to discourage magic use so as to prevent individuals from attaining too much power.",
     "//": "1 technomancer, 2 classless spells",
     "weight": "1728 g",
     "volume": "3 L",
@@ -856,5 +856,24 @@
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell", "create_atomic_light", "technomancer_conjure_radio" ] }
+  },
+  {
+    "id": "magic_healing_home_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Home Mage's Healthcare Manual", "str_pl": "copies of The Home Mage's Healthcare Manual" },
+    "//": "2 Biomancer, 2 Druid spell",
+    "description": "A reference book for the practical use of magic in healing the sort of wounds that are likely to occur at home: burns from cooking, scraped knees, cuts from knives, bruises, and so on.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "magenta",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "light_healing", "biomancer_cure_disease_minor", "druid_disinfectant", "druid_bandage_heal" ]
+    }
   }
 ]

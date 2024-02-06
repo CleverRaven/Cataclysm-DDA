@@ -35,7 +35,7 @@
     "copy-from": "manuals",
     "extend": {
       "items": [
-        { "group": "spellbook_tier_0", "prob": 50 },
+        { "group": "spellbook_tier_0", "prob": 60 },
         { "group": "spellbook_loot_0", "prob": 3 },
         { "group": "dragon_books", "prob": 4 }
       ]

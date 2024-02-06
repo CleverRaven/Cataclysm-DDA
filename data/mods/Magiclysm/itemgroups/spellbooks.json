@@ -240,7 +240,8 @@
       [ "novice_stormshaper_book", 30 ],
       [ "book_lazy_magic", 30 ],
       [ "camping_time_spellbook", 30 ],
-      [ "magic_history_tech_spellbook", 30 ]
+      [ "magic_history_tech_spellbook", 30 ],
+      [ "magic_healing_home_spellbook", 30 ]
     ]
   },
   {
