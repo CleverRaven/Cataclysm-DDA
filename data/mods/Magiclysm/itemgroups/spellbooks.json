@@ -247,7 +247,8 @@
       [ "stormshaper_electric_immune_spellbook", 30 ],
       [ "avoid_all_temperatures_spellbook", 30 ],
       [ "summon_cats_spellbook", 30 ],
-      [ "freshen_up_spellbook", 30 ]
+      [ "freshen_up_spellbook", 30 ],
+      [ "post_apocalypse_guide_spellbook", 30 ]
     ]
   },
   {

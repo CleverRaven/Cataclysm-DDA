@@ -961,5 +961,24 @@
     "symbol": "?",
     "color": "brown",
     "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
+  },
+  {
+    "id": "post_apocalypse_guide_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Mystic Survival in the End Times", "str_pl": "copies of Mystic Survival in the End Times" },
+    "//": "1 Biomancer, 1 Druid, 1 Kelvinist, and 1 classless spell.",
+    "description": "A somewhat alarmist book about the ways to survive after the collapse of civilization, using simple magic to deal with common problems.  Sadly, there are no anti-zombie combat spells within.",
+    "weight": "434 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "classless_clean_clothing_and_self", "biomancer_carrion_feast", "druid_growth", "create_lighter" ]
+    }
   }
 ]
