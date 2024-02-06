@@ -978,7 +978,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "classless_clean_clothing_and_self", "biomancer_carrion_feast", "druid_growth", "create_lighter" ]
+      "spells": [ "classless_clean_clothing_and_self", "biomancer_carrion_feast", "purify_seed", "create_lighter" ]
     }
   },
   {
@@ -1026,7 +1026,23 @@
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
-    "color": "brown",
+    "color": "yellow",
     "use_action": { "type": "learn_spell", "spells": [ "shadow_field", "summon_wisps", "sound_bomb", "stormshaper_cloak_of_fog" ] }
+  },
+  {
+    "id": "magical_gardening_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Gardening the Druidic Way", "str_pl": "copies of Gardening the Druidic Way" },
+    "//": "1 Druid, 1 Earthshaper spell",
+    "description": "A reference tome for using magic to garden in a \"organic, traditional, earth-centered way\", as the back cover states.",
+    "weight": "258 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth", "earthshaper_turning_of_earth" ] }
   }
 ]
