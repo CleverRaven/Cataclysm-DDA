@@ -245,7 +245,8 @@
       [ "animist_summon_wisps_spellbook", 30 ],
       [ "eshaper_spellbook_tool", 30 ],
       [ "stormshaper_electric_immune_spellbook", 30 ],
-      [ "avoid_all_temperatures_spellbook", 30 ]
+      [ "avoid_all_temperatures_spellbook", 30 ],
+      [ "summon_cats_spellbook", 30 ]
     ]
   },
   {

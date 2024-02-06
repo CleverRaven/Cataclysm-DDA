@@ -901,7 +901,7 @@
     "category": "manuals",
     "name": { "str": "Storm Chasing In Complete Safety", "str_pl": "copies of Storm Chasing In Complete Safety" },
     "//": "1 stormshaper spell",
-    "description": "A description of weather patterns, geological formations in particularly storm-prone areas, essays from well-known storm chasers, proper equipment and safety, how to keep dry, and a way to use magic to completely avoid any possible danger from the storm itself.  The book does explicityl warn that if a tree falls on you, you're on your own, though, so the title seems to be more than half marketing.",
+    "description": "A description of weather patterns, geological formations in particularly storm-prone areas, essays from well-known storm chasers, proper equipment and safety, how to keep dry, and a way to use magic to completely avoid any possible danger from the storm itself.  The book does explicitly warn that if a tree falls on you, you're on your own, though, so the title seems to be more than half marketing.",
     "weight": "585 g",
     "volume": "500 ml",
     "price": 5000,
@@ -929,5 +929,21 @@
     "symbol": "?",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold", "kelvinist_anti_heat" ] }
+  },
+  {
+    "id": "summon_cats_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "A Cat Cafe at Home!", "str_pl": "copies of A Cat Cafe at Home!" },
+    "//": "1 Druid spell",
+    "description": "A very thin book, filled with glossy photos, about how to use druidic magic to call up cats whenever you are feeling lonely, if you can't afford one or live in a place that doesn't normally allow pets.  The people in the photos watching half-a-dozen cats play sure look happy.",
+    "weight": "355 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
   }
 ]
