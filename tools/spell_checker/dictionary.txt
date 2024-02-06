@@ -3067,6 +3067,7 @@ tazed
 tazer
 tazers
 tearjerker
+tech
 techn
 technologist
 technomancer
