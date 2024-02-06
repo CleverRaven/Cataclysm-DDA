@@ -199,7 +199,8 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        here = std::get<int>( here ) * r;
+        // Note well: This truncates the result!
+        here = static_cast<int>( std::get<int>( here ) * r );
     }
     return *this;
 }
@@ -233,7 +234,7 @@ void nutrients::deserialize( const JsonObject &jo )
     for( auto &vit : vit_map ) {
         set_vitamin( vit.first, vit.second );
     }
-	debugmsg("testest");
+    debugmsg( "testest" );
 }
 
 stomach_contents::stomach_contents() = default;
