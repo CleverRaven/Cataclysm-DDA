@@ -353,5 +353,10 @@
     "id": "terraforming_earth",
     "type": "MIGRATION",
     "replace": "terraforming_mercury"
+  },
+  {
+    "id": "arrow_metal_sharpened_fletched",
+    "type": "MIGRATION",
+    "replace": "arrow_wooden_heavy"
   }
 ]
