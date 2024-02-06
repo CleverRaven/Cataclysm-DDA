@@ -1095,5 +1095,25 @@
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
+  },
+  {
+    "id": "stone_powers_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "2 Earthshaper spells",
+    "name": {
+      "//~": "Akyâluaban and Ghâzkhud are words from a fictional language and should not be translated.",
+      "str": "Akyâluaban: the Book of the Living Stone",
+      "str_pl": "copies of Akyâluaban: the Book of the Living Stone"
+    },
+    "description": "A copy of a religious text from the Ghâzkhud dwarven religion.  Amidst the prayers and songs and meditations on the ancestors and the earth and the stones are some spells, though pious traditional ghâzkhudians would react with shock if you called them that.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder", "earthshaper_harden_earth" ] }
   }
 ]
