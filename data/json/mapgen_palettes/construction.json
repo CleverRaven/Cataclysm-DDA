@@ -4,25 +4,6 @@
     "id": "construction_palette",
     "//": "intended for in-construction homes",
     "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      },
       "exterior_wall_type": {
         "type": "ter_str_id",
         "default": {
@@ -50,7 +31,12 @@
     },
     "toilets": { "t": {  } },
     "terrain": {
-      ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
+      "c": "t_thconc_floor",
+      "f": [ "t_fence_post", [ "t_region_soil", 3 ] ],
+      "h": "t_pit_shallow",
+      "o": [ [ "t_window", 2 ], [ "t_window_empty", 5 ] ],
+      "p": "t_pavement",
+      ".": [ [ "t_region_groundcover_urban", 5 ], [ "t_region_soil", 10 ] ],
       "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [
         [ "t_door_b", 5 ],
@@ -64,29 +50,57 @@
         [ "t_door_o", 2 ]
       ],
       "^": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
+      "|": "t_wall_wood",
       "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
+      "$": "t_wall_half",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
-      "o": [ [ "t_window", 2 ], [ "t_window_empty", 5 ] ],
+      "~": "t_linoleum_white",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "`": "t_sidewalk",
-      "c": "t_thconc_floor",
-      "p": "t_pavement"
+      "`": "t_sidewalk"
     },
     "furniture": {
+      "C": [
+        [ "f_null", 20 ],
+        [ "f_pallet_brick", 2 ],
+        [ "f_pallet_brick_adobe", 2 ],
+        [ "f_pallet_cement", 2 ],
+        [ "f_stack_plank", 3 ]
+      ],
+      "M": "f_mailbox",
       "S": "f_sink",
       "F": "f_fridge",
+      "X": [ "f_crate_c", [ "f_crate_o", 5 ] ],
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "7": "f_counter",
       "8": "f_cupboard",
-      "9": "f_shower",
-      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "X": "f_crate_c"
+      "9": "f_shower"
+    },
+    "items": {
+      "X": [
+        { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "wood_workshop", "chance": 40, "repeat": [ 1, 3 ] },
+        { "item": "plumbing_bulk", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "~": [
+        { "item": "floor_trash", "chance": 20 },
+        { "item": "hardware_trash", "chance": 20 },
+        { "item": "tools_plumbing", "chance": 5 },
+        { "item": "supplies_plumbing", "chance": 10 }
+      ]
     },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
-      " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "bile_field", 1 ], [ "null", 196 ] ] }
+      " ": {
+        "chunks": [
+          [ "corpse_blood_1x1", 1 ],
+          [ "blood_field", 2 ],
+          [ "bile_field", 1 ],
+          [ "construction_supplies", 4 ],
+          [ "null", 192 ]
+        ]
+      }
     }
   }
 ]
