@@ -1058,7 +1058,23 @@
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
-    "color": "light_red",
+    "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "knock", "quantum_tunnel_lesser" ] }
+  },
+  {
+    "id": "sense_outsiders_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "A Study of Nethereum Incursions", "str_pl": "copies of A Study of Nethereum Incursions!" },
+    "//": "1 Animist spell",
+    "description": "An academic book about the history of known Nethereum incusions, including the 1908 Tunguska incident, the disappearance of the army of Cambyses, various dancing plagues, the earthquake that destroyed the kingdom of Mgarzhbag, the Week Without Sun in the 7th century, and more, along with a variety of speculation about possible other historical and pre-historical incursions.",
+    "weight": "355 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
   }
 ]

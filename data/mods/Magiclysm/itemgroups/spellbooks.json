@@ -253,7 +253,8 @@
       [ "crystallize_mana_economy_spellbook", 30 ],
       [ "special_effects_spellbook", 30 ],
       [ "magical_gardening_spellbook", 30 ],
-      [ "bypass_portals_spellbook", 30 ]
+      [ "bypass_portals_spellbook", 30 ],
+      [ "sense_outsiders_spellbook", 30 ]
     ]
   },
   {
