@@ -249,7 +249,8 @@
       [ "summon_cats_spellbook", 30 ],
       [ "freshen_up_spellbook", 30 ],
       [ "post_apocalypse_guide_spellbook", 30 ],
-      [ "earthshaper_landscaping_spellbook", 30 ]
+      [ "earthshaper_landscaping_spellbook", 30 ],
+      [ "crystallize_mana_economy_spellbook", 30 ]
     ]
   },
   {
