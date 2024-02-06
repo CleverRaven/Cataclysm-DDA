@@ -131,6 +131,13 @@
   },
   {
     "type": "item_group",
+    "id": "rak74_folding_mods",
+    "//": "Default mods for the RAK74-C-SF variant of the 5.45x39mm fighting rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "folding_stock" } ]
+  },
+  {
+    "type": "item_group",
     "id": "mosin_mods",
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",

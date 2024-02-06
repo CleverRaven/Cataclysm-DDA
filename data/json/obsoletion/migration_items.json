@@ -618,5 +618,10 @@
     "type": "MIGRATION",
     "replace": "ballistic_vest_esapi",
     "contents": [ { "id": "iotv_groin_plate", "count": 1 } ]
+  },
+  {
+    "id": "ak74",
+    "type": "MIGRATION",
+    "replace": "rak74"
   }
 ]
