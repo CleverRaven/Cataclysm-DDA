@@ -22,14 +22,15 @@ if("${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     return()
 endif()
 
-string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+if(GIT_VERSION)
+    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+    file(READ  ${CMAKE_SOURCE_DIR}/src/version.h VERSION_H)
+    string(REGEX MATCH "#define VERSION \"(.+)\"" VERSION_H "${VERSION_H}")
 
-file(READ  ${CMAKE_SOURCE_DIR}/src/version.h VERSION_H)
-string(REGEX MATCH "#define VERSION \"(.+)\"" VERSION_H "${VERSION_H}")
-
-if(NOT GIT_VERSION STREQUAL VERSION_H)
-    file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
-            "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
+    if(NOT GIT_VERSION STREQUAL VERSION_H)
+        file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
+                "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
+    endif()
 endif()
 
 # get_git_head_revision() does not work with worktrees in Windows
