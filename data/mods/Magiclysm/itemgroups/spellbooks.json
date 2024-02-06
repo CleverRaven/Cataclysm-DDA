@@ -233,7 +233,15 @@
     "id": "spellbook_tier_0",
     "type": "item_group",
     "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
-    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ], [ "novice_stormshaper_book", 30 ] ]
+    "items": [
+      [ "wizard_beginner", 30 ],
+      [ "priest_beginner", 30 ],
+      [ "techno_idiots", 30 ],
+      [ "novice_stormshaper_book", 30 ],
+      [ "book_lazy_magic", 30 ],
+      [ "camping_time_spellbook", 30 ],
+      [ "magic_history_tech_spellbook", 30 ]
+    ]
   },
   {
     "id": "spellbook_tier_1",
