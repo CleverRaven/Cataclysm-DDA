@@ -5,7 +5,7 @@ include(GetGitRevisionDescription)
 git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
 
 if(EXISTS ${GIT_EXECUTABLE})
-    execute_process(COMMAND ${GIT_EXECUTABLE} diff --quiet
+    execute_process(COMMAND ${GIT_EXECUTABLE} -c core.safecrlf=false diff --quiet
         RESULT_VARIABLE DIRTY_FLAG
     )
 
