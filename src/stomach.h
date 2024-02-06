@@ -88,6 +88,9 @@ struct nutrients {
         // where it is set explicitly to false
         bool finalized = true;
 
+        void serialize( JsonOut & ) const;
+        void deserialize( const JsonObject &jo );
+
     private:
         /** vitamins potentially provided by this comestible (if any) */
         std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_;

@@ -217,6 +217,25 @@ nutrients &nutrients::operator/=( int r )
     return *this;
 }
 
+void nutrients::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "calories", calories );
+    jsout.member( "vitamins", vitamins() );
+    jsout.end_object();
+}
+
+void nutrients::deserialize( const JsonObject &jo )
+{
+    jo.read( "calories", calories );
+    std::map<vitamin_id, int> vit_map;
+    jo.read( "vitamins", vit_map );
+    for( auto &vit : vit_map ) {
+        set_vitamin( vit.first, vit.second );
+    }
+	debugmsg("testest");
+}
+
 stomach_contents::stomach_contents() = default;
 
 stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
