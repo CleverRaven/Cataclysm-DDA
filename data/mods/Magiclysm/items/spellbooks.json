@@ -1012,5 +1012,21 @@
     "symbol": "?",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
+  },
+  {
+    "id": "special_effects_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Make Your Own Special Effects", "str_pl": "copies of Make Your Own Special Effects" },
+    "//": "1 Animist spell, 1 Magus spell, 1 Stormshaper spell, 1 Classless spell",
+    "description": "A guide to using magic to create practical special effects, whether for a birthday celebration, house party, or simply for your own amusement.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field", "summon_wisps", "sound_bomb", "stormshaper_cloak_of_fog" ] }
   }
 ]
