@@ -1044,5 +1044,21 @@
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth", "earthshaper_turning_of_earth" ] }
+  },
+  {
+    "id": "bypass_portals_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Let No Wall Stand in Your Way!", "str_pl": "copies of Let No Wall Stand in Your Way!" },
+    "//": "2 technomancer spells",
+    "description": "This book claims to be an aid to people who always forget their keys or need to get into their car quickly, but the selection of spells seems pretty suspicious to you.",
+    "weight": "585 g",
+    "volume": "250 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_red",
+    "use_action": { "type": "learn_spell", "spells": [ "knock", "quantum_tunnel_lesser" ] }
   }
 ]
