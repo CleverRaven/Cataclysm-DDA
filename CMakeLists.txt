@@ -63,7 +63,7 @@ execute_process(COMMAND ${CMAKE_COMMAND}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
+if (GIT_VERSION)
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 else()
