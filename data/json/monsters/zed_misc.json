@@ -228,6 +228,7 @@
       }
     ],
     "death_function": { "message": "The %s's body bursts, expelling sludge.", "effect": { "id": "death_sludge", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+	"death_drops": "explode_toad",
     "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" },
     "extend": { "flags": [ "POISON", "SMALLSLUDGETRAIL" ] },
     "//": "Create new death_sludge effect."
@@ -320,6 +321,7 @@
     "armor": { "bash": 12, "cut": 2, "bullet": 1, "electric": 4 },
     "grab_strength": 40,
     "death_function": { "message": "The %s's body bursts, expelling a copious amount of sludge.", "effect": { "id": "death_sludge_mega", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+	"death_drops": "explode_toad",
     "extend": { "flags": [ "POISON", "SLUDGETRAIL" ] },
     "//": "Create new death_mega_sludge effect; Create sludge-spray on hit effect."
   },
