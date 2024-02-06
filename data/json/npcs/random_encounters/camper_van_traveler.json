@@ -150,10 +150,7 @@
         "type": "dialogue",
         "context": "travel_direction",
         "value": "south",
-        "yes": {
-          "gendered_line": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
-          "relevant_genders": [ "npc" ]
-        },
+        "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
         "no": {
           "npc_has_var": "travel_direction",
           "type": "dialogue",

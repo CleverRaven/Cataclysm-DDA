@@ -8,10 +8,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
-      "no": {
-        "gendered_line": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\"",
-        "relevant_genders": [ "u" ]
-      }
+      "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
     },
     "responses": [
       {
