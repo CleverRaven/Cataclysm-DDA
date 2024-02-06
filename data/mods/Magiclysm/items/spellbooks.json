@@ -1131,5 +1131,37 @@
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "protection_aura", "classless_clean_clothing_and_self", "magus_far_hand_pull" ] }
+  },
+  {
+    "id": "druid_healing_power_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "1 Druid spell + potion fruit recipes",
+    "name": { "str": "The Healing Power of Nature", "str_pl": "copies of The Healing Power of Nature" },
+    "description": "A description of the various ways to use natural herbs and plants to fuel magical healing.  There is a lot of useful knowledge of here if you sift through the book and filter out the various chapters about the dangers of allopathic medicine and modern post-industrial lifestyles.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
+  },
+  {
+    "id": "hologram_and_teleport_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
+    "//": "2 Technomancer spells",
+    "description": "A small tome, seemingly covered in tanned human skin.",
+    "weight": "355 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": { "type": "learn_spell", "spells": [ "mirror_image", "holographic_transposition" ] }
   }
 ]
