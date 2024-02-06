@@ -5619,8 +5619,7 @@ bool basecamp::distribute_food()
     }
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
-    faction *yours = get_player_character().get_faction();
-    yours->food_supply += nutrients_to_add;
+    camp_food_supply( nutrients_to_add );
     return true;
 }
 
