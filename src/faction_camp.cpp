@@ -29,7 +29,6 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "input_context.h"
@@ -65,7 +64,6 @@
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -305,14 +303,6 @@ static std::string camp_trip_description( const time_duration &total_time,
 
 /// The number of days the current camp supplies lasts at the given exertion level.
 static int camp_food_supply_days( float exertion_level );
-/// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
-/// total food supply hurts morale
-/// Handles vitamin consumption when only a kcal value is supplied
-static nutrients camp_food_supply( nutrients change );
-/// LEGACY FUNCTION. Constructs a new nutrients struct in place and forwards it
-static nutrients camp_food_supply( int change = 0 );
-/// LEGACY FUNCTION. Calculates raw kcal cost from duration of work and exercise, then forwards it to above
-static nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
 /// Returns the total charges of food time_duration @ref work costs
 static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
 /// Changes the faction respect for you by @ref change, returns respect
