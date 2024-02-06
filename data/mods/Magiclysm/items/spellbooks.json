@@ -910,5 +910,24 @@
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
+  },
+  {
+    "id": "avoid_all_temperatures_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Fashion Over Function: A Thaumaturgical Guide to Wearing Whatever, Whenever",
+      "str_pl": "copies of Fashion Over Function: A Thaumaturgical Guide to Wearing Whatever, Whenever"
+    },
+    "//": "2 kelvinist spells",
+    "description": "A thin guide to using magic to avoid extremes of both hot and cold, allowing you to design your wardrobe around always looking good rather than having to account for summer's heat or winter's chill.",
+    "weight": "430 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold", "kelvinist_anti_heat" ] }
   }
 ]
