@@ -1,4 +1,6 @@
-list(APPEND CMAKE_MODULE_PATH 
+file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
+
+list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules)
 include(GetGitRevisionDescription)
 
@@ -22,7 +24,6 @@ endif()
 
 string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
 
-file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
 file(READ  ${CMAKE_SOURCE_DIR}/src/version.h VERSION_H)
 string(REGEX MATCH "#define VERSION \"(.+)\"" VERSION_H "${VERSION_H}")
 
