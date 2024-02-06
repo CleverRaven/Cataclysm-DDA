@@ -936,7 +936,7 @@
     "category": "manuals",
     "name": { "str": "A Cat Cafe at Home!", "str_pl": "copies of A Cat Cafe at Home!" },
     "//": "1 Druid spell",
-    "description": "A very thin book, filled with glossy photos, about how to use druidic magic to call up cats whenever you are feeling lonely, if you can't afford one or live in a place that doesn't normally allow pets.  The people in the photos watching half-a-dozen cats play sure look happy.",
+    "description": "A very thin book, filled with glossy photos, about how to use druidic magic to call up cats whenever you are feeling lonely, if you can't afford one, or if you live in a place that doesn't normally allow pets.  The people in the photos watching half-a-dozen cats play sure look happy.",
     "weight": "355 g",
     "volume": "500 ml",
     "price": 5000,
@@ -945,5 +945,21 @@
     "symbol": "?",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
+  },
+  {
+    "id": "freshen_up_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Save Water and Time, with Magic!", "str_pl": "copies of Save Water and Time, with Magic!" },
+    "//": "1 classless spell",
+    "description": "This very thin booklet about the ecological benefits of using magic instead of a mundane morning cleaning routine.  At the bottom of the back cover is an abstract logo of two people holding both hands with a tree growing through the resulting circle, and the words \"Gaia's Children\" beneath it.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": 1000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
   }
 ]
