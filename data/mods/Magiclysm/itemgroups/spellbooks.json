@@ -242,7 +242,8 @@
       [ "camping_time_spellbook", 30 ],
       [ "magic_history_tech_spellbook", 30 ],
       [ "magic_healing_home_spellbook", 30 ],
-      [ "animist_summon_wisps_spellbook", 30 ]
+      [ "animist_summon_wisps_spellbook", 30 ],
+      [ "eshaper_spellbook_tool", 30 ]
     ]
   },
   {
@@ -271,7 +272,6 @@
       [ "farmer_spellbook", 40 ],
       [ "eshaper_spellbook", 60 ],
       [ "eshaper_spellbook_melee", 30 ],
-      [ "eshaper_spellbook_tool", 90 ],
       [ "techno_em", 60 ],
       [ "bioelectricity", 60 ],
       [ "animist_spirits", 60 ],

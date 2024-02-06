@@ -880,7 +880,10 @@
     "id": "animist_summon_wisps_spellbook",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Travels Among the Ljósálfar", "str_pl": "copies of Travels Among the Ljósálfar" },
+    "name": {
+      "str": "Travels Among the Ljósálfar: Their Customs, Food, Lifestyle, Celebrations, and Ceremonies",
+      "str_pl": "copies of Travels Among the Ljósálfar: Their Customs, Food, Lifestyle, Celebrations, and Ceremonies"
+    },
     "//": "1 Animist spell",
     "description": "An old 19th-century travelogue, detailing the author's travels among the elven tribes of northern Greenland.  The section about the midwinter festival and the northern lights is particularly detailed.",
     "weight": "1200 g",
