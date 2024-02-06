@@ -256,7 +256,8 @@
       [ "bypass_portals_spellbook", 30 ],
       [ "sense_outsiders_spellbook", 30 ],
       [ "windrunning_spellbook", 30 ],
-      [ "stone_powers_spellbook", 30 ]
+      [ "stone_powers_spellbook", 30 ],
+      [ "staying_clean_spellbook", 30 ]
     ]
   },
   {
