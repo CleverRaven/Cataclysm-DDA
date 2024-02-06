@@ -5445,7 +5445,7 @@ int camp_food_supply_days( float exertion_level )
     return yours->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
 }
 
-nutrients camp_food_supply( nutrients change )
+nutrients basecamp::camp_food_supply( nutrients change )
 {
     nutrients consumed;
     faction *yours = get_player_character().get_faction();
@@ -5476,7 +5476,7 @@ nutrients camp_food_supply( nutrients change )
     return consumed;
 }
 
-nutrients camp_food_supply( int change )
+nutrients basecamp::camp_food_supply( int change )
 {
     nutrients added;
     // Kcal to calories
@@ -5484,7 +5484,7 @@ nutrients camp_food_supply( int change )
     return camp_food_supply( added );
 }
 
-nutrients camp_food_supply( time_duration work, float exertion_level )
+nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
 {
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }

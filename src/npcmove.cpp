@@ -4422,6 +4422,7 @@ bool npc::consume_food_from_camp()
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
         complain_about( "camp_water_thanks", 1_hours, chatbin.snip_camp_water_thanks, false );
+        // TODO: Stop skipping the stomach for this, actually put the water in there.
         set_thirst( 0 );
         return true;
     }
@@ -4448,8 +4449,7 @@ bool npc::consume_food_from_camp()
 
             // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
             // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
-            nutrients nutr{};
-            nutr.calories = kcals_to_eat * 1000;
+            nutrients nutr = bcp->camp_food_supply( kcals_to_eat );
 
             stomach.ingest( food_summary{
                 0_ml,
