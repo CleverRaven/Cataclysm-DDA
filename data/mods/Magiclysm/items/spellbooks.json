@@ -1182,5 +1182,21 @@
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog" ] }
+  },
+  {
+    "id": "biomancy_fasting_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Intermittent Fasting Using Biomancy", "str_pl": "copies of Intermittent Fasting Using Biomancy" },
+    "//": "1 Biomancy spell",
+    "description": "A guide to using biomancy to perform extreme intermittent fasting, eating an enormous amount of food only once every 2-5 days, depending on the mage's skill.  The book is filled with both glossy photos of extremely fit, beautiful people and warnings to make sure that your stomach isn't full when the spell wears off",
+    "weight": "284 g",
+    "volume": "550 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "pink",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
   }
 ]
