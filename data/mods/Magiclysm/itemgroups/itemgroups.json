@@ -373,6 +373,7 @@
           { "group": "enchanted_rings_common", "prob": 20 },
           { "group": "enchanted_rings_uncommon", "prob": 5 },
           { "group": "enchanted_combat_items", "prob": 10 },
+          { "group": "enchanted_arrows", "prob": 5 },
           { "group": "enchanted_belts", "prob": 2 },
           { "group": "enchanted_misc", "prob": 1 }
         ],
@@ -492,6 +493,7 @@
     "items": [
       { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
       { "group": "enchanted_tokens_weapon", "prob": 30 },
+      { "group": "enchanted_arrows", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 40 },
       { "group": "enchanted_rings_uncommon", "prob": 30 },
       { "group": "enchanted_rings_unusual", "prob": 20 },
@@ -638,6 +640,22 @@
       { "item": "wand_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
       { "item": "wand_disp_hoaryblast_minor", "prob": 20, "charges-min": 3, "charges-max": 20 },
       { "item": "wand_disp_cone_cold_minor", "prob": 20, "charges-min": 3, "charges-max": 20 }
+    ]
+  },
+  {
+    "id": "enchanted_arrows",
+    "type": "item_group",
+    "//": "enchanted arrows in various quantities",
+    "subtype": "distribution",
+    "items": [
+      { "item": "arrow_druid_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_stormshaper_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_earthshaper_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_kelvinist_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_biomancer_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_technomancer_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_magus_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_animist_crafted", "prob": 10, "count": [ 2, 20 ] }
     ]
   },
   {
@@ -1324,6 +1342,7 @@
       "items": [
         { "group": "enchanted_tokens_tool", "prob": 3 },
         { "group": "enchanted_tokens_weapon", "prob": 2 },
+        { "group": "enchanted_arrows", "prob": 5 },
         { "group": "potions_common", "prob": 12 },
         { "group": "potions_uncommon", "prob": 6 },
         { "group": "potions_rare", "prob": 3 },
@@ -1339,6 +1358,7 @@
     "items": [
       { "group": "enchanted_tokens_tool", "prob": 15 },
       { "group": "enchanted_tokens_weapon", "prob": 5 },
+      { "group": "enchanted_arrows", "prob": 3 },
       { "group": "potions_common", "prob": 35 },
       { "group": "potions_uncommon", "prob": 20 },
       { "group": "potions_rare", "prob": 10 },
@@ -1493,6 +1513,7 @@
     "items": [
       { "group": "enchanted_combat_items", "prob": 40 },
       { "group": "enchanted_misc", "prob": 50 },
+      { "group": "enchanted_arrows", "prob": 15 },
       { "group": "enchanted_rings_unusual", "prob": 20 },
       { "group": "enchanted_rings_rare", "prob": 30 },
       { "group": "enchanted_wands_greater", "prob": 30 },
