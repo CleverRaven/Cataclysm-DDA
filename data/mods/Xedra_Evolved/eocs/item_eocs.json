@@ -4,7 +4,7 @@
     "id": "EOC_WINCH_INITIAL",
     "effect": [
       { "u_location_variable": { "u_val": "winch_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "u_message": "You draw a coordinates in constructed beam.", "type": "good" }
+      { "u_message": "You draw coordinates in a constructed beam.", "type": "good" }
     ]
   },
   {

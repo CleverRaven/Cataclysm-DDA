@@ -381,14 +381,17 @@
     "id": "psi_vitakinetic_healer",
     "name": "Faith Healer",
     "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
-    "points": 4,
+    "points": 8,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
-      { "id": "vita_stop_bleeding", "level": 2 },
-      { "id": "vita_health_power", "level": 5 },
-      { "id": "vita_hurt_touch", "level": 2 },
-      { "id": "vita_sleeping_trance", "level": 1 }
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_slow_bleeding", "level": 6 },
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_cure_disease", "level": 4 },
+      { "id": "vita_sleeping_trance", "level": 4 }
     ],
     "items": {
       "both": {
@@ -402,6 +405,7 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "holy_symbol" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -421,7 +425,7 @@
     "id": "guru",
     "copy-from": "guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
+    "extend": { "skills": [ { "level": 5, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",

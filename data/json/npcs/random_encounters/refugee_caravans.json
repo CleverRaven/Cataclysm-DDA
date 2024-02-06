@@ -40,13 +40,13 @@
     "responses": [
       {
         "text": "What if I want to hurt you?  I'm so good at it and I've had so much practice.",
-        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "condition": { "u_has_trait": "KILLER" },
         "topic": "TALK_CARAVAN_REFUGEE_A1_Hurt"
       },
       {
         "text": "What's your situation here?",
         "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
-        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } }
+        "condition": { "not": { "u_has_trait": "KILLER" } }
       },
       { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
     ]

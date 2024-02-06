@@ -486,21 +486,6 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
-    "id": "santa_staff",
-    "name": { "str": "candy cane" },
-    "description": "A sturdy red and white striped novelty candycane made of wood, originally meant to be used by the Good Old Man as a decorative gear.  Given the circumstances, it works fine as a melee weapon.",
-    "copy-from": "cane",
-    "weight": "500 g",
-    "color": "red",
-    "symbol": "/",
-    "material": [ "wood" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
-    "price_postapoc": 10,
-    "extend": { "flags": [ "CRUTCHES" ] },
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "type": "TOOL",
     "id": "wizard_cane_cheap",
     "name": { "str": "cheap wizard cane (off)", "str_pl": "cheap wizard canes (off)" },

@@ -303,11 +303,11 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot read what is not readable" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
 
-        CHECK( dummy.get_book_reader( *rag, reasons ) == nullptr );
-        expect_reasons = { "Your rag is not good reading material." };
+        CHECK( dummy.get_book_reader( *sheet_cotton, reasons ) == nullptr );
+        expect_reasons = { "Your cotton sheet is not good reading material." };
         CHECK( reasons == expect_reasons );
     }
 
@@ -402,9 +402,9 @@ TEST_CASE( "determining_book_mastery", "[reading][book][mastery]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot determine mastery for non-book items" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
-        CHECK( dummy.get_book_mastery( *rag ) == book_mastery::CANT_DETERMINE );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
+        CHECK( dummy.get_book_mastery( *sheet_cotton ) == book_mastery::CANT_DETERMINE );
     }
     SECTION( "you cannot determine mastery for unidentified books" ) {
         REQUIRE( alpha->is_book() );

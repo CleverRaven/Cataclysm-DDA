@@ -138,7 +138,7 @@
     "max_intensity": 4,
     "int_add_val": 1,
     "show_in_info": true,
-    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -993,6 +993,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_petrified",
+    "name": [ "Petrified" ],
+    "desc": [ "You skin feels like stone.  You can't move." ],
+    "rating": "bad",
+    "apply_message": "Your whole body goes rigid and you can't move a muscle!",
+    "remove_message": "The rigidity fades and you can move again.",
+    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
+    "max_intensity": 1000,
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
     "name": [ "Rapid Regeneration" ],
     "desc": [ "You are healing unbelievably quickly." ],
@@ -1049,7 +1061,7 @@
     "desc": [ "You're not going anywhere." ],
     "apply_message": "Your body tingles.",
     "rating": "bad",
-    "flags": [ "DIMENSIONAL_ANCHOR" ]
+    "flags": [ "TELEPORT_LOCK" ]
   },
   {
     "type": "effect_type",
@@ -1072,6 +1084,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
+      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
@@ -1180,6 +1193,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
+      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",

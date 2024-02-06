@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <string>
-#include <unordered_map>
 
 #include "enum_bitset.h"
 #include "enum_traits.h"
@@ -63,6 +62,7 @@ enum class segments : std::size_t {
     // separate flags for CONTENTS
     CONTENTS_FULL,
     CONTENTS_ABREV,
+    CONTENTS_COUNT,
 
     // separate flags for CATEGORY
     FOOD_PERISHABLE,
@@ -94,16 +94,21 @@ constexpr uint64_t tname_prefix_bits =
     1ULL << static_cast<size_t>( tname::segments::FAVORITE_PRE ) |
     1ULL << static_cast<size_t>( tname::segments::DURABILITY ) |
     1ULL << static_cast<size_t>( tname::segments::BURN );
+constexpr uint64_t tname_unsortable_bits =
+    tname_prefix_bits |
+    ( 1ULL << static_cast<size_t>( tname::segments::CONTENTS_COUNT ) );
 constexpr uint64_t tname_contents_bits =
     1ULL << static_cast<size_t>( tname::segments::CONTENTS ) |
     1ULL << static_cast<size_t>( tname::segments::CONTENTS_FULL ) |
-    1ULL << static_cast<size_t>( tname::segments::CONTENTS_ABREV );
+    1ULL << static_cast<size_t>( tname::segments::CONTENTS_ABREV ) |
+    1ULL << static_cast<size_t>( tname::segments::CONTENTS_COUNT );
 constexpr uint64_t tname_conditional_bits =    // TODO: fine grain?
     1ULL << static_cast<size_t>( tname::segments::COMPONENTS ) |
     1ULL << static_cast<size_t>( tname::segments::TAGS ) |
     1ULL << static_cast<size_t>( tname::segments::VARS );
 constexpr segment_bitset default_tname( default_tname_bits );
 constexpr segment_bitset unprefixed_tname( default_tname_bits & ~tname_prefix_bits );
+constexpr segment_bitset tname_sort_key( default_tname_bits & ~tname_unsortable_bits );
 constexpr segment_bitset tname_contents( tname_contents_bits );
 constexpr segment_bitset tname_conditional( tname_conditional_bits );
 

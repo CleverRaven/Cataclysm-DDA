@@ -430,7 +430,7 @@ class monster : public Creature
 
         float stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
+        void on_dodge( Creature *source, float difficulty, float training_level = 0.0 ) override;
         void on_try_dodge() override {}
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,

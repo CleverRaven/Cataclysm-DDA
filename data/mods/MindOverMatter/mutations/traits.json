@@ -105,12 +105,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "vita_stop_bleeding", 2 ],
-      [ "vita_health_power", 2 ],
-      [ "vita_hurt_touch", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
