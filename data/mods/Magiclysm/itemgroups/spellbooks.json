@@ -243,7 +243,8 @@
       [ "magic_history_tech_spellbook", 30 ],
       [ "magic_healing_home_spellbook", 30 ],
       [ "animist_summon_wisps_spellbook", 30 ],
-      [ "eshaper_spellbook_tool", 30 ]
+      [ "eshaper_spellbook_tool", 30 ],
+      [ "stormshaper_electric_immune_spellbook", 30 ]
     ]
   },
   {
