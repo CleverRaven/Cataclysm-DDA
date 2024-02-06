@@ -83,5 +83,10 @@
     "result": "handmade_checkers",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "arrow_metal_sharpened_fletched",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
