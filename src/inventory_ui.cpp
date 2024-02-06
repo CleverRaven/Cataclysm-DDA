@@ -1680,6 +1680,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                 // Print from right rather than trim_and_print to avoid improper positioning of wide characters
                 right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
                              c_red ) ) : denial, denial_width ) );
+                entry.cached_denial_space = denial_width;
             }
         }
 
@@ -3613,10 +3614,13 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         if( !denial.empty() ) {
             const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
                                           + colorize( denial, c_red );
-            query_popup()
-            .message( "%s", assembled )
-            .option( "QUIT" )
-            .query();
+
+            if( static_cast<size_t>( utf8_width( denial ) ) > highlighted_entry.cached_denial_space ) {
+                query_popup()
+                .message( "%s", assembled )
+                .option( "QUIT" )
+                .query();
+            }
         }
         count = 0;
         return;
