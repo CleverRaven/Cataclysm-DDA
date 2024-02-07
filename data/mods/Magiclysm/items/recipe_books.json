@@ -287,7 +287,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Arcane Archer's Companion", "str_pl": "copies of The Arcane Archer's Companion" },
-    "description": "A reference book discussing the ancient and now mostly-forgot art of enchanted archery.  With firearms so convient and taking much less training to use, it has long since fallen out of favor, but this book is so detailed you could revive it for yourself with the recipes it contains.",
+    "description": "A reference book discussing the ancient and now mostly-forgot art of enchanted archery.  With firearms so convenient and taking much less training to use, it has long since fallen out of favor, but this book is so detailed you could revive it for yourself with the recipes it contains.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
