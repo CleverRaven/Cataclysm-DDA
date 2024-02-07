@@ -21,6 +21,7 @@
         "default": {
           "distribution": [
             [ "t_wall_half", 26 ],
+            [ "t_wall_wood", 13 ],
             [ "t_wall_b", 1 ],
             [ "t_wall_g", 1 ],
             [ "t_wall_p", 1 ],
