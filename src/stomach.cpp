@@ -232,6 +232,7 @@ void nutrients::deserialize( const JsonObject &jo )
     std::map<vitamin_id, int> vit_map;
     jo.read( "vitamins", vit_map );
     for( auto &vit : vit_map ) {
+        //rebuild vitamins_
         set_vitamin( vit.first, vit.second );
     }
 }

@@ -86,14 +86,14 @@ struct nutrients {
         // All vitamins are in vitamin units, not units::mass (e.g. all JSON has been loaded)
         // defaults to true because this is only false when nutrients are loaded from JSON,
         // where it is set explicitly to false
-        bool finalized = true;
+        bool finalized = true; // NOLINT(cata-serialize)
 
         void serialize( JsonOut & ) const;
         void deserialize( const JsonObject &jo );
 
     private:
         /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_;
+        std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_; // NOLINT(cata-serialize)
 };
 
 // Contains all information that can pass out of (or into) a stomach

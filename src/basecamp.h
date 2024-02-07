@@ -231,7 +231,7 @@ class basecamp
         /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
         /// total food supply hurts morale
         /// Handles vitamin consumption when only a kcal value is supplied
-        nutrients camp_food_supply( nutrients change );
+        nutrients camp_food_supply( nutrients &change );
         /// LEGACY FUNCTION. Constructs a new nutrients struct in place and forwards it
         nutrients camp_food_supply( int change = 0 );
         /// LEGACY FUNCTION. Calculates raw kcal cost from duration of work and exercise, then forwards it to above
