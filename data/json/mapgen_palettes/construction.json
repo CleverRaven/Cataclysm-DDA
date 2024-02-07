@@ -56,6 +56,21 @@
             [ "t_region_soil", 8 ]
           ]
         }
+      },
+      "construction_house_doors_outside_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_floor", 4 ],
+            [ "t_door_frame", 4 ],
+            [ "t_door_locked_peep", 1 ],
+            [ "t_door_locked", 2 ],
+            [ "t_door_elocked_peep", 1 ],
+            [ "t_door_elocked", 2 ],
+            [ "t_door_c", 2 ],
+            [ "t_door_o", 1 ]
+          ]
+        }
       }
     },
     "toilets": { "t": {  } },
@@ -82,18 +97,20 @@
         "cases": { "t_thconc_floor": "t_pavement", "t_pit_shallow": "t_pit_shallow", "t_region_soil": "t_region_soil" }
       },
       ".": [ [ "t_region_groundcover_urban", 5 ], [ "t_region_soil", 10 ] ],
-      "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-      "*": [
-        [ "t_door_b", 5 ],
-        [ "t_door_locked_peep", 2 ],
-        "t_door_locked_alarm",
-        [ "t_door_locked", 10 ],
-        [ "t_door_elocked_peep", 4 ],
-        "t_door_elocked_alarm",
-        [ "t_door_elocked", 15 ],
-        "t_door_c",
-        [ "t_door_o", 2 ]
-      ],
+      "+": {
+        "switch": { "param": "construction_house_doors_outside_type", "fallback": "t_door_frame" },
+        "cases": {
+          "t_floor": "t_floor",
+          "t_door_frame": "t_door_frame",
+          "t_door_c": "t_door_c",
+          "t_door_o": "t_door_o",
+          "t_door_locked_peep": "t_door_o",
+          "t_door_locked": "t_door_c",
+          "t_door_elocked_peep": "t_door_o",
+          "t_door_elocked": "t_door_c"
+        }
+      },
+      "*": { "param": "construction_house_doors_outside_type", "fallback": "t_door_frame" },
       "^": "t_gutter_downspout",
       "#": { "param": "construction_exterior_wall_type", "fallback": "t_brick_wall" },
       "|": { "param": "construction_interior_wall_type", "fallback": "t_wall_half" },
