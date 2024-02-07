@@ -858,7 +858,7 @@
     "name": { "str": "purifier smart shot" },
     "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
     "weight": "12 g",
-    "volume": "10 ml",
+    "volume": "10ml",
     "price": 1200000,
     "price_postapoc": 3000,
     "material": [ "plastic" ],

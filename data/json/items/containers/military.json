@@ -274,7 +274,7 @@
       }
     ]
   },
-  }
+  {
     "id": "ammunition_box_grenade",
     "type": "GENERIC",
     "category": "container",
@@ -322,7 +322,7 @@
         "watertight": true,
         "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "437 mm"
+        "max_item_length": "437mm"
       },
       {
         "pocket_type": "CONTAINER",
@@ -330,7 +330,7 @@
         "watertight": true,
         "max_contains_volume": "2422 ml",
         "max_contains_weight": "5000 g",
-        "max_item_length": "437 mm"
+        "max_item_length": "437mm"
       }
     ],
     "material": [ "steel" ],
