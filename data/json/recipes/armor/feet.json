@@ -17,7 +17,7 @@
     "result": "xl_bastsandals",
     "type": "recipe",
     "copy-from": "bastsandals",
-    "time": "1 h",
+    "time": "1 h 20 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "filament", 200, "LIST" ] ] ]
   },
@@ -1347,7 +1347,7 @@
     "result": "xl_straw_sandals",
     "type": "recipe",
     "copy-from": "straw_sandals",
-    "time": "2 h",
+    "time": "2 h 40 m",
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 8 ] ] ]
   },
   {
