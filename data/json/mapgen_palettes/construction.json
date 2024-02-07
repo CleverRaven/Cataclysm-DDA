@@ -16,6 +16,26 @@
           ]
         }
       },
+      "construction_interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_half", 26 ],
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 2 ],
+            [ "t_wall_y", 1 ],
+            [ "t_wall_gray", 1 ],
+            [ "t_wall_brown", 1 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 1 ],
+            [ "t_wall_orange", 1 ]
+          ]
+        }
+      },
       "construction_sidewalk_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_sidewalk", 3 ], [ "t_region_soil", 2 ] ] } },
       "construction_house_concrete_outside_type": {
         "type": "ter_str_id",
@@ -74,9 +94,8 @@
         [ "t_door_o", 2 ]
       ],
       "^": "t_gutter_downspout",
-      "|": "t_wall_wood",
       "#": { "param": "construction_exterior_wall_type", "fallback": "t_brick_wall" },
-      "$": "t_wall_half",
+      "|": { "param": "construction_interior_wall_type", "fallback": "t_wall_half" },
       ":": "t_wall_glass",
       "-": "t_sidewalk",
       "~": "t_linoleum_white",
