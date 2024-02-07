@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "localized_comparator.h"
@@ -78,7 +79,12 @@ void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_u
     add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
 }
 
-using item_name_t = std::pair<std::string, std::string>;
+// using item_name_t = std::pair<std::string, std::string>;
+struct item_name_t {
+    std::string sort_key;
+    std::string full_name;
+    unsigned int contents_count{};
+};
 using name_cache_t = std::unordered_map<item const *, item_name_t>;
 name_cache_t item_name_cache;
 int item_name_cache_users = 0;
@@ -88,8 +94,9 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
-                                          remove_color_tags( it->tname( 1, true ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, tname::tname_sort_key ) ),
+                                          remove_color_tags( it->tname( 1, true ) ),
+                                          it->aggregated_contents().count } )
                .first->second;
     }
 
@@ -581,8 +588,9 @@ nc_color inventory_entry::get_invlet_color() const
 void inventory_entry::update_cache()
 {
     item_name_t &names = get_cached_name( &*any_item() );
-    cached_name = &names.first;
-    cached_name_full = &names.second;
+    cached_name = &names.sort_key;
+    contents_count = names.contents_count;
+    cached_name_full = &names.full_name;
 }
 
 void inventory_entry::cache_denial( inventory_selector_preset const &preset ) const
@@ -673,7 +681,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( *e.cached_name, *e.cached_name_full,
+        return std::make_tuple( *e.cached_name, e.contents_count, *e.cached_name_full,
                                 e.any_item()->link_sort_key(), e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
@@ -1660,15 +1668,18 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const std::string &denial = *entry.denial;
 
         if( !denial.empty() ) {
+            // Determine the width available for the first cell to print, then use that to trim the denial
+            const size_t first_cell_width = std::min( get_entry_cell_width( entry, 0 ),
+                                            x2 + cells[0].current_width - min_denial_gap );
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
-                                            get_entry_cell_width( entry, 0 ) ) ), 0 );
+                                            first_cell_width ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                                denial_width,
-                                c_red, denial );
+                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
+                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
+                             c_red ) ) : denial, denial_width ) );
             }
         }
 
@@ -2896,7 +2907,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), ent.front()->get_available_count() };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
         }
     }
 
@@ -3593,7 +3604,26 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
-    if( selected.empty() || !selected.front()->is_selectable() ) {
+    // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
+    inventory_entry &highlighted_entry = get_active_column().get_highlighted();
+    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+        cata_assert( highlighted_entry.denial.has_value() );
+        const std::string &denial = *highlighted_entry.denial;
+
+        if( !denial.empty() ) {
+            const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
+                                          + colorize( denial, c_red );
+            query_popup()
+            .message( "%s", assembled )
+            .option( "QUIT" )
+            .query();
+        }
+        count = 0;
+        return;
+    }
+
+    // Deal with anything else that can't be selected
+    if( selected.empty() ) {
         count = 0;
         return;
     }

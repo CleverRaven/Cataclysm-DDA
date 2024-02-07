@@ -6718,8 +6718,10 @@ void map::update_visibility_cache( const int zlev )
     }
 
 #if defined(TILES)
-    // Mark cata_tiles draw caches as dirty
-    tilecontext->set_draw_cache_dirty();
+    if( !test_mode ) {
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+    }
 #endif
 
     visibility_variables_cache.last_pos = player_character.pos();
@@ -9432,8 +9434,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         player_prev_range = sr;
         camera_cache_dirty = true;
 #if defined(TILES)
-        // Mark cata_tiles draw caches as dirty
-        tilecontext->set_draw_cache_dirty();
+        if( !test_mode ) {
+            // Mark cata_tiles draw caches as dirty
+            tilecontext->set_draw_cache_dirty();
+        }
 #endif
     }
     if( camera_cache_dirty ) {

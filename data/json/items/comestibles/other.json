@@ -243,31 +243,25 @@
         "id": "gum_wasabi",
         "name": { "str_sp": "chewing gum, wasabi flavored" },
         "description": "Wasabi is a rare spicy and bold flavor that's not often used in gum, but can offer a unique twist on traditional mint flavors.  It is quite invigorating.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_hibiscus",
         "name": { "str_sp": "chewing gum, hibiscus flavored" },
         "description": "Hibiscus is a floral and fruity flavor that's commonly used in teas, but apparently can be used in chewing gum as well.  While very rare and uncommon, it is a refreshing and unique taste that's less sweet than traditional fruit flavors.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_lavender",
         "name": { "str_sp": "chewing gum, lavender flavored" },
         "description": "Lavender is a rare, floral flavor, however, the cool thing of it is the lavender fragrance it leaves on your breath.  It can provide a slight sweetness and soothing, calming effect.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_bacon",
         "name": { "str_sp": "chewing gum, bacon flavored" },
         "description": "This rare bacon-flavored chewing gum offers a savory taste that was popular among meat lovers before the Cataclysm.  It’s often associated with novelty flavors, and it's definitely an acquired taste.",
-        "weight": 5
-      },
-      {
-        "id": "gum_meatball",
-        "name": { "str_sp": "chewing gum, meatball flavored" },
-        "description": "Fully cooked and ready to chew!  This specific flavor was once popular among meat lovers before the Cataclysm.  It’s often associated with novelty flavors, and it's definitely an acquired taste.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_cola",
@@ -279,13 +273,13 @@
         "id": "gum_ghost",
         "name": { "str_sp": "chewing gum, ghost pepper flavored" },
         "description": "Shaped like small ghost peppers, this is a really spicy, but also sweet flavor, for those brave enough.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_whiskey",
         "name": { "str_sp": "chewing gum, whiskey flavored" },
         "description": "This rare whiskey-flavored chewing gum offers a unique taste that was once popular among adults.  It can be a great conversation starter, if you had anyone to chat with.",
-        "weight": 5
+        "weight": 1
       },
       {
         "id": "gum_saffron",
@@ -309,18 +303,6 @@
         "id": "gum_peppercorn",
         "name": { "str_sp": "chewing gum, pink peppercorn flavored" },
         "description": "Pink peppercorn is a very rare chewing gum flavor that provides a slightly spicy and fruity taste, with notes of citrus and berry.  The flavor pairs well with desserts and can offer a unique and unexpected taste.",
-        "weight": 1
-      },
-      {
-        "id": "gum_fart",
-        "name": { "str_sp": "chewing gum, fart flavored" },
-        "description": "Surprisingly, this so called 'fart-flavored' chewing gum offers a initially disgusting taste that becomes really pleasant after some seconds chewing it.  Surely this is a joke flavor that once was used to trick your friends without harming them.",
-        "weight": 1
-      },
-      {
-        "id": "gum_time",
-        "name": { "str_sp": "chewing gum, No Time edition" },
-        "description": "No time to brush your teeth?  You simply can't brush your teeth for some reason?  No problem - if you've got No Time Gum!  A tasty breath, refreshing gum, for beautiful, white teeth.",
         "weight": 1
       },
       {
@@ -351,24 +333,6 @@
         "id": "gum_absinthe",
         "name": { "str_sp": "chewing gum, absinthe flavored" },
         "description": "Commune with your muse while chewing this absinthe-flavored gumball.",
-        "weight": 1
-      },
-      {
-        "id": "gum_cat",
-        "name": { "str_sp": "chewing gum, cat hairball flavored" },
-        "description": "Crazy Cat Lady approved.  These treats are actually a mix of berries, but the texture is the secret.",
-        "weight": 1
-      },
-      {
-        "id": "gum_pickle",
-        "name": { "str_sp": "chewing gum, pickle flavored" },
-        "description": "An extra briny, sour and sweet pickle-flavored gumball.",
-        "weight": 1
-      },
-      {
-        "id": "gum_zombie",
-        "name": { "str_sp": "chewing gum, zombie poop flavored" },
-        "description": "These are actually green irregular-roundish lemon-lime flavored treats, but still.",
         "weight": 1
       },
       {

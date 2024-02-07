@@ -389,6 +389,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "windage_effect", windage_effect, efftype_id::NULL_ID() );
+    optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
@@ -412,6 +414,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
+
+    optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -889,6 +893,11 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
+efftype_id bodypart::get_windage_effect() const
+{
+    return id->windage_effect;
+}
+
 int bodypart::get_encumbrance_threshold() const
 {
     return id->encumbrance_threshold;
@@ -1051,6 +1060,16 @@ float bodypart::get_bmi_encumbrance_scalar() const
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 {
     return mut_drench;
+}
+
+float bodypart::get_hit_size() const
+{
+    return id->hit_size;
+}
+
+int bodypart::get_power_efficiency() const
+{
+    return id->power_efficiency;
 }
 
 void bodypart::set_hp_cur( int set )
