@@ -519,7 +519,8 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
     "flags": [ "SHEATH_AXE" ],
-    "melee_damage": { "bash": 7, "cut": 11 }
+    "melee_damage": { "bash": 7, "cut": 11 },
+    "weapon_category": [ "HAND_AXES" ]
   },
   {
     "id": "makeshift_axe",
