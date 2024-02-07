@@ -24,6 +24,7 @@
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
@@ -151,6 +152,19 @@ float anatomy::get_hit_size_sum() const
         ret += bp->hit_size;
     }
     add_msg_debug( debugmode::DF_ANATOMY_BP, "Current anatomy hitsize sum %.1f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_organic_size_sum() const
+{
+    float ret = 0.0f;
+    for( const bodypart_id &bp : cached_bps ) {
+        if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+            ret += bp->hit_size;
+        }
+    }
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Current organic hitsize sum %.1f",
                    ret );
     return ret;
 }

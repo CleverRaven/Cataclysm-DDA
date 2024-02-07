@@ -40,13 +40,13 @@
     "responses": [
       {
         "text": "What if I want to hurt you?  I'm so good at it and I've had so much practice.",
-        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "condition": { "u_has_trait": "KILLER" },
         "topic": "TALK_CARAVAN_REFUGEE_A1_Hurt"
       },
       {
         "text": "What's your situation here?",
         "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
-        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } }
+        "condition": { "not": { "u_has_trait": "KILLER" } }
       },
       { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
     ]
@@ -54,7 +54,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A2",
-    "dynamic_line": "You again.  Any good news?  Haven't heard any in a long time.",
+    "dynamic_line": { "gendered_line": "You again.  Any good news?  Haven't heard any in a long time.", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
       { "text": "No, I don’t have any.", "topic": "TALK_DONE" }
@@ -184,7 +184,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_B1_Job",
-    "dynamic_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
+    "dynamic_line": {
+      "gendered_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
       {

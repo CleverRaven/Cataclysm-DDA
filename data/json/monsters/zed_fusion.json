@@ -15,7 +15,7 @@
     "color": "red",
     "aggression": 40,
     "morale": 40,
-    "melee_skill": 9,
+    "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],

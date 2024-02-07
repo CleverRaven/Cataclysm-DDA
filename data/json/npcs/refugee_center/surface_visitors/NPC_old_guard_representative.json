@@ -84,7 +84,10 @@
   {
     "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
     "type": "talk_topic",
-    "dynamic_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+    "dynamic_line": {
+      "gendered_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
@@ -118,7 +121,10 @@
   {
     "id": "TALK_OLD_GUARD_REP_EXODII_1",
     "type": "talk_topic",
-    "dynamic_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+    "dynamic_line": {
+      "gendered_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
