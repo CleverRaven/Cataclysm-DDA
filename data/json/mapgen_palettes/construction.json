@@ -36,6 +36,16 @@
           [ "construction_paint", 4 ],
           [ "null", 188 ]
         ]
+      },
+      "`": {
+        "chunks": [
+          [ "corpse_blood_1x1", 1 ],
+          [ "blood_field", 2 ],
+          [ "bile_field", 1 ],
+          [ "construction_supplies", 8 ],
+          [ "construction_paint", 4 ],
+          [ "null", 188 ]
+        ]
       }
     }
   },
