@@ -8,7 +8,8 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_EXODII_MERCHANT",
-    "faction": "exodii"
+    "faction": "exodii",
+    "personality": { "aggression": -1, "bravery": 2, "collector": -3, "altruism": 3 }
   },
   {
     "type": "npc_class",
