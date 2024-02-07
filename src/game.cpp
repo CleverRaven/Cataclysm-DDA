@@ -1673,6 +1673,35 @@ unsigned int game::get_seed() const
     return seed;
 }
 
+void game::set_highway_global_offset( const int &x, const int &y )
+{
+    // TODO: Allow single axis variance
+    if( x > 1 && y > 1 ) {
+        const int chosen_offset = seed % ( ( x - 1 ) * ( y - 1 ) );
+        int stop_when_chosen_offet = 0;
+        for( int x_offset = 0; x_offset < ( x - 1 ); x_offset++ ) {
+            for( int y_offset = 0; y_offset < ( y - 1 ); x_offset++ ) {
+                if( stop_when_chosen_offet == chosen_offset ) {
+                    highway_global_offset = { x_offset, y_offset };
+                    highway_global_offset_calculated = true;
+                    return;
+                }
+                stop_when_chosen_offet++;
+            }
+        }
+        debugmsg( "Failed to seed highway offset with chosen value %s and expected max %s", chosen_offset,
+                  ( x - 1 ) * ( y - 1 ) );
+    }
+    highway_global_offset = { 0, 0 };
+    highway_global_offset_calculated = true;
+    return;
+}
+
+std::pair<int, int> game::get_highway_global_offset() const
+{
+    return highway_global_offset;
+}
+
 void game::set_npcs_dirty()
 {
     npcs_dirty = true;

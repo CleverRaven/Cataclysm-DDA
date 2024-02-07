@@ -4835,31 +4835,12 @@ void overmap::place_highways()
         return ret;
     };
 
-    // TODO: Have this run once instead of every overmap
+    // Use the global seed to calculate an offset for the grid so there's no guaranteed intersection at the 0,0 overmap
+    if( !g->highway_global_offset_calculated ) {
+        g->set_highway_global_offset( frequency_x, frequency_y );
+    }
     // TODO: Offset within the overmap too?
-    // Use the global seed to calculate an offset for the grid so there's no guaranteed offset at 0,0
-    auto calc_offset_from_seed = []( int x, int y, unsigned int seed ) {
-        // TODO: Allow single axis variance
-        if( x > 1 && y > 1 ) {
-            const int chosen_offset = seed % ( ( x - 1 ) * ( y - 1 ) );
-            int stop_when_chosen_offet = 0;
-            for( int x_offset = 0; x_offset < ( x - 1 ); x_offset++ ) {
-                for( int y_offset = 0; y_offset < ( y - 1 ); x_offset++ ) {
-                    if( stop_when_chosen_offet == chosen_offset ) {
-                        std::pair<int, int> ret = { x_offset, y_offset };
-                        return ret;
-                    }
-                    stop_when_chosen_offet++;
-                }
-            }
-            debugmsg( "Failed to seed highway offset with chosen value %s and expected max %s",
-                      chosen_offset, ( x - 1 ) * ( y - 1 ) );
-        }
-        std::pair<int, int> ret = { 0, 0 };
-        return ret;
-    };
-    const std::pair<int, int> offset = calc_offset_from_seed( frequency_x, frequency_y,
-                                       g->get_seed() );
+    const std::pair<int, int> &offset = g->get_highway_global_offset();
     // TODO: Refactor the x and y into a single function?
     // Place a highway if we're at the right distance from the last or if there's ocean next
     if( frequency_x > 0 && ( ( this_om_x + offset.second ) % frequency_x == 0 ||
