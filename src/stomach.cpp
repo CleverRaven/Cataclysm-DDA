@@ -234,7 +234,6 @@ void nutrients::deserialize( const JsonObject &jo )
     for( auto &vit : vit_map ) {
         set_vitamin( vit.first, vit.second );
     }
-    debugmsg( "testest" );
 }
 
 stomach_contents::stomach_contents() = default;
