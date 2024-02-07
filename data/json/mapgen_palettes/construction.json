@@ -4,7 +4,7 @@
     "id": "construction_palette",
     "//": "intended for in-construction homes",
     "parameters": {
-      "exterior_wall_type": {
+      "construction_exterior_wall_type": {
         "type": "ter_str_id",
         "default": {
           "distribution": [
@@ -16,7 +16,7 @@
           ]
         }
       },
-      "house_fence_type": {
+      "construction_house_fence_type": {
         "type": "ter_str_id",
         "default": {
           "distribution": [
@@ -35,9 +35,9 @@
     "toilets": { "t": {  } },
     "terrain": {
       "c": "t_thconc_floor",
-      "f": { "param": "house_fence_type", "fallback": "t_region_soil" },
+      "f": { "param": "construction_house_fence_type", "fallback": "t_region_soil" },
       "g": {
-        "switch": { "param": "house_fence_type", "fallback": "t_region_soil" },
+        "switch": { "param": "construction_house_fence_type", "fallback": "t_region_soil" },
         "cases": {
           "t_splitrail_fence": "t_splitrail_fencegate_c",
           "t_chainfence": "t_chaingate_c",
@@ -67,7 +67,7 @@
       ],
       "^": "t_gutter_downspout",
       "|": "t_wall_wood",
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
+      "#": { "param": "construction_exterior_wall_type", "fallback": "t_brick_wall" },
       "$": "t_wall_half",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
