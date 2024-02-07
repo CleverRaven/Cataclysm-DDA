@@ -981,7 +981,8 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "reciprocating_saw",
@@ -1554,7 +1555,8 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "makeshift_hose",
