@@ -125,7 +125,11 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_effect": "u_exodii_interaction_timer_short",
-      "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+      "yes": [
+        "Back in a blink and a whiff, eh?",
+        { "gendered_line": "Forgot sommat?", "relevant_genders": [ "u" ] },
+        "Ah, a returnin', an I'm ken."
+      ],
       "no": {
         "u_has_var": "u_met_Rubik",
         "type": "general",

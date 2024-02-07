@@ -58,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5",
-    "dynamic_line": "Hey there, friend.",
+    "dynamic_line": { "gendered_line": "Hey there, friend.", "relevant_genders": [ "u" ] },
     "//": "STUB FILE: not all text implemented yet.  TK: different greetings and a whole segment on getting the beggars to join up.",
     "responses": [
       { "text": "What are you doing out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK1" },
@@ -180,7 +180,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL1",
-    "dynamic_line": "Well now, that's quite a kind offer, and I appreciate you looking past my full-body pubic hair.  Sorry though.  I've come to feel sort of responsible for this little gaggle of squatters.  As long as I'm the only one providing for them, I don't think I can leave.",
+    "dynamic_line": {
+      "gendered_line": "Well now, that's quite a kind offer, and I appreciate you looking past my full-body pubic hair.  Sorry though.  I've come to feel sort of responsible for this little gaggle of squatters.  As long as I'm the only one providing for them, I don't think I can leave.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "condition": {

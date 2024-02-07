@@ -57,14 +57,14 @@
       "type": "dialogue",
       "context": "godco",
       "value": "yes",
-      "yes": "Oh well, yet another sinner.  Don't talk to me.",
+      "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
         "npc_has_var": "u_met_godco_katherine",
         "type": "general",
         "context": "meeting",
         "value": "yes",
         "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
-        "no": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine."
+        "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
       }
     },
     "responses": [
@@ -113,7 +113,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_2a",
-    "dynamic_line": [ "We have many things to pray for, I'm afraid." ],
+    "dynamic_line": "We have many things to pray for, I'm afraid.",
     "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
   },
   {
