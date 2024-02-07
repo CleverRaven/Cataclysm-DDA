@@ -695,7 +695,6 @@
     "qualities": [ [ "HAMMER", 2 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ],
     "melee_damage": { "bash": 9 },
-    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "bronze_file",
