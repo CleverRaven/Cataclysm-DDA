@@ -4845,8 +4845,8 @@ void overmap::place_highways()
     // TODO: Refactor the x and y into a single function?
     // Place a highway if we're at the right distance from the last or if there's ocean next
     if( c_seperation > 0 && ( ( this_om_x + offset.second ) % c_seperation == 0 ||
-                             ocean_next_north ||
-                             ocean_next_south ) ) {
+                              ocean_next_north ||
+                              ocean_next_south ) ) {
         const int i = floor( OMAPX / 2.0 );
         placed_highways[0] = !ocean_next_north;
         placed_highways[2] = !ocean_next_south;
@@ -4867,8 +4867,8 @@ void overmap::place_highways()
         }
     }
     if( r_seperation > 0 && ( ( this_om_y + offset.first ) % r_seperation == 0 ||
-                             ocean_next_east ||
-                             ocean_next_west ) ) {
+                              ocean_next_east ||
+                              ocean_next_west ) ) {
         placed_highways[1] = !ocean_next_east;
         placed_highways[3] = !ocean_next_west;
         const int j = floor( OMAPY / 2.0 );
@@ -5036,16 +5036,16 @@ void overmap::finalize_highways()
         const int i_range = i_max - i_min;
         // First element corresponds to a special segment, second element corresponds to an OMT used purely to change the appearance on the map, see switch cases below
         std::vector<std::pair<int, int>> what_to_place;
-        for( int i = i_min; i < i_max; i++ ) {
-            what_to_place.push_back( determine_what_to_place( { i, j, 0 }, tripoint_south ) );
+        for( int i = 0; i < i_range; i++ ) {
+            what_to_place.push_back( determine_what_to_place( { i + i_min, j, 0 }, tripoint_south ) );
         }
 
-        if( static_cast<unsigned int>( i_range ) != what_to_place.size() ) {
+        if( i_range != static_cast<int>( what_to_place.size() ) ) {
             debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
         }
 
         bool last_z0 = true;
-        for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
+        for( int i = 0; i < i_range; i++ ) {
             if( what_to_place[i].first > 2 && last_z0 ) {
                 last_z0 = false;
                 what_to_place[i].second = 1;
@@ -5055,12 +5055,11 @@ void overmap::finalize_highways()
                 // If there's a small gap between two identical raised sections, join them instead of placing a ramp
                 if( what_to_place[i].first == 1 ) {
                     int last_up = what_to_place[i - 1].first;
-                    if( static_cast<unsigned int>( i + 1 ) < what_to_place.size() &&
-                        what_to_place[i + 1].first == last_up ) {
+                    if( i + 1 < i_range && what_to_place[i + 1].first == last_up ) {
                         what_to_place[i].first = last_up;
                         last_z0 = false;
-                    } else if( static_cast<unsigned int>( i + 2 ) < what_to_place.size() &&
-                               what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                    } else if( i + 2 < i_range && what_to_place[i + 1].first == 1 &&
+                               what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
                         last_z0 = false;
@@ -5073,7 +5072,7 @@ void overmap::finalize_highways()
         }
 
         // Replace singular city segments with road bridges
-        for( int i = 1; static_cast<unsigned int>( i ) < what_to_place.size() - 1; i++ ) {
+        for( int i = 1; i < i_range - 1; i++ ) {
             if( what_to_place[i].first == 4 ) {
                 if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
                     what_to_place[i].first = 2;
@@ -5082,9 +5081,9 @@ void overmap::finalize_highways()
             }
         }
 
-        for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
+        for( int i = 0; i < i_range; i++ ) {
             if( what_to_place[i].first != 0 ) {
-                tripoint_om_omt north_point( i, j, 0 );
+                tripoint_om_omt north_point( i + i_min, j, 0 );
                 const overmap_special_id &special = segments[what_to_place[i].first];
                 place_special_forced( special, north_point, om_direction::type::east );
                 if( special == segment_bridge ) {
@@ -5119,20 +5118,22 @@ void overmap::finalize_highways()
 
     if( placed_highways[0] || placed_highways[2] ) {
         int i = floor( OMAPX / 2.0 );
-        const int j_min = placed_highways[3] ? 0 : floor( OMAPY / 2.0 );
-        const int j_max = placed_highways[1] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
+        const int j_min = placed_highways[0] ? 0 : floor( OMAPY / 2.0 );
+        const int j_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         const int j_range = j_max - j_min;
         std::vector<std::pair<int, int>> what_to_place;
-        for( int j = j_min; j < j_max; j++ ) {
-            what_to_place.push_back( determine_what_to_place( { i, j, 0 }, tripoint_east ) );
+        for( int j = 0; j < j_range; j++ ) {
+            what_to_place.push_back( determine_what_to_place( { i, j + j_min, 0 }, tripoint_east ) );
         }
 
-        if( static_cast<unsigned int>( j_range ) != what_to_place.size() ) {
+
+
+        if( j_range != static_cast<int>( what_to_place.size() ) ) {
             debugmsg( "j_range %s != what_to_place.size() %s", j_range, what_to_place.size() );
         }
 
         bool last_z0 = true;
-        for( int i = 0; static_cast<unsigned int>( i ) < what_to_place.size(); i++ ) {
+        for( int i = 0; i < j_range; i++ ) {
             if( what_to_place[i].first > 2 && last_z0 ) {
                 last_z0 = false;
                 what_to_place[i].second = 1;
@@ -5142,12 +5143,11 @@ void overmap::finalize_highways()
                 // If there's a small gap between two identical raised sections, join them instead of placing a ramp
                 if( what_to_place[i].first == 1 ) {
                     int last_up = what_to_place[i - 1].first;
-                    if( static_cast<unsigned int>( i + 1 ) < what_to_place.size() &&
-                        what_to_place[i + 1].first == last_up ) {
+                    if( i + 1 < j_range && what_to_place[i + 1].first == last_up ) {
                         what_to_place[i].first = last_up;
                         last_z0 = false;
-                    } else if( static_cast<unsigned int>( i + 2 ) < what_to_place.size() &&
-                               what_to_place[i + 1].first == 1 && what_to_place[i + 2].first == last_up ) {
+                    } else if( i + 2 < j_range && what_to_place[i + 1].first == 1 &&
+                               what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
                         last_z0 = false;
@@ -5160,7 +5160,7 @@ void overmap::finalize_highways()
         }
 
         // Replace singular city segments with road bridges
-        for( int i = 1; static_cast<unsigned int>( i ) < what_to_place.size() - 1; i++ ) {
+        for( int i = 1; i < j_range - 1; i++ ) {
             if( what_to_place[i].first == 4 ) {
                 if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
                     what_to_place[i].first = 2;
@@ -5169,9 +5169,9 @@ void overmap::finalize_highways()
             }
         }
 
-        for( int j = 0; static_cast<unsigned int>( j ) < what_to_place.size(); j++ ) {
+        for( int j = 0; j < j_range; j++ ) {
             if( what_to_place[j].first != 0 ) {
-                tripoint_om_omt west_point( i, j, 0 );
+                tripoint_om_omt west_point( i, j + j_min, 0 );
                 const overmap_special_id &special = segments[what_to_place[j].first];
                 place_special_forced( special, west_point, om_direction::type::north );
                 if( special == segment_bridge ) {
