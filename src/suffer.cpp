@@ -1100,7 +1100,7 @@ void suffer::from_sunburn( Character &you, bool severe )
 
 void suffer::from_item_dropping( Character &you )
 {
-    if( you.has_effect( effect_incorporeal ) && !you.has_flag ( json_flag_ETHEREAL ) ) {
+    if( you.has_effect( effect_incorporeal ) && !you.has_flag( json_flag_ETHEREAL ) ) {
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
