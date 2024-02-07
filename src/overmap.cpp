@@ -4997,15 +4997,6 @@ void overmap::finalize_highways()
         return ret;
     };
 
-    auto place_symbolic = [&]( tripoint_om_omt point, tripoint offset,
-                               const oter_type_str_id & symbolic_omt,
-    const om_direction::type dir ) {
-        for( int j_width = 0; j_width < segment_width; j_width++ ) {
-            ter_set( point, symbolic_omt.obj().get_rotated( dir ) );
-            point += offset;
-        }
-    };
-
     auto determine_what_to_place = [&]( tripoint_om_omt point, tripoint offset ) {
         std::pair<int, int> ret;
         // TODO: Might be able to make a highway_reserved flag and just check the highway flag instead
@@ -5026,7 +5017,7 @@ void overmap::finalize_highways()
         }
         return ret;
     };
-    
+
     auto handle_ramps = []( std::vector<std::pair<int, int>> &what_to_place ) {
         const int range = what_to_place.size();
         bool last_z0 = true;
@@ -5043,7 +5034,7 @@ void overmap::finalize_highways()
                         what_to_place[i].first = last_up;
                         last_z0 = false;
                     } else if( i + 2 < range && what_to_place[i + 1].first == 1 &&
-                            what_to_place[i + 2].first == last_up ) {
+                               what_to_place[i + 2].first == last_up ) {
                         what_to_place[i].first = last_up;
                         what_to_place[i + 1].first = last_up;
                         last_z0 = false;
@@ -5068,14 +5059,67 @@ void overmap::finalize_highways()
             }
         }
     };
-    // TODO: Refactor into one funtion for both directions
+
+    auto place_omts = [&]( const std::pair<int, int> &segment_and_symbol_id,
+    const tripoint_om_omt & point, const tripoint & offset, om_direction::type dir ) {
+
+        auto place_segment = [&]( const overmap_special_id & segment, const tripoint_om_omt & point,
+        const tripoint & offset, om_direction::type dir ) {
+            if( segment == segment_null ) {
+                return;
+            }
+            place_special_forced( segment, point, dir );
+            if( segment == segment_bridge ) {
+                tripoint_om_omt water_point = point;
+                while( is_water_body_or( water_point, offset ) && water_point.z() >= -OVERMAP_DEPTH ) {
+                    place_special_forced( segment_bridge_supports, water_point, dir );
+                    water_point += tripoint_below;
+                }
+            }
+        };
+
+        auto place_symbolic = [&]( const int &symbolic_id, const tripoint_om_omt & point,
+        const tripoint & offset, om_direction::type dir ) {
+
+            auto place_symbolic_for_width = [&]( tripoint_om_omt point, const tripoint & offset,
+            const oter_type_str_id & symbolic_omt, const om_direction::type dir ) {
+                for( int j_width = 0; j_width < segment_width; j_width++ ) {
+                    ter_set( point, symbolic_omt.obj().get_rotated( dir ) );
+                    point += offset;
+                }
+            };
+
+            switch( symbolic_id ) {
+                case 0:
+                    break;
+                case 1: // Up ramp
+                    place_symbolic_for_width( point, offset, ramp_up_id, dir );
+                    place_symbolic_for_width( point + tripoint_above, offset, ramp_down_id, dir );
+                    break;
+                case 2: // Down ramp
+                    place_symbolic_for_width( point, offset, ramp_up_id, om_direction::opposite( dir ) );
+                    place_symbolic_for_width( point + tripoint_above, offset, ramp_down_id,
+                                              om_direction::opposite( dir ) );
+                    break;
+                case 3: // Road under overpass
+                    place_symbolic_for_width( point, offset, overpass_road_id, om_direction::turn_left( dir ) );
+                    break;
+                default:
+                    debugmsg( "Highway symbolic omt with id %s not recognised", symbolic_id );
+            }
+        };
+
+        place_segment( segments[segment_and_symbol_id.first], point, offset, dir );
+        place_symbolic( segment_and_symbol_id.second, point, offset, dir );
+    };
+
     // TODO: Railroad and ravine handling
     if( placed_highways[1] || placed_highways[3] ) {
         int j = floor( OMAPY / 2.0 );
         const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         const int i_range = i_max - i_min;
-        // First element corresponds to a special segment, second element corresponds to an OMT used purely to change the appearance on the map, see switch cases below
+        // First element corresponds to a overmap special segment, second element corresponds to a symbolic OMT
         std::vector<std::pair<int, int>> what_to_place;
         for( int i = 0; i < i_range; i++ ) {
             what_to_place.push_back( determine_what_to_place( { i + i_min, j, 0 }, tripoint_south ) );
@@ -5090,37 +5134,8 @@ void overmap::finalize_highways()
         handle_road_bridges( what_to_place );
 
         for( int i = 0; i < i_range; i++ ) {
-            if( what_to_place[i].first != 0 ) {
-                tripoint_om_omt north_point( i + i_min, j, 0 );
-                const overmap_special_id &special = segments[what_to_place[i].first];
-                place_special_forced( special, north_point, om_direction::type::east );
-                if( special == segment_bridge ) {
-                    tripoint_om_omt water_point = north_point;
-                    while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                        place_special_forced( segment_bridge_supports, water_point, om_direction::type::east );
-                        water_point += tripoint_below;
-                    }
-                }
-                switch( what_to_place[i].second ) {
-                    case 0:
-                        break;
-                    case 1: // Up ramp
-                        place_symbolic( north_point, tripoint_south, ramp_up_id, om_direction::type::east );
-                        north_point += tripoint_above;
-                        place_symbolic( north_point, tripoint_south, ramp_down_id, om_direction::type::east );
-                        break;
-                    case 2: // Down ramp
-                        place_symbolic( north_point, tripoint_south, ramp_up_id, om_direction::type::west );
-                        north_point += tripoint_above;
-                        place_symbolic( north_point, tripoint_south, ramp_down_id, om_direction::type::west );
-                        break;
-                    case 3: // Road under overpass
-                        place_symbolic( north_point, tripoint_south, overpass_road_id, om_direction::type::north );
-                        break;
-                    default:
-                        debugmsg( "Highway symbolic omt with id %s not recognised", what_to_place[i].second );
-                }
-            }
+            tripoint_om_omt north_point( i + i_min, j, 0 );
+            place_omts( what_to_place[i], north_point, tripoint_south, om_direction::type::east );
         }
     }
 
@@ -5143,37 +5158,8 @@ void overmap::finalize_highways()
         handle_road_bridges( what_to_place );
 
         for( int j = 0; j < j_range; j++ ) {
-            if( what_to_place[j].first != 0 ) {
-                tripoint_om_omt west_point( i, j + j_min, 0 );
-                const overmap_special_id &special = segments[what_to_place[j].first];
-                place_special_forced( special, west_point, om_direction::type::north );
-                if( special == segment_bridge ) {
-                    tripoint_om_omt water_point = west_point;
-                    while( is_water_body_or( water_point, tripoint_south ) && water_point.z() >= -OVERMAP_DEPTH ) {
-                        place_special_forced( segment_bridge_supports, water_point, om_direction::type::north );
-                        water_point += tripoint_below;
-                    }
-                }
-                switch( what_to_place[j].second ) {
-                    case 0:
-                        break;
-                    case 1: // Up ramp
-                        place_symbolic( west_point, tripoint_east, ramp_up_id, om_direction::type::north );
-                        west_point += tripoint_above;
-                        place_symbolic( west_point, tripoint_east, ramp_down_id, om_direction::type::north );
-                        break;
-                    case 2: // Down ramp
-                        place_symbolic( west_point, tripoint_east, ramp_up_id, om_direction::type::south );
-                        west_point += tripoint_above;
-                        place_symbolic( west_point, tripoint_east, ramp_down_id, om_direction::type::south );
-                        break;
-                    case 3: // Road under overpass
-                        place_symbolic( west_point, tripoint_east, overpass_road_id, om_direction::type::east );
-                        break;
-                    default:
-                        debugmsg( "Highway symbolic omt with id %s not recognised", what_to_place[i].second );
-                }
-            }
+            tripoint_om_omt west_point( i, j + j_min, 0 );
+            place_omts( what_to_place[j], west_point, tripoint_east, om_direction::type::north );
         }
     }
 }
