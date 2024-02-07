@@ -5114,36 +5114,13 @@ void overmap::finalize_highways()
     };
 
     // TODO: Railroad and ravine handling
-    if( placed_highways[1] || placed_highways[3] ) {
-        int j = floor( OMAPY / 2.0 );
-        const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
-        const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
-        const int i_range = i_max - i_min;
-        // First element corresponds to a overmap special segment, second element corresponds to a symbolic OMT
-        std::vector<std::pair<int, int>> what_to_place;
-        for( int i = 0; i < i_range; i++ ) {
-            what_to_place.push_back( determine_what_to_place( { i + i_min, j, 0 }, tripoint_south ) );
-        }
-
-        if( i_range != static_cast<int>( what_to_place.size() ) ) {
-            debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
-            return;
-        }
-
-        handle_ramps( what_to_place );
-        handle_road_bridges( what_to_place );
-
-        for( int i = 0; i < i_range; i++ ) {
-            tripoint_om_omt north_point( i + i_min, j, 0 );
-            place_omts( what_to_place[i], north_point, tripoint_south, om_direction::type::east );
-        }
-    }
-
+    // North-south highways
     if( placed_highways[0] || placed_highways[2] ) {
-        int i = floor( OMAPX / 2.0 );
+        const int i = floor( OMAPX / 2.0 );
         const int j_min = placed_highways[0] ? 0 : floor( OMAPY / 2.0 );
         const int j_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         const int j_range = j_max - j_min;
+        // First element corresponds to a overmap special segment, second element corresponds to a symbolic OMT
         std::vector<std::pair<int, int>> what_to_place;
         for( int j = 0; j < j_range; j++ ) {
             what_to_place.push_back( determine_what_to_place( { i, j + j_min, 0 }, tripoint_east ) );
@@ -5160,6 +5137,31 @@ void overmap::finalize_highways()
         for( int j = 0; j < j_range; j++ ) {
             tripoint_om_omt west_point( i, j + j_min, 0 );
             place_omts( what_to_place[j], west_point, tripoint_east, om_direction::type::north );
+        }
+    }
+
+    // East-west highways
+    if( placed_highways[1] || placed_highways[3] ) {
+        const int j = floor( OMAPY / 2.0 );
+        const int i_min = placed_highways[3] ? 0 : floor( OMAPX / 2.0 );
+        const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
+        const int i_range = i_max - i_min;
+        std::vector<std::pair<int, int>> what_to_place;
+        for( int i = 0; i < i_range; i++ ) {
+            what_to_place.push_back( determine_what_to_place( { i + i_min, j, 0 }, tripoint_south ) );
+        }
+
+        if( i_range != static_cast<int>( what_to_place.size() ) ) {
+            debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
+            return;
+        }
+
+        handle_ramps( what_to_place );
+        handle_road_bridges( what_to_place );
+
+        for( int i = 0; i < i_range; i++ ) {
+            tripoint_om_omt north_point( i + i_min, j, 0 );
+            place_omts( what_to_place[i], north_point, tripoint_south, om_direction::type::east );
         }
     }
 }
