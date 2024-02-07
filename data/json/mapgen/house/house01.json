@@ -188,9 +188,9 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...ppppppM..............",
-        "...ppppppcccccc.........",
-        "...ppppppCC.CCcCC..CC...",
+        "...ccccccM..............",
+        "...cccccccccccc.........",
+        "...ccccccCC.CCcCC..CC...",
         "..#``````##o##*##oo##...",
         "..#``````|X,,|,|,,,,#...",
         "..#``````|,,,|,+,,,,o...",
