@@ -3618,12 +3618,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         if( !denial.empty() ) {
             const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
                                           + colorize( denial, c_red );
-
             if( static_cast<size_t>( utf8_width( denial ) ) > highlighted_entry.cached_denial_space ) {
-                query_popup()
-                .message( "%s", assembled )
-                .option( "QUIT" )
-                .query();
+                popup( assembled, PF_GET_KEY );
             }
         }
         count = 0;
