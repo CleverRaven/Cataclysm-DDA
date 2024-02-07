@@ -150,10 +150,11 @@ class outfit
         /** Splash some kind of liquid on a character's body part, which can apply flags to worn items it hits, damage the items,
         apply an effect to the character, damage the character, and set worn items on fire. fluid_amount should always be <= 100.
         Splash attacks are blocked by a combination of coverage and breathability, and items use their armor values to resist being damaged */
-        void splash_attack( Character &guy, damage_unit &elem, std::list<item> &worn_remains,
-                            bodypart_id &bp, int fluid_amount, const time_duration &dur,
+        void splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
                             const flag_id &apply_flag = flag_id::NULL_ID(), const efftype_id &eff_id = efftype_id::NULL_ID(),
-                            bool permanent = false, int intensity = 1, bool force = false, bool deferred = false, bool guy_damage = false,
+                            const time_duration &dur = 0_turns,
+                            bool permanent = false, int intensity = 0, bool force = false, bool deferred = false,
+                            damage_unit elem = damage_unit( damage_type_id::NULL_ID(), 0.f, 0.f ), bool guy_damage = false,
                             bool ignite = false );
 
         // sums the coverage of items that do not have the listed flags
