@@ -22,7 +22,7 @@
   },
   {
     "type": "palette",
-    "id": "construction_random_supplies",
+    "id": "construction_all_variants",
     "//": "Random spawn inside in-construction houses",
     "terrain": { ",": "t_floor", "a": "t_thconc_floor" },
     "nested": {
