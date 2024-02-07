@@ -7,15 +7,15 @@
     "condition": {
       "and": [
         { "math": [ "darryl_building_coop", "==", "1" ] },
-        { "math": [ "time_since(n_timer_trade_coop_in_progress)", ">=", "time('7 d')" ] },
-        { "npc_near_om_location": "godco_7", "range": 12 }
+        { "math": [ "time_since(u_timer_trade_coop_in_progress)", ">=", "time('7 d')" ] },
+        { "u_near_om_location": "godco_7", "range": 12 }
       ]
     },
     "deactivate_condition": { "math": [ "darryl_building_coop", "==", "2" ] },
     "effect": [
       { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7" },
       { "math": [ "darryl_building_coop", "=", "2" ] },
-      { "npc_lose_var": "coop_in_progress", "type": "timer", "context": "trade" }
+      { "u_lose_var": "coop_in_progress", "type": "timer", "context": "trade" }
     ]
   },
   {
@@ -26,15 +26,15 @@
     "condition": {
       "and": [
         { "math": [ "kostas_building_garden", "==", "1" ] },
-        { "math": [ "time_since(n_timer_trade_herb_garden_in_progress)", ">=", "time('3 d')" ] },
-        { "npc_near_om_location": "godco_1_2", "range": 12 }
+        { "math": [ "time_since(u_timer_trade_herb_garden_in_progress)", ">=", "time('3 d')" ] },
+        { "u_near_om_location": "godco_1_2", "range": 12 }
       ]
     },
     "deactivate_condition": { "math": [ "kostas_building_garden", "==", "2" ] },
     "effect": [
       { "mapgen_update": "place_herb_garden", "om_terrain": "godco_1_2" },
       { "math": [ "kostas_building_garden", "=", "2" ] },
-      { "npc_lose_var": "herb_garden_in_progress", "type": "timer", "context": "trade" }
+      { "u_lose_var": "herb_garden_in_progress", "type": "timer", "context": "trade" }
     ]
   },
   {
@@ -46,8 +46,8 @@
     "condition": {
       "and": [
         { "math": [ "wall_in_progress", "==", "1" ] },
-        { "math": [ "time_since(n_timer_trade_wall_started_building)", ">=", "time('18 d')" ] },
-        { "npc_near_om_location": "godco_5", "range": 12 }
+        { "math": [ "time_since(u_timer_trade_wall_started_building)", ">=", "time('18 d')" ] },
+        { "u_near_om_location": "godco_5", "range": 12 }
       ]
     },
     "deactivate_condition": { "math": [ "wall_in_progress", "==", "2" ] },
@@ -61,7 +61,7 @@
       { "mapgen_update": "place_straight_bottom_wall", "om_terrain": "godco_8" },
       { "mapgen_update": "place_left_corner_wall_bottom", "om_terrain": "godco_9" },
       { "math": [ "wall_in_progress", "=", "2" ] },
-      { "npc_lose_var": "wall_started_building", "type": "timer", "context": "trade" }
+      { "u_lose_var": "wall_started_building", "type": "timer", "context": "trade" }
     ]
   },
   {
@@ -74,7 +74,7 @@
     "condition": {
       "and": [
         { "math": [ "godco_warehouse_in_progress", "==", "1" ] },
-        { "math": [ "time_since(n_timer_trade_warehouse_started_building)", ">=", "time('14 d')" ] },
+        { "math": [ "time_since(u_timer_trade_warehouse_started_building)", ">=", "time('14 d')" ] },
         { "u_near_om_location": "godco_1_1", "range": 1 }
       ]
     },
