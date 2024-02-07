@@ -57,10 +57,19 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "~" ],
-      "terrain": { "~": "t_linoleum_white" },
       "items": {
         "~": [ { "item": "hardware_trash", "chance": 50 }, { "item": "supplies_plumbing", "chance": 25, "repeat": [ 1, 2 ] } ]
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_paint",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "~" ],
+      "items": { "~": [ { "item": "hardware_trash", "chance": 25 }, { "item": "paint", "chance": 25, "repeat": [ 1, 3 ] } ] }
     }
   },
   {
@@ -70,7 +79,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "~" ],
-      "terrain": { "~": "t_linoleum_white" },
       "items": { "~": [ { "item": "hardware_trash", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "tools_plumbing", "chance": 30 } ] }
     }
   }
