@@ -291,5 +291,18 @@
         "target_part": "eyes"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE",
+    "condition": { "not": { "u_has_effect": "fearparalyze" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE1",
+    "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE2" ] },
+    "false_effect": { "u_message": "Some <npc_name> tries to intrude into your thoughts, but your telepathic shield reflects it!" }
   }
 ]

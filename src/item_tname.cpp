@@ -223,11 +223,18 @@ std::string contents( item const &it, unsigned int /* quantity */,
         // (eg: quivers), as they format their own counts.
         if( total_count > 1 && it.ammo_types().empty() ) {
             if( total_count == aggi_count ) {
-                return string_format( " > %1$zd %2$s", total_count, ctnc );
+                return string_format(
+                           segments[tname::segments::CONTENTS_COUNT]
+                           //~ [container item name] " > [count] [type]"
+                           ? npgettext( "item name", " > %1$zd %2$s", " > %1$zd %2$s", total_count )
+                           : " > %2$s",
+                           total_count, ctnc );
             }
             return string_format(
+                       segments[tname::segments::CONTENTS_COUNT]
                        //~ [container item name] " > [count] [type] / [total] items"
-                       npgettext( "item name", " > %1$zd %2$s / %3$zd item", " > %1$zd %2$s / %3$zd items", total_count ),
+                       ? npgettext( "item name", " > %1$zd %2$s / %3$zd item", " > %1$zd %2$s / %3$zd items", total_count )
+                       : " > %2$s",
                        aggi_count, ctnc, total_count );
         }
         return string_format( " > %1$s", ctnc );
@@ -235,9 +242,11 @@ std::string contents( item const &it, unsigned int /* quantity */,
     } else if( segments[tname::segments::CONTENTS_ABREV] && !contents.empty_container() &&
                contents.num_item_stacks() != 0 ) {
         std::string const suffix =
-            npgettext( "item name",
-                       //~ [container item name] " > [count] item"
-                       " > %1$zd item", " > %1$zd items", contents.num_item_stacks() );
+            segments[tname::segments::CONTENTS_COUNT]
+            ? npgettext( "item name",
+                         //~ [container item name] " > [count] item"
+                         " > %1$zd item", " > %1$zd items", contents.num_item_stacks() )
+            : _( " > items" );
         return string_format( suffix, contents.num_item_stacks() );
     }
     return {};
