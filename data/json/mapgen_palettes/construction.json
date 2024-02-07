@@ -56,7 +56,10 @@
       },
       "h": "t_pit_shallow",
       "o": [ [ "t_window", 2 ], [ "t_window_empty", 5 ] ],
-      "p": "t_pavement",
+      "p": {
+        "switch": { "param": "construction_house_concrete_outside_type", "fallback": "t_region_soil" },
+        "cases": { "t_thconc_floor": "t_pavement", "t_pit_shallow": "t_pit_shallow", "t_region_soil": "t_region_soil" }
+      },
       ".": [ [ "t_region_groundcover_urban", 5 ], [ "t_region_soil", 10 ] ],
       "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [
