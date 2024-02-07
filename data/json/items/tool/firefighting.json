@@ -222,6 +222,6 @@
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 15, "stab": 13 },
-    "weapon_category": [ "BATONS", "HOOKING_WEAPONRY" ]
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   }
 ]
