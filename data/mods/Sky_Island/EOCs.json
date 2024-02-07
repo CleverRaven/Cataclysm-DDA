@@ -48,7 +48,7 @@
             ]
           }
         ],
-        "npc_range":  10,
+        "npc_range": 10,
         "local": true
       },
       {
@@ -79,7 +79,7 @@
             ]
           }
         ],
-        "npc_range":  10,
+        "npc_range": 10,
         "local": true
       },
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
