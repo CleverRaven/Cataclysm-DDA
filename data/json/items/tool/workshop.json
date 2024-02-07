@@ -981,7 +981,6 @@
     "qualities": [ [ "HAMMER", 2 ] ],
     "flags": [ "BELT_CLIP" ],
     "melee_damage": { "bash": 14 },
-    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "reciprocating_saw",
