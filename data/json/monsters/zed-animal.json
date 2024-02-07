@@ -817,12 +817,24 @@
     "hp": 200,
     "speed": 75,
     "attack_cost": 75,
-    "symbol": "R",	
+    "symbol": "R",
     "dodge": 2,
     "harvest": "zombie_animal_acid",
-    "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 10,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
+      [ "ACID_BARF", 5 ]
+    ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "extend": { "flags": [ "POISON", "ACIDPROOF", "ACID_BLOOD" ] }    
+    "extend": { "flags": [ "POISON", "ACIDPROOF", "ACID_BLOOD" ] }
   }
 ]
