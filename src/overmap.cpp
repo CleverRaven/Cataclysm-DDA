@@ -4820,6 +4820,7 @@ void overmap::place_highways()
     // Id of OMT to use until finalize_highways() over water
     const oter_type_str_id &reserved_terrain_water_id =
         settings->overmap_highway.reserved_terrain_water_id;
+    const int placed_highways_size = static_cast<int>( placed_highways.size() );
     if( frequency_x == 0 && frequency_y == 0 ) {
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
@@ -4889,6 +4890,7 @@ void overmap::place_highways()
     if( placed_highways.none() ) {
         return;
     }
+    overmap_special_id special;
     // Add intersection
     // TODO: Add handling for intersections over water
     if( ( placed_highways[0] || placed_highways[2] ) && ( placed_highways[1] || placed_highways[3] ) ) {
@@ -4896,40 +4898,54 @@ void overmap::place_highways()
         const int j = floor( OMAPY / 2.0 );
         const tripoint_om_omt nw_corner( i, j, 0 );
         overmap_special_id special;
-        om_direction::type dir = om_direction::type::none;
+        om_direction::type dir = om_direction::type::north;
         if( placed_highways.all() ) {
-            // 4-way intersection
             special = settings->overmap_highway.four_way_intersections.pick();
         } else if( placed_highways.count() == 3 ) {
-            // 3-way intersection
-            // Iterate clockwise through esw, nsw, new, nes
-            // const int direction = ocean_next_north ? 0 /*esw*/ : ocean_next_east ? 1 /*nsw*/ : ocean_next_south ? 2 /*new*/ : 3 /*nes*/;
-            // std::array<custom struct with map ids etc> parameters
-            // place_3_way( parameters[direction] )
+            // TODO: Check this is the right way around
+            special = settings->overmap_highway.three_way_intersections.pick();
+            for( int i = 0; i < placed_highways_size; i++ ) {
+                if( !placed_highways[i] ) {
+                    dir = om_direction::all[i];
+                    break;
+                }
+            }
         } else {
-            // Bend
-            // Iterate clockwise through sw, nw, ne, se
-            // const int direction = ocean_next_north ? ( ocean_next_east ? 0 /*sw*/ : 3 /*se*/ ) : ( ocean_next_east ? 1 /*nw*/ : 2 /*ne*/ );
-            // std::array<custon struct with map ids etc> parameters
-            // place_bend( parameters[direction] )
+            // TODO: Check this is the right way around
+            special = settings->overmap_highway.bends.pick();
+            for( int i = 0; i < placed_highways_size; i++ ) {
+                int j = i + 1 < placed_highways_size ? i + 1 : 0;
+                if( !placed_highways[i] && !placed_highways[j] ) {
+                    dir = om_direction::all[i];
+                    break;
+                }
+            }
         }
         if( place_special( *special, nw_corner, dir, invalid_city, false,
                            false ).size() == 0 ) {
             debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
         }
     }
-    // TODO: Add up to one road connection (on off ramps etc) or service station per compass direction of the centre
-    /*for( int dir = 0; dir < 4; dir++ ) {
-        vary_x = dir % 2 == 0;
+    // Add up to one road connection (on off ramps etc) or service station per compass direction of the centre
+    /*for( int i = 0; i < 4; i++ ) {
+        // TODO: If pass a roll
+        bool vary_x = i % 2 == 0;
         const int variable_side_size = vary_x ? OMAPX : OMAPY;
         const int invariable_side_size = vary_x ? OMAPY : OMAPX;
-        const int value_to_try rng_normal( 0, floor( variable_side_size / 2.0 );
+        const int value_to_try = rng_normal( 0, floor( variable_side_size / 2.0 ) );
         tripoint_om_omt point_to_try;
-        if(vary_x) {
-            const tripoint_om_omt point( value_to_try, floor( invariable_side_size / 2.0 ), 0 );
-            point_to_try = point;
+        if( vary_x ) {
+            point_to_try = { value_to_try, static_cast<int>( floor( invariable_side_size / 2.0 ) ), 0 };
+        } else {
+            point_to_try = { static_cast<int>( floor( invariable_side_size / 2.0 ) ), value_to_try, 0 };
         }
-        place a overmap_special_id road connection or service station
+        // TODO: Add offset and flip direction half the time
+        // 50% of the time:
+        // i = i + 2 < static_cast<int>(om_direction::size) ? i + 2 : i + 2 - static_cast<int>(om_direction::size);
+        om_direction::type dir = om_direction::all[i];
+        // point_to_try = point_to_try + om_direction::displace( dir, width_of_segments );
+        special = settings->overmap_highway.road_connections.pick();
+        place_special( *special, point_to_try, dir, invalid_city, false, false );
     }*/
 }
 
@@ -4992,6 +5008,7 @@ void overmap::finalize_highways()
 
     auto determine_what_to_place = [&]( tripoint_om_omt point, tripoint offset ) {
         std::pair<int, int> ret;
+        // TODO: Might be able to make a highway_reserved flag and just check the highway flag instead
         if( is_highway_special( ter( point ) ) ) {
             ret = { 0, 0 };
         } else if( is_water_body_or( point, offset ) ) {
