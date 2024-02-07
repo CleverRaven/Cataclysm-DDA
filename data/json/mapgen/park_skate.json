@@ -6,6 +6,7 @@
     "entries": [
       { "item": "folded_skateboard_generic", "prob": 2 },
       { "item": "roller_blades", "prob": 2 },
+      { "item": "fitover_roller_blades", "prob": 1 },
       { "item": "rollerskates", "prob": 2 },
       { "item": "knee_pads", "prob": 1 },
       { "item": "elbow_pads", "prob": 1 },

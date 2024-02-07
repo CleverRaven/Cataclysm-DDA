@@ -517,6 +517,7 @@
       [ "boots_combat", 10 ],
       [ "boots_hiking", 10 ],
       [ "roller_blades", 20 ],
+      [ "fitover_roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "roller_shoes_off", 10 ],
       [ "folded_skateboard_generic", 10 ],

@@ -533,6 +533,7 @@
         { "u_has_item": "roller_shoes_off" },
         { "u_has_item": "roller_shoes_on" },
         { "u_has_item": "roller_blades" },
+        { "u_has_item": "fitover_roller_blades" },
         { "u_has_item": "rollerskates" }
       ]
     },

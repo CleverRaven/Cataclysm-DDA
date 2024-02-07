@@ -737,6 +737,7 @@
       [ "puck", 30 ],
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
+      [ "fitover_roller_blades", 5 ],
       [ "rollerskates", 10 ],
       [ "folded_skateboard_generic", 10 ],
       [ "javelin_bag", 1 ],

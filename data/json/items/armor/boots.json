@@ -1972,6 +1972,46 @@
     ]
   },
   {
+    "id": "fitover_roller_blades",
+    "type": "ARMOR",
+    "name": { "str": "pair of fit-over rollerblades", "str_pl": "pairs of fit-over rollerblades" },
+    "description": "A pair of fit-over inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
+    "weight": "1640 g",
+    "volume": "3750 ml",
+    "price": 8500,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "looks_like": "rollerskates",
+    "color": "black",
+    "warmth": 5,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "BELTED", "VARSIZE", "ROLLER_INLINE", "ONLY_ONE", "REQUIRES_BALANCE", "OVERSIZE" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 50, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "encumbrance": 10,
+        "coverage": 25
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
     "id": "rollerskates",
     "type": "ARMOR",
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },

@@ -2071,6 +2071,7 @@
       [ "mouthpiece", 5 ],
       [ "football", 5 ],
       [ "roller_blades", 20 ],
+      [ "fitover_roller_blades", 5 ],
       [ "rollerskates", 20 ],
       [ "roller_shoes_off", 20 ],
       [ "folded_skateboard_generic", 20 ],

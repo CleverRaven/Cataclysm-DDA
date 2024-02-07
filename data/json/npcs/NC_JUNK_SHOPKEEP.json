@@ -172,6 +172,7 @@
       { "item": "bubblewrap", "prob": 50 },
       { "item": "binoculars", "prob": 20 },
       { "item": "roller_blades", "prob": 20 },
+      { "item": "fitover_roller_blades", "prob": 10 },
       { "item": "duct_tape", "prob": 70 },
       { "item": "char_smoker", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
