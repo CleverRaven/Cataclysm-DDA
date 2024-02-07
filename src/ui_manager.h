@@ -221,7 +221,7 @@ class ui_adaptor
         static void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
         static bool has_imgui();
         static void redraw();
-        static void redraw_invalidated( bool draw_imgui = false );
+        static void redraw_invalidated();
         static void screen_resized();
     private:
         static void invalidation_consistency_and_optimization();

@@ -339,7 +339,7 @@ void ui_adaptor::redraw()
     redraw_invalidated();
 }
 
-void ui_adaptor::redraw_invalidated( bool draw_imgui )
+void ui_adaptor::redraw_invalidated( )
 {
     if( test_mode || ui_stack.empty() ) {
         return;
@@ -367,7 +367,6 @@ void ui_adaptor::redraw_invalidated( bool draw_imgui )
                 break;
             }
         }
-        bool imgui_is_on_top = ui_stack.back().get().is_imgui;
 
         // Avoid a copy if possible to improve performance. `ui_stack_orig`
         // always contains the original UI stack, and `first_enabled` always points
@@ -411,7 +410,7 @@ void ui_adaptor::redraw_invalidated( bool draw_imgui )
         if( !restart_redrawing ) {
             for( auto it = first_enabled; !needs_redraw && it != ui_stack_orig->end(); ++it ) {
                 const ui_adaptor &ui = *it;
-                if( ( ui.invalidated && ui.redraw_cb ) || ( draw_imgui && ui.is_imgui ) ) {
+                if( ( ui.invalidated || ui.is_imgui ) && ui.redraw_cb ) {
                     needs_redraw = true;
                 }
             }
@@ -456,7 +455,6 @@ void ui_adaptor::redraw_invalidated( bool draw_imgui )
 
     imclient->end_frame();
 }
-
 
 void ui_adaptor::screen_resized()
 {
