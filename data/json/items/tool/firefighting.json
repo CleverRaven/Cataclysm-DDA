@@ -99,7 +99,6 @@
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
     "melee_damage": { "bash": 42, "stab": 5 },
-    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "sm_extinguisher",
