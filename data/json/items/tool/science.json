@@ -1189,7 +1189,7 @@
     "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
     "weight": "1 g",
-    "volume": "1 ml",
+    "volume": "1ml",
     "price": 5,
     "price_postapoc": 10,
     "to_hit": -5,
