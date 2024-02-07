@@ -95,27 +95,15 @@
       "M": "f_mailbox",
       "S": "f_sink",
       "F": "f_fridge",
-      "X": [ "f_crate_c", [ "f_crate_o", 5 ] ],
       "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "7": "f_counter",
       "8": "f_cupboard",
       "9": "f_shower"
     },
-    "items": {
-      "X": [
-        { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "wood_workshop", "chance": 40, "repeat": [ 1, 3 ] },
-        { "item": "plumbing_bulk", "chance": 30, "repeat": [ 1, 2 ] }
-      ],
-      "~": [
-        { "item": "floor_trash", "chance": 20 },
-        { "item": "hardware_trash", "chance": 20 },
-        { "item": "tools_plumbing", "chance": 5 },
-        { "item": "supplies_plumbing", "chance": 10 }
-      ]
-    },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
+      "X": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "~": { "chunks": [ [ "null", 9 ], [ "construction_bathroom_plumbing", 3 ], [ "construction_bathroom_tools", 1 ] ] },
       " ": {
         "chunks": [
           [ "corpse_blood_1x1", 1 ],
