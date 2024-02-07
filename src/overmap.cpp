@@ -5056,6 +5056,18 @@ void overmap::finalize_highways()
         }
     };
 
+    // Replace singular city segments with road bridges
+    auto handle_road_bridges = []( std::vector<std::pair<int, int>> &what_to_place ) {
+        const int range = what_to_place.size();
+        for( int i = 1; i < range - 1; i++ ) {
+            if( what_to_place[i].first == 4 ) {
+                if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
+                    what_to_place[i].first = 2;
+                    what_to_place[i].second = 0;
+                }
+            }
+        }
+    };
     // TODO: Refactor into one funtion for both directions
     // TODO: Railroad and ravine handling
     if( placed_highways[1] || placed_highways[3] ) {
@@ -5074,17 +5086,8 @@ void overmap::finalize_highways()
             return;
         }
 
-        handle_ramps(what_to_place);
-
-        // Replace singular city segments with road bridges
-        for( int i = 1; i < i_range - 1; i++ ) {
-            if( what_to_place[i].first == 4 ) {
-                if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
-                    what_to_place[i].first = 2;
-                    what_to_place[i].second = 0;
-                }
-            }
-        }
+        handle_ramps( what_to_place );
+        handle_road_bridges( what_to_place );
 
         for( int i = 0; i < i_range; i++ ) {
             if( what_to_place[i].first != 0 ) {
@@ -5136,17 +5139,8 @@ void overmap::finalize_highways()
             return;
         }
 
-        handle_ramps(what_to_place);
-
-        // Replace singular city segments with road bridges
-        for( int i = 1; i < j_range - 1; i++ ) {
-            if( what_to_place[i].first == 4 ) {
-                if( what_to_place[i - 1].first != 4 && what_to_place[i + 1].first != 4 ) {
-                    what_to_place[i].first = 2;
-                    what_to_place[i].second = 0;
-                }
-            }
-        }
+        handle_ramps( what_to_place );
+        handle_road_bridges( what_to_place );
 
         for( int j = 0; j < j_range; j++ ) {
             if( what_to_place[j].first != 0 ) {
