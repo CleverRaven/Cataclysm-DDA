@@ -16,6 +16,10 @@
           ]
         }
       },
+      "construction_house_concrete_outside_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_thconc_floor", 3 ], [ "t_pit_shallow", 2 ], [ "t_region_soil", 2 ] ] }
+      },
       "construction_house_fence_type": {
         "type": "ter_str_id",
         "default": {
@@ -34,7 +38,7 @@
     },
     "toilets": { "t": {  } },
     "terrain": {
-      "c": "t_thconc_floor",
+      "c": { "param": "construction_house_concrete_outside_type", "fallback": "t_region_soil" },
       "f": { "param": "construction_house_fence_type", "fallback": "t_region_soil" },
       "g": {
         "switch": { "param": "construction_house_fence_type", "fallback": "t_region_soil" },
