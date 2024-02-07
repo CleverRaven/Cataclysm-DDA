@@ -134,6 +134,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_REVEAL_OVERMAP",
+    "name": { "str": "Like a Bird on the Wing" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to see surrounding terrain as though standing on high.",
+    "prereqs": [ "SYLPH_PER_BONUS_1" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_reveal_overmap_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,
@@ -324,6 +336,8 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
+    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
+    "prereqs2": [ "ELECTRICAL_FIELD" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
     "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
@@ -331,7 +345,7 @@
   {
     "type": "mutation",
     "id": "air_sprite",
-    "name": { "str": "Summon Air Sprite" },
+    "name": { "str": "Call the Children of the Winds" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -341,13 +355,39 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_DEX_BONUS_1",
+    "name": { "str": "Spring Breeze Stride" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "SYLPH_DEX_BONUS_2" ],
+    "prereqs": [ "SYLPH_SPEED_INCREASE" ],
+    "description": "The Sylph's moves like the wind.  +2 Dexterity.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_DEX_BONUS_2",
+    "name": { "str": "Storm-Runner's Speed" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_DEX_BONUS_1" ],
+    "prereqs2": [ "SYLPH_SPEED_INCREASE2" ],
+    "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "dex_mod": 5 }
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_INT_BONUS_1",
     "name": { "str": "Ice-Clear Thoughts" },
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
     "changes_to": [ "SYLPH_INT_BONUS_2" ],
-    "prereqs": [ "SYLPH_SKIN_2" ],
+    "prereqs": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 2 }
@@ -363,6 +403,19 @@
     "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
     "category": [ "SYLPH" ],
     "passive_mods": { "int_mod": 4 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_PER_BONUS_1",
+    "name": { "str": "Eagle's Sight" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "SYLPH_EYES" ],
+    "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
+    "category": [ "SYLPH" ],
+    "passive_mods": { "per_mod": 3 },
+    "flags": [ "ENHANCED_VISION" ]
   },
   {
     "type": "mutation",
@@ -434,5 +487,19 @@
     "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
     "time": "1 s",
     "//": "This should have a mana cost here instead of within the EoC once that's possible."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED",
+    "name": { "str": "As Free as the Wind" },
+    "points": 12,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the wind, the Sylph goes where they will with no one to stop them.  They are immune to anything that would restrict their movement, such as grabs, terrain costs, or slippery terrain.",
+    "prereqs": [ "SYLPH_DEX_BONUS_2" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
+    "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
   }
 ]

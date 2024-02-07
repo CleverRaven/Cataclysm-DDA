@@ -941,7 +941,7 @@
     "category": "<move>",
     "//": "Generic orders to move,mostly used as part of firing warnings.",
     "text": [
-      "Move",
+      { "text": { "ctxt": "<move>", "str": "Move" } },
       "Move your ass",
       "Get out of the way",
       "Shift it",

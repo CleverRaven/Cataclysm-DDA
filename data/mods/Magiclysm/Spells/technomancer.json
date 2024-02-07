@@ -320,7 +320,7 @@
     "min_damage": 15,
     "max_damage": 60,
     "damage_increment": 2.5,
-    "damage_type": "heat",
+    "damage_type": "light",
     "min_range": 10,
     "max_range": 25,
     "range_increment": 1.0
@@ -501,7 +501,7 @@
     "final_energy_cost": 500,
     "spell_class": "TECHNOMANCER",
     "energy_source": "BIONIC",
-    "damage_type": "cut",
+    "damage_type": "light",
     "difficulty": 1,
     "max_level": 30,
     "base_casting_time": 120,

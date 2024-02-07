@@ -56,12 +56,15 @@ endif ()
 add_definitions(-DCMAKE)
 
 # Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+execute_process(COMMAND ${CMAKE_COMMAND}
+    -DGIT_BINARY=${GIT_BINARY}
+    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
     ERROR_VARIABLE GIT_VERSION
+    ERROR_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
+if (GIT_VERSION)
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 else()

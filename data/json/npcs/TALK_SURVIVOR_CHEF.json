@@ -2,7 +2,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF",
-    "dynamic_line": "Hey, I didn't expect to live long enough to see another living human!",
+    "dynamic_line": {
+      "gendered_line": "Hey, I didn't expect to live long enough to see another living human!",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NC_SURVIVOR_CHEF_INTRO" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
@@ -13,7 +16,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_INTRO",
-    "dynamic_line": "I've been here since shit went down.  Just my luck I had to work.",
+    "dynamic_line": { "gendered_line": "I've been here since shit went down.  Just my luck I had to work.", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
       { "text": "How are you alive?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY1" },
@@ -25,7 +28,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_LEAVE",
-    "dynamic_line": "Well, the dishwasher made a break for it three days after things got weird.  He was ripped to shreds before he made it to the street.  I figure this place has gotta be safer than my apartment, and at least I've got all this food here.",
+    "dynamic_line": {
+      "gendered_line": "Well, the dishwasher made a break for it three days after things got weird.  He was ripped to shreds before he made it to the street.  I figure this place has gotta be safer than my apartment, and at least I've got all this food here.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
@@ -36,7 +42,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY1",
-    "dynamic_line": "I… um… hid.  I was in the kitchen, preparing another masterpiece when I heard glass shattering followed by screaming.  I ran over to the serving window to see what happened, assuming a guest had fallen and broke something.  What I witnessed was the most awful thing I've ever seen.  I'm not even sure I could go over it again.",
+    "dynamic_line": {
+      "gendered_line": "I… um… hid.  I was in the kitchen, preparing another masterpiece when I heard glass shattering followed by screaming.  I ran over to the serving window to see what happened, assuming a guest had fallen and broke something.  What I witnessed was the most awful thing I've ever seen.  I'm not even sure I could go over it again.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What happened next?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY2" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
@@ -47,7 +56,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY2",
-    "dynamic_line": "Some lunatic covered in a film of goo, black as oil, had fallen through one of the large glass windows.  There were glass shards stuck in its head and neck.  I thought the poor guy, girl-thing-whatever was dead.  People began to crowd around it, some were taking pictures.",
+    "dynamic_line": {
+      "gendered_line": "Some lunatic covered in a film of goo, black as oil, had fallen through one of the large glass windows.  There were glass shards stuck in its head and neck.  I thought the poor guy, girl-thing-whatever was dead.  People began to crowd around it, some were taking pictures.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Horrible.  Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
@@ -58,7 +70,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY3",
-    "dynamic_line": "No!  I figured the thing dead until it started writhing and spazzing out for a moment.  Everyone jumped back, a few screamed, and one curious stranger stepped in closer, kneeling a little… it attacked him!",
+    "dynamic_line": {
+      "gendered_line": "No!  I figured the thing dead until it started writhing and spazzing out for a moment.  Everyone jumped back, a few screamed, and one curious stranger stepped in closer, kneeling a little… it attacked him!",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What'd you do?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY4" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
@@ -69,7 +84,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY4",
-    "dynamic_line": "I ran to the back of the kitchen and hid as best I could.  People outside were screaming and I could hear them running.  Suddenly I heard more glass shatter and something skitter out of the restaurant.  I waited a moment and then went and checked the dining area.  Both the stranger and the thing were gone.  People were running in the streets, some even had guns so I locked all the doors and blocked the windows with what I could and barricaded myself in here.",
+    "dynamic_line": {
+      "gendered_line": "I ran to the back of the kitchen and hid as best I could.  People outside were screaming and I could hear them running.  Suddenly I heard more glass shatter and something skitter out of the restaurant.  I waited a moment and then went and checked the dining area.  Both the stranger and the thing were gone.  People were running in the streets, some even had guns so I locked all the doors and blocked the windows with what I could and barricaded myself in here.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Crazy, so you have been here ever since?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY5" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
@@ -80,7 +98,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY5",
-    "dynamic_line": "Yeah, it was awhile before it was quiet again.  I heard all kinds of sounds: explosions, jets flying by, helicopters, screaming, and rapid gunfire.  I swear I even heard what sounded like a freaking tank drive by at one time!  I've been hiding here since.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, it was awhile before it was quiet again.  I heard all kinds of sounds: explosions, jets flying by, helicopters, screaming, and rapid gunfire.  I swear I even heard what sounded like a freaking tank drive by at one time!  I've been hiding here since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
@@ -90,7 +111,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_EXPERTISE",
-    "dynamic_line": "I've been a cook since forever, this wasn't the best joint, but management was cool.",
+    "dynamic_line": {
+      "gendered_line": "I've been a cook since forever, this wasn't the best joint, but management was cool.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },

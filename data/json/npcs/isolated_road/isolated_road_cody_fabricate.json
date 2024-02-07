@@ -12,9 +12,10 @@
     "id": "TALK_BLACKSMITH_FABRICATE",
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank, or I can make you a suit of chainmail instead if you want a little more flexibility.  Materials costs are 300 merch to pay for the food I need to do the labor plus 100 merch per 2mm or 50 merch for the chainmail.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
-    ],
+    "dynamic_line": {
+      "gendered_line": "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank, or I can make you a suit of chainmail instead if you want a little more flexibility.  Materials costs are 300 merch to pay for the food I need to do the labor plus 100 merch per 2mm or 50 merch for the chainmail.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
@@ -376,9 +377,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS",
-    "dynamic_line": [
-      "Yeah; the designs you showed me call for 'em.  Not sure what they are myself, but the pictures are real descriptive about how to use them.  To make anything, I'll need one of each of those wire kits.  Got any?"
-    ],
+    "dynamic_line": {
+      "gendered_line": "Yeah; the designs you showed me call for 'em.  Not sure what they are myself, but the pictures are real descriptive about how to use them.  To make anything, I'll need one of each of those wire kits.  Got any?",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "Here you go.  [Hand over a CBM interface wire kit and an external climate control kit.]",
@@ -396,6 +398,9 @@
   {
     "type": "talk_topic",
     "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY",
-    "dynamic_line": [ "Thanks, sugar!  If you ever have me make some armor, just let me know if you want me to use these in it." ]
+    "dynamic_line": {
+      "gendered_line": "Thanks, sugar!  If you ever have me make some armor, just let me know if you want me to use these in it.",
+      "relevant_genders": [ "u" ]
+    }
   }
 ]

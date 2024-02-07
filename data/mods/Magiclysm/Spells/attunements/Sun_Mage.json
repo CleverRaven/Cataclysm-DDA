@@ -9,7 +9,7 @@
     "effect": "attack",
     "shape": "line",
     "effect_str": "blind",
-    "damage_type": "heat",
+    "damage_type": "light",
     "min_damage": 20,
     "damage_increment": 7.5,
     "max_damage": 280,

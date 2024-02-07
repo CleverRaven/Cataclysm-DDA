@@ -65,8 +65,14 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
-        "no": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>."
+        "yes": {
+          "gendered_line": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
+          "relevant_genders": [ "npc" ]
+        },
+        "no": {
+          "gendered_line": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>.",
+          "relevant_genders": [ "npc" ]
+        }
       }
     },
     "speaker_effect": {
@@ -107,7 +113,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safety",
-    "dynamic_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
+    "dynamic_line": {
+      "gendered_line": "Help?  Help with what?  Oh, yes, yes.  If you know a place with many survivors, can you take me there?  I doubt I can survive alone…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's go.",
@@ -152,13 +161,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_safe",
-    "dynamic_line": "I'm glad you still alive.",
+    "dynamic_line": { "gendered_line": "I'm glad you still alive.", "relevant_genders": [ "npc" ] },
     "responses": [ { "text": "Me too.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_Background",
-    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "dynamic_line": {
+      "gendered_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {

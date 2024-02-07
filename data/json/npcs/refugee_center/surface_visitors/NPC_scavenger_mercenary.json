@@ -83,7 +83,11 @@
   {
     "id": "TALK_SCAVENGER_MERC",
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "I haven't done anything wrong…", "no": "…" },
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": { "gendered_line": "I haven't done anything wrong…", "relevant_genders": [ "npc" ] },
+      "no": "…"
+    },
     "responses": [
       { "text": "Who are you?", "topic": "TALK_SCAVENGER_MERC_NEW" },
       { "text": "Any tips for surviving?", "topic": "TALK_SCAVENGER_MERC_TIPS" },

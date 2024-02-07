@@ -48,16 +48,23 @@ def parse_dynamic_line(json, origin, comment=[]):
             text = json["gendered_line"]
             subjects = json["relevant_genders"]
             options = [gender_options(subject) for subject in subjects]
+            gendered_comment = [
+                *comment,
+                "You don't need to translate genders that "
+                "aren't in your language",
+                "Check: https://github.com/CleverRaven/"
+                "Cataclysm-DDA/blob/master/doc/"
+                "TRANSLATING.md#grammatical-gender"]
             for context_list in itertools.product(*options):
                 context = " ".join(context_list)
                 write_text(text, origin, context=context,
-                           comment=comment, c_format=False)
+                           comment=gendered_comment, c_format=False)
 
         for key in dynamic_line_string_keys:
             if key in json:
                 parse_dynamic_line(json[key], origin, comment=comment)
 
-    elif type(json) == str:
+    elif type(json) is str:
         if not is_tag(json):
             write_text(json, origin, comment=comment, c_format=False)
 

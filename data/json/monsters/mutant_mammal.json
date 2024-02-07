@@ -677,5 +677,23 @@
     "harvest": "dog_small_with_skull",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_thrasher" },
     "extend": { "flags": [ "NO_BREED" ] }
+  },
+  {
+    "id": "mon_raccoon_mutant",
+    "type": "MONSTER",
+    "name": { "str": "dextrous raccoon" },
+    "description": "Their paws have grown to be longer, also enabling them to briefly stand on their back legs.  You wonder if these sleazy beasts are able to open doors yet.",
+    "copy-from": "mon_raccoon",
+    "volume": "10000 ml",
+    "weight": "10 kg",
+    "hp": 21,
+    "color": "white",
+    "aggression": 0,
+    "morale": 20,
+    "melee_skill": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "harvest": "raccoon_with_skull",
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "extend": { "flags": [ "NO_BREED", "CAN_OPEN_DOORS" ] }
   }
 ]
