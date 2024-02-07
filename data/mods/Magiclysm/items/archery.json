@@ -87,7 +87,7 @@
     "looks_like": "arrow_heavy_fire_hardened_fletched",
     "description": "An arrow with a fragment of a druid rune in the arrowhead.  It unleashes a storm of entangling vegetation when it strikes.",
     "material": [ { "type": "wood", "portion": 81 }, { "type": "steel", "portion": 19 } ],
-    "volume": "900 ml",
+    "volume": "90 ml",
     "price_postapoc": 100,
     "weight": "32 g",
     "longest_side": "76 cm",
@@ -96,7 +96,6 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.45, "armor_penetration": 1 },
     "dispersion": 110,
     "loudness": 0,
-    "count": 10,
     "show_stats": true,
     "critical_multiplier": 10,
     "effects": [ "TANGLE", "RECOVER_7" ]
