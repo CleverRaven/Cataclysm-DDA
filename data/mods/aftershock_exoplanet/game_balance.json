@@ -12,5 +12,12 @@
     "info": "The scenario selected by default in the character creator menu.",
     "stype": "string_input",
     "value": "escape_pod"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "info": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]
