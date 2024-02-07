@@ -24,7 +24,7 @@
     "type": "palette",
     "id": "construction_all_variants",
     "//": "Random spawn inside in-construction houses",
-    "terrain": { ",": "t_floor", "a": "t_thconc_floor", "`": "t_thconc_floor" },
+    "terrain": { ",": "t_floor", "a": "t_thconc_floor", "`": "t_thconc_floor", "X": "t_floor", "x": "t_thconc_floor" },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
       ",": {
@@ -115,7 +115,10 @@
       ],
       "{": "f_null"
     },
-    "nested": { "X": { "chunks": [ [ "null", 5 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] } }
+    "nested": {
+      "X": { "chunks": [ [ "null", 5 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 5 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] }
+    }
   },
   {
     "type": "palette",
@@ -183,7 +186,10 @@
       "M": "f_null",
       "{": "f_null"
     },
-    "nested": { "X": { "chunks": [ [ "null", 4 ], [ "construction_crate_open", 4 ], [ "construction_crate_closed", 1 ] ] } }
+    "nested": {
+      "X": { "chunks": [ [ "null", 4 ], [ "construction_crate_open", 4 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 4 ], [ "construction_crate_open", 4 ], [ "construction_crate_closed", 1 ] ] }
+    }
   },
   {
     "type": "palette",
@@ -254,6 +260,7 @@
     },
     "nested": {
       "X": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
       "~": { "chunks": [ [ "null", 9 ], [ "construction_bathroom_plumbing", 3 ], [ "construction_bathroom_tools", 1 ] ] }
     }
   },
@@ -368,6 +375,7 @@
     },
     "nested": {
       "X": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 2 ] ] },
+      "x": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 2 ] ] },
       "~": { "chunks": [ [ "null", 10 ], [ "construction_bathroom_plumbing", 3 ], [ "construction_bathroom_tools", 1 ] ] }
     }
   }
