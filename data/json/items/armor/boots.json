@@ -1994,11 +1994,11 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 50, "thickness": 1.5 },
-          { "type": "plastic", "covered_by_mat": 95, "thickness": 1.5 }
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "encumbrance": 10,
-        "coverage": 25
+        "coverage": 50
       },
       {
         "covers": [ "foot_l", "foot_r" ],
