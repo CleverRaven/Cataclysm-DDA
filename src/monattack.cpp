@@ -98,6 +98,7 @@ static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
@@ -1071,15 +1072,16 @@ bool mattack::boomer( monster *z )
             return true;
         }
     }
-
+    // This is all test stuff and will get removed before this PR is merged.
+    // I'm just making sure the function works before I try to move it to mattack.
     if( !target->dodge_check( z, 1.0f ) ) {
         if( target->is_monster() ) {
             target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             } else {
                 bodypart_id bp = target->random_body_part();
                 add_msg( m_warning, _( "Bile splatters across your %s!" ), body_part_name_accusative( bp ) );
-                target->as_character()->worn.splash_attack( *target->as_character(), bp, 30, json_flag_FILTHY, effect_boomered,
-                                       12_turns, false, 3 );
+                target->as_character()->worn.splash_attack( *target->as_character(), bp, 60, json_flag_FILTHY, effect_boomered,
+                                       12_turns, false, 3, false, false, damage_unit( damage_heat, 5.0f, 0.f ), true, true );
                 }
         } else if( u_see ) {
                 target->add_msg_player_or_npc( _( "You dodge it!" ),

@@ -1960,7 +1960,7 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
         }
         const std::string pre_damage_name = armor.tname();
         if( outermost ) {
-            if( rng( 1, 100 ) <= armor.get_coverage( bp ) ) {
+            if( rng( 1, 100 ) <= armor.get_coverage( bp ) && fluid_remaining > 0 ) {
                 // The item has intercepted the splash to protect its wearer,
                 // now we roll to see if it's affected.
                 add_msg( m_bad, _( "Splash has hit %s." ),
@@ -1969,9 +1969,8 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
                 // rng cap is high here so there's always a decent chance your item comes out ok
                 if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < fluid_remaining ) {
                     // Apply filth or whatever to the item. TODO: Can this use the magic system?
-                    add_msg( m_bad, _( "Rolled under, setting flag on %s." ),
-                             armor.tname() );
                     if( apply_flag != flag_NULL ) {
+                        add_msg( m_bad, _( "Resist roll failed.  It got filthy!" ) );
                         armor.set_flag( apply_flag );
                     }
                     // If this is a damaging liquid, the damage is relative to fluid_remaining
@@ -2017,26 +2016,27 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
                 }
                     // Whether or not the item was affected by the fluid, it still blocked some or all of it.
                     // Breathability can help fluid soak through. As we lose fluid, we lose damage potential.
-                    fluid_remaining -= std::max( 0, ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
+                    fluid_remaining = std::max( 0, fluid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
                     add_msg( m_bad, _( "Fluid remaining: %s." ),
                              fluid_remaining );
                     elem.amount *= fluid_remaining / fluid_amount;
-
             }
         }
         ++iter;
         outermost = false;
     }
     if( eff_id != effect_null ) {
-        if( intensity > 1 ) {
-            intensity = round( intensity * ( fluid_remaining / fluid_amount ) );
-            add_msg( m_bad, _( "Intensity reduced to %s." ),
-                     intensity );
+        intensity = std::ceil( intensity * ( fluid_remaining / fluid_amount ) );
+        add_msg( m_bad, _( "Final effect intensity: %s." ),
+                  intensity );
+        if( intensity >= 1 ) {
+            guy.add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, force, deferred );
+        } else {
+            add_msg( m_bad, _( "Effect averted due to zero intensity." ) );
         }
-        guy.add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, force, deferred );
     }
     if( fluid_remaining == fluid_amount ) {
-                    add_msg( m_bad, _( "Attack hit you without touching any armor" ) );
+        add_msg( m_bad, _( "Splash hit your skin without touching any armor." ) );
     }
     // If any containers were destroyed, dump the contents on the ground
     map &here = get_map();
