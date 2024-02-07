@@ -98,7 +98,8 @@
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
-    "melee_damage": { "bash": 42, "stab": 5 }
+    "melee_damage": { "bash": 42, "stab": 5 },
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "sm_extinguisher",
@@ -220,6 +221,7 @@
     "to_hit": -1,
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "melee_damage": { "bash": 15, "stab": 13 }
+    "melee_damage": { "bash": 15, "stab": 13 },
+    "weapon_category": [ "BATONS", "HOOKING_WEAPONRY" ]
   }
 ]
