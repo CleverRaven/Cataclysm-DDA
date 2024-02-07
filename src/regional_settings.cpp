@@ -446,10 +446,10 @@ static void load_overmap_highway_settings( const JsonObject &jo,
         }
     } else {
         JsonObject overmap_highway_settings_jo = jo.get_object( "overmap_highway_settings" );
-        read_and_set_or_throw<int>( overmap_highway_settings_jo, "frequency_x",
-                                    overmap_highway_settings.frequency_x, !overlay );
-        read_and_set_or_throw<int>( overmap_highway_settings_jo, "frequency_y",
-                                    overmap_highway_settings.frequency_y, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "grid_column_seperation",
+                                    overmap_highway_settings.grid_column_seperation, !overlay );
+        read_and_set_or_throw<int>( overmap_highway_settings_jo, "grid_row_seperation",
+                                    overmap_highway_settings.grid_row_seperation, !overlay );
         read_and_set_or_throw<int>( overmap_highway_settings_jo, "width_of_segments",
                                     overmap_highway_settings.width_of_segments, !overlay );
         read_and_set_or_throw<oter_type_str_id>( overmap_highway_settings_jo, "reserved_terrain_id",

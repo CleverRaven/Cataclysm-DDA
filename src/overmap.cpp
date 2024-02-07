@@ -4809,10 +4809,10 @@ void overmap::place_highways()
             return; // This should never happen but would break everything
         }
     }
-    // Distance in overmaps between vertical highways ( whole overmap gap of frequency_x - 1 )
-    const int &frequency_x = settings->overmap_highway.frequency_x;
-    // Distance in overmaps between horizontal highways ( whole overmap gap of frequency_x - 1 )
-    const int &frequency_y = settings->overmap_highway.frequency_y;
+    // Distance in overmaps between vertical highways ( whole overmap gap of column_seperation - 1 )
+    const int &c_seperation = settings->overmap_highway.grid_column_seperation;
+    // Distance in overmaps between horizontal highways ( whole overmap gap of row_seperation - 1 )
+    const int &r_seperation = settings->overmap_highway.grid_row_seperation;
     // Width of segments
     const int &segment_width = settings->overmap_highway.width_of_segments;
     // Id of OMT to use until finalize_highways()
@@ -4821,7 +4821,7 @@ void overmap::place_highways()
     const oter_type_str_id &reserved_terrain_water_id =
         settings->overmap_highway.reserved_terrain_water_id;
     const int placed_highways_size = static_cast<int>( placed_highways.size() );
-    if( frequency_x == 0 && frequency_y == 0 ) {
+    if( c_seperation == 0 && r_seperation == 0 ) {
         debugmsg( "Use the external option OVERMAP_PLACE_HIGHWAYS to disable highways instead" );
         return;
     }
@@ -4838,13 +4838,13 @@ void overmap::place_highways()
 
     // Use the global seed to calculate an offset for the grid so there's no guaranteed intersection at the 0,0 overmap
     if( !g->highway_global_offset_calculated ) {
-        g->set_highway_global_offset( frequency_x, frequency_y );
+        g->set_highway_global_offset( c_seperation, r_seperation );
     }
     // TODO: Offset within the overmap too?
     const std::pair<int, int> &offset = g->get_highway_global_offset();
     // TODO: Refactor the x and y into a single function?
     // Place a highway if we're at the right distance from the last or if there's ocean next
-    if( frequency_x > 0 && ( ( this_om_x + offset.second ) % frequency_x == 0 ||
+    if( c_seperation > 0 && ( ( this_om_x + offset.second ) % c_seperation == 0 ||
                              ocean_next_north ||
                              ocean_next_south ) ) {
         const int i = floor( OMAPX / 2.0 );
@@ -4866,7 +4866,7 @@ void overmap::place_highways()
             }
         }
     }
-    if( frequency_y > 0 && ( ( this_om_y + offset.first ) % frequency_y == 0 ||
+    if( r_seperation > 0 && ( ( this_om_y + offset.first ) % r_seperation == 0 ||
                              ocean_next_east ||
                              ocean_next_west ) ) {
         placed_highways[1] = !ocean_next_east;

@@ -425,8 +425,8 @@ on the overmap including the specials containing the maps used.
 
 |               Identifier          |                              Description                               
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `frequency_x`                     | The distance between north-south highways in overmaps, with the whole overmap gap being `frequency_x` - 1. 0 disables north-south highways.                                                                                                  |
-| `frequency_y`                     | The distance between east-west highways in overmaps, with the whole overmap gap being `frequency_y` - 1. 0 disables east-west highways.                                                                                                      |
+| `grid_column_seperation`          | The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1. 0 disables north-south highways.                                                                                       |
+| `grid_row_seperation`             | The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1. 0 disables east-west highways.                                                                                              |
 | `width_of_segments`               | The width of the segments defined below in `om_terrain`s. Used to tell the C++ what width the segments provided are, not to change the width placed.                                                                                         |
 | `reserved_terrain_id`             | The `om_terrain` used to reserve land and air for highways before their actual `om_terrain` placement.                                                                                                                                       |
 | `reserved_terrain_water_id`       | The `om_terrain` used to reserve water for highways before their actual `om_terrain` placement.                                                                                                                                              |
@@ -447,8 +447,8 @@ on the overmap including the specials containing the maps used.
 
 ```json
     "overmap_highway_settings": {
-      "frequency_x": 1,
-      "frequency_y": 1,
+      "grid_column_seperation": 1,
+      "grid_row_seperation": 1,
       "width_of_segments": 2,
       "reserved_terrain_id": "highway_reserved",
       "reserved_terrain_water_id": "highway_reserved_water",

@@ -246,8 +246,8 @@ struct overmap_connection_settings {
 };
 
 struct overmap_highway_settings {
-    int frequency_x = 5;
-    int frequency_y = 5;
+    int grid_column_seperation = 5;
+    int grid_row_seperation = 5;
     int width_of_segments = 2;
     oter_type_str_id reserved_terrain_id;
     oter_type_str_id reserved_terrain_water_id;
