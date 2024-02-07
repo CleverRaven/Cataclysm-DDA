@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "colony.h"
@@ -166,6 +167,8 @@ static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -1070,7 +1073,22 @@ bool mattack::boomer( monster *z )
     }
 
     if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+        if( target.is_monster() ) {
+            target->add_liquid_effect( effect_boomered, 3, 12_turns );
+        }
+    } else {
+        // Go for the eyes, boomer!
+        if( rng( 1, z->type->melee_skill ) < 10 ) {
+            const bodypart_id &bp = target->bodypart_id( "eyes" );
+        } else {
+            const bodypart_id &bp = target->random_body_part();
+        }
+        if( u_see ) {
+            target->add_msg_player_or_npc( _( "Bile splatters across your %s!" ),
+                                           _( "Bile splatters across <npcname>'s %s!" ), bp );
+        }
+        target->splash_attack( target, ( damage_acid, 0.f ), json_flag_FILTHY, bp, 30, effect_boomered,
+                               12_turns, 3 );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );

@@ -3287,7 +3287,10 @@ void monster::process_effects()
             if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
                 intensity++;
             }
-            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
+            if( has_flag( mon_flag_STUMBLES ) ) {
+                intensity++;
+            }
+            int slipchance = ( round( get_speed() / 50 ) - get_dodge() / 2 );
             if( intensity + slipchance > dice( 1, 12 ) ) {
                 add_effect( effect_downed, rng( 1_turns, 2_turns ) );
                 add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),

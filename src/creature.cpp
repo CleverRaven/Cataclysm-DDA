@@ -1714,7 +1714,6 @@ bool Creature::add_liquid_effect( const efftype_id &eff_id, const bodypart_id &v
         add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, true );
         return true;
     } else {
-        //To do: make absorbent armor filthy, damage it with acid, etc
         return false;
     }
 }
