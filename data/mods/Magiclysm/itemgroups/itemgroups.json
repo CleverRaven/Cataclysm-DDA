@@ -746,7 +746,9 @@
       { "item": "mbelt_pockets_greater", "prob": 5 },
       { "item": "mbelt_weaponry", "prob": 10 },
       { "item": "mbelt_technomancer_toolbelt", "prob": 5 },
-      { "item": "mbelt_iron_whip", "prob": 5 }
+      { "item": "mbelt_iron_whip", "prob": 5 },
+      { "item": "quiver_of_holding_plus_one", "prob": 5 },
+      { "item": "quiver_of_holding_plus_two", "prob": 1 }
     ]
   },
   {

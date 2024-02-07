@@ -707,7 +707,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -727,7 +727,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -747,7 +747,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -767,7 +767,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -787,7 +787,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -808,7 +808,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -829,7 +829,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [
@@ -849,7 +849,7 @@
     "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [

@@ -85,7 +85,7 @@
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
-    "description": "An arrow with a fragment of a druid rune in the arrowhead. It unleashes a storm of entangling vegetation when it strikes.",
+    "description": "An arrow with a fragment of a druid rune in the arrowhead.  It unleashes a storm of entangling vegetation when it strikes.",
     "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 25,
