@@ -4223,26 +4223,31 @@ void overmap::fill_city_boundaries()
     std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_new = city_boundaries;
     std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_to_check;
     std::vector<std::pair<int, int>> to_change;
-    std::function<bool( int x, int y )> check_neighbour;
+    std::function<bool( int x, int y )> check_neighbor;
     std::function<bool( int x, int y )> check_all_neighbors;
 
     auto is_overmap_edge = []( int x, int y ) {
         return x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1;
     };
 
-    check_neighbour = [&city_boundaries_to_check, &is_overmap_edge, &check_neighbour,
-                               &check_all_neighbors]( int x, int y ) {
+    check_neighbor = [&city_boundaries_to_check, &is_overmap_edge, &check_all_neighbors]( int x,
+    int y ) {
+        // TODO: Remove after testing
+        if( x < 0 || y < 0 || x >= OMAPX || y >= OMAPY ) {
+            debugmsg( "fill_city_boundaries() out of bounds ( %s, %s )", x, y );
+            return false;
+        }
         return city_boundaries_to_check[x][y] && ( is_overmap_edge( x, y ) || check_all_neighbors( x, y ) );
     };
 
     check_all_neighbors = [&city_boundaries_to_check, &to_change, &is_overmap_edge,
-                               &check_all_neighbors, &check_neighbour]( int x, int y ) {
+                               &check_neighbor]( int x, int y ) {
         to_change.push_back( { x, y } );
         city_boundaries_to_check[x].reset( y );
-        bool ret = check_neighbour( x - 1, y );
-        ret |= check_neighbour( x + 1, y );
-        ret |= check_neighbour( x, y - 1 );
-        ret |= check_neighbour( x, y + 1 );
+        bool ret = check_neighbor( x - 1, y );
+        ret |= check_neighbor( x + 1, y );
+        ret |= check_neighbor( x, y - 1 );
+        ret |= check_neighbor( x, y + 1 );
         return ret;
     };
 
@@ -4902,8 +4907,10 @@ void overmap::place_highways()
                 }
             }
         }
-        if( place_special( *special, nw_corner, dir, invalid_city, false,
-                           false ).size() == 0 ) {
+        if( can_place_special( *special, nw_corner, dir, false ) ) {
+            place_special( *special, nw_corner, dir, invalid_city, false,
+                           false );
+        } else {
             debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
         }
     }
