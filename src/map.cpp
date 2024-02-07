@@ -9045,7 +9045,7 @@ void map::build_obstacle_cache(
             continue;
         }
         // TODO: scale this with expected creature "thickness".
-        obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
+        obstacle_cache[loc.x][loc.y].velocity = 1.2f;
         // ranged_target_size is "proportion of square that is blocked", and density needs to be
         // "transmissivity of square", so we need the reciprocal.
         obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
