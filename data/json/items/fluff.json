@@ -383,8 +383,6 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-
-  {
     "id": "small_checkboard",
     "type": "GENERIC",
     "category": "other",
