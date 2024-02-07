@@ -1963,9 +1963,11 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "55 m",
+    "time": "2h",
     "reversible": true,
     "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking" } ],
     "components": [
       [ [ "acidchitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
