@@ -1677,9 +1677,13 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
-                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
-                             c_red ) ) : denial, denial_width ) );
+                /* Need to determine exact point to start printing from the left, since just trimming produces
+                 * artifacts on languages with wide characters, and right_print expects only a second column */
+                std::string trimmed = trim_by_length( denial, denial_width );
+                const int x = p.x + get_width() - utf8_width( remove_color_tags( trimmed ) );
+                nc_color temp = c_red;
+                print_colored_text( win, point( x, yy ), temp, c_red,
+                                    selected ? hilite_string( colorize( trimmed, c_red ) ) : trimmed );
                 entry.cached_denial_space = denial_width;
             }
         }
