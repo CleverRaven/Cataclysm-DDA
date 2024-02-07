@@ -37,7 +37,7 @@
     "variants": [
       {
         "id": "rpk74mag",
-        "name": { "str": "AK-74 45-round banana magazine" },
+        "name": { "str": "AK-74 45-round magazine" },
         "description": "Originally built to feed Soviet RPK-74 light machine guns, this curved 45-round box magazine possesses an aggressive waffle texture pattern and also fits other Kalashnikov-based long guns, namely the AK-74 and modern civilian legal variants."
       }
     ],
