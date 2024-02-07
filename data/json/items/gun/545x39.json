@@ -1,30 +1,31 @@
 [
   {
-    "id": "rak74",
+    "id": "ak74_semi",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "5.45mm fighting rifle" },
-    "description": "Flaunting classically iconic lines and a profile instantly recognisable to any viewer, this American semi-automatic weapon is a replica of the AK-47 rifle’s technological descendant, the AK-74, a weapon with more notable differences from its elder sibling than simply flipping the order of its name’s numbers.  Firing the rare, at least for the United States, 5.45x39mm Soviet cartridge, this clone makes use of original AK-74 banana magazines.  Considering the scarcity of its munitions, you might be obliged to resort to hand-loading your own ammunition.",
+    "description": "Flaunting classically iconic lines and a profile instantly recognisable to any viewer, this American semi-automatic weapon is a replica of the AK-47 rifle’s technological descendant, the AK-74, a weapon with more notable differences from its elder sibling than simply flipping the order of its name’s numbers.  Firing the rare, at least for the United States, 5.45x39mm Soviet cartridge, this clone makes use of original 5.45mm banana magazines.  Considering the scarcity of its munitions, you might be obliged to resort to hand-loading your own ammunition.",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "rak74_c",
-        "name": { "str": "Riley Defense RAK74-C", "str_pl": "Riley Defense RAK74-C rifles" },
-        "description": "A rifle of the Cold War, or at least a dead ringer for it, this weapon is a semi-automatic clone of the Soviet Union’s standard assault rifle following 1974 and which served in Russia's Afghan conflict, creatively designated as the Kalashnikov AK-74.  Built by Riley Defence from a Bulgarian parts kit and fitted with a fixed wooden buttstock, a side-mounted optics rail, and a barrel threaded for suppressors, the rifle's chambered for the Russian 5.45x39mm cartridge and feeds from original AK-74 magazines.  A Communist gun built in Capitalist America to, in the present, fight eldritch zombies; bar hoofing it to eastern Europe, The RAK74's likely the closest you’ll ever get to laying your palms on a Russian Kalashnikov."
+        "id": "ak74_fixed",
+        "name": { "str": "Kalashnikov AK-74", "str_pl": "Kalashnikov AK-74 rifles" },
+        "description": "A rifle of the Cold War, or at least a dead ringer for it, this weapon is a semi-automatic clone of the Soviet Union’s standard assault rifle following 1974 and which served in Russia's Afghan conflict, creatively designated as the Kalashnikov AK-74.  Either a locally-built replica or produced from an imported, foreign parts kit, fitted with a fixed wooden buttstock, a side-mounted optics rail, and a barrel threaded for suppressors, the rifle's chambered for the Russian 5.45x39mm cartridge and feeds from original AK-74 magazines.  A Communist gun built in Capitalist America to, in the present, fight eldritch zombies; bar hoofing it to eastern Europe, the weapon's likely the closest you’ll ever get to laying your palms on a Russian Kalashnikov."
       },
       {
-        "id": "rak74_folding",
-        "name": { "str": "Riley Defense RAK-74-C-SF", "str_pl": "Riley Defense RAK-74-C-SF rifles" },
-        "description": "A mishmash of letters and numbers, an American copy of a Soviet assault rifle, a strange piece of ordinance using some weird proprietary Russian ammunition—all these terms and more can describe the rifle that sits before you: a semi-automatic clone of the Kalashnikov AK-74, the descendent of the iconic AKM.  Built by Riley Defence and possessing a triangular, folding buttstock, a side-mounted optics rail, and a threaded barrel for attaching muzzle devices, the RAK74-C-SF fires the Soviet 5.45x39mm cartridge—a unicorn even in the American gun wilderness—and feeds said unicorn ammunition from original AK-74 banana magazines."
+        "id": "ak74_folding",
+        "name": { "str": "Kalashnikov AKS-74", "str_pl": "Kalashnikov AKS-74 rifles" },
+        "description": "A mishmash of letters and numbers, an American copy of a Soviet assault rifle, a strange piece of ordinance using some weird proprietary Russian ammunition—all these terms and more can describe the rifle that sits before you: a semi-automatic clone of the Kalashnikov AKS-74, the descendent of the iconic AKM.  Either a locally-built replica or produced from an imported, foreign parts kit, the firearm possesses a triangular, folding buttstock, a side-mounted optics rail, and a threaded barrel for attaching muzzle devices.  True to its military progenitor, the weapon fires the Soviet 5.45x39mm cartridge—a unicorn even in the American gun wilderness—and feeds said unicorn ammunition from original AK-74 banana magazines."
       }
     ],
     "weight": "3400 g",
     "volume": "2418 ml",
     "longest_side": "895 mm",
     "barrel_length": "413 mm",
-    "price": 390000,
-    "price_postapoc": 4000,
+    "//": "Based off of the Riley Defence RAK74-C and RAK74-C-SF, respectively.",
+    "price": 111500,
+    "price_postapoc": 3500,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "brown",

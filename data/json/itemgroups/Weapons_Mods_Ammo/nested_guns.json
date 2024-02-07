@@ -1989,25 +1989,31 @@
     ]
   },
   {
-    "id": "nested_rak74_c",
+    "id": "nested_ak74",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "rak74", "variant": "rak74_c", "charges-min": 0, "charges-max": 30 },
+      { "item": "ak74_semi", "variant": "ak74_fixed", "charges-min": 0, "charges-max": 30 },
       { "item": "ak74mag" },
       { "item": "ak74mag", "prob": 50 },
       { "group": "on_hand_545x39" }
     ]
   },
   {
-    "id": "nested_rak74_folding",
+    "id": "nested_aks74",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "rak74", "variant": "rak74_folding", "contents-group": "rak74_folding_mods", "prob": 1, "charges": [ 0, 30 ] },
+      {
+        "item": "ak74_semi",
+        "variant": "ak74_folding",
+        "contents-group": "ak74_folding_mods",
+        "prob": 1,
+        "charges": [ 0, 30 ]
+      },
       { "item": "ak74mag" },
       { "item": "ak74mag", "prob": 50 },
       { "group": "on_hand_545x39" }

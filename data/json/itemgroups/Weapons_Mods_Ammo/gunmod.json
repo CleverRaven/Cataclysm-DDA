@@ -131,8 +131,8 @@
   },
   {
     "type": "item_group",
-    "id": "rak74_folding_mods",
-    "//": "Default mods for the RAK74-C-SF variant of the 5.45x39mm fighting rifle",
+    "id": "ak74_folding_mods",
+    "//": "Default mods for the Kalashnikov AKS-74 variant of the 5.45x39mm fighting rifle",
     "subtype": "collection",
     "entries": [ { "item": "folding_stock" } ]
   },
