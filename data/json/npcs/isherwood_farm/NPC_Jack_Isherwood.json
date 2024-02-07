@@ -149,7 +149,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello traveler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+      "no": { "gendered_line": "Hello traveler, what brings you here?", "relevant_genders": [ "u" ] }
     },
     "responses": [
       {

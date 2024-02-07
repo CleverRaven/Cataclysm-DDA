@@ -108,7 +108,10 @@
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
       "yes": "Oh nice.  Crunchings and munchings.  That's a cool, a cool thing.",
-      "no": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that."
+      "no": {
+        "gendered_line": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that.",
+        "relevant_genders": [ "u" ]
+      }
     },
     "responses": [
       { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },

@@ -180,7 +180,7 @@
   {
     "id": "TALK_DEMAND_LEAVE",
     "type": "talk_topic",
-    "dynamic_line": "Now get out of here, before I kill you.",
+    "dynamic_line": { "gendered_line": "Now get out of here, before I kill you.", "relevant_genders": [ "npc" ] },
     "responses": [ { "text": "Okay, I'm going.", "topic": "TALK_DONE", "effect": "player_leaving", "opinion": { "fear": -1 } } ]
   }
 ]

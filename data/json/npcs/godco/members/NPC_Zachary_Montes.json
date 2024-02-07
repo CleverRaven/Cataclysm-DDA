@@ -21,7 +21,7 @@
   {
     "id": "TALK_GODCO_Zachary",
     "type": "talk_topic",
-    "dynamic_line": "I got my rights to be here, chum.  Squatter's rights!",
+    "dynamic_line": { "gendered_line": "I got my rights to be here, chum.  Squatter's rights!", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Don't worry, I'm not going to hurt you.",
@@ -77,7 +77,10 @@
   {
     "id": "TALK_GODCO_Zachary_Story0",
     "type": "talk_topic",
-    "dynamic_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+    "dynamic_line": {
+      "gendered_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Zachary_Background" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -123,7 +126,10 @@
   {
     "id": "TALK_GODCO_Zachary_Result_rewardIcon",
     "type": "talk_topic",
-    "dynamic_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work, I say the system's broken!",
+    "dynamic_line": {
+      "gendered_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work, I say the system's broken!",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Sorry to hear that.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "No rest for the weary…", "topic": "TALK_DONE" }
@@ -132,7 +138,10 @@
   {
     "id": "TALK_GODCO_Zachary_Nightmare",
     "type": "talk_topic",
-    "dynamic_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+    "dynamic_line": {
+      "gendered_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "I'll see what I can do.",
@@ -150,7 +159,10 @@
       "type": "mission",
       "context": "meeting",
       "value": "yes",
-      "yes": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
+      "yes": {
+        "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
+        "relevant_genders": [ "u" ]
+      },
       "no": "No chance!  Its not you, its the world out there I'm worried about.  All those <swear> monsters really give me the creeps, and as far as I know this church is the last bastion of humanity in the <the_cataclysm>."
     },
     "responses": [

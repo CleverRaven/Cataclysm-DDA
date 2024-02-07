@@ -119,7 +119,6 @@ static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
-static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -2933,33 +2932,6 @@ bool mattack::stare( monster *z )
     return true;
 }
 
-bool mattack::fear_paralyze( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-
-    if( !within_visual_range( z, 10 ) ) {
-        return false;
-    }
-
-    Character &player_character = get_player_character();
-    if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
-            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
-            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if( rng( 0, 20 ) > player_character.get_int() ) {
-            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name() );
-            player_character.add_effect( effect_fearparalyze, 5_turns );
-            player_character.moves -= 4 * player_character.get_speed();
-        } else {
-            add_msg( _( "You manage to avoid staring at the horrendous %s." ), z->name() );
-        }
-    }
-
-    return true;
-}
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;

@@ -108,7 +108,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1",
-    "dynamic_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+    "dynamic_line": {
+      "gendered_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
