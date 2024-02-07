@@ -302,23 +302,23 @@
       "sandy_beach_width": 6
     },
     "overmap_highway_settings": {
-      "frequency_x": 1,
-      "frequency_y": 1,
+      "grid_column_seperation": 5,
+      "grid_row_seperation": 5,
       "width_of_segments": 2,
       "reserved_terrain_id": "highway_reserved",
       "reserved_terrain_water_id": "highway_reserved_water",
-      "symbolic_ramp_up_id": "highway_symbolic_ramp_up",
-      "symbolic_ramp_down_id": "highway_symbolic_ramp_down",
-      "symbolic_overpass_road_id": "highway_symbolic_road",
+      "four_way_intersections": { "Highway crossroad": 1 },
+      "three_way_intersections": { "Highway tee": 1 },
+      "bends": { "Highway bend": 1 },
+      "road_connections": { "Highway on/off ramps": 1 },
       "segment_flat_special": "highway_segment_flat",
       "segment_road_bridge_special": "highway_segment_road_bridge",
       "segment_bridge_special": "highway_segment_bridge",
       "segment_bridge_supports_special": "highway_segment_bridge_supports",
       "segment_overpass_special": "highway_segment_overpass",
-      "four_way_intersections": { "4-way highway crossroad": 1 },
-      "three_way_intersections": { "4-way highway crossroad": 1 },
-      "bends": { "4-way highway crossroad": 1 },
-      "road_connections": { "4-way highway crossroad": 1 }
+      "symbolic_ramp_up_id": "highway_symbolic_ramp_up",
+      "symbolic_ramp_down_id": "highway_symbolic_ramp_down",
+      "symbolic_overpass_road_id": "highway_symbolic_road"
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
