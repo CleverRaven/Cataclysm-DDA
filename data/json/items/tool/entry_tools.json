@@ -142,7 +142,6 @@
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 45 },
-    "weapon_category": [ "BATONS" ],
     "//2": "Based on https://www.amazon.com/dp/B007DHX596"
   }
 ]
