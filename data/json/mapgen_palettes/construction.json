@@ -24,7 +24,7 @@
     "type": "palette",
     "id": "construction_all_variants",
     "//": "Random spawn inside in-construction houses",
-    "terrain": { ",": "t_floor", "a": "t_thconc_floor" },
+    "terrain": { ",": "t_floor", "a": "t_thconc_floor", "`": "t_thconc_floor" },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
       ",": {
@@ -317,6 +317,7 @@
       "t": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "s": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "6": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "9": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       ".": [ [ "t_region_groundcover_urban", 6 ], [ "t_region_soil", 10 ] ],
       "+": "t_door_o",
       "*": [
