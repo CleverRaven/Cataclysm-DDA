@@ -2398,7 +2398,7 @@ static void prep_components_for_craft( const recipe *r )
 {
     Character &player_character = get_player_character();
     clear_items( 0 );
-    grant_skills_to_character( player_character, *r );
+    grant_skills_to_character( player_character, *r, 0 );
     std::string failures = capture_debugmsg_during( [&r]() {
         debug_assemble_crafting_materials( r, 1, true );
     } );

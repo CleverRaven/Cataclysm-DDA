@@ -3857,7 +3857,7 @@ static void spawn_charges_in_containers( const itype_id contents_type, const int
                                        contents.charges_per_weight( container.get_total_weight_capacity( true ) ), amount_required } );
         // TODO: Find out why charges_per_weight returns 0 for some situations.  Until then, assume 1 charge fits
         contents.charges = std::max( contents.charges, 1 );
-        container.put_in( contents, item_pocket::pocket_type::CONTAINER );
+        container.put_in( contents, pocket_type::CONTAINER );
         amount_required -= contents.charges;
         if( !silent ) {
             add_msg( m_info, string_format( "Spawning charged item in container: %s",
@@ -3924,7 +3924,7 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
                     add_msg( m_info, string_format( "Spawning: %s with a magazine with %i default ammo",
                                                     item::nname( entry.first, entry.second ), mag.ammo_remaining() ) );
                 }
-                new_container.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                new_container.put_in( mag, pocket_type::MAGAZINE_WELL );
                 get_map().add_item_or_charges( player_character.pos(), new_container );
                 charges_to_spawn -= mag.ammo_remaining();
             }

@@ -1166,10 +1166,11 @@ bool talk_function::display_and_choose_opts(
             // If possible, go back to the basecamp and refresh mission entries based on the new inventory
             mission_data updated_missions;
             point_abs_omt omt( omt_pos.xy() );
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
             if( bcp.has_value() ) {
                 bcp.value()->form_crafting_inventory();;
-                bcp.value()->get_available_missions( updated_missions );
+                map &here = bcp.value()->get_camp_map();
+                bcp.value()->get_available_missions( updated_missions, here );
                 mission_key = updated_missions;
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();

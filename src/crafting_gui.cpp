@@ -34,7 +34,6 @@
 #include "localized_comparator.h"
 #include "messages.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
@@ -1250,8 +1249,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         add_action_desc( "CHOOSE_CRAFTER", pgettext( "crafting gui", "Choose crafter" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
-        keybinding_tips = foldstring( enumerate_as_string( assemble_keybinding_tips( ctxt,
-                                      highlight_unread_recipes ),   enumeration_conjunction::none ),  width - keybinding_x * 2 );
+        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
+                                      width - keybinding_x * 2 );
+
         const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
         dataHalfLines = dataLines / 2;
@@ -2039,7 +2039,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 add_msg( m_good, result_message );
                 debug_menu::set_random_seed( _( "Enter random seed for crafting materials" ) );
                 debug_assemble_crafting_materials( current[line], batch_size, false );
-                availability_cache.clear();
+                availability_cache->clear();
                 r_info_cache.recp = nullptr;
             }
             recalc = true;
