@@ -1,11 +1,13 @@
-list(APPEND CMAKE_MODULE_PATH 
+file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
+
+list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules)
 include(GetGitRevisionDescription)
 
 git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
 
 if(EXISTS ${GIT_EXECUTABLE})
-    execute_process(COMMAND ${GIT_EXECUTABLE} diff --quiet
+    execute_process(COMMAND ${GIT_EXECUTABLE} -c core.safecrlf=false diff --quiet
         RESULT_VARIABLE DIRTY_FLAG
     )
 
@@ -20,15 +22,15 @@ if("${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     return()
 endif()
 
-string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+if(GIT_VERSION)
+    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+    file(READ  ${CMAKE_SOURCE_DIR}/src/version.h VERSION_H)
+    string(REGEX MATCH "#define VERSION \"(.+)\"" VERSION_H "${VERSION_H}")
 
-file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
-file(READ  ${CMAKE_SOURCE_DIR}/src/version.h VERSION_H)
-string(REGEX MATCH "#define VERSION \"(.+)\"" VERSION_H "${VERSION_H}")
-
-if(NOT GIT_VERSION STREQUAL VERSION_H)
-    file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
-            "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
+    if(NOT GIT_VERSION STREQUAL VERSION_H)
+        file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
+                "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
+    endif()
 endif()
 
 # get_git_head_revision() does not work with worktrees in Windows
