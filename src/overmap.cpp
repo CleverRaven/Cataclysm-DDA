@@ -5026,6 +5026,35 @@ void overmap::finalize_highways()
         }
         return ret;
     };
+    
+    auto handle_ramps = []( std::vector<std::pair<int, int>> &what_to_place ) {
+        const int range = what_to_place.size();
+        bool last_z0 = true;
+        for( int i = 0; i < range; i++ ) {
+            if( what_to_place[i].first > 2 && last_z0 ) {
+                last_z0 = false;
+                what_to_place[i].second = 1;
+            } else if( what_to_place[i].first < 3 && !last_z0 ) {
+                last_z0 = true;
+                // If there's a small gap between two identical raised sections, join them instead of placing a ramp
+                if( what_to_place[i].first == 1 ) {
+                    int last_up = what_to_place[i - 1].first;
+                    if( i + 1 < range && what_to_place[i + 1].first == last_up ) {
+                        what_to_place[i].first = last_up;
+                        last_z0 = false;
+                    } else if( i + 2 < range && what_to_place[i + 1].first == 1 &&
+                            what_to_place[i + 2].first == last_up ) {
+                        what_to_place[i].first = last_up;
+                        what_to_place[i + 1].first = last_up;
+                        last_z0 = false;
+                    }
+                }
+                if( last_z0 ) {
+                    what_to_place[i - 1].second = 2;
+                }
+            }
+        }
+    };
 
     // TODO: Refactor into one funtion for both directions
     // TODO: Railroad and ravine handling
@@ -5042,34 +5071,10 @@ void overmap::finalize_highways()
 
         if( i_range != static_cast<int>( what_to_place.size() ) ) {
             debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
+            return;
         }
 
-        bool last_z0 = true;
-        for( int i = 0; i < i_range; i++ ) {
-            if( what_to_place[i].first > 2 && last_z0 ) {
-                last_z0 = false;
-                what_to_place[i].second = 1;
-            }
-            if( what_to_place[i].first < 3 && !last_z0 ) {
-                last_z0 = true;
-                // If there's a small gap between two identical raised sections, join them instead of placing a ramp
-                if( what_to_place[i].first == 1 ) {
-                    int last_up = what_to_place[i - 1].first;
-                    if( i + 1 < i_range && what_to_place[i + 1].first == last_up ) {
-                        what_to_place[i].first = last_up;
-                        last_z0 = false;
-                    } else if( i + 2 < i_range && what_to_place[i + 1].first == 1 &&
-                               what_to_place[i + 2].first == last_up ) {
-                        what_to_place[i].first = last_up;
-                        what_to_place[i + 1].first = last_up;
-                        last_z0 = false;
-                    }
-                }
-                if( last_z0 ) {
-                    what_to_place[i - 1].second = 2;
-                }
-            }
-        }
+        handle_ramps(what_to_place);
 
         // Replace singular city segments with road bridges
         for( int i = 1; i < i_range - 1; i++ ) {
@@ -5126,38 +5131,12 @@ void overmap::finalize_highways()
             what_to_place.push_back( determine_what_to_place( { i, j + j_min, 0 }, tripoint_east ) );
         }
 
-
-
         if( j_range != static_cast<int>( what_to_place.size() ) ) {
             debugmsg( "j_range %s != what_to_place.size() %s", j_range, what_to_place.size() );
+            return;
         }
 
-        bool last_z0 = true;
-        for( int i = 0; i < j_range; i++ ) {
-            if( what_to_place[i].first > 2 && last_z0 ) {
-                last_z0 = false;
-                what_to_place[i].second = 1;
-            }
-            if( what_to_place[i].first < 3 && !last_z0 ) {
-                last_z0 = true;
-                // If there's a small gap between two identical raised sections, join them instead of placing a ramp
-                if( what_to_place[i].first == 1 ) {
-                    int last_up = what_to_place[i - 1].first;
-                    if( i + 1 < j_range && what_to_place[i + 1].first == last_up ) {
-                        what_to_place[i].first = last_up;
-                        last_z0 = false;
-                    } else if( i + 2 < j_range && what_to_place[i + 1].first == 1 &&
-                               what_to_place[i + 2].first == last_up ) {
-                        what_to_place[i].first = last_up;
-                        what_to_place[i + 1].first = last_up;
-                        last_z0 = false;
-                    }
-                }
-                if( last_z0 ) {
-                    what_to_place[i - 1].second = 2;
-                }
-            }
-        }
+        handle_ramps(what_to_place);
 
         // Replace singular city segments with road bridges
         for( int i = 1; i < j_range - 1; i++ ) {
