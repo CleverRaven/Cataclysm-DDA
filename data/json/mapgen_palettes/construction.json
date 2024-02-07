@@ -16,6 +16,7 @@
           ]
         }
       },
+      "construction_sidewalk_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_sidewalk", 3 ], [ "t_region_soil", 2 ] ] } },
       "construction_house_concrete_outside_type": {
         "type": "ter_str_id",
         "default": { "distribution": [ [ "t_thconc_floor", 3 ], [ "t_pit_shallow", 2 ], [ "t_region_soil", 2 ] ] }
@@ -31,7 +32,7 @@
             [ "t_drystone_wall_half", 1 ],
             [ "t_fence_post", 8 ],
             [ "t_chainfence_posts", 4 ],
-            [ "t_region_soil", 12 ]
+            [ "t_region_soil", 8 ]
           ]
         }
       }
@@ -78,7 +79,7 @@
       "~": "t_linoleum_white",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "`": "t_sidewalk"
+      "`": { "param": "construction_sidewalk_type", "fallback": "t_region_soil" }
     },
     "furniture": {
       "C": [
