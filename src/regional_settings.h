@@ -249,7 +249,6 @@ struct overmap_highway_settings {
     int frequency_x = 5;
     int frequency_y = 5;
     int width_of_segments = 2;
-    int max_tunnel_distance = 3;
     oter_type_str_id reserved_terrain_id;
     oter_type_str_id reserved_terrain_water_id;
     oter_type_str_id symbolic_ramp_up_id;
