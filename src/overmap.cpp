@@ -4805,8 +4805,9 @@ void overmap::place_highways()
         ocean_next_south = this_om_y + 1 == ocean_start_south;
         ocean_next_west = this_om_x - 1 == -ocean_start_west;
         if( ocean_next_north && ocean_next_east && ocean_next_south && ocean_next_west ) {
+            // This should never happen but would break everything
             debugmsg( "Not placing highways because expecting ocean on all sides?!" );
-            return; // This should never happen but would break everything
+            return;
         }
     }
     // Distance in overmaps between vertical highways ( whole overmap gap of column_seperation - 1 )
@@ -4842,7 +4843,7 @@ void overmap::place_highways()
     }
     // TODO: Offset within the overmap too?
     const std::pair<int, int> &offset = g->get_highway_global_offset();
-    // TODO: Refactor the x and y into a single function?
+
     // Place a highway if we're at the right distance from the last or if there's ocean next
     if( c_seperation > 0 && ( ( this_om_x + offset.second ) % c_seperation == 0 ||
                               ocean_next_north ||
@@ -4859,10 +4860,10 @@ void overmap::place_highways()
             const oter_type_str_id z0_terrain_to_place = is_water_body_or( west_point,
                     tripoint_east ) ? reserved_terrain_water_id : reserved_terrain_id;
             for( int i_segment = i; i_segment < i + segment_width; i_segment++ ) {
-                tripoint_om_omt point( i_segment, j, 0 );
+                const tripoint_om_omt point( i_segment, j, 0 );
                 ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::north ) );
-                point += tripoint_above;
-                ter_set( point, reserved_terrain_id.obj().get_rotated( om_direction::type::north ) );
+                ter_set( point + tripoint_above,
+                         reserved_terrain_id.obj().get_rotated( om_direction::type::north ) );
             }
         }
     }
@@ -4879,10 +4880,10 @@ void overmap::place_highways()
             const oter_type_str_id z0_terrain_to_place = is_water_body_or( north_point,
                     tripoint_south ) ? reserved_terrain_water_id : reserved_terrain_id;
             for( int j_segment = j; j_segment < j + segment_width; j_segment++ ) {
-                tripoint_om_omt point( i, j_segment, 0 );
+                const tripoint_om_omt point( i, j_segment, 0 );
                 ter_set( point, z0_terrain_to_place.obj().get_rotated( om_direction::type::east ) );
-                point += tripoint_above;
-                ter_set( point, reserved_terrain_id.obj().get_rotated( om_direction::type::east ) );
+                ter_set( point + tripoint_above,
+                         reserved_terrain_id.obj().get_rotated( om_direction::type::east ) );
             }
         }
     }
@@ -4891,14 +4892,13 @@ void overmap::place_highways()
         return;
     }
     overmap_special_id special;
+    om_direction::type dir = om_direction::type::north;
     // Add intersection
     // TODO: Add handling for intersections over water
     if( ( placed_highways[0] || placed_highways[2] ) && ( placed_highways[1] || placed_highways[3] ) ) {
         const int i = floor( OMAPX / 2.0 );
         const int j = floor( OMAPY / 2.0 );
         const tripoint_om_omt nw_corner( i, j, 0 );
-        overmap_special_id special;
-        om_direction::type dir = om_direction::type::north;
         if( placed_highways.all() ) {
             special = settings->overmap_highway.four_way_intersections.pick();
         } else if( placed_highways.count() == 3 ) {
@@ -4970,9 +4970,11 @@ void overmap::finalize_highways()
     // Segment of raised highway for a city
     const overmap_special_id &segment_overpass = settings->overmap_highway.segment_overpass;
     std::unordered_map<int, overmap_special_id> segments{
+        // Flat highway
         {0, segment_null},
         {1, segment_flat},
         {2, segment_road_bridge},
+        // Elevated highway
         {3, segment_bridge},
         {4, segment_overpass}
     };
@@ -5122,12 +5124,13 @@ void overmap::finalize_highways()
         const int j_range = j_max - j_min;
         // First element corresponds to a overmap special segment, second element corresponds to a symbolic OMT
         std::vector<std::pair<int, int>> what_to_place;
+
         for( int j = 0; j < j_range; j++ ) {
             what_to_place.push_back( determine_what_to_place( { i, j + j_min, 0 }, tripoint_east ) );
         }
-
         if( j_range != static_cast<int>( what_to_place.size() ) ) {
-            debugmsg( "j_range %s != what_to_place.size() %s", j_range, what_to_place.size() );
+            debugmsg( "finalize_highway's what_to_place wasn't populated correctly. Has size %s instead of the expected %s.",
+                      what_to_place.size(), j_range );
             return;
         }
 
@@ -5147,12 +5150,13 @@ void overmap::finalize_highways()
         const int i_max = placed_highways[1] ? OMAPX : floor( OMAPX / 2.0 ) + 1;
         const int i_range = i_max - i_min;
         std::vector<std::pair<int, int>> what_to_place;
+
         for( int i = 0; i < i_range; i++ ) {
             what_to_place.push_back( determine_what_to_place( { i + i_min, j, 0 }, tripoint_south ) );
         }
-
         if( i_range != static_cast<int>( what_to_place.size() ) ) {
-            debugmsg( "i_range %s != what_to_place.size() %s", i_range, what_to_place.size() );
+            debugmsg( "finalize_highway's what_to_place wasn't populated correctly. Has size %s instead of the expected %s.",
+                      what_to_place.size(), i_range );
             return;
         }
 
