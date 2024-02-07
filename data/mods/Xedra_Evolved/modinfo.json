@@ -4,8 +4,8 @@
     "id": "xedra_evolved",
     "name": "Xedra Evolved",
     "authors": [ "Maleclypse" ],
-    "maintainers": [ "Maleclypse" ],
-    "description": "A content mod for Agent Mulder in the apocalypse.  Creates a multi decade timeline of dimensional spillage prior to the cataclysm.  This spillage was characterized by thin places appearing where people could step through into another dimension but things from those dimensions could wander into our world as well.  Xedra proliferated into an alphabet soup of agencies dedicated to simultaneously stopping, controlling, and utilizing these thin places with varying degrees of success.  Contains monsters of various types, new professions and locations, new uses for existing skills plus the new deduction skill, new magic systems, and content of every type that a multidimensional Cataclysm has to offer.  This is a heavily science fantasy mod where you are as likely to encounter supernatural monsters, as you are to encounter UFOs and Sasquatch and Chupacabra.  Please examine the readme.md file for further details.",
+    "maintainers": [ "Maleclypse", "Guardiandll" ],
+    "description": "An urban fantasy content mod for Agent Mulder in the apocalypse.  Creates a multi decade timeline of dimensional spillage prior to the Cataclysm.  This spillage was characterized by thin places appearing where people could step through into another dimension, but things from those dimensions could wander into our world as well.  XEDRA proliferated into an alphabet soup of agencies dedicated to simultaneously stopping, controlling, and utilizing these thin places with varying degrees of success.  Contains monsters of various types, new professions and locations, new uses for existing skills,the new deduction skill, new magic systems, and content of every type that a multidimensional Cataclysm has to offer.  This is a heavily science-fantasy mod where you are as likely to encounter supernatural monsters as you are UFOs, Sasquatch, and Chupacabra.  Please examine the readme.md file for further details.",
     "category": "content",
     "dependencies": [ "dda" ]
   }

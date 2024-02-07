@@ -108,8 +108,6 @@ androgynes
 androgyny
 anechoic
 angelfish
-angelologist
-angelologists
 anglerfish
 anglicized
 anhaltende
@@ -533,7 +531,6 @@ chaturanga
 chausses
 cheapshot
 checkerboard
-checkerboards
 checkmarks
 cheescutter
 chelator
@@ -677,8 +674,6 @@ craftwork
 crappie
 creasing
 creeply
-crenellation
-crenellations
 creped
 criniere
 cripplingly
@@ -777,8 +772,6 @@ demihuman
 demining
 demisexuality
 demoed
-demonologist
-demonologists
 denarius
 denatonium
 dentata
@@ -952,8 +945,6 @@ electrolyzer
 electromancy
 electrophoresis
 electroreceptors
-elementalist
-elementalists
 eles
 elete
 elongates
@@ -1407,8 +1398,6 @@ hemostatic
 hemostatics
 henge
 herbivorous
-herbologist
-herbologists
 hesperosaurus
 heterochromia
 hevel
@@ -2162,6 +2151,8 @@ ophanim
 ophanims
 optimality
 opy
+orc
+orcs
 orgs
 orichalcum
 orld
@@ -3543,8 +3534,6 @@ z
 zahir
 zaibatsu
 zandcrawler
-zangbeto
-zangbetos
 zapback
 zaptor
 zbrojovka

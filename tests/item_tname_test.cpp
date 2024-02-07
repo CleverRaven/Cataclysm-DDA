@@ -239,20 +239,20 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 
 TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_WET );
-    REQUIRE( rag.has_flag( flag_WET ) );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_WET );
+    REQUIRE( sheet_cotton.has_flag( flag_WET ) );
 
-    CHECK( rag.tname() == "rag (wet)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (wet)" );
 }
 
 TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_FILTHY );
-    REQUIRE( rag.is_filthy() );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_FILTHY );
+    REQUIRE( sheet_cotton.is_filthy() );
 
-    CHECK( rag.tname() == "rag (filthy)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (filthy)" );
 }
 
 TEST_CASE( "diamond_item", "[item][tname][diamond]" )

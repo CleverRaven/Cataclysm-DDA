@@ -1591,5 +1591,27 @@
       { "item": "coat_lab_plus_one", "prob": 20 },
       { "item": "coat_lab_plus_two", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "group_potion_fruits",
+    "items": [
+      { "item": "potion_fruit_apple", "prob": 1 },
+      { "item": "potion_fruit_peach", "prob": 1 },
+      { "item": "potion_fruit_pear", "prob": 1 },
+      { "item": "potion_fruit_blackberries", "prob": 1 },
+      { "item": "potion_fruit_raspberries", "prob": 1 },
+      { "item": "potion_fruit_strawberries", "prob": 1 },
+      { "item": "potion_fruit_elderberries", "prob": 1 },
+      { "item": "potion_fruit_blueberries", "prob": 1 },
+      { "item": "potion_fruit_cranberries", "prob": 1 },
+      { "item": "potion_fruit_huckleberries", "prob": 1 },
+      { "item": "potion_fruit_wintergreen", "prob": 1 },
+      { "item": "potion_fruit_cherry", "prob": 1 },
+      { "item": "potion_fruit_apricot", "prob": 1 },
+      { "item": "potion_fruit_grapes", "prob": 1 },
+      { "item": "potion_fruit_mayapple", "prob": 1 }
+    ]
   }
 ]

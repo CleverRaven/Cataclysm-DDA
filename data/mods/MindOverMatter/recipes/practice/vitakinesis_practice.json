@@ -11,6 +11,7 @@
     "skill_used": "metaphysics",
     "nested_category_data": [
       "practice_vita_health_power",
+      "practice_vita_slow_bleeding",
       "practice_vita_stop_bleeding",
       "practice_vita_healing_touch",
       "practice_vita_remove_poison",
@@ -42,40 +43,49 @@
     "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_health_power')", "<=", "(difficulty_one_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_health_power')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_HEALTH_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: coagulation",
+    "id": "practice_vita_slow_bleeding",
+    "description": "Contemplate your powers and improve your ability to slow your rate of bleeding.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_SLOW_BLEEDING",
+        "condition": { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "1" ] },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
       }
     ]
   },
@@ -91,40 +101,71 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_stop_bleeding')", "<=", "(difficulty_two_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_stop_bleeding')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_STAUNCHING_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_STAUNCHING_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_STAUNCHING_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_STAUNCHING_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 6
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Staunch Wound power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_stop_bleeding')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -140,40 +181,71 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HURT",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_hurt_touch')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_hurt_touch')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_HURT_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_HURT_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_HURT_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_HURT_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 7
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Enervating Touch power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_hurt_touch')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -189,40 +261,71 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_health_power_ally')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_health_power_ally')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 7
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Medicinal Touch power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_health_power_ally')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -238,40 +341,71 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_remove_poison')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_remove_poison')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 7
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Detoxification power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_remove_poison')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -287,41 +421,72 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_sleeping_trance')", "<=", "(difficulty_four_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_SLEEP_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_SLEEP_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_SLEEP_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_SLEEP_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 8
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Wakeful Rest power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_sleeping_trance')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -337,41 +502,72 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_cure_disease')", "<=", "(difficulty_four_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 8
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Immunostimulus power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_cure_disease')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -387,41 +583,72 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_pain_split')", "<=", "(difficulty_five_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_pain_split')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 9
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Damage Balancing power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_pain_split')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -437,41 +664,72 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_stop_infection')", "<=", "(difficulty_five_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_stop_infection')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 9
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Allay Infection power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_stop_infection')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -487,41 +745,72 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_healing_trance')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 10
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Revitalizing Meditation power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_healing_trance')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -537,41 +826,21 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_purge_rads')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_purge_rads')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
       }
     ]
   },
@@ -587,40 +856,71 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_attack_touch')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_attack_touch')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 10
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Lacerating Touch power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_attack_touch')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -636,41 +936,72 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_blood_purge')", "<=", "(difficulty_seven_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_blood_purge')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_PURGE_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_PURGE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_PURGE_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_PURGE_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 11
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Blood Purge power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_blood_purge')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -686,41 +1017,72 @@
     "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_banish_illness')", "<=", "(difficulty_eight_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_banish_illness')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 12
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Banish Illness power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_banish_illness')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -736,41 +1098,72 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_super_heal')", "<=", "(difficulty_nine_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 13
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Anabolic Rejuvenation power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_super_heal')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -786,41 +1179,21 @@
     "difficulty": 9,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 2 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_limb_restore')", "<=", "(difficulty_ten_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend a lot of time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_limb_restore')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
+        ]
       }
     ]
   },
@@ -836,41 +1209,72 @@
     "difficulty": 9,
     "time": "30 m",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('vita_return_from_death')", "<=", "(difficulty_ten_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend a lot of time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EEOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_FALSE",
-              "condition": { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
         }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+                  "difficulty": 14
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Accelerated Resuscitation power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('vita_return_from_death')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+            ]
+          }
+        ]
       }
     ]
   }

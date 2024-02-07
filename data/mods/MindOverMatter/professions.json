@@ -328,7 +328,7 @@
     "type": "profession",
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
-    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
+    "description": "The last thing you remember was inputting the jump coordinates into the tliltilhuicaātl drive and reaching out to initiate the transfer when there was a power surge and it felt like the entire ship was turning inside out.  Now, you have no idea where you are.",
     "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
@@ -374,21 +374,25 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
     "id": "psi_vitakinetic_healer",
     "name": "Faith Healer",
     "description": "People came to you for diseases that modern medicine told them were incurable, and you made them well.  At least, they felt well, and that was what mattered.  Now the dead walk and do not respond to your exhortations, but your healing works better on yourself than it ever has on anyone else.",
-    "points": 4,
+    "points": 8,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 3, "name": "metaphysics" } ],
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH", "SPIRITUAL" ],
     "spells": [
-      { "id": "vita_stop_bleeding", "level": 2 },
-      { "id": "vita_health_power", "level": 5 },
-      { "id": "vita_hurt_touch", "level": 2 },
-      { "id": "vita_sleeping_trance", "level": 1 }
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_slow_bleeding", "level": 6 },
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_cure_disease", "level": 4 },
+      { "id": "vita_sleeping_trance", "level": 4 }
     ],
     "items": {
       "both": {
@@ -402,6 +406,7 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "holy_symbol" },
+          { "item": "matrix_crystal_drained" },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -421,7 +426,7 @@
     "id": "guru",
     "copy-from": "guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
-    "extend": { "skills": [ { "level": 3, "name": "metaphysics" } ] }
+    "extend": { "skills": [ { "level": 5, "name": "metaphysics" } ] }
   },
   {
     "type": "profession",

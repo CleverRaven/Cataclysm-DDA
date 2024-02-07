@@ -174,5 +174,171 @@
     "id": "EOC_IERDE_SLEEP_DEPRIVATION",
     "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
     "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SINK_INTO_EARTH_activate",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain": "t_soil" },
+        { "u_is_on_terrain": "t_rock" },
+        {
+          "and": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "not": { "u_is_on_terrain": "t_grass_alien" } },
+            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+            { "not": { "u_is_on_terrain": "t_fungus" } },
+            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+            { "not": { "u_is_on_terrain": "t_swater_surf" } },
+            { "not": { "u_is_on_terrain": "t_woodchips" } }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_IERDE_SLEEP_IN_EARTH" } ],
+    "false_effect": [ { "u_message": "You must be on living earth or stone to sink into it.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SLEEP_IN_EARTH",
+    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_IERDE_SLEEP_IN_EARTH_2",
+          "condition": {
+            "or": [
+              { "u_is_on_terrain": "t_rock_floor_no_roof" },
+              { "u_is_on_terrain": "t_rock_floor" },
+              { "u_is_on_terrain": "t_rock_smooth" },
+              {
+                "and": [
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                  { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                  { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                  { "not": { "u_is_on_terrain": "t_fungus" } },
+                  { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                  { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                  { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                  { "not": { "u_is_on_terrain": "t_woodchips" } }
+                ]
+              }
+            ]
+          },
+          "effect": [
+            { "u_location_variable": { "u_val": "IERDE_sleep_in_earth_starting_point" }, "min_radius": 0, "max_radius": 0 },
+            {
+              "u_location_variable": { "u_val": "IERDE_sleep_in_earth_destination" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": -9,
+              "z_override": true
+            },
+            { "u_message": "The earth parts beneath you and you sink down into the stone.", "type": "good" },
+            { "u_teleport": { "u_val": "IERDE_sleep_in_earth_destination" }, "force": true },
+            { "u_add_trait": "IERDE_STONE_SLEEP" }
+          ],
+          "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_teleport": { "u_val": "IERDE_sleep_in_earth_starting_point" } },
+      { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_SLEEP_IN_EARTH_REMOVER",
+    "eoc_type": "EVENT",
+    "//": "No cheating and teleporting out to keep your buffs",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "IERDE_STONE_SLEEP" } ] },
+    "effect": [ { "u_lose_trait": "IERDE_STONE_SLEEP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_THE_EARTH_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_RESHAPE_EARTH_MAKE_WALL",
+          "EOC_RESHAPE_EARTH_MAKE_PIT",
+          "EOC_RESHAPE_EARTH_RAISE_EARTH",
+          "EOC_RESHAPE_EARTH_LOWER_EARTH",
+          "EOC_RESHAPE_EARTH_SMOOTH_STONE",
+          "EOC_RESHAPE_EARTH_CHURN_EARTH",
+          "EOC_RESHAPE_EARTH_DIRT_TO_STONE",
+          "EOC_RESHAPE_EARTH_STONE_TO_DIRT",
+          "EOC_NULL"
+        ],
+        "names": [
+          "Create or Destroy Wall",
+          "Create Pit",
+          "Earthen Stairs Up",
+          "Earthen Stairs Down",
+          "Smooth Stone",
+          "Churn Earth for Planting",
+          "Turn Earth to Stone",
+          "Turn Stone to Earth",
+          "Do nothing"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
+        "descriptions": [
+          "Turn a dirt or stone floor into a wall or vice versa.",
+          "Create a pit.",
+          "Reshape the dirt or stone into a set of stairs going up.",
+          "Reshape the dirt or stone into a set of stairs going down.",
+          "Polish and smooth a stone wall into a mirror-like finish.",
+          "Create furrows in the earth suitable for planting crops",
+          "Turn dirt and earth into solid rock.",
+          "Turn solid rock into loose soil or dirt.",
+          "Do nothing."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_MAKE_WALL",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_walls" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_MAKE_PIT",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_pits" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_RAISE_EARTH",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_raise" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_LOWER_EARTH",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_lower" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_SMOOTH_STONE",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_smooth_stone" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_CHURN_EARTH",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_churn_earth" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_DIRT_TO_STONE",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_earth_to_stone" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESHAPE_EARTH_STONE_TO_DIRT",
+    "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_stone_to_dirt" }, "targeted": true } ]
   }
 ]
