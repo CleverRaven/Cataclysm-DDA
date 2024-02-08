@@ -1150,10 +1150,29 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
             }
         }
 
-        if( item::find_type( food.get_comestible()->tool )->tool ) {
-            // Tools like lighters get used
-            you.use_charges( food.get_comestible()->tool, 1 );
-        }
+            if( amorphous ) {
+                you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                           food.tname() );
+            } else if( drinkable ) {
+                if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                    !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                    you.is_avatar() ) {
+
+                    if( amorphous ) {
+                        you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                   food.tname() );
+                    } else if( drinkable ) {
+                        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                            you.is_avatar() ) {
+
+                            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                        } else {
+                            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                                       food.tname() );
+                        }
+                    }
 
         if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
             you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
