@@ -1174,10 +1174,10 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                         }
                     }
 
-        if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
-            you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
-            you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
-        }
+                    if( item::find_type( food.get_comestible()->tool )->tool ) {
+                        // Tools like lighters get used
+                        you.use_charges( food.get_comestible()->tool, 1 );
+                    }
 
                     if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
                         you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
