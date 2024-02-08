@@ -1870,23 +1870,108 @@ void Character::modify_morale( item &food, const int nutr )
             }
         }
 
-        // TODO: Get the target it was used on
-        // Otherwise injecting someone will give us addictions etc.
-        if( target.has_flag( flag_NO_INGEST ) ) {
-            const islot_comestible &comest = *target.get_comestible();
-            // Assume that parenteral meds don't spoil, so don't apply rot
-            you.modify_health( comest );
-            you.modify_stimulation( comest );
-            you.modify_fatigue( comest );
-            you.modify_addiction( comest );
-            you.modify_morale( target );
-            activate_consume_eocs( you, target );
-        } else {
-            // Take by mouth
-            if( !you.consume_effects( target ) ) {
-                activate_consume_eocs( you, target );
-            }
-        }
+                        // Used in hibernation messages.
+                        const int nutr = nutrition_for( food );
+                        const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+                        // We can handle junk just fine
+                        if( !skip_health ) {
+                            modify_health( comest );
+                        }
+                        modify_stimulation( comest );
+                        modify_fatigue( comest );
+                        modify_addiction( comest );
+                        modify_morale( food, nutr );
+
+                        const bool hibernate = has_active_mutation( trait_HIBERNATE );
+                        if( hibernate ) {
+                            if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
+                                // Tell the player what's going on
+                                add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
+                                if( one_in( 2 ) ) {
+                                    // 50% chance of the food tiring you
+                                    mod_fatigue( nutr );
+                                }
+                            }
+                            if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
+                                // Hibernation should cut burn to 60/day
+                                add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
+                                if( one_in( 2 ) ) {
+                                    // And another 50%, intended cumulative
+                                    mod_fatigue( nutr );
+                                }
+                            }
+
+                            if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
+                                add_msg_if_player(
+                                    _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
+                                if( !one_in( 3 ) ) {
+                                    // Third check, this one at 66%
+                                    mod_fatigue( nutr );
+                                }
+                            }
+                            if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
+                                add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
+                                // At this point, you're done.  Schlaf gut.
+                                mod_fatigue( nutr );
+                            }
+                        }
+                        // Moved here and changed a bit - it was too complex
+                        // Incredibly minor stuff like this shouldn't require complexity
+                        if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
+                            ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
+                              get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
+                            add_msg_if_player( m_mixed,
+                                               _( "You feel as though you're going to split open!  In a good way?" ) );
+                            mod_pain( 5 );
+                            int numslime = 1;
+                            for( int i = 0; i < numslime; i++ ) {
+                                if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+                                    slime->friendly = -1;
+                                }
+                            }
+
+                            nutrients food_nutrients = compute_effective_nutrients( food );
+                            const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                                            food.get_comestible()->quench *
+                                                            5_ml : 0_ml;
+                            units::volume food_vol = masticated_volume( food );
+                            if( food.count() == 0 ) {
+                                debugmsg( "Tried to eat food with count of zero." );
+                                return false;
+                            }
+                            units::mass food_weight = ( food.weight() / food.count() );
+                            const double ratio = compute_effective_food_volume_ratio( food );
+                            food_summary ingested{
+                                water_vol,
+                                food_vol * ratio,
+                                food_nutrients
+                            };
+                            add_msg_debug( debugmode::DF_FOOD,
+                                           "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                                           units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                                           food_nutrients.kcal(), units::to_gram( food_weight ) );
+                            // Maybe move tapeworm to digestion
+                            if( has_effect( effect_tapeworm ) ) {
+                                ingested.nutr /= 2;
+                            }
+                            // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
+                            activate_consume_eocs( *this, food );
+
+                            // GET IN MAH BELLY!
+                            stomach.ingest( ingested );
+
+                            // update speculative values
+                            if( is_avatar() ) {
+                                get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+                            }
+                            for( const auto &v : ingested.nutr.vitamins() ) {
+                                // update the estimated values for daily vitamins
+                                // actual vitamins happen during digestion
+                                daily_vitamins[v.first].first += v.second;
+                            }
+
+                            return true;
+                        }
 
         if( target.count_by_charges() ) {
             target.mod_charges( -amount_used );
