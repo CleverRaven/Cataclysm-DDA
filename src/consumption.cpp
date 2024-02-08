@@ -959,13 +959,13 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
-        if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-            !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                    ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
-            add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
-                                            food.tname() ),
-                             PARASITES );
-        }
+    if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
+        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+        add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
+                                        food.tname() ),
+                         PARASITES );
+    }
 
         const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
