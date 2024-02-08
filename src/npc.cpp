@@ -3056,7 +3056,7 @@ void npc::die( Creature *nkiller )
                 if( morale_effect > 0 ) {
                     add_msg( _( "You feel a sense of righteous purpose." ) );
                     morale_effect += 5;
-                    }
+                }
             }
             if( morale_effect == 0 ) {
                 // No morale effect
