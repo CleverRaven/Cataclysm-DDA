@@ -3025,10 +3025,10 @@ void npc::die( Creature *nkiller )
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {
-            if( player_character.has_trait( trait_PACIFIST ) ) {
-                add_msg_if_player_sees( _( "A cold shock of guilt washes over you." ) );
-                player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
-            } 
+        if( player_character.has_trait( trait_PACIFIST ) ) {
+            add_msg_if_player_sees( _( "A cold shock of guilt washes over you." ) );
+            player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
+        }
         if( !badguy ) {
             int morale_effect = -90;
             // Just because you like eating people doesn't mean you love killing innocents
