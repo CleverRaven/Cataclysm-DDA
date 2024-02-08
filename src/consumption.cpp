@@ -1485,12 +1485,37 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
             add_morale( MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes );
         }
-        if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
-                has_trait( trait_THRESH_URSINE ) ) &&
-            mutation_category_level[mutation_category_URSINE] > 20 ) {
-            int honey_fun = std::min( mutation_category_level[mutation_category_URSINE] / 5, 20 );
-            if( honey_fun < 10 ) {
-                add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
+
+        // Used when displaying effective food satiation values.
+        int Character::compute_calories_per_effective_volume( const item & food,
+                const nutrients * nutrient /* = nullptr */ )const {
+            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+            stomach fullness source code. Look at issue #44365*/
+            int kcalories;
+            if( nutrient ) {
+                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                kcalories = nutrient->kcal();
+            } else {
+                kcalories = compute_effective_nutrients( food ).kcal();
+            }
+            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+            const double effective_volume = food_vol * energy_density_ratio;
+            if( kcalories == 0 && effective_volume == 0.0 ) {
+                return 0;
+            }
+            return std::round( kcalories / effective_volume );
+        }
+
+        // Used when displaying effective food satiation values.
+        int Character::compute_calories_per_effective_volume( const item & food,
+                const nutrients * nutrient /* = nullptr */ )const {
+            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+            stomach fullness source code. Look at issue #44365*/
+            int kcalories;
+            if( nutrient ) {
+                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                kcalories = nutrient->kcal();
             } else {
                 add_msg_if_player( m_good, _( "You feast upon the sweet honey." ) );
             }
