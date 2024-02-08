@@ -299,6 +299,7 @@ extern const flag_id flag_ROLLER_QUAD;
 extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
 extern const flag_id flag_SHRUB;
+extern const flag_id flag_SHOE_SPIKES;
 extern const flag_id flag_SINGLE_USE;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;

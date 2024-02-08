@@ -294,6 +294,7 @@ const flag_id flag_SEED_HARVEST( "SEED_HARVEST" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHREDDED( "SHREDDED" );
 const flag_id flag_SHRUB( "SHRUB" );
+const flag_id flag_SHOE_SPIKES( "SHOE_SPIKES" );
 const flag_id flag_SINGLE_USE( "SINGLE_USE" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );

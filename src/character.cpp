@@ -11237,7 +11237,7 @@ void Character::process_effects()
         if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
             rolls++;
         }
-        if( has_trait( trait_DEFT ) ) {
+        if( has_trait( trait_DEFT ) || worn_with_flag( flag_SHOE_SPIKES ) ) {
             rolls--;
         }
         if( is_running() || ( ( worn_with_flag( flag_ROLLER_ONE ) || worn_with_flag( flag_ROLLER_INLINE ) ||

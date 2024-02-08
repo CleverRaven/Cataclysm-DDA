@@ -1141,6 +1141,43 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "fitover_cleats",
+    "type": "ARMOR",
+    "name": { "str": "pair of fit-over cleats", "str_pl": "pairs of fit-over cleats" },
+    "description": "A tough rubber net designed to be worn over boots with studs on the bottom too keep you from slipping and falling.",
+    "weight": "135 g",
+    "volume": "250 ml",
+    "price": 7000,
+    "price_postapoc": 750,
+    "material": [ "rubber", "steel" ],
+    "symbol": "[",
+    "color": "black",
+    "warmth": 0,
+    "material_thickness": 1.0,
+    "flags": [ "BELTED", "OVERSIZE", "ONLY_ONE", "ALLOWS_TALONS", "SHOE_SPIKES" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 15,
+        "coverage": 20
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 5, "thickness": 2.0 }
+        ],
+        "coverage": 20
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "golf_shoes",
     "type": "ARMOR",
     "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
