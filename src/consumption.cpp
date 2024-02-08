@@ -1549,7 +1549,7 @@ void Character::modify_morale( item &food, const int nutr )
                 // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
                 kcalories = nutrient->kcal();
             } else {
-                add_msg_if_player( m_good, _( "You feast upon the sweet honey." ) );
+                kcalories = compute_effective_nutrients( food ).kcal();
             }
             double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
             const double energy_density_ratio = compute_effective_food_volume_ratio( food );
