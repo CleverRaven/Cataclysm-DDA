@@ -185,7 +185,7 @@
         "P": [ { "item": "SUS_bathroom_cabinet", "chance": 60 } ]
       },
       "toilets": { ";": {  } },
-      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 1, 21 ], "y": [ 1, 21 ], "repeat": [ 2, 10 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 1, 21 ], "y": [ 1, 21 ], "repeat": [ 5, 10 ] } ]
     }
   },
   {
@@ -243,7 +243,7 @@
       "toilets": { ";": {  } },
       "place_monster": [
         { "monster": "mon_feral_druid", "x": [ 8, 15 ], "y": [ 9, 14 ], "chance": 75, "repeat": [ 1, 3 ] },
-        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 15 ], "y": [ 7, 14 ], "repeat": [ 2, 5 ] }
+        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 15 ], "y": [ 7, 14 ], "repeat": [ 4, 8 ] }
       ]
     }
   },
@@ -267,8 +267,8 @@
         "   #~Đ___~~~_~~__D~##   ",
         "   ##~~~+~~~__~+~~~~#   ",
         "    #~____+__~~__cd~##  ",
-        "   ##T_O_Đ~__~dc_~~##   ",
-        "    #~___~__~~~__T~#    ",
+        "   ##T_O_~~__~dc_~~##   ",
+        "    #~Đ__~__~~~__T~#    ",
         "   ##~~BB~~_~+___~~#    ",
         "   #~~~~~~T__~~c%~~##   ",
         "   #~~R_R~~~_~~d~~~##   ",
@@ -282,7 +282,7 @@
       ],
       "palettes": [ "druid_ritual_home" ],
       "terrain": { " ": "t_open_air", ">": "t_triffid_slope_down", "<": "t_triffid_slope_up" },
-      "furniture": { "O": "f_magic_circle" },
+      "furniture": { "O": "f_magic_circle", "Đ": "f_druid_desk" },
       "items": {
         "B": [
           { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
@@ -315,7 +315,7 @@
           { "item": "magic_plants_rare", "chance": 25, "repeat": [ 2, 4 ] }
         ]
       },
-      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 16 ], "y": [ 7, 14 ], "repeat": [ 2, 7 ] } ]
+      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 16 ], "y": [ 7, 14 ], "repeat": [ 4, 8 ] } ]
     }
   },
   {
@@ -380,7 +380,7 @@
       "toilets": { ";": {  } },
       "place_monster": [
         { "group": "GROUP_DRUID_TOWER_DRUID_HEAD", "x": [ 8, 15 ], "y": [ 9, 14 ] },
-        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 8, 15 ], "y": [ 9, 14 ], "repeat": [ 2, 4 ] }
+        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 8, 15 ], "y": [ 9, 14 ], "repeat": [ 3, 6 ] }
       ]
     }
   },

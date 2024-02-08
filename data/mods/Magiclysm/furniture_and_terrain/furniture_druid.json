@@ -217,7 +217,7 @@
     "id": "f_druid_counter",
     "looks_like": "f_counter",
     "name": "gnarled counter",
-    "description": "A plain wooden countertop, all made of a single, solid piece of wood.  Makes a decent surface for storage or crafting, even it's not 100% completely level.",
+    "description": "A plain wooden countertop, all made of a single, solid piece of wood.  Makes a decent surface for storage or crafting, even it's not completely level.",
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 2,
