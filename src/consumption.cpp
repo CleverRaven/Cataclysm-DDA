@@ -1259,7 +1259,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     void Character::modify_fatigue( const islot_comestible & comest ) {
         mod_fatigue( -comest.fatigue_mod );
     }
-
+}
+        }
 void Character::modify_fatigue( const islot_comestible &comest )
 {
     mod_fatigue( -comest.fatigue_mod );
