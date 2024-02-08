@@ -59,14 +59,16 @@
         "cf   t",
         "C    d",
         "cf   d",
-        "cf HHd",
+        "cf H d",
         "cccccc"
       ],
       "furniture": { "H": "f_hanging_meathook" },
+      "item": { "h": { "item": "" } },
       "items": {
         "t": { "item": "cash_register_random", "chance": 80 },
-        "f": { "item": "MEAT", "chance": 25, "repeat": [ 1, 2 ] },
-        "H": { "item": "BIG_MEAT", "chance": 10 }
+        "d": { "item": "butcher_meat", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "butcher_raw_meat", "chance": 25, "repeat": [ 1, 2 ] },
+        "H": { "item": "butcher_raw_meat", "chance": 25, "repeat": [ 1, 2 ] }
       },
       "palettes": [ "open_air_stall_palette" ]
     }
@@ -85,9 +87,12 @@
         "cT   d",
         "cccccc"
       ],
-      "items": { "t": { "item": "cash_register_random", "chance": 100 }, "T": { "item": "VEGGIES", "chance": 30, "repeat": [ 1, 2 ] } },
-      "palettes": [ "open_air_stall_palette" ],
-      "//": "Use box_large_wood to store veggies (in spawn thing)"
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "T": { "item": "fresh_produce", "chance": 30, "repeat": [ 1, 2 ] },
+        "d": { "item": "produce", "chance": 30, "repeat": [ 1, 4 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ]
     }
   },
   {
@@ -98,19 +103,19 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "cccccc",
-        "cf   t",
+        "cr   t",
         "C    d",
-        "cf   d",
+        "cr   d",
         "cr   d",
         "cccccc"
       ],
+      "liquids": { "d": { "liquid": "water", "amount": [ 12, 60 ] } },
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
-        "f": { "item": "FEESH", "chance": 30, "repeat": [ 1, 2 ] },
-        "r": { "item": "FEESH SOUP N STUFF", "chance": 30, "repeat": [ 1, 2 ] }
+        "d": [ { "item": "fresh_fish", "chance": 50 } ],
+        "r": { "item": "fish_market_stall", "chance": 30, "repeat": [ 1, 2 ] }
       },
-      "palettes": [ "open_air_stall_palette" ],
-      "//": "Use puddles of water under fish to indicate molten ice?"
+      "palettes": [ "open_air_stall_palette" ]
     }
   },
   {
@@ -118,15 +123,14 @@
     "method": "json",
     "nested_mapgen_id": "market_confectionery",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "ccccc  ",
-        "c   t  ",
-        "c   d  ",
-        "C   d  ",
-        "cr  d  ",
-        "cr  d  ",
-        "ccccc  "
+        "ccccc ",
+        "cr  t ",
+        "cr  d ",
+        "C   d ",
+        "cr  d ",
+        "ccccc "
       ],
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
