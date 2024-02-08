@@ -1810,8 +1810,32 @@ void Character::modify_morale( item &food, const int nutr )
             consume_time_modifier = mutation_value( "consume_time_modifier" );
         }
 
-        // Minimum consumption time, without mutations, is always 1 second.
-        time = std::max( 1_seconds, time );
+                    nutrients food_nutrients = compute_effective_nutrients( food );
+                    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                                    food.get_comestible()->quench *
+                                                    5_ml : 0_ml;
+                    units::volume food_vol = masticated_volume( food );
+                    if( food.count() == 0 ) {
+                        debugmsg( "Tried to eat food with count of zero." );
+                        return false;
+                    }
+                    units::mass food_weight = ( food.weight() / food.count() );
+                    const double ratio = compute_effective_food_volume_ratio( food );
+                    food_summary ingested{
+                        water_vol,
+                        food_vol * ratio,
+                        food_nutrients
+                    };
+                    add_msg_debug( debugmode::DF_FOOD,
+                                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                                   food_nutrients.kcal(), units::to_gram( food_weight ) );
+                    // Maybe move tapeworm to digestion
+                    if( has_effect( effect_tapeworm ) ) {
+                        ingested.nutr /= 2;
+                    }
+                    // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
+                    activate_consume_eocs( *this, food );
 
                     // GET IN MAH BELLY!
                     stomach.ingest( ingested );
