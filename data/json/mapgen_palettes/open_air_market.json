@@ -7,13 +7,26 @@
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
       },
-      "topright_market_variant_nests": { "type": "nested_mapgen_id", "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc" ] } },
+      "topright_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
+      },
+      "midleft_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
+      },
+      "right_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
+      },
       "bottomleft_market_variant_nests": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
       },
-      "bottomright_market_variant_nests": { "type": "nested_mapgen_id", "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc" ] } },
-      "bottom_market_variant_nests": { "type": "nested_mapgen_id", "default": { "distribution": [ "market_storage", "community_center" ] } }
+      "bottomright_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
+      }
     }
   },
   {
@@ -28,9 +41,8 @@
       "t": "f_table",
       "r": "f_rack_wood",
       "C": "f_large_canvas_door",
-      "M": "f_mannequin",
       "T": "f_table",
-      ",": "f_large_groundsheet"
+      ",": "t_thconc_floor"
     }
   }
 ]
