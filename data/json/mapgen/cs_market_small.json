@@ -6,8 +6,8 @@
     "object": {
       "fill_ter": "t_sidewalk",
       "rows": [
-        "GG      ,,    ,,      GG",
-        "G       ,,    ,,       G",
+        "        ,,    ,,        ",
+        "        ,,    ,,        ",
         "        ,,bTTb,,        ",
         "        ,,bTTb,,        ",
         "        ,,bTTb,,        ",
@@ -28,8 +28,8 @@
         "        ,,bTTb,,        ",
         "        ,,bTTb,,        ",
         "        ,,bTTb,,        ",
-        "GGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGG"
+        "        ,,,,,,,,        ",
+        "G        ,,,,,,        G"
       ],
       "palettes": [ "open_air_market_palette" ],
       "terrain": { "Y": "t_tree", "A": "t_atm", "G": "t_region_groundcover_urban", "!": "t_region_groundcover_urban" },
@@ -38,13 +38,13 @@
       "place_nested": [
         { "chunks": [ { "param": "topleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 1 },
         { "chunks": [ { "param": "topright_market_variant_nests", "fallback": "market_clothes" } ], "x": 16, "y": 1 },
-        { "chunks": [ { "param": "midleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 8 },
-        { "chunks": [ { "param": "midright_market_variant_nests", "fallback": "market_clothes" } ], "x": 16, "y": 8 },
-        { "chunks": [ { "param": "bottomleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 15 },
+        { "chunks": [ { "param": "midleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 9 },
+        { "chunks": [ { "param": "midright_market_variant_nests", "fallback": "market_clothes" } ], "x": 16, "y": 9 },
+        { "chunks": [ { "param": "bottomleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 16 },
         {
           "chunks": [ { "param": "bottomright_market_variant_nests", "fallback": "market_clothes" } ],
           "x": 16,
-          "y": 15
+          "y": 16
         }
       ]
     }
