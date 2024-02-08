@@ -1048,8 +1048,6 @@
     "id": "fish_market_stall",
     "subtype": "collection",
     "entries": [
-      { "item": "jar_glass_sealed", "prob": 10 },
-      { "item": "jar_3l_glass_sealed", "prob": 10 },
       { "prob": 15, "group": "fish_pickled_jar_glass_sealed_2" },
       { "prob": 10, "group": "lobster_canned_jar_glass_sealed_2" },
       { "prob": 25, "item": "soup_fish" },
@@ -1059,6 +1057,18 @@
       { "prob": 10, "item": "lobster_smoked" },
       { "prob": 10, "item": "mollusk_smoked" },
       { "prob": 25, "group": "fish_pickled_jar_3l_glass_sealed_12" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "honey_market_stall",
+    "subtype": "collection",
+    "entries": [
+      { "item": "honey_mustard_sealed_rng", "prob": 15 },
+      { "item": "honey_bottled", "prob": 20 },
+      { "item": "honey_glassed", "prob": 20 },
+      { "item": "honeycomb", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "honey_glassed_jar_glass_sealed_5", "prob": 10 }
     ]
   },
   {
