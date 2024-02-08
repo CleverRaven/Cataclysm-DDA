@@ -2000,7 +2000,66 @@ void Character::modify_morale( item &food, const int nutr )
             return trinary::NONE;
         }
 
-        if( consume_med( target, *this ) || eat( target, *this, force ) ) {
+                        time_duration Character::get_consume_time( const item & it ) const {
+                            const int charges = std::max( it.charges, 1 );
+                            int volume = units::to_milliliter( it.volume() ) / charges;
+                            if( 0 == volume && it.type ) {
+                                volume = units::to_milliliter( it.type->volume );
+                            }
+                            time_duration time = time_duration::from_seconds( std::max( ( volume /
+                                                 5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
+                            float consume_time_modifier = 1.0f;//only for food and drinks
+                            const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
+                            const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
+                            if( eat_verb || comest_type == "FOOD" ) {
+                                time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+                                consume_time_modifier = mutation_value( "consume_time_modifier" );
+                            } else if( !eat_verb && comest_type == "DRINK" ) {
+                                time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+                                consume_time_modifier = mutation_value( "consume_time_modifier" );
+                            } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+                                time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                                                  ( fun->get_actor_ptr() )->move_cost );
+                            } else if( it.is_medication() ) {
+                                const use_function *consume_drug = it.type->get_use( "consume_drug" );
+                                const use_function *smoking = it.type->get_use( "SMOKING" );
+                                const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
+                                if( consume_drug != nullptr ) { //its a drug
+                                    const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                                            ( consume_drug->get_actor_ptr() );
+                                    if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
+                                        has_bionic( bio_syringe ) ) {
+                                        time = time_duration::from_seconds(
+                                                   15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
+                                    } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
+                                               consume_drug_use->tools_needed.end() ) {
+                                        time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
+                                    } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
+                                               consume_drug_use->tools_needed.end() ||
+                                               consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
+                                        time = time_duration::from_seconds( 30 );//smoke a bowl
+                                    } else {
+                                        time = time_duration::from_seconds( 5 );//popping a pill is quick
+                                    }
+                                } else if( smoking != nullptr ) {
+                                    time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
+                                } else if( adrenaline_injector != nullptr ) {
+                                    //epi-pens, and disinfectant are fairly quick
+                                    time = time_duration::from_seconds( 15 );
+                                } else {
+                                    time = time_duration::from_seconds( 5 ); //probably pills so quick
+                                }
+                            } else if( it.get_category_shallow().get_id() == item_category_chems ) {
+                                time = time_duration::from_seconds( std::max( ( volume / 15 ),
+                                                                    1 ) ); //Consume 15 mL (1 tablespoon) per second
+                                consume_time_modifier = mutation_value( "consume_time_modifier" );
+                            }
+
+                            // Minimum consumption time, without mutations, is always 1 second.
+                            time = std::max( 1_seconds, time );
+
+                            return time * consume_time_modifier;
+                        }
 
             get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
