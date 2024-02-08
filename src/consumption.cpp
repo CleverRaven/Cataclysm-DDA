@@ -1505,20 +1505,26 @@ void Character::modify_morale( item &food, const int nutr )
         return std::round( kcalories / effective_volume );
     }
 
-    static void activate_consume_eocs( Character & you, item & target ) {
-        Character *char_ptr = nullptr;
-        if( avatar *u = you.as_avatar() ) {
-            char_ptr = u;
-        } else if( npc *n = you.as_npc() ) {
-            char_ptr = n;
-        }
-        item_location loc( you, &target );
-        dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
-        const islot_comestible &comest = *target.get_comestible();
-        for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
-            eoc->activate( d );
-        }
-    }
+                // Used when displaying effective food satiation values.
+                int Character::compute_calories_per_effective_volume( const item & food,
+                        const nutrients * nutrient /* = nullptr */ )const {
+                    /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+                    stomach fullness source code. Look at issue #44365*/
+                    int kcalories;
+                    if( nutrient ) {
+                        // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                        kcalories = nutrient->kcal();
+                    } else {
+                        kcalories = compute_effective_nutrients( food ).kcal();
+                    }
+                    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+                    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+                    const double effective_volume = food_vol * energy_density_ratio;
+                    if( kcalories == 0 && effective_volume == 0.0 ) {
+                        return 0;
+                    }
+                    return std::round( kcalories / effective_volume );
+                }
 
                 static void activate_consume_eocs( Character & you, item & target ) {
                     Character *char_ptr = nullptr;
