@@ -1475,6 +1475,7 @@ void Character::modify_morale( item &food, const int nutr )
                     add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
                     add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
                 }
+                add_morale( MORALE_HONEY, honey_fun, 100 );
             }
         }
         const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
