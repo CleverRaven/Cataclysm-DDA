@@ -3811,6 +3811,8 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
         for( const quality_requirement &quality_req : quality_group ) {
             options.clear();
             pseudo_options.clear();
+	    // TODO: Find a better way of doing this than spawning one of every item.
+	    // Do it once and cache the results?
             for( const itype *i : item_controller->all() ) {
                 item temp_item( i, calendar::turn, min_charges_for_qual );
                 if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
@@ -3941,6 +3943,14 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
                 get_map().add_item_or_charges( player_character.pos(), new_container );
                 charges_to_spawn -= mag.ammo_remaining();
             }
+	} else if( granted.can_link_up() ) {
+	  // This is an item that's supposed to be plugged in to a vehicle/appliance
+	  if( !silent ) {
+	    add_msg( m_info, string_format( "Cannot yet spawn: %s", item::nname( entry.first, entry.second ) ) );
+	  } else {
+	    debugmsg( "Not yet able to spawn linked item %s\n", item::nname( entry.first, entry.second ) );
+	  }
+	  get_map().add_item_or_charges( player_character.pos(), granted );
         } else {
             if( entry.second <= 1 ) {
                 if( !silent ) {
