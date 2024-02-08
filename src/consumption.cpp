@@ -1260,12 +1260,17 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         mod_fatigue( -comest.fatigue_mod );
     }
 
-    void Character::modify_addiction( const islot_comestible & comest ) {
-        for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
-            add_addiction( add.first, add.second );
-            if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
-                rem_morale( add.first->get_craving_morale() );
-            }
+void Character::modify_fatigue( const islot_comestible &comest )
+{
+    mod_fatigue( -comest.fatigue_mod );
+}
+
+void Character::modify_addiction( const islot_comestible &comest )
+{
+    for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
+        add_addiction( add.first, add.second );
+        if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+            rem_morale( add.first->get_craving_morale() );
         }
     }
 
