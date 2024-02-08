@@ -53,7 +53,7 @@
   {
     "type": "mutation_category",
     "id": "SLIME",
-    "name": "Slime",
+    "name": { "ctxt": "mutation_category", "str": "Slime" },
     "threshold_mut": "THRESH_SLIME",
     "mutagen_message": "Your body loses all rigidity for a moment.",
     "memorial_message": "Gave up on rigid human norms.",

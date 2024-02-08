@@ -924,6 +924,7 @@
       { "item": "book_newage_beyondveil", "prob": 1 },
       { "item": "book_newage_weapcrys", "prob": 1 },
       { "item": "book_newage_aliens", "prob": 1 },
+      { "item": "poetic_edda", "prob": 1 },
       { "item": "book_newage_horoscopes", "prob": 1 }
     ]
   },

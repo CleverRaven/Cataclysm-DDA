@@ -49,7 +49,10 @@
   {
     "id": "TALK_SCIENCE_REP_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+    "dynamic_line": {
+      "gendered_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So what are you doing right now?", "topic": "TALK_SCIENCE_REP_NEW_DOING" },
       { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }

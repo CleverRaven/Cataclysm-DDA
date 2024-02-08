@@ -221,7 +221,7 @@
     "location": "underbarrel",
     "//": "underbarrel to interfere with other stuff in the underbarrel slot on the SKS.",
     "mod_targets": [ "shotgun", "rifle" ],
-    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
+    "is_bayonet": true,
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "stab": 10 }
@@ -530,8 +530,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -643,9 +643,9 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
+    "is_bayonet": true,
     "min_skills": [ [ "weapon", 1 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
     "flags": [  ],
     "melee_damage": { "stab": 6 }
   },

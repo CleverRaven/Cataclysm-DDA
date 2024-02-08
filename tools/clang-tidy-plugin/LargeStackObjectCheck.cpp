@@ -58,7 +58,11 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
         return;
     }
 
+#if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 17
+    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+#else
     if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+#endif
         int VarSize_KiB = *VarSize / CharUnits::fromQuantity( 1024 );
 
         if( VarSize_KiB >= 100 ) {

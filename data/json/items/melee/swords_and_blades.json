@@ -295,6 +295,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -318,7 +319,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -368,6 +368,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -391,7 +392,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -429,6 +429,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -452,7 +453,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -1660,6 +1660,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -1683,7 +1684,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
@@ -3090,6 +3090,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "number4_mki" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -3113,7 +3114,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -3140,6 +3140,7 @@
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "type99", "type_99_sniper" ],
+      "is_bayonet": true,
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
@@ -3163,7 +3164,6 @@
         "u_shotgun",
         "u_shotgun_mod"
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
       "install_time": "5 s"
     },
     "techniques": [ "WBLOCK_2" ],

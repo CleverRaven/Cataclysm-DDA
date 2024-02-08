@@ -1718,8 +1718,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             prediction.moves = throw_moves;
         } else {
-            prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
-                               + time_to_attack( you, *weapon.type );
+            prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
+                                               you.recoil ).moves + time_to_attack( you, *weapon.type );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate

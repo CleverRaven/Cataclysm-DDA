@@ -371,8 +371,7 @@ static void achievement_attained( const achievement *a, bool achievements_enable
         } else if( popup_option == "always" ) {
             show_popup = true;
         } else if( popup_option == "first" ) {
-            const achievement_completion_info *past_info = get_past_games().achievement( a->id );
-            show_popup = !past_info || past_info->games_completed.empty();
+            show_popup = !get_past_achievements().is_completed( a->id );
         } else {
             debugmsg( "Unexpected ACHIEVEMENT_COMPLETED_POPUP option value %s", popup_option );
             show_popup = false;
@@ -1409,9 +1408,6 @@ static bool cancel_auto_move( Character &you, const std::string &text )
     g->invalidate_main_ui_adaptor();
     if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
         add_msg( m_warning, _( "%s Auto move canceled." ), text );
-        if( !you.omt_path.empty() ) {
-            you.omt_path.clear();
-        }
         you.clear_destination();
         return true;
     }
@@ -3377,11 +3373,8 @@ bool game::save_achievements()
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
 
-    // Clear past achievements so that it will be reloaded
-    clear_past_achievements();
-
     return write_to_file( json_path_string, [&]( std::ostream & fout ) {
-        get_achievements().write_json_achievements( fout );
+        get_achievements().write_json_achievements( fout, u.name );
     }, _( "player achievements" ) );
 
 }
@@ -11943,7 +11936,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );
-            u.mod_stamina( -750 );
+            u.burn_energy_all( -750 );
             move_cost += 500;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
@@ -12108,7 +12101,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     } else {
         u.moves -= move_cost;
-        u.mod_stamina( -move_cost );
+        u.burn_energy_all( -move_cost );
     }
 
     if( surfacing || submerging ) {

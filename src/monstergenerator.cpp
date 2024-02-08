@@ -631,7 +631,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
     add_hardcoded_attack( "STARE", mattack::stare );
-    add_hardcoded_attack( "FEAR_PARALYZE", mattack::fear_paralyze );
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
@@ -818,6 +817,13 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
+    if( was_loaded && jo.has_object( "extend" ) ) {
+        JsonObject ext = jo.get_object( "extend" );
+        ext.allow_omitted_members();
+        if( ext.has_object( "armor" ) ) {
+            armor = extend_resistances_instance( armor, ext.get_object( "armor" ) );
+        }
     }
     armor_proportional.reset();
     if( jo.has_object( "proportional" ) ) {

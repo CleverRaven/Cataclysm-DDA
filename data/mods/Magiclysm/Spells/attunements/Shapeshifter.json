@@ -35,7 +35,7 @@
     "id": "biomechanic",
     "type": "SPELL",
     "name": "Biomechanic",
-    "description": "Who said human body is weak?  You just need to compress enough mana into your flesh and bones, and you will show them who is the dangerous creature in the world.",
+    "description": "Who said human body is weak?  You just need to compress enough mana into your flesh and bones, and you will show them who the real danger is in this world.",
     "//": "thats supposed to be a magikarp power - weak on the very beginning but op in the end of the path. also it has a cool feature - you can support it indefinitely, if you have enough mana (and thats the only problem for the user - it requires really ton of mana to support it)",
     "message": "",
     "valid_targets": [ "self" ],

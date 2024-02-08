@@ -134,6 +134,8 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -3546,6 +3548,11 @@ static bodypart_id pick_part_to_heal(
             return bodypart_id( "bp_null" );
         }
 
+        if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
+            add_msg( m_info, _( "You can't use first aid on a bionic limb." ) );
+            continue;
+        }
+
         if( ( infect && patient.has_effect( effect_infected, healed_part ) ) ||
             ( bite && patient.has_effect( effect_bite, healed_part ) ) ||
             ( bleed && patient.has_effect( effect_bleed, healed_part ) ) ) {
@@ -5522,6 +5529,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
 
     item_location loc( *p->as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    write_var_value( var_type::context, "npctalk_var_id", nullptr, &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

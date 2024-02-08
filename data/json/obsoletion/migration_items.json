@@ -262,11 +262,6 @@
     "replace": "ammo_box_4"
   },
   {
-    "id": "ammunition_can_carlgustav",
-    "type": "MIGRATION",
-    "replace": "ammunition_can_carlgustav_hedp"
-  },
-  {
     "id": "glock_20",
     "from_variant": "glock_40",
     "type": "MIGRATION",
@@ -600,5 +595,23 @@
     "id": "trex_gun",
     "type": "MIGRATION",
     "replace": "win70_458"
+  },
+  {
+    "id": "ballistic_vest_heavy",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 }, { "id": "iotv_groin_plate", "count": 1 } ]
+  },
+  {
+    "id": "ballistic_vest_heavy_arms",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 } ]
+  },
+  {
+    "id": "ballistic_vest_heavy_legs",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_groin_plate", "count": 1 } ]
   }
 ]

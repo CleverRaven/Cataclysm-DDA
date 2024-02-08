@@ -286,7 +286,7 @@ Instead of a full JSON object, one can also write a JSON array.  The default sub
 ```json
   {
     "death_drops": [
-      { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+      { "item": "sheet_cotton", "damage": 2 }, { "item": "bowling_ball" }
     ]
   }
 ```

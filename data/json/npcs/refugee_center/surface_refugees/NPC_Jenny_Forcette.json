@@ -396,7 +396,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1_helped",
     "//": "The talk_response to lead here should be in TALK_REFUGEE_JENNY_Project1, and should have these components, saved here until we can check for the pneumatics proficiency in conditions: What do you need to know?  I'm pretty handy with pneumatic devices, I can probably help. 'u_add_var: Jenny_pneumatics value: mission_complete'.",
-    "dynamic_line": "\"Holy shit, what are the odds?  OK, stand back and hold on.\"  Jenny begins peppering you with questions, which you answer to the best of your ability.  She seems quite satisfied.  \"Well, I can't thank you enough,\" she smiles after a few minutes.  \"You probably just saved me weeks of reinventing the wheel.  Here, it's not much but it's all I've got.\"  She hands you a bundle of the local currency.",
+    "dynamic_line": {
+      "gendered_line": "\"Holy shit, what are the odds?  OK, stand back and hold on.\"  Jenny begins peppering you with questions, which you answer to the best of your ability.  She seems quite satisfied.  \"Well, I can't thank you enough,\" she smiles after a few minutes.  \"You probably just saved me weeks of reinventing the wheel.  Here, it's not much but it's all I've got.\"  She hands you a bundle of the local currency.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -426,7 +429,10 @@
     "id": "TALK_REFUGEE_JENNY_Project3",
     "dynamic_line": {
       "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('7 d')" ],
-      "no": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
+      "no": {
+        "gendered_line": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
+        "relevant_genders": [ "u" ]
+      },
       "yes": {
         "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('14 d')" ],
         "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
