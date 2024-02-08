@@ -1064,7 +1064,7 @@
     "id": "honey_market_stall",
     "subtype": "collection",
     "entries": [
-      { "item": "honey_mustard_sealed_rng", "prob": 15 },
+      { "group": "honey_mustard_sealed_rng", "prob": 15 },
       { "item": "honey_bottled", "prob": 20 },
       { "item": "honey_glassed", "prob": 20 },
       { "item": "honeycomb", "count": [ 2, 4 ], "prob": 10 },
