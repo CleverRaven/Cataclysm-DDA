@@ -1590,12 +1590,6 @@ void Character::modify_morale( item &food, const int nutr )
                     slime->friendly = -1;
                 }
             }
-            mod_hunger( 40 );
-            mod_thirst( 40 );
-            //~ slimespawns have *small voices* which may be the Nice equivalent
-            //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
-            add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-        }
 
         nutrients food_nutrients = compute_effective_nutrients( food );
         const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
