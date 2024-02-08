@@ -154,13 +154,13 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
-        "ccccc",
-        "c   t",
-        "c   d",
-        "C   d",
-        "cr  d",
-        "cr  d",
-        "ccccc"
+        "ccccc  ",
+        "c   t  ",
+        "c   d  ",
+        "C   d  ",
+        "cr  d  ",
+        "cr  d  ",
+        "ccccc  "
       ],
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
