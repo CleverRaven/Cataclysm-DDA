@@ -25,12 +25,12 @@
         "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
       }
     },
-    "terrain": { ",": "t_thconc_floor" }
+    "terrain": { ",": "t_thconc_floor_no_roof" }
   },
   {
     "type": "palette",
     "id": "open_air_stall_palette",
-    "terrain": { ",": "t_thconc_floor" },
+    "terrain": { ",": "t_thconc_floor_no_roof" },
     "furniture": {
       "c": "f_large_canvas_wall",
       "d": "f_displaycase",
