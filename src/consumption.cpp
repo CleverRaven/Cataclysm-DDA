@@ -1813,8 +1813,8 @@ void Character::modify_morale( item &food, const int nutr )
         // Minimum consumption time, without mutations, is always 1 second.
         time = std::max( 1_seconds, time );
 
-        return time * consume_time_modifier;
-    }
+                    // GET IN MAH BELLY!
+                    stomach.ingest( ingested );
 
     static bool query_consume_ownership( item & target, Character & p ) {
         if( !target.is_owned_by( p, true ) ) {
