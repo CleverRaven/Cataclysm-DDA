@@ -206,8 +206,7 @@
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
     "id": "drill_press_tool",
@@ -394,8 +393,7 @@
     "type": "TOOL",
     "name": { "str": "oxygen concentrator" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "ammo": [ "battery" ]
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
@@ -403,7 +401,6 @@
     "name": { "str": "high pressure compressor unit" },
     "copy-from": "fake_crafting_tool",
     "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
     "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
   }
