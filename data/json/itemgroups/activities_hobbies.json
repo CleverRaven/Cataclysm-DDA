@@ -117,7 +117,7 @@
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "roller_blades", 20 ],
-      [ "fitover_roller_blades", 5 ],
+      [ "fitover_roller_blades", 1 ],
       [ "rollerskates", 10 ],
       [ "folded_skateboard_generic", 10 ],
       [ "wheel_skate", 50 ],

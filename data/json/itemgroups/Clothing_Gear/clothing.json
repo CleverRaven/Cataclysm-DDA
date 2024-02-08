@@ -1769,7 +1769,6 @@
       [ "leathersandals", 10 ],
       [ "rollerskates", 1 ],
       [ "roller_blades", 5 ],
-      [ "fitover_roller_blades", 1 ],
       [ "roller_shoes_off", 1 ],
       [ "mocassins", 20 ],
       { "item": "heels", "variant": "heels_flag", "prob": 70, "event": "independence_day" }
@@ -2070,7 +2069,7 @@
       [ "leathersandals", 100 ],
       [ "rollerskates", 10 ],
       [ "roller_blades", 20 ],
-      [ "fitover_roller_blades", 5 ],
+      [ "fitover_roller_blades", 1 ],
       [ "roller_shoes_off", 10 ],
       [ "boots_rubber", 20 ],
       [ "clownshoes", 10 ],
@@ -4308,7 +4307,6 @@
           { "item": "golf_shoes", "prob": 20 },
           { "item": "dance_shoes", "prob": 30 },
           { "item": "roller_blades", "prob": 35 },
-          { "item": "fitover_roller_blades", "prob": 5 },
           { "item": "rollerskates", "prob": 35 },
           { "item": "roller_shoes_off", "prob": 45 }
         ],

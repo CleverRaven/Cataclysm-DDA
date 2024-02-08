@@ -4,13 +4,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "folded_skateboard_generic", "prob": 2 },
-      { "item": "roller_blades", "prob": 2 },
+      { "item": "folded_skateboard_generic", "prob": 200 },
+      { "item": "roller_blades", "prob": 200 },
       { "item": "fitover_roller_blades", "prob": 1 },
-      { "item": "rollerskates", "prob": 2 },
-      { "item": "knee_pads", "prob": 1 },
-      { "item": "elbow_pads", "prob": 1 },
-      { "item": "helmet_bike", "prob": 1 }
+      { "item": "rollerskates", "prob": 200 },
+      { "item": "knee_pads", "prob": 100 },
+      { "item": "elbow_pads", "prob": 100 },
+      { "item": "helmet_bike", "prob": 100 }
     ]
   },
   {

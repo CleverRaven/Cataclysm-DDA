@@ -211,7 +211,6 @@
       { "item": "roller_shoes_on", "prob": 25 },
       { "item": "rollerskates", "prob": 40 },
       { "item": "roller_blades", "prob": 35 },
-      { "item": "fitover_roller_blades", "prob": 5 },
       { "item": "sneakers", "prob": 50 },
       { "item": "lowtops", "prob": 40 },
       { "item": "dance_shoes", "prob": 25 },

@@ -1979,7 +1979,7 @@
     "weight": "1640 g",
     "volume": "3750 ml",
     "price": 8500,
-    "price_postapoc": 2500,
+    "price_postapoc": 3500,
     "to_hit": -2,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
