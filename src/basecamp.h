@@ -240,6 +240,7 @@ class basecamp
         void feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrients food );
         /// Helper, forwards to above
         void feed_workers( npc *worker, nutrients food );
+		void player_eats_meal();
         bool distribute_food();
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );

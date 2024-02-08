@@ -351,6 +351,9 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Determine_Leadership:
             return _( "Choose New Leader" );
 
+        case Camp_Have_Meal:
+            return _( "Have A Meal" );
+
         case Camp_Hide_Mission:
             return _( "Hide Mission(s)" );
 
@@ -1496,6 +1499,16 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                              entry );
         }
         {
+            const mission_id miss_id = { Camp_Have_Meal, "", {}, base_dir };
+            entry = string_format( _( "Notes:\n"
+                                      "Eat some food from the larder.\n"
+                                      "Nutritional value depends on food stored in the larder.\n"
+                                      "Difficulty: N/A\n"
+                                      "Risk: None\n" ) );
+            mission_key.add( { miss_id, false }, name_display_of( miss_id ),
+                             entry );
+        }
+        {
             validate_assignees();
             const mission_id miss_id = { Camp_Assign_Jobs, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
@@ -1658,6 +1671,14 @@ void basecamp::choose_new_leader()
     }
 }
 
+void basecamp::player_eats_meal()
+{
+    // Make an empty vector, branch logic determines it must be the player
+    std::vector<shared_ptr_fast<npc>> fake_work_party;
+    nutrients dinner = camp_food_supply( -3000 );
+    feed_workers( fake_work_party, dinner );
+}
+
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
 {
     if( miss_id.id.id == No_Mission ) {
@@ -1676,6 +1697,10 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
 
         case Camp_Determine_Leadership:
             choose_new_leader();
+            break;
+
+        case Camp_Have_Meal:
+            player_eats_meal();
             break;
 
         case Camp_Hide_Mission:
@@ -5458,6 +5483,12 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
                                   yours->food_supply.calories;
         consumed = yours->food_supply;
+        // Access to this branch is guarded by checks against the food supply, we should only get here via player_eats_meal()
+        if( std::abs( change.calories ) > yours->food_supply.calories ) {
+            //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
+            yours->food_supply *= 0;
+            return consumed;
+        }
         consumed *= percent_consumed;
         // Subtraction since we use the absolute value of change's calories to get the percent
         yours->food_supply -= consumed;
@@ -5493,7 +5524,15 @@ void basecamp::feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrient
 {
     const int num_workers = workers.size();
     if( num_workers == 0 ) {
-        debugmsg( "feed_workers called without any workers to feed!" );
+        // Must be the player looking for food...
+        Character &you = get_player_character();
+        units::volume filling_vol = std::max( 0_ml,
+                                              you.stomach.capacity( you ) / 2 - you.stomach.contains() );
+        you.stomach.ingest( food_summary{
+            0_ml,
+            filling_vol,
+            food
+        } );
         return;
     }
     // Split the food into equal sized portions.
@@ -5671,6 +5710,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         //  Faction camp tasks
         case Camp_Distribute_Food:
         case Camp_Determine_Leadership:
+        case Camp_Have_Meal:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
