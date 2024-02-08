@@ -1953,7 +1953,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
-            camp_food_supply( duration, exertion_level );
+            feed_workers( comp, camp_food_supply( duration, exertion_level ) );
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
@@ -2039,7 +2039,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             comp->companion_mission_time_ret = calendar::turn + work_days;
         }
         if( must_feed ) {
-            camp_food_supply( work_days * result.size(), making.exertion_level() );
+            feed_workers( result, camp_food_supply( work_days * result.size(), making.exertion_level() ) );
         }
         return result;
     }
@@ -3754,7 +3754,6 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     if( yours->food_supply.kcal() < need_food ) {
         popup( _( "Your companion seems disappointed that your pantry is empty…" ) );
     }
-    int avail_food = std::min( need_food, yours->food_supply.kcal() ) + time_to_food( reserve_time );
     // movng all the logic from talk_function::companion return here instead of polluting
     // mission_companion
     comp.reset_companion_mission();
@@ -3775,9 +3774,8 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     g->reload_npcs();
     validate_assignees();
 
-    camp_food_supply( -need_food );
-    comp.mod_hunger( -avail_food );
-    comp.mod_stored_kcal( avail_food );
+    //CHECKME: When does this even get called? Are we double-dipping food costs?
+    //feed_workers( comp, camp_food_supply( -need_food ) );
     if( has_water() ) {
         comp.set_thirst( 0 );
     }
@@ -5520,7 +5518,7 @@ nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
-void basecamp::feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrients food )
+void basecamp::feed_workers( std::vector<npc_ptr> workers, nutrients food )
 {
     const int num_workers = workers.size();
     if( num_workers == 0 ) {
@@ -5553,9 +5551,9 @@ void basecamp::feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrient
     return;
 }
 
-void basecamp::feed_workers( npc *worker, nutrients food )
+void basecamp::feed_workers( npc_ptr worker, nutrients food )
 {
-    std::vector<shared_ptr_fast<npc>> work_party;
+    std::vector<npc_ptr> work_party;
     work_party.emplace_back( worker );
     feed_workers( work_party, food );
     return;

@@ -237,9 +237,9 @@ class basecamp
         /// LEGACY FUNCTION. Calculates raw kcal cost from duration of work and exercise, then forwards it to above
         nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
         /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
-        void feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrients food );
+        void feed_workers( std::vector<npc_ptr> workers, nutrients food );
         /// Helper, forwards to above
-        void feed_workers( npc *worker, nutrients food );
+        void feed_workers( npc_ptr worker, nutrients food );
 		void player_eats_meal();
         bool distribute_food();
         std::string name_display_of( const mission_id &miss_id );
