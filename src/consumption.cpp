@@ -1123,6 +1123,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                 you.add_effect( effect_hallu, 6_hours );
             }
         }
+    }
 
         if( amorphous ) {
             you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
