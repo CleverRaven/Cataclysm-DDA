@@ -1179,10 +1179,13 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                         you.use_charges( food.get_comestible()->tool, 1 );
                     }
 
-                    if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
-                        you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
-                        you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
-                    }
+                            if( amorphous ) {
+                                you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                           food.tname() );
+                            } else if( drinkable ) {
+                                if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                    !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                    you.is_avatar() ) {
 
         // The fun changes for these effects are applied in fun_for().
         if( food.has_flag( flag_MUSHY ) ) {
