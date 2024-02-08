@@ -1989,16 +1989,25 @@ void Character::modify_morale( item &food, const int nutr )
             return trinary::NONE;
         }
 
-        if( target.is_craft() ) {
-            add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
-            if( is_npc() ) {
-                debugmsg( "%s tried to eat a %s", get_name(), target.tname() );
-            }
-            return trinary::NONE;
-        }
-        if( is_avatar() && !query_consume_ownership( target, *this ) ) {
-            return trinary::NONE;
-        }
+                        item &Character::get_consumable_from( item & it ) const {
+                            item *ret = nullptr;
+                            it.visit_items( [&]( item * it, item * ) {
+                                if( can_consume_as_is( *it ) ) {
+                                    ret = it;
+                                    return VisitResponse::ABORT;
+                                }
+                                return VisitResponse::NEXT;
+                            } );
+
+                            if( ret != nullptr ) {
+                                return *ret;
+                            }
+
+                            static item null_comestible;
+                            // Since it's not const.
+                            null_comestible = item();
+                            return null_comestible;
+                        }
 
                         time_duration Character::get_consume_time( const item & it ) const {
                             const int charges = std::max( it.charges, 1 );
