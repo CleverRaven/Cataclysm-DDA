@@ -331,6 +331,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_canvas_roof",
+    "name": "canvas roof",
+    "description": "A section of canvas rooftop.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD" ],
+    "bash": { "str_min": 1, "str_max": 8, "sound": "rrrrip!", "sound_fail": "slap!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
     "id": "t_treetop",
     "name": "treetop",
     "description": "The upper branches of a tree.  There's just enough room to perch here.",
