@@ -45,7 +45,7 @@
     },
     "furniture": {
       "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
-      "c": "f_chair",
+      "c": "f_druid_chair",
       "b": "f_druid_bed",
       "B": "f_druid_bookcase",
       "d": "f_druid_desk",
@@ -118,9 +118,14 @@
     }
   },
   {
+    "type": "monstergroup",
+    "name": "GROUP_DRUID_TOWER_DRUID_HEAD",
+    "monsters": [ { "monster": "mon_feral_druid", "weight": 750 }, { "monster": "mon_feral_druid_enhanced", "weight": 750 } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "druid_ritual_home" ],
+    "om_terrain": [ "druid_ritual_home_z0" ],
     "//": "This is common areas and eating places.",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -138,13 +143,13 @@
         "  ?##~~~+~~~__~R__~###  ",
         " I###~___~~__~~__T~###^I",
         " I###T__ct~___+__~~###  ",
-        "  ###~__ct~__~~__R~##? I",
+        "  ###~__ct~_~~~__R~##? I",
         " ^###~~__~~__~~~+~~##^  ",
         "? ####~_T~T__T~T__~##II ",
         "  I###~~~~~__~~___~###? ",
-        " ? ###~~~~___+__cc~~##I ",
-        " I^###~~~~___~~_ttT~##I ",
-        " ?I##~~~~~~__~~~~~~##I  ",
+        " ? ###~ṚṚ~___+__cc~~##I ",
+        " I^###Ṛ__+__~~~_ttT~##I ",
+        " ?I##~ṚṚ~~__~~~~~~~##I  ",
         " I ########__########I  ",
         " ? ?##^II?#++#III^###I  ",
         " I   I  I   I       I   ",
@@ -152,6 +157,27 @@
       ],
       "palettes": [ "druid_ritual_home" ],
       "terrain": { ";": "t_heartwood_floor", ">": "t_triffid_slope_down", "<": "t_triffid_slope_up" },
+      "furniture": { "Ṛ": "f_druid_rack_wood" },
+      "item": {
+        "Ṛ": [
+          { "item": "vinegar", "chance": 50, "repeat": [ 1, 8 ] },
+          { "item": "flour", "chance": 75, "repeat": [ 10, 25 ] },
+          { "item": "veggy_pickled", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "veggy_pickled", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] },
+          { "item": "apple_canned", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "apple_canned", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] },
+          { "item": "fish_pickled", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "fish_pickled", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] },
+          { "item": "meat_pickled", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "meat_pickled", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] },
+          { "item": "veggy_canned", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 2, 16 ] },
+          { "item": "veggy_canned", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 2, 8 ] },
+          { "item": "can_tomato", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "can_tomato", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] },
+          { "item": "meat_canned", "container-item": "jar_glass_sealed", "prob": 40, "repeat": [ 1, 8 ] },
+          { "item": "meat_canned", "container-item": "jar_3l_glass_sealed", "prob": 15, "repeat": [ 1, 4 ] }
+        ]
+      },
       "items": {
         "t": { "item": "dining", "chance": 25, "repeat": [ 1, 2 ] },
         "B": [
@@ -162,9 +188,10 @@
         "R": [ { "item": "tools_common", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "mischw", "chance": 10 } ],
         "5": [ { "item": "SUS_bathroom_sink", "chance": 80 } ],
         "P": [ { "item": "SUS_bathroom_cabinet", "chance": 60 } ]
-      }
-    },
-    "toilets": { ";": {  } }
+      },
+      "toilets": { ";": {  } },
+      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 1, 21 ], "y": [ 1, 21 ], "repeat": [ 2, 10 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -177,22 +204,22 @@
         " ,,,,                   ",
         " ,####,                 ",
         "  ,##,                  ",
-        "    ##         #####    ",
-        "   ####### #####~~~##   ",
-        "   #~~~~~###~~~~~T~~#   ",
-        "   #~~~~~~~~~BBBB_~##   ",
-        "   #~~~~~~>_~B____~#    ",
-        "   #~~bb~~~_+___cd~#    ",
+        "    ##   ###   #####    ",
+        "   #######~#####~~~##   ",
+        "   #~~~~~~~~~~~~~T~~#   ",
+        "   #~~~~~~_>~BBBB_~##   ",
+        "   #~~~~~~_~~B____~#    ",
+        "   #~~bb~~__+___cd~#    ",
         "   #~~__D~~_~~~~~~~##   ",
         "   ##~c___~_+____B~~#   ",
         "    #~d___+_~~c__B~~##  ",
         "   ##~~~~~~_~~d__B~##   ",
         "    #~bb~~~_T~~BB~~#    ",
         "   ##~__D~~_~~~~~~~#    ",
-        "   #~~___+__<~~5PP~##,,,",
+        "   #~~___+___~~5PP~##,,,",
         "   #~dc_%~T~_+____~####,",
-        "   #~~~~~~~~~~~;~;~###,,",
-        "   ######~~~~~~~~~~##   ",
+        "   #~~~~~~~~_~~;~;~###,,",
+        "   ######~~~<~~~~~~##   ",
         "   ###  ############    ",
         "  ,###,     ####,##     ",
         "  ###,       ,###,      ",
@@ -218,7 +245,11 @@
         "P": [ { "item": "SUS_bathroom_cabinet", "chance": 60 } ],
         "%": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] }
       },
-      "toilets": { ";": {  } }
+      "toilets": { ";": {  } },
+      "place_monster": [
+        { "monster": "mon_feral_druid", "x": [ 8, 15 ], "y": [ 9, 14 ], "chance": 75, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 15 ], "y": [ 7, 14 ], "repeat": [ 2, 5 ] }
+      ]
     }
   },
   {
@@ -237,18 +268,18 @@
         "   #~~~~~###~~~~~~~~#   ",
         "   #~~BBBB~<T~BBB~~##   ",
         "   #~T____+__~~__T~#    ",
-        "   #~~_O_~~__+__cd~#    ",
-        "   #~Đ___~~__~~__D~##   ",
-        "   ##~~~+~~__~~+~~~~#   ",
+        "   #~~_O_~~~_+__cd~#    ",
+        "   #~Đ___~~~_~~__D~##   ",
+        "   ##~~~+~~~__~+~~~~#   ",
         "    #~____+__~~__cd~##  ",
         "   ##T_O_Đ~__~dc_~~##   ",
-        "    #~___~~__~~__T~#    ",
-        "   ##~~BB~~__+___~~#    ",
-        "   #~~~~~~~T>~~c%~~##   ",
-        "   #~~~~~~~~~~~d~~~##   ",
-        "   #~~~~~~~~~~~~~~~#    ",
-        "   ######~~~~~~~~~~#    ",
-        "     #  ############    ",
+        "    #~___~__~~~__T~#    ",
+        "   ##~~BB~~_~+___~~#    ",
+        "   #~~~~~~T__~~c%~~##   ",
+        "   #~~R_R~~~_~~d~~~##   ",
+        "   #~~R____+_~~~~~~#    ",
+        "   ###~~~~~~>~~~~~~#    ",
+        "     ###############    ",
         "            ##   ##     ",
         "                        ",
         "                        ",
@@ -282,8 +313,14 @@
           { "item": "bags", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_clothes", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "enchanted_worn_items", "chance": 8, "repeat": [ 1, 2 ] }
+        ],
+        "R": [
+          { "item": "magic_plants_common", "chance": 75, "repeat": [ 8, 12 ] },
+          { "item": "magic_plants_uncommon", "chance": 50, "repeat": [ 4, 8 ] },
+          { "item": "magic_plants_rare", "chance": 25, "repeat": [ 2, 4 ] }
         ]
-      }
+      },
+      "place_monster": [ { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 6, 16 ], "y": [ 7, 14 ], "repeat": [ 2, 7 ] } ]
     }
   },
   {
@@ -297,21 +334,21 @@
         "                        ",
         "                        ",
         "                        ",
-        "               #####    ",
-        "   ####### #####~~~##   ",
-        "   #~~~~~###~~~~~~~~#   ",
-        "   #~~~~~~~~~~~ŧŧT~##   ",
-        "   #~~~~~~>+_~~__~~#    ",
-        "   #~~~dc~~~_~~__~~#    ",
+        "         ##    #####    ",
+        "   #############~~~##   ",
+        "   #~~~~~~~~~~~~~~~~#   ",
+        "   #~~~~~T_>+~~ŧŧT~##   ",
+        "   #~~~~~~~~_~~c_~~#    ",
+        "   #~~~dc~____~__~~#    ",
         "   #~~~T___cc____~~##   ",
         "   ##~~~___tt___~~~~#   ",
         "    #~~~+~_cc~~+~~~~##  ",
-        "   ##~B__~~~~~d_T~~##   ",
+        "   ##~BB_~~~~~d_T~~##   ",
         "    #~B____~~Dc__~~#    ",
         "   ##~B_O__~______~#    ",
         "   #~~~____+___~~+~##   ",
         "   #~~~~ŧŧ_~___~5_~##   ",
-        "   #~~~~~~~~~_bb~;~#    ",
+        "   #~~~~~~~~~bb~~;~#    ",
         "   ######~~~~~~~~~~#    ",
         "     #  ############    ",
         "            ##   ##     ",
@@ -321,20 +358,20 @@
       ],
       "palettes": [ "druid_ritual_home" ],
       "terrain": { " ": "t_open_air", ">": "t_triffid_slope_down" },
-      "furniture": { "ŧ": "t_druid_table", "O": "f_magic_circle" },
+      "furniture": { "ŧ": "f_druid_table", "O": "f_magic_circle" },
       "items": {
         "ŧ": [
           { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 },
-          { "item": "druid_items", "chance": 15 },
-          { "item": "magical_reagents", "chance": 25, "repeat": [ 2, 4 ] }
+          { "item": "druid_items", "chance": 25 },
+          { "item": "magical_reagents", "chance": 45, "repeat": [ 2, 4 ] }
         ],
         "b": { "item": "bed", "chance": 80, "repeat": [ 1, 2 ] },
         "B": [
           { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "druid_items", "chance": 70 },
+          { "item": "druid_items", "chance": 70, "repeat": [ 1, 3 ] },
           { "item": "novels", "chance": 35, "repeat": [ 2, 4 ] }
         ],
         "D": [
@@ -344,9 +381,13 @@
           { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "5": [ { "item": "SUS_bathroom_sink", "chance": 80 } ]
-      }
-    },
-    "toilets": { ";": {  } }
+      },
+      "toilets": { ";": {  } },
+      "place_monster": [
+        { "group": "GROUP_DRUID_TOWER_DRUID_HEAD", "x": [ 8, 15 ], "y": [ 9, 14 ] },
+        { "group": "GROUP_ZOMBIFIED_ANIMALS", "x": [ 8, 15 ], "y": [ 9, 14 ], "repeat": [ 2, 4 ] }
+      ]
+    }
   },
   {
     "type": "mapgen",
