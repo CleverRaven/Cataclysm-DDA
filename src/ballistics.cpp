@@ -298,7 +298,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     }
 
     //Use find clear path to draw the trajectory with optimal initial tile offsets.
-    trajectory = here.find_clear_path( source, target );
+    // TODO: account for the kind of projectile it is and what it can go though or not
+    trajectory = find_line_to_2( source, target );
 
     add_msg_debug( debugmode::DF_BALLISTIC,
                    "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",

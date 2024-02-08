@@ -2865,39 +2865,17 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
-        new_traj = here.find_clear_path( src, valid_pos );
-        if( range == 1 ) {
-            // We should always be able to hit adjacent squares
-            if( square_dist( src, valid_pos ) > 1 ) {
-                valid_pos = new_traj[0];
+        // TODO: account for what is being aimed
+        new_traj = find_line_to_2( src, valid_pos, [this]( std::vector<tripoint> &new_line ) {
+            // Return the path from just before we get out of range
+            if( trigdist && dist_fn( new_line.back() ) > range
+                || !trigdist && square_dist( src, new_line.back() ) > range ) {
+                new_line.pop_back();
+                return false;
             }
-        } else if( trigdist ) {
-            if( dist_fn( valid_pos ) > range ) {
-                // Find the farthest point that is still in range
-                for( size_t i = new_traj.size(); i > 0; i-- ) {
-                    if( dist_fn( new_traj[i - 1] ) <= range ) {
-                        valid_pos = new_traj[i - 1];
-                        break;
-                    }
-                }
-
-                // FIXME: due to a bug in map::find_clear_path (#39693),
-                //        returned trajectory is invalid in some cases.
-                //        This bandaid stops us from exceeding range,
-                //        but does not fix the issue.
-                if( dist_fn( valid_pos ) > range ) {
-                    debugmsg( "Exceeded allowed range!" );
-                    valid_pos = src;
-                }
-            }
-        } else {
-            tripoint delta = valid_pos - src;
-            valid_pos = src + tripoint(
-                            clamp( delta.x, -range, range ),
-                            clamp( delta.y, -range, range ),
-                            clamp( delta.z, -range, range )
-                        );
-        }
+            return true;
+        } );
+        valid_pos = new_traj[ new_traj.size() - 1 ];
     } else {
         new_traj.push_back( src );
     }
@@ -2905,13 +2883,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     if( valid_pos == dst ) {
         // We don't need to move the cursor after all
         return false;
-    } else if( new_pos == valid_pos ) {
-        // We can reuse new_traj
-        dst = valid_pos;
-        traj = new_traj;
     } else {
         dst = valid_pos;
-        traj = here.find_clear_path( src, dst );
+        traj = new_traj;
     }
 
     if( snap_to_target ) {

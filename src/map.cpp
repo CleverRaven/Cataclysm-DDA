@@ -7462,6 +7462,8 @@ int map::coverage( const tripoint &p ) const
 std::vector<tripoint> map::find_clear_path( const tripoint &source,
         const tripoint &destination ) const
 {
+    return find_line_to_2(source, destination);
+    /*
     // TODO: Push this junk down into the Bresenham method, it's already doing it.
     const point d( destination.xy() - source.xy() );
     const point a( std::abs( d.x ) * 2, std::abs( d.y ) * 2 );
@@ -7480,6 +7482,7 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     }
     // If we couldn't find a clear LoS, just return the ideal one.
     return line_to( source, destination, ideal_start_offset, 0 );
+    */
 }
 
 void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,

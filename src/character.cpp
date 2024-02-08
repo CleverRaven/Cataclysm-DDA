@@ -10668,16 +10668,17 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos(), critter.pos(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
-            std::vector<tripoint> path = here.find_clear_path( pos(), critter.pos() );
-            for( const tripoint &point : path ) {
-                if( here.impassable( point ) &&
+            std::vector<tripoint> path = find_line_to_2( pos(), critter.pos(),
+                                                         [this, &here, &can_see]( std::vector<tripoint> & new_line ) {
+                if( here.impassable( new_line.back() ) && 
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
                        here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE,
-                                      point ) ) ) { //this mirrors melee.cpp function reach_attack
-                    can_see = false;
-                    break;
+                                      new_line.back() ) ) ) { //this mirrors melee.cpp function reach_attack
+                    return false;
                 }
-            }
+                return true;
+            } );
+            can_see = path.back() == pos();
         }
         bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
         // TODO: get rid of fake npcs (pos() check)
