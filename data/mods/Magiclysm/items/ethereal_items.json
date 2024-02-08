@@ -1764,6 +1764,7 @@
     "flags": [
       "PERSONAL",
       "SEMITANGIBLE",
+      "ZERO_WEIGHT",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
