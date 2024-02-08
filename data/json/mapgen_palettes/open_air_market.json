@@ -15,7 +15,7 @@
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
       },
-      "right_market_variant_nests": {
+      "midright_market_variant_nests": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
       },
@@ -32,7 +32,7 @@
   {
     "type": "palette",
     "id": "open_air_stall_palette",
-    "terrain": { ",": "t_thconc_floor" },
+    "terrain": {  },
     "furniture": {
       "c": "f_large_canvas_wall",
       "d": "f_displaycase",
