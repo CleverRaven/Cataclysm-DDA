@@ -2396,6 +2396,8 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 
 static void prep_components_for_craft( const recipe *r )
 {
+    unsigned int new_seed = static_cast<unsigned int>( rng( 1, std::numeric_limits<int>::max() ) );
+    rng_set_engine_seed( new_seed );
     Character &player_character = get_player_character();
     clear_items( 0 );
     grant_skills_to_character( player_character, *r, 0 );
@@ -2403,6 +2405,7 @@ static void prep_components_for_craft( const recipe *r )
         debug_assemble_crafting_materials( r, 1, true );
     } );
     INFO( r->result() );
+    INFO( string_format( "Individual spawning seed: %i", new_seed ) );
     if( !failures.empty() ) {
         DebugLog( D_INFO, DC_ALL ) << failures;
     }
@@ -2427,6 +2430,7 @@ TEST_CASE( "Check provision of recipe components and tools", "[crafting][craftin
     get_player_character().setpos( test_origin );
     for( const auto &e : recipe_dict ) {
         if( !e.second.obsolete && !e.second.never_learn && !e.second.result().is_null() ) {
+	  DebugLog( D_INFO, DC_ALL ) << e.second.result();
             prep_components_for_craft( &e.second );
         }
     }
