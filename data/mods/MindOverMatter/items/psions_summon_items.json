@@ -40,12 +40,12 @@
     "symbol": "$",
     "color": "pink",
     "flags": [
-      "PERSONAL",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
       "ALLOWS_NATURAL_ATTACKS",
       "INTEGRATED",
       "PADDED",
+      "OUTER",
       "SEMITANGIBLE",
       "ONLY_ONE",
       "WATER_FRIENDLY",
@@ -63,7 +63,8 @@
       [ "PRY", 2 ]
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "biokin_enhance_mobility_item_1",
