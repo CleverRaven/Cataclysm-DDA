@@ -3045,7 +3045,10 @@ void npc::die( Creature *nkiller )
             if( player_character.has_trait( trait_KILLER ) ) {
                 morale_effect += 5;
             } // only god can juge me
-            if( player_character.has_flag( json_flag_SPIRITUAL ) && ( !player_character.has_flag( json_flag_PSYCHOPATH ) && !player_character.has_trait( trait_KILLER ) ) && !player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            if( player_character.has_flag( json_flag_SPIRITUAL ) &&
+                ( !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+                  !player_character.has_trait( trait_KILLER ) ) &&
+                !player_character.has_flag( json_flag_SAPIOVORE ) ) {
                 if( morale_effect < 0 ) {
                     add_msg( _( "You feel ashamed of your actions." ) );
                     morale_effect -= 10;
