@@ -1619,15 +1619,36 @@ void Character::modify_morale( item &food, const int nutr )
                     return false;
                 }
 
-        // update speculative values
-        if( is_avatar() ) {
-            get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
-        }
-        for( const auto &v : ingested.nutr.vitamins() ) {
-            // update the estimated values for daily vitamins
-            // actual vitamins happen during digestion
-            daily_vitamins[v.first].first += v.second;
-        }
+                // Used in hibernation messages.
+                const int nutr = nutrition_for( food );
+                const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+                // We can handle junk just fine
+                if( !skip_health ) {
+                    modify_health( comest );
+                }
+                modify_stimulation( comest );
+                modify_fatigue( comest );
+                modify_addiction( comest );
+                modify_morale( food, nutr );
+
+                const bool hibernate = has_active_mutation( trait_HIBERNATE );
+                if( hibernate ) {
+                    if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
+                        // Tell the player what's going on
+                        add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
+                        if( one_in( 2 ) ) {
+                            // 50% chance of the food tiring you
+                            mod_fatigue( nutr );
+                        }
+                    }
+                    if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
+                        // Hibernation should cut burn to 60/day
+                        add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
+                        if( one_in( 2 ) ) {
+                            // And another 50%, intended cumulative
+                            mod_fatigue( nutr );
+                        }
+                    }
 
         return true;
     }
