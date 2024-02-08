@@ -973,10 +973,10 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
     }
 
-        if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( flag_ALLERGEN_JUNK ) &&
-                !food.has_flag( flag_CARNIVORE_OK ) ) ) {
-            add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
-        }
+    if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( flag_ALLERGEN_JUNK ) &&
+            !food.has_flag( flag_CARNIVORE_OK ) ) ) {
+        add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
+    }
 
         if( saprophage && edible && !food.rotten() && !food.has_flag( flag_FERTILIZER ) ) {
             // Note: We're allowing all non-solid "food". This includes drugs
