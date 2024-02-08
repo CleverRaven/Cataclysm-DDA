@@ -1274,43 +1274,36 @@ void Character::modify_addiction( const islot_comestible &comest )
         }
     }
 
-    void Character::modify_morale( item & food, const int nutr ) {
-        time_duration morale_time = 2_hours;
-        if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
-            morale_time = 3_hours;
-            int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
-            add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
-        }
+void Character::modify_morale( item &food, const int nutr )
+{
+    time_duration morale_time = 2_hours;
+    if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
+        morale_time = 3_hours;
+        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
+    }
 
-        std::pair<int, int> fun = fun_for( food );
-        if( fun.first < 0 ) {
-            add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                        food.type );
-        } else if( fun.first > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                        food.type );
-        }
+    std::pair<int, int> fun = fun_for( food );
+    if( fun.first < 0 ) {
+        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                    food.type );
+    } else if( fun.first > 0 ) {
+        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                    food.type );
+    }
 
-        // Morale bonus for eating unspoiled food with chair/table nearby
-        // Does not apply to non-ingested consumables like bandages or drugs,
-        // nor to drinks.
-        if( !food.has_flag( flag_NO_INGEST ) &&
-            food.get_comestible()->comesttype != "MED" &&
-            food.get_comestible()->comesttype != comesttype_DRINK ) {
-            map &here = get_map();
-            if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
-                if( has_trait( trait_TABLEMANNERS ) ) {
-                    rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                    if( !food.rotten() ) {
-                        add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
-                    }
-                } else if( !food.rotten() ) {
-                    add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
-                }
-            } else {
-                if( has_trait( trait_TABLEMANNERS ) ) {
-                    rem_morale( MORALE_ATE_WITH_TABLE );
-                    add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true );
+    // Morale bonus for eating unspoiled food with chair/table nearby
+    // Does not apply to non-ingested consumables like bandages or drugs,
+    // nor to drinks.
+    if( !food.has_flag( flag_NO_INGEST ) &&
+        food.get_comestible()->comesttype != "MED" &&
+        food.get_comestible()->comesttype != comesttype_DRINK ) {
+        map &here = get_map();
+        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
+            if( has_trait( trait_TABLEMANNERS ) ) {
+                rem_morale( MORALE_ATE_WITHOUT_TABLE );
+                if( !food.rotten() ) {
+                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
                 }
             }
         }
