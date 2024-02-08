@@ -3052,7 +3052,7 @@ void npc::die( Creature *nkiller )
                 if( morale_effect < 0 ) {
                     add_msg( _( "You feel ashamed of your actions." ) );
                     morale_effect -= 10;
-                    } // skulls for the skull throne
+                } // skulls for the skull throne
                 if( morale_effect > 0 ) {
                     add_msg( _( "You feel a sense of righteous purpose." ) );
                     morale_effect += 5;
