@@ -32,7 +32,7 @@
   {
     "type": "palette",
     "id": "open_air_stall_palette",
-    "terrain": {  },
+    "terrain": { ",": "t_thconc_floor" },
     "furniture": {
       "c": "f_large_canvas_wall",
       "d": "f_displaycase",
@@ -41,8 +41,7 @@
       "t": "f_table",
       "r": "f_rack_wood",
       "C": "f_large_canvas_door",
-      "T": "f_table",
-      ",": "t_thconc_floor"
+      "T": "f_table"
     }
   }
 ]
