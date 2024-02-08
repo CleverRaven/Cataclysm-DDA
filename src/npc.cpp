@@ -1861,9 +1861,7 @@ void npc::on_attacked( const Creature &attacker )
     }
     if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
         make_angry();
-        if( !guaranteed_hostile() ) {
-            hit_by_player = true;
-        }
+        hit_by_player = true;
     }
 }
 
@@ -2961,7 +2959,7 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    bool badguy = ( guaranteed_hostile() || !hit_by_player );
+    bool was_enemy = guaranteed_hostile();
     prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3030,14 +3028,14 @@ void npc::die( Creature *nkiller )
             add_msg( _( "A cold shock of guilt washes over you." ) );
             player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
         }
-        if( !badguy ) {
+        if( !was_enemy ) {
             int morale_effect = -90;
             // Just because you like eating people doesn't mean you love killing innocents
             if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
                 morale_effect = std::min( 0, morale_effect + 50 );
             } // Pacifists double dip on penalties if they kill an innocent
             if( player_character.has_trait( trait_PACIFIST ) ) {
-                morale_effect = std::min( 0, morale_effect - 15 );
+                morale_effect -= 15;
             }
             if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
                 player_character.has_flag( json_flag_SAPIOVORE ) ) {
@@ -3047,8 +3045,9 @@ void npc::die( Creature *nkiller )
                 morale_effect += 5;
             } // only god can juge me
             if( player_character.has_flag( json_flag_SPIRITUAL ) &&
-                ( !player_character.has_flag( json_flag_PSYCHOPATH ) &&
-                  !player_character.has_trait( trait_KILLER ) ) &&
+              ( !player_character.has_flag( json_flag_PSYCHOPATH ) ||
+                ( player_character.has_flag( json_flag_PSYCHOPATH ) &&
+                  player_character.has_trait( trait_KILLER ) ) ) &&
                 !player_character.has_flag( json_flag_SAPIOVORE ) ) {
                 if( morale_effect < 0 ) {
                     add_msg( _( "You feel ashamed of your actions." ) );
