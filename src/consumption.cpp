@@ -956,8 +956,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
           !has_flag( json_flag_PSYCHOPATH ) ) &&
         ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_HEMOVORE ) &&
                 !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
-            add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
-        }
+        add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
+    }
 
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
