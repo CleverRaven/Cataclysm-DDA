@@ -138,7 +138,7 @@
     "name": { "str": "M14 20-round magazine" },
     "description": "A military issue 20-round steel box magazine compatible with M14 pattern rifles.",
     "weight": "231 g",
-    "//": "length 6.1 in, width 1.012 in, height 3.1 in, raw 313.6 ml, trim 1%",
+    "//2": "length 6.1 in, width 1.012 in, height 3.1 in, raw 313.6 ml, trim 1%",
     "volume": "311 ml",
     "longest_side": "155 mm",
     "price": "59 USD",
