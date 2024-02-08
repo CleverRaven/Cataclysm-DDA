@@ -3887,13 +3887,26 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
                 spawn_charges_in_containers( entry.first, entry.second, itype_55gal_drum, silent );
             } else {
                 // Just spawning the item
-                if( !silent ) {
-                    add_msg( m_info, string_format( "Spawning charged item: %s with %i charges",
-                                                    item::nname( entry.first, entry.second ), entry.second ) );
+                // Check if the item will fit in a single tile
+                if( granted.charges_per_volume( 1000000_ml ) < granted.charges ) {
+                    int charges_to_spawn = entry.second;
+                    while( charges_to_spawn > 0 ) {
+                        granted.charges = std::min( granted.charges_per_volume( 1000000_ml ), charges_to_spawn );
+                        if( !silent ) {
+                            add_msg( m_info, string_format( "Spawning charged item: %s with %i charges",
+                                                            item::nname( entry.first, granted.charges ), granted.charges ) );
+                        }
+                        get_map().add_item_or_charges( player_character.pos(), granted, true );
+                        charges_to_spawn -= granted.charges;
+                    }
+                } else {
+                    if( !silent ) {
+                        add_msg( m_info, string_format( "Spawning charged item: %s with %i charges",
+                                                        item::nname( entry.first, entry.second ), entry.second ) );
+                    }
+                    get_map().add_item_or_charges( player_character.pos(), granted, true );
                 }
-                get_map().add_item_or_charges( player_character.pos(), granted );
             }
-
         } else if( !granted.ammo_default().is_null() ) {
             // Check if there's room for ammo (e.g. a UPS-using item might not have a battery)
             if( granted.remaining_ammo_capacity() == 0 ) {
