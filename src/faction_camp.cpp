@@ -5535,6 +5535,10 @@ void basecamp::feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrient
         } );
         return;
     }
+    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+        return;
+    }
+
     // Split the food into equal sized portions.
     food /= num_workers;
     for( auto &worker : workers ) {
