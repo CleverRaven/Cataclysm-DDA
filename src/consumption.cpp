@@ -1609,8 +1609,15 @@ void Character::modify_morale( item &food, const int nutr )
         // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
         activate_consume_eocs( *this, food );
 
-        // GET IN MAH BELLY!
-        stomach.ingest( ingested );
+                if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
+                    // Was used to cap nutrition and thirst, but no longer does this
+                    return false;
+                }
+                if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+                    food.has_any_flag( herbivore_blacklist ) ) {
+                    // No good can come of this.
+                    return false;
+                }
 
         // update speculative values
         if( is_avatar() ) {
