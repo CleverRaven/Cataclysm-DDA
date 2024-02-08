@@ -3037,8 +3037,9 @@ void npc::die( Creature *nkiller )
             } // Pacifists double dip on penalties if they kill an innocent
             if( player_character.has_trait( trait_PACIFIST ) ) {
                 morale_effect = std::min( 0, morale_effect - 15 );
-            } 
-            if( player_character.has_flag( json_flag_PSYCHOPATH ) || player_character.has_flag( json_flag_SAPIOVORE ) ) {
+            }
+            if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
+                player_character.has_flag( json_flag_SAPIOVORE ) ) {
                 morale_effect = 0;
             } // Killer has the psychopath flag, so we're at +5 total. Whee!
             if( player_character.has_trait( trait_KILLER ) ) {
