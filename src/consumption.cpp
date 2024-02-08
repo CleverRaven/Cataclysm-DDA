@@ -1536,18 +1536,15 @@ void Character::modify_morale( item &food, const int nutr )
             return false;
         }
 
-        const islot_comestible &comest = *food.get_comestible();
-
-        // Rotten food causes health loss
-        const float relative_rot = food.get_relative_rot();
-        if( relative_rot > 1.0f && !has_flag( json_flag_IMMUNE_SPOIL ) ) {
-            const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-            // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
-            // But always round down
-            int h_loss = -rottedness * comest.get_default_nutr();
-            mod_daily_health( h_loss, -200 );
-            add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
-        }
+                    if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
+                        // Was used to cap nutrition and thirst, but no longer does this
+                        return false;
+                    }
+                    if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+                        food.has_any_flag( herbivore_blacklist ) ) {
+                        // No good can come of this.
+                        return false;
+                    }
 
         // Used in hibernation messages.
         const int nutr = nutrition_for( food );
