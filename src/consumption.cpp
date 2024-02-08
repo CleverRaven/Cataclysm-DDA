@@ -1246,12 +1246,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         return true;
     }
 
-    void Character::modify_health( const islot_comestible & comest ) {
-        const int effective_health = comest.healthy;
-        // Effectively no cap on health modifiers from food and meds
-        const int health_cap = 200;
-        mod_daily_health( effective_health, effective_health >= 0 ? health_cap : -health_cap );
-    }
+                    return true;
+                }
 
     void Character::modify_stimulation( const islot_comestible & comest ) {
         if( comest.stim == 0 ) {
