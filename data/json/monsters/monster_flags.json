@@ -232,7 +232,7 @@
   {
     "id": "CONSOLE_DEACTIVATE",
     "type": "monster_flag",
-    "//": "Deactivates and turns the turret into a furniture when a nearby console is properly hacked. For robots."
+    "//": "Deactivates and turns the monster into a furniture when a nearby console is properly hacked. For turrets mostly."
   },
   {
     "id": "IMMOBILE",
@@ -242,7 +242,7 @@
   {
     "id": "ID_CARD_DEACTIVATE",
     "type": "monster_flag",
-    "//": "Deactivates and turns the turret into a furniture when a science ID card is used on a nearby console. For robots."
+    "//": "Deactivates and turns the monster into a furniture when an appropriate ID card is used on a nearby console. For turrets mostly."
   },
   {
     "id": "RIDEABLE_MECH",

@@ -278,8 +278,14 @@ static void remove_submap_turrets()
                     player_character.pos() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DEACTIVATE ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
-            here.add_item( critter.pos(), critter.to_item() );
+            std::string raw_id = critter.type->id.str();
+            const furn_id furn( raw_id.replace( 0, 3, "f" ) );
             g->remove_zombie( critter );
+            if( furn.is_valid() ) {
+                here.furn_set( critter.pos(), furn );
+            } else {
+                here.add_item( critter.pos(), critter.to_item() ); 
+            }
         }
     }
 }

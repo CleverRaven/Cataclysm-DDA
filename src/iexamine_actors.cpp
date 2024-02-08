@@ -178,8 +178,14 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
                 critter.has_flag( mon_flag_ID_CARD_DEACTIVATE ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
-                here.add_item( critter.pos(), critter.to_item() );
+                std::string raw_id = critter.type->id.str();
+                const furn_id furn( raw_id.replace( 0, 3, "f" ) );
                 g->remove_zombie( critter );
+                if( furn.is_valid() ) {
+                    here.furn_set( critter.pos(), furn );
+                } else {
+                    here.add_item( critter.pos(), critter.to_item() ); 
+                }
             }
         }
         if( open ) {

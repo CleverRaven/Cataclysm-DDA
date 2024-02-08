@@ -1,0 +1,30 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_turret_bmg",
+    "name": "inactive antimateriel turret",
+    "description": "An inactive Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Doesn't look all that dangerous now.  You can easily pick it up.",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_antimateriel",
+    "examine_action": "deployed_furniture"
+  },
+  {
+    "type": "furniture",
+    "id": "f_turret_rifle",
+    "name": "inactive milspec turret",
+    "description": "An inactive Leadworks LLC's T-4A1 Sentry.  Safe to pick up now.",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_rifleturret",
+    "examine_action": "deployed_furniture"
+  }
+]
