@@ -54,7 +54,10 @@
         "context": "meeting",
         "value": "yes",
         "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
-        "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
+        "no": {
+          "gendered_line": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist.",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "responses": [
@@ -245,7 +248,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_Jeremiah_Persuade",
-    "dynamic_line": "Alright, you've convinced me.  I'll take Jeremiah on and show him the ropes.",
+    "dynamic_line": {
+      "gendered_line": "Alright, you've convinced me.  I'll take Jeremiah on and show him the ropes.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "Thank you.  See you around, Kostas.",

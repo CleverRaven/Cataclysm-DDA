@@ -43,7 +43,6 @@ static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
 static std::string achievementdir_value;
-static std::string oldachievements_value;
 static std::string langdir_value;
 
 static cata_path autonote_path_value;
@@ -56,7 +55,6 @@ static cata_path keymap_path_value;
 static cata_path langdir_path_value;
 static cata_path memorialdir_path_value;
 static cata_path achievementdir_path_value;
-static cata_path oldachievements_path_value;
 static cata_path motd_path_value;
 static cata_path options_path_value;
 static cata_path savedir_path_value;
@@ -146,10 +144,8 @@ void PATH_INFO::set_standard_filenames()
     savedir_path_value = cata_path{ cata_path::root_path::save, fs::path{} };
     memorialdir_value = user_dir_value + "memorial/";
     memorialdir_path_value = user_dir_path_value / "memorial";
-    achievementdir_value = savedir_value + "achievement/";
-    achievementdir_path_value = savedir_path_value / "achievement";
-    oldachievements_value = achievementdir_value + "memorial_achievements.json";
-    oldachievements_path_value = achievementdir_path_value / "memorial_achievements.json";
+    achievementdir_value = user_dir_value + "achievements/";
+    achievementdir_path_value = user_dir_path_value / "achievements";
 
 #if defined(USE_XDG_DIR)
     const char *user_dir;
@@ -339,10 +335,6 @@ std::string PATH_INFO::achievementdir()
 {
     return achievementdir_value;
 }
-std::string PATH_INFO::oldachievements()
-{
-    return oldachievements_value;
-}
 cata_path PATH_INFO::memorialdir_path()
 {
     return memorialdir_path_value;
@@ -350,10 +342,6 @@ cata_path PATH_INFO::memorialdir_path()
 cata_path PATH_INFO::achievementdir_path()
 {
     return achievementdir_path_value;
-}
-cata_path PATH_INFO::oldachievements_path()
-{
-    return oldachievements_path_value;
 }
 cata_path PATH_INFO::jsondir()
 {

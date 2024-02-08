@@ -1736,6 +1736,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
         }
     }
     if( query_yn( confirm_msg ) ) {
+        player_character.omt_path = path;
         if( driving ) {
             player_character.assign_activity( autodrive_activity_actor() );
         } else {
@@ -1926,7 +1927,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
                 const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                if( try_travel_to_destination( player_character, player_character.omt_path.front(), driving ) ) {
                     action = "QUIT";
                 }
             }

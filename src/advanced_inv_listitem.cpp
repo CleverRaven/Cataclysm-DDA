@@ -10,7 +10,8 @@ advanced_inv_listitem::advanced_inv_listitem( const item_location &an_item, int 
     , area( area )
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
-    , name_without_prefix( an_item->tname( 1, false ) )
+    , name_without_prefix( an_item->tname( 1, tname::tname_sort_key ) )
+    , contents_count( an_item->aggregated_contents().count )
     , autopickup( get_auto_pickup().has_rule( & * an_item ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
@@ -29,7 +30,8 @@ advanced_inv_listitem::advanced_inv_listitem( const std::vector<item_location> &
     id( list.front()->typeId() ),
     items( list ),
     name( list.front()->tname( 1 ) ),
-    name_without_prefix( list.front()->tname( 1, false ) ),
+    name_without_prefix( list.front()->tname( 1, tname::tname_sort_key ) ),
+    contents_count( list.front()->aggregated_contents().count ),
     autopickup( get_auto_pickup().has_rule( & * list.front() ) ),
     stacks( list.size() ),
     volume( list.front()->volume() * stacks ),

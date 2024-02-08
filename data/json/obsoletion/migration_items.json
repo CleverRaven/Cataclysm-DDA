@@ -262,11 +262,6 @@
     "replace": "ammo_box_4"
   },
   {
-    "id": "ammunition_can_carlgustav",
-    "type": "MIGRATION",
-    "replace": "ammunition_can_carlgustav_hedp"
-  },
-  {
     "id": "glock_20",
     "from_variant": "glock_40",
     "type": "MIGRATION",

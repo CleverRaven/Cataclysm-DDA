@@ -4,29 +4,47 @@
     "repairs_like": "scarf",
     "type": "ARMOR",
     "name": { "str": "debug tail belt" },
-    "description": "This is a template for judo belts.  If found in a game, it is a bug.",
+    "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with little encumbrance",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 25,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "steel" ],
     "symbol": "[",
-    "material_thickness": 2,
+    "material_thickness": 2000,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "debug_tail" ], "specifically_covers": [ "sub_limb_debug_tail" ] } ]
+    "armor": [
+      { "encumbrance": 2, "coverage": 100, "covers": [ "debug_tail" ], "specifically_covers": [ "sub_limb_debug_tail_1" ] }
+    ]
   },
   {
     "id": "debug_belt_tail_weighted",
     "type": "ARMOR",
     "copy-from": "debug_belt_tail",
-    "name": { "str": "weighted debug tail belt" },
+    "name": { "str": "first weighted debug tail belt" },
+    "description": "An example armor for testing custom limb/armor interactions.  100 coverage on the first sublimb of your debug tail with extreme encumbrance",
     "armor": [
       {
         "encumbrance": 120,
-        "coverage": 50,
+        "coverage": 100,
         "covers": [ "torso", "debug_tail" ],
-        "specifically_covers": [ "sub_limb_debug_tail" ]
+        "specifically_covers": [ "sub_limb_debug_tail_1" ]
+      }
+    ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "debug_helmet_dragonfly",
+    "name": { "str": "debug dragonfly helmet" },
+    "description": "An example helmet to test on custom heads.  Should blind you.",
+    "copy-from": "helmet_scrap",
+    "armor": [
+      {
+        "encumbrance": 300,
+        "coverage": 100,
+        "covers": [ "eyes_insect_2" ],
+        "specifically_covers": [ "eyes_compound_mono", "head_nape" ]
       }
     ]
   },
