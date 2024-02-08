@@ -1190,19 +1190,18 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                                     !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
                                     you.is_avatar() ) {
 
-        // The fun changes for these effects are applied in fun_for().
-        if( food.has_flag( flag_MUSHY ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
-        }
-        if( food.get_comestible_fun() > 0 ) {
-            if( you.has_effect( effect_common_cold ) ) {
-                you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
-            }
-            if( you.has_effect( effect_flu ) ) {
-                you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
-            }
-        }
+                                    add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                                    add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                                } else {
+                                    you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                                               food.tname() );
+                                }
+                            }
+
+                            if( item::find_type( food.get_comestible()->tool )->tool ) {
+                                // Tools like lighters get used
+                                you.use_charges( food.get_comestible()->tool, 1 );
+                            }
 
                             if( amorphous ) {
                                 you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
