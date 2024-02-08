@@ -1110,7 +1110,12 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                 you.add_effect( effect_poison, food.poison * 10_minutes );
             }
 
-            you.add_effect( effect_foodpoison, food.poison * 30_minutes );
+    // If it's poisonous... poison us.
+    // TODO: Move this to a flag
+    if( food.poison > 0 &&
+        !you.has_trait( trait_EATDEAD ) ) {
+        if( food.poison >= rng( 2, 4 ) ) {
+            you.add_effect( effect_poison, food.poison * 10_minutes );
         }
 
         if( food.has_flag( flag_HIDDEN_HALLU ) ) {
