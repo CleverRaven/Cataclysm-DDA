@@ -333,14 +333,13 @@ class overmap
         void clear_connections_out();
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
-        // Whether the tripoint's point is true in city_boundaries
+        // Whether the tripoint's point is true in city_tiles
         bool is_in_city( const tripoint_om_omt &p );
     private:
         // Any point that is part of or surrounded by a city
-        std::array<std::bitset<OMAPY>, OMAPX> city_boundaries;
-        // Fill in any gaps in city_boundaries that don't connect to the map edge
-        void fill_city_boundaries();
-        bool ran_fill_city_boundaries = false;
+        std::unordered_set<point_om_omt> city_tiles;
+        // Fill in any gaps in city_tiles that don't connect to the map edge
+        void flood_fill_city_tiles();
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
     public:
         /** Unit test enablers to check if a given mongroup is present. */

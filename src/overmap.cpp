@@ -4214,69 +4214,51 @@ void overmap::clear_connections_out()
 
 bool overmap::is_in_city( const tripoint_om_omt &p )
 {
-    return city_boundaries[p.x()][p.y()];
+    return city_tiles.find( p.xy() ) != city_tiles.end();
 }
 
-void overmap::fill_city_boundaries()
+void overmap::flood_fill_city_tiles()
 {
-    // TODO: Making a copy should be unnecessary
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_new = city_boundaries;
-    std::array<std::bitset<OMAPY>, OMAPX> city_boundaries_to_check;
-    std::vector<std::pair<int, int>> to_change;
-    std::function<bool( int x, int y )> check_neighbor;
-    std::function<bool( int x, int y )> check_all_neighbors;
+    std::unordered_set<point_om_omt> visited;
+    // simplifies bounds checking
+    const half_open_rectangle<point_om_omt> omap_bounds( point_om_omt( 0, 0 ), point_om_omt( OMAPX,
+            OMAPY ) );
 
-    auto is_overmap_edge = []( int x, int y ) {
-        return x == 0 || y == 0 || x == OMAPX - 1 || y == OMAPY - 1;
-    };
-
-    check_neighbor = [&city_boundaries_to_check, &is_overmap_edge, &check_all_neighbors]( int x,
-    int y ) {
-        // TODO: Remove after testing
-        if( x < 0 || y < 0 || x >= OMAPX || y >= OMAPY ) {
-            debugmsg( "fill_city_boundaries() out of bounds ( %s, %s )", x, y );
-            return false;
-        }
-        return city_boundaries_to_check[x][y] && ( is_overmap_edge( x, y ) || check_all_neighbors( x, y ) );
-    };
-
-    check_all_neighbors = [&city_boundaries_to_check, &to_change, &is_overmap_edge,
-                               &check_neighbor]( int x, int y ) {
-        to_change.push_back( { x, y } );
-        city_boundaries_to_check[x].reset( y );
-        bool ret = check_neighbor( x - 1, y );
-        ret |= check_neighbor( x + 1, y );
-        ret |= check_neighbor( x, y - 1 );
-        ret |= check_neighbor( x, y + 1 );
-        return ret;
-    };
-
-    for( int x = 0; x < OMAPX; x++ ) {
-        // Check anywhere that's not in city currently
-        city_boundaries_to_check[x] = ~city_boundaries_new[x];
-    }
-
-    for( int x = 1; x < OMAPX - 1; x++ ) {
-        for( int y = 1; y < OMAPY - 1; y++ ) {
-            to_change.clear();
-            if( city_boundaries_to_check[x][y] && !check_all_neighbors( x, y ) ) {
-                for( const std::pair<int, int> &coords : to_change ) {
-                    city_boundaries_new[coords.first].set( coords.second );
+    // Look through every point on the overmap
+    for( int y = 0; y < OMAPY; y++ ) {
+        for( int x = 0; x < OMAPX; x++ ) {
+            point_om_omt checked( x, y );
+            // If we already looked at it in a previous flood-fill, ignore it
+            if( visited.find( checked ) != visited.end() ) {
+                continue;
+            }
+            // Is the area connected to this point enclosed by city_tiles?
+            bool enclosed = true;
+            // Predicate for flood-fill. Also detects if any point flood-filled to borders the edge
+            // of the overmap and is thus not enclosed
+            const auto is_unchecked = [&enclosed, &visited, &omap_bounds, this]( const point_om_omt & pt ) {
+                if( city_tiles.find( pt ) != visited.end() ) {
+                    return false;
                 }
+                // We hit the edge of the overmap! We're free!
+                if( !omap_bounds.contains( pt ) ) {
+                    enclosed = false;
+                    return false;
+                }
+                return true;
+            };
+            // All the points connected to this point that aren't part of a city
+            std::vector<point_om_omt> area = ff::point_flood_fill_4_connected( checked, visited, is_unchecked );
+            if( !enclosed ) {
+                continue;
+            }
+            // They are enclosed, and so should be considered part of the city.
+            city_tiles.reserve( city_tiles.size() + area.size() );
+            for( const point_om_omt &pt : area ) {
+                city_tiles.insert( pt );
             }
         }
     }
-
-    // TODO: Comment out after testing
-    for( int x = 1; x < OMAPX - 1; x++ ) {
-        for( int y = 1; y < OMAPY - 1; y++ ) {
-            if( city_boundaries_to_check[x][y] ) {
-                debugmsg( "fill_city_boundaries() didn't check ( %s, %s )", x, y );
-            }
-        }
-    }
-
-    city_boundaries = city_boundaries_new;
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
@@ -6322,7 +6304,7 @@ void overmap::place_cities()
             if( ter( p ) == settings->default_oter[OVERMAP_DEPTH] ) {
                 placement_attempts = 0;
                 ter_set( p, oter_road_nesw ); // every city starts with an intersection
-                city_boundaries[p.x()].set( p.y() );
+                city_tiles.insert( c );
                 tmp.pos = p.xy();
                 tmp.size = size;
             }
@@ -6331,7 +6313,7 @@ void overmap::place_cities()
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
             ter_set( p, oter_road_nesw );
-            city_boundaries[p.x()].set( p.y() );
+            city_tiles.insert( p.xy() );
         }
         if( placement_attempts == 0 ) {
             cities.push_back( tmp );
@@ -6345,7 +6327,7 @@ void overmap::place_cities()
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
-    fill_city_boundaries();
+    flood_fill_city_tiles();
 }
 
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
@@ -6413,7 +6395,7 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
                 placed_unique_buildings.emplace( building_tid );
             }
             for( const tripoint_om_omt &p : used_tripoints ) {
-                city_boundaries[p.x()].set( p.y() );
+                city_tiles.insert( p.xy() );
             }
             break;
         }
@@ -6899,7 +6881,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 ++len;
             }
         }
-        city_boundaries[pos.x()].set( pos.y() );
+        city_tiles.insert( pos.xy() );
         ++actual_len;
         if( actual_len > 1 && connection.has( ter_id ) ) {
             break;  // Stop here.
