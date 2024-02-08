@@ -184,7 +184,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
                 if( furn.is_valid() ) {
                     here.furn_set( critter.pos(), furn );
                 } else {
-                    here.add_item( critter.pos(), critter.to_item() ); 
+                    here.add_item( critter.pos(), critter.to_item() );
                 }
             }
         }

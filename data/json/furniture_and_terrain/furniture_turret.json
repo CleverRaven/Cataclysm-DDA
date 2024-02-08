@@ -45,7 +45,7 @@
     "type": "furniture",
     "id": "f_turret_riot",
     "name": "inactive riot control platform",
-    "description": "This is a TALON-derived riot control platform that previously rained down '''non-lethal''' bullets on anyone who dared to pass by.  It's inacitve now, so you can pick it up safely and easily.",
+    "description": "This is a TALON-derived riot control platform that previously rained down '''non-lethal''' bullets on anyone who dared to pass by.  It's inactive now, so you can pick it up safely and easily.",
     "symbol": "2",
     "color": "blue",
     "move_cost_mod": 2,

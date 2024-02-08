@@ -284,7 +284,7 @@ static void remove_submap_turrets()
             if( furn.is_valid() ) {
                 here.furn_set( critter.pos(), furn );
             } else {
-                here.add_item( critter.pos(), critter.to_item() ); 
+                here.add_item( critter.pos(), critter.to_item() );
             }
         }
     }
