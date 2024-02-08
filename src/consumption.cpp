@@ -1016,9 +1016,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                 req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
             }
 
-            if( !query_yn( req ) ) {
-                return consequences.front();
-            }
+        if( !query_yn( req ) ) {
+            return consequences.front();
         }
         // All checks ended, it's edible (or we're pretending it is)
         return ret_val<edible_rating>::make_success();
