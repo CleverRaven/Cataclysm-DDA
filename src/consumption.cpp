@@ -1174,10 +1174,13 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                         }
                     }
 
-                    if( item::find_type( food.get_comestible()->tool )->tool ) {
-                        // Tools like lighters get used
-                        you.use_charges( food.get_comestible()->tool, 1 );
-                    }
+                    if( amorphous ) {
+                        you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                   food.tname() );
+                    } else if( drinkable ) {
+                        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                            you.is_avatar() ) {
 
                             if( amorphous ) {
                                 you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
