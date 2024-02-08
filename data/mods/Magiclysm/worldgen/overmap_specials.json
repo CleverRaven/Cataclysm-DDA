@@ -277,6 +277,7 @@
     "locations": [ "forest_center" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ]
+    "occurrences": [ 0, 1 ],
+    "flags": [ "WILDERNESS", "MAN_MADE" ]
   }
 ]

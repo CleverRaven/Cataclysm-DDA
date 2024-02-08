@@ -128,6 +128,7 @@
     "om_terrain": [ "druid_ritual_home_z0" ],
     "//": "This is common areas and eating places.",
     "object": {
+      "predecessor_mapgen": "forest_thick",
       "fill_ter": "t_region_groundcover",
       "rows": [
         "  ?           I     ?   ",
@@ -155,6 +156,7 @@
         " I   I  I   I       I   ",
         "     I ?        I       "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "druid_ritual_home" ],
       "terrain": { ";": "t_heartwood_floor", ">": "t_triffid_slope_down", "<": "t_triffid_slope_up" },
       "furniture": { "Ṛ": "f_druid_rack_wood" },
