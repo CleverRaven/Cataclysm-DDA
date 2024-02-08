@@ -1338,58 +1338,12 @@ void Character::modify_morale( item &food, const int nutr )
             }
         }
 
-        const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
-                                         ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
-                                           !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-        if( food_is_human_flesh ) {
-            // Sapiovores don't recognize humans as the same species.
-            // But let them possibly feel cool about eating sapient stuff - treat like psycho
-            // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
-            // Hemovores feel weird about human blood, bloodfeeders don't care unless they're also cannibals or w/e
-            const bool cannibal = has_flag( json_flag_CANNIBAL );
-            const bool psycho = has_flag( json_flag_PSYCHOPATH );
-            const bool sapiovore = has_flag( json_flag_SAPIOVORE );
-            const bool spiritual = has_flag( json_flag_SPIRITUAL );
-            const bool numb = has_flag( json_flag_NUMB );
-            const bool bloodfeeder = has_flag( json_flag_BLOODFEEDER );
-            if( cannibal && psycho && spiritual ) {
-                add_msg_if_player( m_good,
-                                   _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
-                // You're not really consuming anything special; you just think you are.
-                add_morale( MORALE_CANNIBAL, 25, 300 );
-            } else if( cannibal && psycho ) {
-                add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
-                add_morale( MORALE_CANNIBAL, 15, 200 );
-            } else if( cannibal && spiritual ) {
-                add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
-                // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
-                add_morale( MORALE_CANNIBAL, 15, 200 );
-            } else if( sapiovore && spiritual ) {
-                add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
-                add_morale( MORALE_CANNIBAL, 10, 50 );
-            } else if( cannibal ) {
-                add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
-                add_morale( MORALE_CANNIBAL, 10, 50 );
-            } else if( psycho && spiritual ) {
-                add_msg_if_player( _( "You greedily devour the taboo meat." ) );
-                // Small bonus for violating a taboo.
-                add_morale( MORALE_CANNIBAL, 5, 50 );
-            } else if( psycho ) {
-                add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-            } else if( sapiovore ) {
-                add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
-            } else if( spiritual ) {
-                add_msg_if_player( m_bad,
-                                   _( "This is probably going to count against you if there's still an afterlife." ) );
-                add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-            } else if( numb ) {
-                add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
-                add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-            } else if( bloodfeeder && food.has_flag( flag_HEMOVORE_FUN ) ) {
-                add_msg_if_player( _( "The human blood is as sweet as any other." ) );
-            } else {
-                add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
-                add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        void Character::modify_addiction( const islot_comestible & comest ) {
+            for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
+                add_addiction( add.first, add.second );
+                if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+                    rem_morale( add.first->get_craving_morale() );
+                }
             }
         }
 
