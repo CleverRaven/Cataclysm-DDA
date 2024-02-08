@@ -5489,6 +5489,35 @@ nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
+void basecamp::feed_workers( std::vector<shared_ptr_fast<npc>> workers, nutrients food )
+{
+    const int num_workers = workers.size();
+    if( num_workers == 0 ) {
+        debugmsg( "feed_workers called without any workers to feed!" );
+        return;
+    }
+    // Split the food into equal sized portions.
+    food /= num_workers;
+    for( auto &worker : workers ) {
+        units::volume filling_vol = std::max( 0_ml,
+                                              worker->stomach.capacity( *worker ) / 2 - worker->stomach.contains() );
+        worker->stomach.ingest( food_summary{
+            0_ml,
+            filling_vol,
+            food
+        } );
+    }
+    return;
+}
+
+void basecamp::feed_workers( npc *worker, nutrients food )
+{
+    std::vector<shared_ptr_fast<npc>> work_party;
+    work_party.emplace_back( worker );
+    feed_workers( work_party, food );
+    return;
+}
+
 int time_to_food( time_duration work, float exertion_level )
 {
     const int days = to_hours<int>( work ) / 24;
