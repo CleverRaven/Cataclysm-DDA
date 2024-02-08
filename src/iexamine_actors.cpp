@@ -158,7 +158,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 }
 
 /**
- * Use id/hack reader. Using an id despawns turrets.
+ * Use id/hack reader. Using an id deactivates turrets.
  */
 void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
 {
