@@ -1719,8 +1719,40 @@ void Character::modify_morale( item &food, const int nutr )
                         }
                     }
 
-        return true;
-    }
+                    if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
+                        add_msg_if_player(
+                            _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
+                        if( !one_in( 3 ) ) {
+                            // Third check, this one at 66%
+                            mod_fatigue( nutr );
+                        }
+                    }
+                    if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
+                        add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
+                        // At this point, you're done.  Schlaf gut.
+                        mod_fatigue( nutr );
+                    }
+                }
+                // Moved here and changed a bit - it was too complex
+                // Incredibly minor stuff like this shouldn't require complexity
+                if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
+                    ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
+                      get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
+                    add_msg_if_player( m_mixed,
+                                       _( "You feel as though you're going to split open!  In a good way?" ) );
+                    mod_pain( 5 );
+                    int numslime = 1;
+                    for( int i = 0; i < numslime; i++ ) {
+                        if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+                            slime->friendly = -1;
+                        }
+                    }
+                    mod_hunger( 40 );
+                    mod_thirst( 40 );
+                    //~ slimespawns have *small voices* which may be the Nice equivalent
+                    //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
+                    add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
+                }
 
     bool Character::can_estimate_rot() const {
         return get_greater_skill_or_knowledge_level( skill_cooking ) >= 3 ||
