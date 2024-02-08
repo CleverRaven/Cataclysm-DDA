@@ -1861,7 +1861,7 @@ void npc::on_attacked( const Creature &attacker )
     if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
         make_angry();
         if( !guaranteed_hostile() ) {
-        hit_by_player = true;
+            hit_by_player = true;
         }
     }
 }
