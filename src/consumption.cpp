@@ -1198,20 +1198,92 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
             }
         }
 
-        // Chance to become parasitised
-        if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
-            if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-                one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                        ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
-                switch( rng( 0, 3 ) ) {
-                    case 0:
-                        if( !you.has_trait( trait_EATHEALTH ) ) {
-                            you.add_effect( effect_tapeworm, 1_turns, true );
-                        }
-                        break;
-                    case 1:
-                        if( !you.has_trait( trait_ACIDBLOOD ) ) {
-                            you.add_effect( effect_bloodworms, 1_turns, true );
+                            if( amorphous ) {
+                                you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                           food.tname() );
+                            } else if( drinkable ) {
+                                if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                    !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                    you.is_avatar() ) {
+
+                                    add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                                    add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                                } else {
+                                    you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                                               food.tname() );
+                                }
+                            }
+
+                            if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
+                                you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
+                                you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
+                            }
+
+                            if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
+                                you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
+                                you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
+                            }
+
+                            // The fun changes for these effects are applied in fun_for().
+                            if( food.has_flag( flag_MUSHY ) ) {
+                                you.add_msg_if_player( m_bad,
+                                                       _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
+                            }
+                            if( food.get_comestible_fun() > 0 ) {
+                                if( you.has_effect( effect_common_cold ) ) {
+                                    you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
+                                }
+                                if( you.has_effect( effect_flu ) ) {
+                                    you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
+                                }
+                            }
+
+                            // Chance to become parasitised
+                            if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
+                                if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
+                                    one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                                            ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+                                    switch( rng( 0, 3 ) ) {
+                                        case 0:
+                                            if( !you.has_trait( trait_EATHEALTH ) ) {
+                                                you.add_effect( effect_tapeworm, 1_turns, true );
+                                            }
+                                            break;
+                                        case 1:
+                                            if( !you.has_trait( trait_ACIDBLOOD ) ) {
+                                                you.add_effect( effect_bloodworms, 1_turns, true );
+                                            }
+                                            break;
+                                        case 2:
+                                            you.add_effect( effect_brainworms, 1_turns, true );
+                                            break;
+                                        case 3:
+                                            you.add_effect( effect_paincysts, 1_turns, true );
+                                    }
+                                }
+                            }
+
+                            for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+                                if( rng( 1, 100 ) <= elem.second ) {
+                                    you.expose_to_disease( elem.first );
+                                }
+                            }
+
+                            get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
+
+                            if( will_vomit ) {
+                                you.vomit();
+                            }
+
+                            you.consumption_history.emplace_back( food );
+                            // Clean out consumption_history so it doesn't get bigger than needed.
+                            while( you.consumption_history.front().time < calendar::turn - 2_days ) {
+                                you.consumption_history.pop_front();
+                            }
+
+                            you.recoil = MAX_RECOIL;
+
+                            return true;
                         }
                         break;
                     case 2:
