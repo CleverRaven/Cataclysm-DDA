@@ -969,9 +969,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
         const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
-        if( edible && has_effect( effect_nausea ) ) {
-            add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
-        }
+    if( edible && has_effect( effect_nausea ) ) {
+        add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
+    }
 
         if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( flag_ALLERGEN_JUNK ) &&
                 !food.has_flag( flag_CARNIVORE_OK ) ) ) {
