@@ -1483,12 +1483,39 @@ void Character::modify_morale( item &food, const int nutr )
                 add_morale( MORALE_HONEY, honey_fun, 100 );
             }
         }
-        const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
-                          food.has_flag( flag_USE_EAT_VERB );
-        if( !food.rotten() && chew && has_trait( trait_SAPROPHAGE ) ) {
-            // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
-            add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-            add_morale( MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes );
+
+        // Used when determining stomach fullness from eating.
+        double Character::compute_effective_food_volume_ratio( const item & food ) const {
+            const nutrients food_nutrients = compute_effective_nutrients( food );
+            units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
+            double ratio = 1.0f;
+            if( units::to_gram( food_weight ) != 0 ) {
+                ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
+                                  1.0 );
+                if( ratio > 3.0f ) {
+                    ratio = std::sqrt( 3 * ratio );
+                }
+            }
+            return ratio;
+        }
+
+        // Remove the water volume from the food, as that gets absorbed and used as water.
+        // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
+        // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
+        units::volume Character::masticated_volume( const item & food ) const {
+            units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                                      5_ml : 0_ml;
+            units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
+            // handle the division by zero exception when the food count is 0 with std::max()
+            units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
+            units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
+
+            if( units::to_milliliter( food_dry_volume ) != 0 &&
+                units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
+                food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
+            }
+
+            return food_dry_volume;
         }
 
         // Used when displaying effective food satiation values.
