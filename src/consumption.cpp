@@ -978,43 +978,43 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
     }
 
-        if( saprophage && edible && !food.rotten() && !food.has_flag( flag_FERTILIZER ) ) {
-            // Note: We're allowing all non-solid "food". This includes drugs
-            // Hard-coding fertilizer for now - should be a separate flag later
-            //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
-            //~ Semantic difference, but greatly facilitates people being proud of their character.
-            add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
+    if( saprophage && edible && !food.rotten() && !food.has_flag( flag_FERTILIZER ) ) {
+        // Note: We're allowing all non-solid "food". This includes drugs
+        // Hard-coding fertilizer for now - should be a separate flag later
+        //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
+        //~ Semantic difference, but greatly facilitates people being proud of their character.
+        add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
+    }
+
+    if( food.is_food() &&
+        ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
+          has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
+        if( edible ) {
+            add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
+        } else {
+            add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
+        }
+    }
+
+    if( !consequences.empty() ) {
+        if( !interactive ) {
+            return consequences.front();
+        }
+        std::string req;
+        for( const auto &elem : consequences ) {
+            req += elem.str() + "\n";
         }
 
-        if( food.is_food() &&
-            ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
-              has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
-            if( edible ) {
-                add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
-            } else {
-                add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
-            }
+        const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
+        std::string food_tame = food.tname();
+        const nc_color food_color = food.color_in_inventory();
+        if( eat_verb || comest->comesttype == comesttype_FOOD ) {
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+        } else if( !eat_verb && comest->comesttype == comesttype_DRINK ) {
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+        } else {
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
-
-        if( !consequences.empty() ) {
-            if( !interactive ) {
-                return consequences.front();
-            }
-            std::string req;
-            for( const auto &elem : consequences ) {
-                req += elem.str() + "\n";
-            }
-
-            const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
-            std::string food_tame = food.tname();
-            const nc_color food_color = food.color_in_inventory();
-            if( eat_verb || comest->comesttype == comesttype_FOOD ) {
-                req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
-            } else if( !eat_verb && comest->comesttype == comesttype_DRINK ) {
-                req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
-            } else {
-                req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
-            }
 
         if( !query_yn( req ) ) {
             return consequences.front();
@@ -1109,45 +1109,22 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                 you.add_effect( effect_poison, food.poison * 10_minutes );
             }
 
-    // If it's poisonous... poison us.
-    // TODO: Move this to a flag
-    if( food.poison > 0 &&
-        !you.has_trait( trait_EATDEAD ) ) {
-        if( food.poison >= rng( 2, 4 ) ) {
-            you.add_effect( effect_poison, food.poison * 10_minutes );
-        }
+            // If it's poisonous... poison us.
+            // TODO: Move this to a flag
+            if( food.poison > 0 &&
+                !you.has_trait( trait_EATDEAD ) ) {
+                if( food.poison >= rng( 2, 4 ) ) {
+                    you.add_effect( effect_poison, food.poison * 10_minutes );
+                }
 
-        you.add_effect( effect_foodpoison, food.poison * 30_minutes );
-    }
-
-    if( food.has_flag( flag_HIDDEN_HALLU ) ) {
-        if( !you.has_effect( effect_hallu ) ) {
-            you.add_effect( effect_hallu, 6_hours );
-        }
-    }
-
-        if( amorphous ) {
-            you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                                       food.tname() );
-        } else if( drinkable ) {
-            if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-                !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-                you.is_avatar() ) {
-
-    if( amorphous ) {
-        you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                                   food.tname() );
-    } else if( drinkable ) {
-        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-            you.is_avatar() ) {
+                you.add_effect( effect_foodpoison, food.poison * 30_minutes );
+            }
 
             if( food.has_flag( flag_HIDDEN_HALLU ) ) {
                 if( !you.has_effect( effect_hallu ) ) {
                     you.add_effect( effect_hallu, 6_hours );
                 }
             }
-        }
 
             if( amorphous ) {
                 you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
@@ -1165,114 +1142,169 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                             !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
                             you.is_avatar() ) {
 
-                            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-                            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
-                        } else {
-                            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                                       food.tname() );
+                            if( food.has_flag( flag_HIDDEN_HALLU ) ) {
+                                if( !you.has_effect( effect_hallu ) ) {
+                                    you.add_effect( effect_hallu, 6_hours );
+                                }
+                            }
                         }
-                    }
 
-                    if( amorphous ) {
-                        you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                                                   food.tname() );
-                    } else if( drinkable ) {
-                        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-                            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-                            you.is_avatar() ) {
+                        if( amorphous ) {
+                            you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                       food.tname() );
+                        } else if( drinkable ) {
+                            if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                you.is_avatar() ) {
 
-                            if( amorphous ) {
-                                you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                                                           food.tname() );
-                            } else if( drinkable ) {
-                                if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-                                    !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-                                    you.is_avatar() ) {
-
-                                    add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-                                    add_msg( _( "You eat your %s (rotten)." ), food.tname() );
-                                } else {
-                                    you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                if( amorphous ) {
+                                    you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                                                food.tname() );
-                                }
-                            }
+                                } else if( drinkable ) {
+                                    if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                        !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                        you.is_avatar() ) {
 
-                            if( item::find_type( food.get_comestible()->tool )->tool ) {
-                                // Tools like lighters get used
-                                you.use_charges( food.get_comestible()->tool, 1 );
-                            }
-
-                            if( amorphous ) {
-                                you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                                                           food.tname() );
-                            } else if( drinkable ) {
-                                if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-                                    !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-                                    you.is_avatar() ) {
-
-                                    // The fun changes for these effects are applied in fun_for().
-                                    if( food.has_flag( flag_MUSHY ) ) {
-                                        you.add_msg_if_player( m_bad,
-                                                               _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
-                                    }
-                                    if( food.get_comestible_fun() > 0 ) {
-                                        if( you.has_effect( effect_common_cold ) ) {
-                                            you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
-                                        }
-                                        if( you.has_effect( effect_flu ) ) {
-                                            you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
-                                        }
-                                    }
-
-                                    if( amorphous ) {
-                                        you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                        add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                                        add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                                    } else {
+                                        you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                                                    food.tname() );
-                                    } else if( drinkable ) {
-                                        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-                                            !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
-                                            you.is_avatar() ) {
+                                    }
+                                }
 
-                                            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-                                            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
-                                        } else {
-                                            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                if( amorphous ) {
+                                    you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                               food.tname() );
+                                } else if( drinkable ) {
+                                    if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                        !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                        you.is_avatar() ) {
+
+                                        if( amorphous ) {
+                                            you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                                                        food.tname() );
-                                        }
-                                    }
+                                        } else if( drinkable ) {
+                                            if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                                !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                                you.is_avatar() ) {
 
-                                    if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
-                                        you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
-                                        you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
-                                    }
-
-                            // The fun changes for these effects are applied in fun_for().
-                            if( food.has_flag( flag_MUSHY ) ) {
-                                you.add_msg_if_player( m_bad,
-                                                       _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
-                            }
-                            if( food.get_comestible_fun() > 0 ) {
-                                if( you.has_effect( effect_common_cold ) ) {
-                                    you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
-                                }
-                                if( you.has_effect( effect_flu ) ) {
-                                    you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
-                                }
-                            }
-
-                            // Chance to become parasitised
-                            if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
-                                if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-                                    one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                                            ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
-                                    switch( rng( 0, 3 ) ) {
-                                        case 0:
-                                            if( !you.has_trait( trait_EATHEALTH ) ) {
-                                                you.add_effect( effect_tapeworm, 1_turns, true );
+                                                add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                                                add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                                            } else {
+                                                you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                                                           food.tname() );
                                             }
-                                            break;
-                                        case 1:
-                                            if( !you.has_trait( trait_ACIDBLOOD ) ) {
-                                                you.add_effect( effect_bloodworms, 1_turns, true );
+                                        }
+
+                                        if( item::find_type( food.get_comestible()->tool )->tool ) {
+                                            // Tools like lighters get used
+                                            you.use_charges( food.get_comestible()->tool, 1 );
+                                        }
+
+                                        if( amorphous ) {
+                                            you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                                       food.tname() );
+                                        } else if( drinkable ) {
+                                            if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                                !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                                you.is_avatar() ) {
+
+                                                // The fun changes for these effects are applied in fun_for().
+                                                if( food.has_flag( flag_MUSHY ) ) {
+                                                    you.add_msg_if_player( m_bad,
+                                                                           _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
+                                                }
+                                                if( food.get_comestible_fun() > 0 ) {
+                                                    if( you.has_effect( effect_common_cold ) ) {
+                                                        you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
+                                                    }
+                                                    if( you.has_effect( effect_flu ) ) {
+                                                        you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
+                                                    }
+                                                }
+
+                                                if( amorphous ) {
+                                                    you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
+                                                                               food.tname() );
+                                                } else if( drinkable ) {
+                                                    if( you.has_trait( trait_SCHIZOPHRENIC ) &&
+                                                        !you.has_effect( effect_took_thorazine ) && one_in( 50 ) && !spoiled && food.goes_bad() &&
+                                                        you.is_avatar() ) {
+
+                                                        add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
+                                                        add_msg( _( "You eat your %s (rotten)." ), food.tname() );
+                                                    } else {
+                                                        you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                                                                   food.tname() );
+                                                    }
+                                                }
+
+                                                if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
+                                                    you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
+                                                    you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
+                                                }
+
+                                                // The fun changes for these effects are applied in fun_for().
+                                                if( food.has_flag( flag_MUSHY ) ) {
+                                                    you.add_msg_if_player( m_bad,
+                                                                           _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
+                                                }
+                                                if( food.get_comestible_fun() > 0 ) {
+                                                    if( you.has_effect( effect_common_cold ) ) {
+                                                        you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
+                                                    }
+                                                    if( you.has_effect( effect_flu ) ) {
+                                                        you.add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
+                                                    }
+                                                }
+
+                                                // Chance to become parasitised
+                                                if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
+                                                    if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
+                                                        one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                                                                ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+                                                        switch( rng( 0, 3 ) ) {
+                                                            case 0:
+                                                                if( !you.has_trait( trait_EATHEALTH ) ) {
+                                                                    you.add_effect( effect_tapeworm, 1_turns, true );
+                                                                }
+                                                                break;
+                                                            case 1:
+                                                                if( !you.has_trait( trait_ACIDBLOOD ) ) {
+                                                                    you.add_effect( effect_bloodworms, 1_turns, true );
+                                                                }
+                                                                break;
+                                                            case 2:
+                                                                you.add_effect( effect_brainworms, 1_turns, true );
+                                                                break;
+                                                            case 3:
+                                                                you.add_effect( effect_paincysts, 1_turns, true );
+                                                        }
+                                                    }
+                                                }
+
+                                                for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+                                                    if( rng( 1, 100 ) <= elem.second ) {
+                                                        you.expose_to_disease( elem.first );
+                                                    }
+                                                }
+
+                                                get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
+
+                                                if( will_vomit ) {
+                                                    you.vomit();
+                                                }
+
+                                                you.consumption_history.emplace_back( food );
+                                                // Clean out consumption_history so it doesn't get bigger than needed.
+                                                while( you.consumption_history.front().time < calendar::turn - 2_days ) {
+                                                    you.consumption_history.pop_front();
+                                                }
+
+                                                you.recoil = MAX_RECOIL;
+
+                                                return true;
                                             }
                                             break;
                                         case 2:
@@ -1280,156 +1312,35 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                                             break;
                                         case 3:
                                             you.add_effect( effect_paincysts, 1_turns, true );
+                                        }
                                     }
                                 }
-                            }
 
-                            for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
-                                if( rng( 1, 100 ) <= elem.second ) {
-                                    you.expose_to_disease( elem.first );
+                                for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+                                    if( rng( 1, 100 ) <= elem.second ) {
+                                        you.expose_to_disease( elem.first );
+                                    }
                                 }
+
+                                get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
+
+                                if( will_vomit ) {
+                                    you.vomit();
+                                }
+
+                                you.consumption_history.emplace_back( food );
+                                // Clean out consumption_history so it doesn't get bigger than needed.
+                                while( you.consumption_history.front().time < calendar::turn - 2_days ) {
+                                    you.consumption_history.pop_front();
+                                }
+
+                                you.recoil = MAX_RECOIL;
+
+                                return true;
                             }
-
-                            get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
-
-                            if( will_vomit ) {
-                                you.vomit();
-                            }
-
-                            you.consumption_history.emplace_back( food );
-                            // Clean out consumption_history so it doesn't get bigger than needed.
-                            while( you.consumption_history.front().time < calendar::turn - 2_days ) {
-                                you.consumption_history.pop_front();
-                            }
-
-                            you.recoil = MAX_RECOIL;
 
                             return true;
                         }
-                        break;
-                    case 2:
-                        you.add_effect( effect_brainworms, 1_turns, true );
-                        break;
-                    case 3:
-                        you.add_effect( effect_paincysts, 1_turns, true );
-                }
-            }
-        }
-
-        for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
-            if( rng( 1, 100 ) <= elem.second ) {
-                you.expose_to_disease( elem.first );
-            }
-        }
-
-        get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
-
-        if( will_vomit ) {
-            you.vomit();
-        }
-
-        you.consumption_history.emplace_back( food );
-        // Clean out consumption_history so it doesn't get bigger than needed.
-        while( you.consumption_history.front().time < calendar::turn - 2_days ) {
-            you.consumption_history.pop_front();
-        }
-
-        you.recoil = MAX_RECOIL;
-
-        return true;
-    }
-
-                    return true;
-                }
-
-    void Character::modify_stimulation( const islot_comestible & comest ) {
-        if( comest.stim == 0 ) {
-            return;
-        }
-        const int current_stim = get_stim();
-        if( ( std::abs( comest.stim ) * 3 ) > std::abs( current_stim ) ) {
-            mod_stim( comest.stim );
-        } else {
-            comest.stim > 0 ? mod_stim( std::max( comest.stim / 2, 1 ) ) : mod_stim( std::min( comest.stim / 2,
-                    -1 ) );
-        }
-        if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-            ( comest.addictions.count( STATIC( addiction_id( "caffeine" ) ) ) ||
-              comest.addictions.count( STATIC( addiction_id( "amphetamine" ) ) ) ||
-              comest.addictions.count( STATIC( addiction_id( "cocaine" ) ) ) ||
-              comest.addictions.count( STATIC( addiction_id( "crack" ) ) ) ) ) {
-            int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
-            add_effect( effect_visuals, hallu_duration * 30_minutes );
-            add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
-                                   translation() ).translated() );
-        }
-    }
-
-    void Character::modify_fatigue( const islot_comestible & comest ) {
-        mod_fatigue( -comest.fatigue_mod );
-    }
-}
-        }
-void Character::modify_fatigue( const islot_comestible &comest )
-{
-    mod_fatigue( -comest.fatigue_mod );
-}
-
-void Character::modify_addiction( const islot_comestible &comest )
-{
-    for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
-        add_addiction( add.first, add.second );
-        if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
-            rem_morale( add.first->get_craving_morale() );
-        }
-    }
-}
-            add_addiction( add.first, add.second );
-void Character::modify_morale( item &food, const int nutr )
-{
-    time_duration morale_time = 2_hours;
-    if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
-        morale_time = 3_hours;
-        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
-        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
-    }
-
-    std::pair<int, int> fun = fun_for( food );
-    if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
-    } else if( fun.first > 0 ) {
-        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
-    }
-
-    // Morale bonus for eating unspoiled food with chair/table nearby
-    // Does not apply to non-ingested consumables like bandages or drugs,
-    // nor to drinks.
-    if( !food.has_flag( flag_NO_INGEST ) &&
-        food.get_comestible()->comesttype != "MED" &&
-        food.get_comestible()->comesttype != comesttype_DRINK ) {
-        map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
-            if( has_trait( trait_TABLEMANNERS ) ) {
-                rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                if( !food.rotten() ) {
-                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
-                }
-            }
-        }
-        void Character::modify_fatigue( const islot_comestible & comest ) {
-            mod_fatigue( -comest.fatigue_mod );
-        }
-
-        void Character::modify_addiction( const islot_comestible & comest ) {
-            for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
-                add_addiction( add.first, add.second );
-                if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
-                    rem_morale( add.first->get_craving_morale() );
-                }
-            }
-        }
 
                         void Character::modify_stimulation( const islot_comestible & comest ) {
                             if( comest.stim == 0 ) {
@@ -1454,570 +1365,318 @@ void Character::modify_morale( item &food, const int nutr )
                             }
                         }
 
-        // Allergy check for food that is ingested (not gum)
-        if( !food.has_flag( flag_NO_INGEST ) ) {
-            const morale_type allergy = allergy_type( food );
-            if( allergy != MORALE_NULL ) {
-                add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-                add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
-            }
-            if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
-                if( has_trait( trait_PROJUNK ) ) {
-                    add_msg_if_player( m_good, _( "Mmm, junk food." ) );
-                    add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
-                }
-                if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
-                    if( has_trait( trait_PROJUNK ) ) {
-                        add_msg_if_player( m_good, _( "Mmm, junk food." ) );
-                        add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+                        void Character::modify_fatigue( const islot_comestible & comest ) {
+                            mod_fatigue( -comest.fatigue_mod );
+                        }
                     }
-                    if( has_trait( trait_PROJUNK2 ) ) {
-                        if( !one_in( 100 ) ) {
-                            add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+                }
+                void Character::modify_fatigue( const islot_comestible & comest ) {
+                    mod_fatigue( -comest.fatigue_mod );
+                }
+
+                void Character::modify_addiction( const islot_comestible & comest ) {
+                    for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
+                        add_addiction( add.first, add.second );
+                        if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+                            rem_morale( add.first->get_craving_morale() );
+                        }
+                    }
+                }
+                add_addiction( add.first, add.second );
+                void Character::modify_morale( item & food, const int nutr ) {
+                    time_duration morale_time = 2_hours;
+                    if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
+                        morale_time = 3_hours;
+                        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+                        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
+                    }
+
+                    std::pair<int, int> fun = fun_for( food );
+                    if( fun.first < 0 ) {
+                        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                                    food.type );
+                    } else if( fun.first > 0 ) {
+                        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                                    food.type );
+                    }
+
+                    // Morale bonus for eating unspoiled food with chair/table nearby
+                    // Does not apply to non-ingested consumables like bandages or drugs,
+                    // nor to drinks.
+                    if( !food.has_flag( flag_NO_INGEST ) &&
+                        food.get_comestible()->comesttype != "MED" &&
+                        food.get_comestible()->comesttype != comesttype_DRINK ) {
+                        map &here = get_map();
+                        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
+                            if( has_trait( trait_TABLEMANNERS ) ) {
+                                rem_morale( MORALE_ATE_WITHOUT_TABLE );
+                                if( !food.rotten() ) {
+                                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
+                                }
+                            }
+                        }
+                        void Character::modify_fatigue( const islot_comestible & comest ) {
+                            mod_fatigue( -comest.fatigue_mod );
+                        }
+
+                        void Character::modify_addiction( const islot_comestible & comest ) {
+                            for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
+                                add_addiction( add.first, add.second );
+                                if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+                                    rem_morale( add.first->get_craving_morale() );
+                                }
+                            }
+                        }
+
+                        void Character::modify_stimulation( const islot_comestible & comest ) {
+                            if( comest.stim == 0 ) {
+                                return;
+                            }
+                            const int current_stim = get_stim();
+                            if( ( std::abs( comest.stim ) * 3 ) > std::abs( current_stim ) ) {
+                                mod_stim( comest.stim );
+                            } else {
+                                comest.stim > 0 ? mod_stim( std::max( comest.stim / 2, 1 ) ) : mod_stim( std::min( comest.stim / 2,
+                                        -1 ) );
+                            }
+                            if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
+                                ( comest.addictions.count( STATIC( addiction_id( "caffeine" ) ) ) ||
+                                  comest.addictions.count( STATIC( addiction_id( "amphetamine" ) ) ) ||
+                                  comest.addictions.count( STATIC( addiction_id( "cocaine" ) ) ) ||
+                                  comest.addictions.count( STATIC( addiction_id( "crack" ) ) ) ) ) {
+                                int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
+                                add_effect( effect_visuals, hallu_duration * 30_minutes );
+                                add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
+                                                       translation() ).translated() );
+                            }
+                        }
+
+                        // Allergy check for food that is ingested (not gum)
+                        if( !food.has_flag( flag_NO_INGEST ) ) {
+                            const morale_type allergy = allergy_type( food );
+                            if( allergy != MORALE_NULL ) {
+                                add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
+                                add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
+                            }
+                            if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
+                                if( has_trait( trait_PROJUNK ) ) {
+                                    add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+                                    add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+                                }
+                                if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
+                                    if( has_trait( trait_PROJUNK ) ) {
+                                        add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+                                        add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+                                    }
+                                    if( has_trait( trait_PROJUNK2 ) ) {
+                                        if( !one_in( 100 ) ) {
+                                            add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+                                        } else {
+                                            add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+                                        }
+                                        add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+                                    }
+                                    // Carnivores CAN eat junk food, but they won't like it much.
+                                    // Pizza-scraping happens in consume_effects.
+                                    if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+                                        add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
+                                        add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
+                                    }
+                                    add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+                                }
+                                // Carnivores CAN eat junk food, but they won't like it much.
+                                // Pizza-scraping happens in consume_effects.
+                                if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+                                    add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
+                                    add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
+                                }
+                                add_morale( MORALE_HONEY, honey_fun, 100 );
+                            }
+                        }
+
+                        // Used when determining stomach fullness from eating.
+                        double Character::compute_effective_food_volume_ratio( const item & food ) const {
+                            const nutrients food_nutrients = compute_effective_nutrients( food );
+                            units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
+                            double ratio = 1.0f;
+                            if( units::to_gram( food_weight ) != 0 ) {
+                                ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
+                                                  1.0 );
+                                if( ratio > 3.0f ) {
+                                    ratio = std::sqrt( 3 * ratio );
+                                }
+                            }
+                            return ratio;
+                        }
+
+                        // Remove the water volume from the food, as that gets absorbed and used as water.
+                        // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
+                        // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
+                        units::volume Character::masticated_volume( const item & food ) const {
+                            units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                                                      5_ml : 0_ml;
+                            units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
+                            // handle the division by zero exception when the food count is 0 with std::max()
+                            units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
+                            units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
+
+                            if( units::to_milliliter( food_dry_volume ) != 0 &&
+                                units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
+                                food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
+                            }
+
+                            return food_dry_volume;
+                        }
+
+                        // Used when displaying effective food satiation values.
+                        int Character::compute_calories_per_effective_volume( const item & food,
+                                const nutrients * nutrient /* = nullptr */ )const {
+                            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+                            stomach fullness source code. Look at issue #44365*/
+                            int kcalories;
+                            if( nutrient ) {
+                                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                                kcalories = nutrient->kcal();
+                            } else {
+                                kcalories = compute_effective_nutrients( food ).kcal();
+                            }
+                            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+                            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+                            const double effective_volume = food_vol * energy_density_ratio;
+                            if( kcalories == 0 && effective_volume == 0.0 ) {
+                                return 0;
+                            }
+                            return std::round( kcalories / effective_volume );
+                        }
+
+                        // Used when displaying effective food satiation values.
+                        int Character::compute_calories_per_effective_volume( const item & food,
+                                const nutrients * nutrient /* = nullptr */ )const {
+                            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+                            stomach fullness source code. Look at issue #44365*/
+                            int kcalories;
+                            if( nutrient ) {
+                                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                                kcalories = nutrient->kcal();
+                            } else {
+                                kcalories = compute_effective_nutrients( food ).kcal();
+                            }
+                            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+                            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+                            const double effective_volume = food_vol * energy_density_ratio;
+                            if( kcalories == 0 && effective_volume == 0.0 ) {
+                                return 0;
+                            }
+                            return std::round( kcalories / effective_volume );
+                        }
+                    }
+
+                    // Used when determining stomach fullness from eating.
+                    double Character::compute_effective_food_volume_ratio( const item & food ) const {
+                        const nutrients food_nutrients = compute_effective_nutrients( food );
+                        units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
+                        double ratio = 1.0f;
+                        if( units::to_gram( food_weight ) != 0 ) {
+                            ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
+                                              1.0 );
+                            if( ratio > 3.0f ) {
+                                ratio = std::sqrt( 3 * ratio );
+                            }
+                        }
+                        return ratio;
+                    }
+
+                    // Remove the water volume from the food, as that gets absorbed and used as water.
+                    // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
+                    // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
+                    units::volume Character::masticated_volume( const item & food ) const {
+                        units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
+                                                  5_ml : 0_ml;
+                        units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
+                        // handle the division by zero exception when the food count is 0 with std::max()
+                        units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
+                        units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
+
+                        if( units::to_milliliter( food_dry_volume ) != 0 &&
+                            units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
+                            food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
+                        }
+
+                        return food_dry_volume;
+                    }
+
+                    // Used when displaying effective food satiation values.
+                    int Character::compute_calories_per_effective_volume( const item & food,
+                            const nutrients * nutrient /* = nullptr */ )const {
+                        /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+                        stomach fullness source code. Look at issue #44365*/
+                        int kcalories;
+                        if( nutrient ) {
+                            // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                            kcalories = nutrient->kcal();
                         } else {
-                            add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+                            kcalories = compute_effective_nutrients( food ).kcal();
                         }
-                        add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
-                    }
-                    // Carnivores CAN eat junk food, but they won't like it much.
-                    // Pizza-scraping happens in consume_effects.
-                    if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
-                        add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-                        add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
-                    }
-                    add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
-                }
-                // Carnivores CAN eat junk food, but they won't like it much.
-                // Pizza-scraping happens in consume_effects.
-                if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
-                    add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-                    add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
-                }
-                add_morale( MORALE_HONEY, honey_fun, 100 );
-            }
-        }
-
-        // Used when determining stomach fullness from eating.
-        double Character::compute_effective_food_volume_ratio( const item & food ) const {
-            const nutrients food_nutrients = compute_effective_nutrients( food );
-            units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
-            double ratio = 1.0f;
-            if( units::to_gram( food_weight ) != 0 ) {
-                ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
-                                  1.0 );
-                if( ratio > 3.0f ) {
-                    ratio = std::sqrt( 3 * ratio );
-                }
-            }
-            return ratio;
-        }
-
-        // Remove the water volume from the food, as that gets absorbed and used as water.
-        // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
-        // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
-        units::volume Character::masticated_volume( const item & food ) const {
-            units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
-                                      5_ml : 0_ml;
-            units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
-            // handle the division by zero exception when the food count is 0 with std::max()
-            units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
-            units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
-
-            if( units::to_milliliter( food_dry_volume ) != 0 &&
-                units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
-                food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
-            }
-
-            return food_dry_volume;
-        }
-
-        // Used when displaying effective food satiation values.
-        int Character::compute_calories_per_effective_volume( const item & food,
-                const nutrients * nutrient /* = nullptr */ )const {
-            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-            stomach fullness source code. Look at issue #44365*/
-            int kcalories;
-            if( nutrient ) {
-                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-                kcalories = nutrient->kcal();
-            } else {
-                kcalories = compute_effective_nutrients( food ).kcal();
-            }
-            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-            const double effective_volume = food_vol * energy_density_ratio;
-            if( kcalories == 0 && effective_volume == 0.0 ) {
-                return 0;
-            }
-            return std::round( kcalories / effective_volume );
-        }
-
-        // Used when displaying effective food satiation values.
-        int Character::compute_calories_per_effective_volume( const item & food,
-                const nutrients * nutrient /* = nullptr */ )const {
-            /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-            stomach fullness source code. Look at issue #44365*/
-            int kcalories;
-            if( nutrient ) {
-                // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-                kcalories = nutrient->kcal();
-            } else {
-                kcalories = compute_effective_nutrients( food ).kcal();
-            }
-            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-            const double effective_volume = food_vol * energy_density_ratio;
-            if( kcalories == 0 && effective_volume == 0.0 ) {
-                return 0;
-            }
-            return std::round( kcalories / effective_volume );
-        }
-    }
-
-    // Used when determining stomach fullness from eating.
-    double Character::compute_effective_food_volume_ratio( const item & food ) const {
-        const nutrients food_nutrients = compute_effective_nutrients( food );
-        units::mass food_weight = ( food.weight() / std::max( 1, food.count() ) );
-        double ratio = 1.0f;
-        if( units::to_gram( food_weight ) != 0 ) {
-            ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
-                              1.0 );
-            if( ratio > 3.0f ) {
-                ratio = std::sqrt( 3 * ratio );
-            }
-        }
-        return ratio;
-    }
-
-    // Remove the water volume from the food, as that gets absorbed and used as water.
-    // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
-    // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
-    units::volume Character::masticated_volume( const item & food ) const {
-        units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
-                                  5_ml : 0_ml;
-        units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
-        // handle the division by zero exception when the food count is 0 with std::max()
-        units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
-        units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
-
-        if( units::to_milliliter( food_dry_volume ) != 0 &&
-            units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
-            food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
-        }
-
-        return food_dry_volume;
-    }
-
-    // Used when displaying effective food satiation values.
-    int Character::compute_calories_per_effective_volume( const item & food,
-            const nutrients * nutrient /* = nullptr */ )const {
-        /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-        stomach fullness source code. Look at issue #44365*/
-        int kcalories;
-        if( nutrient ) {
-            // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-            kcalories = nutrient->kcal();
-        } else {
-            kcalories = compute_effective_nutrients( food ).kcal();
-        }
-        double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-        const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-        const double effective_volume = food_vol * energy_density_ratio;
-        if( kcalories == 0 && effective_volume == 0.0 ) {
-            return 0;
-        }
-        return std::round( kcalories / effective_volume );
-    }
-
-                // Used when displaying effective food satiation values.
-                int Character::compute_calories_per_effective_volume( const item & food,
-                        const nutrients * nutrient /* = nullptr */ )const {
-                    /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-                    stomach fullness source code. Look at issue #44365*/
-                    int kcalories;
-                    if( nutrient ) {
-                        // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-                        kcalories = nutrient->kcal();
-                    } else {
-                        kcalories = compute_effective_nutrients( food ).kcal();
-                    }
-                    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-                    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-                    const double effective_volume = food_vol * energy_density_ratio;
-                    if( kcalories == 0 && effective_volume == 0.0 ) {
-                        return 0;
-                    }
-                    return std::round( kcalories / effective_volume );
-                }
-
-                static void activate_consume_eocs( Character & you, item & target ) {
-                    Character *char_ptr = nullptr;
-                    if( avatar *u = you.as_avatar() ) {
-                        char_ptr = u;
-                    } else if( npc *n = you.as_npc() ) {
-                        char_ptr = n;
-                    }
-                    item_location loc( you, &target );
-                    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
-                    const islot_comestible &comest = *target.get_comestible();
-                    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
-                        eoc->activate( d );
-                    }
-                }
-
-                bool Character::consume_effects( item & food ) {
-                    if( !food.is_comestible() ) {
-                        debugmsg( "called Character::consume_effects with non-comestible" );
-                        return false;
-                    }
-
-                    if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
-                        // Was used to cap nutrition and thirst, but no longer does this
-                        return false;
-                    }
-                    if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-                        food.has_any_flag( herbivore_blacklist ) ) {
-                        // No good can come of this.
-                        return false;
-                    }
-
-        // Used in hibernation messages.
-        const int nutr = nutrition_for( food );
-        const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
-        // We can handle junk just fine
-        if( !skip_health ) {
-            modify_health( comest );
-        }
-        modify_stimulation( comest );
-        modify_fatigue( comest );
-        modify_addiction( comest );
-        modify_morale( food, nutr );
-
-        const bool hibernate = has_active_mutation( trait_HIBERNATE );
-        if( hibernate ) {
-            if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
-                // Tell the player what's going on
-                add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
-                if( one_in( 2 ) ) {
-                    // 50% chance of the food tiring you
-                    mod_fatigue( nutr );
-                }
-            }
-            if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
-                // Hibernation should cut burn to 60/day
-                add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
-                if( one_in( 2 ) ) {
-                    // And another 50%, intended cumulative
-                    mod_fatigue( nutr );
-                }
-            }
-
-            if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
-                add_msg_if_player(
-                    _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
-                if( !one_in( 3 ) ) {
-                    // Third check, this one at 66%
-                    mod_fatigue( nutr );
-                }
-            }
-            if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
-                add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
-                // At this point, you're done.  Schlaf gut.
-                mod_fatigue( nutr );
-            }
-        }
-        // Moved here and changed a bit - it was too complex
-        // Incredibly minor stuff like this shouldn't require complexity
-        if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-            ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
-              get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
-            add_msg_if_player( m_mixed,
-                               _( "You feel as though you're going to split open!  In a good way?" ) );
-            mod_pain( 5 );
-            int numslime = 1;
-            for( int i = 0; i < numslime; i++ ) {
-                if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
-                    slime->friendly = -1;
-                }
-            }
-
-        nutrients food_nutrients = compute_effective_nutrients( food );
-        const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
-                                        food.get_comestible()->quench *
-                                        5_ml : 0_ml;
-        units::volume food_vol = masticated_volume( food );
-        if( food.count() == 0 ) {
-            debugmsg( "Tried to eat food with count of zero." );
-            return false;
-        }
-        units::mass food_weight = ( food.weight() / food.count() );
-        const double ratio = compute_effective_food_volume_ratio( food );
-        food_summary ingested{
-            water_vol,
-            food_vol * ratio,
-            food_nutrients
-        };
-        add_msg_debug( debugmode::DF_FOOD,
-                       "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-                       units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-                       food_nutrients.kcal(), units::to_gram( food_weight ) );
-        // Maybe move tapeworm to digestion
-        if( has_effect( effect_tapeworm ) ) {
-            ingested.nutr /= 2;
-        }
-        // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
-        activate_consume_eocs( *this, food );
-
-                if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
-                    // Was used to cap nutrition and thirst, but no longer does this
-                    return false;
-                }
-                if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-                    food.has_any_flag( herbivore_blacklist ) ) {
-                    // No good can come of this.
-                    return false;
-                }
-
-                // Used in hibernation messages.
-                const int nutr = nutrition_for( food );
-                const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
-                // We can handle junk just fine
-                if( !skip_health ) {
-                    modify_health( comest );
-                }
-                modify_stimulation( comest );
-                modify_fatigue( comest );
-                modify_addiction( comest );
-                modify_morale( food, nutr );
-
-                const bool hibernate = has_active_mutation( trait_HIBERNATE );
-                if( hibernate ) {
-                    if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
-                        // Tell the player what's going on
-                        add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
-                        if( one_in( 2 ) ) {
-                            // 50% chance of the food tiring you
-                            mod_fatigue( nutr );
+                        double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+                        const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+                        const double effective_volume = food_vol * energy_density_ratio;
+                        if( kcalories == 0 && effective_volume == 0.0 ) {
+                            return 0;
                         }
+                        return std::round( kcalories / effective_volume );
                     }
-                    if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
-                        // Hibernation should cut burn to 60/day
-                        add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
-                        if( one_in( 2 ) ) {
-                            // And another 50%, intended cumulative
-                            mod_fatigue( nutr );
+
+                    // Used when displaying effective food satiation values.
+                    int Character::compute_calories_per_effective_volume( const item & food,
+                            const nutrients * nutrient /* = nullptr */ )const {
+                        /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+                        stomach fullness source code. Look at issue #44365*/
+                        int kcalories;
+                        if( nutrient ) {
+                            // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
+                            kcalories = nutrient->kcal();
+                        } else {
+                            kcalories = compute_effective_nutrients( food ).kcal();
+                        }
+                        double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+                        const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+                        const double effective_volume = food_vol * energy_density_ratio;
+                        if( kcalories == 0 && effective_volume == 0.0 ) {
+                            return 0;
+                        }
+                        return std::round( kcalories / effective_volume );
+                    }
+
+                    static void activate_consume_eocs( Character & you, item & target ) {
+                        Character *char_ptr = nullptr;
+                        if( avatar *u = you.as_avatar() ) {
+                            char_ptr = u;
+                        } else if( npc *n = you.as_npc() ) {
+                            char_ptr = n;
+                        }
+                        item_location loc( you, &target );
+                        dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+                        const islot_comestible &comest = *target.get_comestible();
+                        for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+                            eoc->activate( d );
                         }
                     }
 
-                    if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
-                        add_msg_if_player(
-                            _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
-                        if( !one_in( 3 ) ) {
-                            // Third check, this one at 66%
-                            mod_fatigue( nutr );
+                    bool Character::consume_effects( item & food ) {
+                        if( !food.is_comestible() ) {
+                            debugmsg( "called Character::consume_effects with non-comestible" );
+                            return false;
                         }
-                    }
-                    if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
-                        add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
-                        // At this point, you're done.  Schlaf gut.
-                        mod_fatigue( nutr );
-                    }
-                }
-                // Moved here and changed a bit - it was too complex
-                // Incredibly minor stuff like this shouldn't require complexity
-                if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-                    ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
-                      get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
-                    add_msg_if_player( m_mixed,
-                                       _( "You feel as though you're going to split open!  In a good way?" ) );
-                    mod_pain( 5 );
-                    int numslime = 1;
-                    for( int i = 0; i < numslime; i++ ) {
-                        if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
-                            slime->friendly = -1;
+
+                        if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
+                            // Was used to cap nutrition and thirst, but no longer does this
+                            return false;
                         }
-                    }
-                    mod_hunger( 40 );
-                    mod_thirst( 40 );
-                    //~ slimespawns have *small voices* which may be the Nice equivalent
-                    //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
-                    add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-                }
-
-    bool Character::can_estimate_rot() const {
-        return get_greater_skill_or_knowledge_level( skill_cooking ) >= 3 ||
-               get_greater_skill_or_knowledge_level( skill_survival ) >= 4;
-    }
-
-    bool Character::can_consume_as_is( const item & it ) const {
-        if( it.is_comestible() ) {
-            return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
-                   it.has_flag( flag_MELTS );
-        }
-        return false;
-    }
-
-    item &Character::get_consumable_from( item & it ) const {
-        item *ret = nullptr;
-        it.visit_items( [&]( item * it, item * ) {
-            if( can_consume_as_is( *it ) ) {
-                ret = it;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
-
-        if( ret != nullptr ) {
-            return *ret;
-        }
-
-        static item null_comestible;
-        // Since it's not const.
-        null_comestible = item();
-        return null_comestible;
-    }
-
-    time_duration Character::get_consume_time( const item & it ) const {
-        const int charges = std::max( it.charges, 1 );
-        int volume = units::to_milliliter( it.volume() ) / charges;
-        if( 0 == volume && it.type ) {
-            volume = units::to_milliliter( it.type->volume );
-        }
-        time_duration time = time_duration::from_seconds( std::max( ( volume /
-                             5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
-        float consume_time_modifier = 1.0f;//only for food and drinks
-        const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
-        const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
-        if( eat_verb || comest_type == "FOOD" ) {
-            time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-            consume_time_modifier = mutation_value( "consume_time_modifier" );
-        } else if( !eat_verb && comest_type == "DRINK" ) {
-            time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-            consume_time_modifier = mutation_value( "consume_time_modifier" );
-        } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
-            time = time_duration::from_moves( dynamic_cast<heal_actor const *>
-                                              ( fun->get_actor_ptr() )->move_cost );
-        } else if( it.is_medication() ) {
-            const use_function *consume_drug = it.type->get_use( "consume_drug" );
-            const use_function *smoking = it.type->get_use( "SMOKING" );
-            const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
-            if( consume_drug != nullptr ) { //its a drug
-                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
-                        ( consume_drug->get_actor_ptr() );
-                if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
-                    has_bionic( bio_syringe ) ) {
-                    time = time_duration::from_seconds(
-                               15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
-                } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
-                           consume_drug_use->tools_needed.end() ) {
-                    time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
-                } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
-                           consume_drug_use->tools_needed.end() ||
-                           consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
-                    time = time_duration::from_seconds( 30 );//smoke a bowl
-                } else {
-                    time = time_duration::from_seconds( 5 );//popping a pill is quick
-                }
-            } else if( smoking != nullptr ) {
-                time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-            } else if( adrenaline_injector != nullptr ) {
-                //epi-pens, and disinfectant are fairly quick
-                time = time_duration::from_seconds( 15 );
-            } else {
-                time = time_duration::from_seconds( 5 ); //probably pills so quick
-            }
-        } else if( it.get_category_shallow().get_id() == item_category_chems ) {
-            time = time_duration::from_seconds( std::max( ( volume / 15 ),
-                                                1 ) ); //Consume 15 mL (1 tablespoon) per second
-            consume_time_modifier = mutation_value( "consume_time_modifier" );
-        }
-
-                    nutrients food_nutrients = compute_effective_nutrients( food );
-                    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
-                                                    food.get_comestible()->quench *
-                                                    5_ml : 0_ml;
-                    units::volume food_vol = masticated_volume( food );
-                    if( food.count() == 0 ) {
-                        debugmsg( "Tried to eat food with count of zero." );
-                        return false;
-                    }
-                    units::mass food_weight = ( food.weight() / food.count() );
-                    const double ratio = compute_effective_food_volume_ratio( food );
-                    food_summary ingested{
-                        water_vol,
-                        food_vol * ratio,
-                        food_nutrients
-                    };
-                    add_msg_debug( debugmode::DF_FOOD,
-                                   "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-                                   units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-                                   food_nutrients.kcal(), units::to_gram( food_weight ) );
-                    // Maybe move tapeworm to digestion
-                    if( has_effect( effect_tapeworm ) ) {
-                        ingested.nutr /= 2;
-                    }
-                    // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
-                    activate_consume_eocs( *this, food );
-
-                    // GET IN MAH BELLY!
-                    stomach.ingest( ingested );
-
-    static bool query_consume_ownership( item & target, Character & p ) {
-        if( !target.is_owned_by( p, true ) ) {
-            bool choice = true;
-            if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-                choice = Pickup::query_thief();
-            }
-            if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
-                return false;
-            }
-            std::vector<npc *> witnesses;
-            for( npc &elem : g->all_npcs() ) {
-                if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
-                    witnesses.push_back( &elem );
-                }
-            }
-            for( npc *elem : witnesses ) {
-                elem->say( "<witnessed_thievery>", 7 );
-            }
-            if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-                if( p.add_faction_warning( target.get_owner() ) ) {
-                    for( npc *elem : witnesses ) {
-                        elem->make_angry();
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    /** Consume medication.
-    *   @return true if item consumed.
-    */
-    static bool consume_med( item & target, Character & you ) {
-        if( !target.is_medication() ) {
-            return false;
-        }
-
-        const itype_id tool_type = target.get_comestible()->tool;
-        const itype *req_tool = item::find_type( tool_type );
-
-        if( req_tool->tool ) {
-            if( !( you.has_amount( tool_type, 1 ) &&
-                   you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
-                you.add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
-                return false;
-            }
-            you.use_charges( tool_type, req_tool->tool->charges_per_use );
-        }
-
-        int amount_used = 1;
-        if( target.type->has_use() ) {
-            amount_used = target.type->invoke( &you, target, you.pos() ).value_or( 0 );
-            if( amount_used <= 0 ) {
-                return false;
-            }
-        }
+                        if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+                            food.has_any_flag( herbivore_blacklist ) ) {
+                            // No good can come of this.
+                            return false;
+                        }
 
                         // Used in hibernation messages.
                         const int nutr = nutrition_for( food );
@@ -2106,147 +1765,485 @@ void Character::modify_morale( item &food, const int nutr )
                             // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
                             activate_consume_eocs( *this, food );
 
-                            // GET IN MAH BELLY!
-                            stomach.ingest( ingested );
-
-                            // update speculative values
-                            if( is_avatar() ) {
-                                get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+                            if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
+                                // Was used to cap nutrition and thirst, but no longer does this
+                                return false;
                             }
-                            for( const auto &v : ingested.nutr.vitamins() ) {
-                                // update the estimated values for daily vitamins
-                                // actual vitamins happen during digestion
-                                daily_vitamins[v.first].first += v.second;
+                            if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+                                food.has_any_flag( herbivore_blacklist ) ) {
+                                // No good can come of this.
+                                return false;
                             }
 
-                            return true;
-                        }
-
-        if( target.count_by_charges() ) {
-            target.mod_charges( -amount_used );
-        }
-        return true;
-    }
-
-    trinary Character::consume( item & target, bool force ) {
-        if( target.is_null() ) {
-            add_msg_if_player( m_info, _( "You do not have that item." ) );
-            return trinary::NONE;
-        }
-        if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
-            cant_do_underwater() ) {
-            return trinary::NONE;
-        }
-
-                        item &Character::get_consumable_from( item & it ) const {
-                            item *ret = nullptr;
-                            it.visit_items( [&]( item * it, item * ) {
-                                if( can_consume_as_is( *it ) ) {
-                                    ret = it;
-                                    return VisitResponse::ABORT;
-                                }
-                                return VisitResponse::NEXT;
-                            } );
-
-                            if( ret != nullptr ) {
-                                return *ret;
+                            // Used in hibernation messages.
+                            const int nutr = nutrition_for( food );
+                            const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+                            // We can handle junk just fine
+                            if( !skip_health ) {
+                                modify_health( comest );
                             }
+                            modify_stimulation( comest );
+                            modify_fatigue( comest );
+                            modify_addiction( comest );
+                            modify_morale( food, nutr );
 
-                            static item null_comestible;
-                            // Since it's not const.
-                            null_comestible = item();
-                            return null_comestible;
-                        }
-
-                        time_duration Character::get_consume_time( const item & it ) const {
-                            const int charges = std::max( it.charges, 1 );
-                            int volume = units::to_milliliter( it.volume() ) / charges;
-                            if( 0 == volume && it.type ) {
-                                volume = units::to_milliliter( it.type->volume );
-                            }
-                            time_duration time = time_duration::from_seconds( std::max( ( volume /
-                                                 5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
-                            float consume_time_modifier = 1.0f;//only for food and drinks
-                            const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
-                            const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
-                            if( eat_verb || comest_type == "FOOD" ) {
-                                time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-                                consume_time_modifier = mutation_value( "consume_time_modifier" );
-                            } else if( !eat_verb && comest_type == "DRINK" ) {
-                                time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-                                consume_time_modifier = mutation_value( "consume_time_modifier" );
-                            } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
-                                time = time_duration::from_moves( dynamic_cast<heal_actor const *>
-                                                                  ( fun->get_actor_ptr() )->move_cost );
-                            } else if( it.is_medication() ) {
-                                const use_function *consume_drug = it.type->get_use( "consume_drug" );
-                                const use_function *smoking = it.type->get_use( "SMOKING" );
-                                const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
-                                if( consume_drug != nullptr ) { //its a drug
-                                    const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
-                                            ( consume_drug->get_actor_ptr() );
-                                    if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
-                                        has_bionic( bio_syringe ) ) {
-                                        time = time_duration::from_seconds(
-                                                   15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
-                                    } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
-                                               consume_drug_use->tools_needed.end() ) {
-                                        time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
-                                    } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
-                                               consume_drug_use->tools_needed.end() ||
-                                               consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
-                                        time = time_duration::from_seconds( 30 );//smoke a bowl
-                                    } else {
-                                        time = time_duration::from_seconds( 5 );//popping a pill is quick
+                            const bool hibernate = has_active_mutation( trait_HIBERNATE );
+                            if( hibernate ) {
+                                if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
+                                    // Tell the player what's going on
+                                    add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
+                                    if( one_in( 2 ) ) {
+                                        // 50% chance of the food tiring you
+                                        mod_fatigue( nutr );
                                     }
-                                } else if( smoking != nullptr ) {
-                                    time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-                                } else if( adrenaline_injector != nullptr ) {
-                                    //epi-pens, and disinfectant are fairly quick
-                                    time = time_duration::from_seconds( 15 );
-                                } else {
-                                    time = time_duration::from_seconds( 5 ); //probably pills so quick
                                 }
-                            } else if( it.get_category_shallow().get_id() == item_category_chems ) {
-                                time = time_duration::from_seconds( std::max( ( volume / 15 ),
-                                                                    1 ) ); //Consume 15 mL (1 tablespoon) per second
-                                consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
+                                    // Hibernation should cut burn to 60/day
+                                    add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
+                                    if( one_in( 2 ) ) {
+                                        // And another 50%, intended cumulative
+                                        mod_fatigue( nutr );
+                                    }
+                                }
+
+                                if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
+                                    add_msg_if_player(
+                                        _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
+                                    if( !one_in( 3 ) ) {
+                                        // Third check, this one at 66%
+                                        mod_fatigue( nutr );
+                                    }
+                                }
+                                if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
+                                    add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
+                                    // At this point, you're done.  Schlaf gut.
+                                    mod_fatigue( nutr );
+                                }
+                            }
+                            // Moved here and changed a bit - it was too complex
+                            // Incredibly minor stuff like this shouldn't require complexity
+                            if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
+                                ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
+                                  get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
+                                add_msg_if_player( m_mixed,
+                                                   _( "You feel as though you're going to split open!  In a good way?" ) );
+                                mod_pain( 5 );
+                                int numslime = 1;
+                                for( int i = 0; i < numslime; i++ ) {
+                                    if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+                                        slime->friendly = -1;
+                                    }
+                                }
+                                mod_hunger( 40 );
+                                mod_thirst( 40 );
+                                //~ slimespawns have *small voices* which may be the Nice equivalent
+                                //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
+                                add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
                             }
 
-                            // Minimum consumption time, without mutations, is always 1 second.
-                            time = std::max( 1_seconds, time );
+                            bool Character::can_estimate_rot() const {
+                                return get_greater_skill_or_knowledge_level( skill_cooking ) >= 3 ||
+                                       get_greater_skill_or_knowledge_level( skill_survival ) >= 4;
+                            }
 
-                            return time * consume_time_modifier;
-                        }
+                            bool Character::can_consume_as_is( const item & it ) const {
+                                if( it.is_comestible() ) {
+                                    return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
+                                           it.has_flag( flag_MELTS );
+                                }
+                                return false;
+                            }
 
-            get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
+                            item &Character::get_consumable_from( item & it ) const {
+                                item *ret = nullptr;
+                                it.visit_items( [&]( item * it, item * ) {
+                                    if( can_consume_as_is( *it ) ) {
+                                        ret = it;
+                                        return VisitResponse::ABORT;
+                                    }
+                                    return VisitResponse::NEXT;
+                                } );
 
-            invalidate_weight_carried_cache();
-            target.on_contents_changed();
-            return !target.count_by_charges() || target.charges <= 0 ? trinary::ALL : trinary::SOME;
-        }
+                                if( ret != nullptr ) {
+                                    return *ret;
+                                }
 
-        return trinary::NONE;
-    }
+                                static item null_comestible;
+                                // Since it's not const.
+                                null_comestible = item();
+                                return null_comestible;
+                            }
 
-    trinary Character::consume( item_location loc, bool force ) {
-        if( !loc ) {
-            debugmsg( "Null loc to consume." );
-            return trinary::NONE;
-        }
-        contents_change_handler handler;
-        item &target = *loc;
-        trinary result = consume( target, force );
-        if( result != trinary::NONE ) {
-            handler.unseal_pocket_containing( loc );
-        }
-        if( result == trinary::ALL ) {
-            if( loc.where() == item_location::type::character ) {
-                i_rem( loc.get_item() );
-            } else {
-                loc.remove_item();
-            }
-        }
-        handler.handle_by( *this );
-        return result;
-    }
+                            time_duration Character::get_consume_time( const item & it ) const {
+                                const int charges = std::max( it.charges, 1 );
+                                int volume = units::to_milliliter( it.volume() ) / charges;
+                                if( 0 == volume && it.type ) {
+                                    volume = units::to_milliliter( it.type->volume );
+                                }
+                                time_duration time = time_duration::from_seconds( std::max( ( volume /
+                                                     5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
+                                float consume_time_modifier = 1.0f;//only for food and drinks
+                                const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
+                                const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
+                                if( eat_verb || comest_type == "FOOD" ) {
+                                    time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+                                    consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                } else if( !eat_verb && comest_type == "DRINK" ) {
+                                    time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+                                    consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+                                    time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                                                      ( fun->get_actor_ptr() )->move_cost );
+                                } else if( it.is_medication() ) {
+                                    const use_function *consume_drug = it.type->get_use( "consume_drug" );
+                                    const use_function *smoking = it.type->get_use( "SMOKING" );
+                                    const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
+                                    if( consume_drug != nullptr ) { //its a drug
+                                        const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                                                ( consume_drug->get_actor_ptr() );
+                                        if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
+                                            has_bionic( bio_syringe ) ) {
+                                            time = time_duration::from_seconds(
+                                                       15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
+                                        } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
+                                                   consume_drug_use->tools_needed.end() ) {
+                                            time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
+                                        } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
+                                                   consume_drug_use->tools_needed.end() ||
+                                                   consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
+                                            time = time_duration::from_seconds( 30 );//smoke a bowl
+                                        } else {
+                                            time = time_duration::from_seconds( 5 );//popping a pill is quick
+                                        }
+                                    } else if( smoking != nullptr ) {
+                                        time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
+                                    } else if( adrenaline_injector != nullptr ) {
+                                        //epi-pens, and disinfectant are fairly quick
+                                        time = time_duration::from_seconds( 15 );
+                                    } else {
+                                        time = time_duration::from_seconds( 5 ); //probably pills so quick
+                                    }
+                                } else if( it.get_category_shallow().get_id() == item_category_chems ) {
+                                    time = time_duration::from_seconds( std::max( ( volume / 15 ),
+                                                                        1 ) ); //Consume 15 mL (1 tablespoon) per second
+                                    consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                }
+
+                                nutrients food_nutrients = compute_effective_nutrients( food );
+                                const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                                                food.get_comestible()->quench *
+                                                                5_ml : 0_ml;
+                                units::volume food_vol = masticated_volume( food );
+                                if( food.count() == 0 ) {
+                                    debugmsg( "Tried to eat food with count of zero." );
+                                    return false;
+                                }
+                                units::mass food_weight = ( food.weight() / food.count() );
+                                const double ratio = compute_effective_food_volume_ratio( food );
+                                food_summary ingested{
+                                    water_vol,
+                                    food_vol * ratio,
+                                    food_nutrients
+                                };
+                                add_msg_debug( debugmode::DF_FOOD,
+                                               "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                                               units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                                               food_nutrients.kcal(), units::to_gram( food_weight ) );
+                                // Maybe move tapeworm to digestion
+                                if( has_effect( effect_tapeworm ) ) {
+                                    ingested.nutr /= 2;
+                                }
+                                // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
+                                activate_consume_eocs( *this, food );
+
+                                // GET IN MAH BELLY!
+                                stomach.ingest( ingested );
+
+                                static bool query_consume_ownership( item & target, Character & p ) {
+                                    if( !target.is_owned_by( p, true ) ) {
+                                        bool choice = true;
+                                        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                                            choice = Pickup::query_thief();
+                                        }
+                                        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+                                            return false;
+                                        }
+                                        std::vector<npc *> witnesses;
+                                        for( npc &elem : g->all_npcs() ) {
+                                            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
+                                                witnesses.push_back( &elem );
+                                            }
+                                        }
+                                        for( npc *elem : witnesses ) {
+                                            elem->say( "<witnessed_thievery>", 7 );
+                                        }
+                                        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
+                                            if( p.add_faction_warning( target.get_owner() ) ) {
+                                                for( npc *elem : witnesses ) {
+                                                    elem->make_angry();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return true;
+                                }
+
+                                /** Consume medication.
+                                *   @return true if item consumed.
+                                */
+                                static bool consume_med( item & target, Character & you ) {
+                                    if( !target.is_medication() ) {
+                                        return false;
+                                    }
+
+                                    const itype_id tool_type = target.get_comestible()->tool;
+                                    const itype *req_tool = item::find_type( tool_type );
+
+                                    if( req_tool->tool ) {
+                                        if( !( you.has_amount( tool_type, 1 ) &&
+                                               you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
+                                            you.add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
+                                            return false;
+                                        }
+                                        you.use_charges( tool_type, req_tool->tool->charges_per_use );
+                                    }
+
+                                    int amount_used = 1;
+                                    if( target.type->has_use() ) {
+                                        amount_used = target.type->invoke( &you, target, you.pos() ).value_or( 0 );
+                                        if( amount_used <= 0 ) {
+                                            return false;
+                                        }
+                                    }
+
+                                    // Used in hibernation messages.
+                                    const int nutr = nutrition_for( food );
+                                    const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
+                                    // We can handle junk just fine
+                                    if( !skip_health ) {
+                                        modify_health( comest );
+                                    }
+                                    modify_stimulation( comest );
+                                    modify_fatigue( comest );
+                                    modify_addiction( comest );
+                                    modify_morale( food, nutr );
+
+                                    const bool hibernate = has_active_mutation( trait_HIBERNATE );
+                                    if( hibernate ) {
+                                        if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
+                                            // Tell the player what's going on
+                                            add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
+                                            if( one_in( 2 ) ) {
+                                                // 50% chance of the food tiring you
+                                                mod_fatigue( nutr );
+                                            }
+                                        }
+                                        if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
+                                            // Hibernation should cut burn to 60/day
+                                            add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
+                                            if( one_in( 2 ) ) {
+                                                // And another 50%, intended cumulative
+                                                mod_fatigue( nutr );
+                                            }
+                                        }
+
+                                        if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
+                                            add_msg_if_player(
+                                                _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
+                                            if( !one_in( 3 ) ) {
+                                                // Third check, this one at 66%
+                                                mod_fatigue( nutr );
+                                            }
+                                        }
+                                        if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
+                                            add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
+                                            // At this point, you're done.  Schlaf gut.
+                                            mod_fatigue( nutr );
+                                        }
+                                    }
+                                    // Moved here and changed a bit - it was too complex
+                                    // Incredibly minor stuff like this shouldn't require complexity
+                                    if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
+                                        ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
+                                          get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
+                                        add_msg_if_player( m_mixed,
+                                                           _( "You feel as though you're going to split open!  In a good way?" ) );
+                                        mod_pain( 5 );
+                                        int numslime = 1;
+                                        for( int i = 0; i < numslime; i++ ) {
+                                            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+                                                slime->friendly = -1;
+                                            }
+                                        }
+
+                                        nutrients food_nutrients = compute_effective_nutrients( food );
+                                        const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
+                                                                        food.get_comestible()->quench *
+                                                                        5_ml : 0_ml;
+                                        units::volume food_vol = masticated_volume( food );
+                                        if( food.count() == 0 ) {
+                                            debugmsg( "Tried to eat food with count of zero." );
+                                            return false;
+                                        }
+                                        units::mass food_weight = ( food.weight() / food.count() );
+                                        const double ratio = compute_effective_food_volume_ratio( food );
+                                        food_summary ingested{
+                                            water_vol,
+                                            food_vol * ratio,
+                                            food_nutrients
+                                        };
+                                        add_msg_debug( debugmode::DF_FOOD,
+                                                       "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+                                                       units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+                                                       food_nutrients.kcal(), units::to_gram( food_weight ) );
+                                        // Maybe move tapeworm to digestion
+                                        if( has_effect( effect_tapeworm ) ) {
+                                            ingested.nutr /= 2;
+                                        }
+                                        // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
+                                        activate_consume_eocs( *this, food );
+
+                                        // GET IN MAH BELLY!
+                                        stomach.ingest( ingested );
+
+                                        // update speculative values
+                                        if( is_avatar() ) {
+                                            get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+                                        }
+                                        for( const auto &v : ingested.nutr.vitamins() ) {
+                                            // update the estimated values for daily vitamins
+                                            // actual vitamins happen during digestion
+                                            daily_vitamins[v.first].first += v.second;
+                                        }
+
+                                        return true;
+                                    }
+
+                                    if( target.count_by_charges() ) {
+                                        target.mod_charges( -amount_used );
+                                    }
+                                    return true;
+                                }
+
+                                trinary Character::consume( item & target, bool force ) {
+                                    if( target.is_null() ) {
+                                        add_msg_if_player( m_info, _( "You do not have that item." ) );
+                                        return trinary::NONE;
+                                    }
+                                    if( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
+                                        cant_do_underwater() ) {
+                                        return trinary::NONE;
+                                    }
+
+                                    item &Character::get_consumable_from( item & it ) const {
+                                        item *ret = nullptr;
+                                        it.visit_items( [&]( item * it, item * ) {
+                                            if( can_consume_as_is( *it ) ) {
+                                                ret = it;
+                                                return VisitResponse::ABORT;
+                                            }
+                                            return VisitResponse::NEXT;
+                                        } );
+
+                                        if( ret != nullptr ) {
+                                            return *ret;
+                                        }
+
+                                        static item null_comestible;
+                                        // Since it's not const.
+                                        null_comestible = item();
+                                        return null_comestible;
+                                    }
+
+                                    time_duration Character::get_consume_time( const item & it ) const {
+                                        const int charges = std::max( it.charges, 1 );
+                                        int volume = units::to_milliliter( it.volume() ) / charges;
+                                        if( 0 == volume && it.type ) {
+                                            volume = units::to_milliliter( it.type->volume );
+                                        }
+                                        time_duration time = time_duration::from_seconds( std::max( ( volume /
+                                                             5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
+                                        float consume_time_modifier = 1.0f;//only for food and drinks
+                                        const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
+                                        const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
+                                        if( eat_verb || comest_type == "FOOD" ) {
+                                            time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
+                                            consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                        } else if( !eat_verb && comest_type == "DRINK" ) {
+                                            time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
+                                            consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                        } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+                                            time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                                                              ( fun->get_actor_ptr() )->move_cost );
+                                        } else if( it.is_medication() ) {
+                                            const use_function *consume_drug = it.type->get_use( "consume_drug" );
+                                            const use_function *smoking = it.type->get_use( "SMOKING" );
+                                            const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
+                                            if( consume_drug != nullptr ) { //its a drug
+                                                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                                                        ( consume_drug->get_actor_ptr() );
+                                                if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() &&
+                                                    has_bionic( bio_syringe ) ) {
+                                                    time = time_duration::from_seconds(
+                                                               15 );//injections with the intradermal needle CBM are much quicker than with a normal syringe
+                                                } else if( consume_drug_use->tools_needed.find( itype_syringe ) !=
+                                                           consume_drug_use->tools_needed.end() ) {
+                                                    time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
+                                                } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
+                                                           consume_drug_use->tools_needed.end() ||
+                                                           consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
+                                                    time = time_duration::from_seconds( 30 );//smoke a bowl
+                                                } else {
+                                                    time = time_duration::from_seconds( 5 );//popping a pill is quick
+                                                }
+                                            } else if( smoking != nullptr ) {
+                                                time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
+                                            } else if( adrenaline_injector != nullptr ) {
+                                                //epi-pens, and disinfectant are fairly quick
+                                                time = time_duration::from_seconds( 15 );
+                                            } else {
+                                                time = time_duration::from_seconds( 5 ); //probably pills so quick
+                                            }
+                                        } else if( it.get_category_shallow().get_id() == item_category_chems ) {
+                                            time = time_duration::from_seconds( std::max( ( volume / 15 ),
+                                                                                1 ) ); //Consume 15 mL (1 tablespoon) per second
+                                            consume_time_modifier = mutation_value( "consume_time_modifier" );
+                                        }
+
+                                        // Minimum consumption time, without mutations, is always 1 second.
+                                        time = std::max( 1_seconds, time );
+
+                                        return time * consume_time_modifier;
+                                    }
+
+                                    get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
+
+                                    invalidate_weight_carried_cache();
+                                    target.on_contents_changed();
+                                    return !target.count_by_charges() || target.charges <= 0 ? trinary::ALL : trinary::SOME;
+                                }
+
+                                return trinary::NONE;
+                            }
+
+                            trinary Character::consume( item_location loc, bool force ) {
+                                if( !loc ) {
+                                    debugmsg( "Null loc to consume." );
+                                    return trinary::NONE;
+                                }
+                                contents_change_handler handler;
+                                item &target = *loc;
+                                trinary result = consume( target, force );
+                                if( result != trinary::NONE ) {
+                                    handler.unseal_pocket_containing( loc );
+                                }
+                                if( result == trinary::ALL ) {
+                                    if( loc.where() == item_location::type::character ) {
+                                        i_rem( loc.get_item() );
+                                    } else {
+                                        loc.remove_item();
+                                    }
+                                }
+                                handler.handle_by( *this );
+                                return result;
+                            }
